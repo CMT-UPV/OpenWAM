@@ -1,0 +1,35 @@
+include_directories(../1DPipes)
+include_directories(../Act)
+include_directories(../Boundaries)
+include_directories(../Connections)
+include_directories(../Control)
+include_directories(../DPF)
+include_directories(../Engine)
+include_directories(../Includes)
+include_directories(../ODModels)
+include_directories(../Turbocompressor)
+include_directories(../Wrappers)
+add_library(
+  Boundaries
+  BoundaryFunctions.cpp
+  TCCCilindro.cpp
+  TCCCompresor.cpp
+  TCCCompresorVolumetrico.cpp
+  TCCDeposito.cpp
+  TCCDescargaExtremoAbierto.cpp
+  TCCEntradaCompresor.cpp
+  TCCExternalConnection.cpp
+  TCCExternalConnectionVol.cpp
+  TCCExtremoAnecoico.cpp
+  TCCExtremoCerrado.cpp
+  TCCExtremoInyeccion.cpp
+  TCCPerdidadePresion.cpp
+  TCCPreVble.cpp
+  TCCPulso.cpp
+  TCCRamificacion.cpp
+  TCCUnionEntreDepositos.cpp
+  TCCUnionEntreTubos.cpp
+#   TCCValvula.cpp
+  TCFDConnection.cpp
+  TCondicionContorno.cpp
+  TEntradaPulso.cpp)

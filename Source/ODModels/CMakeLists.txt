@@ -1,0 +1,26 @@
+include_directories(../1DPipes)
+include_directories(../Act)
+include_directories(../Boundaries)
+include_directories(../Connections)
+include_directories(../Control)
+include_directories(../DPF)
+include_directories(../Engine)
+include_directories(../Includes)
+include_directories(../ODModels)
+include_directories(../Turbocompressor)
+include_directories(../Wrappers)
+add_library(
+  ODModels
+  TAcousticTurbine.cpp
+  TDeposito.cpp
+  TDepVolCte.cpp
+  TDepVolCteBase.cpp
+  TDepVolVariable.cpp
+  TIsoSpeedLine.cpp
+  TTurbina.cpp
+  TTurbinaSimple.cpp
+  TTurbinaTwin.cpp
+  TTurbineMap.cpp
+  TTurbPosition.cpp
+  TUnionDireccional.cpp
+  TVenturi.cpp)

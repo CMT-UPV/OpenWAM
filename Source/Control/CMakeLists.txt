@@ -1,0 +1,18 @@
+include_directories(../1DPipes)
+include_directories(../Act)
+include_directories(../Boundaries)
+include_directories(../Control)
+include_directories(../DPF)
+include_directories(../Engine)
+include_directories(../Includes)
+include_directories(../ODModels)
+include_directories(../Wrappers)
+add_library(
+  Control
+  TController.cpp
+  TDecisor.cpp
+  TPIDController.cpp
+  TSensor.cpp
+#   TTable.cpp
+  TTable1D.cpp
+)
