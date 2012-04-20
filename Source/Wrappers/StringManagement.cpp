@@ -41,6 +41,9 @@ AnsiString LoadStr(int ressource)
     std::string file_name;
     stringstream number;
     char * home;
+	size_t found;
+	size_t first_pos;
+	size_t last_pos;
     home = getenv("HOME");
     ifstream file(RC_FILE);
     if (!file.is_open())
@@ -59,16 +62,13 @@ AnsiString LoadStr(int ressource)
         while (file.good())
         {
             getline(file, line);
-            if (std::regex_search(line,
-                std::regex("^" + number.str() + " *, *")))
+            found = line.find(number.str())
+            if (found == 0)
             {
-                line = std::regex_replace(line,
-                    std::regex(number.str() + " *, *"), std::string(""));
-                line = std::regex_replace(line,
-                    std::regex(" *\" *"), std::string(""));
-                line = std::regex_replace(line,
-                    std::regex("//.*"), std::string(""));
-                return AnsiString(line);
+                first_pos = line.find("\"");
+                second_pos = line.find("\"", first_pos + 1);
+                return AnsiString(line.substr(first_pos + 1,
+                    second_pos - first_pos - 1));
             }
         }
         file.close();

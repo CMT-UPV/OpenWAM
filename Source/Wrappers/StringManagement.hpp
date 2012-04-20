@@ -5,10 +5,8 @@
 
 #include <iostream>
 #include <fstream>
-#include <cstring>
 #include <sstream>
 #include <cstdlib>
-#include <regex>
 
 /**
  * @file StringManagement.hpp
