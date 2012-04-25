@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -183,7 +183,7 @@ void TSensor::ActualizaMedida(double Time) {
 			case nmMassFlow:
 				tmp0 = ((TTubo*)FObjectPointer)->GetDensidad(FNode0) * ((TTubo*)FObjectPointer)
 					->GetVelocidad(FNode0) * ARef * ((TTubo*)FObjectPointer)->GetArea(FNode0);
-				tmp0 = ((TTubo*)FObjectPointer)->GetDensidad(FNode1) * ((TTubo*)FObjectPointer)
+				tmp1 = ((TTubo*)FObjectPointer)->GetDensidad(FNode1) * ((TTubo*)FObjectPointer)
 					->GetVelocidad(FNode1) * ARef * ((TTubo*)FObjectPointer)->GetArea(FNode1);
 				FRealValue = tmp0 * (1 - FDelta) + tmp1 * FDelta;
 				break;

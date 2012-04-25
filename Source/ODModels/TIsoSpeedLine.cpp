@@ -67,7 +67,7 @@ void TIsoSpeedLine::AsignaValores(double ER, double MF, double EF) {
 void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 	double Diam1, double Diam2, double Diam3, double n_limit) {
 	double tmp1, tmp2;
-	double FGamma = 1.33, FR = 287;
+	double FGamma = 1.40, FR = 287;
 	double T00_T0, P00_P0, P2_P0, T2_T0, f_P2_P0, GR, nN, n, P2_P00, T2_T00,
 	T1_T0, gG, g, kK, k, P1_P0, P00_P1, P1_P2, raiZ;
 
