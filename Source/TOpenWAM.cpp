@@ -8,6 +8,8 @@ TOpenWAM::TOpenWAM() {
 
 #if gestorcom
 	GestorWAM = NULL;
+	GestorWAM = new TCGestorWAM();
+	GestorWAM->Init();
 #endif
 	tzstr = "TZ=PST8PDT";
 

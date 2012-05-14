@@ -2005,12 +2005,12 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 };
 
 // int _matherr(struct _exception *a) {
-// 	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
-// 
-// 	if (a->arg2 != 0) {
-// 		MessageBeep(2);
-// 	}
-// 	return 0;
+//	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
+//
+//	if (a->arg2 != 0) {
+//		MessageBeep(2);
+//	}
+//	return 0;
 // }
 
 #ifndef __BORLANDC__

@@ -185,7 +185,7 @@ double DeltaA=6*FEngine->getRegimen()*DeltaT*FRelacionVelocidades;
 
 FCDTubVol=fun_CDin->interp(Angulo)*FSectionRatio;
 
-printf("%lf %lf\n",Angulo, FCDTubVol);
+//printf("%lf %lf\n",Angulo, FCDTubVol);
 }
 
 
@@ -209,7 +209,7 @@ double DeltaA=6*FEngine->getRegimen()*DeltaT*FRelacionVelocidades;
 }
 
 FCDVolTub=fun_CDout->interp(Angulo)*FSectionRatio;
-printf("%lf %lf\n",Angulo, FCDTubVol);
+
 }
 
 

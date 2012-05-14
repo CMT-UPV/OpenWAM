@@ -562,7 +562,7 @@
 						<Debugging Name="DebugSourceDirs"/>
 					</Debugging>
 					<Parameters>
-						<Parameters Name="RunParams">4_STROKES_HSDI_1500.WAM</Parameters>
+						<Parameters Name="RunParams">MODELOApriliaOpenWAMBETA.WAM</Parameters>
 						<Parameters Name="UseLauncher">True</Parameters>
 						<Parameters Name="RemoteHost"/>
 						<Parameters Name="RemotePath"/>
@@ -578,21 +578,21 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\bcboffice2k140.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\bcbofficexp140.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="%BDSBIN%\bcboffice2k140.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="%BDSBIN%\bcbofficexp140.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
 					</Excluded_Packages>
 					<Folders/>
 					<VFOLDERS>
-						<VFOLDER name="0DModels" ID="{111A6EB1-CF8B-440F-B59F-19D54608F7E7}"/>
-						<VFOLDER name="1DPipes" ID="{AE685930-8CAF-4065-9A5F-C73ECDCDCDA1}"/>
-						<VFOLDER name="ACT" ID="{C98619DB-8B9A-4027-8944-C8D38DFFBE0A}"/>
-						<VFOLDER name="Boundaries" ID="{993EC21C-E293-42F1-880C-E1152EF9A7C6}"/>
-						<VFOLDER name="Connections" ID="{BC6146C5-1B1E-415F-8A6E-287B7601283E}"/>
-						<VFOLDER name="Control" ID="{143DF534-3A14-4F07-9F2A-896B2CA51120}"/>
-						<VFOLDER name="Engine" ID="{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}"/>
-						<VFOLDER name="Extern" ID="{F6313D99-24C2-44AB-A042-16D6E1DE8C17}"/>
-						<VFOLDER name="Output" ID="{249EDCF8-34F5-450E-9A0D-3897D6509F88}"/>
-						<VFOLDER name="Turbocompressor" ID="{C026C647-5035-4122-BEF5-5649BEA73CE5}"/>
+						<VFOLDER ID="{111A6EB1-CF8B-440F-B59F-19D54608F7E7}" name="0DModels"/>
+						<VFOLDER ID="{AE685930-8CAF-4065-9A5F-C73ECDCDCDA1}" name="1DPipes"/>
+						<VFOLDER ID="{C98619DB-8B9A-4027-8944-C8D38DFFBE0A}" name="ACT"/>
+						<VFOLDER ID="{993EC21C-E293-42F1-880C-E1152EF9A7C6}" name="Boundaries"/>
+						<VFOLDER ID="{BC6146C5-1B1E-415F-8A6E-287B7601283E}" name="Connections"/>
+						<VFOLDER ID="{143DF534-3A14-4F07-9F2A-896B2CA51120}" name="Control"/>
+						<VFOLDER ID="{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}" name="Engine"/>
+						<VFOLDER ID="{F6313D99-24C2-44AB-A042-16D6E1DE8C17}" name="Extern"/>
+						<VFOLDER ID="{249EDCF8-34F5-450E-9A0D-3897D6509F88}" name="Output"/>
+						<VFOLDER ID="{C026C647-5035-4122-BEF5-5649BEA73CE5}" name="Turbocompressor"/>
 					</VFOLDERS>
 				</CPlusPlusBuilder.Personality>
 				<ModelSupport>False</ModelSupport>
