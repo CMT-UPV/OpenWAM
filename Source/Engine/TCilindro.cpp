@@ -97,7 +97,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		Fengine_parameters[6] = FMotor->getGeometria().AlturaCoronaPiston; // Piston Crown Height
 		Fengine_parameters[7] = FMotor->getGeometria().DiametroBowl; // Maximum Diameter of Bowl
 		Fengine_parameters[8] = FMotor->getGeometria().DiametroBowl * FMotor->getGeometria()
-			.DiametroBowl * M_PI / 4 * FMotor->getGeometria().AlturaBowl; // Volume of Bowl
+			.DiametroBowl * Pi / 4 * FMotor->getGeometria().AlturaBowl; // Volume of Bowl
 		Fengine_parameters[9] = FMotor->getGeometria().MasaBiela; // Mass connecting rod
 		Fengine_parameters[10] = FMotor->getGeometria().MasaPistonSegmentosBulon;
 		// Mass of piston + rings + piston axis

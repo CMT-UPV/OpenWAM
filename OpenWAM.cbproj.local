@@ -24,13 +24,13 @@
     <Transaction>2012/04/12 12:30:44.000.301,=D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\DPF\TDPF.cpp</Transaction>
     <Transaction>2012/04/12 12:30:44.000.369,=D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\DPF\TCanalDPF.cpp</Transaction>
     <Transaction>2012/04/12 12:31:13.000.447,=D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentricoTubos.cpp</Transaction>
-    <Transaction>2012/04/12 12:31:13.000.464,=D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentricoDPF.cpp</Transaction>
     <Transaction>2012/04/12 12:31:13.000.488,=D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentrico.cpp</Transaction>
+    <Transaction>2012/04/12 12:31:13.000.464,=D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentricoDPF.cpp</Transaction>
     <Transaction>2012/04/12 13:13:02.000.215,D:\Pedro\OpenWAM\WorkingDPF\Source\Turbocompressor\TTC_MechLosses.cpp=</Transaction>
     <Transaction>2012/04/12 18:24:48.000.408,D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\DPF\TCanalDPF.cpp=</Transaction>
     <Transaction>2012/04/12 18:24:48.000.435,D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\DPF\TDPF.cpp=</Transaction>
-    <Transaction>2012/04/12 18:24:54.000.393,D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentrico.cpp=</Transaction>
     <Transaction>2012/04/12 18:24:54.000.402,D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentricoDPF.cpp=</Transaction>
+    <Transaction>2012/04/12 18:24:54.000.393,D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentrico.cpp=</Transaction>
     <Transaction>2012/04/12 18:24:54.000.407,D:\Pedro\OpenWAM\OpenWAM_DPF_regenera\Source\Concentric Pipe\TConcentricoTubos.cpp=</Transaction>
     <Transaction>2012/04/12 18:25:17.000.243,=D:\Pedro\OpenWAM\WorkingDPF\Source\Concentric Pipe\TConcentrico.cpp</Transaction>
     <Transaction>2012/04/12 18:25:17.000.222,=D:\Pedro\OpenWAM\WorkingDPF\Source\Concentric Pipe\TConcentricoDPF.cpp</Transaction>

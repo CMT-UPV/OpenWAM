@@ -93,8 +93,8 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 		(1 / T00_T0 - FEfficiency[i] * (1 - pow((1 / FExpansionRatio[i]),
 					((FGamma - 1) / FGamma))));
 		if (CalculaGR) {
-			GR = 1 - (((2 * FR * tan(Angle * 2 * M_PI / 360)) /
-					(Diam1 * pow(Diam2, 2) * pow(M_PI, 2))) *
+			GR = 1 - (((2 * FR * tan(Angle * 2 * Pi / 360)) /
+					(Diam1 * pow(Diam2, 2) * pow(Pi, 2))) *
 				((FReducedAirMassFlow[i] / 1000000) / FSpeed) * f_P2_P0);
 			// new code --> if the reaction degree is lower than 0.4 then force it to 0.4 value instead of calculating lower values or even negative values
 			if (GR < 0.5) {

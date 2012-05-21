@@ -50,7 +50,7 @@ void TCGestorWAM::Init()
   LPTSTR lpszPipeName, lpszPipeNameResp;
   DWORD dwMode;
 
-  lpszPipeName = TEXT(AnsiString("\\\\.\\pipe\\pipe" + FloatToStr((float)GetCurrentProcessId())).c_str());
+  lpszPipeName = TEXT(AnsiString("\\\\.\\pipe\\pipe" + AnsiString((float)GetCurrentProcessId())).c_str());
 
   //Espera hasta que se puede conectar a la tuberia
 

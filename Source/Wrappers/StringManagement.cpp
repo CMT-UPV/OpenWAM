@@ -43,6 +43,7 @@ AnsiString LoadStr(int ressource)
     char * home;
 	size_t found;
 	size_t first_pos;
+	size_t second_pos;
 	size_t last_pos;
     home = getenv("HOME");
     ifstream file(RC_FILE);
@@ -62,7 +63,7 @@ AnsiString LoadStr(int ressource)
         while (file.good())
         {
             getline(file, line);
-            found = line.find(number.str())
+            found = line.find(number.str());
             if (found == 0)
             {
                 first_pos = line.find("\"");

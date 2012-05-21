@@ -1,8 +1,9 @@
 // ---------------------------------------------------------------------------
 
 #ifdef __BORLANDC__
-    #include <vcl.h>
+	#include <vcl.h>
 #endif
+
 #pragma hdrstop
 
 #include "TOpenWAM.h"

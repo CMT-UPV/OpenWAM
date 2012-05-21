@@ -812,7 +812,7 @@ void TOpenWAM::ReadPipes() {
 				Pipe[i]->LeeDatosGeometricosTubo(fileinput, filepos, -1.,
 					tipomallado, Engine);
 			}
-			printf("INFO: Pipe n. %d - N. of cells %d - Mesh size = %lf m.\n",
+			printf("INFO: Pipe n. %d - N. of cells %d - Mesh size = %g m.\n",
 				i + 1, Pipe[i]->getNin(), Pipe[i]->getMallado());
 		}
 
@@ -952,7 +952,7 @@ void TOpenWAM::ReadValves() {
 			case 5:
 				TypeOfValve[i] = new TValvulaContr();
 				val = NumTValvulaContr;
-				NumTValvulaContr;
+				NumTValvulaContr++;
 				break;
 			case 6:
 				TypeOfValve[i] = new TWasteGate();
@@ -4282,8 +4282,8 @@ bool TOpenWAM::CalculationEnd() {
 }
 
 void TOpenWAM::ProgressBegin() {
-	putenv(tzstr);
-	tzset();
+	//putenv(tzstr);
+	//tzset();
 	ftime(&begining);
 	printf(" Seconds since 1 / 1 / 1970 GMT : % ld \n ", begining.time);
 	printf(" Thousandths of a second : %d \n ", begining.millitm);

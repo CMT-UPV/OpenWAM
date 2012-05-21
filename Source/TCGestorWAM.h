@@ -33,7 +33,14 @@ License
 //---------------------------------------------------------------------------
 #endif
 
-#include <Classes.hpp>
+#ifdef __BORLANDC__
+	#include <Classes.hpp>
+#endif
+#ifndef __BORLANDC__
+	#include <winbase.h>
+	#include <windows.h>
+#endif
+
 #include <cstdio>
 
 #define BUFSIZE 4096

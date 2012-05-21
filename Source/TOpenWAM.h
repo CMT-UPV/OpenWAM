@@ -105,7 +105,7 @@ Allow the communicatgion with WAMer
 
 #include <sys/timeb.h>
 
-#define gestorcom true
+#define gestorcom false
 #define graphicalout true
 
 #if gestorcom

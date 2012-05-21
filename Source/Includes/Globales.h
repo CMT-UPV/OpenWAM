@@ -33,6 +33,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <cstring>
 //#include <system.hpp>
 #include <ctime>
 // #include <sys\timeb.h>
