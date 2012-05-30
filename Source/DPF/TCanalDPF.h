@@ -106,16 +106,16 @@ private:
         double *FAsonido1;                // Velocidad del sonido instante anterior
         double *FVelocidad1;              // Velocidad instente anterior
 
-        // Vectores m�todo de c�lculo
+        // Vectores metodo de cqlculo
 
         stModeloCalculoTubos FMod;
-        double **FU0;                     // Vector soluci�n instante de calculo
-        double **FU1;                     // Vector soluci�n instante posterior
-        double **FUt;                     // Variaci�n del vector soluci�n con respecto al tiempo (solo CE-SE)
+        double **FU0;                     // Vector solucion instante de calculo
+        double **FU1;                     // Vector solucion instante posterior
+        double **FUt;                     // Variacion del vector solucion con respecto al tiempo (solo CE-SE)
         double **FU12;                    // Vector soluci�n instante de calculo intermedio
         double **FW;                      // Vector de flujo
-        double **FV1;                     // Termino fuente dependiente de la variaci�n de secci�n
-        double **FV2;                     // Termino fuente (Fricci�n - Trans. Calor)
+        double **FV1;                     // Termino fuente dependiente de la variacion de seccion
+        double **FV2;                     // Termino fuente (Friccion - Trans. Calor)
         double FCcese;
 
         // Vectores del flux corrected transport
