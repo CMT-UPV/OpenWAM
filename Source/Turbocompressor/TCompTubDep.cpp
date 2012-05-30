@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
  ==========================|
  \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
@@ -340,14 +340,14 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 			// }
 		}
 		// if(!FCambiaReg){
-		if (FGastoCorregido < Mapa->getGastoBombeo() && FGasto0Correg >
-			Mapa->getGastoBombeo()) {
-			std::cout << "INFO: Inicio Bombeo en " << Theta << std::endl;
-		}
-		if (FGastoCorregido > Mapa->getGastoBombeo() && FGasto0Correg <
-			Mapa->getGastoBombeo()) {
-			std::cout << "INFO: Fin Bombeo en " << Theta << std::endl;
-		}
+//		if (FGastoCorregido < Mapa->getGastoBombeo() && FGasto0Correg >
+//			Mapa->getGastoBombeo()) {
+//			std::cout << "INFO: Inicio Bombeo en " << Theta << std::endl;
+//		}
+//		if (FGastoCorregido > Mapa->getGastoBombeo() && FGasto0Correg <
+//			Mapa->getGastoBombeo()) {
+//			std::cout << "INFO: Fin Bombeo en " << Theta << std::endl;
+//		}
 		FGasto1 = FGastoCorregido * FPresion10 * 1e5 / Mapa->getPresionRef()
 			/ sqrt(FTemperatura10 / Mapa->getTempRef());
 		FGasto0 = FGasto1;
