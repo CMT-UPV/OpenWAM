@@ -126,13 +126,18 @@
 #define completo true
 
 /* ! \def gestorcom
-Allow the communicatgion with WAMer
+Allow the communication with WAMer
  */
 
 #include <sys/timeb.h>
 
-#define gestorcom true
-#define graphicalout true
+#ifdef __unix__
+  #define gestorcom false
+  #define graphicalout false
+#else
+  #define gestorcom true
+  #define graphicalout true
+#endif
 
 #if gestorcom
 #include "TCGestorWAM.h"
