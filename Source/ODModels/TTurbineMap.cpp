@@ -109,8 +109,8 @@ void TTurbineMap::CurrentEffectiveSection(double n, double er, double rack,
 				(FTurbPosition[i].Rack() - FTurbPosition[i - 1].Rack());
 			FStatorES = FTurbPosition[i - 1].StatorSec() * (1 - DeltaRack)
 				+ FTurbPosition[i].StatorSec() * DeltaRack;
-			FRotorES = FTurbPosition[i - 1].RotorSec() * (1 - DeltaRack)
-				+ FTurbPosition[i].RotorSec() * DeltaRack;
+			FRotorES = (FTurbPosition[i - 1].RotorSec() * (1 - DeltaRack)
+				+ FTurbPosition[i].RotorSec() * DeltaRack)  * sqrt(T10T00);
 			FEffTurb = FTurbPosition[i - 1].Efficiency() * (1 - DeltaRack)
 				+ FTurbPosition[i].Efficiency() * DeltaRack;
 		}

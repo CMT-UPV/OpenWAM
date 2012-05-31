@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 |===========================|
 | \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 |  \\ |  X  | //  W ave     |
@@ -4707,7 +4707,7 @@ double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo, double DeltaTiem
 			indiceCC = 1;
 		}
 
-		if (DeltaTiempo < 1e-15) {
+		if (DeltaTiempo < 1e-15 || DoubEqZero(FVelocidadDim[extremo])) {
 			if (signo == 1) {
 				Calculo_Entropia(entropia, velocidadp, extremo, 0., signo, DeltaTiempo, indiceCC);
 			}
@@ -4788,16 +4788,6 @@ double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo, double DeltaTiem
 				Calculo_Entropia(entropia, velocidadp, ind, dist, signo, DeltaTiempo, indiceCC);
 			}
 
-			if (DoubEqZero(FVelocidadDim[extremo])) {
-				if (signo == 1) {
-					Calculo_Entropia(entropia, velocidadp, extremo, 0., signo, DeltaTiempo,
-						indiceCC);
-				}
-				if (signo == -1) {
-					Calculo_Entropia(entropia, velocidadp, extremo, 1., signo, DeltaTiempo,
-						indiceCC);
-				}
-			}
 		}
 
 		return entropia / ARef;

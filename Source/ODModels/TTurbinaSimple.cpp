@@ -291,11 +291,18 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 			if (fabs(FGastoEntrada[0]) > 1e-10) {
 
-				FTempEntrada[0] = FTempEntrada[0] - FHTM->Turb_Heat_Flow()
-					/ cpte / FGastoEntrada[0];
-				// comprobaci�n para pasos iniciales.
-				if (FTempEntrada[0] < FHTM->NodeTemperature(5)) {
-					FTempEntrada[0] = FHTM->NodeTemperature(5);
+				if (FTempEntrada[0] < FHTM->NodeTemperature(10)){
+
+					FTempEntrada[0] = FTempEntrada[0] - FHTM->Turb_Heat_Flow()
+						/ cpte / FGastoEntrada[0];
+
+				}else{
+
+					FTempEntrada[0] = FTempEntrada[0] - FHTM->Turb_Heat_Flow()
+						/ cpte / FGastoEntrada[0];
+					// comprobacion para pasos iniciales.
+					if (FTempEntrada[0] < FHTM->NodeTemperature(10))
+						FTempEntrada[0] = FHTM->NodeTemperature(10);
 				}
 			}
 
