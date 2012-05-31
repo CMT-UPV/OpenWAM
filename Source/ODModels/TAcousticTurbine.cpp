@@ -63,8 +63,8 @@ double TAcousticTurbine::T4() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	return pow2(FInletPipe->GetAsonido(n) * ARef) / FInletPipe->GetGamma(n)
-	/ FInletPipe->GetRMezcla(0);
+	return pow2(FOutletPipe->GetAsonido(n) * ARef) / FOutletPipe->GetGamma(n)
+	/ FOutletPipe->GetRMezcla(0);
 
 }
 
