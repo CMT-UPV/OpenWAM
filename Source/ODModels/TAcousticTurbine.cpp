@@ -40,7 +40,7 @@ double TAcousticTurbine::P30() {
 	double v = FInletPipe->GetVelocidad(0) * ARef;
 	double g = FInletPipe->GetGamma(0);
 
-	double p3 = p * pow(1 + (g - 1) / 2 * pow2(v / a), 2 * g / (g - 1));
+	double p3 = p * pow(1 + (g - 1) / 2 * pow2(v / a), g / (g - 1));
 
 	return p3;
 }

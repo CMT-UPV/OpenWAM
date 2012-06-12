@@ -198,8 +198,8 @@ STRINGTABLE
 1710, "I_Action_PID_"
 1711, "D_Action_PID_"
 1712, "Filt_Output_Controller_"
-1713, "Mechanical_power_tubo_"
-1714, "Mechanical_efficiency_tubo_"
+1713, "Mechanical_power_turbo_"
+1714, "Mechanical_efficiency_turbo_"
 
 }
 

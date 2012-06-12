@@ -361,7 +361,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 				FMapa->CurrentEffectiveSection(FRegimenCorregido[0] / 60.,
 					FRelacionExpansion[0], FRack,
-					FTemperature / FTemp0Entrada[0]);
+					(FTemperature + 273) / FTemp0Entrada[0]);
 
 				dynamic_cast<TEstatorTurbina*>
 					(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())

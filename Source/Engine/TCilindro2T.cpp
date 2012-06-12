@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------------------------*\
+﻿/*--------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
@@ -82,7 +82,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual)
 			// C�lculo Inicio y Fin de la Combusti�n.
 			FMfint=FMasaFuel;         // kg/cc
 			FMaint=FMasaPorAdmision;  // kg/cc
-FRegInt=FMotor->getRegimen();
+			FRegInt=FMotor->getRegimen();
 
 			if(FMotor->getACT()){
 
@@ -173,7 +173,7 @@ printf(" \n");
 		FTime0=FTime1;
 		FTime1=TiempoActual;
 		FDeltaT=FTime1-FTime0;
-FDeltaAngulo=360.*FMotor->getRegimen()/60.*FDeltaT;
+		FDeltaAngulo=360.*FMotor->getRegimen()/60.*FDeltaT;
 		FAnguloAnterior=FAnguloActual;
 		FAnguloActual=FAnguloAnterior+FDeltaAngulo;
 		if(FAnguloActual>360.){ // Hector 2T

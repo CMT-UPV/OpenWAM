@@ -2002,7 +2002,7 @@ void TOpenWAM::InitializeParameters() {
 
 	for (int i = 0; i < NumberOfAxis; i++) {
 		Axis[i]->InterpolaValoresMapa();
-		Axis[i]->InitizlizeHTM();
+		Axis[i]->InitizlizeHTM(AmbientTemperature);
 	}
 
 	for (int i = 0; i < NumberOfConnections; i++) {

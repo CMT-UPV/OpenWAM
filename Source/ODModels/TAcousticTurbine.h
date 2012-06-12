@@ -70,6 +70,8 @@ public:
 
 	double SIn(){return FInletPipe->GetArea(0);};
 
+	double DIn(){return FInletPipe->GetDiametro(0);};
+
 	double MassIn();
 
 	void AsignInPipe(TTubo **Pipe) {

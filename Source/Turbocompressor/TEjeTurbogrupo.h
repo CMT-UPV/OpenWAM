@@ -107,6 +107,8 @@ protected:
 	double FTwater;
 	double FMwater;
 
+	double FTamb;
+
 	bool FThereIsHTM;
 	TTC_HTM *FHTM;
 
@@ -167,7 +169,7 @@ public:
 
 	void AsignaRPMController(TController **Controller);
 
-	void InitizlizeHTM();
+	void InitizlizeHTM(double Tamb);
 
 };
 
