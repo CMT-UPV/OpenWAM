@@ -1,29 +1,3 @@
-/*--------------------------------------------------------------------------------*\
-|==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-| License
-|
-|	This file is part of OpenWAM.
-|
-|	OpenWAM is free software: you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation, either version 3 of the License, or
-|	(at your option) any later version.
-|
-|	OpenWAM is distributed in the hope that it will be useful,
-|	but WITHOUT ANY WARRANTY; without even the implied warranty of
-|	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-|	GNU General Public License for more details.
-|
-|	You should have received a copy of the GNU General Public License
-|	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
-|
-\*--------------------------------------------------------------------------------*/
-
 //---------------------------------------------------------------------------
 
 
@@ -56,21 +30,35 @@ void TCGestorWAM::Init()
 
   //Espera hasta que se puede conectar a la tuberia
 
-  while (1)
+  //Sleep(5000); //Espero 5 segundos
+
+  long num_pasadas=0;
+
+  while (num_pasadas<=500000)
   {
 	 hPipe = CreateFile(lpszPipeName.c_str(), GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
      if (hPipe != INVALID_HANDLE_VALUE)
-        break;
+		break;
+
+	 num_pasadas++;
   }
 
-  if (GetLastError()!=0) throw "Error al abrir tuberia";
+  //Si se ha llegado al final y no se ha conectado no
+  //hacer nada mas
+  if (num_pasadas<=500000) {
+        if (GetLastError()!=0) throw "Error al abrir tuberia";
 
-  dwMode = PIPE_READMODE_MESSAGE;
+		dwMode = PIPE_READMODE_MESSAGE;
 
-  fSuccess = SetNamedPipeHandleState(hPipe,&dwMode,NULL,NULL);
+		fSuccess = SetNamedPipeHandleState(hPipe,&dwMode,NULL,NULL);
 
-  if (!fSuccess) throw "No se puede cambiar de modo la tuberia";
+		if (!fSuccess) throw "No se puede cambiar de modo la tuberia";
+  } else {
+      //Coloco hPipe en NULL para no hacer nada al enviar datos
+      hPipe = NULL;
+  }
+
 
 
   /*while (1)
@@ -91,11 +79,14 @@ void TCGestorWAM::Enviar(char *msg)
   BOOL  fSuccess;
   LPTSTR mensaje;
 
-  mensaje = TEXT(msg);
+  if (hPipe!=NULL) {
+	   mensaje = TEXT(msg);
 
-  fSuccess = WriteFile(hPipe,mensaje,(strlen(mensaje)+1)*sizeof(TCHAR),&cbWritten,NULL);
+	   fSuccess = WriteFile(hPipe,mensaje,(strlen(mensaje)+1)*sizeof(TCHAR),&cbWritten,NULL);
 
-  if (!fSuccess) throw "No se puede escribir en tuberia";
+	   if (!fSuccess) throw "No se puede escribir en tuberia";
+  }
+
 }
 
 void TCGestorWAM::Enviar(float valor)
@@ -103,9 +94,11 @@ void TCGestorWAM::Enviar(float valor)
   DWORD cbWritten;
   BOOL  fSuccess;
 
-  fSuccess = WriteFile(hPipe,&valor,sizeof(float),&cbWritten,NULL);
+   if (hPipe!=NULL) {
+        fSuccess = WriteFile(hPipe,&valor,sizeof(float),&cbWritten,NULL);
 
-  if (!fSuccess) throw "No se puede escribir en tuberia";
+		if (!fSuccess) throw "No se puede escribir en tuberia";
+   }
 }
 
 void TCGestorWAM::EsperarRespuesta()
