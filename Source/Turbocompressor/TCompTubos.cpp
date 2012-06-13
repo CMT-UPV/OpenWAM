@@ -540,7 +540,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			std::cout << "ERROR: Asignacion tubo salida compresor " <<
 				FNumeroCompresor << std::endl;
 		}
-		if (FExtremoRotor == nmIzquierda) {
+		if (FExtremoRotor == nmLeft) {
 			Cp = (FTuboRot->GetGamma(0) * FTuboRot->GetRMezcla(0)) /
 				(FTuboRot->GetGamma(0) - 1);
 		}
@@ -976,7 +976,7 @@ void TCompTubos::Initialize() {
 
 	double Cp;
 
-	if (FExtremoRotor == nmIzquierda) {
+	if (FExtremoRotor == nmLeft) {
 		Cp = (FTuboRot->GetGamma(0) * FTuboRot->GetRMezcla(0)) /
 			(FTuboRot->GetGamma(0) - 1);
 	}

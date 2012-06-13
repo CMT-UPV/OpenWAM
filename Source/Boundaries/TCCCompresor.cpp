@@ -194,8 +194,8 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 
 			FTuboExtremo = new stTuboExtremo[2];
 			FNumeroTubo = new int[2];
-			for (int i = 0; i < 2; i++) {
-				FTuboExtremo[i].Pipe = NULL;
+			for (int j = 0; j < 2; j++) {
+				FTuboExtremo[j].Pipe = NULL;
 			}
 
 			while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
@@ -439,8 +439,8 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 
 			FTuboExtremo = new stTuboExtremo[2];
 			FNumeroTubo = new int[2];
-			for (int i = 0; i < 2; i++) {
-				FTuboExtremo[i].Pipe = NULL;
+			for (int j = 0; j < 2; j++) {
+				FTuboExtremo[j].Pipe = NULL;
 			}
 
 			while (FNumeroTubosCC < 2 && i < NumberOfPipes) {

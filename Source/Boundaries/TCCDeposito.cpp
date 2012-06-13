@@ -531,7 +531,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 		rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
 		FAdCr = FAd / sqrt(1 + pow2(FMachVenturi) * FGamma3); // Importante solo si hay venturi.
 		// Si no es as�, no modifica el valor de Ad.
-		if (rel_CCon_Entropia / FAdCr > 1 + 1e-10) { // Flujo entrante al dep�sito
+		if (rel_CCon_Entropia / FAdCr > 1 + 1e-5) { // Flujo entrante al dep�sito
 			FValvula->GetCDin(Time);
 			FCDEntrada = FValvula->getCDTubVol();
 			FSentidoFlujo = nmEntrante;
@@ -572,7 +572,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 				// La composici�n se mantiene, al estar el dep�sito cerrado.
 			}
 		}
-		else if (rel_CCon_Entropia / FAdCr < 1 - 1e-10) { // Flujo saliente del dep�sito
+		else if (rel_CCon_Entropia / FAdCr < 1 - 1e-5) { // Flujo saliente del dep�sito
 			FSentidoFlujo = nmSaliente;
 			FValvula->GetCDout(Time);
 			FCDSalida = FValvula->getCDVolTub();
@@ -821,13 +821,13 @@ void TCCDeposito::FlujoSalienteDeposito() {
 		}
 		else { // Salto de presiones subcr�tico.
 
-			// Resoluci�n del caso de flujo saliente salto subcr�tico.
+			// Resolucion del caso de flujo saliente salto subcritico.
 			FCaso = nmFlujoSalienteSaltoSubcritico;
 			Resolucion(a2cr, FDeposito->getSpeedsound(), FCaso, &ycal, &FSonido);
 			// Aplicando la Ecuaci�n de la Energ�a entre el dep�sito y la garganta:
 			FVelocity = sqrt((pow2(FDeposito->getSpeedsound()) - pow2(FSonido)) / FGamma3);
 
-			// C�lculo del massflow. Como es saliente del dep�sito, siempre es positivo.
+			// Calculo del massflow. Como es saliente del deposito, siempre es positivo.
 			a1 = FDeposito->getSpeedsound() * (*FCC + FGamma3 * FVelocity) /
 				(FTuboExtremo[0].Entropia * FAd);
 			FVelocidadGarganta = Fk * pow2(a1) * FVelocity / pow2(FSonido);
@@ -835,7 +835,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 				FGamma4) * FVelocidadGarganta * pow(a1, 2. / FGamma1) * 1e5 / ARef;
 			xx = *FCC + FGamma3 * FVelocity;
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
-			// Ecuaci�n de la caracter�stica incidente.
+			// Ecuacion de la caracteristica incidente.
 		}
 		*FCD = FSonido + FGamma3 * FVelocity;
 		*FCC = FSonido - FGamma3 * FVelocity;
