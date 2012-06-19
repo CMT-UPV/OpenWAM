@@ -24,6 +24,7 @@
 |
 \*--------------------------------------------------------------------------------*/
 
+
 //---------------------------------------------------------------------------
 
 #ifndef TCGestorWAMH
@@ -31,7 +32,12 @@
 //---------------------------------------------------------------------------
 #endif
 
-#include <Classes.hpp>
+//#include <Classes.hpp>
+//#include <stdio.h>
+#include <windows.h>
+//#include <iostream>
+//#include <sstream>
+#include "Globales.h"
 
 #define BUFSIZE 4096
 

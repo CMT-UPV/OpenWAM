@@ -1240,6 +1240,7 @@ void TOpenWAM::ReadConnections() {
 			0, NumTCCCilindro = 0, NumTCCDeposito = 0,
 			NumTCCRamificacion = 0, NumTCCEntradaCompresor = 0,
 			NumTCCPreVble = 0;
+		NumTCCPerdidaPresion=0;
 		int TipoCC;
 		int numerovalvula = 0, quevalv;
 		int NumTCCExternalConnection = 0;
@@ -2796,7 +2797,7 @@ void TOpenWAM::MethodStability() {
 
 void TOpenWAM::SearchMinimumTimeStep() {
 
-	double TMinimo;
+	double TMinimo=1e5;
 	if (PipeStepMax) {
 		TMinimo = Pipe[JStepMax]->getTime1();
 		JCurrent = JStepMax;

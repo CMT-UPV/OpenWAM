@@ -122,13 +122,30 @@ void FUNCTION_NOX(double * YNOeq_value, double * KdYNO_value, double * *YNOeq, d
 
 void FUNCTION_SOOT_C(double * soot_pre, double element_FI);
 
-extern "C" void ACT(double * engine_parameters, double * engine_model_constants,
-	double * test_variables, double * injection_rate, double * CAD_injection_rate,
-	int size_inlet_inj, int INITIAL, double * SOI, double * EOI, int CAI,
-	double * CAD_exit, double * HRF_exit, double * ROHR_exit, double * p_cyl_exit,
-	double * dp_da_cyl_exit, double * T_cyl_exit, double * H_cooler_exit, double * mean_var_exit,
-	double * heat_transfer, double * injection_rate_exit, double * accum_injection_rate_exit,
-	double * species_EVO_exit);
+extern "C" void ACT(
+		double * engine_parameters,
+		double * engine_model_constants,
+		double * test_variables,
+		double * injection_rate,
+		double * CAD_injection_rate,
+		int size_inlet_inj,
+		int INITIAL,
+		double * SOI,
+		double * EOI,
+		int CAI,
+		double * CAD_exit,
+		double * HRF_exit,
+		double * ROHR_exit,
+		double * p_cyl_exit,
+		double * dp_da_cyl_exit,
+		double * T_cyl_exit,
+		double * H_cooler_exit,
+		double * mean_var_exit,
+		double * heat_transfer,
+		double * injection_rate_exit,
+		double * accum_injection_rate_exit,
+		double * species_EVO_exit
+		);
 
 double min(double a, double b);
 
@@ -2652,7 +2669,7 @@ inline void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOe
 		di = 0.00001;
 	}
 	if (j < 0) {
-		j = j;
+		//j = j;
 		dj = 0.00001;
 	}
 

@@ -135,8 +135,13 @@ Allow the communication with WAMer
   #define gestorcom false
   #define graphicalout false
 #else
+#ifdef __BORLANDC__
   #define gestorcom true
   #define graphicalout true
+#else
+  #define gestorcom false
+  #define graphicalout false
+#endif
 #endif
 
 #if gestorcom

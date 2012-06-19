@@ -179,7 +179,7 @@ void TDeposito::LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos) {
 			}
 		}
 
-		if (fracciontotal != 1.) {
+		if (fracciontotal > 1+1.e-10 && fracciontotal < 1-1e-10) {
 			std::cout <<
 				"ERROR: Total mass fraction cannot be different than 1. Check input data in plenum  "
 				<< FNumeroDeposito << std::endl;

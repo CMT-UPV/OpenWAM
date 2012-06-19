@@ -14,6 +14,7 @@ TOutputResults::TOutputResults() {
 	InsHeaderCreated = false;
 	FWriteSpaceTime = false;
 	FFileCountI = 1;
+	WriteInsHeader = false;
 }
 
 TOutputResults::~TOutputResults() {

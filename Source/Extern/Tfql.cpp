@@ -222,7 +222,7 @@ try
 
   /* Depende del orden de encendido */
   /* Para un cuatro cilindros dW10b*/
-  if(i==0)  x=x;
+  //if(i==0)  x=x;
   if(i==1)  x=x-540;
   if(i==2)  x=x-180;
   if(i==3)  x=x-360;

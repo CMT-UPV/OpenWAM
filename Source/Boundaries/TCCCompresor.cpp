@@ -269,7 +269,7 @@ void TCCCompresor::ObtencionValoresInstantaneos(double Theta, double tiempoactua
 
 void TCCCompresor::CalculaCondicionContorno(double Time) {
 	try {
-		double TrabajoInsTurbina; /* para que compile.inacabado. */
+		double TrabajoInsTurbina=0.; /* para que compile.inacabado. */
 		int TuboCalculado;
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {

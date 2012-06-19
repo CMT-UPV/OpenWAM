@@ -182,7 +182,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 						FComposicion[FNumeroEspecies - 1] = 0.;
 				}
 			}
-			if (fracciontotal != 1.) {
+			if (fracciontotal < 1.-1e-10 || fracciontotal > 1.+1e-10) {
 				std::cout <<
 					"ERROR: Total mass fraction must be equal to 1. Check the input data for boundary condition  " << FNumeroCC << std::endl;
 				throw Exception(" ");

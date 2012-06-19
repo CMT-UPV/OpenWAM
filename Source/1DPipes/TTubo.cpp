@@ -558,7 +558,7 @@ void TTubo::LeeDatosGeneralesTubo(char *FileWAM, fpos_t &filepos) {
 			}
 		}
 
-		if (fracciontotal != 1.) {
+		if (fracciontotal > 1+1.e-10 && fracciontotal < 1-1e-10) {
 			std::cout << "ERROR: Total mass fraction must be equal to 1. Check input data for pipe  " <<
 				FNumeroTubo << std::endl;
 			throw Exception(" ");
@@ -4748,7 +4748,7 @@ double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo, double DeltaTiem
 					// distp=distp+dp*signo;
 					// n=n+1;
 					distp = distp + dp;
-					if (distp > distt) {
+					if (distp > distt + 1.e-10) {
 						printf("ERROR:  error distancias\n");
 						throw Exception("ERROR:  error distancias");
 					}

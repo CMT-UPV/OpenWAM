@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -41,6 +41,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // #include "engine.h"
 //#include "act_def.h"
 #include "ACT_v_8_2.cpp"
+//#include "ACT_Sub_DLL.cpp"
 #include "INJECTION_RATE.cpp"
 #include<malloc.h>
 // typedef double mxArray;
