@@ -1,675 +1,76 @@
-ï»¿#pragma hdrstop
-//#include "simstruc.h"
-#pragma hdrstop
-#include<cstdio>
-#include<cmath>
-#include<string.h>
-#include<stdlib.h>
-#include<malloc.h>
+#include"ACT_Sub_DLL.h"
 
-using namespace std;
-// #include<conio.h>
+/** ************     FUNCTION min      ************** */
 
-struct stControlElementComposition {
-	int inj_number;
-	int num_i;
-	double mtotal;
-	double mfuel;
-	double mfuel_real;
-	double mO2;
-	double mO2_real;
-	double mO;
-	double mCH;
-	double mCO2;
-	double mH2O;
-	double TSD;
-	double Tadib;
-	double dNOx;
-	double mNOx;
-	double mSOOT_B;
-	double mSOOT_A;
-	double mSOOT_C;
-	double X;
-	double FI;
-};
-
-/** ************     FUNCTIONS DECLARATION       ************** */
-
-void FUNCTION_FOR_INTERPOLATION(double * interpolated, double * time_interpolated,
-	double * CAD_to_interpolate, double * vector_to_interpolate, int size_interpolated,
-	int size_to_interpolate, double speed);
-
-void CALCULUS_OF_VIRTUAL_VELOCITY(double * inj_velocity, double * virtual_velocity, double * dmf,
-	double * time_vector, double rofuel, double dc, double n_holes, double nozzle_d, double D,
-	int size, double PI, double speed, double * EOI_IM, double inj_num, double * SOI_IM,
-	double Piston_D, double DBowl, double CTM, double * CAD, double Kswirl);
-
-void CALCULUS_OF_ACCUMULATED_INJ_RATE(double * acu_dmf, double * dmf, double * time_vector,
-	int size);
-
-void CALCULUS_OF_REACTION_STOICHIOMETRY(double * O2_mass_fuelunit, double * N2_mass_fuelunit,
-	double * CO2_mass_fuelunit, double * H2O_mass_fuelunit, double HC);
-
-void STOICHIOMETRY_CONSTANTS(double HC, double * Kst1, double * Kst2, double * Kst3, double * Kst4,
-	double * Kst5, double * Kst6);
-
-void CALCULUS_OF_NUMBER_ELEMENTS(int * num_i_IM, double * time_vector, int size, double speed,
-	double * SOI_IM, double * EOI_IM, int inj_num);
-
-void CALCULUS_OF_POI(double * *POI_IM, double * *mfuel_i_IM, double * *mfuel_ij_IM,
-	double * acu_dmf, double * time_vector, int size, double speed, int * num_i_IM,
-	int num_j, double * SOI_IM, double * EOI_IM, int inj_num,
-	stControlElementComposition * *elementcontrol);
-
-double VOLUME(double CAD, double VTDC, double PI, double Piston_D, double Crank_L,
-	double Connecting_Rod_L, double E);
-
-void CALCULATE_CYCLE(double * roair, double * CAD, double delta_t, double * V_cyl, double VTDC,
-	int counter, double speed, double * p_cyl, double * HRF, double * acu_dmf, double * Mbb,
-	double * acu_Mbb, double AFe, double f, double mfuel, double mEGR, double mairIVC,
-	double * T_cyl, double HP, double * Yair, double * Yfuel, double * Yburned, double * U,
-	double * CV, double * H_cooler, double * H, double TEB, double inj_fuel_temp,
-	double PRECITERACIONES, double * defor, double * Rmixture, double Atmosphere_press,
-	double * Gamma, double PI, double Runiv, double Piston_D, double S, double Crank_L,
-	double Connecting_Rod_L, double E, double Piston_Axis_D, double Piston_Crown_H,
-	double DBowl, double VBowl, double M_Connecting_Rod, double M_P_R_PA, double MW_air,
-	double MW_fuel, double MW_burned, double C_ESteel, double C_Mech_Defor, double CTM,
-	double WC1A, double WC1B, double C2, double C_MBLBY, double Cbb, double TPIS,
-	double TCYL_HEAD, double TCYL, double * Qcylhead, double * Qcyl, double * Qpis);
-
-void DEFORMATIONS(double * V_cyl, double * DEFOR, double p_cyl, double CAD, double delta_CAD,
-	double speed, double PI, double Piston_D, double S, double Connecting_Rod_L, double E,
-	double Piston_Axis_D, double Piston_Crown_H, double M_Connecting_Rod, double M_P_R_PA,
-	double C_ESteel, double C_Mech_Defor);
-
-void MASIC_RATIO(double * Yair, double * Yfuel, double * Yburned, double * Rmixture, double HRF,
-	double acu_mf, double acu_Mbb, double AFe, double f, double mfuel, double mEGR, double mairIVC,
-	double Runiv, double MW_air, double MW_fuel, double MW_burned);
-
-void PROPERTIES(double * u, double * CV, double T_cyl, double T_cyl_pre, double Yair, double Yfuel,
-	double Yburned);
-
-void PROPERTIES_FUEL(double * uf, double T_cyl);
-
-double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl, double temperatureIVC,
-	double average_Volume, double volumeIVC, double delta_CAD, double speed, double VTDC,
-	double * H, double PI, double Piston_D, double S, double DBowl, double VBowl, double CTM,
-	double WC1A, double WC1B, double C2, double TPIS, double TCYL_HEAD, double TCYL,
-	double CAD, double * Qcylhead, double * Qcyl, double * Qpis, int counter);
-
-double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B, double Piston_D, double DBowl,
-	double speed, double CAD, double PI);
-
-double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_CAD, double speed,
-	double Gamma, double Atmosphere_press, double Piston_D, double C_MBLBY, double Cbb);
-
-void CALCULATE_AREAS(double * Piston_area, double * Cylinder_head_area, double PI, double Piston_D,
-	double DBowl, double VBowl);
-
-void CALCULUS_OF_MEAN_VARIABLES(double * p_cyl, double * T_cyl, double * dp_da_cyl, double * CAD,
-	double * pmax, double * Tmax, double * dp_da_max, double * p_exit, double * T_exit, int size);
-
-void CALCULUS_OF_IMP_HP(double * complete_p_cyl, double * complete_CAD, double * p_cyl,
-	double * V_cyl, double * complete_V_cyl, double * complete_deform, double * WI_HP,
-	double * IMP_HP, int complete_size, int complete_prev_size, double delta_t, double speed,
-	int size, double IVC, double EVO, double VTDC, double Cylinder_capacity, double PI,
-	double Piston_D, double S, double Crank_L, double Connecting_Rod_L, double E,
-	double Piston_Axis_D, double Piston_Crown_H, double M_Connecting_Rod, double M_P_R_PA,
-	double C_ESteel, double C_Mech_Defor, double inlet_pres, double exhaust_pres);
-
-void FUNCTION_NOX(double * YNOeq_value, double * KdYNO_value, double * *YNOeq, double * *KdYNO,
-	double temperature, double mO2, double mtotal);
-
-void FUNCTION_SOOT_C(double * soot_pre, double element_FI);
-
-extern "C" void ACT(
-		double * engine_parameters,
-		double * engine_model_constants,
-		double * test_variables,
-		double * injection_rate,
-		double * CAD_injection_rate,
-		int size_inlet_inj,
-		int INITIAL,
-		double * SOI,
-		double * EOI,
-		int CAI,
-		double * CAD_exit,
-		double * HRF_exit,
-		double * ROHR_exit,
-		double * p_cyl_exit,
-		double * dp_da_cyl_exit,
-		double * T_cyl_exit,
-		double * H_cooler_exit,
-		double * mean_var_exit,
-		double * heat_transfer,
-		double * injection_rate_exit,
-		double * accum_injection_rate_exit,
-		double * species_EVO_exit
-		);
-
-double min(double a, double b);
-
-/** ************     MAIN FUNCTION       ************* */
-
-#pragma argsused
-// int main(int argc,char **argv)
-// {
-//
-// int counter,test_number,z,p,size_inlet_inj;
-// double NOx_before;
-// double aux;
-// double CAI;                                 /* vectors point number according to crank angle degree  */
-// FILE *fich;
-//
-//
-// char title[3000];
-//
-// double *engine_parameters;               /* Inlet vector of motor`s constant parameters  */
-// double *engine_model_constants;
-// double **test_variables;                   /* Inlet vector of test variables*/
-// double **injection_rate;
-// double **CAD_injection_rate;
-// int *INITIAL;
-// double **SOI;
-// double **EOI;
-//
-//
-//
-// double **CAD_exit;                         /* Crank angle degrees (ï¿½) [-180 - +180] used to shown the results */
-// double **HRF_exit;                         /* Heat release fraction(-) (FQL) [-180 +180]*/
-// double **ROHR_exit;
-// double **p_cyl_exit;                       /* In-cylinder pressure (Pa) [-180 - +180]*/
-// double **dp_da_cyl_exit;
-// double **T_cyl_exit;                       /* Average in-cylinder temperature (K) [-180 - +180]*/
-// double **H_cooler_exit;                    /* Heat hung over to the cooler (J/ï¿½) [-180 - +180] */
-// double **mean_var_exit;                    /* Output vector of mean variables*/
-// double **injection_rate_exit;              /* Output vector of mean variables*/
-// double **accum_injection_rate_exit;
-// double **heat_transfer;
-// double **species_EVO_exit;                   /* Species mass fraction at EVO: the order is
-// N2, O2, CO2, H2O, NOx, CO, Soot and HC */
-//
-//
-//
-// double rateBG;
-//
-//
-//
-// CAI=1801;
-// test_number=1;
-//
-////instrucction to dimensionate main vectors
-//
-//
-// engine_parameters=(double *)malloc(25*sizeof(double ));
-//
-// engine_model_constants=(double *)malloc(22*sizeof(double ));
-//
-// test_variables=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// test_variables[z]=(double *)malloc(18*sizeof(double ));
-// }
-//
-// CAD_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// CAD_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// HRF_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// HRF_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// ROHR_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// ROHR_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// p_cyl_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// p_cyl_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// dp_da_cyl_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// dp_da_cyl_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// T_cyl_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// T_cyl_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-//
-// injection_rate_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// injection_rate_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// accum_injection_rate_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// accum_injection_rate_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// H_cooler_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// H_cooler_exit[z]=(double *)malloc(CAI*sizeof(double ));
-// }
-// mean_var_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// mean_var_exit[z]=(double *)malloc(10*sizeof(double ));
-// }
-//
-// heat_transfer=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// heat_transfer[z]=(double *)malloc(4*sizeof(double ));
-// }
-//
-//
-//
-// INITIAL=(int *)malloc(test_number*sizeof(int ));
-//
-// SOI=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// SOI[z]=(double *)malloc(8*sizeof(double ));
-// }
-// EOI=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// EOI[z]=(double *)malloc(8*sizeof(double ));
-// }
-//
-// species_EVO_exit=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// species_EVO_exit[z]=(double *)malloc(8*sizeof(double )); // There are 8 species
-// }
-//
-//
-//
-// // engine parameters: geometry parameters and combustion model constants
-//
-// if((fich=fopen("engine_parameters.dat","r"))==NULL){
-// printf("The file of average variables could not be open.\n");
-// return 0;
-// }
-// fscanf(fich, "%s",title);
-// for(counter=0;counter<25;counter++){
-// fscanf(fich, "%lf,",&engine_parameters[counter]);
-// }
-// fclose(fich);
-//
-// // engine model constants
-//
-// if((fich=fopen("engine_model_constants.dat","r"))==NULL){
-// printf("The file of average variables could not be open.\n");
-// return 0;
-// }
-// fscanf(fich, "%s",title);
-// for(counter=0;counter<22;counter++){
-// fscanf(fich, "%lf,",&engine_model_constants[counter]);
-// }
-// fclose(fich);
-//
-//
-//
-// // test variables
-//
-// if((fich=fopen("test_variables.dat","r"))==NULL){
-// printf("The file of average variables could not be open.\n");
-// return 0;
-// }
-// fscanf(fich, "%s",title);
-// for(z=0;z<test_number;z++){
-// for(p=0;p<18;p++){
-// fscanf(fich, "%lf,",&test_variables[z][p]);
-// }
-// }
-// fclose(fich);
-//
-//
-//
-// if((fich=fopen("injection_rate.dat","r"))==NULL){
-// printf("The file of average variables could not be open.\n");
-//
-// }
-// size_inlet_inj=0;
-// fscanf(fich,"%s",title);
-// while (!feof(fich)){
-// for(z=0;z<test_number;z++){
-// fscanf(fich,"%lf,%lf",&aux,&aux);
-// }
-// size_inlet_inj++;
-// }
-// fclose(fich);
-// size_inlet_inj--;
-//
-// injection_rate=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// injection_rate[z]=(double *)malloc(size_inlet_inj*sizeof(double ));
-// }
-//
-// CAD_injection_rate=(double **)malloc(test_number*sizeof(double ));
-// for (z=0;z<test_number;z++){
-// CAD_injection_rate[z]=(double *)malloc(size_inlet_inj*sizeof(double ));
-// }
-//
-//
-// if((fich=fopen("injection_rate.dat","r"))==NULL){
-// printf("The file of average variables could not be open.\n");
-//
-// }
-//
-// fscanf(fich, "%s",title);
-// for(p=0;p<size_inlet_inj;p++){
-// fscanf(fich, "%lf,",&CAD_injection_rate[0][p]);
-// for(z=0;z<test_number;z++){
-// fscanf(fich, "%lf,",&injection_rate[z][p]);
-// }
-// }
-// fclose(fich);
-//
-// //injection rate parameters: injection number, start of injections and end of injections
-//
-// if((fich=fopen("injection_rate_parameters.dat","r"))==NULL){
-// printf("The file of average variables could not be open.\n");
-// }
-//
-// fscanf(fich, "%s",title);
-// for(z=0;z<test_number;z++){
-// fscanf(fich, "%d,",&INITIAL[z]);
-// for(p=0;p<8;p++){
-// fscanf(fich, "%lf,%lf,",&SOI[z][p],&EOI[z][p]);
-// }
-// }
-// fclose(fich);
-//
-//
-//
-////main function called with a test number bucle
-//
-// for(z=0;z<test_number;z++){
-//
-//
-// //it will make a iteration to calculate NOx emissions with EGR
-//
-// NOx_before=1e-4;
-//
-// while((fabs(mean_var_exit[z][7]-NOx_before)*100/NOx_before>1)){
-//
-// NOx_before=mean_var_exit[z][7];
-//
-//
-// ACT(engine_parameters,engine_model_constants,test_variables[z],injection_rate[z],CAD_injection_rate[z],size_inlet_inj,INITIAL[z],SOI[z],EOI[z],CAI,CAD_exit[z],HRF_exit[z],ROHR_exit[z],p_cyl_exit[z],dp_da_cyl_exit[z],T_cyl_exit[z],H_cooler_exit[z],mean_var_exit[z],heat_transfer[z],injection_rate_exit[z],accum_injection_rate_exit[z],species_EVO_exit[z]);
-//
-// rateBG=1.-test_variables[z][1]/test_variables[z][2];
-// test_variables[z][14]=mean_var_exit[z][7]*rateBG;
-//
-// if(NOx_before==0){
-// NOx_before=1e-4;
-// }
-// if(mean_var_exit[z][7]==0){
-// mean_var_exit[z][7]=1e-4;
-// }
-//
-// }//while
-//
-// }//z
-//
-//
-// //------ OUTPUT FILES ------------------------------------------------------------------------------------------
-//
-// if((fich=fopen("exit1.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"HRL");
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",(HRF_exit[z][p]*test_variables[z][4]*42.92));
-// }
-// }
-// fclose(fich);
-//
-// if((fich=fopen("exit2.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"ROHR");
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",(ROHR_exit[z][p]));
-// }
-// }
-// fclose(fich);
-//
-//
-// if((fich=fopen("exit3.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"Pcylinder");
-//
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",(p_cyl_exit[z][p]*1e-5));
-// }
-// }
-// fclose(fich);
-//
-//
-// if((fich=fopen("exit4.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"dP_da_cyl");
-//
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",(dp_da_cyl_exit[z][p]*1e-5));
-// }
-// }
-// fclose(fich);
-//
-//
-// if((fich=fopen("exit5.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"Tcylinder");
-//
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",T_cyl_exit[z][p]);
-// }
-// }
-// fclose(fich);
-//
-//
-// if((fich=fopen("exit6.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"Hcooler");
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",H_cooler_exit[z][p]);
-// }
-// }
-// fclose(fich);
-//
-// if((fich=fopen("exit7.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"injection_rate");
-//
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",injection_rate_exit[z][p]);
-// }
-// }
-// fclose(fich);
-//
-//
-//
-// if((fich=fopen("exit8.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"accum_injection_rate");
-//
-// fprintf(fich, "%s", title);
-// for(p=0;p<CAI;p++){
-// fprintf(fich, "\n%lf,",CAD_exit[0][p]);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "%lf,",accum_injection_rate_exit[z][p]*test_variables[z][4]*42.92);
-// }
-// }
-// fclose(fich);
-//
-//
-// if((fich=fopen("mean_variables.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"test_number,PMI_hp[bar],ni(%),Pmax[bar],Tmax[K],PEVO[bar],TEVO[K],dP/da[bar/ï¿½],NOx[ppm],YO2[-],SOOT_A[FSN]");
-// fprintf(fich, "%s", title);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "\n%d,",(z+1));
-// for(p=0;p<10;p++){
-// fprintf(fich, "%lf,",mean_var_exit[z][p]);
-// }
-// }
-// fclose(fich);
-//
-// /*
-// if((fich=fopen("Heat_transfer.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"test_number,Qtotal,Qcyl_head,Qcyl,Qpiston");
-// fprintf(fich, "%s", title);
-// for(z=0;z<test_number;z++){
-// fprintf(fich, "\n%d,",z);
-// for(p=0;p<4;p++){
-// fprintf(fich, "%lf,",heat_transfer[z][p]);
-// }
-// }
-// fclose(fich);
-// */
-//
-// if((fich=fopen("PMI_hp.dat","w"))==NULL){
-// printf("The element file results could not be opened");
-// exit(1);
-// }
-// strcpy(title,"PMI_hp[bar]");
-// fprintf(fich, "%s", title);
-// fprintf(fich, "\n%lf,",mean_var_exit[0][0]);
-// fclose(fich);
-//
-//
-////memory liberation
-//
-// free(engine_parameters);
-// free(engine_model_constants);
-// for (z=0;z<test_number;z++)free(test_variables[z]);
-// free(test_variables);
-// for (z=0;z<test_number;z++)free(CAD_exit[z]);
-// free(CAD_exit);
-// for (z=0;z<test_number;z++)free(HRF_exit[z]);
-// free(HRF_exit);
-// for (z=0;z<test_number;z++)free(ROHR_exit[z]);
-// free(ROHR_exit);
-// for (z=0;z<test_number;z++)free(p_cyl_exit[z]);
-// free(p_cyl_exit);
-// for (z=0;z<test_number;z++)free(dp_da_cyl_exit[z]);
-// free(dp_da_cyl_exit);
-// for (z=0;z<test_number;z++)free(T_cyl_exit[z]);
-// free(T_cyl_exit);
-// for (z=0;z<test_number;z++)free(injection_rate_exit[z]);
-// free(injection_rate_exit);
-// for (z=0;z<test_number;z++)free(accum_injection_rate_exit[z]);
-// free(accum_injection_rate_exit);
-// for (z=0;z<test_number;z++)free(H_cooler_exit[z]);
-// free(H_cooler_exit);
-// for (z=0;z<test_number;z++)free(mean_var_exit[z]);
-// free(mean_var_exit);
-// for (z=0;z<test_number;z++)free(heat_transfer[z]);
-// free(heat_transfer);
-//
-//
-// free(INITIAL);
-// for(z=0;z<test_number;z++)free(SOI[z]);
-// free(SOI);
-// for(z=0;z<test_number;z++)free(EOI[z]);
-// free(EOI);
-//
-//
-// for (z=0;z<test_number;z++)free(injection_rate[z]);
-// free(injection_rate);
-// for (z=0;z<test_number;z++)free(CAD_injection_rate[z]);
-// free(CAD_injection_rate);
-//
-//
-//
-// }
+double min(double a, double b) {
+	double sol;
+	if (a < b)
+		sol = a;
+	else
+		sol = b;
+	return(sol);
+}
 
 /** ************     FUNCTION FOR INTERPOLATION      ************** */
 
-inline void FUNCTION_FOR_INTERPOLATION(double *interpolated, double *time_interpolated,
-	double *CAD_to_interpolate, double *vector_to_interpolate, int size_interpolated,
+void FUNCTION_FOR_INTERPOLATION(double *interpolated,
+	double *time_interpolated, double *CAD_to_interpolate,
+	double *vector_to_interpolate, int size_interpolated,
 	int size_to_interpolate, double speed) {
 
 	int auxiliar, counter;
 	auxiliar = 0;
 	for (counter = 0; counter < size_interpolated; counter++) {
-		while ((CAD_to_interpolate[auxiliar] * 60. / (360. * speed) < time_interpolated[counter])
-			&& (counter < size_interpolated) && (auxiliar < size_to_interpolate - 2)) {
+		while ((CAD_to_interpolate[auxiliar] * 60. / (360. * speed)
+				< time_interpolated[counter]) && (counter < size_interpolated)
+			&& (auxiliar < size_to_interpolate - 2)) {
 			auxiliar = auxiliar + 1;
 		}
 		interpolated[counter] = vector_to_interpolate[auxiliar - 1] +
-		(vector_to_interpolate[auxiliar] - vector_to_interpolate[auxiliar - 1]) *
-		(time_interpolated[counter] - CAD_to_interpolate[auxiliar - 1] * 60. / (360. * speed)) /
-		(CAD_to_interpolate[auxiliar] * 60. / (360. * speed) - CAD_to_interpolate[auxiliar - 1]
-			* 60. / (360. * speed));
+			(vector_to_interpolate[auxiliar] - vector_to_interpolate
+			[auxiliar - 1]) * (time_interpolated[counter] - CAD_to_interpolate
+			[auxiliar - 1] * 60. / (360. * speed)) /
+			(CAD_to_interpolate[auxiliar] * 60. / (360. * speed)
+			- CAD_to_interpolate[auxiliar - 1] * 60. / (360. * speed));
 	}
 }
 
 /** ************     FUNCTION FOR INJECTION VELOCITY AND VIRTUAL VELOCITY     ************** */
 
-inline void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity, double *virtual_velocity, double *dmf,
-	double *time_vector, double rofuel, double dc, double n_holes, double nozzle_d, double D,
-	int size, double PI, double speed, double *EOI_IM, double inj_num, double *SOI_IM,
-	double Piston_D, double DBowl, double CTM, double *CAD, double Kswirl) {
-
+void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity,
+	double *virtual_velocity, double *dmf, double *time_vector,
+	double rofuel, double dc, double n_holes, double nozzle_d, double D,
+	int size, double PI, double speed, double *EOI_IM, double inj_num,
+	double *SOI_IM, double Piston_D, double DBowl, double CTM,
+	double *CAD, double Kswirl) {
 	int counter, auxiliar;
 	double *virt, *w;
-	int aux, i;
+	int i;
 
-	aux = inj_num - 1;
 	virt = (double*)malloc(size*sizeof(double));
 	w = (double*)malloc(size*sizeof(double));
 
 	for (counter = 0; counter < size; counter++) {
 		virtual_velocity[counter] = -9999.;
-		w[counter] = (pow((Piston_D / DBowl), 2) * 0.75 * (DBowl / 2) * 2 * PI * speed / 60 * pow
-			((1 / cosh(CAD[counter] / 100)), 3) + 1) * CTM * Kswirl;
+		w[counter] = (pow((Piston_D / DBowl), 2) * 0.75 * (DBowl / 2)
+			* 2 * PI * speed / 60 * pow((1 / cosh(CAD[counter] / 100)),
+				3) + 1) * CTM * Kswirl;
 	}
 
 	for (counter = 0; counter < size; counter++) {
 
-		inj_velocity[counter] = dmf[counter] * 4. / (rofuel * n_holes * dc * PI * pow(nozzle_d, 2));
+		inj_velocity[counter] = dmf[counter] * 4. /
+			(rofuel * n_holes * dc * PI * pow(nozzle_d, 2));
 
 		for (i = 0; i < inj_num; i++) {
 			if ((time_vector[counter] > (SOI_IM[i] / (speed * 6))) &&
 				((time_vector[counter] - (SOI_IM[i] / (speed * 6))) < 0.001)) {
+				// Corrección de inicio de pulso: durante el primer milisegundo.
+				// Comprobado el 6-10-2010 que en 1 ms. la corrección ya es despreciable (0.68%).
 				virt[counter] = inj_velocity[counter] *
-				(0.5274 * exp(-(time_vector[counter] - (SOI_IM[i] / (speed * 6))) / 0.00023) + 1.);
+					(0.5274 * exp
+					(-(time_vector[counter] - (SOI_IM[i] / (speed * 6)))
+						/ 0.00023) + 1.);
 				if (virt[counter] > inj_velocity[counter]) {
 					inj_velocity[counter] = virt[counter];
 				}
@@ -678,8 +79,9 @@ inline void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity, double *virtual_v
 
 		for (auxiliar = counter; auxiliar < size; auxiliar++) {
 			virt[auxiliar] = inj_velocity[counter] * exp
-			(-(time_vector[auxiliar] - time_vector[counter]) /
-				(D * exp((time_vector[auxiliar] - time_vector[counter]) / 0.006)));
+				(-(time_vector[auxiliar] - time_vector[counter]) /
+				(D * exp((time_vector[auxiliar] - time_vector[counter])
+						/ 0.006)));
 			if (virt[auxiliar] > virtual_velocity[auxiliar]) {
 				virtual_velocity[auxiliar] = virt[auxiliar];
 			}
@@ -699,8 +101,8 @@ inline void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity, double *virtual_v
 
 /** ************     FUNCTION FOR ADIMENSIONAL ACCUMULATED INJECTION RATE     ************** */
 
-inline void CALCULUS_OF_ACCUMULATED_INJ_RATE(double *acu_dmf, double *dmf, double *time_vector,
-	int size) {
+void CALCULUS_OF_ACCUMULATED_INJ_RATE(double *acu_dmf, double *dmf,
+	double *time_vector, int size) {
 
 	int counter;
 
@@ -710,7 +112,7 @@ inline void CALCULUS_OF_ACCUMULATED_INJ_RATE(double *acu_dmf, double *dmf, doubl
 		}
 		else {
 			acu_dmf[counter] = acu_dmf[counter - 1] +
-			((time_vector[counter] - time_vector[counter - 1]) *
+				((time_vector[counter] - time_vector[counter - 1]) *
 				(dmf[counter] - (dmf[counter] - dmf[counter - 1]) / 2.));
 		}
 	}
@@ -725,8 +127,8 @@ inline void CALCULUS_OF_ACCUMULATED_INJ_RATE(double *acu_dmf, double *dmf, doubl
 
 /** ************     STOICHIOMETRY_CONSTANTS     ***************** */
 
-inline void STOICHIOMETRY_CONSTANTS(double HC, double *Kst1, double *Kst2, double *Kst3, double *Kst4,
-	double *Kst5, double *Kst6) {
+void STOICHIOMETRY_CONSTANTS(double HC, double *Kst1, double *Kst2,
+	double *Kst3, double *Kst4, double *Kst5, double *Kst6) {
 
 	*Kst1 = (1 + HC / 4) * 32 / (12 + HC);
 	*Kst2 = pow(*Kst1, -1);
@@ -739,16 +141,17 @@ inline void STOICHIOMETRY_CONSTANTS(double HC, double *Kst1, double *Kst2, doubl
 
 /** ************     FUNCTION FOR NUMBER OF ELEMENTS i     ************** */
 
-inline void CALCULUS_OF_NUMBER_ELEMENTS(int *num_i_IM, double *time_vector, int size, double speed,
-	double *SOI_IM, double *EOI_IM, int inj_num) {
+void CALCULUS_OF_NUMBER_ELEMENTS(int *num_i_IM, double *time_vector, int size,
+	double speed, double *SOI_IM, double *EOI_IM, int inj_num) {
 
 	int time_counter, inj_counter;
 
 	for (inj_counter = 0; inj_counter < inj_num; inj_counter++) {
 		num_i_IM[inj_counter] = 0;
 		for (time_counter = 0; time_counter < size; time_counter++) {
-			if ((time_vector[time_counter] >= SOI_IM[inj_counter] * 60. / (360. * speed)) &&
-				(time_vector[time_counter] <= EOI_IM[inj_counter] * 60. / (360. * speed))) {
+			if ((time_vector[time_counter] >= SOI_IM[inj_counter] * 60. /
+					(360. * speed)) && (time_vector[time_counter] <= EOI_IM
+					[inj_counter] * 60. / (360. * speed))) {
 				num_i_IM[inj_counter] = num_i_IM[inj_counter] + 1;
 			}
 		}
@@ -757,10 +160,10 @@ inline void CALCULUS_OF_NUMBER_ELEMENTS(int *num_i_IM, double *time_vector, int 
 
 /** ************     FUNCTION FOR POI OF EACH i AND FUEL MASS OF EACH ELEMENT i AND SUB-ELEMENT j     ************** */
 
-inline void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM, double **mfuel_ij_IM, double *acu_dmf,
-	double *time_vector, int size, double speed, int *num_i_IM, int num_j, double *SOI_IM,
-	double* EOI_IM, int inj_num, stControlElementComposition **elementcontrol) {
-
+void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM,
+	double **mfuel_ij_IM, double *acu_dmf, double *time_vector, int size,
+	double speed, int *num_i_IM, int num_j, double *SOI_IM, double* EOI_IM,
+	int inj_num, stControlElementComposition **elementcontrol) {
 	int counter, inj_counter, aux;
 	int *auxiliar_numi;
 
@@ -772,8 +175,9 @@ inline void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM, double **mfuel
 
 	for (inj_counter = 0; inj_counter < inj_num; inj_counter++) {
 		for (counter = 0; counter < size; counter++) {
-			if (time_vector[counter] >= SOI_IM[inj_counter] * 60. / (360. * speed)
-				&& time_vector[counter] <= EOI_IM[inj_counter] * 60. / (360. * speed)) {
+			if (time_vector[counter] >= SOI_IM[inj_counter] * 60. /
+				(360. * speed) && time_vector[counter] <= EOI_IM[inj_counter]
+				* 60. / (360. * speed)) {
 
 				auxiliar_numi[inj_counter] = auxiliar_numi[inj_counter] + 1;
 				aux = auxiliar_numi[inj_counter];
@@ -837,16 +241,18 @@ inline void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM, double **mfuel
 				}
 
 				if (aux == 0) {
-					mfuel_i_IM[inj_counter][aux] = ((acu_dmf[counter] + acu_dmf[counter + 1]) / 2.)
-					- acu_dmf[counter - 1];
+					mfuel_i_IM[inj_counter][aux] =
+						((acu_dmf[counter] + acu_dmf[counter + 1]) / 2.)
+						- acu_dmf[counter - 1];
 				}
 				else if (aux == num_i_IM[inj_counter] - 1) {
 					mfuel_i_IM[inj_counter][aux] = acu_dmf[counter + 1] -
-					((acu_dmf[counter - 1] + acu_dmf[counter]) / 2.);
+						((acu_dmf[counter - 1] + acu_dmf[counter]) / 2.);
 				}
 				else {
-					mfuel_i_IM[inj_counter][aux] = ((acu_dmf[counter] + acu_dmf[counter + 1]) / 2.)
-					- ((acu_dmf[counter - 1] + acu_dmf[counter]) / 2.);
+					mfuel_i_IM[inj_counter][aux] =
+						((acu_dmf[counter] + acu_dmf[counter + 1]) / 2.) -
+						((acu_dmf[counter - 1] + acu_dmf[counter]) / 2.);
 				}
 
 			}
@@ -855,7 +261,8 @@ inline void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM, double **mfuel
 
 	for (inj_counter = 0; inj_counter < inj_num; inj_counter++) {
 		for (counter = 0; counter < num_i_IM[inj_counter]; counter++) {
-			mfuel_ij_IM[inj_counter][counter] = mfuel_i_IM[inj_counter][counter] / num_j;
+			mfuel_ij_IM[inj_counter][counter] = mfuel_i_IM[inj_counter]
+				[counter] / num_j;
 		}
 	}
 
@@ -863,26 +270,33 @@ inline void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM, double **mfuel
 
 }
 
-/** ************     FUNCTION MAIN FOR THE CALCULUS OF THE TENPERATURE AND THE PRESSURE IN THE CYLINDER     ************** */
+/** ************     FUNCTION MAIN FOR THE CALCULUS OF THE TEMPERATURE AND THE PRESSURE IN THE CYLINDER     ************** */
 
-inline void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *V_cyl, double VTDC,
-	int counter, double speed, double *p_cyl, double *HRF, double *acu_mf, double *Mbb,
-	double *acu_Mbb, double AFe, double f, double mfuel, double mEGR, double mairIVC,
-	double *T_cyl, double HP, double *Yair, double *Yfuel, double *Yburned, double *U, double *CV,
-	double *H_cooler, double *H, double T_Evaporation_fuel, double inj_fuel_temp,
-	double PRECISION_ITERATION, double *defor, double *Rmixture, double Atmosphere_press,
-	double *Gamma, double PI, double Runiv, double Piston_D, double S, double Crank_L,
-	double Connecting_Rod_L, double E, double Piston_Axis_D, double Piston_Crown_H,
-	double DBowl, double VBowl, double M_Connecting_Rod, double M_P_R_PA, double MW_air,
-	double MW_fuel, double MW_burned, double C_ESteel, double C_Mech_Defor, double CTM,
-	double WC1A, double WC1B, double C2, double C_MBLBY, double Cbb, double TPIS,
-	double TCYL_HEAD, double TCYL, double *Qcylhead, double *Qcyl, double *Qpis) {
+void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *V_cyl,
+	double VTDC, int counter, double speed, double *p_cyl, double *HRF,
+	double *acu_mf, double *Mbb, double *acu_Mbb, double AFe, double f,
+	double mfuel, double mEGR, double mairIVC, double *T_cyl, double HP,
+	double *Yair, double *Yfuel, double *Yburned, double *U, double *CV,
+	double *H_cooler, double *H, double T_Evaporation_fuel,
+	double inj_fuel_temp, double PRECISION_ITERATION, double *defor,
+	double *Rmixture, double Atmosphere_press, double *Gamma, double PI,
+	double Runiv, double Piston_D, double S, double Crank_L,
+	double Connecting_Rod_L, double E, double Piston_Axis_D,
+	double Piston_Crown_H, double DBowl, double VBowl,
+	double M_Connecting_Rod, double M_P_R_PA, double MW_air,
+	double MW_fuel, double MW_burned, double C_ESteel,
+	double C_Mech_Defor, double CTM, double WC1A, double WC1B,
+	double C2, double C_MBLBY, double Cbb, double TPIS, double TCYL_HEAD,
+	double TCYL, double *Qcylhead, double *Qcyl, double *Qpis) {
 
 	double QT; /* Resultant heat due to fuel combustion (-) */
 	double QC; /* Instantaneous heat */
-	double average_Volume; /* Average volume between the actual and the previous step */
-	double average_Temperature; /* Average temperature between the actual and the previous step */
-	double average_Pressure; /* Average temperature between the actual and the previous step */
+	double average_Volume;
+	/* Average volume between the actual and the previous step */
+	double average_Temperature;
+	/* Average temperature between the actual and the previous step */
+	double average_Pressure;
+	/* Average temperature between the actual and the previous step */
 	double DU; /* Increment of internal energy */
 	double MCYL; /* Cylinder mass */
 	double AERR = 0.; /* Error in the energetic balance */
@@ -912,45 +326,52 @@ inline void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *
 	}
 
 	delta_CAD = delta_t * 360. * speed / 60.;
-	V_cyl[counter] = VOLUME(CAD[counter], VTDC, PI, Piston_D, Crank_L, Connecting_Rod_L, E);
+	V_cyl[counter] = VOLUME(CAD[counter], VTDC, PI, Piston_D, Crank_L,
+		Connecting_Rod_L, E);
 
 	if (counter < 2) {
 
-		DEFORMATIONS(&(V_cyl[counter]), &(defor[counter]), p_cyl[counter], CAD[counter], delta_CAD,
-			speed, PI, Piston_D, S, Connecting_Rod_L, E, Piston_Axis_D, Piston_Crown_H,
-			M_Connecting_Rod, M_P_R_PA, C_ESteel, C_Mech_Defor);
+		DEFORMATIONS(&(V_cyl[counter]), &(defor[counter]), p_cyl[counter],
+			CAD[counter], delta_CAD, speed, PI, Piston_D, S, Connecting_Rod_L,
+			E, Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod, M_P_R_PA,
+			C_ESteel, C_Mech_Defor);
 
-		MASIC_RATIO(&Yair[counter], &Yfuel[counter], &Yburned[counter], &Rmixture[counter],
-			HRF[counter], acu_mf[counter], acu_Mbb[counter], AFe, f, mfuel, mEGR, mairIVC, Runiv,
-			MW_air, MW_fuel, MW_burned);
+		MASIC_RATIO(&Yair[counter], &Yfuel[counter], &Yburned[counter],
+			&Rmixture[counter], HRF[counter], acu_mf[counter],
+			acu_Mbb[counter], AFe, f, mfuel, mEGR, mairIVC, Runiv, MW_air,
+			MW_fuel, MW_burned);
 
-		PROPERTIES(&U[counter], &CV[counter], T_cyl[counter], T_cyl[counter], Yair[counter],
-			Yfuel[counter], Yburned[counter]);
+		PROPERTIES(&U[counter], &CV[counter], T_cyl[counter], T_cyl[counter],
+			Yair[counter], Yfuel[counter], Yburned[counter]);
 
 		MCYL = mairIVC + acu_mf[counter] - acu_Mbb[counter];
 		roair[counter] = MCYL / V_cyl[counter];
-		p_cyl[counter] = MCYL * Rmixture[counter] * T_cyl[counter] / V_cyl[counter];
+		p_cyl[counter] = MCYL * Rmixture[counter] * T_cyl[counter] / V_cyl
+			[counter];
 
 	}
 	else {
 
 		*Gamma = (CV[counter - 1] + Rmixture[counter - 1]) / CV[counter - 1];
 
-		Mbb[counter] = BLOW_BY(p_cyl[counter - 1], T_cyl[counter - 1], Rmixture[counter - 1],
-			delta_CAD, speed, *Gamma, Atmosphere_press, Piston_D, C_MBLBY, Cbb);
+		Mbb[counter] = BLOW_BY(p_cyl[counter - 1], T_cyl[counter - 1],
+			Rmixture[counter - 1], delta_CAD, speed, *Gamma, Atmosphere_press,
+			Piston_D, C_MBLBY, Cbb);
 
 		acu_Mbb[counter] = acu_Mbb[counter - 1] + Mbb[counter];
 
-		DEFORMATIONS(&(V_cyl[counter]), &(defor[counter]), p_cyl[counter - 1], CAD[counter],
-			delta_CAD, speed, PI, Piston_D, S, Connecting_Rod_L, E, Piston_Axis_D, Piston_Crown_H,
-			M_Connecting_Rod, M_P_R_PA, C_ESteel, C_Mech_Defor);
+		DEFORMATIONS(&(V_cyl[counter]), &(defor[counter]), p_cyl[counter - 1],
+			CAD[counter], delta_CAD, speed, PI, Piston_D, S, Connecting_Rod_L,
+			E, Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod, M_P_R_PA,
+			C_ESteel, C_Mech_Defor);
 
-		MASIC_RATIO(&Yair[counter], &Yfuel[counter], &Yburned[counter], &Rmixture[counter],
-			HRF[counter - 1], acu_mf[counter], acu_Mbb[counter], AFe, f, mfuel, mEGR, mairIVC,
-			Runiv, MW_air, MW_fuel, MW_burned);
+		MASIC_RATIO(&Yair[counter], &Yfuel[counter], &Yburned[counter],
+			&Rmixture[counter], HRF[counter - 1], acu_mf[counter],
+			acu_Mbb[counter], AFe, f, mfuel, mEGR, mairIVC, Runiv, MW_air,
+			MW_fuel, MW_burned);
 
-		PROPERTIES(&UANT, &CV[counter], T_cyl[counter - 1], T_cyl[counter - 1], Yair[counter],
-			Yfuel[counter], Yburned[counter]);
+		PROPERTIES(&UANT, &CV[counter], T_cyl[counter - 1], T_cyl[counter - 1],
+			Yair[counter], Yfuel[counter], Yburned[counter]);
 
 		MCYL = mairIVC + acu_mf[counter] - acu_Mbb[counter];
 
@@ -958,25 +379,30 @@ inline void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *
 
 		average_Volume = 0.5 * (V_cyl[counter] + V_cyl[counter - 1]);
 
-		H_cooler[counter] = HEAT_COOLER(p_cyl[counter - 1], p_cyl[0], T_cyl[counter - 1], T_cyl[0],
-			average_Volume, V_cyl[0], delta_CAD, speed, VTDC, &H[counter], PI, Piston_D, S, DBowl,
-			VBowl, CTM, WC1A, WC1B, C2, TPIS, TCYL_HEAD, TCYL, CAD[counter], Qcylhead, Qcyl, Qpis,
-			counter);
+		H_cooler[counter] = HEAT_COOLER(p_cyl[counter - 1], p_cyl[0],
+			T_cyl[counter - 1], T_cyl[0], average_Volume, V_cyl[0], delta_CAD,
+			speed, VTDC, &H[counter], PI, Piston_D, S, DBowl, VBowl, CTM, WC1A,
+			WC1B, C2, TPIS, TCYL_HEAD, TCYL, CAD[counter], Qcylhead, Qcyl,
+			Qpis, counter);
 
 		QT = mfuel * HP;
 		QC = (HRF[counter - 1] - HRF[counter - 2]) * QT;
-		DU = -(p_cyl[counter - 1] * (V_cyl[counter] - V_cyl[counter - 1])) + QC - H_cooler[counter];
+		DU = -(p_cyl[counter - 1] * (V_cyl[counter] - V_cyl[counter - 1]))
+			+ QC - H_cooler[counter];
 
 		T_cyl[counter] = T_cyl[counter - 1] + DU / MCYL / CV[counter];
 
 		ecg = -21776.6 * Runiv / MW_fuel + Runiv / MW_fuel *
-		(-4.5826 * T_Evaporation_fuel + 0.12428 / 2. * pow(T_Evaporation_fuel,
-				2.) - 0.00007233 / 3. * pow(T_Evaporation_fuel, 3.) + 0.000000016269 / 4. * pow
-			(T_Evaporation_fuel, 4.) - 26067.28 / T_Evaporation_fuel);
+			(-4.5826 * T_Evaporation_fuel + 0.12428 / 2. * pow
+			(T_Evaporation_fuel, 2.) - 0.00007233 / 3. * pow
+			(T_Evaporation_fuel,
+				3.) + 0.000000016269 / 4. * pow(T_Evaporation_fuel,
+				4.) - 26067.28 / T_Evaporation_fuel);
 
-		ent_ref = (Runiv / MW_fuel) * ((-4.5826 * 298.) + (0.12428 / 2. * pow(298., 2.)) -
-			(0.00007233 / 3. * pow(298., 3.)) + (0.000000016269 / 4. * pow(298., 4.)) -
-			(26067.28 * pow(298., -1.)));
+		ent_ref = (Runiv / MW_fuel) *
+			((-4.5826 * 298.) + (0.12428 / 2. * pow(298., 2.)) -
+			(0.00007233 / 3. * pow(298., 3.)) + (0.000000016269 / 4. * pow
+				(298., 4.)) - (26067.28 * pow(298., -1.)));
 		ecg = ecg - ent_ref;
 
 		HFTiny = -1852564 + 2195 * (inj_fuel_temp);
@@ -986,15 +412,18 @@ inline void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *
 		do {
 
 			T_cyl[counter] = T_cyl[counter] - AERR / CV[counter] / MCYL;
-			p_cyl[counter] = MCYL * Rmixture[counter] * T_cyl[counter] / V_cyl[counter];
-			PROPERTIES(&U[counter], &CV[counter], T_cyl[counter], T_cyl[counter - 1],
-				Yair[counter], Yfuel[counter], Yburned[counter]);
+			p_cyl[counter] = MCYL * Rmixture[counter] * T_cyl[counter] / V_cyl
+				[counter];
+			PROPERTIES(&U[counter], &CV[counter], T_cyl[counter],
+				T_cyl[counter - 1], Yair[counter], Yfuel[counter],
+				Yburned[counter]);
 
 			average_Temperature = 0.5 * (T_cyl[counter] + T_cyl[counter - 1]);
 			average_Pressure = 0.5 * (p_cyl[counter] + p_cyl[counter - 1]);
-			H_cooler[counter] = HEAT_COOLER(average_Pressure, p_cyl[0], average_Temperature,
-				T_cyl[0], average_Volume, V_cyl[0], delta_CAD, speed, VTDC, &H[counter], PI,
-				Piston_D, S, DBowl, VBowl, CTM, WC1A, WC1B, C2, TPIS, TCYL_HEAD, TCYL,
+			H_cooler[counter] = HEAT_COOLER(average_Pressure, p_cyl[0],
+				average_Temperature, T_cyl[0], average_Volume, V_cyl[0],
+				delta_CAD, speed, VTDC, &H[counter], PI, Piston_D, S, DBowl,
+				VBowl, CTM, WC1A, WC1B, C2, TPIS, TCYL_HEAD, TCYL,
 				CAD[counter], Qcylhead, Qcyl, Qpis, counter);
 
 			Wi = -average_Pressure * (V_cyl[counter] - V_cyl[counter - 1]);
@@ -1002,8 +431,8 @@ inline void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *
 			PROPERTIES_FUEL(&uf, T_cyl[counter]);
 
 			AERR = (MCYL * (U[counter] - UANT)) - Wi - QC + H_cooler[counter] -
-			((HFTiny - uf) * (acu_mf[counter] - acu_mf[counter - 1])) +
-			(Rmixture[counter] * T_cyl[counter] * Mbb[counter]);
+				((HFTiny - uf) * (acu_mf[counter] - acu_mf[counter - 1])) +
+				(Rmixture[counter] * T_cyl[counter] * Mbb[counter]);
 			niter = niter + 1;
 
 			a = fabs(AERR / U[counter]);
@@ -1028,9 +457,9 @@ inline void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *
 }
 
 /** ************     CALCULUS OF MEAN VARIABLES     ************** */
-inline void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl, double *dp_da_cyl, double *CAD,
-	double *pmax, double *Tmax, double *dp_da_max, double *p_exit, double *T_exit,
-	int size) {
+void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl,
+	double *dp_da_cyl, double *CAD, double *pmax, double *Tmax,
+	double *dp_da_max, double *p_exit, double *T_exit, int size) {
 
 	int counter, iter, n;
 	double *dp_da_aux;
@@ -1048,7 +477,7 @@ inline void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl, double *dp_
 		}
 		if (counter > 0) {
 			dp_da_aux[counter] = (p_cyl[counter] - p_cyl[counter - 1]) /
-			(CAD[counter] - CAD[counter - 1]);
+				(CAD[counter] - CAD[counter - 1]);
 		}
 
 		if (counter == size - 1) {
@@ -1057,15 +486,18 @@ inline void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl, double *dp_
 		}
 
 	}
-	dp_da_cyl[0] = dp_da_aux[0];
-	dp_da_cyl[size - 1] = dp_da_aux[size - 1];
 
-	for (iter = 0; iter < n; iter++) {
-		for (counter = 1; counter < size - 1; counter++) {
-			dp_da_cyl[counter] = (dp_da_aux[counter - 1] + dp_da_aux[counter] + dp_da_aux
-				[counter + 1]) / 3;
-		}
+	for (counter = 0; counter < size; counter++)
+		dp_da_cyl[counter] = dp_da_aux[counter];
+
+	/* dp_da_cyl[0]=dp_da_aux[0];
+	dp_da_cyl[size-1]=dp_da_aux[size-1];
+
+	for(iter=0;iter<n;iter++){
+	for(counter=1;counter<size-1;counter++){
+	dp_da_cyl[counter]=(dp_da_aux[counter-1]+dp_da_aux[counter]+dp_da_aux[counter+1])/3;
 	}
+	} */  // Quito el filtrado de la función, pues ya no hace falta.
 
 	for (counter = 0; counter < size - 1; counter++) {
 		if (dp_da_cyl[counter] > *dp_da_max) {
@@ -1079,15 +511,16 @@ inline void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl, double *dp_
 
 /** ************     VOLUME CALCULUS     ************** */
 
-inline double VOLUME(double CAD, double VTDC, double PI, double Piston_D, double Crank_L,
-	double Connecting_Rod_L, double E) {
+double VOLUME(double CAD, double VTDC, double PI, double Piston_D,
+	double Crank_L, double Connecting_Rod_L, double E) {
 
 	double V_cyl, AREA, AUX, A;
 
 	A = CAD * PI / 180.;
 	AREA = PI * Piston_D * Piston_D / 4.;
-	AUX = (Crank_L * sqrt(pow(1. + 1. / (Crank_L / Connecting_Rod_L), 2) - pow(E / Crank_L, 2.))
-		- Crank_L * (cos(A) + sqrt(pow(1. / (Crank_L / Connecting_Rod_L),
+	AUX = (Crank_L * sqrt(pow(1. + 1. / (Crank_L / Connecting_Rod_L),
+				2) - pow(E / Crank_L, 2.)) - Crank_L *
+		(cos(A) + sqrt(pow(1. / (Crank_L / Connecting_Rod_L),
 					2.) - pow(sin(A) - E / Crank_L, 2.))));
 	V_cyl = (VTDC + AREA * AUX);
 
@@ -1096,44 +529,52 @@ inline double VOLUME(double CAD, double VTDC, double PI, double Piston_D, double
 
 /** ************     VOLUME INCREMENTS DUE TO THE PRESURE IN THE CYLINDER AND THE INERTIA OF IT     ************** */
 
-inline void DEFORMATIONS(double *V_cyl, double *DEFOR, double p_cyl, double CAD, double delta_CAD,
-	double speed, double PI, double Piston_D, double S, double Connecting_Rod_L, double E,
-	double Piston_Axis_D, double Piston_Crown_H, double M_Connecting_Rod, double M_P_R_PA,
+void DEFORMATIONS(double *V_cyl, double *DEFOR, double p_cyl, double CAD,
+	double delta_CAD, double speed, double PI, double Piston_D, double S,
+	double Connecting_Rod_L, double E, double Piston_Axis_D,
+	double Piston_Crown_H, double M_Connecting_Rod, double M_P_R_PA,
 	double C_ESteel, double C_Mech_Defor) {
 
 	double AVp; /* Increseament of volume due to the pressure */
-	double AVi; /* Increasemneto of volume due to the inertia */
+	double AVi; /* Increasement of volume due to the inertia */
 	double Acel; /* Linear acceleration of the piston */
-	double Lactual; /* Distance between the piston and the piston head at actual step */
-	double Lanterior; /* Distance between the piston and the piston head at previous step */
-	double Lposterior; /* Distance between the piston and the piston head at following step */
+	double Lactual;
+	/* Distance between the piston and the piston head at actual step */
+	double Lanterior;
+	/* Distance between the piston and the piston head at previous step */
+	double Lposterior;
+	/* Distance between the piston and the piston head at following step */
 	double auxalfa; /* Auxiliar variable */
-	double Msist; /* Msist is the mass of the piston+piston axis+rings+ 0.33*connecting rod */
+	double Msist;
+	/* Msist is the mass of the piston+piston axis+rings+ 0.33*connecting rod */
 
-	AVp = (PI * pow(Piston_D, 2.) / 4.) * C_Mech_Defor * (p_cyl / C_ESteel) * pow
-	(Piston_D / Piston_Axis_D, 2.) * (Piston_Crown_H + Connecting_Rod_L + S / 2.);
+	AVp = (PI * pow(Piston_D, 2.) / 4.) * C_Mech_Defor * (p_cyl / C_ESteel)
+		* pow(Piston_D / Piston_Axis_D, 2.) *
+		(Piston_Crown_H + Connecting_Rod_L + S / 2.);
 
 	auxalfa = (CAD - delta_CAD) * PI / 180.;
 	Lanterior = (sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.))) -
-	((S / 2.) * cos(auxalfa) + sqrt(pow(Connecting_Rod_L, 2.) - pow((S / 2.) * sin(auxalfa) - E,
-				2.)));
+		((S / 2.) * cos(auxalfa) + sqrt(pow(Connecting_Rod_L,
+				2.) - pow((S / 2.) * sin(auxalfa) - E, 2.)));
 
 	auxalfa = (CAD + delta_CAD) * PI / 180.;
 	Lposterior = (sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.))) -
-	((S / 2.) * cos(auxalfa) + sqrt(pow(Connecting_Rod_L,
+		((S / 2.) * cos(auxalfa) + sqrt(pow(Connecting_Rod_L,
 				2.) - pow((S / 2.) * sin(auxalfa) - E, 2.)));
 
 	auxalfa = (CAD) * PI / 180.;
 	Lactual = (sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.))) -
-	((S / 2.) * cos(auxalfa) + sqrt(pow(Connecting_Rod_L, 2.) - pow((S / 2.) * sin(auxalfa) - E,
-				2.)));
+		((S / 2.) * cos(auxalfa) + sqrt(pow(Connecting_Rod_L,
+				2.) - pow((S / 2.) * sin(auxalfa) - E, 2.)));
 
-	Acel = (Lanterior + Lposterior - Lactual * 2.) / pow((delta_CAD / (6. * speed)), 2.);
+	Acel = (Lanterior + Lposterior - Lactual * 2.) / pow
+		((delta_CAD / (6. * speed)), 2.);
 
 	Msist = 0.33 * M_Connecting_Rod + M_P_R_PA;
 
-	AVi = Msist * Acel * C_Mech_Defor * 1. / C_ESteel * pow(Piston_D / Piston_Axis_D, 2.) *
-	(Piston_Crown_H + Connecting_Rod_L + S / 2.);
+	AVi = Msist * Acel * C_Mech_Defor * 1. / C_ESteel * pow
+		(Piston_D / Piston_Axis_D, 2.) *
+		(Piston_Crown_H + Connecting_Rod_L + S / 2.);
 
 	*DEFOR = (AVp - AVi) * 1000000;
 	*V_cyl = *V_cyl + (AVp - AVi);
@@ -1142,17 +583,19 @@ inline void DEFORMATIONS(double *V_cyl, double *DEFOR, double p_cyl, double CAD,
 
 /** ************     FUNCTION FOR THE CALCULUS OF MASIC RATIOS     ************** */
 
-inline void MASIC_RATIO(double *Yair, double *Yfuel, double *Yburned, double *Rmixture, double HRF,
-	double acu_mf, double acu_Mbb, double AFe, double f, double mfuel, double mEGR,
-	double mairIVC, double Runiv, double MW_air, double MW_fuel, double MW_burned) {
+void MASIC_RATIO(double *Yair, double *Yfuel, double *Yburned,
+	double *Rmixture, double HRF, double acu_mf, double acu_Mbb, double AFe,
+	double f, double mfuel, double mEGR, double mairIVC, double Runiv,
+	double MW_air, double MW_fuel, double MW_burned) {
 
 	double Yq2, Yq0;
 
-	Yq2 = (1. + (AFe)) / (1. + (f) - ((acu_Mbb / 2.) / mfuel) * (1. / (1. + (mEGR) / (mairIVC))));
+	Yq2 = (1. + (AFe)) / (1. + (f) - ((acu_Mbb / 2.) / mfuel) *
+		(1. / (1. + (mEGR) / (mairIVC))));
 	Yq0 = Yq2 * (mEGR) / (mairIVC);
 
-	*Yburned = (((mfuel + mfuel * AFe) * HRF) + ((mEGR) * Yq2) - ((acu_Mbb / 2.) * Yq0)) /
-	(acu_mf + mairIVC - acu_Mbb / 2.);
+	*Yburned = (((mfuel + mfuel * AFe) * HRF) + ((mEGR) * Yq2) -
+		((acu_Mbb / 2.) * Yq0)) / (acu_mf + mairIVC - acu_Mbb / 2.);
 
 	if (acu_mf >= mfuel * HRF) {
 		*Yfuel = (acu_mf - mfuel * HRF) / (acu_mf + mairIVC - acu_Mbb);
@@ -1162,54 +605,64 @@ inline void MASIC_RATIO(double *Yair, double *Yfuel, double *Yburned, double *Rm
 	}
 
 	*Yair = 1. - *Yfuel - *Yburned;
-	*Rmixture = *Yair * Runiv / MW_air + *Yfuel * Runiv / MW_fuel + *Yburned * Runiv / MW_burned;
+	*Rmixture = *Yair * Runiv / MW_air + *Yfuel * Runiv / MW_fuel + *Yburned *
+		Runiv / MW_burned;
 
 }
 
 /** ************     FUNCTION FOR THE CALCULUS OF CV AND INTERNAL ENERGY     ************** */
 
-inline void PROPERTIES(double *u, double *CV, double T_cyl, double T_cyl_pre, double Yair, double Yfuel,
-	double Yburned) {
+void PROPERTIES(double *u, double *CV, double T_cyl, double T_cyl_pre,
+	double Yair, double Yfuel, double Yburned) {
 
 	double cva, cvf, cvq, average_Temperature, ua, uf, uq;
 
 	average_Temperature = 0.5 * (T_cyl + T_cyl_pre);
 
 	cva = (-10.4199 * pow(average_Temperature, 0.5)) + 2522.88 -
-	(67227.1 * pow(average_Temperature, -0.5)) + (917124.4 * pow(average_Temperature, -1.)) -
-	(4174853.6 * pow(average_Temperature, -1.5));
-	cvf = -256.4 + (6.95372 * average_Temperature) - (0.00404715 * pow(average_Temperature, 2.)) +
-	(0.000000910259 * pow(average_Temperature, 3.)) + (1458487. * pow(average_Temperature, -2.));
-	cvq = 641.154 + (0.43045 * average_Temperature) - (0.0001125 * pow(average_Temperature, 2.)) +
-	(0.000000008979 * pow(average_Temperature, 3.));
+		(67227.1 * pow(average_Temperature, -0.5)) +
+		(917124.4 * pow(average_Temperature, -1.)) -
+		(4174853.6 * pow(average_Temperature, -1.5));
+	cvf = -256.4 + (6.95372 * average_Temperature) -
+		(0.00404715 * pow(average_Temperature, 2.)) +
+		(0.000000910259 * pow(average_Temperature, 3.)) +
+		(1458487. * pow(average_Temperature, -2.));
+	cvq = 641.154 + (0.43045 * average_Temperature) -
+		(0.0001125 * pow(average_Temperature, 2.)) +
+		(0.000000008979 * pow(average_Temperature, 3.));
 
 	*CV = cva * Yair + cvf * Yfuel + cvq * Yburned;
 
 	ua = -4193697.9 - (6.9466 * pow(T_cyl, 1.5)) + (2522.88 * T_cyl) -
-	(134454.16 * pow(T_cyl, 0.5)) + (917124.39 * log(T_cyl)) + (8349707.14 * pow(T_cyl, -0.5));
-	uf = -1445686.1 - (256.4 * T_cyl) + (3.47686 * pow(T_cyl, 2.)) - (0.00134905 * pow(T_cyl, 3.))
-	+ (0.000000227565 * pow(T_cyl, 4.)) - (1458487. * pow(T_cyl, -1.));
+		(134454.16 * pow(T_cyl, 0.5)) + (917124.39 * log(T_cyl)) +
+		(8349707.14 * pow(T_cyl, -0.5));
+	uf = -1445686.1 - (256.4 * T_cyl) + (3.47686 * pow(T_cyl, 2.)) -
+		(0.00134905 * pow(T_cyl, 3.)) + (0.000000227565 * pow(T_cyl,
+			4.)) - (1458487. * pow(T_cyl, -1.));
 	uq = -3251495. + (1028.75 * T_cyl) - (0.15377 * pow(T_cyl, 2.)) +
-	(0.000067895 * pow(T_cyl, 3.));
+		(0.000067895 * pow(T_cyl, 3.));
 
 	*u = ua * Yair + uf * Yfuel + uq * Yburned;
 }
 
 /** ************     FUNCTION FOR THE CALCULUS OF INTERNAL ENRGY OF FUEL     ************** */
 
-inline void PROPERTIES_FUEL(double *uf, double T_cyl) {
+void PROPERTIES_FUEL(double *uf, double T_cyl) {
 
-	*uf = -1445686.1 - (256.4 * T_cyl) + (3.47686 * pow(T_cyl, 2.)) - (0.00134905 * pow(T_cyl, 3.))
-	+ (0.000000227565 * pow(T_cyl, 4.)) - (1458487. * pow(T_cyl, -1.));
+	*uf = -1445686.1 - (256.4 * T_cyl) + (3.47686 * pow(T_cyl, 2.)) -
+		(0.00134905 * pow(T_cyl, 3.)) + (0.000000227565 * pow(T_cyl, 4.)) -
+		(1458487. * pow(T_cyl, -1.));
 }
 
 /** ************     FUNCTION FOR THE CALCULUS OF HEAT HUNG OVER TO THE COOLER AND H     ************** */
 
-inline double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl, double temperatureIVC,
-	double average_Volume, double volumeIVC, double delta_CAD, double speed, double VTDC,
-	double *H, double PI, double Piston_D, double S, double DBowl, double VBowl, double CTM,
-	double WC1A, double WC1B, double C2, double TPIS, double TCYL_HEAD, double TCYL,
-	double CAD, double *Qcylhead, double *Qcyl, double *Qpis, int counter)
+double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl,
+	double temperatureIVC, double average_Volume, double volumeIVC,
+	double delta_CAD, double speed, double VTDC, double *H, double PI,
+	double Piston_D, double S, double DBowl, double VBowl, double CTM,
+	double WC1A, double WC1B, double C2, double TPIS, double TCYL_HEAD,
+	double TCYL, double CAD, double *Qcylhead, double *Qcyl, double *Qpis,
+	int counter)
 
 {
 
@@ -1229,28 +682,33 @@ inline double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl, double
 
 	Cylinder_capacity = PI * Piston_D * Piston_D * S / 4.;
 
-	comb = ((Cylinder_capacity * temperatureIVC) / (pressureIVC * volumeIVC)) * (p_cyl - PA);
+	comb = ((Cylinder_capacity * temperatureIVC) / (pressureIVC * volumeIVC)) *
+		(p_cyl - PA);
 
-	*H = 0.012 * pow(Piston_D, -0.2) * pow(T_cyl, -0.53) * pow(p_cyl, 0.8) * pow((C1 + C2 * comb),
-		0.8);
+	*H = 0.012 * pow(Piston_D, -0.2) * pow(T_cyl, -0.53) * pow(p_cyl, 0.8) * pow
+		((C1 + C2 * comb), 0.8);
 
-	CALCULATE_AREAS(&Piston_area, &Cylinder_head_area, PI, Piston_D, DBowl, VBowl);
+	CALCULATE_AREAS(&Piston_area, &Cylinder_head_area, PI, Piston_D, DBowl,
+		VBowl);
 
-	H_cooler = *H * (Piston_area * (T_cyl - TPIS) + Cylinder_head_area * (T_cyl - TCYL_HEAD) + 4. *
-		((average_Volume - VTDC) / Piston_D * (T_cyl - TCYL))) * (delta_CAD) / 6. / speed;
+	H_cooler = *H * (Piston_area * (T_cyl - TPIS) + Cylinder_head_area *
+		(T_cyl - TCYL_HEAD) + 4. * ((average_Volume - VTDC) / Piston_D *
+			(T_cyl - TCYL))) * (delta_CAD) / 6. / speed;
 
-	Qcylhead[counter] = *H * Cylinder_head_area * (T_cyl - TCYL_HEAD) * (delta_CAD) / 6. / speed;
-	Qcyl[counter] = *H * 4. * ((average_Volume - VTDC) / Piston_D * (T_cyl - TCYL)) * (delta_CAD)
-	/ 6. / speed;
-	Qpis[counter] = *H * Piston_area * (T_cyl - TPIS) * (delta_CAD) / 6. / speed;
+	Qcylhead[counter] = *H * Cylinder_head_area * (T_cyl - TCYL_HEAD) *
+		(delta_CAD) / 6. / speed;
+	Qcyl[counter] = *H * 4. * ((average_Volume - VTDC) / Piston_D *
+		(T_cyl - TCYL)) * (delta_CAD) / 6. / speed;
+	Qpis[counter] = *H * Piston_area * (T_cyl - TPIS) * (delta_CAD)
+		/ 6. / speed;
 
 	return H_cooler;
 }
 
 /** ************     FUNCTION FOR THE CALCULUS OF C1     ************** */
 
-inline double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B, double Piston_D, double DBowl,
-	double speed, double CAD, double PI) {
+double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B,
+	double Piston_D, double DBowl, double speed, double CAD, double PI) {
 
 	double C1;
 	double cu;
@@ -1258,12 +716,14 @@ inline double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B, doub
 	double ratio_CTM;
 	double x_alfa;
 
-	KCTM = exp(-0.200679 * pow(CTM, 0.431202));
+	KCTM = exp(-0.200679 * pow(CTM, 0.431262));
 
 	ratio_CTM = pow(DBowl / Piston_D, 2) * (1 / KCTM);
-	x_alfa = ratio_CTM + 1 / (pow(cosh(CAD / 100), 40) + ratio_CTM / (1 - ratio_CTM));
+	x_alfa = ratio_CTM + 1 / (pow(cosh(CAD / 100), 40) + ratio_CTM /
+		(1 - ratio_CTM));
 
-	cu = x_alfa * (2 * PI * speed / 60) * CTM * pow(Piston_D / DBowl, 2) * KCTM * (DBowl / 2);
+	cu = x_alfa * (2 * PI * speed / 60) * CTM * pow(Piston_D / DBowl, 2)
+		* KCTM * (DBowl / 2);
 
 	C1 = WC1A * cm + WC1B * cu;
 
@@ -1272,8 +732,8 @@ inline double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B, doub
 
 /** ************     FUNCTION FOR THE CALCULUS OF PISTON AND PISTON HEAD AREAS     ************** */
 
-inline void CALCULATE_AREAS(double *Piston_area, double *Cylinder_head_area, double PI, double Piston_D,
-	double DBowl, double VBowl) {
+void CALCULATE_AREAS(double *Piston_area, double *Cylinder_head_area,
+	double PI, double Piston_D, double DBowl, double VBowl) {
 
 	*Piston_area = PI * pow(Piston_D, 2.) / 4. + VBowl * 4. / DBowl;
 	*Cylinder_head_area = PI * pow(Piston_D, 2.) / 4.;
@@ -1281,8 +741,9 @@ inline void CALCULATE_AREAS(double *Piston_area, double *Cylinder_head_area, dou
 
 /** ************     FUNCTION FOR THE CALCULUS OF THE MASS OF BLOW-BY     ************** */
 
-inline double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_CAD, double speed,
-	double Gamma, double Atmosphere_press, double Piston_D, double C_MBLBY, double Cbb) {
+double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_CAD,
+	double speed, double Gamma, double Atmosphere_press, double Piston_D,
+	double C_MBLBY, double Cbb) {
 
 	double C_Z;
 	double Pressure_up;
@@ -1299,15 +760,18 @@ inline double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_
 		Pressure_down = p_cyl;
 	}
 
-	Pressure_critic = Pressure_up * pow(2. / (Gamma + 1.), (Gamma / (Gamma - 1.)));
+	Pressure_critic = Pressure_up * pow(2. / (Gamma + 1.),
+		(Gamma / (Gamma - 1.)));
 
 	if (Pressure_down < Pressure_critic) {
 		Pressure_down = Pressure_critic;
 	}
 
 	C_Z = ((2. * Gamma) / (Gamma - 1.)) * (pow(Pressure_down / Pressure_up,
-			2. / Gamma) - pow(Pressure_down / Pressure_up, ((Gamma + 1.) / Gamma)));
-	BBy = Cbb * C_MBLBY * Piston_D * Pressure_up * pow(C_Z / (Rmixture * T_cyl), 0.5);
+			2. / Gamma) - pow(Pressure_down / Pressure_up,
+			((Gamma + 1.) / Gamma)));
+	BBy = Cbb * C_MBLBY * Piston_D * Pressure_up * pow
+		(C_Z / (Rmixture * T_cyl), 0.5);
 
 	if (Atmosphere_press > p_cyl) {
 		BBy = -BBy;
@@ -1320,12 +784,14 @@ inline double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_
 
 /** ************     CALCULUS OF IMP_HP     ************** */
 
-inline void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD, double *p_cyl, double *V_cyl,
-	double *complete_V_cyl, double *complete_deform, double *WI_HP, double *IMP_HP,
-	int complete_size, int complete_prev_size, double delta_t, double speed, int size,
-	double IVC, double EVO, double VTDC, double Cylinder_capacity, double PI, double Piston_D,
-	double S, double Crank_L, double Connecting_Rod_L, double E, double Piston_Axis_D,
-	double Piston_Crown_H, double M_Connecting_Rod, double M_P_R_PA, double C_ESteel,
+void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD,
+	double *p_cyl, double *V_cyl, double *complete_V_cyl,
+	double *complete_deform, double *WI_HP, double *IMP_HP, int complete_size,
+	int complete_prev_size, double delta_t, double speed, int size, double IVC,
+	double EVO, double VTDC, double Cylinder_capacity, double PI,
+	double Piston_D, double S, double Crank_L, double Connecting_Rod_L,
+	double E, double Piston_Axis_D, double Piston_Crown_H,
+	double M_Connecting_Rod, double M_P_R_PA, double C_ESteel,
 	double C_Mech_Defor, double inlet_pres, double exhaust_pres) {
 
 	double delta_CAD;
@@ -1337,47 +803,54 @@ inline void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD, dou
 	complete_CAD[0] = IVC - complete_prev_size * delta_t * 360. * speed / 60.;
 
 	for (counter = 1; counter < complete_size; counter++) {
-		complete_CAD[counter] = complete_CAD[counter - 1] + delta_t * 360. * speed / 60.;
+		complete_CAD[counter] = complete_CAD[counter - 1]
+			+ delta_t * 360. * speed / 60.;
 	}
 
 	for (counter = 0; counter < complete_size; counter++) {
 		if (counter < complete_prev_size) {
-			complete_p_cyl[counter] = ((inlet_pres - p_cyl[0]) / (-180 - IVC)) *
-			(complete_CAD[counter] - (-180)) + inlet_pres;
+			complete_p_cyl[counter] = ((inlet_pres - p_cyl[0]) / (-180 - IVC))
+				* (complete_CAD[counter] - (-180)) + inlet_pres;
 		}
-		if ((counter >= complete_prev_size) && (counter < complete_prev_size + size)) {
+		if ((counter >= complete_prev_size) &&
+			(counter < complete_prev_size + size)) {
 			complete_p_cyl[counter] = p_cyl[counter - complete_prev_size];
 		}
 		if (counter >= complete_prev_size + size) {
-			complete_p_cyl[counter] = ((exhaust_pres - p_cyl[size - 1]) / (180 - EVO)) *
-			(complete_CAD[counter] - (180)) + exhaust_pres;
+			complete_p_cyl[counter] = ((exhaust_pres - p_cyl[size - 1]) /
+				(180 - EVO)) * (complete_CAD[counter] - (180)) + exhaust_pres;
 		}
 	}
 
 	for (counter = 0; counter < complete_size; counter++) {
 		if (counter < complete_prev_size) {
-			complete_V_cyl[counter] = VOLUME(complete_CAD[counter], VTDC, PI, Piston_D, Crank_L,
-				Connecting_Rod_L, E);
+			complete_V_cyl[counter] = VOLUME(complete_CAD[counter], VTDC, PI,
+				Piston_D, Crank_L, Connecting_Rod_L, E);
 			DEFORMATIONS(&complete_V_cyl[counter], &complete_deform[counter],
-				complete_p_cyl[counter], complete_CAD[counter], delta_CAD, speed, PI,
-				Piston_D, S, Connecting_Rod_L, E, Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod,
-				M_P_R_PA, C_ESteel, C_Mech_Defor);
+				complete_p_cyl[counter], complete_CAD[counter], delta_CAD,
+				speed, PI, Piston_D, S, Connecting_Rod_L, E,
+				Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod, M_P_R_PA,
+				C_ESteel, C_Mech_Defor);
 		}
-		if ((counter >= complete_prev_size) && (counter < complete_prev_size + size)) {
+		if ((counter >= complete_prev_size) &&
+			(counter < complete_prev_size + size)) {
 			complete_V_cyl[counter] = V_cyl[counter - complete_prev_size];
 		}
 		if (counter >= complete_prev_size + size) {
-			complete_V_cyl[counter] = VOLUME(complete_CAD[counter], VTDC, PI, Piston_D, Crank_L,
-				Connecting_Rod_L, E);
+			complete_V_cyl[counter] = VOLUME(complete_CAD[counter], VTDC, PI,
+				Piston_D, Crank_L, Connecting_Rod_L, E);
 			DEFORMATIONS(&complete_V_cyl[counter], &complete_deform[counter],
-				complete_p_cyl[counter], complete_CAD[counter], delta_CAD, speed, PI,
-				Piston_D, S, Connecting_Rod_L, E, Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod,
-				M_P_R_PA, C_ESteel, C_Mech_Defor);
+				complete_p_cyl[counter], complete_CAD[counter], delta_CAD,
+				speed, PI, Piston_D, S, Connecting_Rod_L, E,
+				Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod, M_P_R_PA,
+				C_ESteel, C_Mech_Defor);
 		}
 
 		if (counter > 0) {
-			*WI_HP = *WI_HP + (complete_p_cyl[counter] + complete_p_cyl[counter - 1]) * 0.5 *
-			(complete_V_cyl[counter] - complete_V_cyl[counter - 1]);
+			*WI_HP = *WI_HP +
+				(complete_p_cyl[counter] + complete_p_cyl[counter - 1])
+				* 0.5 * (complete_V_cyl[counter] - complete_V_cyl[counter - 1]
+				);
 		}
 	}
 	*IMP_HP = *WI_HP / Cylinder_capacity;
@@ -1386,8 +859,8 @@ inline void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD, dou
 
 /** ************NOX equilibrium calculation*********************** */
 
-inline void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOeq, double **KdYNO,
-	double temperature, double mO2, double mtotal) {
+void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOeq,
+	double **KdYNO, double temperature, double mO2, double mtotal) {
 	int i, j;
 	double di, dj;
 
@@ -2669,7 +2142,7 @@ inline void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOe
 		di = 0.00001;
 	}
 	if (j < 0) {
-		//j = j;
+		j = j;
 		dj = 0.00001;
 	}
 
@@ -2678,17 +2151,19 @@ inline void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOe
 	if (dj == 0)
 		dj = 0.00001;
 
-	*YNOeq_value = (1 / dj * (1 / di * YNOeq[i][j] + 1 / (1 - di) * YNOeq[i + 1][j]) /
-		(1 / di + 1 / (1 - di)) + 1 / (1 - dj) * (1 / di * YNOeq[i][j + 1] + 1 / (1 - di)
-			* YNOeq[i + 1][j + 1]) / (1 / di + 1 / (1 - di))) / (1 / dj + 1 / (1 - dj));
+	*YNOeq_value = (1 / dj * (1 / di * YNOeq[i][j] + 1 / (1 - di)
+			* YNOeq[i + 1][j]) / (1 / di + 1 / (1 - di)) + 1 / (1 - dj) *
+		(1 / di * YNOeq[i][j + 1] + 1 / (1 - di) * YNOeq[i + 1][j + 1]) /
+		(1 / di + 1 / (1 - di))) / (1 / dj + 1 / (1 - dj));
 
-	*KdYNO_value = (1 / dj * (1 / di * KdYNO[i][j] + 1 / (1 - di) * KdYNO[i + 1][j]) /
-		(1 / di + 1 / (1 - di)) + 1 / (1 - dj) * (1 / di * KdYNO[i][j + 1] + 1 / (1 - di)
-			* KdYNO[i + 1][j + 1]) / (1 / di + 1 / (1 - di))) / (1 / dj + 1 / (1 - dj));
+	*KdYNO_value = (1 / dj * (1 / di * KdYNO[i][j] + 1 / (1 - di)
+			* KdYNO[i + 1][j]) / (1 / di + 1 / (1 - di)) + 1 / (1 - dj) *
+		(1 / di * KdYNO[i][j + 1] + 1 / (1 - di) * KdYNO[i + 1][j + 1]) /
+		(1 / di + 1 / (1 - di))) / (1 / dj + 1 / (1 - dj));
 
 }
 
-inline void FUNCTION_SOOT_C(double *soot_pre, double element_FI) {
+void FUNCTION_SOOT_C(double *soot_pre, double element_FI) {
 
 	int i;
 	int di, dk;
@@ -2733,8 +2208,9 @@ inline void FUNCTION_SOOT_C(double *soot_pre, double element_FI) {
 				di = i;
 			}
 		}
-		*soot_pre = (element_FI - FI_vector[di]) * (soot_pre_vector[di + 1] - soot_pre_vector[di])
-			/ (FI_vector[di + 1] - FI_vector[di]) + soot_pre_vector[di];
+		*soot_pre = (element_FI - FI_vector[di]) *
+			(soot_pre_vector[di + 1] - soot_pre_vector[di]) /
+			(FI_vector[di + 1] - FI_vector[di]) + soot_pre_vector[di];
 
 	}
 
@@ -2753,26 +2229,39 @@ ________________________________________________________________________________
 
 /** ************     ACT FUNCTION     ************** */
 
-inline void ACT(double *engine_parameters, double *engine_model_constants, double *test_variables,
-	double *injection_rate, double *CAD_injection_rate, int size_inlet_inj, int INITIAL,
-	double *SOI, double *EOI, int CAI, double *CAD_exit, double *HRF_exit,
-	double *ROHR_exit, double *p_cyl_exit, double *dp_da_cyl_exit, double *T_cyl_exit,
-	double *H_cooler_exit, double *mean_var_exit, double *heat_transfer,
-	double *injection_rate_exit, double *accum_injection_rate_exit,
-	double *species_EVO_exit) {
+void ACT(double *engine_parameters, double *engine_model_constants,
+	double *test_variables, double *injection_rate,
+	double *CAD_injection_rate, int size_inlet_inj, int NIN, double *SOI,
+	double *EOI, int CAI, double *CAD_exit, double *HRF_exit,
+	double *ROHR_exit, double *p_cyl_exit, double *dp_da_cyl_exit,
+	double *T_cyl_exit, double *H_cooler_exit, double *mean_var_exit,
+	double *heat_transfer, double *injection_rate_exit,
+	double *accum_injection_rate_exit, sINtype dataIN, sOUTtype *dataOUT) {
 
 	// element mixture and combustion state
 	enum stState {
-		stLiquid = 0, stEvaporated = 1, stOvermixed = 2, stBurned_poor_premix = 3,
-		stBurned_rich_premix = 4, stBurned_by_diffusion = 5, stBurned_by_second_diffusion = 6,
+		stLiquid = 0, stEvaporated = 1, stOvermixed = 2,
+		stBurned_poor_premix = 3, stBurned_rich_premix = 4,
+		stBurned_by_diffusion = 5, stBurned_by_second_diffusion = 6,
 		stInto_diffusion_flame = 7
 	};
+
+	double realelementmfreac; // Auxiliar variable
 
 	// General constants
 	double PI = 3.1415926;
 	double Runiv = 8314.;
-	FILE *fich;
+	FILE *fich, *foculto, *foculto2;
+	double FRLOL; // Dosado en el lift-off del instante considerado
+	double *Itot;
+	int CalcRad[8] = {
+		0, 0, 0, 0, 0, 0, 0, 0
+	}; // Variable que indica si se ha de calcular o no la radiación (al principio, NO).
+	int RadCalc; // Variable que indica el deseo del usuario de calcular o no la radiación.
+
 	double YO2aire = 0.23019;
+	double YO2i; // Concentración de O2 en el bowl en un instante
+	double Zst, Z1, Z0, TCC, TSC; // Para cálculo T (relaciones de estado)
 	double mmH2O = 18.; // Molecular weight for H2O
 	double mmCO2 = 44.; // Molecular weight for CO2
 
@@ -2782,18 +2271,24 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 	double Piston_D = engine_parameters[0]; /* Piston diamteter(m) */
 	double S = engine_parameters[1]; /* Piston stroke(m) */
-	double Crank_L = engine_parameters[2]; /* Crank length(m) */
-	double Connecting_Rod_L = engine_parameters[3]; /* Connecting rod length(m) */
+	double Crank_L = S / 2.; /* Crank length(m) */
+	double Connecting_Rod_L = engine_parameters[3];
+	/* Connecting rod length(m) */
 	double E = engine_parameters[4]; /* Piston eccentricity(mm) */
 	double Piston_Axis_D = engine_parameters[5]; /* Piston axis diameter(m) */
 	double Piston_Crown_H = engine_parameters[6]; /* Piston crown height(m) */
 	double DBowl = engine_parameters[7]; /* Maximum diameter of bowl(m) */
 	double VBowl = engine_parameters[8]; /* Volume of Bowl(m3) */
-	double M_Connecting_Rod = engine_parameters[9]; /* Mass Connecting rod(Kg) */
-	double M_P_R_PA = engine_parameters[10]; /* Mass of piston+rings+piston axis(Kg) */
-	double C_ESteel = engine_parameters[11]; /* Elasticity module of the steel(N/m2) */
-	double C_Mech_Defor = engine_parameters[12]; /* Mechanical deformations coefficient */
-	double C_MBLBY = engine_parameters[13]; /* Coefficient of leak's section of Blow-by */
+	double M_Connecting_Rod = engine_parameters[9];
+	/* Mass Connecting rod(Kg) */
+	double M_P_R_PA = engine_parameters[10];
+	/* Mass of piston+rings+piston axis(Kg) */
+	double C_ESteel = engine_parameters[11];
+	/* Elasticity module of the steel(N/m2) */
+	double C_Mech_Defor = engine_parameters[12];
+	/* Mechanical deformations coefficient */
+	double C_MBLBY = engine_parameters[13];
+	/* Coefficient of leak's section of Blow-by */
 	double GCRatio = engine_parameters[14]; /* Geometric compresion ratio */
 	double n_holes = engine_parameters[15]; /* Number of holes of the nozzle */
 	double nozzle_d = engine_parameters[16]; /* nozzle diameter (m) */
@@ -2801,34 +2296,48 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double CTM = engine_parameters[18]; /* parameter to calculate C1 */
 	double WC1A = engine_parameters[19]; /* Constant A to calculate C1 */
 	double WC1B = engine_parameters[20]; /* Constant B to calculate C1 */
-	double C2 = engine_parameters[21]; /* Coefficient to the Woschin's calculus */
-	double IVC = engine_parameters[22]; /* Inlet valve closing (ï¿½) */
-	double EVO = engine_parameters[23]; /* Exhaust valve opening (ï¿½) */
+	double C2 = engine_parameters[21];
+	/* Coefficient to the Woschin's calculus */
+	double IVC = engine_parameters[22]; /* Inlet valve closing (º) */
+	double EVO = engine_parameters[23]; /* Exhaust valve opening (º) */
 
-	double Kmixture1 = engine_parameters[24]; /* mixture combustion model constants */
+	double Kmixture1 = engine_parameters[24];
+	/* mixture combustion model constants */
+
+	// We check if the user wants to calculate Radiation
+	if (Kmixture1 < 0.) {
+		RadCalc = 1;
+		Kmixture1 = -Kmixture1;
+	}
+	else
+		RadCalc = 0;
 
 	// combustion model constant assignation
 
 	double Kmixture2 = engine_model_constants[0];
 
-	double Kpmx1 = engine_model_constants[1]; /* premix combustion model constants */
+	double Kpmx1 = engine_model_constants[1];
+	/* premix combustion model constants */
 	double Kpmx2 = engine_model_constants[2];
 	double Kpmx3 = engine_model_constants[3];
 	double Kpmx4 = engine_model_constants[4];
 	double Kpmx5 = engine_model_constants[5];
 
-	double KID1 = engine_model_constants[6]; /* Ignition delay time model constants */
+	double KID1 = engine_model_constants[6];
+	/* Ignition delay time model constants */
 	double KID2 = engine_model_constants[7];
 	double KID3 = engine_model_constants[8];
 	double KID4 = engine_model_constants[9];
 	double KID5 = engine_model_constants[10];
 
-	double KNOx1 = engine_model_constants[11]; /* Nox emission prediction model constants */
+	double KNOx1 = engine_model_constants[11];
+	/* Nox emission prediction model constants */
 	double KNOx2 = engine_model_constants[12];
 
 	double EC = engine_model_constants[13];
 
-	double KSOOTA1 = engine_model_constants[14]; /* SOOT emission prediction model constants */
+	double KSOOTA1 = engine_model_constants[14];
+	/* SOOT emission prediction model constants */
 	double KSOOTA2 = engine_model_constants[15];
 	double KSOOTA3 = engine_model_constants[16];
 
@@ -2837,15 +2346,12 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double KSOOTA6 = engine_model_constants[19];
 	double KSOOTA7 = engine_model_constants[20];
 
-	double KSOOTC1 = 0.06861198; /* SOOT emission prediction model constants */
-	double KSOOTC2 = 0.5;
-	double KSOOTC3 = 6296;
-	double KSOOTC4 = 856.64;
-	double KSOOTC5 = 1;
-	double KSOOTC6 = 1.8;
-	double KSOOTC7 = 7050;
+	double KSOOTC1 = dataIN.KSOOTC1;
+	/* SOOT emission prediction model constants */
+	// KSOOTC1=1.2771738e-3; // Imponemos este valor, para que todo cuadre...
+	KSOOTC1 = 0.9e-3; // Imponemos este valor, para calar el soot...
 
-	double KLO = 1;
+	double mf_old; // Para poder calcular el dmf_reac de realelement.
 
 	double SOOT_EVO_A;
 	double SOOT_EVO_C;
@@ -2855,8 +2361,10 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	// test variables assignement
 
 	double speed = test_variables[0]; /* Engine speed (rpm) */
-	double mairadm = test_variables[1]; /* In-cylinder air mass at inlet valve closing (g) */
-	double mairIVC = test_variables[2]; /* In-cylinder air mass at inlet valve closing (g) */
+	double mairadm = test_variables[1];
+	/* In-cylinder air mass at inlet valve closing (g) */
+	double mairIVC = test_variables[2];
+	/* In-cylinder air mass at inlet valve closing (g) */
 	double temperatureIVC = test_variables[3];
 	/* In_cylinder temperature at inlet valve closing(K) */
 	double mfuel = test_variables[4]; /* Total injected fuel mass (mg) */
@@ -2865,7 +2373,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double exhaust_pres = test_variables[7]; /* Exhaust pressure (Pa) */
 	double Cbb = test_variables[8]; /* Adjustment coefficient of Blow-by */
 	double Atmosphere_press = test_variables[9]; /* Atmosphere pressure (Pa) */
-	double inj_fuel_temp = test_variables[10]; /* Injection fuel temperature (K) */
+	double inj_fuel_temp = test_variables[10];
+	/* Injection fuel temperature (K) */
 	double TCYL_HEAD = test_variables[11]; /* Piston head temperature(K) */
 	double TCYL = test_variables[12]; /* Cylinder temperature(K) */
 	double TPIS = test_variables[13]; /* Piston temperature(K) */
@@ -2878,14 +2387,18 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double HC = 1.7843; /* Fuel H/C ratio */
 	double AFe = 14.5; /* Stoichiometric air / fuel ratio */
 	double mmfuel = 12. + HC; // Molecular weight of the fuel (for just 1 C atome)
-	double Vc_factor = 0.8; /* Engine K factor */
+	double Vc_factor = 0.99; /* Engine K factor */
 	double D = 0.0018; /* Dissipation constant */
 	double MW_air = 28.97; /* Molecular weight of air(g/mol) */
 	double MW_fuel = 152.2; /* Molecular weight of fuel(g/mol) */
 	double MW_burned = 29.13; /* Molecular weight of burned products(g/mol) */
 	double HP = 42920000.; /* Net heat of combustion(J/Kg) */
-	double T_Evaporation_fuel = 489.35; /* Temperature of evaporation of fuel(K) */
+	double T_Evaporation_fuel = 489.35;
+	/* Temperature of evaporation of fuel(K) */
 
+	// Dissipation constant is adapted depending on the engine speed
+	if (speed > 2000.)
+		D = D * speed / 2000.;
 	// D=0.0018*2.5*speed/2000.;                                      /* Dissipation constant */
 
 	// individual variables declaration
@@ -2894,6 +2407,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double delta_t; /* Calculus interval time (s) */
 	int size; /* Size of the temporal vector */
 	double mf_burned; /* Fuel mass burned (-) */
+	double mf_burned_pmx; // Fuel mass burned in premixed combustion.
 	double Cylinder_capacity; /* Cylinder capacity(m3) */
 	double VTDC; /* Volume at top dead center(m3) */
 	double Gamma; /* Politropic exponent */
@@ -2905,15 +2419,17 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double IMP_HP = 0; /* Indicated Mean Pressure of pressure high cicle(bar) */
 	double pmax = 0; /* In-cylinder Maximum pressure(bar) */
 	double Tmax = 0; /* In cylinder Maximum temperature(K) */
-	double dp_da_max = 0; /* Maximum dp/d(alfa) (bar/ï¿½) */
+	double dp_da_max = 0; /* Maximum dp/d(alfa) (bar/º) */
+	double Uo_i; // Virtual velocity at instant i
+	double YO2_bowl_i; // O2 mass fraction in the bowl at instant i
 
 	// TEMPORAL VARIABLES DECLARATION
 
 	double *acu_dmf; /* Accumulated injection rate (-) */
 	double *time_vector; /* Time (s) [IVC - EVO] */
 	double *time_vector_exit; /* Time (s) [-180 - +180] */
-	double *CAD; /* Crank angle degrees (ï¿½) [IVC - EVO] */
-	double *complete_CAD; /* Crank angle degrees (ï¿½) [-180 - +180] used to calculate
+	double *CAD; /* Crank angle degrees (º) [IVC - EVO] */
+	double *complete_CAD; /* Crank angle degrees (º) [-180 - +180] used to calculate
 	the IMP_HP */
 	double *roair; /* In-cylinder air density (kg/m3) */
 	double *virtual_velocity; /* Virtual velocity (m/s) */
@@ -2923,6 +2439,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double *complete_p_cyl; /* In-cylinder pressure (bar) [-180 - +180] */
 	double *T_cyl; /* Averaged in-cylinder temperature (K) */
 	double *HRF; /* Heat release fraction (-) (FQL) */
+	double *HRF_PMX; /* Heat release fraction for premixed combustion (-) */
 	double *ROHR;
 	double *Yair; /* Air fraction */
 	double *Yfuel; /* Fuel fraction */
@@ -2931,7 +2448,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double *acu_Mbb; /* Accumulated blow-by mass (Kg) */
 	double *U; /* Internal energy (J) */
 	double *CV; /* At constant volume heat (J/Kg) */
-	double *H_cooler; /* Heat hung over to the cooler (J/ï¿½) */
+	double *H_cooler; /* Heat hung over to the cooler (J/º) */
 	double *Qcylhead;
 	double *Qcyl;
 	double *Qpis;
@@ -2948,6 +2465,9 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double *SOI_IM; /* start of injections of multiple pulse */
 	double *EOI_IM; /* end of injections of multiple pulse */
 	double *aux_vector;
+	double *evol_mSoot; // Evolución de la masa de soot en el chorro.
+	double *mSootCil; // Evolución de la masa de soot remanente en cilindro (viene del EGR).
+	double *evol_Radiacion; // Evolución del parámetro de radiación (m_soot*T^4)
 
 	// ELEMENT AND SUB-ELEMENT VARIABLES DECLARATION
 
@@ -2991,9 +2511,11 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		double mN2; /* element N2 mass */
 		double mCO2; /* element CO2 mass */
 		double mH2O; /* element H2O mass */
-		double mf_jet; /* element fuel mass injected according to injection rate law */
+		double mf_jet;
+		/* element fuel mass injected according to injection rate law */
 		double mf_reac; /* element fuel mass updated with mixture */
-		double mf_evap; /* element fuel mass updated with mixture and combustion process */
+		double mf_evap;
+		/* element fuel mass updated with mixture and combustion process */
 		double C; /* element fuel concentration */
 		double FI; /* element air-fuel ratio */
 		double RID; /* element ignition delay time intensity */
@@ -3015,10 +2537,14 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		double TNOx;
 		double X;
 		double soot_precursor;
+		double tLOL; /* Time when the LOL is reached. */
+		double FRLOL; /* Relative equiv. ratio at LOL. */
 
 	}**element;
 
-	double *XLO;
+	double *XLO; // Longitud de lift-off
+	double *PEN_min; // Punto más retrasado del chorro
+	double *PEN_max; // Punto más adelantado del chorro
 
 	struct stRealElementComposition {
 		double mtotal; /* element total mass */
@@ -3028,7 +2554,10 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		double mN2; /* element N2 mass */
 		double mCO2; /* element CO2 mass */
 		double mH2O; /* element H2O mass */
-		double mf_reac; /* element fuel mass updated with mixture and combustion process */
+		double mf_reac;
+		/* element fuel mass updated with mixture and combustion process */
+		double dmf_reac; /* change in element fuel mass at the time step */
+		double mf_reac_pmx; /* element fuel mass for premixed combustion */
 		double C; /* element fuel concentration */
 		double FI; /* element air-fuel ratio */
 	}**realelement;
@@ -3038,10 +2567,14 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	// inlet valve closing composition variables declaration
 
 	double mtotal_IVC; /* Total mass at inlet valve closing */
-	double mO2_IVC; /* O2 mass at inlet valve closing coming from air fresh mass */
-	double mN2_IVC; /* N2 mass at inlet valve closing coming from air fresh mass */
-	double mCO2_IVC; /* CO2 mass at inlet valve closing coming from exhaust gasses recirculated */
-	double mH2O_IVC; /* H2O mass at inlet valve closing coming from exhaust gasses recirculated */
+	double mO2_IVC;
+	/* O2 mass at inlet valve closing coming from air fresh mass */
+	double mN2_IVC;
+	/* N2 mass at inlet valve closing coming from air fresh mass */
+	double mCO2_IVC;
+	/* CO2 mass at inlet valve closing coming from exhaust gasses recirculated */
+	double mH2O_IVC;
+	/* H2O mass at inlet valve closing coming from exhaust gasses recirculated */
 	double NOx_IVC;
 	/* NOx mass at inlet valve closing coming from exhaust gasses recirculated emissions */
 	double mSOOT_IVC_B;
@@ -3088,7 +2621,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	double *mSOOT_Vc_B;
 	double *mSOOT_Vc_C;
 	double *mHC_Vc;
-	double *dmtotal_Gfactor; /* increment mass exchange between bowl and dead volume */
+	double *dmtotal_Gfactor;
+	/* increment mass exchange between bowl and dead volume */
 
 	// stoichometric constant link with HC fuel ratio
 	double Kst1;
@@ -3100,9 +2634,12 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 	/** *******AUXILIAR VARIABLES DECLARATION********* */
 
-	int complete_size; /* vector size from -180 to +180 with a  delta_CAD increment */
-	int complete_prev_size; /* vector size from -180 to IVC with a  delta_CAD increment */
-	int complete_post_size; /* vector size from EVO to +180 with a  delta_CAD increment */
+	int complete_size;
+	/* vector size from -180 to +180 with a  delta_CAD increment */
+	int complete_prev_size;
+	/* vector size from -180 to IVC with a  delta_CAD increment */
+	int complete_post_size;
+	/* vector size from EVO to +180 with a  delta_CAD increment */
 	double auxiliar;
 	double *vector_to_interpolate;
 
@@ -3114,16 +2651,38 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 	double maximum;
 	double minimum;
-	double aux_mfuel;
+	double aux_mfuel, Tot;
 
 	int element_value;
 
-	if (mfuel == 0) {
-		mfuel = 1e-6;
+	aux_mfuel = mfuel;
+
+	if (mfuel == 0.) {
+		mfuel = 1.e-6;
+		aux_mfuel = 0.;
 	}
 
 	// crank angle degree and time vector creation: time vector is created with a constant increment 20 microseconds
 	// vector size calculation with the name 'size'. this will be the dimension of all the instantaneous cylinder vectors
+
+	/** ******************************************************************************
+	Abir el fichero oculto
+	 ******************************************************************************* */
+
+	double Ang_Grab;
+	Ang_Grab = -180.0; // Ángulo en el que se grabarán los datos
+
+	if (RadCalc == 1 && Ang_Grab > -179.) {
+		foculto = fopen("elementos.csv", "w");
+		if (foculto == NULL)
+			exit(-1);
+
+		foculto2 = fopen("data_eje.csv", "w");
+		if (foculto2 == NULL)
+			exit(-1);
+	}
+
+	/** **************************************************************************** */
 
 	delta_t = 2. * 1e-5;
 	size = 0;
@@ -3187,6 +2746,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	virtual_velocity = (double*)malloc(size*sizeof(double));
 
 	HRF = (double*)malloc(size*sizeof(double));
+	HRF_PMX = (double*)malloc(size*sizeof(double));
 	ROHR = (double*)malloc(size*sizeof(double));
 	T_cyl = (double*)malloc(size*sizeof(double));
 	acu_Mbb = (double*)malloc(size*sizeof(double));
@@ -3208,24 +2768,29 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	p_cyl = (double*)malloc(size*sizeof(double));
 	dp_da_cyl = (double*)malloc(size*sizeof(double));
 	XLO = (double*)malloc(size*sizeof(double));
+	PEN_min = (double*)malloc(size*sizeof(double));
+	PEN_max = (double*)malloc(size*sizeof(double));
+	evol_mSoot = (double*)malloc(size*sizeof(double));
+	mSootCil = (double*)malloc(size*sizeof(double));
+	evol_Radiacion = (double*)malloc(size*sizeof(double));
 
 	aux_vector = (double*)malloc(CAI*sizeof(double));
 
-	// equilibrium NOx emession behaviour map
+	// equilibrium NOx emission behaviour map
 
-	YNOeq = (double * *)malloc(52 * sizeof(double));
+	YNOeq = (double**)malloc(52 * sizeof(double*));
 	for (counter = 0; counter < 52; counter++) {
 		YNOeq[counter] = (double*)malloc(12 * sizeof(double));
 	}
 
-	KdYNO = (double * *)malloc(52 * sizeof(double));
+	KdYNO = (double**)malloc(52 * sizeof(double*));
 	for (counter = 0; counter < 52; counter++) {
 		KdYNO[counter] = (double*)malloc(12 * sizeof(double));
 	}
 
 	// INJECTION RATE CONSTRUCTION
 
-	for (counter = 0; counter < INITIAL; counter++) {
+	for (counter = 0; counter < NIN; counter++) {
 		SOI_IM[counter] = SOI[counter];
 		EOI_IM[counter] = EOI[counter];
 		SOC_IM[counter] = EVO;
@@ -3235,20 +2800,21 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		vector_to_interpolate[counter] = injection_rate[counter];
 	}
 
-	FUNCTION_FOR_INTERPOLATION(dmf, time_vector, CAD_injection_rate, vector_to_interpolate, size,
-		size_inlet_inj, speed);
+	FUNCTION_FOR_INTERPOLATION(dmf, time_vector, CAD_injection_rate,
+		vector_to_interpolate, size, size_inlet_inj, speed);
 	free(vector_to_interpolate);
 
 	for (counter = 0; counter < size; counter++) {
 		if (time_vector[counter] <= SOI_IM[0] * 60. / (360. * speed)) {
 			dmf[counter] = 0.;
 		}
-		if (time_vector[counter] >= EOI_IM[INITIAL - 1] * 60. / (360. * speed)) {
+		if (time_vector[counter] >= EOI_IM[NIN - 1] * 60. / (360. * speed)) {
 			dmf[counter] = 0.;
 		}
-		for (inj_counter = 1; inj_counter < INITIAL; inj_counter++) {
-			if ((time_vector[counter] >= EOI_IM[inj_counter - 1] * 60. / (360. * speed)) &&
-				(time_vector[counter] <= SOI_IM[inj_counter] * 60. / (360. * speed))) {
+		for (inj_counter = 1; inj_counter < NIN; inj_counter++) {
+			if ((time_vector[counter] >= EOI_IM[inj_counter - 1] * 60. /
+					(360. * speed)) && (time_vector[counter] <= SOI_IM
+					[inj_counter] * 60. / (360. * speed))) {
 				dmf[counter] = 0.;
 			}
 		}
@@ -3264,10 +2830,11 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 	rate_area = 0;
 	for (counter = 0; counter < size - 1; counter++) {
-		rate_area = rate_area + (time_vector[counter + 1] - time_vector[counter]) * min
-			(dmf[counter], dmf[counter + 1]) + \
-(time_vector[counter + 1] - time_vector[counter]) * pow(pow((dmf[counter + 1] - dmf[counter]) / 2,
-				2), 0.5);
+		rate_area = rate_area +
+			(time_vector[counter + 1] - time_vector[counter]) * min
+			(dmf[counter], dmf[counter + 1]) +
+			(time_vector[counter + 1] - time_vector[counter]) * pow
+			(pow((dmf[counter + 1] - dmf[counter]) / 2, 2), 0.5);
 	}
 
 	if (rate_area > 0) {
@@ -3276,7 +2843,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		}
 	}
 
-	inj_num = INITIAL;
+	inj_num = NIN;
 
 	/** *******ADIMENSIONAL ACCUMULATED INJECTION RATE********* */
 
@@ -3284,9 +2851,9 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 	/** *******INJECTION VELOCITY AND VIRTUAL VELOCITY********* */
 
-	CALCULUS_OF_VIRTUAL_VELOCITY(inj_velocity, virtual_velocity, dmf, time_vector, rofuel, dc,
-		n_holes, nozzle_d, D, size, PI, speed, EOI_IM, inj_num, SOI_IM, Piston_D, DBowl, CTM, CAD,
-		Kswirl);
+	CALCULUS_OF_VIRTUAL_VELOCITY(inj_velocity, virtual_velocity, dmf,
+		time_vector, rofuel, dc, n_holes, nozzle_d, D, size, PI, speed, EOI_IM,
+		inj_num, SOI_IM, Piston_D, DBowl, CTM, CAD, Kswirl);
 
 	/** ******* STOICHIOMETRY CONSTANTS********* */
 
@@ -3299,30 +2866,31 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	num_i = 0; /* Initialization of number of elements to 0 */
 	num_j = 5; /* Number of sub-elements fixed to 5 */
 
-	CALCULUS_OF_NUMBER_ELEMENTS(num_i_IM, time_vector, size, speed, SOI_IM, EOI_IM, inj_num);
+	CALCULUS_OF_NUMBER_ELEMENTS(num_i_IM, time_vector, size, speed, SOI_IM,
+		EOI_IM, inj_num);
 
 	/** *******POI OF EACH i AND FUEL MASS OF EACH ELEMENT i AND SUB-ELEMENT j********* */
 	num_i = num_i_IM[0];
 
-	POI_IM = (double * *)malloc(inj_num*sizeof(double));
+	POI_IM = (double**)malloc(inj_num*sizeof(double*));
 	for (counter = 0; counter < inj_num; counter++) {
 		num_i = num_i_IM[counter];
 		POI_IM[counter] = (double*)malloc(num_i*sizeof(double));
 	}
 
-	POC_IM = (double * *)malloc(inj_num*sizeof(double));
+	POC_IM = (double**)malloc(inj_num*sizeof(double*));
 	for (counter = 0; counter < inj_num; counter++) {
 		element_value = num_i_IM[counter] * num_j;
 		POC_IM[counter] = (double*)malloc(element_value*sizeof(double));
 	}
 
-	mfuel_i_IM = (double * *)malloc(inj_num*sizeof(double));
+	mfuel_i_IM = (double**)malloc(inj_num*sizeof(double*));
 	for (counter = 0; counter < inj_num; counter++) {
 		num_i = num_i_IM[counter];
 		mfuel_i_IM[counter] = (double*)malloc(num_i*sizeof(double));
 	}
 
-	mfuel_ij_IM = (double * *)malloc(inj_num*sizeof(double));
+	mfuel_ij_IM = (double**)malloc(inj_num*sizeof(double*));
 	for (counter = 0; counter < inj_num; counter++) {
 		num_i = num_i_IM[counter];
 		mfuel_ij_IM[counter] = (double*)malloc(num_i*sizeof(double));
@@ -3335,12 +2903,13 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 			(size*sizeof(struct stControlElementComposition));
 	}
 
-	CALCULUS_OF_POI(POI_IM, mfuel_i_IM, mfuel_ij_IM, acu_dmf, time_vector, size, speed, num_i_IM,
-		num_j, SOI_IM, EOI_IM, inj_num, elementcontrol);
+	CALCULUS_OF_POI(POI_IM, mfuel_i_IM, mfuel_ij_IM, acu_dmf, time_vector,
+		size, speed, num_i_IM, num_j, SOI_IM, EOI_IM, inj_num, elementcontrol);
 
 	mixture_correction = (double*)malloc(num_j*sizeof(double));
 
-	element = (struct stPropertiesElement * *)malloc(inj_num*sizeof(struct stPropertiesElement));
+	element = (struct stPropertiesElement * *)malloc
+		(inj_num*sizeof(struct stPropertiesElement*));
 	for (counter = 0; counter < inj_num; counter++) {
 		element_value = num_i_IM[counter] * num_j;
 		element[counter] = (struct stPropertiesElement*)malloc
@@ -3348,7 +2917,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	}
 
 	realelement = (struct stRealElementComposition * *)malloc
-		(inj_num*sizeof(struct stRealElementComposition));
+		(inj_num*sizeof(struct stRealElementComposition*));
 	for (counter = 0; counter < inj_num; counter++) {
 		element_value = num_i_IM[counter] * num_j;
 		realelement[counter] = (struct stRealElementComposition*)malloc
@@ -3362,6 +2931,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	mixture_correction[4] = 2.07;
 
 	mf_burned = 0.;
+	mf_burned_pmx = 0.;
 
 	// inlet valve closing composition calculation
 
@@ -3370,7 +2940,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 	YO2IVC = YO2aire * (1 - rateBG * (mfuel * 1.e-3 + mfuel * 1e-3 * AFe) /
 		(mairIVC * (1. - rateBG) + mfuel * 0.001));
-	YCO2IVC = mmCO2 / mmfuel * mfuel * 0.001 * rateBG / (mfuel * 0.001 + mairIVC * (1 - rateBG));
+	YCO2IVC = mmCO2 / mmfuel * mfuel * 0.001 * rateBG /
+		(mfuel * 0.001 + mairIVC * (1 - rateBG));
 	YH2OIVC = HC / 2. * mmH2O / mmfuel * mfuel * 0.001 * rateBG /
 		(mfuel * 0.001 + mairIVC * (1 - rateBG));
 	YN2IVC = 1 - YO2IVC - YCO2IVC - YH2OIVC;
@@ -3439,6 +3010,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		Qcyl[counter] = 0;
 		Qcylhead[counter] = 0;
 		Qpis[counter] = 0;
+		evol_mSoot[counter] = 0.;
+		evol_Radiacion[counter] = 0.;
 	}
 
 	p_cyl[0] = 0;
@@ -3482,13 +3055,15 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 				element[m][aux].mSOOT_C = 0;
 				element[m][aux].dSOOT_C = 0;
 				element[m][aux].TSD = 0;
-				element[m][aux].Tadib = 0;
+				element[m][aux].Tadib = 0.;
 				element[m][aux].Pcyl_POC = 1;
 				element[m][aux].TNOx = 0;
 				element[m][aux].X = 0;
 				element[m][aux].soot_precursor = 0;
 				element[m][aux].C = 1;
 				element[m][aux].FI = 0;
+				element[m][aux].FRLOL = 0;
+				element[m][aux].tLOL = -11.; // This initial value serves as a way to know whether the element has reached the LOL or not.
 
 				realelement[m][aux].mtotal = 0;
 				realelement[m][aux].mO2 = 0;
@@ -3498,6 +3073,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 				realelement[m][aux].mCO2 = 0;
 				realelement[m][aux].mH2O = 0;
 				realelement[m][aux].mf_reac = 0;
+				realelement[m][aux].dmf_reac = 0;
+				realelement[m][aux].mf_reac_pmx = 0;
 
 			}
 		}
@@ -3514,7 +3091,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 			elementcontrol[i][j].mH2O = 0;
 			elementcontrol[i][j].mCH = 0;
 			elementcontrol[i][j].TSD = 0;
-			elementcontrol[i][j].Tadib = 0;
+			elementcontrol[i][j].Tadib = 0.;
 			elementcontrol[i][j].dNOx = 0;
 			elementcontrol[i][j].mNOx = 0;
 			elementcontrol[i][j].mSOOT_A = 0;
@@ -3526,19 +3103,35 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		}
 	}
 
+	// Abro el fichero interno
+	if (RadCalc == 1 && Ang_Grab > -179.) {
+		finterno = fopen("paquete.csv", "w");
+		if (finterno == NULL) {
+			printf("Error abriendo fichero interno.");
+			getch();
+			exit(-1);
+		}
+		fprintf(finterno, "Ang,m_Soot,dm_Soot,mf,dmf \n");
+	}
+
+	FRLOL = 0.;
+
 	/** *********TIME BUCLE BEGINING*********** */
 
 	for (counter = 0; counter < size; counter++) {
 
 		mf_burned = 0;
+		mf_burned_pmx = 0;
 
 		// function call to calculate instantaneous variables with HRF
-		CALCULATE_CYCLE(roair, CAD, delta_t, V_cyl, VTDC, counter, speed, p_cyl, HRF, acu_dmf, Mbb,
-			acu_Mbb, AFe, f, mfuel * 1e-6, mEGR * 1e-3, mairIVC * 1e-3, T_cyl, HP, Yair, Yfuel,
-			Yburned, U, CV, H_cooler, H, T_Evaporation_fuel, inj_fuel_temp, PRECISION_ITERATION,
-			defor, Rmixture, Atmosphere_press, &Gamma, PI, Runiv, Piston_D, S, Crank_L,
-			Connecting_Rod_L, E, Piston_Axis_D, Piston_Crown_H, DBowl, VBowl, M_Connecting_Rod,
-			M_P_R_PA, MW_air, MW_fuel, MW_burned, C_ESteel, C_Mech_Defor, CTM, WC1A, WC1B, C2,
+		CALCULATE_CYCLE(roair, CAD, delta_t, V_cyl, VTDC, counter, speed,
+			p_cyl, HRF, acu_dmf, Mbb, acu_Mbb, AFe, f, mfuel * 1e-6,
+			mEGR * 1e-3, mairIVC * 1e-3, T_cyl, HP, Yair, Yfuel, Yburned, U,
+			CV, H_cooler, H, T_Evaporation_fuel, inj_fuel_temp,
+			PRECISION_ITERATION, defor, Rmixture, Atmosphere_press, &Gamma, PI,
+			Runiv, Piston_D, S, Crank_L, Connecting_Rod_L, E, Piston_Axis_D,
+			Piston_Crown_H, DBowl, VBowl, M_Connecting_Rod, M_P_R_PA, MW_air,
+			MW_fuel, MW_burned, C_ESteel, C_Mech_Defor, CTM, WC1A, WC1B, C2,
 			C_MBLBY, Cbb, TPIS, TCYL_HEAD, TCYL, Qcylhead, Qcyl, Qpis);
 
 		// mass exchange between  bowl and dead volumen with dmtotal_Gfactor quantity.
@@ -3546,124 +3139,196 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		if (counter > 0) {
 
 			dmtotal_Gfactor[counter] = (Vc_factor - 1) *
-				(exp(-6.9 * pow(CAD[counter] / 180, 2)) - exp(-6.9 * pow(CAD[counter - 1] / 180,
-						2))) * (mtotal_bowl[counter - 1]);
+				(exp(-6.9 * pow(CAD[counter] / 180, 2)) - exp
+				(-6.9 * pow(CAD[counter - 1] / 180, 2))) *
+				(mtotal_bowl[counter - 1]);
 
-			mtotal_bowl[counter] = mtotal_bowl[counter - 1] + dmtotal_Gfactor[counter];
-			mtotal_Vc[counter] = mtotal_Vc[counter - 1] - dmtotal_Gfactor[counter];
+			mtotal_bowl[counter] = mtotal_bowl[counter - 1] + dmtotal_Gfactor
+				[counter];
+			mtotal_Vc[counter] = mtotal_Vc[counter - 1] - dmtotal_Gfactor
+				[counter];
 
 			if (dmtotal_Gfactor[counter] < 0) {
 
-				mO2_bowl[counter] = mO2_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mO2_bowl[counter] = mO2_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mO2_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mN2_bowl[counter] = mN2_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mN2_bowl[counter] = mN2_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mN2_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mCO2_bowl[counter] = mCO2_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mCO2_bowl[counter] = mCO2_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mCO2_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mH2O_bowl[counter] = mH2O_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mH2O_bowl[counter] = mH2O_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mH2O_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mNOx_bowl[counter] = mNOx_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mNOx_bowl[counter] = mNOx_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mNOx_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter - 1] + dmtotal_Gfactor[counter] *
+				mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter - 1]
+					+ dmtotal_Gfactor[counter] *
 					(mSOOT_bowl_A[counter - 1] / mtotal_bowl[counter - 1]);
-				mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter - 1] + dmtotal_Gfactor[counter] *
+				mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter - 1]
+					+ dmtotal_Gfactor[counter] *
 					(mSOOT_bowl_B[counter - 1] / mtotal_bowl[counter - 1]);
-				mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter - 1] + dmtotal_Gfactor[counter] *
+				mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter - 1]
+					+ dmtotal_Gfactor[counter] *
 					(mSOOT_bowl_C[counter - 1] / mtotal_bowl[counter - 1]);
 
-				mHC_bowl[counter] = mHC_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mHC_bowl[counter] = mHC_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mHC_bowl[counter - 1] / mtotal_bowl[counter - 1]);
 
-				mO2_Vc[counter] = mO2_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mO2_Vc[counter] = mO2_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mO2_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mN2_Vc[counter] = mN2_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mN2_Vc[counter] = mN2_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mN2_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mCO2_Vc[counter] = mCO2_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mCO2_Vc[counter] = mCO2_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mCO2_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mH2O_Vc[counter] = mH2O_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mH2O_Vc[counter] = mH2O_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mH2O_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mNOx_Vc[counter] = mNOx_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mNOx_Vc[counter] = mNOx_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mNOx_bowl[counter - 1] / mtotal_bowl[counter - 1]);
-				mSOOT_Vc_A[counter] = mSOOT_Vc_A[counter - 1] - dmtotal_Gfactor[counter] *
+				mSOOT_Vc_A[counter] = mSOOT_Vc_A[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mSOOT_bowl_A[counter - 1] / mtotal_bowl[counter - 1]);
-				mSOOT_Vc_B[counter] = mSOOT_Vc_B[counter - 1] - dmtotal_Gfactor[counter] *
+				mSOOT_Vc_B[counter] = mSOOT_Vc_B[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mSOOT_bowl_B[counter - 1] / mtotal_bowl[counter - 1]);
-				mSOOT_Vc_C[counter] = mSOOT_Vc_C[counter - 1] - dmtotal_Gfactor[counter] *
+				mSOOT_Vc_C[counter] = mSOOT_Vc_C[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mSOOT_bowl_C[counter - 1] / mtotal_bowl[counter - 1]);
 
-				mHC_Vc[counter] = mHC_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mHC_Vc[counter] = mHC_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mHC_bowl[counter - 1] / mtotal_bowl[counter - 1]);
 
 			}
 			else {
 
-				mO2_bowl[counter] = mO2_bowl[counter - 1] + dmtotal_Gfactor[counter] *
-					(mO2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mN2_bowl[counter] = mN2_bowl[counter - 1] + dmtotal_Gfactor[counter] *
-					(mN2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mCO2_bowl[counter] = mCO2_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mO2_bowl[counter] = mO2_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] * (mO2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
+				mN2_bowl[counter] = mN2_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] * (mN2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
+				mCO2_bowl[counter] = mCO2_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mCO2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mH2O_bowl[counter] = mH2O_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mH2O_bowl[counter] = mH2O_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mH2O_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mNOx_bowl[counter] = mNOx_bowl[counter - 1] + dmtotal_Gfactor[counter] *
+				mNOx_bowl[counter] = mNOx_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] *
 					(mNOx_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter - 1] + dmtotal_Gfactor[counter] *
+				mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter - 1]
+					+ dmtotal_Gfactor[counter] *
 					(mSOOT_Vc_A[counter - 1] / mtotal_Vc[counter - 1]);
-				mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter - 1] + dmtotal_Gfactor[counter] *
+				mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter - 1]
+					+ dmtotal_Gfactor[counter] *
 					(mSOOT_Vc_B[counter - 1] / mtotal_Vc[counter - 1]);
-				mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter - 1] + dmtotal_Gfactor[counter] *
+				mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter - 1]
+					+ dmtotal_Gfactor[counter] *
 					(mSOOT_Vc_C[counter - 1] / mtotal_Vc[counter - 1]);
 
-				mHC_bowl[counter] = mHC_bowl[counter - 1] + dmtotal_Gfactor[counter] *
-					(mHC_Vc[counter - 1] / mtotal_Vc[counter - 1]);
+				mHC_bowl[counter] = mHC_bowl[counter - 1] + dmtotal_Gfactor
+					[counter] * (mHC_Vc[counter - 1] / mtotal_Vc[counter - 1]);
 
-				mO2_Vc[counter] = mO2_Vc[counter - 1] - dmtotal_Gfactor[counter] *
-					(mO2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mN2_Vc[counter] = mN2_Vc[counter - 1] - dmtotal_Gfactor[counter] *
-					(mN2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mCO2_Vc[counter] = mCO2_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mO2_Vc[counter] = mO2_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] * (mO2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
+				mN2_Vc[counter] = mN2_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] * (mN2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
+				mCO2_Vc[counter] = mCO2_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mCO2_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mH2O_Vc[counter] = mH2O_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mH2O_Vc[counter] = mH2O_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mH2O_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mNOx_Vc[counter] = mNOx_Vc[counter - 1] - dmtotal_Gfactor[counter] *
+				mNOx_Vc[counter] = mNOx_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mNOx_Vc[counter - 1] / mtotal_Vc[counter - 1]);
-				mSOOT_Vc_A[counter] = mSOOT_Vc_A[counter - 1] - dmtotal_Gfactor[counter] *
+				mSOOT_Vc_A[counter] = mSOOT_Vc_A[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mSOOT_Vc_A[counter - 1] / mtotal_Vc[counter - 1]);
-				mSOOT_Vc_B[counter] = mSOOT_Vc_B[counter - 1] - dmtotal_Gfactor[counter] *
+				mSOOT_Vc_B[counter] = mSOOT_Vc_B[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mSOOT_Vc_B[counter - 1] / mtotal_Vc[counter - 1]);
-				mSOOT_Vc_C[counter] = mSOOT_Vc_C[counter - 1] - dmtotal_Gfactor[counter] *
+				mSOOT_Vc_C[counter] = mSOOT_Vc_C[counter - 1] - dmtotal_Gfactor
+					[counter] *
 					(mSOOT_Vc_C[counter - 1] / mtotal_Vc[counter - 1]);
 
-				mHC_Vc[counter] = mHC_Vc[counter - 1] - dmtotal_Gfactor[counter] *
-					(mHC_Vc[counter - 1] / mtotal_Vc[counter - 1]);
+				mHC_Vc[counter] = mHC_Vc[counter - 1] - dmtotal_Gfactor
+					[counter] * (mHC_Vc[counter - 1] / mtotal_Vc[counter - 1]);
 			}
-		} // counter>0
+		} // end if counter>0
 
 		// unburned in-cylinder temperrature calculation and adiabatic in-cylinder temperature calculation
 
-		if (time_vector[counter] < (SOC_IM[0] / (6 * speed))) {
+		// TEMPERATURA SIN QUEMAR
+		if (time_vector[counter] < (SOC_IM[0] / (6. * speed))) {
 			Tsq_cyl[counter] = T_cyl[counter];
 		}
 		else {
-			if(counter == 0){
-				printf("Stop\n");
-			}else{
-			Tsq_cyl[counter] = Tsq_cyl[counter - 1] * pow((p_cyl[counter] / p_cyl[counter - 1]),
-				((Gamma - 1) / Gamma));
-			}
+			Tsq_cyl[counter] = Tsq_cyl[counter - 1] * pow
+				((p_cyl[counter] / p_cyl[counter - 1]),
+				((Gamma - 1.) / Gamma));
 		}
-		if(YO2IVC<0) YO2IVC = 0;
-		Tadib_cyl[counter] = Tsq_cyl[counter] + 7424.7 * pow(YO2IVC, 0.829961) * pow
-			((p_cyl[counter] * (1e-5)), -0.0236771);
+
+		// TEMPERATURA ADIABÁTICA
+		// Tadib_cyl[counter]=Tsq_cyl[counter]+7424.7*pow(YO2IVC,0.829961)*pow((p_cyl[counter]*(1e-5)),-0.0236771);
+
+		YO2i = mO2_bowl[counter] / mtotal_bowl[counter];
+
+		// Versión 1
+		// Tadib_cyl[counter]=T_cyl[counter]+37630.5*YO2i/(YO2i+AFe*YO2aire);
+
+		// Versión 2
+		Tadib_cyl[counter] = Tsq_cyl[counter] + 37630.5 * YO2IVC /
+			(YO2IVC + AFe * YO2aire);
+
+		if (Tadib_cyl[counter] < 2600) {
+			Tadib_cyl[counter] = Tadib_cyl[counter] - 1.5538 * 1e-7 * pow
+				(Tadib_cyl[counter], 2.6774);
+		}
+		else {
+			Tadib_cyl[counter] = Tadib_cyl[counter] - 7.136 * 1e-10 * pow
+				(Tadib_cyl[counter], 3.3596);
+		}
+
+		// Aminoramos esta temperatura adiabática (por transf. de calor) según se ha comprobado.
+		Tadib_cyl[counter] *= 0.9;
+
+		// PARÁMETROS PARA CÁLCULO DE TEMPERATURA (RELACIONES DE ESTADO)
+		Zst = YO2i / (YO2i + AFe * YO2aire);
+		Z0 = -T_cyl[counter] * Zst / (Tadib_cyl[counter] - T_cyl[counter]);
+		Z1 = 1. + inj_fuel_temp * (1. - Zst) /
+			(Tadib_cyl[counter] - inj_fuel_temp);
 
 		// lift off calculation
-		XLO[counter] = 0;
+		double Rhoa, Ta, d0, EfectoO2, Pres, valor; // valor se usa más abajo, en el cálculo de Fsoot.
+		double x1, x2, t1, t2, t0, K; // Parámetros para calcular con exactitud las condiciones en el LOL.
 
-		// mixture model begin if the injection have begun
+		YO2_bowl_i = YO2IVC; // It considers YO2 at the beginning
+		Uo_i = virtual_velocity[counter];
+		Pres = p_cyl[counter];
+		Ta = Tsq_cyl[counter];
+		Rhoa = Pres / (Runiv / MW_air * Ta); // Densidad de lo que se engloba.
+		d0 = nozzle_d;
+		EfectoO2 = (1. + 3.33 / YO2_bowl_i) / (1. + 3.33 / YO2aire);
+		XLO[counter] = 1.15e11 * Uo_i * pow(Ta, -3.74) * pow(Rhoa, -0.85) * pow
+			(d0 * 1000, 0.34) * EfectoO2 / 1000. * 0.62 / Kmixture1;
+		// en metros!!
+		PEN_min[counter] = XLO[counter];
+		PEN_max[counter] = 0.;
+
+		// mixture model begin if the injection has begun
 
 		if (time_vector[counter] >= SOI_IM[0] * 60. / (360. * speed)) {
 
-			// m determines the injection number; i determines the element number and j determines the sub-element number (the trajectorie)
+			// m determines the injection number; i determines the element number and j determines the sub-element number (the trajectory)
 
 			for (m = 0; m < inj_num; m++) {
 				for (i = 0; i < num_i_IM[m]; i++) {
@@ -3673,54 +3338,102 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 						aux = i * num_j + j;
 
-						if ((POI_IM[m][i] <= time_vector[counter]) && (element[m][aux].mf_jet > 0)
-							&& (mO2_bowl[counter] > 0) && (element[m][aux].state != stOvermixed)) {
+						if ((POI_IM[m][i] <= time_vector[counter]) &&
+							(element[m][aux].mf_jet > 0) &&
+							(mO2_bowl[counter] > 0) &&
+							(element[m][aux].state != stOvermixed)) {
 
 							// mixture process and air mass include into element
 
-							// element[m][aux].dmtotal=Kmixture1*(pow(element[m][aux].mf_jet,2)/element[m][aux].mtotal)*virtual_velocity[counter]*pow(roair[counter],0.5)*pow(nozzle_d*1000,-1)*pow((mO2_bowl[counter]/mtotal_bowl[counter]),Kmixture2)*(1/mixture_correction[j])*delta_t;
-							if (mO2_bowl[counter] / mtotal_bowl[counter] < 0.049552)
-								element[m][aux].dmtotal = Kmixture1 *
-									(pow(element[m][aux].mf_jet, 2) / element[m][aux].mtotal)
-									* virtual_velocity[counter] * pow(roair[counter], 0.5) * pow
-									(nozzle_d * 1000, -1) * pow(0.23, Kmixture2) * 10. *
-									(1 / mixture_correction[j]) * delta_t; // Factor limitado a 10
-							else
-								element[m][aux].dmtotal = Kmixture1 *
-									(pow(element[m][aux].mf_jet, 2) / element[m][aux].mtotal)
-									* virtual_velocity[counter] * pow(roair[counter], 0.5) * pow
-									(nozzle_d * 1000, -1) * pow
-									((mO2_bowl[counter] / mtotal_bowl[counter]), Kmixture2) *
-									(1 / mixture_correction[j]) * delta_t; // Como siempre
+							element[m][aux].dmtotal = Kmixture1 *
+								(pow(element[m][aux].mf_jet,
+									2) / element[m][aux].mtotal)
+								* virtual_velocity[counter] * pow
+								(roair[counter], 0.5) * pow
+								(nozzle_d * 1000, -1) * pow
+								((mO2_bowl[counter] / mtotal_bowl[counter]),
+								Kmixture2) * (1 / mixture_correction[j])
+								* delta_t;
 
-							element[m][aux].mtotal = element[m][aux].mtotal + element[m][aux]
-								.dmtotal;
-							element[m][aux].mO2 = element[m][aux].mO2 + element[m][aux].dmtotal *
+							element[m][aux].mtotal = element[m][aux]
+								.mtotal + element[m][aux].dmtotal;
+							element[m][aux].mO2 = element[m][aux].mO2 + element
+								[m][aux].dmtotal *
 								(mO2_bowl[counter] / mtotal_bowl[counter]);
-							element[m][aux].mCO2 = element[m][aux].mCO2 + element[m][aux].dmtotal *
+							element[m][aux].mCO2 = element[m][aux]
+								.mCO2 + element[m][aux].dmtotal *
 								(mCO2_bowl[counter] / mtotal_bowl[counter]);
-							element[m][aux].mH2O = element[m][aux].mH2O + element[m][aux].dmtotal *
+							element[m][aux].mH2O = element[m][aux]
+								.mH2O + element[m][aux].dmtotal *
 								(mH2O_bowl[counter] / mtotal_bowl[counter]);
-							element[m][aux].mN2 = element[m][aux].mN2 + element[m][aux].dmtotal *
+							element[m][aux].mN2 = element[m][aux].mN2 + element
+								[m][aux].dmtotal *
 								(mN2_bowl[counter] / mtotal_bowl[counter]);
-							element[m][aux].mf_reac = element[m][aux].mf_reac + element[m][aux]
-								.dmtotal * (mHC_bowl[counter] / mtotal_bowl[counter]);
-							element[m][aux].mf_evap = element[m][aux].mf_evap + element[m][aux]
-								.dmtotal * (mHC_bowl[counter] / mtotal_bowl[counter]);
+							element[m][aux].mf_reac = element[m][aux]
+								.mf_reac + element[m][aux].dmtotal *
+								(mHC_bowl[counter] / mtotal_bowl[counter]);
+							element[m][aux].mf_evap = element[m][aux]
+								.mf_evap + element[m][aux].dmtotal *
+								(mHC_bowl[counter] / mtotal_bowl[counter]);
 
 							// element parameters to determinate combustion process
 
-							element[m][aux].FI = element[m][aux].mf_reac * Kst1 / element[m][aux]
-								.mO2;
-							element[m][aux].C = element[m][aux].mf_reac / element[m][aux].mtotal;
+							element[m][aux].FI = element[m][aux]
+								.mf_reac * Kst1 / element[m][aux].mO2;
+							element[m][aux].C = element[m][aux]
+								.mf_reac / element[m][aux].mtotal;
 
 							// element penetration length
 
-							element[m][aux].X = 0.0001;
+							element[m][aux].X += element[m][aux]
+								.C * virtual_velocity[counter] * delta_t;
 
-							// NOx mass includes into element
+							// Checks if x > LOL
+							if (element[m][aux].tLOL < -10) {
+								// In this case the element didn't reached LOL.
+								if (element[m][aux].X >= XLO[counter]) {
+									// Checks if it reaches LOL now.
+									x2 = element[m][aux].X;
+									x1 = x2 - element[m][aux]
+										.C * virtual_velocity[counter]
+										* delta_t;
+									if (x2 != x1) {
+										t1 = time_vector[counter - 1];
+										t2 = time_vector[counter];
+										t0 = (x2 * x2 * t1 - x1 * x1 * t2) /
+										(x2 * x2 - x1 * x1);
+										K = x2 / sqrt(t2 - t0);
 
-							element[m][aux].mNOx = element[m][aux].mNOx + element[m][aux].dmtotal *
+										element[m][aux].tLOL = t0 + pow
+										(XLO[counter] / K, 2);
+
+										// C en LOL
+										K = element[m][aux].C * x2 / XLO
+										[counter];
+
+										// F en LOL
+										K = 1. / (1. / K - 1.);
+
+										// Fr en LOL
+										element[m][aux].FRLOL = K * Kst1 /
+										(mO2_bowl[counter] / mtotal_bowl
+										[counter]);
+										FRLOL = element[m][aux].FRLOL;
+									}
+									else {
+										element[m][aux].tLOL = time_vector
+										[counter];
+										element[m][aux].FRLOL = element[m][aux]
+										.FI;
+										FRLOL = element[m][aux].FRLOL;
+									}
+								}
+							}
+
+							// NOx mass included into element
+
+							element[m][aux].mNOx = element[m][aux]
+								.mNOx + element[m][aux].dmtotal *
 								(mNOx_bowl[counter] / mtotal_bowl[counter]);
 
 							// SOOT mass of the IVC is included into element and it is oxidated totally is it is inside the flame
@@ -3733,154 +3446,213 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 								(mSOOT_bowl_C[counter] / mtotal_bowl[counter]);
 
 							// soot model A
-							if ((time_vector[counter] < (SOC_IM[m] / (6 * speed))) &&
+							if
+								((time_vector[counter] <
+									(SOC_IM[m] / (6 * speed))) &&
 								(element[m][aux].FI > 1)) {
-								element[m][aux].mSOOT_A = element[m][aux].mSOOT_A + element[m][aux]
-									.dSOOT_A;
-								mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter] - element[m][aux]
-									.dSOOT_A;
+								element[m][aux].mSOOT_A = element[m][aux]
+									.mSOOT_A + element[m][aux].dSOOT_A;
+								mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter]
+									- element[m][aux].dSOOT_A;
 							}
-							if ((time_vector[counter] > (SOC_IM[m] / (6 * speed))) &&
+							if
+								((time_vector[counter] >
+									(SOC_IM[m] / (6 * speed))) &&
 								(element[m][aux].FI > 1)) {
-								mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter] - element[m][aux]
-									.dSOOT_A;
+								mSOOT_bowl_A[counter] = mSOOT_bowl_A[counter]
+									- element[m][aux].dSOOT_A;
 							}
 
 							// soot model B
 
-							if ((time_vector[counter] < (SOC_IM[m] / (6 * speed))) &&
+							if
+								((time_vector[counter] <
+									(SOC_IM[m] / (6 * speed))) &&
 								(element[m][aux].FI > 1)) {
-								element[m][aux].mSOOT_B = element[m][aux].mSOOT_B + element[m][aux]
-									.dSOOT_B;
-								mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter] - element[m][aux]
-									.dSOOT_B;
+								element[m][aux].mSOOT_B = element[m][aux]
+									.mSOOT_B + element[m][aux].dSOOT_B;
+								mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter]
+									- element[m][aux].dSOOT_B;
 							}
-							if ((time_vector[counter] > (SOC_IM[m] / (6 * speed))) &&
+							if
+								((time_vector[counter] >
+									(SOC_IM[m] / (6 * speed))) &&
 								(element[m][aux].FI > 1)) {
-								mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter] - element[m][aux]
-									.dSOOT_B;
+								mSOOT_bowl_B[counter] = mSOOT_bowl_B[counter]
+									- element[m][aux].dSOOT_B;
 							}
 
 							// soot model C
 
-							if ((time_vector[counter] < (SOC_IM[m] / (6 * speed))) &&
+							if
+								((time_vector[counter] <
+									(SOC_IM[m] / (6 * speed))) &&
 								(element[m][aux].FI > 1)) {
-								element[m][aux].mSOOT_C = element[m][aux].mSOOT_C + element[m][aux]
-									.dSOOT_C;
-								mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter] - element[m][aux]
-									.dSOOT_C;
+								element[m][aux].mSOOT_C = element[m][aux]
+									.mSOOT_C + element[m][aux].dSOOT_C;
+								mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter]
+									- element[m][aux].dSOOT_C;
 							}
-							if ((time_vector[counter] > (SOC_IM[m] / (6 * speed))) &&
+							if
+								((time_vector[counter] >
+									(SOC_IM[m] / (6 * speed))) &&
 								(element[m][aux].FI > 1)) {
-								mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter] - element[m][aux]
-									.dSOOT_C;
+								mSOOT_bowl_C[counter] = mSOOT_bowl_C[counter]
+									- element[m][aux].dSOOT_C;
 							}
 
 							// ignition delay determination
 
-							if ((element[m][aux].state == stEvaporated) && (SOC_IM[m] == EVO)) {
+							if ((element[m][aux].state == stEvaporated) &&
+								(SOC_IM[m] == EVO)) {
 
-								Y1 = -KID3 * pow(element[m][aux].mf_reac / element[m][aux].mtotal,
-									KID4) * pow(element[m][aux].mO2 / element[m][aux].mtotal, KID5);
+								Y1 = -KID3 * pow
+									(element[m][aux].mf_reac / element[m][aux]
+									.mtotal, KID4) * pow
+									(element[m][aux].mO2 / element[m][aux]
+									.mtotal, KID5);
 
-								if (element[m][aux].mf_reac / element[m][aux].mtotal == 1) {
-									T1 = 1000 / 353;
+								if
+									(element[m][aux].mf_reac / element[m][aux]
+									.mtotal == 1) {
+									T1 = 1000. / 353.;
 								}
 								else {
-									T1 = 1000 /
+									T1 = 1000. /
 										(T_cyl[counter] *
-										(1 - element[m][aux].mf_reac / element[m][aux].mtotal));
+										(1 - element[m][aux].mf_reac / element
+										[m][aux].mtotal));
 								}
 
 								if (T1 >= 2) {
 									RID1 = Y1 + 0.155 * T1 - 0.2175;
 								}
 								else if (((T1 - 0.35) > 0.8) && (T1 < 2)) {
-									RID1 = (Y1 + pow(exp((T1 - 0.35) / 5), 7) - 3.1);
-									element[m][aux].RID = element[m][aux].RID + KID1 * pow
-										(p_cyl[counter] * 1e-5, KID2) * pow(10, -RID1) * delta_t;
+									RID1 = (Y1 + pow(exp((T1 - 0.35) / 5),
+										7) - 3.1);
+									element[m][aux].RID = element[m][aux]
+										.RID + KID1 * pow
+										(p_cyl[counter] * 1e-5, KID2) * pow
+										(10, -RID1) * delta_t;
 								}
 								else {
 									RID1 = (Y1 + pow(log(T1 - 0.35), 3));
-									element[m][aux].RID = element[m][aux].RID + KID1 * pow
-										(p_cyl[counter] * 1e-5, KID2) * pow(10, -RID1) * delta_t;
+									element[m][aux].RID = element[m][aux]
+										.RID + KID1 * pow
+										(p_cyl[counter] * 1e-5, KID2) * pow
+										(10, -RID1) * delta_t;
 								}
 							}
 
-							if ((element[m][aux].RID >= 1) && (SOC_IM[m] == EVO)) {
+							if ((element[m][aux].RID >= 1) && (SOC_IM[m] == EVO)
+								) {
 								SOC_IM[m] = time_vector[counter] * 6 * speed;
+								// Se activa el cáculo de la radiación para ese pulso:
+								CalcRad[m] = 1;
 							}
 
 							/** ****************COMBUSTION****************************** */
 
+							if ((element[m][aux].state == stEvaporated) &&
+								(time_vector[counter] >
+									(SOC_IM[m] / (6 * speed)))) {
+
+								element[m][aux].Rpmx = element[m][aux]
+									.Rpmx + Kpmx1 * pow
+									((mO2_bowl[counter] / mtotal_bowl[counter]
+									), 0.855) * ((1. / 4. - 1.) / pow(log(.1),
+										2) * pow(log(element[m][aux].FI),
+										2) + 1.) * exp
+									(-Kpmx2 / T_cyl[counter]) * pow
+									(roair[counter], Kpmx5) * pow
+									(speed / 1000., Kpmx3) * pow
+									(PCR / 500., Kpmx4) * delta_t;
+								// element[m][aux].Rpmx=element[m][aux].Rpmx+Kpmx1*pow((mO2_bowl[counter]/mtotal_bowl[counter]),Kpmx3)*((1./Kpmx4-1.)/pow(log(.1),2)*pow(log(element[m][aux].FI),2)+1.)*exp(-Kpmx2/T_cyl[counter])*pow(roair[counter],Kpmx5)*delta_t;
+								// element[m][aux].Rpmx=element[m][aux].Rpmx+Kpmx1*pow((mO2_bowl[counter]/mtotal_bowl[counter]),Kpmx3)*pow(fabs(log(element[m][aux].FI)),Kpmx4)*exp(-Kpmx2/T_cyl[counter])*pow(roair[counter],Kpmx5)*delta_t;
+								// element[m][aux].Rpmx_value=Kpmx1*pow((mO2_bowl[counter]/mtotal_bowl[counter]),Kpmx3)*pow(fabs(log(element[m][aux].FI)),Kpmx4)*exp(-Kpmx2/T_cyl[counter])*pow(roair[counter],Kpmx5)*delta_t;
+								if (element[m][aux].Rpmx > 1.)
+									element[m][aux].Rpmx = 1.;
+								// Limitamos a 1. el valor
+
+								if (element[m][aux].Pcyl_POC < 2.)
+								// En este caso no está inicializado: lo inicializo ahora por si acaso.
+									element[m][aux].Pcyl_POC = p_cyl[counter];
+
+							}
+
 							// PREMIX COMBUSTION---------------------------------------------------------------
 
 							if ((element[m][aux].state == stEvaporated) &&
-								(time_vector[counter] > (SOC_IM[m] / (6 * speed)))) {
-
-								element[m][aux].Rpmx = element[m][aux].Rpmx + Kpmx1 * pow
-									((mO2_bowl[counter] / mtotal_bowl[counter]), Kpmx3) * pow
-									(fabs(log(element[m][aux].FI)), Kpmx4) * exp
-									(-Kpmx2 / T_cyl[counter]) * pow(roair[counter], Kpmx5)
-									* delta_t;
-								element[m][aux].Rpmx_value = Kpmx1 * pow
-									((mO2_bowl[counter] / mtotal_bowl[counter]), Kpmx3) * pow
-									(fabs(log(element[m][aux].FI)), Kpmx4) * exp
-									(-Kpmx2 / T_cyl[counter]) * pow(roair[counter], Kpmx5)
-									* delta_t;
-							}
-
-							if ((element[m][aux].state == stEvaporated) &&
 								(POI_IM[m][i] < SOC_IM[m] / (6 * speed)) &&
-								(time_vector[counter] > (SOC_IM[m] / (6 * speed)))) {
-								if (element[m][aux].Rpmx >= 1) {
+								(time_vector[counter] >
+									(SOC_IM[m] / (6 * speed)))) {
+								if (POI_IM[m][i] < SOC_IM[m] / (6 * speed)) {
+									// Determinación del POC (es en el inicio de la combustión premezclada)
+									POC_IM[m][aux] = time_vector[counter];
 
-									// RICH PREMIX
-
-									if (element[m][aux].FI > 1) {
-										element[m][aux].state = stBurned_rich_premix;
-										POC_IM[m][aux] = time_vector[counter];
-
-										FUNCTION_SOOT_C(&soot_pre, element[m][aux].FI);
-										element[m][aux].soot_precursor = soot_pre;
+									if (element[m][aux].FI > 1.) {
+										// Caso Premezcla Rica
+										realelement[m][aux]
+										.mf_reac_pmx = element[m][aux]
+										.mf_reac *
+										(1. - 1. / element[m][aux].FI * element
+										[m][aux].Rpmx);
+										if (element[m][aux].Rpmx == 1.)
+										// Damos el paquete por quemado en premezcla Rica:
+										element[m][aux].state =
+										stBurned_rich_premix;
+									}
+									else {
+										// Caso Premezcla Pobre
+										element[m][aux].Pcyl_POC = p_cyl
+										[counter];
+										realelement[m][aux]
+										.mf_reac_pmx = element[m][aux]
+										.mf_reac *
+										(1. - element[m][aux].Rpmx);
+										if (element[m][aux].Rpmx == 1.)
+										// Damos el paquete por quemado en premezcla Pobre:
+										element[m][aux].state =
+										stBurned_poor_premix;
 
 									}
-									else { // POOR PREMIX
-										element[m][aux].state = stBurned_poor_premix;
-										POC_IM[m][aux] = time_vector[counter];
-										element[m][aux].Pcyl_POC = p_cyl[counter];
-									} // poor pmx
 								}
-							} // pmx combustion
+							}
 
 							// FIRST DIFFUSION
 							if ((element[m][aux].state == stEvaporated) &&
-								(POI_IM[m][i] >= SOC_IM[m] / (6 * speed)) &&
-								(element[m][aux].X > XLO[counter])) {
+								(POI_IM[m][i] >= SOC_IM[m] / (6 * speed))) {
 								element[m][aux].state = stInto_diffusion_flame;
 
-								FUNCTION_SOOT_C(&soot_pre, element[m][aux].FI);
-								element[m][aux].soot_precursor = soot_pre;
+								/* FUNCTION_SOOT_C(&soot_pre,element[m][aux].FI);
+								element[m][aux].soot_precursor=soot_pre; */
 							}
 
-							if ((element[m][aux].state == stInto_diffusion_flame) &&
+							if
+								(
+								(element[m][aux].state ==
+									stInto_diffusion_flame) &&
 								(POI_IM[m][i] >= SOC_IM[m] / (6 * speed)) &&
-								(time_vector[counter] > (SOC_IM[m] / (6 * speed)))) {
+								(time_vector[counter] >
+									(SOC_IM[m] / (6 * speed)))) {
 
 								if (element[m][aux].FI <= 1) {
 									POC_IM[m][aux] = time_vector[counter];
 									element[m][aux].Pcyl_POC = p_cyl[counter];
-									element[m][aux].state = stBurned_by_diffusion;
+									element[m][aux].state =
+										stBurned_by_diffusion;
 								}
 
 							}
 
 							// SECOND DIFFUSION
 
-							if ((element[m][aux].state == stBurned_rich_premix)) {
+							if ((element[m][aux].state == stBurned_rich_premix)
+								) {
 
 								if (element[m][aux].FI <= 1) {
-									element[m][aux].state = stBurned_by_second_diffusion;
+									element[m][aux].state =
+										stBurned_by_second_diffusion;
 									POC_IM[m][aux] = time_vector[counter];
 									element[m][aux].Pcyl_POC = p_cyl[counter];
 								}
@@ -3889,74 +3661,118 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 							// real composition mass determination
 
-							if (element[m][aux].state == stEvaporated) {
-								realelement[m][aux].mO2 = element[m][aux].mO2;
-								realelement[m][aux].mf_reac = element[m][aux].mf_reac;
+							if ((element[m][aux].state == stEvaporated) &&
+								(time_vector[counter] >
+									(SOC_IM[m] / (6 * speed)))) {
+								if (element[m][aux].FI > 1.) {
+									// Paquete que está a medio quemar, en condiciones ricas...
+									realelement[m][aux].mO2 = element[m][aux]
+										.mO2 * (1. - element[m][aux].Rpmx);
+									mf_old = realelement[m][aux].mf_reac;
+									realelement[m][aux].mf_reac = element[m]
+										[aux].mf_reac *
+										(1. - 1. / element[m][aux].FI * element
+										[m][aux].Rpmx);
+									realelement[m][aux].dmf_reac = realelement
+										[m][aux].mf_reac - mf_old;
+								}
+								else {
+									// Paquete que está a medio quemar, en condiciones pobres...
+									realelement[m][aux].mO2 = element[m][aux]
+										.mO2 - element[m][aux]
+										.mf_reac * Kst1 * element[m][aux].Rpmx;
+									mf_old = realelement[m][aux].mf_reac;
+									realelement[m][aux].mf_reac = element[m]
+										[aux].mf_reac *
+										(1. - element[m][aux].Rpmx);
+									realelement[m][aux].dmf_reac = realelement
+										[m][aux].mf_reac - mf_old;
+								}
 							}
 
-							if ((element[m][aux].state == stBurned_rich_premix) ||
-								(element[m][aux].state == stInto_diffusion_flame)) {
+							if ((element[m][aux].state == stBurned_rich_premix)
+								|| (element[m][aux].state ==
+									stInto_diffusion_flame)) {
 								realelement[m][aux].mO2 = 0;
-								realelement[m][aux].mf_reac = element[m][aux].mf_reac *
-									(1 - 1 / element[m][aux].FI);
+								mf_old = realelement[m][aux].mf_reac;
+								realelement[m][aux].mf_reac = element[m][aux]
+									.mf_reac * (1. - 1. / element[m][aux].FI);
+								realelement[m][aux].dmf_reac = realelement[m]
+									[aux].mf_reac - mf_old;
 							}
 
-							if ((element[m][aux].state == stBurned_poor_premix) ||
-								(element[m][aux].state == stBurned_by_diffusion) ||
-								(element[m][aux].state == stBurned_by_second_diffusion)) {
-								realelement[m][aux].mO2 = element[m][aux].mO2 - element[m][aux]
-									.mf_reac * Kst1;
+							if ((element[m][aux].state == stBurned_poor_premix)
+								|| (element[m][aux].state ==
+									stBurned_by_diffusion) ||
+								(element[m][aux].state ==
+									stBurned_by_second_diffusion)) {
+								realelement[m][aux].mO2 = element[m][aux]
+									.mO2 - element[m][aux].mf_reac * Kst1;
+								mf_old = realelement[m][aux].mf_reac;
 								realelement[m][aux].mf_reac = 0;
+								realelement[m][aux].dmf_reac = -mf_old;
 							}
 
 							// element temperature calculation
 
-							element[m][aux].TSD =
-								(1 / (element[m][aux].mtotal - realelement[m][aux]
-									.mf_reac + 2 * realelement[m][aux].mf_reac)) *
-								((element[m][aux].mtotal - realelement[m][aux].mf_reac) *
-								(T_cyl[counter] + 37630.5 *
-									(element[m][aux].mf_reac - realelement[m][aux].mf_reac)
-									/ element[m][aux].mtotal) + inj_fuel_temp *
-								(2 * realelement[m][aux].mf_reac));
-							element[m][aux].TNOx = element[m][aux].TSD;
+							// Wrong version                     element[m][aux].TSD=(1/(element[m][aux].mtotal-realelement[m][aux].mf_reac+2*realelement[m][aux].mf_reac))*((element[m][aux].mtotal-realelement[m][aux].mf_reac)*(T_cyl[counter]+37630.5*(element[m][aux].mf_reac-realelement[m][aux].mf_reac)/element[m][aux].mtotal)+inj_fuel_temp*(2*realelement[m][aux].mf_reac));
+							// Corrected version                     element[m][aux].TSD=1./element[m][aux].mtotal*((element[m][aux].mtotal-realelement[m][aux].mf_reac)*(T_cyl[counter]+37630.5*(element[m][aux].mf_reac-realelement[m][aux].mf_reac)/element[m][aux].mtotal)+inj_fuel_temp*realelement[m][aux].mf_reac);
 
-							if (element[m][aux].FI < 1) {
-								element[m][aux].TSD = element[m][aux].TSD * pow
-									((p_cyl[counter] / element[m][aux].Pcyl_POC),
-									((Gamma - 1) / Gamma));
-								element[m][aux].TNOx = element[m][aux].TNOx * pow
-									((p_cyl[counter] / element[m][aux].Pcyl_POC),
-									((Gamma * KNOx1 - 1) / Gamma * KNOx1));
-							}
+							// T con combustión, TCC
 
-							if (element[m][aux].TSD < 2600) {
-								element[m][aux].Tadib = element[m][aux].TSD - 1.5538 * 1e-7 * pow
-									(element[m][aux].TSD, 2.6774);
+							if (element[m][aux].FI >= 1.) {
+								// Dosado rico.
+								TCC = Tadib_cyl[counter] *
+									(Z1 - element[m][aux].C) / (Z1 - Zst);
 							}
 							else {
-								element[m][aux].Tadib = element[m][aux].TSD - 7.136 * 1e-10 * pow
-									(element[m][aux].TSD, 3.3596);
+								// Dosado pobre.
+								TCC = Tadib_cyl[counter] *
+									(element[m][aux].C - Z0) / (Zst - Z0);
 							}
+
+							// T sin combustión, TSC
+
+							TSC = (T_cyl[counter] * (1. - element[m][aux].C)
+								+ inj_fuel_temp * element[m][aux].C);
+
+							// La temperatura real depende de si estamos antes o después del SOC:
+
+							if (time_vector[counter] > (SOC_IM[m] / (6 * speed))
+								)
+							// En este caso ya ha empezado la combustión
+								element[m][aux].Tadib = TCC;
+							else
+							// En este caso NO ha empezado la combustión
+								element[m][aux].Tadib = TSC;
+
+							// Temperatura para el cálculo de NOX
+							element[m][aux].TNOx = element[m][aux].Tadib;
 
 							// EMISSIONS FORMATION AND OXIDATIONS
 
 							// NOX emissions
 
-							if ((element[m][aux].state == stBurned_by_diffusion) ||
-								(element[m][aux].state == stBurned_by_second_diffusion) ||
-								(element[m][aux].state == stBurned_poor_premix)) {
+							if
+								(
+								(element[m][aux].state == stBurned_by_diffusion) ||
+								(element[m][aux].state ==
+									stBurned_by_second_diffusion) ||
+								(element[m][aux].state == stBurned_poor_premix)
+								) {
 
 								if ((time_vector[counter] == POC_IM[m][aux]) &&
-									(element[m][aux].state != stBurned_poor_premix)) {
-									mNOx_bowl[counter] = mNOx_bowl[counter] - element[m][aux]
-										.mNOx * EC;
-									element[m][aux].mNOx = element[m][aux].mNOx - element[m][aux]
-										.mNOx * EC;
+									(element[m][aux].state !=
+										stBurned_poor_premix)) {
+									mNOx_bowl[counter] = mNOx_bowl[counter]
+										- element[m][aux].mNOx * EC;
+									element[m][aux].mNOx = element[m][aux]
+										.mNOx - element[m][aux].mNOx * EC;
 								}
 
-								FUNCTION_NOX(&YNOeq_value, &KdYNO_value, YNOeq, KdYNO,
-									element[m][aux].TNOx, realelement[m][aux].mO2,
+								FUNCTION_NOX(&YNOeq_value, &KdYNO_value, YNOeq,
+									KdYNO, element[m][aux].TNOx,
+									realelement[m][aux].mO2,
 									element[m][aux].mtotal);
 
 								if (YNOeq_value == 0) {
@@ -3964,18 +3780,23 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 								}
 
 								if
-									(YNOeq_value - element[m][aux].mNOx / element[m][aux].mtotal > 0) {
+									(YNOeq_value - element[m][aux]
+									.mNOx / element[m][aux].mtotal > 0) {
 									element[m][aux].dNOx = (KNOx2)
-										* element[m][aux].mtotal * KdYNO_value *
-										(YNOeq_value - element[m][aux].mNOx / element[m][aux]
-										.mtotal) / YNOeq_value * delta_t;
+										* element[m][aux]
+										.mtotal * KdYNO_value *
+										(YNOeq_value - element[m][aux]
+										.mNOx / element[m][aux].mtotal)
+										/ YNOeq_value * delta_t;
 								}
 								else {
 									element[m][aux].dNOx = 0;
 								}
 
-								element[m][aux].mNOx = element[m][aux].mNOx + element[m][aux].dNOx;
-								mNOx_bowl[counter] = mNOx_bowl[counter] + element[m][aux].dNOx;
+								element[m][aux].mNOx = element[m][aux]
+									.mNOx + element[m][aux].dNOx;
+								mNOx_bowl[counter] = mNOx_bowl[counter]
+									+ element[m][aux].dNOx;
 
 							}
 
@@ -3983,21 +3804,25 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 							// SOOT model A: HIROYASU
 							// Hiroyasu formation  process
 
-							element[m][aux].dSOOT_A = KSOOTA1 * realelement[m][aux].mf_reac * pow
-								(p_cyl[counter], KSOOTA2) * exp(-KSOOTA3 / element[m][aux].Tadib)
+							element[m][aux].dSOOT_A = KSOOTA1 * realelement[m]
+								[aux].mf_reac * pow(p_cyl[counter], KSOOTA2)
+								* exp(-KSOOTA3 / element[m][aux].Tadib)
 								* delta_t;
-							element[m][aux].mSOOT_A = element[m][aux].mSOOT_A + element[m][aux]
-								.dSOOT_A;
+							element[m][aux].mSOOT_A = element[m][aux]
+								.mSOOT_A + element[m][aux].dSOOT_A;
 
 							// Hiroyasu oxidation process
 
-							element[m][aux].dSOOT_A = KSOOTA4 * element[m][aux].mSOOT_A * pow
-								((realelement[m][aux].mO2 / element[m][aux].mtotal), KSOOTA5) * pow
-								(p_cyl[counter], KSOOTA6) * exp(-KSOOTA7 / element[m][aux].Tadib)
-								* delta_t;
-							if (element[m][aux].dSOOT_A <= element[m][aux].mSOOT_A) {
-								element[m][aux].mSOOT_A = element[m][aux].mSOOT_A - element[m][aux]
-									.dSOOT_A;
+							element[m][aux].dSOOT_A = KSOOTA4 * element[m][aux]
+								.mSOOT_A * pow
+								((realelement[m][aux].mO2 / element[m][aux]
+									.mtotal), KSOOTA5) * pow(p_cyl[counter],
+								KSOOTA6) * exp
+								(-KSOOTA7 / element[m][aux].Tadib) * delta_t;
+							if (element[m][aux].dSOOT_A <= element[m][aux]
+								.mSOOT_A) {
+								element[m][aux].mSOOT_A = element[m][aux]
+									.mSOOT_A - element[m][aux].dSOOT_A;
 							}
 							else {
 								element[m][aux].mSOOT_A = 0;
@@ -4005,41 +3830,73 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 							// SOOT model C
 
-							// Hiroyasu formation  process
+							// CMT formation-oxidation process (both processes "integrated")
 
-							if ((element[m][aux].state == stBurned_rich_premix) ||
-								(element[m][aux].state == stInto_diffusion_flame)) {
+							// Oxidación (debido a la desaparición de masa de combustible):
+							if (realelement[m][aux].dmf_reac < 0.)
+								element[m][aux].mSOOT_C *= realelement[m][aux]
+									.mf_reac /
+									(realelement[m][aux].mf_reac - realelement
+								[m][aux].dmf_reac);
 
-								element[m][aux].dSOOT_C = KSOOTC1 *
-									(realelement[m][aux].mf_reac * element[m][aux].soot_precursor)
-									* pow(p_cyl[counter], KSOOTC2) * exp
-									(-KSOOTC3 / element[m][aux].Tadib) * delta_t;
-								element[m][aux].mSOOT_C = element[m][aux].mSOOT_C + element[m][aux]
-									.dSOOT_C;
+							// Formación:
+							if (element[m][aux].tLOL > -10.) {
+								// Checks if the element has reached the LOL
+								// element[m][aux].mSOOT_C=KSOOTC1*realelement[m][aux].mf_reac*pow(Pres/(14.8*Runiv/MW_air*1000.),2.2)*(-0.80545455/element[m][aux].FRLOL+0.49715984)*pow((time_vector[counter]-element[m][aux].tLOL)*1.e6,0.6)*exp(-2399./Tadib_cyl[counter]);
+								if
+									(
+									(time_vector[counter] - element[m][aux]
+										.tLOL) > 0.) {
+									// valor=KSOOTC1*realelement[m][aux].mf_reac*pow(Pres/(14.8*Runiv/MW_air*1000.),2.2)*0.15*(element[m][aux].FRLOL-2.)*1.e6*exp(-2399./Tadib_cyl[counter])*delta_t;
+									valor = KSOOTC1 * realelement[m][aux]
+										.mf_reac * pow
+										(Pres /
+										(14.8 * Runiv / MW_air * 1000.), 2.2)
+										* (-1. / element[m][aux].FRLOL + 0.5)
+										* 1.e6 * exp
+										(-2399. / Tadib_cyl[counter])
+										* delta_t;
+									// KSOOTC1 vale 0.9e-3 para el caso de Exp 1
+									// He añadido un factor de corrección de la presión (instantánea).
+									/* valor=time_vector[counter]-element[m][aux].tLOL-delta_t;  // Valor aquí es un cálculo intermedio...
+									if(valor<0.)
+									valor=0.;          // KSOOTC1 vale 1.e-2 en el caso de Exp 0.6 para el tiempo de residencia
+									valor=KSOOTC1*realelement[m][aux].mf_reac*pow(Pres/(14.8*Runiv/MW_air*1000.),2.2)*(-1./element[m][aux].FRLOL+0.5)*(pow((time_vector[counter]-element[m][aux].tLOL)*1.e6,0.6)-pow(valor*1.e6,0.6))*exp(-2399./Tadib_cyl[counter]); */
+								}
+								else
+									valor = 0.;
+								if (valor < 0.) // Limitamos a cero.
+									valor = 0.;
+
+								element[m][aux].mSOOT_C += valor;
+
+								// Limitamos el valor de mSOOT al valor de mf_reac
+								if
+									(element[m][aux].mSOOT_C > realelement[m]
+									[aux].mf_reac)
+									element[m][aux].mSOOT_C = realelement[m]
+										[aux].mf_reac;
 							}
+							if (element[m][aux].mSOOT_C < 0.)
+							// Limitamos a cero.
+								element[m][aux].mSOOT_C = 0.;
 
-							// Hiroyasu oxidation process
-
-							element[m][aux].dSOOT_C = KSOOTC4 * element[m][aux].mSOOT_C * pow
-								((realelement[m][aux].mO2 / element[m][aux].mtotal), KSOOTC5) * pow
-								(p_cyl[counter], KSOOTC6) * exp(-KSOOTC7 / element[m][aux].Tadib)
-								* delta_t;
-							if (element[m][aux].dSOOT_C <= element[m][aux].mSOOT_C) {
-								element[m][aux].mSOOT_C = element[m][aux].mSOOT_C - element[m][aux]
-									.dSOOT_C;
-							}
-							else {
-								element[m][aux].mSOOT_C = 0;
-							}
+							// Añadimos la masa al contador de masa de Soot:
+							evol_mSoot[counter] += element[m][aux].mSOOT_C;
+							// La radiación se calculará más adelante...
 
 							// HC formation by overmixed element
 
-							if ((SOC_IM[m] * 60. / (360. * speed) < time_vector[counter]) &&
-								(POI_IM[m][i] < SOC_IM[m] * 60. / (360. * speed)) &&
+							if
+								((SOC_IM[m] * 60. / (360. * speed)
+									< time_vector[counter]) &&
+								(POI_IM[m][i] < SOC_IM[m] * 60. /
+									(360. * speed)) &&
 								(element[m][aux].state == stEvaporated)) {
 								if (element[m][aux].FI < 0.5) {
 
-									mHC_bowl[counter] = mHC_bowl[counter] + element[m][aux].mf_reac;
+									mHC_bowl[counter] = mHC_bowl[counter]
+										+ element[m][aux].mf_reac;
 									element[m][aux].state = stOvermixed;
 									realelement[m][aux].mf_reac = 0;
 									element[m][aux].mf_reac = 0;
@@ -4058,39 +3915,66 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 							(elementcontrol[j_aux][0].num_i == i)) {
 							aux = i * num_j + 0;
 							j_aux = i_aux * 3;
-							elementcontrol[j_aux][counter].mtotal = element[m][aux].mtotal;
-							elementcontrol[j_aux][counter].mfuel = element[m][aux].mf_reac;
-							elementcontrol[j_aux][counter].mfuel_real = realelement[m][aux].mf_reac;
-							elementcontrol[j_aux][counter].mO2 = element[m][aux].mO2;
-							elementcontrol[j_aux][counter].mO2_real = realelement[m][aux].mO2;
-							elementcontrol[j_aux][counter].TSD = element[m][aux].TSD;
-							elementcontrol[j_aux][counter].Tadib = element[m][aux].Tadib;
-							elementcontrol[j_aux][counter].X = element[m][aux].X;
-							elementcontrol[j_aux][counter].FI = element[m][aux].FI;
+							elementcontrol[j_aux][counter].mtotal = element[m]
+								[aux].mtotal;
+							elementcontrol[j_aux][counter].mfuel = element[m]
+								[aux].mf_reac;
+							elementcontrol[j_aux][counter].mfuel_real =
+								realelement[m][aux].mf_reac;
+							elementcontrol[j_aux][counter].mO2 = element[m][aux]
+								.mO2;
+							elementcontrol[j_aux][counter]
+								.mO2_real = realelement[m][aux].mO2;
+							elementcontrol[j_aux][counter].TSD = element[m][aux]
+								.TSD;
+							elementcontrol[j_aux][counter].Tadib = element[m]
+								[aux].Tadib;
+							elementcontrol[j_aux][counter].X = element[m][aux]
+								.X;
+							elementcontrol[j_aux][counter].FI = element[m][aux]
+								.FI;
 
 							aux = i * num_j + 2;
 							j_aux = i_aux * 3 + 1;
-							elementcontrol[j_aux][counter].mtotal = element[m][aux].mtotal;
-							elementcontrol[j_aux][counter].mfuel = element[m][aux].mf_reac;
-							elementcontrol[j_aux][counter].mfuel_real = realelement[m][aux].mf_reac;
-							elementcontrol[j_aux][counter].mO2 = element[m][aux].mO2;
-							elementcontrol[j_aux][counter].mO2_real = realelement[m][aux].mO2;
-							elementcontrol[j_aux][counter].TSD = element[m][aux].TSD;
-							elementcontrol[j_aux][counter].Tadib = element[m][aux].Tadib;
-							elementcontrol[j_aux][counter].X = element[m][aux].X;
-							elementcontrol[j_aux][counter].FI = element[m][aux].FI;
+							elementcontrol[j_aux][counter].mtotal = element[m]
+								[aux].mtotal;
+							elementcontrol[j_aux][counter].mfuel = element[m]
+								[aux].mf_reac;
+							elementcontrol[j_aux][counter].mfuel_real =
+								realelement[m][aux].mf_reac;
+							elementcontrol[j_aux][counter].mO2 = element[m][aux]
+								.mO2;
+							elementcontrol[j_aux][counter]
+								.mO2_real = realelement[m][aux].mO2;
+							elementcontrol[j_aux][counter].TSD = element[m][aux]
+								.TSD;
+							elementcontrol[j_aux][counter].Tadib = element[m]
+								[aux].Tadib;
+							elementcontrol[j_aux][counter].X = element[m][aux]
+								.X;
+							elementcontrol[j_aux][counter].FI = element[m][aux]
+								.FI;
 
 							aux = i * num_j + 4;
 							j_aux = i_aux * 3 + 2;
-							elementcontrol[j_aux][counter].mtotal = element[m][aux].mtotal;
-							elementcontrol[j_aux][counter].mfuel = element[m][aux].mf_reac;
-							elementcontrol[j_aux][counter].mfuel_real = realelement[m][aux].mf_reac;
-							elementcontrol[j_aux][counter].mO2 = element[m][aux].mO2;
-							elementcontrol[j_aux][counter].mO2_real = realelement[m][aux].mO2;
-							elementcontrol[j_aux][counter].TSD = element[m][aux].TSD;
-							elementcontrol[j_aux][counter].Tadib = element[m][aux].Tadib;
-							elementcontrol[j_aux][counter].X = element[m][aux].X;
-							elementcontrol[j_aux][counter].FI = element[m][aux].FI;
+							elementcontrol[j_aux][counter].mtotal = element[m]
+								[aux].mtotal;
+							elementcontrol[j_aux][counter].mfuel = element[m]
+								[aux].mf_reac;
+							elementcontrol[j_aux][counter].mfuel_real =
+								realelement[m][aux].mf_reac;
+							elementcontrol[j_aux][counter].mO2 = element[m][aux]
+								.mO2;
+							elementcontrol[j_aux][counter]
+								.mO2_real = realelement[m][aux].mO2;
+							elementcontrol[j_aux][counter].TSD = element[m][aux]
+								.TSD;
+							elementcontrol[j_aux][counter].Tadib = element[m]
+								[aux].Tadib;
+							elementcontrol[j_aux][counter].X = element[m][aux]
+								.X;
+							elementcontrol[j_aux][counter].FI = element[m][aux]
+								.FI;
 
 						}
 					}
@@ -4104,13 +3988,36 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 						if (POI_IM[m][i] <= time_vector[counter]) {
 							aux = i * num_j + j;
 
-							if ((element[m][aux].state == stBurned_rich_premix) ||
-								(element[m][aux].state == stBurned_poor_premix) ||
-								(element[m][aux].state == stBurned_by_diffusion) ||
-								(element[m][aux].state == stBurned_by_second_diffusion) ||
-								(element[m][aux].state == stInto_diffusion_flame)) {
+							if (((element[m][aux].state == stEvaporated) &&
+									(time_vector[counter] >
+										(SOC_IM[m] / (6 * speed)))) ||
+								(element[m][aux].state ==
+									stBurned_rich_premix) ||
+								(element[m][aux].state ==
+									stBurned_poor_premix) ||
+								(element[m][aux].state ==
+									stBurned_by_diffusion)
+								|| (element[m][aux].state ==
+									stBurned_by_second_diffusion) ||
+								(element[m][aux].state ==
+									stInto_diffusion_flame)) {
 								mf_burned = mf_burned +
-									(element[m][aux].mf_reac - realelement[m][aux].mf_reac);
+									(element[m][aux]
+									.mf_reac - realelement[m][aux].mf_reac);
+							}
+							// Para HRL_PMX
+							if (((element[m][aux].state == stEvaporated) &&
+									(time_vector[counter] >
+										(SOC_IM[m] / (6 * speed)))) ||
+								(element[m][aux].state ==
+									stBurned_rich_premix) ||
+								(element[m][aux].state ==
+									stBurned_poor_premix) ||
+								(element[m][aux].state ==
+									stBurned_by_second_diffusion)) {
+								mf_burned_pmx = mf_burned_pmx +
+									(element[m][aux].mf_reac - realelement[m]
+									[aux].mf_reac_pmx);
 							}
 
 						}
@@ -4120,16 +4027,483 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 
 		} // if time>SOI
 
-		HRF[counter] = mf_burned / (mfuel * 1e-3);
+		HRF[counter] = mf_burned / (mfuel * 1.e-3);
+		HRF_PMX[counter] = mf_burned_pmx / (mfuel * 1.e-3);
 
-		mO2_bowl[counter] = mO2_bowl[counter] - (HRF[counter] - HRF[counter - 1])
-			* mfuel * 1e-3 * Kst1;
-		mCO2_bowl[counter] = mCO2_bowl[counter] + (HRF[counter] - HRF[counter - 1])
-			* mfuel * 1e-3 * Kst5;
-		mH2O_bowl[counter] = mH2O_bowl[counter] + (HRF[counter] - HRF[counter - 1])
-			* mfuel * 1e-3 * Kst6;
+		mO2_bowl[counter] = mO2_bowl[counter] -
+			(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst1;
+		mCO2_bowl[counter] = mCO2_bowl[counter] +
+			(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst5;
+		mH2O_bowl[counter] = mH2O_bowl[counter] +
+			(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst6;
+
+		mSootCil[counter] = mSOOT_IVC_C * (mO2_bowl[counter] + mO2_Vc[counter])
+			/ mO2_IVC;
+
+		/** **********************************************************************************
+		Inicio cálculo radiación.
+		 *********************************************************************************** */
+
+		double lambda, dlambda, tgAng, Teje, Tllama, Xeje, radio, aux1, Xmax;
+		int k, iini, ifin;
+
+		if ((time_vector[counter] <= (Ang_Grab / (6 * speed))) &&
+			(time_vector[counter + 1] > (Ang_Grab / (6 * speed))) &&
+			(RadCalc == 1)) {
+
+			// Cabecera del fichero 1:
+			fprintf(foculto,
+				"Time,%le,[s],Ang,%le,[ºcig],LOL,%le,[mm],FrLOL,%le\n#iny,Elem,r,x,msoot,mtot,rho,T,FI,mf_reac\n", time_vector[counter], Ang_Grab, XLO[counter] * 1000., FRLOL);
+
+			// Cuerpo del fichero 1:
+			for (m = 0; m < inj_num; m++) {
+				for (i = 0; i < num_i_IM[m]; i++) {
+					for (j = 0; j < num_j; j++) {
+
+						// aux converts the element and the sub-element position into only one position
+
+						aux = i * num_j + j;
+						fprintf(foculto,
+							"%d,%d,%d,%le,%le,%le,%le,%le,%le,%le\n", m + 1,
+							i + 1, j + 1, element[m][aux].X,
+							element[m][aux].mSOOT_C, element[m][aux].mtotal,
+							roair[counter], element[m][aux].Tadib,
+							element[m][aux].FI, realelement[m][aux].mf_reac);
+					}
+				}
+			}
+		}
+
+		// Dimensionamos el array según el número de pulsos
+		Radiation = (struct stRadArray * *)malloc
+			(inj_num*sizeof(struct stRadArray*));
+		Itot = (double*)malloc(inj_num*sizeof(double));
+
+		// Calculamos las cosas comunes. Después ya se hará el barrido de lambda.
+
+		// Lo primero es saber cuántos puntos hay (puntos del paquete 5 con Xsoot distinto de 0):
+		for (m = 0; m < inj_num; m++) {
+			iini = 0;
+			ifin = 0;
+			Itot[m] = 0; // Inicializamos a 0 la intensidad.
+			Xmax = 0.;
+			if (CalcRad[m] == 1 && RadCalc == 1) { // Sólo se calcula si toca y si el usuario quiere
+				j = 4; // Paquete 5
+				i = 0;
+				aux = i * num_j + j;
+				// Busco el primer punto en el eje con masa de Soot distinta de 0
+				while ((element[m][aux].mSOOT_C < 1.e-20) &&
+					(i < (num_i_IM[m] - 1))) {
+					i++;
+					aux = i * num_j + j;
+				}
+				iini = i;
+				while ((element[m][aux].mSOOT_C > 0.) && (i < (num_i_IM[m] - 1))
+					) {
+					i++;
+					aux = i * num_j + j;
+				}
+				if (i == (num_i_IM[m] - 1)) {
+					if (element[m][aux].mSOOT_C > 0.)
+						ifin = i;
+					else
+						ifin = i - 1;
+				}
+				else
+					ifin = i - 1;
+
+				if (iini < ifin) {
+					// Sólo en este caso conviene proseguir con el cálculo...
+					// Dimensionamos el vector. Tengo en cuenta que añadiré un punto por delante (el que está justo en el frente) y otro por detrás (el que está justo en el LOL)
+					Radiation[m] = (struct stRadArray*)malloc
+						((ifin - iini + 3)*sizeof(struct stRadArray));
+
+					// Inicializaciones
+					tgAng = tan(ANG_CHORRO / 2 * PI / 180.) * Kmixture1 / 0.75;
+
+					// El primer elemento es el del frente de llama. Busco con precisión su posición.
+					if (iini > 0) {
+						// En este caso el eje del chorro ya ha llegado a estequiométrico. El punto está entre iini e iini-1.
+						Radiation[m][0].x =
+							(element[m][iini * num_j + 4].X *
+							(element[m][(iini - 1) * num_j + 4].FI - 1.)
+							+ element[m][(iini - 1) * num_j + 4].X *
+							(1. - element[m][iini * num_j + 4].FI)) /
+							(element[m][(iini - 1) * num_j + 4].FI - element[m]
+							[iini * num_j + 4].FI);
+						if (PEN_max[counter] < Radiation[m][0].x)
+							PEN_max[counter] = Radiation[m][0].x;
+					}
+					else {
+						// En este caso tengo que predecir la posición de x del frente si se hubiera llegado a esa posición:
+						Radiation[m][0].x = element[m][4].X * Kst1 * element[m]
+							[4].mf_jet / element[m][4].mO2;
+						if (PEN_max[counter] < element[m][4].X)
+							PEN_max[counter] = element[m][4].X;
+					}
+
+					// Reajusto iini para asegurar utilizar el primer paquete disponible.
+					iini--;
+					Radiation[m][0].RFlame = 0.;
+					Radiation[m][0].R = Radiation[m][0].x * tgAng;
+					Radiation[m][0].np = 1;
+					Radiation[m][0].dr = 1.e-3;
+					Radiation[m][0].T[0] = Tadib_cyl[counter];
+					Radiation[m][0].Xsoot[0] = 0.;
+					Radiation[m][0].Tau[0] = 1.;
+					Radiation[m][0].PTau[0] = 1.;
+					Radiation[m][0].Ilambda = 0.;
+					Radiation[m][0].Itot = 0.;
+
+					for (i = (iini + 1); i <= ifin; i++) {
+						j = 4; // Paquete 5
+						aux = i * num_j + j;
+						Radiation[m][i - iini].x = element[m][aux].X;
+						aux1 = Radiation[m][i - iini].x / Radiation[m][0].x;
+						if (aux1 < cero)
+							aux1 = cero;
+						aux1 = -log(aux1) / 4.6;
+						if (aux1 < 0.)
+							aux1 = 0.;
+						Radiation[m][i - iini].RFlame = Radiation[m][i - iini]
+							.x * tgAng * sqrt(aux1);
+						Radiation[m][i - iini].R = Radiation[m][i - iini]
+							.x * tgAng;
+
+						if (Radiation[m][i - iini].RFlame > cero) {
+							Radiation[m][i - iini].np = NR;
+							// Máxima resolución (según tamaño de vectores)
+							Radiation[m][i - iini].dr = Radiation[m][i - iini]
+								.RFlame * 2. / (float)
+								Radiation[m][i - iini].np;
+							// Ahora rellenamos los vectores (en función de r):
+							Teje = element[m][aux].Tadib;
+							Tllama = Tadib_cyl[counter];
+							Xeje = element[m][aux].mSOOT_C / element[m][aux]
+								.mtotal * p_cyl[counter] / (287. * Teje)
+								/ 1800.; // Se asume que Rho_soot es 1800 kg/m^3
+							if (Xeje > Xmax)
+								Xmax = Xeje;
+							for (k = 0; k < Radiation[m][i - iini].np; k++) {
+								radio = -Radiation[m][i - iini].RFlame +
+									(2. * k + 1.) / 2. * Radiation[m][i - iini]
+									.dr;
+								Radiation[m][i - iini].T[k] = Teje +
+									(Radiation[m][0].x / Radiation[m][i - iini]
+									.x *
+									(exp
+										(-4.6 * pow
+										(radio / Radiation[m][i - iini].R,
+										2)) - 1.) /
+									(1. - Radiation[m][0].x / Radiation[m]
+										[i - iini].x)) * (Tllama - Teje);
+								// Radiation[m][i-iini].Xsoot[k]=Xeje*(1.-fabs(radio/Radiation[m][i-iini].RFlame));
+								Radiation[m][i - iini].Xsoot[k] = Xeje * exp
+									(-4.6 * pow
+									(radio / Radiation[m][i - iini].RFlame,
+										2));
+							}
+						}
+						else {
+							Radiation[m][i - iini].np = 1.;
+							Radiation[m][i - iini].dr = 0.001;
+							Teje = element[m][aux].Tadib;
+							if (Teje > cero)
+								Xeje = element[m][aux].mSOOT_C / element[m][aux]
+									.mtotal * p_cyl[counter] / (287. * Teje)
+									/ 1800.;
+							// Se asume que Rho_soot es 1800 kg/m^3
+							if (Xeje > Xmax)
+								Xmax = Xeje;
+							Radiation[m][i - iini].T[0] = Teje;
+							Radiation[m][i - iini].Xsoot[0] = Xeje;
+						}
+						Radiation[m][i - iini].Itot = 0.; // Se inicializa a cero la integral de la radiación monocromática.
+
+					} // End for i
+
+					// Colocamos ahora el paquete que se encuentra justo en el lift-off
+					// Compruebo si no es el último paquete
+					if (ifin < (num_i_IM[m] - 1)) {
+						// No es el último paquete. Entonces coloco uno justo en el lift-off si no hay incoherencias...
+						if (XLO[counter] < Radiation[m][ifin - iini].x) {
+							Radiation[m][ifin + 1 - iini].x = XLO[counter];
+							aux = (ifin + 1) * num_j + 4;
+							// T se interpola
+							Radiation[m][ifin + 1 - iini].T[0] =
+								(element[m][aux].Tadib *
+								(element[m][aux - num_j].X - Radiation[m]
+									[ifin + 1 - iini].x)
+								+ element[m][aux - num_j].Tadib *
+								(Radiation[m][ifin + 1 - iini].x - element[m]
+									[aux].X)) /
+								(element[m][aux - num_j].X - element[m][aux]
+								.X);
+						}
+						else {
+							// Dado que el XLO es mayor, añado un paquete en la misma posición
+							Radiation[m][ifin + 1 - iini].x = Radiation[m]
+								[ifin - iini].x;
+							Radiation[m][ifin + 1 - iini].T[0] = Radiation[m]
+								[ifin - iini].T
+								[(Radiation[m][ifin - iini].np - 1) / 2];
+						}
+					}
+					else {
+						// Es el último paquete. Coloco el paquete "extra" en el mismo sitio que el último
+						Radiation[m][ifin + 1 - iini].x = Radiation[m]
+							[ifin - iini].x;
+						PEN_min[counter] = Radiation[m][ifin - iini].x;
+						Radiation[m][ifin + 1 - iini].T[0] = Radiation[m]
+							[ifin - iini].T[(Radiation[m][ifin - iini].np - 1)
+						/ 2];
+					}
+					aux1 = Radiation[m][ifin + 1 - iini].x / Radiation[m][0].x;
+					if (aux1 < cero)
+						aux1 = cero;
+					aux1 = -log(aux1) / 4.6;
+					if (aux1 < 0.)
+						aux1 = 0.;
+					Radiation[m][ifin + 1 - iini].RFlame = Radiation[m]
+						[ifin + 1 - iini].x * tgAng * sqrt(aux1);
+					Radiation[m][ifin + 1 - iini].R = Radiation[m]
+						[ifin + 1 - iini].x * tgAng;
+					Radiation[m][ifin + 1 - iini].np = 1;
+					Radiation[m][ifin + 1 - iini].dr = 0.001;
+					Radiation[m][ifin + 1 - iini].Xsoot[0] = 0.;
+					Radiation[m][ifin + 1 - iini].Tau[0] = 1.;
+					Radiation[m][ifin + 1 - iini].PTau[0] = 1.;
+					Radiation[m][ifin + 1 - iini].Ilambda = 0.;
+					Radiation[m][ifin + 1 - iini].Itot = 0.;
+
+					if ((time_vector[counter] <= (Ang_Grab / (6 * speed))) &&
+						(time_vector[counter + 1] > (Ang_Grab / (6 * speed)))
+						&& (RadCalc == 1)) {
+						// Rellenamos la cabecera del fichero oculto 2:
+						fprintf(foculto2,
+							"Time,%le,[s],Ang,%le,[ºcig],LOL,%le,[mm]\n",
+							time_vector[counter], Ang_Grab,
+							XLO[counter] * 1000.);
+						// Coordenada x
+						fprintf(foculto2, "x");
+						for (i = iini; i <= (ifin + 1); i++)
+							fprintf(foculto2, ",%le", Radiation[m][i - iini].x);
+						fprintf(foculto2, "\n");
+						// Coordenada Rllama
+						fprintf(foculto2, "Rllama");
+						for (i = iini; i <= (ifin + 1); i++)
+							fprintf(foculto2, ",%le",
+							Radiation[m][i - iini].RFlame);
+						fprintf(foculto2, "\n");
+						// Coordenada R
+						fprintf(foculto2, "R");
+						for (i = iini; i <= (ifin + 1); i++)
+							fprintf(foculto2, ",%le", Radiation[m][i - iini].R);
+						fprintf(foculto2, "\n");
+						// Xsoot en el eje
+						fprintf(foculto2, "Xsoot");
+						fprintf(foculto2, ",0.0");
+						for (i = iini + 1; i <= ifin; i++)
+							fprintf(foculto2, ",%le",
+							Radiation[m][i - iini].Xsoot[(NR - 1) / 2]);
+						fprintf(foculto2, ",0.0\n");
+						// T en el eje
+						fprintf(foculto2, "T");
+						for (i = iini; i <= (ifin + 1); i++) {
+							if (Radiation[m][i - iini].np == NR)
+								aux1 = Radiation[m][i - iini].T[(NR - 1) / 2];
+							else
+								aux1 = Radiation[m][i - iini].T[0];
+							fprintf(foculto2, ",%le", aux1);
+						}
+						fprintf(foculto2, "\n");
+					}
+
+					// Ahora hacemos un barrido de lambda...
+					dlambda = 0.5;
+					for (lambda = dlambda; lambda < 5.;
+						lambda = lambda + dlambda) {
+						for (i = (iini + 1); i <= ifin; i++) {
+							// Rellenamos los vectores (en función de r):
+							for (k = 0; k < Radiation[m][i - iini].np; k++) {
+								Radiation[m][i - iini].Tau[k] = exp
+									(-6.3 * Radiation[m][i - iini].Xsoot[k]
+									* 1.e6 * Radiation[m][i - iini].dr / pow
+									(lambda, 1.22 - 0.245 * log(lambda)));
+								if (k == 0)
+									Radiation[m][i - iini].PTau[k] = Radiation
+										[m][i - iini].Tau[k];
+								else
+									Radiation[m][i - iini].PTau[k] = Radiation
+										[m][i - iini].Tau[k] * Radiation[m]
+										[i - iini].PTau[k - 1];
+								// Acumulo la atenuación
+							}
+
+							// Calculamos la radiación monocromática:
+							Radiation[m][i - iini].Ilambda = 0.;
+							for (k = 0; k < Radiation[m][i - iini].np; k++) {
+								if (Radiation[m][i - iini].T[k] > cero) {
+									// Es el único caso en el que tiene sentido calcularla. Si no, la radiación es nula
+									aux1 = 3.743e8 /
+										(PI * pow(lambda,
+										5) *
+										(exp
+										(1.4387e4 /
+										(lambda * Radiation[m][i - iini].T[k])
+										) - 1.));
+									aux1 = aux1 *
+										(1. - Radiation[m][i - iini].Tau[k])
+										* Radiation[m][i - iini].PTau[k];
+									Radiation[m][i - iini]
+										.Ilambda += aux1 * 1.e6;
+									// Expresada en W/st·m^3
+								}
+							}
+							Radiation[m][i - iini].Itot += Radiation[m]
+								[i - iini].Ilambda;
+						} // End for i
+
+						if ((time_vector[counter] <= (Ang_Grab / (6 * speed)))
+							&& (time_vector[counter + 1] >
+								(Ang_Grab / (6 * speed))) && (RadCalc == 1)) {
+							// Escribimos el resultado
+							// Ilambda
+							fprintf(foculto2, "%le", lambda);
+							for (i = iini; i <= (ifin + 1); i++)
+								fprintf(foculto2, ",%le",
+								Radiation[m][i - iini].Ilambda);
+							fprintf(foculto2, "\n");
+
+							// KL
+							fprintf(foculto2, "%le", lambda);
+							fprintf(foculto2, ",0.0");
+							for (i = iini + 1; i <= ifin; i++)
+								fprintf(foculto2, ",%le",
+								-log(Radiation[m][i - iini].PTau[NR - 1]));
+							fprintf(foculto2, ",0.0\n");
+						}
+
+					} // End for lambda
+
+					// Calculamos la radiación total en cada x:
+					for (i = (iini + 1); i <= ifin; i++) {
+						// Descontamos la mitad del último punto
+						Radiation[m][i - iini].Itot -= Radiation[m][i - iini]
+							.Ilambda / 2.;
+						Radiation[m][i - iini].Itot *= dlambda * 1.e-6;
+						// Multiplicamos por dlambda.
+						// Añadimos el tramo final (suponemos que en 10 um ya vale 0).
+						Radiation[m][i - iini].Itot += Radiation[m][i - iini]
+							.Ilambda / 2. * (10. - lambda) * 1.e-6;
+						// Intensidad en W/st·m^2
+					}
+
+					if ((time_vector[counter] <= (Ang_Grab / (6 * speed))) &&
+						(time_vector[counter + 1] > (Ang_Grab / (6 * speed)))
+						&& (RadCalc == 1)) {
+						// Grabamos el resultado:
+						fprintf(foculto2, "Itot");
+						// Itot
+						for (i = iini; i <= (ifin + 1); i++)
+							fprintf(foculto2, ",%le",
+							Radiation[m][i - iini].Itot);
+						fprintf(foculto2, "\n");
+					}
+					// Finalmente calculamos la radiación total:
+					if (iini < 0) {
+						// Se ha de quitar el primer paquete (frente), pues se trata de un chorro no estabilizado.
+						for (i = (iini + 2); i <= (ifin + 1); i++) {
+							Itot[m] +=
+								(Radiation[m][i - iini - 1].Itot + Radiation[m]
+								[i - iini].Itot) / 2. *
+								(Radiation[m][i - iini - 1].x - Radiation[m]
+								[i - iini].x) *
+								(Radiation[m][i - iini - 1].RFlame + Radiation
+								[m][i - iini].RFlame) * PI;
+						}
+					}
+					else {
+						for (i = (iini + 1); i <= (ifin + 1); i++) {
+							Itot[m] +=
+								(Radiation[m][i - iini - 1].Itot + Radiation[m]
+								[i - iini].Itot) / 2. *
+								(Radiation[m][i - iini - 1].x - Radiation[m]
+								[i - iini].x) *
+								(Radiation[m][i - iini - 1].RFlame + Radiation
+								[m][i - iini].RFlame) * PI;
+						}
+					}
+					Itot[m] *= PI;
+					// Corregimos el valor según la correlación empírica obtenida.
+					// Tengo en cuenta dos acortamientos de la llama: por YO2 < 0.23 y por chorro no estacionario.
+					aux1 = 1. /
+						(1. - pow(pow(Radiation[m][1].x / Radiation[m][0].x,
+								2) * mO2_bowl[counter] / mtotal_bowl[counter]
+							* Xmax / (0.23 * 0.004298537), 1. / 2.5));
+					// Lo limitamos entre 1 y 2:
+					if (aux1 > 2.)
+						aux1 = 2.;
+					if (aux1 < 1.)
+						aux1 = 1.;
+					Itot[m] *= aux1;
+
+					if ((time_vector[counter] <= (Ang_Grab / (6 * speed))) &&
+						(time_vector[counter + 1] > (Ang_Grab / (6 * speed)))
+						&& (RadCalc == 1))
+						fprintf(foculto2, "ITOT,%le\n", Itot[m]);
+
+					free(Radiation[m]);
+				} // End if iini<ifin
+			} // End if CalcRad
+		} // End for m
+
+		// Almacenamos el valor de la intensidad de todos los pulsos en el vector de salida:
+		evol_Radiacion[counter] = 0.;
+		for (m = 0; m < inj_num; m++)
+			evol_Radiacion[counter] += Itot[m];
+		// Internamente ACT trabaja con un chorro que reúne a todos los chorros (# orificios). Por tanto no hay que multiplicar por n_holes
+		// evol_Radiacion[counter]*=n_holes;
+
+		/** ******************************************************************************
+		Cerramos los ficheros ocultos y liberamos memoria
+		 ******************************************************************************* */
+
+		// Liberamos la memoria:
+		free(Radiation);
+		free(Itot);
+
+		/** **********************************************************************************
+		Fin cálculo y escritura de radiación
+		 *********************************************************************************** */
+
+		// Grabamos fichero interno
+		elem_i = 24;
+		pulso_i = 0;
+		if (RadCalc == 1 && Ang_Grab > -179.)
+			fprintf(finterno, "%le,%le,%le,%le,%le\n",
+			time_vector[counter] * 6. * speed,
+			element[pulso_i][elem_i].mSOOT_C,
+			element[pulso_i][elem_i].dSOOT_C,
+			realelement[pulso_i][elem_i].mf_reac,
+			realelement[pulso_i][elem_i].dmf_reac);
+
+		// Reajuste, por si acaso:
+		if (PEN_min[counter] > PEN_max[counter])
+			PEN_min[counter] = 0.;
 
 	} // for counter
+
+	if (RadCalc == 1 && Ang_Grab > -179.) {
+		fclose(foculto);
+		fclose(foculto2);
+	}
+
+	/** **************************************************************************** */
+
+	// Cierro fichero interno
+	if (RadCalc == 1 && Ang_Grab > -179.)
+		fclose(finterno);
 
 	mSOOT_bowl_A_i_burned = mSOOT_bowl_A[size - 1];
 	mSOOT_bowl_B_i_burned = mSOOT_bowl_B[size - 1];
@@ -4139,14 +4513,20 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 		for (i = 0; i < num_i_IM[m]; i++) {
 			for (j = 0; j < num_j; j++) {
 				aux = i * num_j + j;
-				mSOOT_bowl_A[size - 1] = mSOOT_bowl_A[size - 1] + element[m][aux].mSOOT_A;
-				mSOOT_bowl_B[size - 1] = mSOOT_bowl_B[size - 1] + element[m][aux].mSOOT_B;
-				mSOOT_bowl_C[size - 1] = mSOOT_bowl_C[size - 1] + element[m][aux].mSOOT_C;
+				mSOOT_bowl_A[size - 1] = mSOOT_bowl_A[size - 1] + element[m]
+					[aux].mSOOT_A;
+				mSOOT_bowl_B[size - 1] = mSOOT_bowl_B[size - 1] + element[m]
+					[aux].mSOOT_B;
+				mSOOT_bowl_C[size - 1] = mSOOT_bowl_C[size - 1] + element[m]
+					[aux].mSOOT_C;
 
 				if (element[m][aux].FI <= 1) {
-					mSOOT_bowl_A_i_burned = mSOOT_bowl_A_i_burned + element[m][aux].mSOOT_A;
-					mSOOT_bowl_B_i_burned = mSOOT_bowl_B_i_burned + element[m][aux].mSOOT_B;
-					mSOOT_bowl_C_i_burned = mSOOT_bowl_C_i_burned + element[m][aux].mSOOT_C;
+					mSOOT_bowl_A_i_burned = mSOOT_bowl_A_i_burned + element[m]
+						[aux].mSOOT_A;
+					mSOOT_bowl_B_i_burned = mSOOT_bowl_B_i_burned + element[m]
+						[aux].mSOOT_B;
+					mSOOT_bowl_C_i_burned = mSOOT_bowl_C_i_burned + element[m]
+						[aux].mSOOT_C;
 				}
 			}
 		}
@@ -4155,15 +4535,19 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	vector_to_interpolate = (double*)malloc(size*sizeof(double));
 	vector_to_interpolate[0] = 0;
 	for (counter = 1; counter < size; counter++) {
-		vector_to_interpolate[counter] = (HRF[counter] - HRF[counter - 1]) * (mfuel * 1e-6) * HP /
+		vector_to_interpolate[counter] = (HRF[counter] - HRF[counter - 1]) *
+			(mfuel * 1e-6) * HP /
 			(time_vector[counter] - time_vector[counter - 1]);
 	}
 
-	ROHR[0] = 0;
-	ROHR[size - 1] = vector_to_interpolate[size - 1];
+	/* ROHR[0]=0;
+	ROHR[size-1]=vector_to_interpolate[size-1];
+	for(counter=1;counter<size-1;counter++){
+	ROHR[counter]=(vector_to_interpolate[counter-1]+vector_to_interpolate[counter]+vector_to_interpolate[counter+1])/3;
+	} */ // Quito el filtrado de la ROHR, pues ya sale bien.
+
 	for (counter = 1; counter < size - 1; counter++) {
-		ROHR[counter] = (vector_to_interpolate[counter - 1] + vector_to_interpolate[counter]
-			+ vector_to_interpolate[counter + 1]) / 3;
+		ROHR[counter] = vector_to_interpolate[counter];
 	}
 	free(vector_to_interpolate);
 
@@ -4193,14 +4577,15 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	complete_deform = (double*)malloc(complete_size*sizeof(double));
 	complete_CAD = (double*)malloc(complete_size*sizeof(double));
 
-	CALCULUS_OF_IMP_HP(complete_p_cyl, complete_CAD, p_cyl, V_cyl, complete_V_cyl, complete_deform,
-		&WI_HP, &IMP_HP, complete_size, complete_prev_size, delta_t, speed, size, IVC, EVO, VTDC,
-		Cylinder_capacity, PI, Piston_D, S, Crank_L, Connecting_Rod_L, E, Piston_Axis_D,
-		Piston_Crown_H, M_Connecting_Rod, M_P_R_PA, C_ESteel, C_Mech_Defor, inlet_pres,
-		exhaust_pres);
+	CALCULUS_OF_IMP_HP(complete_p_cyl, complete_CAD, p_cyl, V_cyl,
+		complete_V_cyl, complete_deform, &WI_HP, &IMP_HP, complete_size,
+		complete_prev_size, delta_t, speed, size, IVC, EVO, VTDC,
+		Cylinder_capacity, PI, Piston_D, S, Crank_L, Connecting_Rod_L, E,
+		Piston_Axis_D, Piston_Crown_H, M_Connecting_Rod, M_P_R_PA, C_ESteel,
+		C_Mech_Defor, inlet_pres, exhaust_pres);
 
-	CALCULUS_OF_MEAN_VARIABLES(p_cyl, T_cyl, dp_da_cyl, CAD, &pmax, &Tmax, &dp_da_max, &p_exit,
-		&T_exit, size);
+	CALCULUS_OF_MEAN_VARIABLES(p_cyl, T_cyl, dp_da_cyl, CAD, &pmax, &Tmax,
+		&dp_da_max, &p_exit, &T_exit, size);
 
 	// indicated average power and indicated efficiency
 	mean_var_exit[0] = IMP_HP * 1e-5;
@@ -4214,62 +4599,44 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	mean_var_exit[6] = dp_da_max * 1e-5;
 
 	// NOx concentration exit
-	mean_var_exit[7] = mNOx_bowl[size - 3] * 1e6 / (1.587 * (mairIVC + mfuel * 1e-3));
+	mean_var_exit[7] = mNOx_bowl[size - 3] * 1e6 /
+		(1.587 * (mairIVC + mfuel * 1.e-3));
 
-	mean_var_exit[8] = mO2_bowl[size - 3] / (mairIVC + mfuel * 1e-3);
-
-	SOOT_EVO_A = mSOOT_bowl_A[size - 1] * 1e6 / (mairIVC + mfuel * 1e-3);
+	mean_var_exit[8] = mO2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
 
 	// Species concentration at EVO
-	species_EVO_exit[0] = mN2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
-	species_EVO_exit[1] = mO2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
-	species_EVO_exit[2] = mCO2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
-	species_EVO_exit[3] = mH2O_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
-	species_EVO_exit[4] = mNOx_bowl[size - 3] / (mairIVC + mfuel * 1.e-3) / 1.587;
-	species_EVO_exit[5] = mCO_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
-	species_EVO_exit[6] = mSOOT_bowl_A[size - 1] / (mairIVC + mfuel * 1.e-3);
-	species_EVO_exit[7] = mHC_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[0] = mN2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[1] = mO2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[2] = mCO2_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[3] = mH2O_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[4] = mNOx_bowl[size - 3] / (mairIVC + mfuel * 1.e-3)
+		/ 1.587;
+	(*dataOUT).species_EVO[5] = mCO_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[6] = mSOOT_bowl_A[size - 3] /
+		(mairIVC + mfuel * 1.e-3);
+	(*dataOUT).species_EVO[7] = mHC_bowl[size - 3] / (mairIVC + mfuel * 1.e-3);
+	// The mass fractions are adjusted so as to ensure that the summation is 1
+	Tot = 0.;
+	for (i = 0; i < 8; i++)
+		Tot += (*dataOUT).species_EVO[i];
+	for (i = 0; i < 8; i++)
+		(*dataOUT).species_EVO[i] /= Tot;
 
-	mean_var_exit[9] = 2;
-	RES_FSN = 2.;
-	for (i = 0; i < 6; i++) {
-		mean_var_exit[9] = mean_var_exit[9] / RES_FSN;
-		if ((SOOT_EVO_A > 0) && (SOOT_EVO_A < 3000)) {
-			RES_FSN = (1 / SOOT_EVO_A) * (1 / 1.2) * (1 / 0.405) * 4.95 * mean_var_exit[9] * exp
-				(0.38 * mean_var_exit[9]);
-		}
-		else if (SOOT_EVO_A == 0) {
-			mean_var_exit[9] = 0;
-			RES_FSN = 1;
-		}
-		else {
-			mean_var_exit[9] = 10;
-			RES_FSN = 1;
-		}
-	}
+	SOOT_EVO_A = mSOOT_bowl_A[size - 1] * 1.e6 / (mairIVC + mfuel * 1.e-3);
 
-	mean_var_exit[9] = mean_var_exit[9] * 4;
-	/*
-	SOOT_EVO_C=mSOOT_bowl_C[size-1]*1e6/(mairIVC+mfuel*1e-3);
+	// Pasamos el valor a FSN
+	mean_var_exit[10] = YSoot_to_FSN(SOOT_EVO_A);
 
+	SOOT_EVO_C = (evol_mSoot[size - 1] + mSootCil[size - 1]) * 1.e6 /
+		(mairIVC + mfuel * 1.e-3);
 
-	mean_var_exit[10]=2;
-	RES_FSN=2.;
-	for(i=0;i<6;i++){
-	mean_var_exit[10]=mean_var_exit[10]/RES_FSN;
-	if((SOOT_EVO_C>0)&&(SOOT_EVO_C<3000)){
-	RES_FSN=(1/SOOT_EVO_C)*(1/1.2)*(1/0.405)*4.95*mean_var_exit[10]*exp(0.38*mean_var_exit[10]);
-	}else if(SOOT_EVO_C==0){
-	mean_var_exit[10]=0;
-	RES_FSN=1;
-	}else{
-	mean_var_exit[10]=10;
-	RES_FSN=1;
-	}
-	}
-
-	mean_var_exit[10]=mean_var_exit[10];
-	 */
+	// Pasamos el valor a FSN
+	mean_var_exit[9] = YSoot_to_FSN(SOOT_EVO_C);
+	// Añadimos la corrección empírica:
+	mean_var_exit[9] = 0.0930816 * pow(mean_var_exit[9], 2.68);
+	// Limitamos el valor a 10
+	if (mean_var_exit[9] > 10.)
+		mean_var_exit[9] = 10.;
 
 	heat_transfer[0] = 0;
 	heat_transfer[1] = 0;
@@ -4277,13 +4644,17 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	heat_transfer[3] = 0;
 
 	for (counter = 0; counter < size - 1; counter++) {
-		heat_transfer[0] = heat_transfer[0] + min(H_cooler[counter], H_cooler[counter + 1]) + pow
+		heat_transfer[0] = heat_transfer[0] + min(H_cooler[counter],
+			H_cooler[counter + 1]) + pow
 			(pow((H_cooler[counter + 1] - H_cooler[counter]) / 2, 2), 0.5);
-		heat_transfer[1] = heat_transfer[1] + min(Qcylhead[counter], Qcylhead[counter + 1]) + pow
+		heat_transfer[1] = heat_transfer[1] + min(Qcylhead[counter],
+			Qcylhead[counter + 1]) + pow
 			(pow((Qcylhead[counter + 1] - Qcylhead[counter]) / 2, 2), 0.5);
-		heat_transfer[2] = heat_transfer[2] + min(Qcyl[counter], Qcyl[counter + 1]) + pow
+		heat_transfer[2] = heat_transfer[2] + min(Qcyl[counter],
+			Qcyl[counter + 1]) + pow
 			(pow((Qcyl[counter + 1] - Qcyl[counter]) / 2, 2), 0.5);
-		heat_transfer[3] = heat_transfer[3] + min(Qpis[counter], Qpis[counter + 1]) + pow
+		heat_transfer[3] = heat_transfer[3] + min(Qpis[counter],
+			Qpis[counter + 1]) + pow
 			(pow((Qpis[counter + 1] - Qpis[counter]) / 2, 2), 0.5);
 	}
 
@@ -4293,7 +4664,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],mtotal,mfuel,mfuel_real,mO2,mO2_real,TSD,Tadib");
+	strcpy(title,"CAD[º],time[s],mtotal,mfuel,mfuel_real,mO2,mO2_real,TSD,Tadib");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4307,7 +4678,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],Pcyl[bar],dpdacyl[bar/ï¿½],HR[J],ROHR[J/s],Tcyl[K],Vcyl[m3],ro_air[kg/m3],uo*[m/s],mtotal_cyl[g],injection[kg/s],accu_mfuel[kg],mO2bowl[g],mO2Vd[g],YO2[-],Tsq[K],Tadib_cyl[K],mNOx[g],XLO[m]");
+	strcpy(title,"CAD[º],time[s],Pcyl[bar],dpdacyl[bar/º],HR[J],ROHR[J/s],Tcyl[K],Vcyl[m3],ro_air[kg/m3],uo*[m/s],mtotal_cyl[g],injection[kg/s],accu_mfuel[kg],mO2bowl[g],mO2Vd[g],YO2[-],Tsq[K],Tadib_cyl[K],mNOx[g],XLO[m]");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4323,7 +4694,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4338,7 +4709,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4353,7 +4724,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4370,7 +4741,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4385,7 +4756,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4400,7 +4771,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4418,7 +4789,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4432,7 +4803,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4448,7 +4819,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[ï¿½],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[º],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4467,17 +4838,17 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	CAD_exit[0] = -180;
 
 	for (counter = 1; counter < CAI; counter++) {
-		time_vector_exit[counter] = time_vector_exit[counter - 1] + 60 / ((CAI - 1) * speed);
-		// CAD_exit[counter]=CAD_exit[counter-1]+360*pow((CAI-1),-1);
-		CAD_exit[counter] = CAD_exit[counter - 1] + 360. / (CAI - 1); // <<----PACO
+		time_vector_exit[counter] = time_vector_exit[counter - 1] + 60 /
+			((CAI - 1) * speed);
+		CAD_exit[counter] = CAD_exit[counter - 1] + 360 / (CAI - 1);
 	}
 	// pcyl
 	vector_to_interpolate = (double*)malloc(size*sizeof(double));
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = p_cyl[counter];
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
@@ -4490,9 +4861,10 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	vector_to_interpolate = (double*)malloc(size*sizeof(double));
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = dp_da_cyl[counter];
+		// vector_to_interpolate[counter]=PEN_min[counter]*1e5;    // El factor es para evitar cambio de unidad. OJO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
@@ -4506,8 +4878,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = T_cyl[counter];
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
@@ -4521,8 +4893,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = HRF[counter];
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
@@ -4532,10 +4904,25 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	}
 
 	/** *************** HRF=0 if mfuel==0********* */
-	if (aux_mfuel == 0) {
+	if (aux_mfuel == 0.) {
 		for (counter = 0; counter < CAI; counter++) {
-			HRF_exit[counter] = 0;
+			HRF_exit[counter] = 0.;
 		}
+	}
+
+	// HRF_PMX
+	vector_to_interpolate = (double*)malloc(size*sizeof(double));
+	for (counter = 0; counter < size; counter++) {
+		vector_to_interpolate[counter] = HRF_PMX[counter];
+	}
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
+	free(vector_to_interpolate);
+	for (counter = 0; counter < CAI; counter++) {
+		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
+			aux_vector[counter] = 0;
+		}
+		(*dataOUT).HRF_PMX[counter] = aux_vector[counter];
 	}
 
 	// ROHR
@@ -4543,8 +4930,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = ROHR[counter];
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
@@ -4558,14 +4945,15 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = H_cooler[counter];
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
 			aux_vector[counter] = 0;
 		}
-		H_cooler_exit[counter] = aux_vector[counter] / (delta_t * speed * 360 / 60);
+		H_cooler_exit[counter] = aux_vector[counter] /
+			(delta_t * speed * 360 / 60);
 	}
 
 	// injection_rate
@@ -4573,8 +4961,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = dmf[counter];
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
@@ -4587,15 +4975,76 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	vector_to_interpolate = (double*)malloc(size*sizeof(double));
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = acu_dmf[counter];
+		// vector_to_interpolate[counter]=PEN_max[counter]/(test_variables[4]*42.92);           // El factor es para evitar cambio de unidad. OJO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
-	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD, vector_to_interpolate, CAI, size,
-		speed);
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
 	free(vector_to_interpolate);
 	for (counter = 0; counter < CAI; counter++) {
 		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
 			aux_vector[counter] = 0;
 		}
 		accum_injection_rate_exit[counter] = aux_vector[counter];
+	}
+
+	// evol_Soot
+	vector_to_interpolate = (double*)malloc(size*sizeof(double));
+	for (counter = 0; counter < size; counter++) {
+		vector_to_interpolate[counter] = evol_mSoot[counter];
+	}
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
+	free(vector_to_interpolate);
+	for (counter = 0; counter < CAI; counter++) {
+		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
+			aux_vector[counter] = 0;
+		}
+		(*dataOUT).evol_Soot[counter] = aux_vector[counter];
+	}
+
+	// evol_Soot_CIL
+	vector_to_interpolate = (double*)malloc(size*sizeof(double));
+	for (counter = 0; counter < size; counter++) {
+		vector_to_interpolate[counter] = mSootCil[counter];
+	}
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
+	free(vector_to_interpolate);
+	for (counter = 0; counter < CAI; counter++) {
+		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
+			aux_vector[counter] = 0;
+		}
+		(*dataOUT).evol_Soot_CIL[counter] = aux_vector[counter];
+	}
+
+	// evol_Radiacion
+	vector_to_interpolate = (double*)malloc(size*sizeof(double));
+	for (counter = 0; counter < size; counter++) {
+		vector_to_interpolate[counter] = evol_Radiacion[counter];
+	}
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
+	free(vector_to_interpolate);
+	for (counter = 0; counter < CAI; counter++) {
+		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
+			aux_vector[counter] = 0;
+		}
+		(*dataOUT).evol_Radiacion[counter] = aux_vector[counter];
+	}
+
+	// evol_LOL
+	vector_to_interpolate = (double*)malloc(size*sizeof(double));
+	for (counter = 0; counter < size; counter++) {
+		vector_to_interpolate[counter] = XLO[counter];
+	}
+	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
+		vector_to_interpolate, CAI, size, speed);
+	free(vector_to_interpolate);
+	for (counter = 0; counter < CAI; counter++) {
+		if ((CAD_exit[counter] < IVC) || (CAD_exit[counter] > EVO)) {
+			aux_vector[counter] = 0;
+		}
+		(*dataOUT).evol_LOL[counter] = aux_vector[counter];
 	}
 
 	/** *********MEMORY LIBERATION********* */
@@ -4633,6 +5082,10 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	free(mHC_Vc);
 	free(dmtotal_Gfactor);
 
+	free(evol_mSoot);
+	free(mSootCil);
+	free(evol_Radiacion);
+
 	free(dmf);
 	free(acu_dmf);
 
@@ -4640,6 +5093,7 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	free(inj_velocity);
 
 	free(HRF);
+	free(HRF_PMX);
 	free(ROHR);
 
 	free(T_cyl);
@@ -4663,6 +5117,8 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	free(dp_da_cyl);
 	free(aux_vector);
 	free(XLO);
+	free(PEN_min);
+	free(PEN_max);
 
 	for (counter = 0; counter < 52; counter++)
 		free(YNOeq[counter]);
@@ -4707,12 +5163,30 @@ inline void ACT(double *engine_parameters, double *engine_model_constants, doubl
 	free(time_vector_exit);
 
 }
+// ------------------------------------------------------
 
-inline double min(double a, double b) {
-	if (a <= b) {
-		return(a);
-	}
+double YSoot_to_FSN(double YSoot) {
+	double x1, x2, x, y;
+	// Busca el FSN implentando un método de la bisección.
+	if (YSoot < 0.)
+		x = 0.;
 	else {
-		return(b);
+		if (YSoot > 4550.)
+			x = 10.;
+		else {
+			x1 = 0;
+			x2 = 10;
+			while ((x2 - x1) > 0.01) {
+				x = (x1 + x2) / 2.;
+				y = 1 / 1.2 / 0.405 * 4.95 * x * exp(0.38 * x);
+				if (y > YSoot) {
+					x2 = x;
+				}
+				else {
+					x1 = x;
+				}
+			}
+		}
 	}
+	return(x);
 }

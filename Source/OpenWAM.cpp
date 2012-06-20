@@ -41,7 +41,7 @@
 
 TOpenWAM* Aplication = NULL;
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 
 	Aplication = new TOpenWAM();
 
@@ -94,6 +94,8 @@ main(int argc, char *argv[]) {
 	Aplication->GeneralOutput();
 
 	delete Aplication;
+
+	return 0;
 
 }
 // ---------------------------------------------------------------------------

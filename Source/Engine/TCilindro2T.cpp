@@ -96,8 +96,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					FCAI, FCAD_exit, FHRF_exit, FROHR_exit, Fp_cyl_exit,
 					Fdp_da_cyl_exit, FT_cyl_exit, FH_cooler_exit,
 					Fmean_var_exit, Fheat_transfer,
-					Finjection_rate_exit, Faccum_injection_rate_exit,
-					FSpecies_EVO);
+					Finjection_rate_exit, Faccum_injection_rate_exit, dataIN,
+					&dataOUT);
 
 				// Normalize total mass fraction.
 				double ACT_Correction = 0;
@@ -732,10 +732,9 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 							* FRelacionMolarN2_O2 * PMN2;
 						// FMasaH2OReactivos=FMolesCombQuemado*(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2*PMH2O;
 						FMasaCO2Productos = FMolesCombQuemado * FXComb * PMCO2;
-						FMasaH2OProductos = FMolesCombQuemado *
-							(FYComb /
-							2
-							/* +(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2 */ ) * PMH2O;
+						FMasaH2OProductos = FMolesCombQuemado * (FYComb / 2
+							/* +(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2 */
+							) * PMH2O;
 						FMasaN2Productos = FMolesCombQuemado *
 							(FYComb / 4 + FXComb - FZComb / 2)
 							* FRelacionMolarN2_O2 * PMN2;
@@ -786,10 +785,9 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 							* FRelacionMolarN2_O2 * PMN2;
 						// FMasaH2OReactivos=FMolesCombQuemado*(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2*PMH2O;
 						FMasaCO2Productos = FMolesCombQuemado * FXComb * PMCO2;
-						FMasaH2OProductos = FMolesCombQuemado *
-							(FYComb /
-							2
-							/* +(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2 */ ) * PMH2O;
+						FMasaH2OProductos = FMolesCombQuemado * (FYComb / 2
+							/* +(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2 */
+							) * PMH2O;
 						FMasaN2Productos = FMolesCombQuemado *
 							(FYComb / 4 + FXComb - FZComb / 2)
 							* FRelacionMolarN2_O2 * PMN2;

@@ -40,8 +40,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 //#include "simstruc.h"
 // #include "engine.h"
 //#include "act_def.h"
-#include "ACT_v_8_2.cpp"
-//#include "ACT_Sub_DLL.cpp"
+//#include "ACT_v_8_2.cpp"
+#include "ACT_Sub_DLL.h"
 #include "INJECTION_RATE.cpp"
 #include<malloc.h>
 // typedef double mxArray;
@@ -57,29 +57,12 @@ enum nmValvula {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-//extern "C" void _import ACT(double * engine_parameters, double * engine_model_constants,
-//	double * test_variables, double * injection_rate, double * CAD_injection_rate,
-//	int size_inlet_inj, int IN, double * SOI, double * EOI, int CAI, double * CAD_exit,
-//	double * HRF_exit, double * ROHR_exit, double * p_cyl_exit, double * dp_da_cyl_exit,
-//	double * T_cyl_exit, double * H_cooler_exit, double * mean_var_exit, double * heat_transfer,
-//	double * injection_rate_exit, double * accum_injection_rate_exit, double * Species_EVO);
-//
-//extern "C" void _import CALCULUS_OF_INJECTION_RATE(int IN, double * SOP, double * MFI,
-//	double * SOI, double * EOI, double speed, int CAI, double PCR, double * A, double * B,
-//	double * C, double * D, double * injection_rate, double * CAD_injection_rate);
-
-/* ! \class TCilindro
-\brief Class for properties and methods related with cylinders.
-
-
- */
-
 class TCilindro {
 private:
 
 protected:
 
-	// Par�metro de entrada del ACT
+	// Parametro de entrada del ACT
 	double *Fengine_parameters;
 	double *Fengine_model_constants;
 	double *Ftest_variables;
@@ -99,6 +82,8 @@ protected:
 	double *Faccum_injection_rate_exit;
 	double *FSpecies_EVO;
 	double *FSpecies_IVC;
+	sINtype dataIN;
+	sOUTtype dataOUT;
 
 	// Par�metros de entrada del modelo de Tasa
 	int FIN;
