@@ -140,11 +140,11 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		Fengine_model_constants = (double*)malloc(22 * sizeof(double));
 
 		Fengine_model_constants[0] = -1.5; // Kmixture2
-		Fengine_model_constants[1] = 66.19; // Kpmx1
-		Fengine_model_constants[2] = 4365.16; // Kpmx2
-		Fengine_model_constants[3] = 4.245; // Kpmx3
-		Fengine_model_constants[4] = -1.189; // Kpmx4
-		Fengine_model_constants[5] = 4.6723; // Kpmx5
+		Fengine_model_constants[1] = 13000; // Kpmx1
+		Fengine_model_constants[2] = 500; // Kpmx2
+		Fengine_model_constants[3] = 0.5; // Kpmx3
+		Fengine_model_constants[4] = 0.5; // Kpmx4
+		Fengine_model_constants[5] = 0.22; // Kpmx5
 		Fengine_model_constants[6] = 1; // KID1
 		Fengine_model_constants[7] = 0.03; // KID2
 		Fengine_model_constants[8] = 5.47896; // KID3
