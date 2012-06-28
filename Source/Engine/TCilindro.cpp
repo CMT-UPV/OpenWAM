@@ -279,21 +279,19 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		FD_TASA[0] = FMotor->getInjectionSys().Desfase_D1;
 		FD_TASA[1] = FMotor->getInjectionSys().Desfase_D2;
 
-		dataOUT.Species_EVO = (double*)malloc(8 * sizeof(double));
-
 		if (FMotor->getSpeciesNumber() == 9) {
-			dataOUT.Species_EVO[0] = FMotor->GetComposicionInicial(7); // N2
+			dataOUT.species_EVO[0] = FMotor->GetComposicionInicial(7); // N2
 		}
 		else if (FMotor->getSpeciesNumber() == 10) {
-			dataOUT.Species_EVO[0] = FMotor->GetComposicionInicial(8); // N2
+			dataOUT.species_EVO[0] = FMotor->GetComposicionInicial(8); // N2
 		}
-		dataOUT.Species_EVO[1] = FMotor->GetComposicionInicial(0); // O2
-		dataOUT.Species_EVO[2] = FMotor->GetComposicionInicial(1); // CO2
-		dataOUT.Species_EVO[3] = FMotor->GetComposicionInicial(2); // H2O
-		dataOUT.Species_EVO[4] = FMotor->GetComposicionInicial(5); // NOx
-		dataOUT.Species_EVO[5] = FMotor->GetComposicionInicial(6); // CO
-		dataOUT.Species_EVO[6] = FMotor->GetComposicionInicial(4); // SOOT
-		dataOUT.Species_EVO[7] = FMotor->GetComposicionInicial(3); // HC
+		dataOUT.species_EVO[1] = FMotor->GetComposicionInicial(0); // O2
+		dataOUT.species_EVO[2] = FMotor->GetComposicionInicial(1); // CO2
+		dataOUT.species_EVO[3] = FMotor->GetComposicionInicial(2); // H2O
+		dataOUT.species_EVO[4] = FMotor->GetComposicionInicial(5); // NOx
+		dataOUT.species_EVO[5] = FMotor->GetComposicionInicial(6); // CO
+		dataOUT.species_EVO[6] = FMotor->GetComposicionInicial(4); // SOOT
+		dataOUT.species_EVO[7] = FMotor->GetComposicionInicial(3); // HC
 
 		FSpecies_IVC = (double*)malloc(8 * sizeof(double));
 
@@ -385,7 +383,7 @@ TCilindro::~TCilindro() {
 		free(FB_TASA);
 		free(FC_TASA);
 		free(FD_TASA);
-		free(dataOUT.Species_EVO);
+		free(dataOUT.species_EVO);
 		free(FSpecies_IVC);
 		free(dataOUT.evol_Soot);
 		free(dataOUT.evol_Soot_CIL);

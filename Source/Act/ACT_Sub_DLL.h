@@ -15,7 +15,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<malloc.h>
-#include<conio.h>
+//#include<conio.h>
 
 
 // Fichero OCULTO

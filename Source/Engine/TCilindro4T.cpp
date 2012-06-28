@@ -116,10 +116,10 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				// Normalize total mass fraction.
 				double ACT_Correction = 0;
 				for (int i = 0; i < 8; i++) {
-					ACT_Correction += dataOUT.Species_EVO[i];
+					ACT_Correction += dataOUT.species_EVO[i];
 				}
 				for (int i = 0; i < 8; i++) {
-					dataOUT.Species_EVO[i] = dataOUT.Species_EVO[i] / ACT_Correction;
+					dataOUT.species_EVO[i] = dataOUT.species_EVO[i] / ACT_Correction;
 				}
 
 				FPresionMedAdm = 0.;
@@ -685,38 +685,38 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 
 					FFraccionMasicaEspecie[0] =
 						(FSpecies_IVC[1] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[1] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[1] * FCalor.FQL) * (1 - Yfuel);
 					FFraccionMasicaEspecie[1] =
 						(FSpecies_IVC[2] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[2] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[2] * FCalor.FQL) * (1 - Yfuel);
 					FFraccionMasicaEspecie[2] =
 						(FSpecies_IVC[3] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[3] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[3] * FCalor.FQL) * (1 - Yfuel);
 					FFraccionMasicaEspecie[3] =
 						(FSpecies_IVC[7] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[7] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[7] * FCalor.FQL) * (1 - Yfuel);
 					FFraccionMasicaEspecie[4] =
 						(FSpecies_IVC[6] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[6] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[6] * FCalor.FQL) * (1 - Yfuel);
 					FFraccionMasicaEspecie[5] =
 						(FSpecies_IVC[4] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[4] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[4] * FCalor.FQL) * (1 - Yfuel);
 					FFraccionMasicaEspecie[6] =
 						(FSpecies_IVC[5] * (1 - FCalor.FQL)
-						+ dataOUT.Species_EVO[5] * FCalor.FQL) * (1 - Yfuel);
+						+ dataOUT.species_EVO[5] * FCalor.FQL) * (1 - Yfuel);
 
 					if (FMotor->getSpeciesNumber() == 9) {
 						FFraccionMasicaEspecie[3] += Yfuel;
 						FFraccionMasicaEspecie[7] =
 							(FSpecies_IVC[0] * (1 - FCalor.FQL)
-							+ dataOUT.Species_EVO[0] * FCalor.FQL) * (1 - Yfuel);
+							+ dataOUT.species_EVO[0] * FCalor.FQL) * (1 - Yfuel);
 
 					}
 					else if (FMotor->getSpeciesNumber() == 10) {
 						FFraccionMasicaEspecie[7] = Yfuel;
 						FFraccionMasicaEspecie[8] =
 							(FSpecies_IVC[0] * (1 - FCalor.FQL)
-							+ dataOUT.Species_EVO[0] * FCalor.FQL) * (1 - Yfuel);
+							+ dataOUT.species_EVO[0] * FCalor.FQL) * (1 - Yfuel);
 					}
 					for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR;
 						j++) {
