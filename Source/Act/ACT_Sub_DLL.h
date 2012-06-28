@@ -19,21 +19,19 @@
 
 
 // Fichero OCULTO
-FILE *finterno;
-int elem_i, pulso_i;
 
-typedef struct sINtype {
-    double KSOOTC1;
-}sINtype;
+struct sINtype {
+	double KSOOTC1;
+};
 
-typedef struct sOUTtype {
+struct sOUTtype {
     double species_EVO[8];
     double *evol_Soot;
     double *evol_Soot_CIL;
     double *evol_Radiacion;
     double *HRF_PMX;
     double *evol_LOL;
-}sOUTtype;
+};
 
 struct stRadArray {
 	double x;
@@ -47,7 +45,7 @@ struct stRadArray {
 	double Tau[NR];
 	double PTau[NR];
 	double T[NR];
-}**Radiation;
+};
 
 struct stControlElementComposition {
 	int inj_number;

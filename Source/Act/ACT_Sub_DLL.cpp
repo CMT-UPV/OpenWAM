@@ -2246,6 +2246,10 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		stInto_diffusion_flame = 7
 	};
 
+	int elem_i, pulso_i;
+
+
+
 	double realelementmfreac; // Auxiliar variable
 
 	// General constants
@@ -3104,6 +3108,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	}
 
 	// Abro el fichero interno
+	FILE *finterno;
 	if (RadCalc == 1 && Ang_Grab > -179.) {
 		finterno = fopen("paquete.csv", "w");
 		if (finterno == NULL) {
@@ -4075,6 +4080,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		}
 
 		// Dimensionamos el array según el número de pulsos
+		stRadArray **Radiation;
 		Radiation = (struct stRadArray * *)malloc
 			(inj_num*sizeof(struct stRadArray*));
 		Itot = (double*)malloc(inj_num*sizeof(double));
