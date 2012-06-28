@@ -1,3 +1,1 @@
-add_library(Exception Exception.cpp)
-add_library(StringManagement StringManagement.cpp)
-add_library(Wrappers Exception StringManagement)
+add_library(Wrappers Exception.cpp StringManagement.cpp)
