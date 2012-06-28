@@ -15,3 +15,7 @@ add_library(
   TCilindro2T.cpp
   TCilindro4T.cpp
 )
+target_link_libraries(
+  Engine
+  Act
+)
