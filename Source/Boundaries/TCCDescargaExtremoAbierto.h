@@ -32,7 +32,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "TCondicionContorno.h"
 
-#include <cmath>
+//#include <cmath>
 #ifdef __BORLANDC__
     #include <vcl.h>
 #endif

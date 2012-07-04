@@ -36,7 +36,7 @@ License
 #pragma hdrstop
 
 #include "TCCCilindro.h"
-#include <cmath>
+//#include <cmath>
 #ifdef __BORLANDC__
     #include <vcl.h>
 #endif

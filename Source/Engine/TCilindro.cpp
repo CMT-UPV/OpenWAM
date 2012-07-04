@@ -36,7 +36,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include "TValvula4T.h"
 #include "TLumbrera.h"
 
-#include <cmath>
+//#include <cmath>
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------

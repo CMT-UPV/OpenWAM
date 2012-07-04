@@ -30,7 +30,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #pragma hdrstop
 
 #include "TTurbineMap.h"
-#include <cmath>
+//#include <cmath>
 
 TTurbineMap::TTurbineMap() {
 	FIsAdiabatic = true;

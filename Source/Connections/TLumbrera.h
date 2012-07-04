@@ -37,7 +37,7 @@ License
 #endif
 #include <iostream>
 #include "Constantes.h"
-#include <cmath>
+//#include <cmath>
 
 #include "TTipoValvula.h"
 

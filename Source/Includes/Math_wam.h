@@ -34,7 +34,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // #include "nr3.h"
 #include <cstdlib>
 #include <vector>
-#include <cmath>
+//#include <cmath>
 #include <limits>
 #include <iostream>
 

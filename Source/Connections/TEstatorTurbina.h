@@ -36,7 +36,7 @@ License
     #include <vcl.h>
 #endif
 #include <iostream>
-#include <cmath>
+//#include <cmath>
 
 #include "TTipoValvula.h"
 

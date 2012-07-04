@@ -34,7 +34,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include "TCCCilindro.h"
 #include "TTubo.h"
 
-#include <cmath>
+//#include <cmath>
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 

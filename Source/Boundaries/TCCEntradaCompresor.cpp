@@ -31,7 +31,7 @@ License
 #pragma hdrstop
 
 #include "TCCEntradaCompresor.h"
-#include <cmath>
+//#include <cmath>
 #include <iostream>
 #include "TCompresor.h"
 #include "TTubo.h"

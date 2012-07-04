@@ -29,7 +29,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma hdrstop
 
-#include <cmath>
+//#include <cmath>
 
 #include "TBloqueMotor.h"
 #include "TTubo.h"

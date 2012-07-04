@@ -39,6 +39,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // #include <sys\timeb.h>
 #include "Constantes.h"
 #include <limits>
+#include <cmath>
 #include "Math_wam.h"
 #ifndef __BORLANDC__
     #include "StringManagement.hpp"
@@ -60,6 +61,11 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
+
+int matherr(struct exception *a){
+
+	return 0;
+}
 
 // ENUM�s
 

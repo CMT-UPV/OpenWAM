@@ -63,7 +63,7 @@
 #include "Globales.h"
 #include "THTM_Fluids.h"
 #include "turbo_bearings.hpp"
-#include <cmath>
+//#include <cmath>
 
 enum nmSide {
 	nmCompressor = 0, nmTurbine = 1

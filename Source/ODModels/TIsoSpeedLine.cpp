@@ -30,7 +30,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #pragma hdrstop
 
 #include "TIsoSpeedLine.h"
-#include <cmath>
+//#include <cmath>
 #include "Globales.h"
 
 // ---------------------------------------------------------------------------

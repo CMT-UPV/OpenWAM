@@ -34,7 +34,7 @@ License
 #ifdef __BORLANDC__
     #include <vcl.h>
 #endif
-#include <cmath>
+//#include <cmath>
 #include "TCondicionContorno.h"
 #include "TDeposito.h"
 #include "TBloqueMotor.h"

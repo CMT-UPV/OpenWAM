@@ -34,7 +34,7 @@
 #include "TCCCilindro.h"
 #include "TTubo.h"
 
-#include <cmath>
+//#include <cmath>
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -599,7 +599,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					FCalor.FQL = CalculaCalorLiberado(FAnguloComb);
 				}
 				else if (FCalcComb == nmACT) {
-					FCalor.FQL = Interp1(FAnguloComb, FCAD_exit, FHRF_exit,
+					FCalor.FQL = Interp1(FAnguloComb, FCAD_injection_rate, FHRF_exit,
 						FCAI);
 				}
 				FCalor.Liberado = (FCalor.FQL - FCalor.FQL0)

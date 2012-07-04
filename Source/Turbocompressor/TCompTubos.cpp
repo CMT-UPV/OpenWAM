@@ -32,7 +32,7 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-#include <cmath>
+//#include <cmath>
 
 #include "TCompTubos.h"
 #include "TCondicionContorno.h"

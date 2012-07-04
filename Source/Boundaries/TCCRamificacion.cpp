@@ -30,7 +30,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #pragma hdrstop
 
 #include "TCCRamificacion.h"
-#include <cmath>
+//#include <cmath>
 #include <iostream>
 #include "TTubo.h"
 

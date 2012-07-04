@@ -32,7 +32,7 @@ License
 
 #include "TCCPerdidadePresion.h"
 
-#include <cmath>
+//#include <cmath>
 #ifdef __BORLANDC__
     #include <vcl.h>
 #endif

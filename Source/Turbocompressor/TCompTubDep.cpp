@@ -32,7 +32,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-#include <cmath>
+//#include <cmath>
 #include "TCompTubDep.h"
 #include "TCCCompresor.h"
 #include "TDeposito.h"

@@ -31,7 +31,7 @@ License
 #pragma hdrstop
 
 #include "TCCPreVble.h"
-#include <cmath>
+//#include <cmath>
 #include <iostream>
 
 #include "TTubo.h"
