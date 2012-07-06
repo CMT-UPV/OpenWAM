@@ -80,7 +80,7 @@ protected:
 	double *Fheat_transfer;
 	double *Finjection_rate_exit;
 	double *Faccum_injection_rate_exit;
-	double *FSpecies_EVO;
+	//double *FSpecies_EVO;
 	double *FSpecies_IVC;
 	sINtype dataIN;
 	sOUTtype dataOUT;

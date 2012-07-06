@@ -34,7 +34,7 @@
 #include "TCCCilindro.h"
 #include "TTubo.h"
 
-//#include <cmath>
+// #include <cmath>
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -105,7 +105,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					ACT_Correction += dataOUT.species_EVO[i];
 				}
 				for (int i = 0; i < 8; i++) {
-					dataOUT.species_EVO[i] = dataOUT.species_EVO[i] / ACT_Correction;
+					dataOUT.species_EVO[i] = dataOUT.species_EVO[i]
+					/ ACT_Correction;
 				}
 
 				FPresionMedAdm = 0.;
@@ -599,7 +600,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					FCalor.FQL = CalculaCalorLiberado(FAnguloComb);
 				}
 				else if (FCalcComb == nmACT) {
-					FCalor.FQL = Interp1(FAnguloComb, FCAD_injection_rate, FHRF_exit,
+					FCalor.FQL = Interp1(FAnguloComb, FCAD_exit, FHRF_exit,
 						FCAI);
 				}
 				FCalor.Liberado = (FCalor.FQL - FCalor.FQL0)
@@ -699,14 +700,16 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FFraccionMasicaEspecie[3] += Yfuel;
 						FFraccionMasicaEspecie[7] =
 							(FSpecies_IVC[0] * (1 - FCalor.FQL)
-							+ dataOUT.species_EVO[0] * FCalor.FQL) * (1 - Yfuel);
+							+ dataOUT.species_EVO[0] * FCalor.FQL) *
+							(1 - Yfuel);
 
 					}
 					else if (FMotor->getSpeciesNumber() == 10) {
 						FFraccionMasicaEspecie[7] = Yfuel;
 						FFraccionMasicaEspecie[8] =
 							(FSpecies_IVC[0] * (1 - FCalor.FQL)
-							+ dataOUT.species_EVO[0] * FCalor.FQL) * (1 - Yfuel);
+							+ dataOUT.species_EVO[0] * FCalor.FQL) *
+							(1 - Yfuel);
 					}
 					for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR;
 						j++) {
@@ -1232,6 +1235,27 @@ void TCilindro2T::VariableInicialesCicloACT() {
 			Ftest_variables[17] = FFraccionMasicaEspecie[3] * 1e6;
 			// HC concentration at IVC
 		}
+
+		std::cout << "____________________________________________________" <<
+			std::endl;
+		std::cout << "INFO: Engine speed:        " << Ftest_variables[0] <<
+			" (rpm)" << std::endl;
+		std::cout << "INFO: Intake mass:         " << Ftest_variables[1] <<
+			" (kg/s)" << std::endl;
+		std::cout << "INFO: Trapped mass:        " << Ftest_variables[2] <<
+			" (g)" << std::endl;
+		std::cout << "INFO: Temperature at IVC:  " << Ftest_variables[3] <<
+			" (K)" << std::endl;
+		std::cout << "INFO: Fuel mass:           " << Ftest_variables[4] <<
+			" (mg)" << std::endl;
+		std::cout << "INFO: Injection pressure:  " << Ftest_variables[5] <<
+			" (bar)" << std::endl;
+		std::cout << "INFO: Intake pressure:     " << Ftest_variables[6] <<
+			" (Pa)" << std::endl;
+		std::cout << "INFO: Exhaust pressure:    " << Ftest_variables[7] <<
+			" (Pa)" << std::endl;
+		std::cout << "____________________________________________________" <<
+			std::endl;
 	}
 	catch(Exception & N) {
 		std::cout <<

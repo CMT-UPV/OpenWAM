@@ -204,7 +204,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 		int controllers;
 		int param;
 		fscanf(fich, "%d ", &controllers);
-		for (int i; i < controllers; i++) {
+		for (int i=0; i < controllers; i++) {
 			fscanf(fich, "%d ", &param);
 			switch(param) {
 			case 0:

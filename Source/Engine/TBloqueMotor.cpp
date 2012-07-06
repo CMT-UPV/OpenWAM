@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -71,6 +71,7 @@ TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature,
 
 	FRPMControlled = false;
 	FMfControlled = false;
+	FInjectionSys.InjectPCtrd = false;
 }
 
 // ---------------------------------------------------------------------------
@@ -326,11 +327,6 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			fscanf(fich, "%lf ", &FInjectionSys.CDHole);
 			fscanf(fich, "%lf ", &FInjectionSys.InjectPressure);
 
-			fscanf(fich, "%d ", &FInjectionSys.InjectPCtrID);
-			if (FInjectionSys.InjectPCtrID > 0)
-				FInjectionSys.InjectPCtrd = true;
-			else
-				FInjectionSys.InjectPCtrd = false;
 
 			fscanf(fich, "%lf ", &FInjectionSys.PendOpen_A1);
 			fscanf(fich, "%lf ", &FInjectionSys.PendOpen_A2);
@@ -452,6 +448,10 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 				fscanf(fich, "%d ", &FRPMControllerID);
 				FRPMControlled = true;
 				SimulationType = nmTransitorioRegimen;
+				break;
+			case 1:
+				fscanf(fich, "%d ", &FInjectionSys.InjectPCtrID);
+				FInjectionSys.InjectPCtrd = true;
 				break;
 			}
 		}

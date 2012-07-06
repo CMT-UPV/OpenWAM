@@ -219,7 +219,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 
 		FH_cooler_exit = (double*)malloc(FCAI*sizeof(double));
 
-		Fmean_var_exit = (double*)malloc(10 * sizeof(double));
+		Fmean_var_exit = (double*)malloc(11 * sizeof(double));
 
 		Fheat_transfer = (double*)malloc(4 * sizeof(double));
 
@@ -233,7 +233,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 
 		FIN = FMotor->getInjectionSys().NumPulsos;
 
-		FSOP = (double*)malloc(FIN*sizeof(double));
+		FSOP = (double*)malloc(8*sizeof(double));
 
 		for (int i = 0; i < 8; i++) {
 			if (i < FIN) {
@@ -244,7 +244,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 			}
 		}
 
-		FMFI = (double*)malloc(FIN*sizeof(double));
+		FMFI = (double*)malloc(8*sizeof(double));
 
 		for (int i = 0; i < 8; i++) {
 			if (i < FIN) {
@@ -383,7 +383,6 @@ TCilindro::~TCilindro() {
 		free(FB_TASA);
 		free(FC_TASA);
 		free(FD_TASA);
-		free(dataOUT.species_EVO);
 		free(FSpecies_IVC);
 		free(dataOUT.evol_Soot);
 		free(dataOUT.evol_Soot_CIL);
@@ -590,7 +589,10 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		if (FMotor->getACT()) {
 			Fengine_parameters[18] = Fctorbadmp; // CTM
-			Fengine_parameters[22] = FDistribucion.CA - 720;
+			if (FMotor->getEngineType() == nm4T)
+				Fengine_parameters[22] = FDistribucion.CA - 720;
+			else
+                Fengine_parameters[22] = FDistribucion.CA - 360;
 			// Inlet valve closing
 			Fengine_parameters[23] = FDistribucion.AE; // Exhaust valve opening
 		}

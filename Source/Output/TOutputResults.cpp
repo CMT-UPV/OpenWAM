@@ -537,7 +537,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 
 	GetName(ModelName, FInsFilename, "INS.DAT");
 
-	remove(FInsFilename);
+	int err = remove(FInsFilename);
 
 	FILE *FileInput = fopen(FileWAM, "r");
 	fsetpos(FileInput, &filepos);

@@ -1,4 +1,4 @@
-#include"ACT_Sub_DLL.h"
+﻿#include"ACT_Sub_DLL.h"
 
 /** ************     FUNCTION min      ************** */
 
@@ -26,12 +26,20 @@ void FUNCTION_FOR_INTERPOLATION(double *interpolated,
 			&& (auxiliar < size_to_interpolate - 2)) {
 			auxiliar = auxiliar + 1;
 		}
-		interpolated[counter] = vector_to_interpolate[auxiliar - 1] +
-			(vector_to_interpolate[auxiliar] - vector_to_interpolate
-			[auxiliar - 1]) * (time_interpolated[counter] - CAD_to_interpolate
-			[auxiliar - 1] * 60. / (360. * speed)) /
-			(CAD_to_interpolate[auxiliar] * 60. / (360. * speed)
-			- CAD_to_interpolate[auxiliar - 1] * 60. / (360. * speed));
+		if (auxiliar == 0) {
+			interpolated[counter] = vector_to_interpolate[auxiliar];
+		}
+		else {
+
+			interpolated[counter] = vector_to_interpolate[auxiliar - 1] +
+				(vector_to_interpolate[auxiliar] - vector_to_interpolate
+				[auxiliar - 1]) *
+				(time_interpolated[counter] - CAD_to_interpolate[auxiliar - 1]
+				* 60. / (360. * speed)) /
+				(CAD_to_interpolate[auxiliar] * 60. / (360. * speed)
+				- CAD_to_interpolate[auxiliar - 1] * 60. / (360. * speed));
+
+		}
 	}
 }
 
@@ -2248,8 +2256,6 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	int elem_i, pulso_i;
 
-
-
 	double realelementmfreac; // Auxiliar variable
 
 	// General constants
@@ -3113,7 +3119,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		finterno = fopen("paquete.csv", "w");
 		if (finterno == NULL) {
 			printf("Error abriendo fichero interno.");
-			//getch();
+			// getch();
 			exit(-1);
 		}
 		fprintf(finterno, "Ang,m_Soot,dm_Soot,mf,dmf \n");
@@ -4031,16 +4037,17 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 			}
 
 		} // if time>SOI
-
 		HRF[counter] = mf_burned / (mfuel * 1.e-3);
 		HRF_PMX[counter] = mf_burned_pmx / (mfuel * 1.e-3);
 
-		mO2_bowl[counter] = mO2_bowl[counter] -
-			(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst1;
-		mCO2_bowl[counter] = mCO2_bowl[counter] +
-			(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst5;
-		mH2O_bowl[counter] = mH2O_bowl[counter] +
-			(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst6;
+		if (counter > 0) {
+			mO2_bowl[counter] = mO2_bowl[counter] -
+				(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst1;
+			mCO2_bowl[counter] = mCO2_bowl[counter] +
+				(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst5;
+			mH2O_bowl[counter] = mH2O_bowl[counter] +
+				(HRF[counter] - HRF[counter - 1]) * mfuel * 1.e-3 * Kst6;
+		}
 
 		mSootCil[counter] = mSOOT_IVC_C * (mO2_bowl[counter] + mO2_Vc[counter])
 			/ mO2_IVC;
@@ -4565,13 +4572,13 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	do {
 		complete_prev_size = complete_prev_size + 1;
-		counter_CAD_1 = counter_CAD_1 - delta_t * 360 * speed / 60.;
+		counter_CAD_1 = counter_CAD_1 - delta_t * 360. * speed / 60.;
 	}
 	while (counter_CAD_1 >= -180);
 	complete_prev_size--;
 	do {
 		complete_post_size = complete_post_size + 1;
-		counter_CAD_2 = counter_CAD_2 + delta_t * 360 * speed / 60.;
+		counter_CAD_2 = counter_CAD_2 + delta_t * 360. * speed / 60.;
 	}
 	while (counter_CAD_2 <= 180);
 	complete_post_size--;
@@ -4840,13 +4847,13 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	// exit vectors construction with constant crank angle degree increment
 
 	time_vector_exit = (double*)malloc(CAI*sizeof(double));
-	time_vector_exit[0] = -180 * 60 / (360 * speed);
+	time_vector_exit[0] = -180 * 60 / (360. * speed);
 	CAD_exit[0] = -180;
 
 	for (counter = 1; counter < CAI; counter++) {
 		time_vector_exit[counter] = time_vector_exit[counter - 1] + 60 /
 			((CAI - 1) * speed);
-		CAD_exit[counter] = CAD_exit[counter - 1] + 360 / (CAI - 1);
+		CAD_exit[counter] = CAD_exit[counter - 1] + 360. / (CAI - 1);
 	}
 	// pcyl
 	vector_to_interpolate = (double*)malloc(size*sizeof(double));
@@ -4959,7 +4966,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 			aux_vector[counter] = 0;
 		}
 		H_cooler_exit[counter] = aux_vector[counter] /
-			(delta_t * speed * 360 / 60);
+			(delta_t * speed * 360. / 60);
 	}
 
 	// injection_rate
