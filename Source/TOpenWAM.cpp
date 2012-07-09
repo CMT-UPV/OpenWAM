@@ -776,7 +776,7 @@ void TOpenWAM::ReadGeneralData() {
 			CompAtmosfera[SpeciesNumber - 1] = 0.;
 		if (fracciontotal != 1.) {
 			std::cout <<
-				"ERROR: La fracci�n m�sica total no puede ser distinta de 1. Repasa la lectura " << std::endl;
+				"ERROR: The total mass fraction must be equal to 1. Check your input data " << std::endl;
 			throw Exception(" ");
 		}
 
@@ -2930,7 +2930,7 @@ void TOpenWAM::StudyInflowOutflowMass() {
 				std::cout << " New time step : " << DeltaTPlenums << std::endl;
 				if (DeltaTPlenums <= 2e-7) {
 					if (cociente >= 2)
-						printf(" ERROR : plenum n� %d too small \n ", i + 1);
+						printf(" ERROR : plenum n. %d too small \n ", i + 1);
 					printf(" ERROR : in time step \n ");
 					throw Exception(" ERROR : in time step ");
 				}

@@ -4065,7 +4065,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 			// Cabecera del fichero 1:
 			fprintf(foculto,
-				"Time,%le,[s],Ang,%le,[�cig],LOL,%le,[mm],FrLOL,%le\n#iny,Elem,r,x,msoot,mtot,rho,T,FI,mf_reac\n", time_vector[counter], Ang_Grab, XLO[counter] * 1000., FRLOL);
+				"Time,%le,[s],Ang,%le,[cig],LOL,%le,[mm],FrLOL,%le\n#iny,Elem,r,x,msoot,mtot,rho,T,FI,mf_reac\n", time_vector[counter], Ang_Grab, XLO[counter] * 1000., FRLOL);
 
 			// Cuerpo del fichero 1:
 			for (m = 0; m < inj_num; m++) {
@@ -4294,7 +4294,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						&& (RadCalc == 1)) {
 						// Rellenamos la cabecera del fichero oculto 2:
 						fprintf(foculto2,
-							"Time,%le,[s],Ang,%le,[�cig],LOL,%le,[mm]\n",
+							"Time,%le,[s],Ang,%le,[cig],LOL,%le,[mm]\n",
 							time_vector[counter], Ang_Grab,
 							XLO[counter] * 1000.);
 						// Coordenada x

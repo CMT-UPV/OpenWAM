@@ -290,9 +290,9 @@ double TCompTubDep::RegulaFalsi() {
 				> 1e-5);
 			if (i > 100) {
 				std::cout <<
-					"ERROR: El metodo de iteraci�n del compresor no converge en 100 iteraciones" << std::endl;
+					"ERROR: The interation method in the compressor does not converge in 100 iterations" << std::endl;
 				throw Exception(
-					"ERROR: El metodo de iteraci�n del compresor no converge en 100 iteraciones");
+					"ERROR: The interation method in the compressor does not converge in 100 iterations");
 			}
 			GastoNuevo = MasaX;
 			return GastoNuevo;

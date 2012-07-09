@@ -825,8 +825,8 @@ void TTurbinaSimple::LeeResultadosInstantTurb(char *FileWAM, fpos_t &filepos) {
 				FResInstantTurbina.RelacionExpansion = true;
 				break;
 			default:
-				std::cout << "Resultados instant�neos en turbina " <<
-					FNumeroTurbina << " no implementados " <<
+				std::cout << "Instantaneous results in turbine " <<
+					FNumeroTurbina << " are not implemented " <<
 					std::endl;
 			}
 		}

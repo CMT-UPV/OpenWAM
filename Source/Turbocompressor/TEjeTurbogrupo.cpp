@@ -113,7 +113,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
 			break;
 		default:
 			std::cout <<
-				"ERROR: Error en la lectura de la variaci�n del r�gimen en el eje del turbogrupo: " << FNumeroEje << std::endl;
+				"ERROR: Reading turbocharger speed variation in axis: " << FNumeroEje << std::endl;
 			throw Exception("");
 		}
 		if (FVariacionRegimen == nmVariable) {
@@ -212,7 +212,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TEjeTurbogrupo::ReadTurbochargerAxis en la condici�n de contorno: "
+			"ERROR: TEjeTurbogrupo::ReadTurbochargerAxis in the boundary condition: "
 			<< FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -234,7 +234,7 @@ void TEjeTurbogrupo::InterpolaValoresMapa() {
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TEjeTurbogrupo::InterpolaValoresMapa en la condici�n de contorno: "
+			"ERROR: TEjeTurbogrupo::InterpolaValoresMapa in the boundary condition: "
 			<< FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -400,7 +400,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TEjeTurbogrupo::CalculaEjesTurbogrupo en la condici�n de contorno: " << FNumeroEje << std::endl;
+			"ERROR: TEjeTurbogrupo::CalculaEjesTurbogrupo in the boundary condition: " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -588,8 +588,8 @@ void TEjeTurbogrupo::ReadInstantaneousResultsEje(char*FileWAM,
 				FResInstantEje.HeatFlow = true;
 				break;
 			default:
-				std::cout << "Resultados instant�neos en Axis " <<
-					FNumeroEje << " no implementados " << std::endl;
+				std::cout << "Instantaneous results in axis " <<
+					FNumeroEje << " are not implemented " << std::endl;
 			}
 		}
 

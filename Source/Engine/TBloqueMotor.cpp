@@ -121,10 +121,10 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		if (FACT) {
 			fscanf(fich, "%lf ", &FMixtureProcessCte);
 			if (!FHayEGR) {
-				std::cout << "WARNING: Si se calcula la combusti�n mediante ACT y el motor" << std::endl;
-				std::cout << "         tiene EGR, deber�as seleccionar la opci�n de calcular" << std::endl;
-				std::cout << "         el transporte de EGR, en caso contrario, los resultados" << std::endl;
-				std::cout << "         proporcionados por ACT no ser�n correctos" << std::endl;
+				std::cout << "WARNING: If the combustion is calculated by ACT and the engine" << std::endl;
+				std::cout << "         has EGR, you must select the opiton 'To calculate" << std::endl;
+				std::cout << "         EGR transport, in the other case, the results" << std::endl;
+				std::cout << "         provided by ACT won't be correct" << std::endl;
 			}
 		}
 
