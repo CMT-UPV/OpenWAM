@@ -62,7 +62,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-int matherr(struct exception *a){
+inline int matherr(struct exception *a){
 
 	return 0;
 }

@@ -37,6 +37,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 //#include <cmath>
 #include <limits>
 #include <iostream>
+#include "Globales.h"
 
 using namespace std;
 

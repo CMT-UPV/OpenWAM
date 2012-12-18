@@ -31,7 +31,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #define BoundaryFunctionsH
 
 //#include "roots.h"
-#include "Math_wam.h"
+// #include "Math_wam.h"
+#include "Globales.h"
 // ---------------------------------------------------------------------------
 
 struct stFESub {
