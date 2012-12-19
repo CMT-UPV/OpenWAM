@@ -426,7 +426,6 @@ private:
 			double**	U,					//!< Comment
 			double**	V2,					//!< Comment
 			double*		Area,				//!< Comment
-			double*		CoefTurbulencia,	//!< Comment
 			double*		hi,					//!< Comment
 			double*		rho,				//!< Comment
 			double*		Re,					//!< Comment
@@ -442,7 +441,6 @@ private:
 			double**	U,					//!< Comment
 			double**	V2,					//!< Comment
 			double*		Area,				//!< Comment
-			double*		CoefTurbulencia,	//!< Comment
 			double*		hi,					//!< Comment
 			double*		rho,				//!< Comment
 			double*		Re,					//!< Comment
@@ -480,7 +478,6 @@ private:
 			double 	tgas,				//!< Comment
 			double 	diametro,			//!< Comment
 			double&	q,					//!< Comment
-			double 	CoefTurbulencia,	//!< Comment
 			double 	hi,					//!< Comment
 			double 	rho,				//!< Comment
 			double 	Tw					//!< Comment
