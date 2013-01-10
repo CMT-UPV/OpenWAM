@@ -6,7 +6,7 @@
 #include "Globales.h"
 #include "TTC_HTM.h"
 
-#include "Math_wam.h"
+// #include "Math_wam.h"
 // ---------------------------------------------------------------------------
 
 class TCompressorMap {
