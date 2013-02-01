@@ -235,7 +235,7 @@ void TOutputResults::ReadAverageResults(char* FileWAM, fpos_t& filepos, TTubo** 
 	}
 
 	// !Read average results in DPF
-	#if ParticulateFilter
+	#ifdef ParticulateFilter
 	int NumDPFAvg;
 	int DPFID;
 	fscanf(FileInput,"%d ", &NumDPFAvg);
@@ -348,7 +348,7 @@ void TOutputResults::HeaderAverageResults(stEspecies *SpeciesName, TCalculoExter
 	}
 
 	// ! Header average results in connections between DPF.
-	#if ParticulateFilter
+	#ifdef ParticulateFilter
 	for(Uint i=0;i<AvgDPF.size();i++){
 	   AvgDPF[i]->CabeceraResultadosMedios(FAvgOutput,SpeciesName);
 	}
@@ -448,7 +448,7 @@ void TOutputResults::OutputAverageResults(double AcumulatedTime, TCalculoExtern*
 	}
 
 	// ! Average results in DPF.
-	#if ParticulateFilter
+	#ifdef ParticulateFilter
 	for(int i=0;i<AvgConnection.size();i++){
 	   AvgDPF[i]->ImprimeResultadosMedios(FAvgOutput);
 	}
@@ -510,10 +510,10 @@ void TOutputResults::CopyInstananeousResultsToFile(int mode) {
 			FFileIns.open(FileName, fstream::out);
 		}
 		else {
-#if WriteINS
+#ifdef WriteINS
 			FFileIns.open(FileName, fstream::out | fstream::app);
 #endif
-#if !WriteINS
+#ifndef WriteINS
 			FFileIns.open(FileName, fstream::out);
 #endif
 		}
@@ -765,7 +765,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 	}
 
 	// !Read instantaneous results in DPF.
-	#if ParticulateFilter
+	#ifdef ParticulateFilter
 	int NumDPFIns;
 	int DPFID;
 	fscanf(FileInput, "%d ", &NumDPFIns);
@@ -2227,7 +2227,7 @@ void TOutputResults::HeaderInstantaneousResults(TCalculoExtern *EXTERN, bool The
 		}
 
 		// CABECERA RESULTADOS INSTANT�NEOS DPF.
-		#if ParticulateFilter
+		#ifdef ParticulateFilter
 		for(unsigned int i=0;i<InsDPF.size();i++){
 			InsDPF[i]->CabeceraResultadosInstantaneos(FInsOutput, SpeciesName);
 		}
@@ -2444,7 +2444,7 @@ void TOutputResults::OutputInstantaneousResults(TCalculoExtern *EXTERN, bool The
 		}
 
 		// RESULTADOS INSTANT�NEOS EN DPF.
-		#if ParticulateFilter
+		#ifdef ParticulateFilter
 		for(int i=0;i<InsDPF.size();i++){
 			InsDPF[i]->CalculaResultadosInstantaneos();
 			InsDPF[i]->ImprimeResultadosInstantaneos(FInsOutput);
@@ -2495,7 +2495,7 @@ void TOutputResults::OutputInstantaneousResults(TCalculoExtern *EXTERN, bool The
 		if (ThereIsDLL) {
 			EXTERN->ImprimeGraficosInstantaneas(FInsOutput);
 		}
-#if WriteINS
+#ifdef WriteINS
 		CopyInstananeousResultsToFile(1);
 #endif
 	}

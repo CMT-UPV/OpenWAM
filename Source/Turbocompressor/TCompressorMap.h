@@ -44,11 +44,11 @@ public:
 
 	virtual void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT)=0;
 
-	virtual int getNumPuntos(){};
+	virtual int getNumPuntos(){return 0;};
 
-	virtual double GetRelCompInt(int i){};
+	virtual double GetRelCompInt(int i){return 0;};
 
-	virtual double GetGastoInt(int i){};
+	virtual double GetGastoInt(int i){return 0;};
 
 };
 

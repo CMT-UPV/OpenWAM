@@ -69,7 +69,7 @@ void TCompTubDep::LeeCompresor(char *FileWAM, fpos_t &filepos) {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-#if tchtm
+#ifdef tchtm
 
 		fscanf(fich, "%d ", &ac);
 		if (ac == 1) {
@@ -116,7 +116,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		FRelacionCompresion = Mapa->EvaluaRCHermite(MasaAire);
 		FRendimiento = Mapa->EvaluaRendSplines(MasaAire);
 
-#if tchtm
+#ifdef tchtm
 
 		double Kef = FAcComp->EFCorrector(FCorrector, FRelacionCompresion);
 		FRelacionCompresion = FRelacionCompresion * FCorrector;
@@ -174,7 +174,7 @@ double TCompTubDep::RegulaFalsi() {
 		valido = false;
 		FCambiaReg = false;
 
-#if tchtm
+#ifdef tchtm
 		FCorrector = FAcComp->CRCorrector() * 0.0001 + FCorrector * 0.9999;
 #endif
 
@@ -317,7 +317,7 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 
 		temp = pow(*FLanda / *FEntro, FGamma4) * 1e5;
 		double P20Surge = Mapa->getRelCompBombeo() * FPresion10 * 1e5;
-#if tchtm
+#ifdef tchtm
 		P20Surge = P20Surge * FCorrector;
 #endif
 		if (temp >= P20Surge) {

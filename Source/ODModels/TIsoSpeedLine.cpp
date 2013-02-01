@@ -198,7 +198,7 @@ void TIsoSpeedLine::Adimensionaliza() {
 void TIsoSpeedLine::GetAdiabaticEfficiency(TTC_HTM *HTM, double TinT,
 	double TinC) {
 
-#if tchtm
+#ifdef tchtm
 	double m, Rtc;
 
 	for (int i = 0; i < FNumDatos; ++i) {
