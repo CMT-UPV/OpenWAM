@@ -43,6 +43,13 @@ int RDTSC(void)
     asm mov k, eax;
     return k;
 }
+
+#elif _MSC_VER
+int RDTSC(void)
+{
+	return 0;
+}
+
 #else
 extern "C"
 {

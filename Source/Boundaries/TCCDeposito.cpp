@@ -108,7 +108,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 
 		FTuboExtremo = new stTuboExtremo[1];
 		FTuboExtremo[0].Pipe = NULL;
-		#if ParticulateFilter
+		#ifdef ParticulateFilter
 		FTuboExtremo[0].DPF=NULL;
 		#endif
 		FTuboExtremo[0].NumeroHaz=-1;
@@ -141,7 +141,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 			}
 			i++;
 		}
-		#if ParticulateFilter
+		#ifdef ParticulateFilter
 		if (!FEncontrado){  // It is a junction between a plenum and a DPF
 			int k=0;
 			while(FNumeroTubosCC<1 && j<nDPF){
@@ -215,7 +215,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 			   FFraccionMasicaEspecie[i]=FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		   }
 		}else{
-		   #if ParticulateFilter
+		   #ifdef ParticulateFilter
 		   for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
 			   FFraccionMasicaEspecie[i]=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,0)->GetFraccionMasicaInicial(i);
 		   }
@@ -294,7 +294,7 @@ void TCCDeposito::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 		  FValvula->PutPipe(FTuboExtremo[0].Pipe, FNodoFin);
 		  FValvula->PutDiametroTubo(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 		}else{
-		  #if ParticulateFilter
+		  #ifdef ParticulateFilter
 		  FValvula->PutDiametroTubo(FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetDiametro(FNodoFin));
           #endif
 		}
@@ -489,7 +489,7 @@ void TCCDeposito::IniciaGamma() {
 		  FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		  FSeccionTubo = Pi * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin)) / 4.;
 	   }else{
-		  #if ParticulateFilter
+		  #ifdef ParticulateFilter
 		  FRMezcla=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetRMezcla(FNodoFin);
 		  FGamma=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetGamma(FNodoFin);
 		  FSeccionTubo=Pi*pow2(FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetDiametro(FNodoFin))/4.;
@@ -516,7 +516,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 		if(!FUnionDPF){
 		   FGamma=FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		}else{
-		   #if ParticulateFilter
+		   #ifdef ParticulateFilter
 		   FGamma=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetGamma(FNodoFin);
            #endif ParticulateFilter
 		}
@@ -549,7 +549,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 					if(!FUnionDPF){
 					   FFraccionMasicaEspecie[j]=FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,j);
 					}else{
-					   #if ParticulateFilter
+					   #ifdef ParticulateFilter
 					   FFraccionMasicaEspecie[j]=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetFraccionMasicaCC(FIndiceCC,j);
                        #endif
 					}
@@ -559,7 +559,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 				if(!FUnionDPF){
 				   if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,FNumeroEspecies-1);
 				}else{
-				   #if ParticulateFilter
+				   #ifdef ParticulateFilter
 				   if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetFraccionMasicaCC(FIndiceCC,FNumeroEspecies-1);
                    #endif
 				}

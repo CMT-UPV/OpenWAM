@@ -117,7 +117,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 					if(!FCCDeposito[i]->getUnionDPF()){
 						m=g*DeltaT*FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
 					}else{
-						#if ParticulateFilter
+						#ifdef ParticulateFilter
 						int NumeroCanales;
 						int NumeroHaz=FCCDeposito[i]->GetTuboExtremo(0).NumeroHaz;
 						int TipoCanal=FCCDeposito[i]->GetTuboExtremo(0).TipoCanal;

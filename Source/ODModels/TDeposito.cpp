@@ -1057,7 +1057,7 @@ double TDeposito::CriterioEstabilidad(double TMinimo) {
 				if(!(FCCDeposito[i]->getUnionDPF())){
 					 MasaFinal+=g*DeltTMin*FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
 				}else if(FCCDeposito[i]->getUnionDPF()){
-					 #if ParticulateFilter
+					 #ifdef ParticulateFilter
 					 MasaFinal+=g*DeltTMin*FCCDeposito[i]->GetTuboExtremo(0).DPF->GetCanal(FCCDeposito[i]->GetTuboExtremo(0).NumeroHaz,0)->getNumeroCanales();
 					 #endif
 				}
