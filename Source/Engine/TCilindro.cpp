@@ -1492,6 +1492,15 @@ void TCilindro::ReadInstantaneousResultsCilindro(char *FileWAM,
 		FResInstantCilindro.Gamma = false;
 		FResInstantCilindro.GammaINS = 0.;
 
+		FResInstantCilindro.HeatHead=false;
+		FResInstantCilindro.HeatHeadINS=0;
+		FResInstantCilindro.HeatCyl=false;
+		FResInstantCilindro.HeatCylINS=0;
+		FResInstantCilindro.HeatPis=false;
+		FResInstantCilindro.HeatPisINS=0;
+
+
+
 		fscanf(fich, "%d ", &FNumVarIns);
 		for (int i = 0; i < FNumVarIns; i++) {
 			fscanf(fich, "%d ", &var);
@@ -1585,6 +1594,18 @@ void TCilindro::ReadInstantaneousResultsCilindro(char *FileWAM,
 				break;
 			case 29:
 				FResInstantCilindro.Gamma = true;
+				break;
+
+			case 30:
+				FResInstantCilindro.HeatHead = true;
+				break;
+
+			case 31:
+				FResInstantCilindro.HeatCyl = true;
+				break;
+
+			case 32:
+				FResInstantCilindro.HeatPis = true;
 				break;
 			}
 		}
@@ -1821,6 +1842,21 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 					+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
+			if (FResInstantCilindro.HeatHead) {
+				Label = "\t" + PutLabel(689) + IntToStr(FNumeroCilindro)
+					+ PutLabel(903);
+				insoutput << Label.c_str();
+			}
+			if (FResInstantCilindro.HeatCyl) {
+				Label = "\t" + PutLabel(690) + IntToStr(FNumeroCilindro)
+					+ PutLabel(903);
+				insoutput << Label.c_str();
+			}
+			if (FResInstantCilindro.HeatPis) {
+				Label = "\t" + PutLabel(691) + IntToStr(FNumeroCilindro)
+					+ PutLabel(903);
+				insoutput << Label.c_str();
+			}
 		}
 
 		// fclose(fich);
@@ -1970,6 +2006,14 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 			}
 			if (FResInstantCilindro.Gamma)
 				insoutput << "\t" << FResInstantCilindro.GammaINS;
+
+			if (FResInstantCilindro.HeatHead)
+				insoutput << "\t" << FResInstantCilindro.HeatHeadINS;
+			if (FResInstantCilindro.HeatCyl)
+				insoutput << "\t" << FResInstantCilindro.HeatCylINS;
+			if (FResInstantCilindro.HeatPis)
+				insoutput << "\t" << FResInstantCilindro.HeatPisINS;
+
 		}
 
 		// fclose(fich);
@@ -2141,6 +2185,13 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 			}
 			if (FResInstantCilindro.Gamma)
 				FResInstantCilindro.GammaINS = FGamma;
+			if (FResInstantCilindro.HeatHead)
+				FResInstantCilindro.HeatHeadINS = FCalor.TransCulata;
+			if (FResInstantCilindro.HeatCyl)
+				FResInstantCilindro.HeatCylINS = FCalor.TransCilindro;
+			if (FResInstantCilindro.HeatPis)
+				FResInstantCilindro.HeatPisINS = FCalor.TransPiston;
+
 		}
 	}
 	catch(Exception & N) {

@@ -1373,6 +1373,14 @@ struct stResInstantCilindro {
 	double *FraccionINS;
 	bool Gamma;
 	double GammaINS;
+	bool HeatHead;
+	double HeatHeadINS;
+	bool HeatCyl;
+	double HeatCylINS;
+	bool HeatPis;
+    double HeatPisINS;
+
+
 };
 
 // ---------------------------------------------------------------------------
