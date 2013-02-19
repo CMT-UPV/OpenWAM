@@ -79,7 +79,8 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			if (FMfControlled)
 				FMasaFuel = FMfController->Output(TiempoActual);
 			else
-				FMasaFuel = FMotor->getMasaFuel();
+				if (FMotor->getCombustible() == nmMEC)
+					FMasaFuel = FMotor->getMasaFuel();
 
 			// C�lculo Inicio y Fin de la Combusti�n.
 			FMfint = FMasaFuel; // kg/cc
@@ -378,15 +379,17 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			FCicloCerrado = true;
 			FPrimerInstanteCicloCerrado = true;
 			FMasaPorAdmision = FAcumMasaPorAdm;
+
+			if (FMotor->getCombustible() == nmMEP) {
+				CalculaFuelMEP(FMasaPorAdmision);
+			}
 			FAcumMasaPorAdm = 0;
 			FMasaPorEscape = FAcumMasaPorEsc;
 			FAcumMasaPorEsc = 0;
 			FMasaEGR = FAcumMasaEGR;
 			FAcumMasaEGR = 0;
 			FMasaAtrapada = FMasa;
-			if (FMotor->getCombustible() == nmMEP) {
-				CalculaFuelMEP(FMasaPorAdmision);
-			}
+
 			FPresionRCA = FPressure;
 
 			if (FMotor->getACT()) {

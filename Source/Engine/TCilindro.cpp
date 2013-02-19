@@ -3148,20 +3148,9 @@ void TCilindro::CalculaTemperaturasPared() {
 // ---------------------------------------------------------------------------
 
 void TCilindro::CalculaFuelMEP(double MasaAire) {
-	try {
-		if (FMotor->getDosadoInicial() < 5) {
-			FMasaFuel = MasaAire / 5.;
-		}
-		else {
-			FMasaFuel = MasaAire / FMotor->getDosadoInicial();
-		}
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaFuelMEP en el cilindro: " <<
-			FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
-	}
+
+	FMasaFuel = MasaAire * FMotor->getDosadoInicial() * FDosadoEstequiometrico;
+
 }
 
 // ---------------------------------------------------------------------------
