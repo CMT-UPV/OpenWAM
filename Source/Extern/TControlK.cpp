@@ -54,8 +54,8 @@ TControlK::~TControlK()
 
 void TControlK::LeeDatosEntrada(char *Ruta,FILE *fich,double DiametroTubo)
 {
-char FileK_Re[256];
-char DatosK_Re[256];
+char *FileK_Re;
+char *DatosK_Re;
 
 try
 {

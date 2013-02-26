@@ -54,8 +54,8 @@ if(FRegimen!=NULL) delete[] FRegimen;
 
 void TRegimenMotor::LeeDatosEntrada(char *Ruta,FILE *fich)
 {
-char FileRegimen[256];
-char DatosRegimen[256];
+char *FileRegimen;
+char *DatosRegimen;
 
 try
 {

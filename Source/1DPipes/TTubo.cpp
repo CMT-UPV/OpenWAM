@@ -1661,8 +1661,8 @@ void TTubo::LaxWendroff() {
 	try {
 #endif
 		int Nodos;
-		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12,
-		*Gamma12, *Rmezcla12, *Gamma1_12;
+		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12,
+		*Rmezcla12, *Gamma1_12;
 
 		hi12 = new double[FNin - 1];
 		rho12 = new double[FNin - 1];
@@ -1682,8 +1682,8 @@ void TTubo::LaxWendroff() {
 
 		CalculaFuente1(FU0, FV1, FGamma, FGamma1, Nodos);
 
-		CalculaFuente2(FU0, FV2, FDiametroTubo, Fhi, Frho,
-			FRe, FTPTubo[0], FGamma, FRMezcla, FGamma1, Nodos);
+		CalculaFuente2(FU0, FV2, FDiametroTubo, Fhi, Frho, FRe, FTPTubo[0],
+			FGamma, FRMezcla, FGamma1, Nodos);
 
 		for (int i = 0; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -1710,8 +1710,8 @@ void TTubo::LaxWendroff() {
 
 		CalculaFuente1(FU12, FV1, Gamma12, Gamma1_12, Nodos);
 
-		CalculaFuente2(FU12, FV2, FDiametroD12, hi12, rho12,
-			Re12, TPTubo12, Gamma12, Rmezcla12, Gamma1_12, Nodos);
+		CalculaFuente2(FU12, FV2, FDiametroD12, hi12, rho12, Re12, TPTubo12,
+			Gamma12, Rmezcla12, Gamma1_12, Nodos);
 
 		for (int i = 1; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -1923,8 +1923,8 @@ void TTubo::LaxWendroffArea() {
 	try {
 #endif
 		int Nodos;
-		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12,
-		*Gamma12, *Rmezcla12, *Gamma1_12;
+		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12,
+		*Rmezcla12, *Gamma1_12;
 
 		hi12 = new double[FNin - 1];
 		rho12 = new double[FNin - 1];
@@ -1944,8 +1944,8 @@ void TTubo::LaxWendroffArea() {
 
 		CalculaFuente1Area(FU0, FV1, FArea, FGamma1, Nodos);
 
-		CalculaFuente2Area(FU0, FV2, FArea, Fhi, Frho, FRe,
-			FTPTubo[0], FGamma, FRMezcla, FGamma1, Nodos);
+		CalculaFuente2Area(FU0, FV2, FArea, Fhi, Frho, FRe, FTPTubo[0], FGamma,
+			FRMezcla, FGamma1, Nodos);
 
 		for (int i = 0; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -1972,8 +1972,8 @@ void TTubo::LaxWendroffArea() {
 
 		CalculaFuente1Area(FU12, FV1, FArea12, Gamma1_12, Nodos);
 
-		CalculaFuente2Area(FU12, FV2, FArea12, hi12, rho12,
-			Re12, TPTubo12, Gamma12, Rmezcla12, Gamma1_12, Nodos);
+		CalculaFuente2Area(FU12, FV2, FArea12, hi12, rho12, Re12, TPTubo12,
+			Gamma12, Rmezcla12, Gamma1_12, Nodos);
 
 		for (int i = 1; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -2119,10 +2119,9 @@ void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaFuente2(double **U, double **V2, double *diame,
-	double *hi, double *rho, double *Re,
-	double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1,
-	int Nodos) {
+void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
+	double *rho, double *Re, double *TempParedTubo, double *Gamma,
+	double *Rmezcla, double *Gamma1, int Nodos) {
 	double v = 0, a = 0., p = 0., tgas = 0., g = 0., q = 0., f = 0.;
 #ifdef usetry
 	try {
@@ -2163,8 +2162,8 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame,
 			}
 			else {
 				tgas = a * a / (Gamma[i] * Rmezcla[i]);
-				TransmisionCalor(tgas, diame[i], q, hi[i],
-					rho[i], TempParedTubo[i]);
+				TransmisionCalor(tgas, diame[i], q, hi[i], rho[i],
+					TempParedTubo[i]);
 				q = q * FCoefAjusTC;
 			}
 
@@ -2191,9 +2190,8 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame,
 // ---------------------------------------------------------------------------
 
 void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
-	double *hi, double *rho, double *Re,
-	double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1,
-	int Nodos) {
+	double *hi, double *rho, double *Re, double *TempParedTubo,
+	double *Gamma, double *Rmezcla, double *Gamma1, int Nodos) {
 	double v = 0., a = 0., pA = 0., tgas = 0., g = 0., q = 0., f = 0.;
 	double diame;
 #ifdef usetry
@@ -2221,8 +2219,8 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 			}
 			else {
 				tgas = a * a / (Gamma[i] * Rmezcla[i]);
-				TransmisionCalor(tgas, diame, q, hi[i],
-					rho[i], TempParedTubo[i]);
+				TransmisionCalor(tgas, diame, q, hi[i], rho[i],
+					TempParedTubo[i]);
 				q = q * FCoefAjusTC;
 			}
 
@@ -5135,15 +5133,17 @@ double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo,
 					// distp=distp+dp*signo;
 					// n=n+1;
 					distp = distp + dp;
-					if (distp > distt + 1.e-10) {
-						printf("ERROR:  error distancias\n");
-						throw Exception("ERROR:  error distancias");
+					if (distp > distt) {
+						printf("WARNING: Entropy interpolation pipe %d boundary %d\n",FNumeroTubo,extremo);
+						distp = distt;
+						//throw Exception("ERROR:  error distancias");
 					}
 					dist = distp / distt;
 
 					if (dist < 0.) {
-						printf("ERROR: dist=%lf disp=%lf distt=%lf\n", dist,
+						printf("WARNING: dist=%lf disp=%lf distt=%lf\n", dist,
 							distp, distt);
+						dist = 0;
 					}
 					/* Cálculo de la velocidad en p */
 
@@ -5371,8 +5371,11 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 			}
 		}
 		else {
+
+
 			dtdx = DeltaTiempo / FXref;
 			ind = extremo;
+
 			axant = dtdx * (FVelocidadDim[ind] - signo * FAsonidoDim[ind]);
 			ax = dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim
 				[ind + signo]);
@@ -5408,14 +5411,17 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 				n = n + 1;
 				distp = distp + dp;
 				if (distp > distt) {
-					printf("ERROR:  error distancias\n");
-					throw Exception("ERROR:  error distancias");
+					printf("WARNING: Characteristics interpolation pipe %d boundary %d\n",FNumeroTubo,extremo);
+					distp = distt;
+					//throw Exception("ERROR:  error distancias");
 				}
 				dist = distp / distt;
 
-				if (dist < 0.)
-					printf("ERROR: dist=%lf disp=%lf distt=%lf\n", dist, distp,
+				if (dist < 0.){
+					dist = 0.;
+					printf("WARNING: dist=%lf disp=%lf distt=%lf\n", dist, distp,
 					distt);
+				}
 
 				// Cálculo de la velocidad en p
 
@@ -5490,8 +5496,8 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 		double daen = 0., daar = 0., dacal = 0., dafric = 0., velabs = 0.;
 		int ind1 = 0;
 		double increentropia = 0., caracteristicap = 0.;
-		double tptubop = 0., hip = 0., Rep = 0., rhop = 0., gammap,
-		gamma1p, gamma5p, gamma3p, Rmezclap;
+		double tptubop = 0., hip = 0., Rep = 0., rhop = 0., gammap, gamma1p,
+		gamma5p, gamma3p, Rmezclap;
 
 		ind1 = ind + signo;
 		if (dist == 0. || dist == 1.) {
@@ -5669,8 +5675,8 @@ void TTubo::CalculaB() {
 	try {
 #endif
 		double v, p, f, tgas, g, q, diamemed, Rm, Rm1;
-		double Remed, gamma, gamma1, Rmed, himed, rhomed, twallmed,
-		Vmed, H1, H2, Hmed, Amed, rhoAmed;
+		double Remed, gamma, gamma1, Rmed, himed, rhomed, twallmed, Vmed, H1,
+		H2, Hmed, Amed, rhoAmed;
 
 		for (int i = 0; i < FNin - 1; i++) {
 
@@ -5733,8 +5739,8 @@ void TTubo::CalculaB() {
 
 					tgas = Amed * Amed / gamma / Rmed;
 
-					TransmisionCalor(tgas, FDiametroD12[i], q, himed,
-						rhomed, twallmed);
+					TransmisionCalor(tgas, FDiametroD12[i], q, himed, rhomed,
+						twallmed);
 
 					q = q * FCoefAjusTC;
 
@@ -5824,13 +5830,13 @@ void TTubo::CalculaBmen() {
 
 				if (FCoefAjusTC != 0) {
 					Rmed = (Rm * FRMezcla[i] + FRMezcla[i - 1]) / Rm1;
-					himed = (Rm * Fhi[i] + Fhi[i + 1]) / Rm1;
-					twallmed = (Rm * FTPTubo[0][i] + FTPTubo[0][i + 1]) / Rm1;
+					himed = (Rm * Fhi[i] + Fhi[i - 1]) / Rm1;
+					twallmed = (Rm * FTPTubo[0][i] + FTPTubo[0][i - 1]) / Rm1;
 
 					tgas = Amed * Amed / gamma / Rmed;
 
-					TransmisionCalor(tgas, diamemed, q, himed,
-						rhomed, twallmed);
+					TransmisionCalor(tgas, diamemed, q, himed, rhomed,
+						twallmed);
 
 					q = q * FCoefAjusTC;
 
@@ -5871,8 +5877,8 @@ void TTubo::CalculaBmas() {
 
 			FTVD.Bmas[2][i] = 0.;
 
-			if (FArea[i] != FArea12[i + 1] || FCoefAjusFric != 0 ||
-				FCoefAjusTC != 0) {
+			if (FArea[i] != FArea12[i] || FCoefAjusFric != 0 || FCoefAjusTC !=
+				0) {
 
 				rhoAmed = sqrt(sqrtRhoA[i + 1] * pow3(sqrtRhoA[i]));
 				B = FU0[0][i] + rhoAmed + sqrtRhoA[i] * sqrtRhoA[i + 1];
@@ -5901,7 +5907,7 @@ void TTubo::CalculaBmas() {
 						[i + 1];
 				}
 
-				if (FArea[i] != FArea12[i - 1]) {
+				if (FArea[i] != FArea12[i]) {
 					FTVD.Bmas[1][i] += rhomed * Amed * Amed / gamma *
 						(FArea[i] - FArea12[i]);
 				}
@@ -5920,14 +5926,14 @@ void TTubo::CalculaBmas() {
 				}
 
 				if (FCoefAjusTC != 0) {
-					Rmed = (Rm * FRMezcla[i] + FRMezcla[i - 1]) / Rm1;
+					Rmed = (Rm * FRMezcla[i] + FRMezcla[i + 1]) / Rm1;
 					himed = (Rm * Fhi[i] + Fhi[i + 1]) / Rm1;
 					twallmed = (Rm * FTPTubo[0][i] + FTPTubo[0][i + 1]) / Rm1;
 
 					tgas = Amed * Amed / gamma / Rmed;
 
-					TransmisionCalor(tgas, diamemed, q, himed,
-						rhomed, twallmed);
+					TransmisionCalor(tgas, diamemed, q, himed, rhomed,
+						twallmed);
 
 					q = q * FCoefAjusTC;
 
@@ -6125,37 +6131,33 @@ void TTubo::TVD_Limitador() {
 		}
 		for (int i = 1; i < FNin - 2; ++i) {
 			for (int k = 0; k < 3; k++) {
-				if (FTVD.DeltaW[k][i] == 0 || fabs(FTVD.LandaD[k][i]) == 1) {
-					FTVD.R[k][i] = 1.;
-				}
-				else {
-					FTVD.R[k][i] =
-						((double)FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]]
-						- FTVD.LandaD[k][i - FTVD.hLandaD[k][i]]) *
-						(FTVD.DeltaW[k][i - FTVD.hLandaD[k][i]]) /
-						(((double)FTVD.hLandaD[k][i] - FTVD.LandaD[k][i])
-						* FTVD.DeltaW[k][i]);
-				}
+				double den = (((double)FTVD.hLandaD[k][i] - FTVD.LandaD[k][i])
+					* FTVD.DeltaW[k][i]);
+				double num = ((double)FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]]
+					- FTVD.LandaD[k][i - FTVD.hLandaD[k][i]]) *
+					(FTVD.DeltaW[k][i - FTVD.hLandaD[k][i]]);
+				if (fabs(den) > 1e-10)
+					FTVD.R[k][i] = num / den;
+				else
+					FTVD.R[k][i] = 1;
 			}
+
 			for (int k = 3; k < FNumEcuaciones; k++) {
-				if (FTVD.W[k][i] == FTVD.W[k][i + 1] || fabs(FTVD.LandaD[k][i])
-					== 1) {
-					FTVD.R[k][i] = 1.;
-				}
-				else {
-					FTVD.R[k][i] =
-						((double)FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]]
-						- FTVD.LandaD[k][i - FTVD.hLandaD[k][i]]) *
-						(FTVD.W[k][i + 1 - FTVD.hLandaD[k][i]] - FTVD.W[k]
-						[i - FTVD.hLandaD[k][i]]) /
-						(((double)FTVD.hLandaD[k][i] - FTVD.LandaD[k][i]) *
-						(FTVD.W[k][i + 1] - FTVD.W[k][i]));
-				}
+				double num = ((double)FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]]
+					- FTVD.LandaD[k][i - FTVD.hLandaD[k][i]]) *
+					(FTVD.W[k][i + 1 - FTVD.hLandaD[k][i]] - FTVD.W[k]
+					[i - FTVD.hLandaD[k][i]]);
+				double den = ((double)FTVD.hLandaD[k][i] - FTVD.LandaD[k][i]) *
+					(FTVD.W[k][i + 1] - FTVD.W[k][i]);
+				if (fabs(den) > 1e-10)
+					FTVD.R[k][i] = num / den;
+				else
+					FTVD.R[k][i] = 1;
 			}
 		}
 		for (int k = 0; k < FNumEcuaciones; k++) {
-			FTVD.R[k][0] = 0.;
-			FTVD.R[k][FNin - 2] = 0.;
+			FTVD.R[k][0] = FTVD.R[k][1];
+			FTVD.R[k][FNin - 2] = FTVD.R[k][FNin - 3];
 		}
 		for (int i = 0; i < FNin - 1; ++i) {
 			for (int k = 0; k < 3; k++) {
@@ -6207,11 +6209,35 @@ void TTubo::TVD_Limitador() {
 // ---------------------------------------------------------------------------
 
 inline double TTubo::Limita(double r) {
+	double ret_val;
 	// ------Van Albada
 	// double ret_val=(r*r+r)/(1+r*r);
 
 	// ------Van Leer
-	double ret_val = (fabs(r) + r) / (1. + fabs(r));
+
+#ifdef __BORLANDC__
+	if (r != r)
+		ret_val = 1;
+	else
+		ret_val = (fabs(r) + r) / (1. + fabs(r));
+
+	if (ret_val != ret_val)
+		ret_val = 1.;
+#else
+	if (isnan(r))
+		if (signbit(r))
+			ret_val = 1;
+		else
+			ret_val = 1;
+	else
+		ret_val = (fabs(r) + r) / (1. + fabs(r));
+
+	if (isnan(ret_val))
+		if (signbit(r))
+			ret_val = 1;
+		else
+			ret_val = 1;
+#endif
 
 	// ------Minmod
 	// double ret_val=Minimo(2*fabs(r),1.);

@@ -84,8 +84,8 @@ delete[] FMasaFuel;
 
 void TControlInyeccion::LeeDatosEntrada(char *Ruta,FILE *fich)
 {
-char FileInyeccion[256];
-char DatosInyeccion[256];
+char *FileInyeccion;
+char *DatosInyeccion;
 
 try
 {
@@ -98,7 +98,7 @@ strcat(DatosInyeccion,FileInyeccion);
 
 FichInyeccion=fopen(DatosInyeccion,"r");
 if((FichInyeccion=fopen(DatosInyeccion,"r"))==NULL){
-std::cout << "ERROR: Fichero de con datos del inyección no cargado";
+std::cout << "ERROR: Fichero de con datos del inyecciï¿½n no cargado";
 }else{
     fscanf(FichInyeccion,"%d %d %d %d ",&FNumeroDatos_Prail_Regimen,&FNumeroDatos_Mf_Prail,&FNumeroDatos_Mf,&FNumeroDatos_Regimen);
     FVector_Mf_mapa=new double[FNumeroDatos_Mf];
@@ -171,28 +171,28 @@ void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel,double Regimen)
 try
 {
 double Prail;
-// En esta función u otras que puedas necesitar debes programar las acciones
-// a realizar para realizar el control sobre el sistema de inyección, de acuerdo
+// En esta funciï¿½n u otras que puedas necesitar debes programar las acciones
+// a realizar para realizar el control sobre el sistema de inyecciï¿½n, de acuerdo
 // a los requerimientos de ACT. Actualmente ACT necesita como datos para cada ciclo:
-// 1.- Número de inyecciones.
-// 2.- Presión de inyección.
+// 1.- Nï¿½mero de inyecciones.
+// 2.- Presiï¿½n de inyecciï¿½n.
 // 3.- ACT puede calcular hasta con 8 inyecciones de combustible. Para cada una de
 //     ellas se ha de definir el CrankAngle de begining y la masa inyectada. Hay que dar
 //     estos datos para las 8, de modo que aquellas que no son utilizadas deben tener
-//     como ángulo de begining el valor 180 y como masa inyectada 0, de acuerdo a lo que
+//     como ï¿½ngulo de begining el valor 180 y como masa inyectada 0, de acuerdo a lo que
 //     el manual de ACT nos indica.
 
 FNumeroInyecciones=2;
-MasaFuel=MasaFuel*1e6;   // En los mapas la masa de fuel esta en mg/cc. En ACT también,
-                         // luego se pasará el dato ya en estas unidades. 
+MasaFuel=MasaFuel*1e6;   // En los mapas la masa de fuel esta en mg/cc. En ACT tambiï¿½n,
+                         // luego se pasarï¿½ el dato ya en estas unidades. 
 
 Prail=Interpolacion_bidimensional(Regimen,MasaFuel,FVector_Mf_mapaPrail,
        FVector_Prail_Regimen_mapa,FMapa_Prail,FNumeroDatos_Prail_Regimen,
        FNumeroDatos_Mf_Prail);
 
-FPrail=Prail*10;   // Presión del common-rail en bar
+FPrail=Prail*10;   // Presiï¿½n del common-rail en bar
 
-/* SOI de la inyección principal */
+/* SOI de la inyecciï¿½n principal */
 FSOI[1]=Interpolacion_bidimensional(Regimen,MasaFuel,FVector_Mf_mapa,
                FVector_Regimen_mapa,FMapa_SOI_Principal,FNumeroDatos_Regimen,
                FNumeroDatos_Mf);
@@ -209,7 +209,7 @@ FDiferencia_SOI=Interpolacion_bidimensional(Regimen,MasaFuel,FVector_Mf_mapa,
                FVector_Regimen_mapa,FMapa_SOI_Piloto,FNumeroDatos_Regimen,
                FNumeroDatos_Mf);
 
-/* SOI de la inyección piloto */
+/* SOI de la inyecciï¿½n piloto */
 FSOI[0]=FSOI[1]-FDiferencia_SOI;
 
 for(int i=2;i<8;i++){

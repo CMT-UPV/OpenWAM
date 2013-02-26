@@ -68,7 +68,7 @@ void TTable1D::LeeController(char *FileWAM, fpos_t &filepos) {
 	fscanf(fich, "%d ", &fromfile);
 
 	if (fromfile == 1) {
-		char InputFile[256];
+		char *InputFile;
 		fscanf(fich, "%s ", &InputFile);
 
 		FILE *fichdata = fopen(InputFile, "r");

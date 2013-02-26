@@ -71,8 +71,8 @@ TEGRV::~TEGRV()
 
 void TEGRV::LeeDatosEntrada(char *Ruta,FILE *fich)
 {
-char FileEGR[256];
-char DatosEGR[256];
+char *FileEGR;
+char *DatosEGR;
 
 try
 {

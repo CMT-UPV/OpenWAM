@@ -518,7 +518,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 		}else{
 		   #ifdef ParticulateFilter
 		   FGamma=FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal)->GetGamma(FNodoFin);
-           #endif ParticulateFilter
+           #endif
 		}
 		FGamma1 = Gamma1(FGamma);
 		FGamma2 = Gamma2(FGamma);

@@ -105,7 +105,7 @@ FILE *fich=fopen(FileWAM,"r");
 fsetpos(fich, &filepos);
 
 fscanf(fich,"%lf %lf %lf ",&FGastoIny,&FTemperaturaIny,&FInicioIny);
-fscanf(fich,"%lf %lf %lf ",&FDuracionIny);
+fscanf(fich,"%lf ",&FDuracionIny);
 
 // Inicializaci�n del transporte de especies qu�micas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
