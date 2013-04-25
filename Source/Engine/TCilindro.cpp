@@ -1179,11 +1179,11 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 			if (FResMediosCilindro.CalorCombustion)
 				FResMediosCilindro.CalorCombustionSUM += FCalor.Liberado;
 			if (FResMediosCilindro.CalorCilindro)
-				FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro;
+				FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro * DeltaT;
 			if (FResMediosCilindro.CalorCulata)
-				FResMediosCilindro.CalorCulataSUM += FCalor.TransCulata;
+				FResMediosCilindro.CalorCulataSUM += FCalor.TransCulata * DeltaT;
 			if (FResMediosCilindro.CalorPiston)
-				FResMediosCilindro.CalorPistonSUM += FCalor.TransPiston;
+				FResMediosCilindro.CalorPistonSUM += FCalor.TransPiston * DeltaT;
 
 			if (FResMediosCilindro.TemperaturaCilindroInterna)
 				FResMediosCilindro.TemperaturaCilindroInternaSUM += FTempPared

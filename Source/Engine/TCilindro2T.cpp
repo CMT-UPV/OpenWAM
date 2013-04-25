@@ -551,13 +551,13 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		// CALOR TRANSMITIDO A LAS PAREDES
 		FCalor.TransCilindro = Fh * (FTempPared[0].Cylinder - FTemperature)
 			* 4 * (FVolumen / 2. + FVolumen0 / 2. - FMotor->getGeometria()
-			.VCC) / FMotor->getGeometria().Diametro * FDeltaT;
+			.VCC) / FMotor->getGeometria().Diametro;
 		FCalor.TransPiston = Fh * (FTempPared[0].Piston - FTemperature)
-			* FMotor->getGeometria().AreaPiston * FDeltaT;
+			* FMotor->getGeometria().AreaPiston;
 		FCalor.TransCulata = Fh * (FTempPared[0].Culata - FTemperature)
-			* FMotor->getGeometria().AreaCulata * FDeltaT;
-		FCalor.TransTotal = FCalor.TransCilindro + FCalor.TransPiston +
-			FCalor.TransCulata;
+			* FMotor->getGeometria().AreaCulata;
+		FCalor.TransTotal = (FCalor.TransCilindro + FCalor.TransPiston +
+			FCalor.TransCulata) * DeltaT;
 
 		// CALCULO DEL CALOR LIBERADO
 		if (FCicloCerrado) {
