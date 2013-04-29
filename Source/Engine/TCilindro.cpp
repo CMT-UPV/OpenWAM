@@ -2809,8 +2809,8 @@ double TCilindro::FuncionGamma(double T, double X) {
 		c = 0.485 * pow(X, 0.75) + 0.0975;
 
 		cv = (a + 2. * b * T00 - 3. * c * pow(T00, 2.)) * 1.455;
-		if (cv <= 866.) {
-			cv = 866.;
+		if (cv <= 700.) {
+			cv = 700.;
 		}
 		Result = R / cv + 1.;
 		return Result;

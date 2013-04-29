@@ -557,7 +557,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		FCalor.TransCulata = Fh * (FTempPared[0].Culata - FTemperature)
 			* FMotor->getGeometria().AreaCulata;
 		FCalor.TransTotal = (FCalor.TransCilindro + FCalor.TransPiston +
-			FCalor.TransCulata) * DeltaT;
+			FCalor.TransCulata) * FDeltaT;
 
 		// CALCULO DEL CALOR LIBERADO
 		if (FCicloCerrado) {
