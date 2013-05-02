@@ -564,7 +564,7 @@
 						<Debugging Name="DebugSourceDirs"/>
 					</Debugging>
 					<Parameters>
-						<Parameters Name="RunParams">lujan2.wam</Parameters>
+						<Parameters Name="RunParams">DW10B_2500_90.WAM</Parameters>
 						<Parameters Name="UseLauncher">True</Parameters>
 						<Parameters Name="RemoteHost"/>
 						<Parameters Name="RemotePath"/>

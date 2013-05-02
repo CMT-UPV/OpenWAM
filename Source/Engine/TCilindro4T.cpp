@@ -900,16 +900,20 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		if (FMotor->getGammaCalculation() == nmGammaConstante) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (!FCicloCerrado) {
-					FGamma = FuncionGamma(FTemperature + 273., 0.1);
+//					FGamma = FuncionGamma(FTemperature + 273., 0.1);
+					FGamma = CalculoSimpleCvMezcla(FTemperature + 273., 0.1, nmComposicionTemperatura)
 				}
 				else if (FCicloCerrado) {
-					FGamma = FuncionGamma(FTemperature + 273.,
-						FComposicionCicloCerrado[0]);
+//					FGamma = FuncionGamma(FTemperature + 273.,
+//						FComposicionCicloCerrado[0]);
+					FGamma = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura)
 				}
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
-				FGamma = FuncionGamma(FTemperature + 273.,
-					FFraccionMasicaEspecie[0]);
+//				FGamma = FuncionGamma(FTemperature + 273.,
+//					FFraccionMasicaEspecie[0]);
+				FGamma = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura)
+
 			}
 			FGamma1 = Gamma1(FGamma);
 			FGamma2 = Gamma2(FGamma);
