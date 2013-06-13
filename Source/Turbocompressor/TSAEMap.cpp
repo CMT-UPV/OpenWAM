@@ -154,18 +154,29 @@ void TSAEMap::InterpolateMAP(double RTC) {
 	FRTCAdim = RTC / FSpeedMAX;
 	FCurrentIND = FMassMAX_int->locate(FRTCAdim);
 
+
 	// std::cout << FMassMAXAdim[4] << std::endl;
 
-	FCurrentMassMAX = FMassMAX_int->interp(FRTCAdim) * FMassMAXMAX;
-	FCurrentPresMAX = FPresMAX_int->interp(FRTCAdim) * (FPresMAXMAX - 1.) + 1.;
-	FCurrentEffMAX = FEffMAX_int->interp(FRTCAdim) * FEffMAXMAX;
+	if(FRTCAdim<=1){
+		FCurrentIND = FMassMAX_int->locate(FRTCAdim);
+		FCurrentMassMAX = FMassMAX_int->interp(FRTCAdim) * FMassMAXMAX;
+		FCurrentPresMAX = FPresMAX_int->interp(FRTCAdim) * (FPresMAXMAX - 1.) + 1.;
+		FCurrentEffMAX = FEffMAX_int->interp(FRTCAdim) * FEffMAXMAX;
+		FDeltaLow = (FRTCAdim - FSpeedAdim[FCurrentIND]) /
+		(FSpeedAdim[FCurrentIND + 1] - FSpeedAdim[FCurrentIND]);
+
+	}else{
+		FCurrentIND = FNumLines;
+		FCurrentMassMAX = pow(FRTCAdim, 1.2) * FMassMAXMAX;
+		FCurrentPresMAX = pow(FRTCAdim, 1.2) * (FPresMAXMAX - 1.) + 1.;
+		FCurrentEffMAX = exp(1-FRTCAdim) * FEffMAX_int->interp(FRTCAdim) * FEffMAXMAX;
+	}
 
 	// for (int i = 0; i <= FNumLines; ++i) {
 	// printf("%lf %lf\n", FSpeedAdim[i], FSpeedAdim[i] * FSpeedMAX);
 	// }
 
-	FDeltaLow = (FRTCAdim - FSpeedAdim[FCurrentIND]) /
-		(FSpeedAdim[FCurrentIND + 1] - FSpeedAdim[FCurrentIND]);
+
 
 }
 
@@ -179,6 +190,7 @@ double TSAEMap::GetCurrentRC(double Mass) {
 			* (FCurrentPresMAX - 1) + 1;
 	}
 	else if (FCurrentIND == FNumLines) {
+		CurrentRC = FPre_MassCurve[FCurrentIND-1]->interp(massadim) * (FCurrentPresMAX - 1) + 1;
 	}
 	else {
 		double pres_lo = FPre_MassCurve[FCurrentIND - 1]->interp(massadim);
@@ -201,6 +213,7 @@ double TSAEMap::GetCurrentEff(double Mass) {
 			) * FCurrentEffMAX;
 	}
 	else if (FCurrentIND == FNumLines) {
+		CurrentEff = FEff_MassCurve[FCurrentIND-1]->interp(massadim) * FCurrentEffMAX;
 	}
 	else {
 		double pres_lo = FEff_MassCurve[FCurrentIND - 1]->interp(massadim);
@@ -248,6 +261,9 @@ double TSAEMap::getRelCompBombeo() {
 	if (FCurrentIND == 0) {
 		return(1 - FDeltaLow) + FDeltaLow * FPres[FCurrentIND][0];
 	}
+	if (FCurrentIND == FNumLines) {
+		return (FPres[FCurrentIND - 1][0] - 1) *  pow(FRTCAdim, 1.2) + 1;
+	}
 	else {
 		return(1 - FDeltaLow) * FPres[FCurrentIND - 1][0] + FDeltaLow * FPres
 			[FCurrentIND][0];
@@ -255,8 +271,11 @@ double TSAEMap::getRelCompBombeo() {
 }
 
 double TSAEMap::getGastoBombeo() {
-	return(1 - FDeltaLow) * FMass[FCurrentIND - 1][0] + FDeltaLow * FMass
-		[FCurrentIND][0];
+	if (FCurrentIND == FNumLines) {
+		return FMass[FCurrentIND - 1][0] *  pow(FRTCAdim, 1.2);
+	}else{
+		return(1 - FDeltaLow) * FMass[FCurrentIND - 1][0] + FDeltaLow * FMass[FCurrentIND][0];
+	}
 }
 
 void TSAEMap::InterpolaMapa(double rtc, double T10) {
