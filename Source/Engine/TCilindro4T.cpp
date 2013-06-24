@@ -130,6 +130,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			if (FCalcComb == nmFQL) {
 				InicioFinCombustion();
 				FAnguloInjeccion = FIniComb - FAnguloRetrasoCombustion;
+				//FAnguloInjeccion = -6;
 			}
 			else if (FCalcComb == nmACT) {
 				FAnguloInjeccion = FMotor->getInjecPulse(0).Angulo;
@@ -148,18 +149,21 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		if (FMotor->getGammaCalculation() == nmGammaConstante) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (!FCicloCerrado) {
-					FGamma = FuncionGamma(FTemperature + 273., 0.1);
+					FRMezcla = CalculoSimpleRMezcla(0.1, nmComposicionTemperatura);
+					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1, nmComposicionTemperatura);
+
 				}
 				else if (FCicloCerrado) {
-					FGamma = FuncionGamma(FTemperature + 273.,
-						FComposicionCicloCerrado[0]);
+					FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0], nmComposicionTemperatura);
+					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura);
 				}
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
-				FGamma = FuncionGamma(FTemperature + 273.,
-					FFraccionMasicaEspecie[0]);
+				FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0], nmComposicionTemperatura);
+				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura);
+
 			}
-			FRMezcla = R;
+			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, nmComposicionTemperatura);
 		}
 		else if (FMotor->getGammaCalculation()
 			== nmComposicion || FMotor->getGammaCalculation()
@@ -897,29 +901,34 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			}
 		}
 
-		if (FMotor->getGammaCalculation() == nmGammaConstante) {
-			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
-				if (!FCicloCerrado) {
-//					FGamma = FuncionGamma(FTemperature + 273., 0.1);
-					FGamma = CalculoSimpleCvMezcla(FTemperature + 273., 0.1, nmComposicionTemperatura)
-				}
-				else if (FCicloCerrado) {
-//					FGamma = FuncionGamma(FTemperature + 273.,
-//						FComposicionCicloCerrado[0]);
-					FGamma = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura)
-				}
-			}
-			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
-//				FGamma = FuncionGamma(FTemperature + 273.,
-//					FFraccionMasicaEspecie[0]);
-				FGamma = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura)
-
-			}
-			FGamma1 = Gamma1(FGamma);
-			FGamma2 = Gamma2(FGamma);
-			FGamma4 = Gamma4(FGamma);
-			FGamma6 = Gamma6(FGamma);
-		}
+//		if (FMotor->getGammaCalculation() == nmGammaConstante) {
+//			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
+//				if (!FCicloCerrado) {
+////					FGamma = FuncionGamma(FTemperature + 273., 0.1);
+//					FRMezcla = CalculoSimpleRMezcla(0.1, nmComposicionTemperatura)
+//					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1, nmComposicionTemperatura);
+//
+//				}
+//				else if (FCicloCerrado) {
+////					FGamma = FuncionGamma(FTemperature + 273.,
+////						FComposicionCicloCerrado[0]);
+//					FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0], nmComposicionTemperatura);
+//					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura);
+//				}
+//			}
+//			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
+////				FGamma = FuncionGamma(FTemperature + 273.,
+////					FFraccionMasicaEspecie[0]);
+//				FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0], nmComposicionTemperatura);
+//				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0], nmComposicionTemperatura);
+//
+//			}
+//			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, nmComposicionTemperatura);
+//			FGamma1 = Gamma1(FGamma);
+//			FGamma2 = Gamma2(FGamma);
+//			FGamma4 = Gamma4(FGamma);
+//			FGamma6 = Gamma6(FGamma);
+//		}
 		bool PrimerPaso = true;
 		double ASon0 = FAsonido;
 		double ASon1 = FAsonido;
