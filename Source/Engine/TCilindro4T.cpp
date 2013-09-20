@@ -932,6 +932,8 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		bool PrimerPaso = true;
 		double ASon0 = FAsonido;
 		double ASon1 = FAsonido;
+		double Temp0 = FTemperature;
+		double Temp1 = FTemperature;
 		double MasTemp0 = 1 / (FTemperature + 273.) / FMasa0;
 		double MasTemp1 = 1 / (FTemperature + 273.) / FMasa0;
 		double MasTempMed;
@@ -1003,11 +1005,11 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			Energia = FVolumen0 * FMasa / FVolumen / FMasa0 * exp
 				((H1 + H0) / 2. + (FCalor.TransTotal + FCalor.Liberado) *
 				(MasTempMed / FRMezcla));
-			ASon1 = FAsonido * sqrt(pow(Energia, FGamma1));
-			Error = (Diff = ASon1 - ASon0, fabs(Diff)) / ASon1;
+			Temp1 = (FTemperature + 273) * pow(Energia, FGamma1) - 273;
+			Error = (Diff = Temp1 - Temp0, fabs(Diff)) / Temp1;
 			if (Error > 1e-6) {
-				MasTemp1 = 1. / (pow2(ASon1) * FMasa) * FGamma * FRMezcla;
-				ASon0 = ASon1;
+				MasTemp1 = 1. / ((Temp1 + 273) * FMasa);
+				Temp0 = Temp1;
 			}
 			else {
 				CotaError = true;
@@ -1020,13 +1022,15 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		// std::cout << "INFO: Imposed temperature at E.O.:  " << FTemperature << " (\260C)" << std::endl;
 		// }
 
-		FAsonido0 = FAsonido;
-		FAsonido = ASon1;
-
 		FTemperatura0 = FTemperature;
-		FTemperature = pow2(FAsonido) / FGamma / FRMezcla - 273.;
+		FTemperature = Temp1;
+
+		FAsonido0 = FAsonido;
+		FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273));
+
 		FPresion0 = FPressure;
-		FPressure = pow2(FAsonido) * FMasa / FGamma / FVolumen * 1e-5;
+		FPressure = (FTemperature + 273) * FMasa * FRMezcla / FVolumen * 1e-5;
+
 		if (FAnguloActual > FDistribucion.AE && FAnguloAnterior <=
 			FDistribucion.AE) {
 			std::cout << "INFO: Begin gas-exchange process in cylinder " <<
