@@ -165,6 +165,10 @@ protected:
 	double FAcumMasaEGR;
 	double FMasaEGR;
 	double FPresionRCA;
+	double Fecg0;
+	double Fecg;
+	double FecgTotal;
+	double FecgInt;
 
 	double FParInstantaneo;
 	double FTrabajoNeto;
@@ -186,12 +190,14 @@ protected:
 	double FRegInt; // rpm      R�gimen para la interpolaci�n de las leyes.
 
 	double FAnguloInjeccion;
-	double FAnguloInjeccionpil;
+	double FAnguloInjeccionPil;
+	double FFuelTotalPil;
 
 	bool FInyeccion;
-	bool FInyeccionpil;
+	bool FInyeccionPil;
 	double FFuelTotal;
 	double FFuelInstant;
+	double FFuelInstantPil;
 	double FMasaBlowBy;
 	double FGastoBlowBy;
 

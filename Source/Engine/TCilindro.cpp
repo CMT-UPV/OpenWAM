@@ -2390,6 +2390,7 @@ void TCilindro::IniciaVariables() {
 				FFraccionMasicaEspecie[0],0, FMotor->getGammaCalculation());
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
 				FMotor->getGammaCalculation());
+			FHcl = -1852564 + 2195 * (30 + 273 + 125); //Temperatura del combustible en K +125, que es el incremento de la temperatura de combustible hasta la tobera del inyector
 
 		}
 

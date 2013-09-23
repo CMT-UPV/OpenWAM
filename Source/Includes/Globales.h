@@ -1694,6 +1694,14 @@ inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 	return R;
 };
 
+inline double CalculoSimpleUfgasoil(double Temperature){
+	double Ufgasoil = 0.;
+		Ufgasoil = -1234157.8 - 256.4 * (Temperature + 273) + 3.47686 *
+			pow(Temperature + 273, 2) - 0.00134905 * pow(Temperature + 273, 3) +
+			0.000000227565 * pow(Temperature + 273, 4) - 1458487. / (Temperature + 273);
+	return Ufgasoil;
+};
+
 inline double Seccion(double d) {
 	return d*d*Pi / 4.;
 };

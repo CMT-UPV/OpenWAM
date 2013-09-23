@@ -130,9 +130,22 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 
 			if (FCalcComb == nmFQL) {
 				InicioFinCombustion();
-				//FAnguloInjeccion = FIniComb - FAnguloRetrasoCombustion;
-				FAnguloInjeccion = -2.5 + 720;
-				FAnguloInjeccionpil = -17.5 + 720;
+				//Solo hay inyección piloto si hay 4 Wiebes
+				if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
+					//Si la combustión principal empieza en angulo negativo, hay que sumar 720º
+					if (FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 < 0) {
+						FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 + 720;
+						FAnguloInjeccionPil = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+					}
+					else {
+						FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0;
+						FAnguloInjeccionPil = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+					}
+				}
+				else {
+					FAnguloInjeccion = FIniComb - FAnguloRetrasoCombustion +720;
+                }
+
 			}
 			else if (FCalcComb == nmACT) {
 				FAnguloInjeccion = FMotor->getInjecPulse(0).Angulo;
@@ -151,20 +164,20 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		if (FMotor->getGammaCalculation() == nmGammaConstante) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (!FCicloCerrado) {
-					FRMezcla = CalculoSimpleRMezcla(0.1,FComposicionCicloCerrado[1], nmComposicionTemperatura);
-					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1,FComposicionCicloCerrado[1], nmComposicionTemperatura);
+					FRMezcla = CalculoSimpleRMezcla(0.1,0, nmComposicionTemperatura);
+					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1,FFraccionMasicaEspecie[1], nmComposicionTemperatura);
 
 				}
 				else if (FCicloCerrado) {
-					FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0],FComposicionCicloCerrado[1], nmComposicionTemperatura);
+					FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], nmComposicionTemperatura);
 					//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
-					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0],FComposicionCicloCerrado[1], nmComposicionTemperatura);
+					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], nmComposicionTemperatura);
 				}
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
-				//FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0],FComposicionCicloCerrado[1], nmComposicionTemperatura);
-				FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
-				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0],FComposicionCicloCerrado[1], nmComposicionTemperatura);
+				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], nmComposicionTemperatura);
+				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
+				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], nmComposicionTemperatura);
 
 			}
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, nmComposicionTemperatura);
@@ -186,9 +199,9 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-				//FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-				//	FMotor->getGammaCalculation());
-				FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
+				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+					FMotor->getGammaCalculation());
+				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
 
 				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
 					FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], FMotor->getGammaCalculation());
@@ -336,6 +349,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		/* INYECCI�N DE COMBUSTIBLE (MEC) */
 		/* ================================= */
 
+
 		//Inyección principal
 		if (FAnguloActual > FAnguloInjeccion && FAnguloAnterior <=
 			FAnguloInjeccion && FMotor->getCombustible() == nmMEC) {
@@ -343,7 +357,6 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			// Se pasa a estado de injecci�n verdadero.
 			// FMasaFuel = FMotor->getMasaFuel();
 			FInyeccion = true;
-			FFuelTotal = 0.;
 			FTasaFuel = 0.;
 		}
 		if (FInyeccion) {
@@ -378,44 +391,52 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			FFuelInstant = 0.;
 		}
 
-		//Inyecciones piloto 1
-		if (FAnguloActual > FAnguloInjeccionpil && FAnguloAnterior <=
-			FAnguloInjeccionpil && FMotor->getCombustible() == nmMEC) {
-			// En el �ngulo de begining de la combusti�n se empieza a introducir el combustible
-			// Se pasa a estado de injecci�n verdadero.
-			// FMasaFuel = FMotor->getMasaFuel();
-			FInyeccionpil = true;
-			FFuelTotal = 0.;
-			FTasaFuel = 0.;
-		}
-		if (FInyeccionpil) {
+		//Inyección piloto, solo si hay 4 Wiebes
+		if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
+			FFuelTotalPil = FMasaFuel/25;
 
-			if (FMotor->getACT()) {
-				FInyeccionpil = false;
+			if (FAnguloActual > FAnguloInjeccionPil && FAnguloAnterior <=
+				FAnguloInjeccionPil && FMotor->getCombustible() == nmMEC
+				&& FFuelTotalPil != 0.) {
+				// En el �ngulo de begining de la combusti�n se empieza a introducir el combustible
+				// Se pasa a estado de injecci�n verdadero.
+				// FMasaFuel = FMotor->getMasaFuel();
+				FInyeccionPil = true;
+				FFuelTotal = 0.;
+				FTasaFuel = 0.;
+			}
+			if (FInyeccionPil) {
+				if (FMotor->getACT()) {
+					FInyeccionPil = false;
+				}
+				else {
+					// Se reparte la inyecci�n de combustible durante 2 ms
+					// FFuelInstant representa la cantidad de masa de fuel introducida en un instante de calculo.
+					FTasaFuel = FMasaFuel / 3e-3;
+					FFuelInstantPil = FTasaFuel * FDeltaT;
+					// Se va acumulando la masa de fuel para comprobar que no super el valor de combustible de la piloto fijado por cilindro y ciclo.
+				}
+				if ((FFuelTotal + FFuelInstantPil) > FFuelTotalPil) {
+					// La inyecci�n se corta cuando se alcanza el valor de combustible total.
+					FFuelInstantPil = FFuelTotalPil - FFuelTotal;
+					FInyeccionPil = false;
+					FFuelTotal = FFuelTotalPil;
+				}
+				else {
+					FFuelTotal += FFuelInstantPil;
+				}
+
 			}
 			else {
-				// Se reparte la inyecci�n de combustible durante 2 ms
-				// FFuelInstant representa la cantidad de masa de fuel introducida en un instante de calculo.
-				FTasaFuel = FMasaFuel / 3e-3;
-				FFuelInstantpil = FTasaFuel * FDeltaT;
-				// Se va acumulando la masa de fuel para comprobar que no super el valor de combustible de la piloto fijado por cilindro y ciclo.
+				FFuelInstantPil = 0.;
 			}
-			if ((FFuelTotal + FFuelInstant) > FMasaFuel/50) {
-				// La inyecci�n se corta cuando se alcanza el valor de combustible total.
-				FFuelInstantpil = FMasaFuel/50 - FFuelTotal;
-				FInyeccionpil = false;
-				FFuelTotal = FMasaFuel/50;
-			}
-			else {
-				FFuelTotal += FFuelInstantpil;
-			}
-
 		}
 		else {
-			FFuelInstantpil = 0.;
-		}
+            FFuelTotalPil = 0;
+        }
 
-		FMasa = FMasa + FFuelInstant + FFuelInstantpil - FMasaBlowBy;
+
+		FMasa = FMasa + FFuelInstant + FFuelInstantPil - FMasaBlowBy;
 
 		// AL CIERRE DE LA VALVULA DE ADMISION SE OBTIENE LA MASA TOTAL POR ADMISION Y ESCAPE,
 		// LA MASA ATRAPADA EN EL CILINDRO, EL COMBUSTIBLE (PARA LOS MEP EN FUNCION DE
@@ -623,19 +644,23 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				FCalor.FQL = 0.;
 				FCalor.FQL0 = 0.;
 
-				FComposicionCicloCerrado[0] = FFraccionMasicaEspecie[0];
-				FComposicionCicloCerrado[1] = FFraccionMasicaEspecie[1];
-				FComposicionCicloCerrado[2] = FFraccionMasicaEspecie[2];
-
-				FMasaEspecieCicloCerrado[0] = FMasa * FComposicionCicloCerrado[0];
-				 //	- FComposicionCicloCerrado[0] * FMasaBlowBy;
+				FMasaEspecieCicloCerrado[0] = FMasaEspecieCicloCerrado[0]
+					- FComposicionCicloCerrado[0] * FMasaBlowBy;
 				// Gases Quemados
-				FMasaEspecieCicloCerrado[1] = FMasa * FComposicionCicloCerrado[1];
-				 //	+ FFuelInstant + FFuelInstantpil;
+				FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado[1]
+					+ FFuelInstant + FFuelInstantPil;
 				// Combustible
-				FMasaEspecieCicloCerrado[2] = FMasa * FComposicionCicloCerrado[2];
-				 //	- FComposicionCicloCerrado[2] * FMasaBlowBy;
+				FMasaEspecieCicloCerrado[2] = FMasa - FMasaEspecieCicloCerrado[0] -FMasaEspecieCicloCerrado[1];
+				//FMasaEspecieCicloCerrado[2]
+				//	- FComposicionCicloCerrado[2] * FMasaBlowBy;
 				// Aire Fresco
+
+				FComposicionCicloCerrado[0] = FMasaEspecieCicloCerrado[0]
+					/ FMasa;
+				FComposicionCicloCerrado[1] = FMasaEspecieCicloCerrado[1]
+					/ FMasa;
+				FComposicionCicloCerrado[2] = FMasaEspecieCicloCerrado[2]
+					/ FMasa;
 
 
 			}
@@ -643,6 +668,10 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 
 				if (FPrimeraCombustion) {
 					if (FCalcComb == nmFQL) {
+						Fecg0 = 0.;
+						FecgTotal = 0.;
+						//(FHcl - FUfgasoil) * (FFuelInstant + FFuelInstantPil) / FDeltaAngulo;
+						//energía del combustible gaseoso (evaporación), hay que integrala
 						FCalor.FQL0 = CalculaCalorLiberado
 							(FAnguloComb - FDeltaAngulo);
 					}
@@ -652,7 +681,14 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 					FPrimeraCombustion = false;
 				}
 				if (FCalcComb == nmFQL) {
+					FUfgasoil = CalculoSimpleUfgasoil(FTemperature);
+					Fecg = (FHcl - FUfgasoil) * (FFuelInstant + FFuelInstantPil)
+					/ FDeltaAngulo;
+					//energía del combustible gaseoso (evaporación), hay que integrarla
 					FCalor.FQL = CalculaCalorLiberado(FAnguloComb);
+					FecgInt = (Fecg + Fecg0) / 2 * FDeltaAngulo;
+					FecgTotal += (Fecg + Fecg0) / 2 * FDeltaAngulo;
+					Fecg0 = Fecg;
 				}
 				else if (FCalcComb == nmACT) {
 					FCalor.FQL = Interp1(FAnguloComb, FCAD_exit, FHRF_exit,
@@ -688,7 +724,11 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 						// Gases Quemados
 						FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado
 							[1] - mfquefin - FComposicionCicloCerrado[1]
-							* FMasaBlowBy + FFuelInstant; // Combustible
+							* FMasaBlowBy + FFuelInstant + FFuelInstantPil;
+//						if (FMasaEspecieCicloCerrado[1] < 0) {
+//							FMasaEspecieCicloCerrado[1] = 0;
+//						}
+						// Combustible
 						FMasaEspecieCicloCerrado[2] = 0.; // Aire Fresco
 
 					}
@@ -705,11 +745,16 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 						* FMasaBlowBy;
 					// Gases Quemados
 					FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado[1]
-						- FMfquem - FComposicionCicloCerrado[1]
-						* FMasaBlowBy + FFuelInstant; // Combustible
+						- FMfquem - FComposicionCicloCerrado[1] * FMasaBlowBy
+						+ FFuelInstant + FFuelInstantPil;
+//					if (FMasaEspecieCicloCerrado[1] < 0) {
+//						FMasaEspecieCicloCerrado[1] = 0;
+//					}
+					// Combustible
 					FMasaEspecieCicloCerrado[2] = FMasaEspecieCicloCerrado[2]
 						- FMairequem - FComposicionCicloCerrado[2]
-						* FMasaBlowBy; // Aire Fresco
+						* FMasaBlowBy;
+					// Aire Fresco
 				}
 
 				FComposicionCicloCerrado[0] = FMasaEspecieCicloCerrado[0]
@@ -1044,8 +1089,8 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			}
 			MasTempMed = (MasTemp0 + MasTemp1) / 2;
 			Energia = FVolumen0 * FMasa / FVolumen / FMasa0 * exp
-				((H1 + H0) / 2. + (FCalor.TransTotal + FCalor.Liberado) *
-				(MasTempMed / FRMezcla));
+				((H1 + H0) / 2. + (FCalor.TransTotal + FCalor.Liberado
+				+ FecgInt) * (MasTempMed / FRMezcla));
 			Temp1 = (FTemperature + 273) * pow(Energia, FGamma1) - 273;
 			Error = (Diff = Temp1 - Temp0, fabs(Diff)) / Temp1;
 			if (Error > 1e-6) {
