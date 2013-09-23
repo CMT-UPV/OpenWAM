@@ -2382,12 +2382,12 @@ void TCilindro::IniciaVariables() {
 		}
 		else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],0,
 				FMotor->getGammaCalculation());
 			TemperaturaInicial = FMotor->getPresionInicial()
 				* 1e5 * FVolumen / FMotor->getMasaInicial() / FRMezcla - 273.;
 			FCvMezcla = CalculoSimpleCvMezcla(TemperaturaInicial + 273.,
-				FFraccionMasicaEspecie[0], FMotor->getGammaCalculation());
+				FFraccionMasicaEspecie[0],0, FMotor->getGammaCalculation());
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
 				FMotor->getGammaCalculation());
 
@@ -2439,7 +2439,7 @@ void TCilindro::IniciaVariables() {
 				else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
 					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
-						FFraccionMasicaEspecie[0],
+						FFraccionMasicaEspecie[0],0,
 						FMotor->getGammaCalculation());
 					FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
 						FMotor->getGammaCalculation());

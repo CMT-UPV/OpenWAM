@@ -1111,10 +1111,10 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		}
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
-			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],
+			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],FComposicionInicial[1],
 				FCalculoGamma);
 			CvMezclaIni = CalculoSimpleCvMezcla(FTini + 273.,
-				FComposicionInicial[0], FCalculoGamma);
+				FComposicionInicial[0],FComposicionInicial[1], FCalculoGamma);
 			GammaIni = CalculoSimpleGamma(RMezclaIni, CvMezclaIni,
 				FCalculoGamma);
 
@@ -1207,9 +1207,9 @@ void TTubo::ActualizaPropiedadesGas() {
 			if (FCalculoEspecies == nmCalculoSimple) {
 
 				FRMezcla[i] = CalculoSimpleRMezcla
-					(FFraccionMasicaEspecie[i][0], FCalculoGamma);
+					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma);
 				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i],
-					FFraccionMasicaEspecie[i][0], FCalculoGamma);
+					FFraccionMasicaEspecie[i][0],0, FCalculoGamma);
 				FGamma[i] = CalculoSimpleGamma(FRMezcla[i], CvMezcla,
 					FCalculoGamma);
 			}

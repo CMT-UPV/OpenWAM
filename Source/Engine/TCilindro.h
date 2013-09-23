@@ -186,8 +186,10 @@ protected:
 	double FRegInt; // rpm      R�gimen para la interpolaci�n de las leyes.
 
 	double FAnguloInjeccion;
+	double FAnguloInjeccionpil;
 
 	bool FInyeccion;
+	bool FInyeccionpil;
 	double FFuelTotal;
 	double FFuelInstant;
 	double FMasaBlowBy;

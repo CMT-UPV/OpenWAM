@@ -1608,12 +1608,13 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla, nmCalculoGamma
 	return Gamma;
 };
 
-inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, nmCalculoGamma GammaCalculation)
+inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible, nmCalculoGamma GammaCalculation)
 {
 	double CvMezcla = 717.5;
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
+		double CvCombustible =  1496.92;
 		double CvH2O = 1420.63;
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
@@ -1624,16 +1625,22 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, nmCalc
 				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
 			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O - RH2O;
+			CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
 		}
-		CvMezcla = CvQuemados * YQuemados + (CvAire * (1 - YQuemados - 0.0164) + 0.0164 * CvH2O);
+		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
+		//Sin Humedad en aire
+		CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados));
 	}
 	return CvMezcla;
 };
 
-inline double CalculoSimpleRMezcla(double YQuemados, nmCalculoGamma GammaCalculation) {
+inline double CalculoSimpleRMezcla(double YQuemados,double YCombustible, nmCalculoGamma GammaCalculation) {
 	double R = 287;
 	if (GammaCalculation != nmGammaConstante) {
-		R = RBurnt * YQuemados + (RAir * (1 - YQuemados - 0.0164) + 0.0164 * RH2O);
+		//R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * RH2O);
+		//Sin humedad en aire
+		R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible));
 	}
 	return R;
 };

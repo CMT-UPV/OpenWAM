@@ -164,10 +164,10 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
+				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],0,
 					FMotor->getGammaCalculation());
 				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
-					FFraccionMasicaEspecie[0], FMotor->getGammaCalculation());
+					FFraccionMasicaEspecie[0],0, FMotor->getGammaCalculation());
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
 					FMotor->getGammaCalculation());
 

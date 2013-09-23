@@ -535,10 +535,10 @@ void TCompTubDep::Initialize() {
 		}
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
-			FRAtm = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
+			FRAtm = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
 				FCalculoGamma);
 			FCvAtm = CalculoSimpleCvMezcla(FTemperatura10,
-				FFraccionMasicaEspecie[0], FCalculoGamma);
+				FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], FCalculoGamma);
 			FGammaAtm = CalculoSimpleGamma(FRAtm, FCvAtm, FCalculoGamma);
 		}
 

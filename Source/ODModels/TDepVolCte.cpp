@@ -84,8 +84,9 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		}
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FCalculoGamma);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+				FCalculoGamma);
+			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
 				FCalculoGamma);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
