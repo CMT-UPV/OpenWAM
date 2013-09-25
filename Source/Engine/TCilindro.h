@@ -268,6 +268,8 @@ protected:
 	bool FHayEGR;
 	int FIntEGR;
 	dVector FFraccionComienzoCicloCerrado;
+	double FUfgasoil;
+	double FHcl;
 
 	double FRelacionMolarH2O_O2;
 	double FRelacionMolarN2_O2;
