@@ -395,6 +395,10 @@
             <Form>Labels.res</Form>
             <BuildOrder>0</BuildOrder>
         </ResourceCompile>
+        <CppCompile Include="Source\Includes\StringManagement.cpp">
+            <VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
+            <BuildOrder>92</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Source\ODModels\TAcousticTurbine.cpp">
             <VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
             <DependentOn>Source\ODModels\TAcousticTurbine.h</DependentOn>

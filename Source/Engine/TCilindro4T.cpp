@@ -74,11 +74,6 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		double ctorbadmp;
 
 		if (FCicloCerrado & FPrimerInstanteCicloCerrado) {
-		//Condiciones CA DW10c 1750 rpm
-			FTemperature = 137.88033436607;
-			FPressure = 2.90747795;
-			FMasa = 0.00114908621085836;
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273));
 
 			FPrimerInstanteCicloCerrado = false;
 
