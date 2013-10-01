@@ -41,8 +41,9 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <cmath>
 #include "Math_wam.h"
+//#include "TOpenWAM.h"
+#include "StringManagement.hpp"
 #ifndef __BORLANDC__
-    #include "StringManagement.hpp"
     #include "Exception.hpp"
     #define ffGeneral 3
 #endif
@@ -1876,23 +1877,44 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 // 	return label;
 // };
 
-inline AnsiString PutLabel(int str) {
-	int lang;
-	AnsiString label;
-	if (str < 900) {
-		if (CompareStr(LoadStr(10000), "ES") == 0) {
-			lang = 2000 + str;
+//if (versionlabel) {
+	inline AnsiString PutLabel(int str) {
+		int lang;
+		AnsiString label;
+		if (str < 900) {
+			if (CompareStr(AnsiString(LoadStr2(10000).c_str()), "ES") == 0) {
+				lang = 2000 + str;
+			}
+			if (CompareStr(AnsiString(LoadStr2(10000).c_str()), "EN") == 0) {
+				lang = 1000 + str;
+			}
 		}
-		if (CompareStr(LoadStr(10000), "EN") == 0) {
-			lang = 1000 + str;
+		else {
+			lang = str;
 		}
-	}
-	else {
-		lang = str;
-	}
-	label = LoadStr(lang);
-	return label;
-};
+		label = AnsiString(LoadStr2(lang).c_str());
+		return label;
+	};
+//}
+//else {
+//	inline AnsiString PutLabel(int str) {
+//		int lang;
+//		AnsiString label;
+//		if (str < 900) {
+//			if (CompareStr(LoadStr(10000), "ES") == 0) {
+//				lang = 2000 + str;
+//			}
+//			if (CompareStr(LoadStr(10000), "EN") == 0) {
+//				lang = 1000 + str;
+//			}
+//		}
+//		else {
+//			lang = str;
+//		}
+//		label = LoadStr(lang);
+//		return label;
+//	};
+//}
 
 inline void Hermite(int n, double *x, double *y, double *sol) {
 	double DeltaK, AlphaK, BetaK, TauK;

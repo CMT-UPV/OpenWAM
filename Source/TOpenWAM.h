@@ -148,6 +148,9 @@ Allow the communication with WAMer
 #include "TCGestorWAM.h"
 #endif
 
+// Control version, versionlabel true si ultima version de c++builder
+#define versionlabel true
+
 class TOpenWAM {
 private:
 

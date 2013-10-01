@@ -57,6 +57,12 @@ private:
 	double FLQMfMax;
 	double FLQMaMax;
 
+	double FAngIny;
+	double FTIny;
+	double FAngInyPil;
+	double FTInyPil;
+	double FPercentInyPil;
+
 	double FTime;
 
 	bool FACT;
@@ -417,6 +423,26 @@ public:
 
 	stInjecPulse getInjecPulse(int i) {
 		return FInjecPulse[i];
+	};
+
+	double getFAngIny() {
+		return FAngIny;
+	};
+
+	double getFTIny() {
+		return FTIny;
+	};
+
+	double getFAngInyPil() {
+		return FAngInyPil;
+	};
+
+	double getFTInyPil() {
+		return FTInyPil;
+	};
+
+	double getFPercentInyPil() {
+		return FPercentInyPil;
 	};
 
 	TBloqueMotor(double AmbientPressure, double AmbientTemperature,

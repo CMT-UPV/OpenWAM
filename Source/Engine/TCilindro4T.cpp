@@ -74,6 +74,11 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		double ctorbadmp;
 
 		if (FCicloCerrado & FPrimerInstanteCicloCerrado) {
+		//Condiciones CA DW10c 1750 rpm
+			FTemperature = 137.88033436607;
+			FPressure = 2.90747795;
+			FMasa = 0.00114908621085836;
+			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273));
 
 			FPrimerInstanteCicloCerrado = false;
 
@@ -132,19 +137,24 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				InicioFinCombustion();
 				//Solo hay inyección piloto si hay 4 Wiebes
 				if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
-					//Si la combustión principal empieza en angulo negativo, hay que sumar 720º
-					if (FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 < 0) {
-						FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 + 720;
-						FAnguloInjeccionPil = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+					//Si la inyección principal empieza en angulo negativo, hay que sumar 720º
+					if (FMotor->getFAngIny() < 0) {
+						FAnguloInjeccion = FMotor->getFAngIny() + 720;
+						FAnguloInjeccionPil = FMotor->getFAngInyPil() + 720;
 					}
 					else {
-						FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0;
-						FAnguloInjeccionPil = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+						FAnguloInjeccion = FMotor->getFAngIny();
+						FAnguloInjeccionPil = FMotor->getFAngInyPil() + 720;
 					}
 				}
 				else {
-					FAnguloInjeccion = FIniComb - FAnguloRetrasoCombustion +720;
-                }
+					if (FMotor->getFAngIny() < 0) {
+						FAnguloInjeccion = FMotor->getFAngIny() + 720;
+					}
+					else {
+						FAnguloInjeccion = FMotor->getFAngIny();
+					}
+				}
 
 			}
 			else if (FCalcComb == nmACT) {
@@ -371,9 +381,9 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				}
 			}
 			else {
-				// Se reparte la inyecci�n de combustible durante 1.3 ms
+				// Se reparte la inyecci�n de combustible durante el tiempo determinado (ms)
 				// FFuelInstant representa la cantidad de masa de fuel introducida en un instante de calculo.
-				FTasaFuel = FMasaFuel / 1.3e-3;
+				FTasaFuel = FMasaFuel / (FMotor->getFTIny() * 1e-3);
 				FFuelInstant = FTasaFuel * FDeltaT;
 				// Se va acumulando la masa de fuel para comprobar que no super el valor de combustible fijado por cilindro y ciclo.
 			}
@@ -393,7 +403,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 
 		//Inyección piloto, solo si hay 4 Wiebes
 		if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
-			FFuelTotalPil = FMasaFuel/25;
+			FFuelTotalPil = FMasaFuel * FMotor->getFPercentInyPil() / 100;
 
 			if (FAnguloActual > FAnguloInjeccionPil && FAnguloAnterior <=
 				FAnguloInjeccionPil && FMotor->getCombustible() == nmMEC
@@ -410,9 +420,9 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 					FInyeccionPil = false;
 				}
 				else {
-					// Se reparte la inyecci�n de combustible durante 2 ms
+					// Se reparte la inyecci�n de combustible durante el tiempo definido (ms)
 					// FFuelInstant representa la cantidad de masa de fuel introducida en un instante de calculo.
-					FTasaFuel = FMasaFuel / 3e-3;
+					FTasaFuel = FMasaFuel / (FMotor->getFTInyPil() * 1e-3);
 					FFuelInstantPil = FTasaFuel * FDeltaT;
 					// Se va acumulando la masa de fuel para comprobar que no super el valor de combustible de la piloto fijado por cilindro y ciclo.
 				}
