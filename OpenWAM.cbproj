@@ -399,6 +399,10 @@
             <VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
             <BuildOrder>92</BuildOrder>
         </CppCompile>
+        <None Include="Source\Includes\StringManagement.hpp">
+            <VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
+            <BuildOrder>93</BuildOrder>
+        </None>
         <CppCompile Include="Source\ODModels\TAcousticTurbine.cpp">
             <VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
             <DependentOn>Source\ODModels\TAcousticTurbine.h</DependentOn>
@@ -573,7 +577,7 @@
                     <VersionInfo Name="MajorVer">2</VersionInfo>
                     <VersionInfo Name="MinorVer">0</VersionInfo>
                     <VersionInfo Name="Release">2</VersionInfo>
-                    <VersionInfo Name="Build">10</VersionInfo>
+                    <VersionInfo Name="Build">11</VersionInfo>
                     <VersionInfo Name="Debug">False</VersionInfo>
                     <VersionInfo Name="PreRelease">False</VersionInfo>
                     <VersionInfo Name="Special">False</VersionInfo>
@@ -585,7 +589,7 @@
                 <VersionInfoKeys>
                     <VersionInfoKeys Name="CompanyName"/>
                     <VersionInfoKeys Name="FileDescription"/>
-                    <VersionInfoKeys Name="FileVersion">2.0.2.10</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">2.0.2.11</VersionInfoKeys>
                     <VersionInfoKeys Name="InternalName"/>
                     <VersionInfoKeys Name="LegalCopyright"/>
                     <VersionInfoKeys Name="LegalTrademarks"/>
