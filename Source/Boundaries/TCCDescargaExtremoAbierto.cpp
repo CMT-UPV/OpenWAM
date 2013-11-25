@@ -89,9 +89,9 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 	if (FCalculoEspecies == nmCalculoCompleto) {
 
 		RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
-			FCalculoGamma);
+			0, FCalculoGamma);
 		CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
-			FTemperaturaDep + 273., FCalculoGamma);
+			0, FTemperaturaDep + 273., FCalculoGamma);
 		GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 	}
@@ -190,9 +190,9 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FTemperaturaDep + 273., FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}
@@ -246,9 +246,9 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FTemperaturaDep + 273., FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}

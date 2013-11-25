@@ -252,6 +252,7 @@ protected:
 	dVector FComposicionCicloCerrado; // 0 -> Quemados, 1 -> Combustible, 2 -> Aire Fresco
 	dVector FMasaEspecieCicloCerrado;
 	dVector FMasaEspecie;
+	double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
 
 	// double GetFraccionMasicaEspecie(int i);
 	double GetAireFresco();

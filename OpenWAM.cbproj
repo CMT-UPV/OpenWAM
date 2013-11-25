@@ -397,7 +397,7 @@
         </ResourceCompile>
         <CppCompile Include="Source\Includes\StringManagement.cpp">
             <VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
-            <BuildOrder>92</BuildOrder>
+            <BuildOrder>93</BuildOrder>
         </CppCompile>
         <None Include="Source\Includes\StringManagement.hpp">
             <VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>

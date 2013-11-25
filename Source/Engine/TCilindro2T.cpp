@@ -151,13 +151,18 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			== nmComposicion || FMotor->getGammaCalculation()
 			== nmComposicionTemperatura) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
-
+                if (FMotor->getSpeciesNumber() == 9) {
+					FFraccionMasicaEspecieFuel = 0; // No se tiene en cuenta el combustible
+				}
+				else if (FMotor->getSpeciesNumber() == 10) {
+					FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
+				}
 				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FMotor->getGammaCalculation());
+					FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation());
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FTemperature + 273., FMotor->getGammaCalculation());
+					FFraccionMasicaEspecieFuel, FTemperature + 273., FMotor->getGammaCalculation());
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 					FMotor->getGammaCalculation());
 

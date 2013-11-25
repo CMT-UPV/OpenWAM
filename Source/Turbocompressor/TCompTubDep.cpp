@@ -526,10 +526,10 @@ void TCompTubDep::Initialize() {
 
 			FRAtm = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
 				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-				FCalculoGamma);
+				0, FCalculoGamma);
 			FCpAtm = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-				FTemperatura10, FCalculoGamma);
+				0, FTemperatura10, FCalculoGamma);
 			FGammaAtm = CalculoCompletoGamma(FRAtm, FCpAtm, FCalculoGamma);
 
 		}

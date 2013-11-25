@@ -131,9 +131,9 @@ FVolumen=CalculaVolumen(FAngulo,FCarrera,FLBiela,FDiametro,FVolumenMuerto);
 if(FCalculoEspecies==nmCalculoCompleto){
 
    FRMezcla=CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-                                   FFraccionMasicaEspecie[2],FCalculoGamma);
+								   FFraccionMasicaEspecie[2],0,FCalculoGamma);
    FCpMezcla=CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-                                   FFraccionMasicaEspecie[2],FTemperature+273.,FCalculoGamma);
+                                   FFraccionMasicaEspecie[2],0,FTemperature+273.,FCalculoGamma);
    FGamma=CalculoCompletoGamma(FRMezcla,FCpMezcla,FCalculoGamma);
 
 }else if(FCalculoEspecies==nmCalculoSimple){

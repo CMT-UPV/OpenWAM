@@ -228,7 +228,7 @@ private:
         // Calculo Especies
 
         int 						FNumeroEspecies;		//!< Number of chemical species considered
-        nmTipoCalculoEspecies		FCalculoEspecies; 		//!< Species calculation mode
+		nmTipoCalculoEspecies		FCalculoEspecies; 		//!< Species calculation mode
         nmCalculoGamma				FCalculoGamma;			//!< Specific heat ratio calculation mode
         double 						*FComposicionInicial; 	//!< Initial composition
         double 						**FFraccionMasicaEspecie;//!< Mass fraction of each chemical specie at every cell
@@ -286,6 +286,7 @@ private:
 		int 						FNodoDPFEntrada;        //  Node of the DPF connected to the inlet of the duct
 		int 						FNodoDPFSalida;         //  Node of the DPF connected to the outlet of the duct
 		int 						*FTipoCanal;            //  bool to identify DPF connected at the outlet of the duct
+
 
 //---------------------------------------------------------------------------
 //          FUNCIONES PRIVADAS

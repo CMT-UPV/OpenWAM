@@ -29,6 +29,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #pragma hdrstop
 
 #include "TTubo.h"
+#include "TBloqueMotor.h"
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -1101,9 +1102,9 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
 			RMezclaIni = CalculoCompletoRMezcla(FComposicionInicial[0],
-				FComposicionInicial[1], FComposicionInicial[2], FCalculoGamma);
+				FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma);
 			CpMezclaIni = CalculoCompletoCpMezcla(FComposicionInicial[0],
-				FComposicionInicial[1], FComposicionInicial[2], FTini + 273.,
+				FComposicionInicial[1], FComposicionInicial[2], 0, FTini + 273.,
 				FCalculoGamma);
 			GammaIni = CalculoCompletoGamma(RMezclaIni, CpMezclaIni,
 				FCalculoGamma);
@@ -1218,11 +1219,12 @@ void TTubo::ActualizaPropiedadesGas() {
 				FRMezcla[i] = CalculoCompletoRMezcla
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1],
-					FFraccionMasicaEspecie[i][2], FCalculoGamma);
+					FFraccionMasicaEspecie[i][2],
+					0, FCalculoGamma);
 				double CpMezcla = CalculoCompletoCpMezcla
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2],
-					FTemperature[i], FCalculoGamma);
+					0, FTemperature[i], FCalculoGamma);
 				FGamma[i] = CalculoCompletoGamma(FRMezcla[i], CpMezcla,
 					FCalculoGamma);
 

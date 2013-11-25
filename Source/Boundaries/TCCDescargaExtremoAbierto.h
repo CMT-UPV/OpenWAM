@@ -83,9 +83,9 @@ public:
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FTemperaturaDep, FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep, FCalculoGamma);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}

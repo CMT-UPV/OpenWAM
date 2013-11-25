@@ -1620,6 +1620,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
+        //if MEC
 		double CvCombustible =  1496.92;
 		double CvH2O = 1420.63;
 		if (GammaCalculation == nmComposicionTemperatura) {
@@ -1631,6 +1632,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
 			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O - RH2O;
+            //if MEC
 			CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
 				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
 		}
@@ -1641,7 +1643,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 	return CvMezcla;
 };
 
-inline double CalculoSimpleRMezcla(double YQuemados,double YCombustible, nmCalculoGamma GammaCalculation) {
+inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible, nmCalculoGamma GammaCalculation) {
 	double R = 287;
 	if (GammaCalculation != nmGammaConstante) {
 		//R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * RH2O);
@@ -1660,7 +1662,7 @@ inline double CalculoCompletoGamma(double RMezcla, double CpMezcla, nmCalculoGam
 	return Gamma;
 };
 
-inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double Temperature,
+inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double YCombustible, double Temperature,
 	nmCalculoGamma GammaCalculation) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 	double CpMezcla = 1004.5;
@@ -1670,6 +1672,8 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 		double CpO2 = 912.54;
 		double CpCO2 = 843.13;
 		double CpH2O = 1856.93;
+		//if MEC
+		double CpCombustible = RFuel - 1496.92;
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
@@ -1682,25 +1686,29 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 				/ Temperature) * RCO2;
 			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O;
+			//if MEC
+			CpCombustible = RFuel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));         //Cp = R + Cv
 		}
 		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
-			+ 520.32 * 0.01292;
+			+ 520.32 * 0.01292 + CpCombustible * YCombustible;
 	}
 
 	return CpMezcla;
 };
 
-inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
+inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O, double YCombustible,
 	nmCalculoGamma GammaCalculation) {
 	double R = 287;
 	if (GammaCalculation != nmGammaConstante) {
-		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RN2 * (1 - YO2 - YCO2 - YH2O - 0.012)
+		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RFuel * YCombustible
+		+ RN2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
 			+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
 	}
 	return R;
 };
 
-inline double CalculoSimpleUfgasoil(double Temperature){
+inline double CalculoUfgasoil(double Temperature){
 	double Ufgasoil = 0.;
 		Ufgasoil = -1234157.8 - 256.4 * (Temperature + 273) + 3.47686 *
 			pow(Temperature + 273, 2) - 0.00134905 * pow(Temperature + 273, 3) +

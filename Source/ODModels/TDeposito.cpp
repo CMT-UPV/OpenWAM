@@ -191,9 +191,9 @@ void TDeposito::LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos) {
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], FCalculoGamma);
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0, FCalculoGamma);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], FTemperature + 273.,
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0, FTemperature + 273.,
 					FCalculoGamma);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
@@ -218,9 +218,9 @@ void TDeposito::LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos) {
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], FCalculoGamma);
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0, FCalculoGamma);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], FTemperature + 273.,
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0, FTemperature + 273.,
 					FCalculoGamma);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
