@@ -1688,7 +1688,7 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 				/ Temperature) * RH2O;
 			//if MEC
 			CpCombustible = RFuel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
-				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));         //Cp = R + Cv
+				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
 		}
 		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
 			+ 520.32 * 0.01292 + CpCombustible * YCombustible;

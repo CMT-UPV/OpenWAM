@@ -813,14 +813,14 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 							FFraccionMasicaEspecie[2]
 							* FMasaBlowBy /* -FMasaH2OReactivos */ ) / FMasa;
 						// Y H2O
-						FFraccionMasicaEspecie[7] =
-							(FMasaEspecie[7] - FFraccionMasicaEspecie[7]
+						FFraccionMasicaEspecie[8] =
+							(FMasaEspecie[8] - FFraccionMasicaEspecie[7]
 							* FMasaBlowBy) / FMasa; // Y N2
 						FFraccionMasicaEspecie[3] = 0;
 						FFraccionMasicaEspecie[4] = 0;
 						FFraccionMasicaEspecie[5] = 0;
 						FFraccionMasicaEspecie[6] = 0;
-						FFraccionMasicaEspecie[8] = FComposicionCicloCerrado[1];
+						FFraccionMasicaEspecie[7] = FComposicionCicloCerrado[1];
 						for (int j = 0;
 							j < FMotor->getSpeciesNumber() - FIntEGR;
 							j++) {
