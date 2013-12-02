@@ -192,6 +192,8 @@ protected:
 	double FAnguloInjeccion;
 	double FAnguloInjeccionPil;
 	double FFuelTotalPil;
+	double FTInyeccion;
+	double FTInyeccionPil;
 
 	bool FInyeccion;
 	bool FInyeccionPil;

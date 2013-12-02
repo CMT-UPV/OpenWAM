@@ -30,6 +30,7 @@ License
 
 #ifndef ConstantesH
 #define ConstantesH
+//#include "TBloqueMotor.h"
 #ifdef __BORLANDC__
     #include <vcl.h>
 #endif
