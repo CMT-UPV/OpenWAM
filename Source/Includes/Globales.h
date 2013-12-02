@@ -41,6 +41,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <cmath>
 #include "Math_wam.h"
+//#include "TBloqueMotor.h"
 #if versionlabel
 	#include "StringManagement.hpp"
 #else
@@ -1686,9 +1687,13 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 				/ Temperature) * RCO2;
 			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O;
-			//if MEC
-			CpCombustible = RFuel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
-				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
+//			if (FMotor->getCombustible() == nmMEC) {
+				CpCombustible = RFuel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
+//			}
+//			else if (FMotor->getCombustible() == nmMEP) {
+//				CpCombustible = ;
+//			}
 		}
 		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
 			+ 520.32 * 0.01292 + CpCombustible * YCombustible;

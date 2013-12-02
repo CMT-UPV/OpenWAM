@@ -57,6 +57,7 @@ private:
 	double FLQMfMax;
 	double FLQMaMax;
 
+	bool FNHayDatosIny;
 	double FAngIny;
 	double FTIny;
 	double FAngInyPil;
@@ -431,6 +432,10 @@ public:
 
 	double getFTIny() {
 		return FTIny;
+	};
+
+	bool getFNHayDatosIny() {
+		return FNHayDatosIny;
 	};
 
 	double getFAngInyPil() {

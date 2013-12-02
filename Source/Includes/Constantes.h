@@ -55,13 +55,15 @@ const double PMNO=30;
 const double PMCO=28.01;
 const double PMDiesel=148.4; // Diesel C10.8H18.7 , los HC mantienen la misma relacion C/H y le damos
 const double PMHC=55.04;     // la composici�n C4H6.93
-//if MEC
-	//const double PMDiesel=152.2;    // Diesel molar mass
-	//const double RFuel=54.62;
-//elseif MEP
-	//const double PMGasoline=114;    // Gasoline molar mass
-	//const double RFuel=72.93;
-//end
+//if (FMotor->getCombustible() == nmMEC) {
+//	const double PMDiesel=152.2;    // Gasoil molar mass
+//	const double RDiesel=54.62;
+//}
+//else if (FMotor->getCombustible() == nmMEP) {
+//	const double PMGasoline=114;    // Gasoline molar mass
+//	const double RGasoline=72.93;
+//}
+
 
 
 

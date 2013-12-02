@@ -130,27 +130,46 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 
 			if (FCalcComb == nmFQL) {
 				InicioFinCombustion();
-				//Solo hay inyección piloto si hay 4 Wiebes
-				if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
-					//Si la inyección principal empieza en angulo negativo, hay que sumar 720º
-					if (FMotor->getFAngIny() < 0) {
-						FAnguloInjeccion = FMotor->getFAngIny() + 720;
-						FAnguloInjeccionPil = FMotor->getFAngInyPil() + 720;
+				if (FMotor->getFNHayDatosIny()) {
+					//Solo hay inyección piloto si hay 4 Wiebes
+					if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
+						//Si la inyección principal empieza en angulo negativo, hay que sumar 720º
+						if (FMotor->getFAngIny() < 0) {
+							FAnguloInjeccion = FMotor->getFAngIny() + 720;
+							FAnguloInjeccionPil = FMotor->getFAngInyPil() + 720;
+						}
+						else {
+							FAnguloInjeccion = FMotor->getFAngIny();
+							FAnguloInjeccionPil = FMotor->getFAngInyPil() + 720;
+						}
 					}
 					else {
-						FAnguloInjeccion = FMotor->getFAngIny();
-						FAnguloInjeccionPil = FMotor->getFAngInyPil() + 720;
+						if (FMotor->getFAngIny() < 0) {
+							FAnguloInjeccion = FMotor->getFAngIny() + 720;
+						}
+						else {
+							FAnguloInjeccion = FMotor->getFAngIny();
+						}
 					}
 				}
 				else {
-					if (FMotor->getFAngIny() < 0) {
-						FAnguloInjeccion = FMotor->getFAngIny() + 720;
+				// Si no hay datos de la inyección, se estiman de la FQL
+					//Solo hay inyección piloto si hay 4 Wiebes
+                    if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
+						//Si la combustión principal empieza en angulo negativo, hay que sumar 720º
+						if (FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 < 0) {
+							FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 + 720;
+							FAnguloInjeccionPil = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+						}
+						else {
+							FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0;
+							FAnguloInjeccionPil = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+						}
 					}
 					else {
-						FAnguloInjeccion = FMotor->getFAngIny();
+						FAnguloInjeccion = FIniComb - FAnguloRetrasoCombustion +720;   // Se asume que la inyección empieza cuando empieza la FQL
 					}
-				}
-
+                }
 			}
 			else if (FCalcComb == nmACT) {
 				FAnguloInjeccion = FMotor->getInjecPulse(0).Angulo;
