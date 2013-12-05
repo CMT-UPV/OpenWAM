@@ -159,7 +159,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 					// Si no hay datos del angulo de la inyección, se estiman de la FQL
 					//Solo hay inyección piloto si hay 4 Wiebes
 					if (FMotor->getLeyQuemadoBD()[0].Wiebes.size() == 4) {
-						FTInyeccion = 1.8 * 1e-3;
+						FTInyeccionPil = 1.8 * 1e-3;
 						//Si la combustión principal empieza en angulo negativo, hay que sumar 720º
 						if (FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 < 0) {
 							FAnguloInjeccion = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 + 720;

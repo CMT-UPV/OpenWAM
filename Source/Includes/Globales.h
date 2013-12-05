@@ -1633,9 +1633,16 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
 			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O - RH2O;
-            //if MEC
-			CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
-				+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
+//			if (FMotor->getCombustible() == nmMEC) {
+//			//Diesel C10.8H18.7
+				CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
+					//			}
+//			else if (FMotor->getCombustible() == nmMEP) {
+//			//Gasolina C8.26H15.5
+//				CvCombustible = (4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
+//					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / RUniversal) - RGasolina;    cv = cp - R
+//			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
 		//Sin Humedad en aire
@@ -1673,7 +1680,6 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 		double CpO2 = 912.54;
 		double CpCO2 = 843.13;
 		double CpH2O = 1856.93;
-		//if MEC
 		double CpCombustible = RFuel - 1496.92;
 
 		if (GammaCalculation == nmComposicionTemperatura) {
@@ -1692,8 +1698,11 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
 //			}
 //			else if (FMotor->getCombustible() == nmMEP) {
-//				CpCombustible = ;
+//			//Gasolina C8.26H15.5
+//				CpCombustible = 4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
+//					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / RUniversal;
 //			}
+
 		}
 		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
 			+ 520.32 * 0.01292 + CpCombustible * YCombustible;
