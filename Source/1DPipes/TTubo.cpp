@@ -769,7 +769,7 @@ void TTubo::LeeDatosGeometricosTubo(char *FileWAM, fpos_t &filepos, double ene,
 			// }
 			FEspesorExtPrin = EspesorPrin;
 		}
-		else if (FTipoTransCal == nmPipaEscape) {
+		else if (FTipoTransCal == nmPipaEscape || FTipoTransCal == nmPipaAdmision) {
 			fscanf(fich, "%d", &datoWAMer);
 		}
 
