@@ -37,7 +37,6 @@ License
 //---------------------------------------------------------------------------
 const double Runiversal=8314.4;
 const double R=287.;
-const double RFuel=55.95;
 const double RBurnt=285.4;
 const double RAir=287.;
 const double RO2=259.825;
@@ -56,14 +55,9 @@ const double PMNO=30;
 const double PMCO=28.01;
 const double PMDiesel=148.4; // Diesel C10.8H18.7 , los HC mantienen la misma relacion C/H y le damos
 const double PMHC=55.04;     // la composici�n C4H6.93
-//if (FMotor->getCombustible() == nmMEC) {
-//	const double PMDiesel=148.4;    // Gasoil molar mass
-//	const double RDiesel=55.95;
-//}
-//else if (FMotor->getCombustible() == nmMEP) {
-//	const double PMGasoline=114.8;    // Gasoline molar mass
-//	const double RGasoline=72.42;
-//}
+const double RDiesel=55.95;
+const double PMGasoline=114.8;    // Gasoline molar mass
+const double RGasoline=72.42;
 
 
 

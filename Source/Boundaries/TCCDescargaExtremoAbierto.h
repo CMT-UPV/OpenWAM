@@ -83,17 +83,17 @@ public:
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma, 0);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FTemperaturaDep, FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep, FCalculoGamma, 0);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}
 			else if (FCalculoEspecies == nmCalculoSimple) {
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma);
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, 0);
 				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0],0,
-					FCalculoGamma);
+					FCalculoGamma, 0);
 				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 			}

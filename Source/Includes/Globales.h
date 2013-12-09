@@ -1615,13 +1615,16 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla, nmCalculoGamma
 	return Gamma;
 };
 
-inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible, nmCalculoGamma GammaCalculation)
+inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible)
 {
+    if (TipoCombustible == 0) {
+		TipoCombustible == nmMEC;
+	}
 	double CvMezcla = 717.5;
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
-        //if MEC
 		double CvCombustible =  1496.92;
 		double CvH2O = 1420.63;
 		if (GammaCalculation == nmComposicionTemperatura) {
@@ -1633,16 +1636,16 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
 			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O - RH2O;
-//			if (FMotor->getCombustible() == nmMEC) {
-//			//Diesel C10.8H18.7
+			if (TipoCombustible == nmMEC) {
+			//Diesel C10.8H18.7
 				CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
 					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
-					//			}
-//			else if (FMotor->getCombustible() == nmMEP) {
-//			//Gasolina C8.26H15.5
-//				CvCombustible = (4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
-//					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / RUniversal) - RGasolina;    cv = cp - R
-//			}
+								}
+			else if (TipoCombustible == nmMEP) {
+			//Gasolina C8.26H15.5
+				CvCombustible = (4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
+					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / Runiversal) - RGasoline;    //cv = cp - R
+			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
 		//Sin Humedad en aire
@@ -1651,8 +1654,16 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 	return CvMezcla;
 };
 
-inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible, nmCalculoGamma GammaCalculation) {
+inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double R = 287;
+	double RFuel = 0;
+	if (TipoCombustible == nmMEP) {
+		RFuel = RGasoline;
+	}
+	else {
+		RFuel = RDiesel;
+	}
 	if (GammaCalculation != nmGammaConstante) {
 		//R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * RH2O);
 		//Sin humedad en aire
@@ -1671,16 +1682,24 @@ inline double CalculoCompletoGamma(double RMezcla, double CpMezcla, nmCalculoGam
 };
 
 inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double YCombustible, double Temperature,
-	nmCalculoGamma GammaCalculation) {
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 	double CpMezcla = 1004.5;
-
+	if (TipoCombustible == 0) {
+		TipoCombustible == nmMEC;
+	}
 	if (GammaCalculation != nmGammaConstante) {
 		double CpN2 = 1039.82;
 		double CpO2 = 912.54;
 		double CpCO2 = 843.13;
 		double CpH2O = 1856.93;
-		double CpCombustible = RFuel - 1496.92;
+		double CpCombustible = 0;
+		if (TipoCombustible == nmMEC) {
+			CpCombustible = RDiesel + 1496.92;
+		}
+		else {
+			CpCombustible = RGasoline + 1496.92;
+        }
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
@@ -1693,15 +1712,16 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 				/ Temperature) * RCO2;
 			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O;
-//			if (FMotor->getCombustible() == nmMEC) {
-				CpCombustible = RFuel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+			if (TipoCombustible == nmMEC) {
+            //Diesel C10.8H18.7
+				CpCombustible = RDiesel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
 					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
-//			}
-//			else if (FMotor->getCombustible() == nmMEP) {
-//			//Gasolina C8.26H15.5
-//				CpCombustible = 4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
-//					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / RUniversal;
-//			}
+			}
+			else if (TipoCombustible == nmMEP) {
+			//Gasolina C8.26H15.5
+				CpCombustible = 4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
+					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / Runiversal;
+			}
 
 		}
 		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
@@ -1712,8 +1732,15 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 };
 
 inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O, double YCombustible,
-	nmCalculoGamma GammaCalculation) {
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double R = 287;
+	double RFuel = 0;
+	if (TipoCombustible == nmMEP) {
+		RFuel = RGasoline;
+	}
+	else {
+		RFuel = RDiesel;
+	}
 	if (GammaCalculation != nmGammaConstante) {
 		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RFuel * YCombustible
 		+ RN2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)

@@ -192,8 +192,8 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		if (FMotor->getGammaCalculation() == nmGammaConstante) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (!FCicloCerrado) {
-					FRMezcla = CalculoSimpleRMezcla(0.1,0, nmComposicionTemperatura);
-					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1,FFraccionMasicaEspecie[1], nmComposicionTemperatura);
+					FRMezcla = CalculoSimpleRMezcla(0.1,0, nmComposicionTemperatura, 0);
+					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1,FFraccionMasicaEspecie[1], nmComposicionTemperatura, FMotor->getCombustible());
 					FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, nmComposicionTemperatura);
 				}
 				else if (FCicloCerrado) {
@@ -205,19 +205,20 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 					}
 					FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-						FFraccionMasicaEspecieFuel, nmComposicionTemperatura);
+						FFraccionMasicaEspecieFuel, nmComposicionTemperatura, FMotor->getGammaCalculation());
 					FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-						FFraccionMasicaEspecieFuel, FTemperature + 273., nmComposicionTemperatura);
+						FFraccionMasicaEspecieFuel, FTemperature + 273.,
+						nmComposicionTemperatura, FMotor->getCombustible());
                     FGamma = CalculoSimpleGamma(FRMezcla, FCpMezcla-FRMezcla, nmComposicionTemperatura);
 				}
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
-						FFraccionMasicaEspecie[1], nmComposicionTemperatura);
+						FFraccionMasicaEspecie[1], nmComposicionTemperatura, FMotor->getGammaCalculation());
 				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
 				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], nmComposicionTemperatura);
+					FFraccionMasicaEspecie[1], nmComposicionTemperatura, FMotor->getCombustible());
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, nmComposicionTemperatura);
 			}
 
@@ -234,10 +235,11 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				}
 				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation());
+					FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(), FMotor->getCombustible());
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FFraccionMasicaEspecieFuel, FTemperature + 273., FMotor->getGammaCalculation());
+					FFraccionMasicaEspecieFuel, FTemperature + 273.,
+					FMotor->getGammaCalculation(), FMotor->getCombustible());
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 					FMotor->getGammaCalculation());
 
@@ -245,11 +247,12 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-					FMotor->getGammaCalculation());
+					FMotor->getGammaCalculation(), FMotor->getCombustible());
 				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
 
 				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
-					FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], FMotor->getGammaCalculation());
+					FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+					FMotor->getGammaCalculation(), FMotor->getCombustible());
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
 					FMotor->getGammaCalculation());
 

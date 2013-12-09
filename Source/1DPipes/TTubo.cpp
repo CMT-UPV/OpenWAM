@@ -1102,10 +1102,10 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
 			RMezclaIni = CalculoCompletoRMezcla(FComposicionInicial[0],
-				FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma);
+				FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma, 0);
 			CpMezclaIni = CalculoCompletoCpMezcla(FComposicionInicial[0],
 				FComposicionInicial[1], FComposicionInicial[2], 0, FTini + 273.,
-				FCalculoGamma);
+				FCalculoGamma, 0);
 			GammaIni = CalculoCompletoGamma(RMezclaIni, CpMezclaIni,
 				FCalculoGamma);
 
@@ -1113,9 +1113,9 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
 			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],FComposicionInicial[1],
-				FCalculoGamma);
+				FCalculoGamma, 0);
 			CvMezclaIni = CalculoSimpleCvMezcla(FTini + 273.,
-				FComposicionInicial[0],FComposicionInicial[1], FCalculoGamma);
+				FComposicionInicial[0],FComposicionInicial[1], FCalculoGamma, 0);
 			GammaIni = CalculoSimpleGamma(RMezclaIni, CvMezclaIni,
 				FCalculoGamma);
 
@@ -1208,9 +1208,9 @@ void TTubo::ActualizaPropiedadesGas() {
 			if (FCalculoEspecies == nmCalculoSimple) {
 
 				FRMezcla[i] = CalculoSimpleRMezcla
-					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma);
+					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma, 0);
 				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i],
-					FFraccionMasicaEspecie[i][0],0, FCalculoGamma);
+					FFraccionMasicaEspecie[i][0],0, FCalculoGamma, 0);
 				FGamma[i] = CalculoSimpleGamma(FRMezcla[i], CvMezcla,
 					FCalculoGamma);
 			}
@@ -1220,11 +1220,11 @@ void TTubo::ActualizaPropiedadesGas() {
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1],
 					FFraccionMasicaEspecie[i][2],
-					0, FCalculoGamma);
+					0, FCalculoGamma, 0);
 				double CpMezcla = CalculoCompletoCpMezcla
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2],
-					0, FTemperature[i], FCalculoGamma);
+					0, FTemperature[i], FCalculoGamma, 0);
 				FGamma[i] = CalculoCompletoGamma(FRMezcla[i], CpMezcla,
 					FCalculoGamma);
 

@@ -526,19 +526,19 @@ void TCompTubDep::Initialize() {
 
 			FRAtm = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
 				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-				0, FCalculoGamma);
+				0, FCalculoGamma, 0);
 			FCpAtm = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-				0, FTemperatura10, FCalculoGamma);
+				0, FTemperatura10, FCalculoGamma, 0);
 			FGammaAtm = CalculoCompletoGamma(FRAtm, FCpAtm, FCalculoGamma);
 
 		}
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
 			FRAtm = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-				FCalculoGamma);
+				FCalculoGamma, 0);
 			FCvAtm = CalculoSimpleCvMezcla(FTemperatura10,
-				FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], FCalculoGamma);
+				FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1], FCalculoGamma, 0);
 			FGammaAtm = CalculoSimpleGamma(FRAtm, FCvAtm, FCalculoGamma);
 		}
 
