@@ -1211,8 +1211,8 @@ void TTubo::ActualizaPropiedadesGas() {
 					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma, 0);
 				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i],
 					FFraccionMasicaEspecie[i][0],0, FCalculoGamma, 0);
-				FGamma[i] = CalculoSimpleGamma(FRMezcla[i], CvMezcla,
-					FCalculoGamma);
+				FGamma[i] = 0.9999*FGamma[i] + 0.0001*CalculoSimpleGamma(FRMezcla[i],
+					CvMezcla, FCalculoGamma);
 			}
 			else {
 
@@ -1225,8 +1225,8 @@ void TTubo::ActualizaPropiedadesGas() {
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2],
 					0, FTemperature[i], FCalculoGamma, 0);
-				FGamma[i] = CalculoCompletoGamma(FRMezcla[i], CpMezcla,
-					FCalculoGamma);
+				FGamma[i] = 0.9999*FGamma[i] + 0.0001*CalculoCompletoGamma(FRMezcla[i],
+					CpMezcla, FCalculoGamma);
 
 			}
 
