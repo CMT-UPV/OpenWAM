@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -243,7 +243,7 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 				/* CALCULO DEL MOMENTO ANGULAR ENTRANTE L */
 				if (FGasto < -1e-5) {
 					FCTorbellino = FValvula->getCTorb();
-					if (FTipoValv == nmExhaustValve) {
+					if (FTipoValv == nmValvEscape) {
 						coef = FCTorbellino / 4.;
 					}
 					else {

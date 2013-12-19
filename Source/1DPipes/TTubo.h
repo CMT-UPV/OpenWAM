@@ -245,6 +245,7 @@ private:
         double 						*FRMezcla;				//!< Perfect gas constant at every calculation cell.
         double 						*FCpMezcla;				//!< Specific heat at constant pressure at every calculation cell.
         double 						*FCvMezcla; 			//!< Specific heat at constant volume at every calculation cell.
+        double						FGammaN;
 
         double 						*FGamma1;				//!< Value dependent of specific heat ratio
         double 						*FGamma3;				//!< Value dependent of specific heat ratio

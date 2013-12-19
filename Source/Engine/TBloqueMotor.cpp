@@ -379,14 +379,16 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 				if (LeyQuemadoSimple.n > FLQRegMax)
 					FLQRegMax = LeyQuemadoSimple.n;
 				fscanf(fich, "%d ", &FNWiebes);
-				fscanf(fich, "%d ", &FNHayDatosIny);      				
-				if (FNHayDatosIny == 1) {
-					fscanf(fich, "%lf ", &FAngIny);     // Ángulo de la inyección principal con pms como referencia
-					fscanf(fich, "%lf ", &FTIny);       // Duración de la inyección principal en ms
-					if (FNWiebes == 4) {   //Si hay 4 Wiebes, habrá inycección piloto
-						fscanf(fich, "%lf ", &FAngInyPil);  // Ángulo de la inyección piloto con pms como referencia
-						fscanf(fich, "%lf ", &FTInyPil);    // Duración de la inyección piloto en ms
-						fscanf(fich, "%lf ", &FPercentInyPil);    // Porcentaje de masa de fuel de la inyección piloto con respecto a la masa de fuel total
+				if (FCombustible == nmMEC) {
+					fscanf(fich, "%d ", &FNHayDatosIny);
+					if (FNHayDatosIny == 1) {
+						fscanf(fich, "%lf ", &FAngIny);     // Ángulo de la inyección principal con pms como referencia
+						fscanf(fich, "%lf ", &FTIny);       // Duración de la inyección principal en ms
+						if (FNWiebes == 4) {   //Si hay 4 Wiebes, habrá inycección piloto
+							fscanf(fich, "%lf ", &FAngInyPil);  // Ángulo de la inyección piloto con pms como referencia
+							fscanf(fich, "%lf ", &FTInyPil);    // Duración de la inyección piloto en ms
+							fscanf(fich, "%lf ", &FPercentInyPil);    // Porcentaje de masa de fuel de la inyección piloto con respecto a la masa de fuel total
+						}
 					}
 				}
 				for (int i = 0; i < FNWiebes; i++) {
