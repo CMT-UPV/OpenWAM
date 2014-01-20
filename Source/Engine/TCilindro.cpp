@@ -2394,9 +2394,12 @@ void TCilindro::IniciaVariables() {
 		}
 
 		if (FMotor->GetDesfase(FNumeroCilindro - 1) == 0) {
+
 			FCicloCerrado = false;
-			FMasa = FMotor->getMasaInicial();
-			FMasaAtrapada = FMotor->getMasaInicial();
+			FPressure = FMotor->getPresionInicial();
+			FTemperature = 60;
+			FMasa = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
+			FMasaAtrapada = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
 			for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -2404,14 +2407,12 @@ void TCilindro::IniciaVariables() {
 				FMasaEspecieCicloCerrado[j] = FMasa * FComposicionCicloCerrado
 					[j];
 			}
-			FPressure = FMotor->getPresionInicial();
-			FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla - 273.;
 			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 		}
 		else {
 			// Ciclo cerrado. Compresion Isoentropica.
 			if (FAnguloActual < 180. || FAnguloActual > 540.) {
-				FCicloCerrado = false;
+				FCicloCerrado = true;
 				FMasa = FMotor->getMasaInicial();
 				FMasaAtrapada = FMotor->getMasaInicial();
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
@@ -2450,8 +2451,10 @@ void TCilindro::IniciaVariables() {
 			}
 			else {
 				FCicloCerrado = false;
-				FMasa = FMotor->getMasaInicial() * FVolumen / FVolumenCA;
-				FMasaAtrapada = FMotor->getMasaInicial();
+				FPressure = FMotor->getPresionInicial();
+				FTemperature = 60;
+				FMasa = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
+				FMasaAtrapada = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 				}
@@ -2459,9 +2462,6 @@ void TCilindro::IniciaVariables() {
 					FMasaEspecieCicloCerrado[j] = FMasa *
 						FComposicionCicloCerrado[j];
 				}
-				FPressure = FMotor->getPresionInicial();
-				FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla -
-					273.;
 				FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 			}
 		}
@@ -3149,7 +3149,7 @@ void TCilindro::CalculaTemperaturasPared() {
 
 void TCilindro::CalculaFuelMEP(double MasaAire) {
 
-	FMasaFuel = MasaAire * FMotor->getDosadoInicial() * FDosadoEstequiometrico;
+	FMasaFuel = fabs(MasaAire) * FMotor->getDosadoInicial() * FDosadoEstequiometrico;
 
 }
 

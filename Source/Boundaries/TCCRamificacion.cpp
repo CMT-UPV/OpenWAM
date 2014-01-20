@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -205,6 +205,7 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 
 		sonido_supuesta_ad = 0.;
 
+		FTiempoActual = Time;
 		DeltaT = FTiempoActual - FTiempoAnterior;
 		FTiempoAnterior = FTiempoActual;
 
