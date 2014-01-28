@@ -633,7 +633,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FSaturado = true;
 
 						FMasaEspecieCicloCerrado[0] = FMasaEspecieCicloCerrado
-							[0] + FMairequem + mfquefin -
+							[0] + FMasaEspecieCicloCerrado[2] + mfquefin -
 							FComposicionCicloCerrado[0] * FMasaBlowBy;
 						// Gases Quemados
 						FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado
@@ -644,6 +644,13 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					}
 					else {
 						FCalor.Liberado = 0.;
+
+						FMasaEspecieCicloCerrado[0] = FMasaEspecieCicloCerrado
+							[0] - FComposicionCicloCerrado[0] * FMasaBlowBy;
+						// Gases Quemados
+						FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado
+							[1] - FComposicionCicloCerrado[1]
+							* FMasaBlowBy + FFuelInstant; // Combustible
 					}
 
 				}
