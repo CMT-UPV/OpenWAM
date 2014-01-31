@@ -261,6 +261,7 @@ void TCCDeposito::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 			break;
 		case nmValvula4T:
 			FValvula = new TValvula4T(dynamic_cast<TValvula4T*>(Origen[Valv - 1]), i);
+			break;
 		case nmLamina:
 			FValvula = new TLamina(dynamic_cast<TLamina*>(Origen[Valv - 1]), i);
 			break;
@@ -442,6 +443,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 
 		case nmMariposa:
 			dynamic_cast<TMariposa*>(FValvula)->CalculaCD(TiempoActual);
+			break;
 		}
 
 		FCDEntrada = FValvula->getCDTubVol();

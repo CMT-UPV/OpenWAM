@@ -243,7 +243,7 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 				/* CALCULO DEL MOMENTO ANGULAR ENTRANTE L */
 				if (FGasto < -1e-5) {
 					FCTorbellino = FValvula->getCTorb();
-					if (FTipoValv == nmExhaustValve) {
+					if (FTipoValv == nmValvEscape) {
 						coef = FCTorbellino / 4.;
 					}
 					else {
@@ -408,6 +408,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 		// Variables para resolver la onda de choque.
 		double relacion_velocidades_son, Mach_tras_ondachoque, Mach, temp_antes_ondachoque,
 		temp_tras_ondachoque;
+		double root_a;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		if (Fk < 1)
@@ -496,7 +497,15 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			FCaso = nmFlujoSalienteSaltoSubcritico;
 			Resolucion(a2cr, FCilindro->getSpeedsound() / ARef, FCaso, &ycal, &FSonido);
 			// Aplicando la Ecuaci�n de la Energ�a entre el cilindro y la garganta:
-			FVelocity = sqrt((pow2(FCilindro->getSpeedsound() / ARef) - pow2(FSonido)) / FGamma3);
+			root_a=pow2(FCilindro->getSpeedsound() / ARef) - pow2(FSonido);
+			if(root_a>0){
+				FVelocity = sqrt((pow2(FCilindro->getSpeedsound() / ARef) - pow2(FSonido)) / FGamma3);
+			}else if(root_a>-1e12){
+				FVelocity = 0;
+			}else{
+				FVelocity = 0.;
+				printf("ERROR: Calculating outflow in boundary %d", FNumeroCC);
+			}
 			Ga3U = FVelocity * FGamma3;
 			// C�lculo del massflow. Como es saliente del cilindro, siempre es positivo.
 			xx = *FCC + Ga3U;
