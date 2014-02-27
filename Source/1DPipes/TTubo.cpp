@@ -5377,9 +5377,9 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 			ind = extremo;
 
 			axant = dtdx * (FVelocidadDim[ind] - signo * FAsonidoDim[ind]);
-			if(fabs(dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim[ind + signo]))>1.5){
-				printf("Esto es un desastre\n");
-			}
+//			if(fabs(dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim[ind + signo]))>1.0001){
+//				printf("Esto es un desastre\n");
+//			}
 			if (ax > 1. || ax < -1.) {
 				ax = (double) - signo;
 			}
