@@ -57,12 +57,23 @@ private:
 	double FLQMfMax;
 	double FLQMaMax;
 
-	bool FNHayDatosIny;
-	double FAngIny;
-	double FTIny;
-	double FAngInyPil;
-	double FTInyPil;
-	double FPercentInyPil;
+	int FTipoDatosIny;
+	int FNumeroInyecciones;
+	dVector FAngIny;
+	dVector FTIny;
+	dVector FPercentIny;
+	double FAngIniIny;
+	double FStepIny;
+	int xnum;
+	dVector FY_dat;
+	dVector FX_dat;
+	double FTStep;
+	double FFuelTasa;
+	int TipoInterp; // Tipo de interpolación: 1. Lineal, 2. Hermite (spinlines), 3. Step
+
+	double fOutput;
+    Base_interp *fDatosTasa;			//!< Struct to interpolate within the table
+	nmTipoInterpolacion fTipo;			//!< Type of interpolation
 
 	double FTime;
 
@@ -426,29 +437,46 @@ public:
 		return FInjecPulse[i];
 	};
 
-	double getFAngIny() {
+	int getFTipoDatosIny() {
+		return FTipoDatosIny;
+	};
+
+	int getFNumeroInyecciones() {
+		return FNumeroInyecciones;
+	};
+
+	dVector getFAngIny() {
 		return FAngIny;
 	};
 
-	double getFTIny() {
+	dVector getFTIny() {
 		return FTIny;
 	};
 
-	bool getFNHayDatosIny() {
-		return FNHayDatosIny;
+	dVector getFPercentIny() {
+		return FPercentIny;
 	};
 
-	double getFAngInyPil() {
-		return FAngInyPil;
+	double getFAngIniIny() {
+		return FAngIniIny;
 	};
 
-	double getFTInyPil() {
-		return FTInyPil;
+	double getFStepIny() {
+		return FStepIny;
 	};
 
-	double getFPercentInyPil() {
-		return FPercentInyPil;
-	};
+//	dVector getFY_dat() {
+//		return FY_dat;
+//	};
+//
+//	dVector getFX_dat() {
+//		return FX_dat;
+//	};
+//
+//	int getxnum() {
+//		return xnum;
+//	};
+
 
 	TBloqueMotor(double AmbientPressure, double AmbientTemperature,
 		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
@@ -484,6 +512,8 @@ public:
 	void AsignMfController(TController **Controller);
 
 	void NewInjectionData(double Time);
+
+	double TasaInyInterp(double Angle);
 
 };
 

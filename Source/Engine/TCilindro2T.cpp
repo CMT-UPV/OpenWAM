@@ -114,11 +114,13 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			}
 
 			if (FCalcComb == nmFQL) {
+				FNumIny = 0;
 				InicioFinCombustion();
-				FAnguloInjeccion = FIniComb - FAnguloRetrasoCombustion;
+				FAnguloInjeccion[0] = FIniComb - FAnguloRetrasoCombustion;
 			}
 			else if (FCalcComb == nmACT) {
-				FAnguloInjeccion = FMotor->getInjecPulse(0).Angulo;
+				FNumIny = 0;
+				FAnguloInjeccion[0] = FMotor->getInjecPulse(0).Angulo;
 				FIniComb = FMotor->getInjecPulse(0).Angulo;
 				FFinComb = FDistribucion.AE;
 			}
@@ -310,8 +312,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		/* INYECCI�N DE COMBUSTIBLE (MEC) */
 		/* ================================= */
 
-		if (FAnguloComb > FAnguloInjeccion && FAnguloComb0 <
-			FAnguloInjeccion && FMotor->getCombustible() == nmMEC) {
+		if (FAnguloComb > FAnguloInjeccion[0] && FAnguloComb0 <
+			FAnguloInjeccion[0] && FMotor->getCombustible() == nmMEC) {
 			// En el �ngulo de begining de la combusti�n se empieza a introducir el combustible
 			// Se pasa a estado de injecci�n verdadero.
 			FInyeccion = true;

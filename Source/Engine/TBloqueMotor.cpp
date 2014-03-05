@@ -379,18 +379,6 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 				if (LeyQuemadoSimple.n > FLQRegMax)
 					FLQRegMax = LeyQuemadoSimple.n;
 				fscanf(fich, "%d ", &FNWiebes);
-				if (FCombustible == nmMEC) {
-					fscanf(fich, "%d ", &FNHayDatosIny);
-					if (FNHayDatosIny == 1) {
-						fscanf(fich, "%lf ", &FAngIny);     // Ángulo de la inyección principal con pms como referencia
-						fscanf(fich, "%lf ", &FTIny);       // Duración de la inyección principal en ms
-						if (FNWiebes == 4) {   //Si hay 4 Wiebes, habrá inycección piloto
-							fscanf(fich, "%lf ", &FAngInyPil);  // Ángulo de la inyección piloto con pms como referencia
-							fscanf(fich, "%lf ", &FTInyPil);    // Duración de la inyección piloto en ms
-							fscanf(fich, "%lf ", &FPercentInyPil);    // Porcentaje de masa de fuel de la inyección piloto con respecto a la masa de fuel total
-						}
-					}
-				}
 				for (int i = 0; i < FNWiebes; i++) {
 					fscanf(fich, "%lf %lf %lf %lf %lf ", &WiebeSimple.m, &WiebeSimple.C,
 						&WiebeSimple.Beta, &WiebeSimple.IncAlpha, &WiebeSimple.Alpha0);
@@ -402,6 +390,65 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 				LeyQuemadoSimple.Wiebes.clear();
 			}
 		}
+
+		// ------------------------------
+		// INYECCIÓN DE COMBUSTIBLE.
+		// ------------------------------
+
+		fscanf(fich, "%d ", &FTipoDatosIny);
+		switch(FTipoDatosIny) {
+		case 0:  // No hay datos de inyección
+			break;
+		case 1:  // Datos de ángulo y tiempo de inyecciones
+			fscanf(fich, "%d ", &FNumeroInyecciones);  // Número de inyecciones
+			if (FNumeroInyecciones == 0) {
+				FTipoDatosIny = 0;
+				break;
+			}
+			FAngIny.resize(FNumeroInyecciones);
+			FTIny.resize(FNumeroInyecciones);
+			FPercentIny.resize(FNumeroInyecciones);
+			for (int i = 0; i < FNumeroInyecciones; i++) {
+				fscanf(fich, "%lf %lf %lf ", &FAngIny[i], &FTIny[i], &FPercentIny[i]); // Ángulo de la inyección con pms como referencia, duración en ms y porcentaje del total
+			}
+			break;
+		case 2:  // Datos de tabla de tasa de inyección
+			fscanf(fich, "%lf %lf", &FAngIniIny, &FStepIny); // Ángulo de inicio de inyección y paso en º entre datos de la tabla
+			fscanf(fich, "%d ", &xnum);
+			FY_dat.resize(xnum);
+			for (int i = 0; i < xnum; i++) {
+				fscanf(fich, "%lf ", &FY_dat[i]);
+			}
+			FX_dat.resize(xnum);
+			FX_dat[0] = FAngIniIny;
+			for (int i = 1; i < xnum; i++) {
+				FX_dat[i] = FX_dat[i-1] + FStepIny;
+			}
+			FTStep = FStepIny / FRegimen * 60. / 360.;
+			for (int i = 0; i < xnum; i++) {
+				FFuelTasa += FY_dat[i] * FTStep;
+			}
+            for (int i = 0; i < xnum; i++) {
+				FY_dat[i] = FY_dat[i] * FMasaFuel / FFuelTasa;
+			}
+			fscanf(fich, "%d ", &TipoInterp);
+			switch(TipoInterp) {
+			case 0:
+				fTipo = nmLineal;
+				fDatosTasa = new Linear_interp(FX_dat, FY_dat);
+				break;
+			case 1:
+				fTipo = nmHermite;
+				fDatosTasa = new Hermite_interp(FX_dat, FY_dat);
+				break;
+			case 2:
+				fTipo = nmSteps;
+				fDatosTasa = new Step_interp(FX_dat, FY_dat);
+				break;
+			}
+			break;
+		}
+
 
 		// ------------------------------
 		// CREACI�N OBJETO CILINDRO.
@@ -1540,5 +1587,13 @@ void TBloqueMotor::NewInjectionData(double Time) {
 	if (FInjectionSys.InjectPCtrd)
 		FInjectionSys.InjectPressure = FInjectionSys.InjectPCtr->Output(Time);
 }
+
+double TBloqueMotor::TasaInyInterp(double Angle) {
+
+	fOutput = fDatosTasa->interp(Angle);
+
+	return fOutput;
+}
+
 
 #pragma package(smart_init)

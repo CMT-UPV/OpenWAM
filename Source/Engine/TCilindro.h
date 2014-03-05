@@ -189,11 +189,12 @@ protected:
 	double FMaint; // kg/cc    Masa de aire para la interpolaci�n de la leyes.
 	double FRegInt; // rpm      R�gimen para la interpolaci�n de las leyes.
 
-	double FAnguloInjeccion;
-	double FAnguloInjeccionPil;
-	double FFuelTotalPil;
-	double FTInyeccion;
-	double FTInyeccionPil;
+    double FNumIny;
+	dVector FAnguloInjeccion;
+	dVector FTInyeccion;
+	dVector FPercentInyeccion;
+	double FFuelAcum;
+	int ind;
 
 	bool FInyeccion;
 	bool FInyeccionPil;
