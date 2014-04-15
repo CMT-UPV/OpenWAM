@@ -2135,7 +2135,7 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 			if (FResInstantCilindro.CoeficienteWoschni)
 				FResInstantCilindro.CoeficienteWoschniINS = Fh;
 			if (FResInstantCilindro.MasaCombustible)
-				FResInstantCilindro.MasaCombustibleINS = FTasaFuel;
+				FResInstantCilindro.MasaCombustibleINS = FFuelTotal;
 			if (FResInstantCilindro.FQL)
 				FResInstantCilindro.FQLINS = FCalor.FQL;
 			if (FResInstantCilindro.TemperaturaCilindroInterna)

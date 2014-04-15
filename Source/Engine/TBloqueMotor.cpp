@@ -428,7 +428,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			for (int i = 0; i < xnum; i++) {
 				FFuelTasa += FY_dat[i] * FTStep;
 			}
-            for (int i = 0; i < xnum; i++) {
+			for (int i = 0; i < xnum; i++) {
 				FY_dat[i] = FY_dat[i] * FMasaFuel / FFuelTasa;
 			}
 			fscanf(fich, "%d ", &TipoInterp);

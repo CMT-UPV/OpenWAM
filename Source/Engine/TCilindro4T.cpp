@@ -444,9 +444,6 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				// Se reparte la inyecci�n de combustible durante el tiempo determinado (ms)
 				// FFuelInstant representa la cantidad de masa de fuel introducida en un instante de calculo.
 				if (FMotor->getFTipoDatosIny() == 2) {
-				if (FAnguloComb > -14.5) {
-					FAnguloComb = FAnguloComb;
-				}
 					FTasaFuel = FMotor->TasaInyInterp(FAnguloComb);
 				}
 				else {
@@ -457,12 +454,9 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			}
 			if ((FFuelAcum + FFuelInstant) > FMasaFuel * FPercentInyeccion[ind]) {
 				// La inyecci�n se corta cuando se alcanza el valor de combustible total.
-				FFuelInstant = FMasaFuel * FPercentInyeccion[ind] - FFuelTotal;
+				FFuelInstant = FMasaFuel * FPercentInyeccion[ind] - FFuelAcum;
 				FInyeccion = false;
 				FFuelAcum = 0.;
-				for (int j = 0; j < ind+1; j++) {
-					FFuelTotal += FMasaFuel * FPercentInyeccion[j];
-				}
 			}
 			else {
 				FFuelAcum += FFuelInstant;
