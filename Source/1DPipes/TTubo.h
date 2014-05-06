@@ -799,6 +799,21 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 			);
 
 	/*!Comment  */
+	void 	LeeDatosGeneralesTuboXML
+			(
+			xml_node node_openwam, 			 	//!< Comment
+			TBloqueMotor **Engine
+			);
+
+	/*!Comment  */
+	void    LeeDatosGeometricosTuboXML
+			(
+			  xml_node 			node_openwam,   //!< Comment
+			  double          ene,              //!< Comment
+			  int             tipomallado      //!< Comment
+			);
+
+	/*!Comment  */
 	void    LeeDatosGeometricosTubo
 			(
 			  char*           FileWAM,          //!< Comment

@@ -35,8 +35,8 @@
 			<OutputExt>exe</OutputExt>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-			<IncludePath>Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\Includes;Source\;$(BDS)\include;$(BDS)\include\dinkumware;c:\Program Files\Embarcadero\RAD Studio\7.0\;$(BDS)\include\vcl;$(IncludePath)</IncludePath>
-			<ILINK_LibraryPath>Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<IncludePath>Source\pugixml\;Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\Includes;Source\;$(BDS)\include;$(BDS)\include\dinkumware;c:\Program Files\Embarcadero\RAD Studio\7.0\;$(BDS)\include\vcl;$(IncludePath)</IncludePath>
+			<ILINK_LibraryPath>Source\pugixml\;Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -70,59 +70,64 @@
 			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\release;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="Source\Boundaries\TCCUnionEntreDepositos.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCUnionEntreDepositos.h</DependentOn>
-				<BuildOrder>20</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Source\Act\INJECTION_RATE.cpp">
 				<VirtualFolder>{C98619DB-8B9A-4027-8944-C8D38DFFBE0A}</VirtualFolder>
 				<BuildOrder>2</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCRamificacion.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCRamificacion.h</DependentOn>
-				<BuildOrder>19</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCExtremoCerrado.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCExtremoCerrado.h</DependentOn>
-				<BuildOrder>14</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCPreVble.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCPreVble.h</DependentOn>
-				<BuildOrder>17</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCCilindro.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCCilindro.h</DependentOn>
 				<BuildOrder>6</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCEntradaCompresor.cpp">
+			<CppCompile Include="Source\Boundaries\TCCUnionEntreDepositos.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCEntradaCompresor.h</DependentOn>
-				<BuildOrder>11</BuildOrder>
+				<DependentOn>Source\Boundaries\TCCUnionEntreDepositos.h</DependentOn>
+				<BuildOrder>20</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCExternalConnection.cpp">
+			<CppCompile Include="Source\Boundaries\TCCPreVble.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCExternalConnection.h</DependentOn>
-				<BuildOrder>12</BuildOrder>
+				<DependentOn>Source\Boundaries\TCCPreVble.h</DependentOn>
+				<BuildOrder>17</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCDescargaExtremoAbierto.cpp">
+			<CppCompile Include="Source\Boundaries\TCCRamificacion.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCDescargaExtremoAbierto.h</DependentOn>
-				<BuildOrder>10</BuildOrder>
+				<DependentOn>Source\Boundaries\TCCRamificacion.h</DependentOn>
+				<BuildOrder>19</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\1DPipes\TTubo.cpp">
 				<VirtualFolder>{AE685930-8CAF-4065-9A5F-C73ECDCDCDA1}</VirtualFolder>
 				<DependentOn>Source\1DPipes\TTubo.h</DependentOn>
 				<BuildOrder>4</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCExternalConnection.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCExternalConnection.h</DependentOn>
+				<BuildOrder>12</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Connections\TCDFijo.cpp">
+				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
+				<DependentOn>Source\Connections\TCDFijo.h</DependentOn>
+				<BuildOrder>26</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCEntradaCompresor.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCEntradaCompresor.h</DependentOn>
+				<BuildOrder>11</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCExternalConnectionVol.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCExternalConnectionVol.h</DependentOn>
 				<BuildOrder>79</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCDescargaExtremoAbierto.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCDescargaExtremoAbierto.h</DependentOn>
+				<BuildOrder>10</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCExtremoCerrado.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCExtremoCerrado.h</DependentOn>
+				<BuildOrder>14</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCExtremoInyeccion.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
@@ -178,65 +183,63 @@
 				<DependentOn>Source\Boundaries\TCCCompresor.h</DependentOn>
 				<BuildOrder>7</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Connections\TCDFijo.cpp">
-				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
-				<DependentOn>Source\Connections\TCDFijo.h</DependentOn>
-				<BuildOrder>26</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Connections\TDiscoRotativo.cpp">
-				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
-				<DependentOn>Source\Connections\TDiscoRotativo.h</DependentOn>
-				<BuildOrder>27</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Source\Connections\TCDExterno.cpp">
 				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
 				<DependentOn>Source\Connections\TCDExterno.h</DependentOn>
 				<BuildOrder>25</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Control\TSensor.cpp">
-				<VirtualFolder>{143DF534-3A14-4F07-9F2A-896B2CA51120}</VirtualFolder>
-				<DependentOn>Source\Control\TSensor.h</DependentOn>
-				<BuildOrder>40</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Control\TTable1D.cpp">
-				<VirtualFolder>{143DF534-3A14-4F07-9F2A-896B2CA51120}</VirtualFolder>
-				<DependentOn>Source\Control\TTable1D.h</DependentOn>
-				<BuildOrder>41</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Connections\TMariposa.cpp">
-				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
-				<DependentOn>Source\Connections\TMariposa.h</DependentOn>
-				<BuildOrder>31</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Connections\TLamina.cpp">
 				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
 				<DependentOn>Source\Connections\TLamina.h</DependentOn>
 				<BuildOrder>29</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Connections\TLumbrera.cpp">
+			<CppCompile Include="Source\Connections\TDiscoRotativo.cpp">
 				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
-				<DependentOn>Source\Connections\TLumbrera.h</DependentOn>
-				<BuildOrder>30</BuildOrder>
+				<DependentOn>Source\Connections\TDiscoRotativo.h</DependentOn>
+				<BuildOrder>27</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Connections\TEstatorTurbina.cpp">
+			<CppCompile Include="Source\Connections\TMariposa.cpp">
 				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
-				<DependentOn>Source\Connections\TEstatorTurbina.h</DependentOn>
-				<BuildOrder>28</BuildOrder>
+				<DependentOn>Source\Connections\TMariposa.h</DependentOn>
+				<BuildOrder>31</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Connections\TRotorTurbina.cpp">
-				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
-				<DependentOn>Source\Connections\TRotorTurbina.h</DependentOn>
-				<BuildOrder>32</BuildOrder>
+			<CppCompile Include="Source\Control\TSensor.cpp">
+				<VirtualFolder>{143DF534-3A14-4F07-9F2A-896B2CA51120}</VirtualFolder>
+				<DependentOn>Source\Control\TSensor.h</DependentOn>
+				<BuildOrder>40</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Connections\TTipoValvula.cpp">
 				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
 				<DependentOn>Source\Connections\TTipoValvula.h</DependentOn>
 				<BuildOrder>33</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="Source\Connections\TEstatorTurbina.cpp">
+				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
+				<DependentOn>Source\Connections\TEstatorTurbina.h</DependentOn>
+				<BuildOrder>28</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\pugixml\pugixml.cpp">
+				<BuildOrder>91</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Connections\TLumbrera.cpp">
+				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
+				<DependentOn>Source\Connections\TLumbrera.h</DependentOn>
+				<BuildOrder>30</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TEntradaPulso.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TEntradaPulso.h</DependentOn>
 				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Connections\TRotorTurbina.cpp">
+				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
+				<DependentOn>Source\Connections\TRotorTurbina.h</DependentOn>
+				<BuildOrder>32</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Control\TTable1D.cpp">
+				<VirtualFolder>{143DF534-3A14-4F07-9F2A-896B2CA51120}</VirtualFolder>
+				<DependentOn>Source\Control\TTable1D.h</DependentOn>
+				<BuildOrder>41</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Engine\TBloqueMotor.cpp">
 				<VirtualFolder>{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}</VirtualFolder>
@@ -291,65 +294,60 @@
 				<DependentOn>Source\TCGestorWAM.h</DependentOn>
 				<BuildOrder>0</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Extern\TControlFuel.cpp">
-				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
-				<DependentOn>Source\Extern\TControlFuel.h</DependentOn>
-				<BuildOrder>49</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Extern\TCalculoExtern.cpp">
-				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
-				<DependentOn>Source\Extern\TCalculoExtern.h</DependentOn>
-				<BuildOrder>47</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Source\Extern\TRegimenMotor.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
 				<DependentOn>Source\Extern\TRegimenMotor.h</DependentOn>
 				<BuildOrder>55</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\ODModels\TDepVolVariable.cpp">
-				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
-				<DependentOn>Source\ODModels\TDepVolVariable.h</DependentOn>
-				<BuildOrder>61</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Engine\TCilindro2T.cpp">
-				<VirtualFolder>{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}</VirtualFolder>
-				<DependentOn>Source\Engine\TCilindro2T.h</DependentOn>
-				<BuildOrder>44</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Extern\TFraccionMasicaCilindro.cpp">
-				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
-				<DependentOn>Source\Extern\TFraccionMasicaCilindro.h</DependentOn>
-				<BuildOrder>53</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Extern\TMuelle.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
 				<DependentOn>Source\Extern\TMuelle.h</DependentOn>
 				<BuildOrder>54</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Extern\Tfql.cpp">
+			<CppCompile Include="Source\Extern\TCalculoExtern.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
-				<DependentOn>Source\Extern\Tfql.h</DependentOn>
-				<BuildOrder>52</BuildOrder>
+				<DependentOn>Source\Extern\TCalculoExtern.h</DependentOn>
+				<BuildOrder>47</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Engine\TCilindro4T.cpp">
-				<VirtualFolder>{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}</VirtualFolder>
-				<DependentOn>Source\Engine\TCilindro4T.h</DependentOn>
-				<BuildOrder>45</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Extern\TAjusteTransCalorCil.cpp">
+			<CppCompile Include="Source\Extern\TFraccionMasicaCilindro.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
-				<DependentOn>Source\Extern\TAjusteTransCalorCil.h</DependentOn>
-				<BuildOrder>46</BuildOrder>
+				<DependentOn>Source\Extern\TFraccionMasicaCilindro.h</DependentOn>
+				<BuildOrder>53</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\ODModels\TDepVolVariable.cpp">
+				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
+				<DependentOn>Source\ODModels\TDepVolVariable.h</DependentOn>
+				<BuildOrder>61</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Extern\TRemansoMatlab.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
 				<DependentOn>Source\Extern\TRemansoMatlab.h</DependentOn>
 				<BuildOrder>56</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="Source\Output\TOutputResults.cpp">
+				<VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
+				<DependentOn>Source\Output\TOutputResults.h</DependentOn>
+				<BuildOrder>70</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Extern\Tfql.cpp">
+				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
+				<DependentOn>Source\Extern\Tfql.h</DependentOn>
+				<BuildOrder>52</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Source\ODModels\TDeposito.cpp">
 				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
 				<DependentOn>Source\ODModels\TDeposito.h</DependentOn>
 				<BuildOrder>58</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Extern\TAjusteTransCalorCil.cpp">
+				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
+				<DependentOn>Source\Extern\TAjusteTransCalorCil.h</DependentOn>
+				<BuildOrder>46</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Engine\TCilindro2T.cpp">
+				<VirtualFolder>{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}</VirtualFolder>
+				<DependentOn>Source\Engine\TCilindro2T.h</DependentOn>
+				<BuildOrder>44</BuildOrder>
 			</CppCompile>
 			<ResourceCompile Include="Source\Includes\Labels.rc">
 				<VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
@@ -404,65 +402,65 @@
 			<CppCompile Include="Source\OpenWAM.cpp">
 				<BuildOrder>88</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Output\TOutputResults.cpp">
-				<VirtualFolder>{249EDCF8-34F5-450E-9A0D-3897D6509F88}</VirtualFolder>
-				<DependentOn>Source\Output\TOutputResults.h</DependentOn>
-				<BuildOrder>70</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\ODModels\TVenturi.cpp">
-				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
-				<DependentOn>Source\ODModels\TVenturi.h</DependentOn>
-				<BuildOrder>69</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Source\Turbocompressor\TEjeTurbogrupo.cpp">
 				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
 				<DependentOn>Source\Turbocompressor\TEjeTurbogrupo.h</DependentOn>
 				<BuildOrder>77</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Turbocompressor\TNewMapComp.cpp">
-				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
-				<DependentOn>Source\Turbocompressor\TNewMapComp.h</DependentOn>
-				<BuildOrder>82</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\ODModels\TTurbineMap.cpp">
-				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
-				<DependentOn>Source\ODModels\TTurbineMap.h</DependentOn>
-				<BuildOrder>66</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Turbocompressor\TCompIsoReg.cpp">
-				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
-				<DependentOn>Source\Turbocompressor\TCompIsoReg.h</DependentOn>
-				<BuildOrder>71</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Turbocompressor\TCompresor.cpp">
 				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
 				<DependentOn>Source\Turbocompressor\TCompresor.h</DependentOn>
 				<BuildOrder>72</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Turbocompressor\TAcousticCompressor.cpp">
+			<CppCompile Include="Source\ODModels\TVenturi.cpp">
+				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
+				<DependentOn>Source\ODModels\TVenturi.h</DependentOn>
+				<BuildOrder>69</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Turbocompressor\TCompIsoReg.cpp">
 				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
-				<DependentOn>Source\Turbocompressor\TAcousticCompressor.h</DependentOn>
-				<BuildOrder>85</BuildOrder>
+				<DependentOn>Source\Turbocompressor\TCompIsoReg.h</DependentOn>
+				<BuildOrder>71</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\ODModels\TTurbPosition.cpp">
-				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
-				<DependentOn>Source\ODModels\TTurbPosition.h</DependentOn>
-				<BuildOrder>67</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\ODModels\TUnionDireccional.cpp">
-				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
-				<DependentOn>Source\ODModels\TUnionDireccional.h</DependentOn>
-				<BuildOrder>68</BuildOrder>
+			<CppCompile Include="Source\Turbocompressor\TNewMapComp.cpp">
+				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
+				<DependentOn>Source\Turbocompressor\TNewMapComp.h</DependentOn>
+				<BuildOrder>82</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Turbocompressor\TInterpMapaComp.cpp">
 				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
 				<DependentOn>Source\Turbocompressor\TInterpMapaComp.h</DependentOn>
 				<BuildOrder>78</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="Source\ODModels\TTurbPosition.cpp">
+				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
+				<DependentOn>Source\ODModels\TTurbPosition.h</DependentOn>
+				<BuildOrder>67</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Extern\TControlFuel.cpp">
+				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
+				<DependentOn>Source\Extern\TControlFuel.h</DependentOn>
+				<BuildOrder>49</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Turbocompressor\TAcousticCompressor.cpp">
+				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
+				<DependentOn>Source\Turbocompressor\TAcousticCompressor.h</DependentOn>
+				<BuildOrder>85</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Source\Turbocompressor\TCompTubos.cpp">
 				<VirtualFolder>{C026C647-5035-4122-BEF5-5649BEA73CE5}</VirtualFolder>
 				<DependentOn>Source\Turbocompressor\TCompTubos.h</DependentOn>
 				<BuildOrder>76</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\ODModels\TUnionDireccional.cpp">
+				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
+				<DependentOn>Source\ODModels\TUnionDireccional.h</DependentOn>
+				<BuildOrder>68</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\ODModels\TTurbineMap.cpp">
+				<VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
+				<DependentOn>Source\ODModels\TTurbineMap.h</DependentOn>
+				<BuildOrder>66</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Extern\TEGRV.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
@@ -515,6 +513,11 @@
 			<ResFiles Include="OpenWAM.res">
 				<BuildOrder>90</BuildOrder>
 			</ResFiles>
+			<CppCompile Include="Source\Engine\TCilindro4T.cpp">
+				<VirtualFolder>{9EE2AB8A-FA49-4034-90FD-BEAC8A5E1A03}</VirtualFolder>
+				<DependentOn>Source\Engine\TCilindro4T.h</DependentOn>
+				<BuildOrder>91</BuildOrder>
+			</CppCompile>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -539,7 +542,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">12</VersionInfo>
+						<VersionInfo Name="Build">39</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -551,7 +554,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">2.0.2.12</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.0.2.39</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>

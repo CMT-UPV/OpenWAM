@@ -34,7 +34,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <sstream>
 #include <cstring>
-//#include <system.hpp>
+// #include <system.hpp>
 #include <ctime>
 // #include <sys\timeb.h>
 #include "Constantes.h"
@@ -42,10 +42,15 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <cmath>
 #include "Math_wam.h"
 #ifndef __BORLANDC__
-    #include "StringManagement.hpp"
-    #include "Exception.hpp"
-    #define ffGeneral 3
+#include "StringManagement.hpp"
+#include "Exception.hpp"
+#define ffGeneral 3
 #endif
+
+#include "pugixml.hpp"
+#include "CheckXML.h"
+
+using namespace pugi;
 
 // #include "StringDataBase.h"
 // ---------------------------------------------------------------------------
@@ -53,16 +58,15 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #define vers 1102 /*n. de version de WAM*/
 
 #define usetry 1
-//#define WriteINS 1
-//#define ConcentricElement 1
-//#define ParticulateFilter 1
-//#define tchtm 1
-
+// #define WriteINS 1
+// #define ConcentricElement 1
+// #define ParticulateFilter 1
+// #define tchtm 1
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-inline int matherr(struct exception *a){
+inline int matherr(struct exception *a) {
 
 	return 0;
 }
@@ -264,17 +268,17 @@ enum nmTipoInterpolacion {
 	nmLineal = 0, nmHermite = 1, nmSteps = 2
 };
 
-enum nmCompressorMapFormat{
+enum nmCompressorMapFormat {
 	nmOldWAMmap = 0, nmSAMmap = 1
 };
 
 // DPF
-enum nmSeccionCanal{
-        nmCuadrada=0,nmCircular=1,nmRectangular=2,nmTriangular=3
+enum nmSeccionCanal {
+	nmCuadrada = 0, nmCircular = 1, nmRectangular = 2, nmTriangular = 3
 };
 
-enum nmTipoCanal{
-        nmCanalEntrada=0,nmCanalSalida=1
+enum nmTipoCanal {
+	nmCanalEntrada = 0, nmCanalSalida = 1
 };
 
 // template<class T>
@@ -1378,8 +1382,7 @@ struct stResInstantCilindro {
 	bool HeatCyl;
 	double HeatCylINS;
 	bool HeatPis;
-    double HeatPisINS;
-
+	double HeatPisINS;
 
 };
 
@@ -1417,134 +1420,133 @@ struct stCapa { // Capas de los tubos
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-struct stResMediosDPF{
-    double Distancia;
-    bool VelocidadParedCanalEntrada;
-    double VelocidadParedCanalEntradaSUM;
-    double VelocidadParedCanalEntradaMED;
-    bool VelocidadParedCanalSalida;
-    double VelocidadParedCanalSalidaSUM;
-    double VelocidadParedCanalSalidaMED;
-    bool MasaSoot;
-    double MasaSootSUM;
-    double MasaSootMED;
-    bool EspesorSoot;
-    double EspesorSootSUM;
-    double EspesorSootMED;
-    bool TemperaturaParedCS;
-    double TemperaturaParedCSSUM;
-    double TemperaturaParedCSMED;
-    bool TemperaturaIntermediaPared;
-    double TemperaturaIntermediaParedSUM;
-    double TemperaturaIntermediaParedMED;
-    bool TemperaturaParedCE;
-    double TemperaturaParedCESUM;
-    double TemperaturaParedCEMED;
-    bool Kwall;
-    double KwallSUM;
-    double KwallMED;
-    bool Ksoot;
-    double KsootSUM;
-    double KsootMED;
-    bool Eficiencia;
-    double EficienciaSUM;
-    double EficienciaMED;
-    bool Porosidad;
-    double PorosidadSUM;
-    double PorosidadMED;
-    bool CoeficienteParticion;
-    double CoeficienteParticionSUM;
-    double CoeficienteParticionMED;
-    bool DiametroUC;
-    double DiametroUCSUM;
-    double DiametroUCMED;
-    bool Kreg1;
-    double Kreg1SUM;
-    double Kreg1MED;
-    bool Kreg2;
-    double Kreg2SUM;
-    double Kreg2MED;
-    bool Qreg;
-    double QregSUM;
-    double QregMED;
-    bool Q1;
-    double Q1SUM;
-    double Q1MED;
-    bool Q2;
-    double Q2SUM;
-    double Q2MED;
-    bool TasaFraccionMasicaEspecies;
-    double *TasaFraccionSUM;
-    double *TasaFraccionMED;
-    bool FraccionMasicaEspeciesSalida;
-    double *FraccionSalidaSUM;
-    double *FraccionSalidaMED;
-    double PonderacionSUM;
-    double GastoPonderacionSUM;
-    bool TemperaturaExternaSuperficie;
-    double TemperaturaExternaSuperficieSUM;
-    double TemperaturaExternaSuperficieMED;
-    bool TemperaturaMediaSuperficie;
-    double TemperaturaMediaSuperficieSUM;
-    double TemperaturaMediaSuperficieMED;
-    bool TemperaturaInternaSuperficie;
-    double TemperaturaInternaSuperficieSUM;
-    double TemperaturaInternaSuperficieMED;
+struct stResMediosDPF {
+	double Distancia;
+	bool VelocidadParedCanalEntrada;
+	double VelocidadParedCanalEntradaSUM;
+	double VelocidadParedCanalEntradaMED;
+	bool VelocidadParedCanalSalida;
+	double VelocidadParedCanalSalidaSUM;
+	double VelocidadParedCanalSalidaMED;
+	bool MasaSoot;
+	double MasaSootSUM;
+	double MasaSootMED;
+	bool EspesorSoot;
+	double EspesorSootSUM;
+	double EspesorSootMED;
+	bool TemperaturaParedCS;
+	double TemperaturaParedCSSUM;
+	double TemperaturaParedCSMED;
+	bool TemperaturaIntermediaPared;
+	double TemperaturaIntermediaParedSUM;
+	double TemperaturaIntermediaParedMED;
+	bool TemperaturaParedCE;
+	double TemperaturaParedCESUM;
+	double TemperaturaParedCEMED;
+	bool Kwall;
+	double KwallSUM;
+	double KwallMED;
+	bool Ksoot;
+	double KsootSUM;
+	double KsootMED;
+	bool Eficiencia;
+	double EficienciaSUM;
+	double EficienciaMED;
+	bool Porosidad;
+	double PorosidadSUM;
+	double PorosidadMED;
+	bool CoeficienteParticion;
+	double CoeficienteParticionSUM;
+	double CoeficienteParticionMED;
+	bool DiametroUC;
+	double DiametroUCSUM;
+	double DiametroUCMED;
+	bool Kreg1;
+	double Kreg1SUM;
+	double Kreg1MED;
+	bool Kreg2;
+	double Kreg2SUM;
+	double Kreg2MED;
+	bool Qreg;
+	double QregSUM;
+	double QregMED;
+	bool Q1;
+	double Q1SUM;
+	double Q1MED;
+	bool Q2;
+	double Q2SUM;
+	double Q2MED;
+	bool TasaFraccionMasicaEspecies;
+	double *TasaFraccionSUM;
+	double *TasaFraccionMED;
+	bool FraccionMasicaEspeciesSalida;
+	double *FraccionSalidaSUM;
+	double *FraccionSalidaMED;
+	double PonderacionSUM;
+	double GastoPonderacionSUM;
+	bool TemperaturaExternaSuperficie;
+	double TemperaturaExternaSuperficieSUM;
+	double TemperaturaExternaSuperficieMED;
+	bool TemperaturaMediaSuperficie;
+	double TemperaturaMediaSuperficieSUM;
+	double TemperaturaMediaSuperficieMED;
+	bool TemperaturaInternaSuperficie;
+	double TemperaturaInternaSuperficieSUM;
+	double TemperaturaInternaSuperficieMED;
 };
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
-struct stResInstantDPF{
-    double Distancia;
-    bool VelocidadParedCanalEntrada;
-    double VelocidadParedCanalEntradaINS;
-    bool VelocidadParedCanalSalida;
-    double VelocidadParedCanalSalidaINS;
-    bool MasaSoot;
-    double MasaSootINS;
-    bool EspesorSoot;
-    double EspesorSootINS;
-    bool TemperaturaParedCS;
-    double TemperaturaParedCSINS;
-    bool TemperaturaIntermediaPared;
-    double TemperaturaIntermediaParedINS;
-    bool TemperaturaParedCE;
-    double TemperaturaParedCEINS;
-    bool Kwall;
-    double KwallINS;
-    bool Ksoot;
-    double KsootINS;
-    bool Eficiencia;
-    double EficienciaINS;
-    bool Porosidad;
-    double PorosidadINS;
-    bool CoeficienteParticion;
-    double CoeficienteParticionINS;
-    bool DiametroUC;
-    double DiametroUCINS;
-    bool Kreg1;
-    double Kreg1INS;
-    bool Kreg2;
-    double Kreg2INS;
-    bool Qreg;
-    double QregINS;
-    bool Q1;
-    double Q1INS;
-    bool Q2;
-    double Q2INS;
-    bool TasaFraccionMasicaEspecies;
-    double *TasaFraccionINS;
-    bool FraccionMasicaEspeciesSalida;
-    double *FraccionSalidaINS;
-    bool TemperaturaExternaSuperficie;
-    double TemperaturaExternaSuperficieINS;
-    bool TemperaturaMediaSuperficie;
-    double TemperaturaMediaSuperficieINS;
-    bool TemperaturaInternaSuperficie;
-    double TemperaturaInternaSuperficieINS;
+struct stResInstantDPF {
+	double Distancia;
+	bool VelocidadParedCanalEntrada;
+	double VelocidadParedCanalEntradaINS;
+	bool VelocidadParedCanalSalida;
+	double VelocidadParedCanalSalidaINS;
+	bool MasaSoot;
+	double MasaSootINS;
+	bool EspesorSoot;
+	double EspesorSootINS;
+	bool TemperaturaParedCS;
+	double TemperaturaParedCSINS;
+	bool TemperaturaIntermediaPared;
+	double TemperaturaIntermediaParedINS;
+	bool TemperaturaParedCE;
+	double TemperaturaParedCEINS;
+	bool Kwall;
+	double KwallINS;
+	bool Ksoot;
+	double KsootINS;
+	bool Eficiencia;
+	double EficienciaINS;
+	bool Porosidad;
+	double PorosidadINS;
+	bool CoeficienteParticion;
+	double CoeficienteParticionINS;
+	bool DiametroUC;
+	double DiametroUCINS;
+	bool Kreg1;
+	double Kreg1INS;
+	bool Kreg2;
+	double Kreg2INS;
+	bool Qreg;
+	double QregINS;
+	bool Q1;
+	double Q1INS;
+	bool Q2;
+	double Q2INS;
+	bool TasaFraccionMasicaEspecies;
+	double *TasaFraccionINS;
+	bool FraccionMasicaEspeciesSalida;
+	double *FraccionSalidaINS;
+	bool TemperaturaExternaSuperficie;
+	double TemperaturaExternaSuperficieINS;
+	bool TemperaturaMediaSuperficie;
+	double TemperaturaMediaSuperficieINS;
+	bool TemperaturaInternaSuperficie;
+	double TemperaturaInternaSuperficieINS;
 };
-
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -1608,8 +1610,8 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla, nmCalculoGamma
 	return Gamma;
 };
 
-inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, nmCalculoGamma GammaCalculation)
-{
+inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
+	nmCalculoGamma GammaCalculation) {
 	double CvMezcla = 717.5;
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
@@ -1638,7 +1640,8 @@ inline double CalculoSimpleRMezcla(double YQuemados, nmCalculoGamma GammaCalcula
 	return R;
 };
 
-inline double CalculoCompletoGamma(double RMezcla, double CpMezcla, nmCalculoGamma GammaCalculation) {
+inline double CalculoCompletoGamma(double RMezcla, double CpMezcla,
+	nmCalculoGamma GammaCalculation) {
 	double Gamma = 1.4;
 
 	if (GammaCalculation != nmGammaConstante) {
@@ -1757,8 +1760,8 @@ inline double StepFunction(double x, std::vector<double>x1, std::vector<double>x
 	return ret_val;
 };
 
-inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa_fila, double *Mapa_col,
-	double **Mapa, int dimension_x, int dimension_y) {
+inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa_fila,
+	double *Mapa_col, double **Mapa, int dimension_x, int dimension_y) {
 	int y1, y2, x1, x2;
 	double Valor_mapa_fila_yref_columna_x1, Valor_mapa_fila_yref_columna_x2,
 	Valor_mapa_fila_yref_columna_xref;
@@ -1843,22 +1846,22 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 };
 
 // char* PutLabel(int str) {
-// 	int lang;
-// 	AnsiString label;
-// 	if (str < 900) {
-// 		if (CompareStr(LoadStr(10000), "ES") == 0) {
-// 			lang = 2000 + str;
-// 		}
-// 		if (CompareStr(LoadStr(10000), "EN") == 0) {
-// 			lang = 1000 + str;
-// 		}
-// 	}
-// 	else {
-// 		lang = str;
-// 	}
-// 	label = AnsiString(LoadStr(lang)).c_str();
-// 	// label=LoadStr(lang).c_str();
-// 	return label;
+// int lang;
+// AnsiString label;
+// if (str < 900) {
+// if (CompareStr(LoadStr(10000), "ES") == 0) {
+// lang = 2000 + str;
+// }
+// if (CompareStr(LoadStr(10000), "EN") == 0) {
+// lang = 1000 + str;
+// }
+// }
+// else {
+// lang = str;
+// }
+// label = AnsiString(LoadStr(lang)).c_str();
+// // label=LoadStr(lang).c_str();
+// return label;
 // };
 
 inline AnsiString PutLabel(int str) {
@@ -2020,16 +2023,127 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 };
 
 // int _matherr(struct _exception *a) {
-//	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
+// // throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
 //
-//	if (a->arg2 != 0) {
-//		MessageBeep(2);
-//	}
-//	return 0;
+// if (a->arg2 != 0) {
+// MessageBeep(2);
+// }
+// return 0;
 // }
 
+void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, bool Fuel,
+	nmTipoCalculoEspecies SpeciesModel) {
+	double fracciontotal;
+
+	if (SpeciesModel == nmCalculoCompleto) {
+		for (xml_node Specie = node_comp.child("Specie"); Specie;
+			Specie = Specie.next_sibling("Specie")) {
+			if (Specie.attribute("Name").value() == "O2") {
+				Comp[0] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[0];
+			}
+			else if (Specie.attribute("Name").value() == "CO2") {
+				Comp[1] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[1];
+			}
+			else if (Specie.attribute("Name").value() == "H2O") {
+				Comp[2] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[2];
+			}
+			else if (Specie.attribute("Name").value() == "HC") {
+				Comp[3] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[3];
+			}
+			else if (Specie.attribute("Name").value() == "Soot") {
+				Comp[4] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[4];
+			}
+			else if (Specie.attribute("Name").value() == "NOx") {
+				Comp[5] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[5];
+			}
+			else if (Specie.attribute("Name").value() == "CO") {
+				Comp[6] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[6];
+			}
+			else if (Specie.attribute("Name").value() == "Fuel") {
+				if (Fuel) {
+					Comp[7] = GetAttributeAsDouble(Specie, "Value");
+					fracciontotal += Comp[7];
+				}
+			}
+			else if (Specie.attribute("Name").value() == "N2")
+				if (Fuel) {
+					Comp[8] = GetAttributeAsDouble(Specie, "Value");
+					fracciontotal += Comp[8];
+				}
+				else {
+					Comp[7] = GetAttributeAsDouble(Specie, "Value");
+					fracciontotal += Comp[7];
+				}
+			else if (Specie.attribute("Name").value() == "EGR")
+				if (EGR)
+					if (Fuel) {
+						Comp[9] = GetAttributeAsDouble(Specie, "Value");
+						fracciontotal += Comp[9];
+					}
+					else {
+						Comp[8] = GetAttributeAsDouble(Specie, "Value");
+						fracciontotal += Comp[8];
+					}
+
+		}
+	}
+	else {
+		for (xml_node Specie = node_comp.child("Specie"); Specie;
+			Specie = Specie.next_sibling("Specie")) {
+			if (Specie.attribute("Name").value() == "Gas") {
+				Comp[0] = GetAttributeAsDouble(Specie, "Value");
+				fracciontotal += Comp[0];
+			}
+			else if (Specie.attribute("Name").value() == "Air")
+				if (Fuel) {
+					Comp[2] = GetAttributeAsDouble(Specie, "Value");
+					fracciontotal += Comp[2];
+				}
+				else {
+					Comp[1] = GetAttributeAsDouble(Specie, "Value");
+					fracciontotal += Comp[1];
+				}
+			else if (Specie.attribute("Name").value() == "Fuel") {
+				if (Fuel) {
+					Comp[1] = GetAttributeAsDouble(Specie, "Value");
+					fracciontotal += Comp[1];
+				}
+			}
+			else if (Specie.attribute("Name").value() == "EGR")
+				if (EGR)
+					if (Fuel) {
+						Comp[3] = GetAttributeAsDouble(Specie, "Value");
+						fracciontotal += Comp[3];
+					}
+					else {
+						Comp[2] = GetAttributeAsDouble(Specie, "Value");
+						fracciontotal += Comp[2];
+					}
+
+		}
+	}
+
+	if (fracciontotal != 1.) {
+		std::cout << "ERROR: The total mass fraction must be equal to 1. Check your input data " <<
+			std::endl;
+		throw Exception(" ");
+	}
+
+}
+
+
+
 #ifndef __BORLANDC__
-class TObject {};
+
+class TObject {
+};
 #endif
 
 #endif

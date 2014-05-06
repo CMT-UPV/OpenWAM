@@ -39,6 +39,7 @@
 #include "Globales.h"
 
 #include "TTimeControl.h"
+#include "pugixml.hpp"
 
 // ENGINE BLOCK AND CYLINDERS
 #include "TBloqueMotor.h"
@@ -148,6 +149,8 @@ Allow the communication with WAMer
 #include "TCGestorWAM.h"
 #endif
 
+#define xml_input true
+
 class TOpenWAM {
 private:
 
@@ -166,6 +169,10 @@ private:
 	FILE *FileInput;
 	// !< Pointers to input and output files.
 	FILE *fc; // !< Pointers to input and output files.
+
+	// XML Input
+	xml_document FileInputXML;
+
 
 	char fileinput[8];
 
@@ -343,15 +350,23 @@ private:
 
 	void ReadGeneralData();
 
+	void ReadGeneralDataXML();
+
 	void ReadEngine();
 
+	void ReadEngineXML();
+
 	void ReadPipes();
+
+	void ReadPipesXML();
 
 	void ReadDPF();
 
 	void ReadConcentric();
 
 	void ReadValves();
+
+	void ReadValvesXML();
 
 	void ReadPlenums();
 
@@ -423,6 +438,8 @@ public:
 	~TOpenWAM();
 
 	void ReadInputData(char* FileName);
+
+	void ReadInputDataXML(char* FileName);
 
 	void InitializeParameters();
 

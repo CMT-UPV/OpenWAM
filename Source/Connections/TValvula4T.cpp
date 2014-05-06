@@ -198,13 +198,14 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 		}
 		else {
 			std::cout <<
-				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Régimen errónea " << std::endl;
+				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Régimen errónea " <<
+				std::endl;
 			throw Exception(" ");
 		}
 		int controllers;
 		int param;
 		fscanf(fich, "%d ", &controllers);
-		for (int i=0; i < controllers; i++) {
+		for (int i = 0; i < controllers; i++) {
 			fscanf(fich, "%d ", &param);
 			switch(param) {
 			case 0:
@@ -226,6 +227,94 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
+		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		throw Exception(N.Message);
+
+	}
+}
+
+void TValvula4T::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
+	try {
+		int ControlRegimen, NumLev = 0, NumCD = 0;
+
+		FEngine = Engine;
+
+		FNumeroOrden = norden;
+
+		xml_node node_4svalve = GetNodeChild(node_valve, "Val:Valve4S");
+		FDiametro = GetAttributeAsDouble(node_4svalve, "Diameter");
+		FIncrAng = GetAttributeAsDouble(node_4svalve, "AngleInterval");
+		FAnguloApertura = GetAttributeAsDouble(node_4svalve, "OpeningAngle");
+		FDiametroRef = GetAttributeAsDouble(node_4svalve, "RefDiameter");
+		FCoefTorbMedio = GetAttributeAsDouble(node_4svalve, "MEanSwirlCoef");
+		FIncrLev = GetAttributeAsDouble(node_4svalve, "LiftInterval");
+
+		NumLev = CountNodes(node_4svalve, "V4s:Profile");
+
+		FAnguloApertura0 = FAnguloApertura;
+
+		FAnguloCierre = FAnguloApertura + (double)(NumLev - 1) * FIncrAng;
+
+		// FLevantamiento=new double[NumLev];
+		FLevantamiento.resize(NumLev);
+		FAngle.resize(NumLev);
+
+		int i = 0;
+		for (xml_node node_profile = GetNodeChild(node_4svalve, "V4s:Profile"); node_profile;
+			node_profile = node_profile.next_sibling("V4s:Profile")) {
+			FAngle[i] = (double)i * FIncrAng;
+			FLevantamiento[i] = GetAttributeAsDouble(node_profile, "Lift");
+			i++;
+		}
+
+		NumCD = CountNodes(node_4svalve, "V4s:FlowCoef");
+
+		FLiftCD.resize(NumCD);
+		FDatosCDEntrada.resize(NumCD);
+		FDatosCDSalida.resize(NumCD);
+		FDatosTorbellino.resize(NumCD);
+
+		i = 0;
+		for (xml_node node_flowcoef = GetNodeChild(node_4svalve, "V4s:FlowCoef"); node_flowcoef;
+			node_flowcoef = node_flowcoef.next_sibling("V4s:FlowCoef")) {
+			FLiftCD[i] = (double)i * FIncrLev;
+			FDatosTorbellino[i] = GetAttributeAsDouble(node_flowcoef, "SwirlCoef");
+			FDatosCDEntrada[i] = GetAttributeAsDouble(node_flowcoef, "DC_in");
+			FDatosCDSalida[i] = GetAttributeAsDouble(node_flowcoef, "DC_out");
+			i++;
+		}
+
+		const char_t* SpeedControl = node_4svalve.attribute("SpeedControl").value();
+		if (SpeedControl == "Independent") {
+			FRelacionVelocidades = 1.;
+			FRegimen = GetAttributeAsDouble(node_4svalve, "Speed");
+		}
+		else if (SpeedControl == "ByEngine") {
+			FRelacionVelocidades = GetAttributeAsDouble(node_4svalve, "SpeedRatio");
+		}
+
+		const char_t* Parameter;
+
+		for (xml_node node_ctrl = GetNodeChild(node_4svalve, "V4s:Controller"); node_ctrl;
+			node_ctrl = node_ctrl.next_sibling("V4s:Controller")) {
+
+			Parameter = node_ctrl.attribute("Parameter").value();
+			if (Parameter == "Lift") {
+				FVVTLiftCtrlID = GetAttributeAsInt(node_ctrl, "Ctrl_ID");
+			}
+			else if (Parameter == "Timing") {
+				FVVTTimingCtrlID = GetAttributeAsInt(node_ctrl, "Ctrl_ID");
+			}
+			else if (Parameter == "Duration") {
+				FVVTDurationCtrlID = GetAttributeAsInt(node_ctrl, "Ctrl_ID");
+			}
+
+		}
 
 	}
 	catch(Exception & N) {
@@ -275,7 +364,8 @@ void TValvula4T::GetCDin(double Time) {
 	double X, XLv, XCd, Angulo;
 
 	if (FControlRegimen == nmPropio) {
-		Angulo = 6. * FRegimen * Time; // It's correct if FRegimen is constant.
+		Angulo = 6. * FRegimen * Time;
+		// It's correct if FRegimen is constant.
 	}
 	else {
 		if (FToCylinder) {
@@ -314,7 +404,8 @@ void TValvula4T::GetCDout(double Time) {
 	double X, XLv, XCd, Angulo;
 
 	if (FControlRegimen == nmPropio) {
-		Angulo = 360. * FRegimen / 60. * Time; // It's correct if FRegimen is constant.
+		Angulo = 360. * FRegimen / 60. * Time;
+		// It's correct if FRegimen is constant.
 	}
 	else {
 		if (FToCylinder) {
@@ -366,7 +457,7 @@ void TValvula4T::VVTControl(double Time) {
 	}
 }
 
-void TValvula4T::AsignaLevController(TController **Controller) {
+void TValvula4T::AsignaLevController(TController * *Controller) {
 	if (FVVT) {
 		if (FVVTLift) {
 			FVVTLiftCtrl = Controller[FVVTLiftCtrlID - 1];

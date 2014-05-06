@@ -156,6 +156,7 @@ private:
 	nmCalculoGamma FCalculoGamma;
 	bool FHayEGR;
 	int FIntEGR;
+	bool FHayFuel;
 
 	TController *FRPMController;
 	int FRPMControllerID;
@@ -426,6 +427,9 @@ public:
 	~TBloqueMotor();
 
 	void LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
+		int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition);
+
+	void LeeMotorXML(xml_node node_openwam, nmTipoModelado& SimulationType,
 		int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition);
 
 	void IniciaAnguloCalculo();
