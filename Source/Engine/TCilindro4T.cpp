@@ -384,9 +384,6 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			FPrimerInstanteCicloCerrado = true;
 			FMasaPorAdmision = FAcumMasaPorAdm;
 
-			if (FMotor->getCombustible() == nmMEP) {
-				CalculaFuelMEP(FMasaPorAdmision);
-			}
 			FAcumMasaPorAdm = 0;
 			FMasaPorEscape = FAcumMasaPorEsc;
 			FAcumMasaPorEsc = 0;
@@ -470,6 +467,10 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 
 			if (FHayEGR)
 				FFraccionMasicaEspecie[FMotor->getSpeciesNumber() - 1] = 1.;
+
+			if (FMotor->getCombustible() == nmMEP) {
+				CalculaFuelMEP(FMasaEspecieCicloCerrado[2]);
+			}
 
 			std::cout << "INFO: End of Gas-exchange process in cylinder " <<
 				FNumeroCilindro << std::endl;
