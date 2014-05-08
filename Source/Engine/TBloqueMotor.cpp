@@ -413,7 +413,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			}
 			break;
 		case 2:  // Datos de tabla de tasa de inyección
-			fscanf(fich, "%lf %lf", &FAngIniIny, &FStepIny); // Ángulo de inicio de inyección y paso en º entre datos de la tabla
+			fscanf(fich, "%lf %lf", &FAngIniIny, &FTStepIny); // Ángulo de inicio de inyección y paso en ms entre datos de la tabla
 			fscanf(fich, "%d ", &xnum);
 			FY_dat.resize(xnum);
 			for (int i = 0; i < xnum; i++) {
@@ -421,15 +421,16 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			}
 			FX_dat.resize(xnum);
 			FX_dat[0] = FAngIniIny;
+			FAStepIny = FTStepIny * FRegimen / 60. * 360. / 1000.;
 			for (int i = 1; i < xnum; i++) {
-				FX_dat[i] = FX_dat[i-1] + FStepIny;
+				FX_dat[i] = FX_dat[i-1] + FAStepIny;
 			}
-			FTStep = FStepIny / FRegimen * 60. / 360.;
+//			Se comprueba que la integral de la tasa corresponde al combustible total inyectado, si no, se reescala
 			for (int i = 0; i < xnum; i++) {
-				FFuelTasa += FY_dat[i] * FTStep;
+				FFuelTasaInt += FY_dat[i] * FTStepIny / 1000.;
 			}
 			for (int i = 0; i < xnum; i++) {
-				FY_dat[i] = FY_dat[i] * FMasaFuel / FFuelTasa;
+				FY_dat[i] = FY_dat[i] * FMasaFuel / FFuelTasaInt;
 			}
 			fscanf(fich, "%d ", &TipoInterp);
 			switch(TipoInterp) {

@@ -63,12 +63,12 @@ private:
 	dVector FTIny;
 	dVector FPercentIny;
 	double FAngIniIny;
-	double FStepIny;
+	double FTStepIny;
+	double FAStepIny;
 	int xnum;
 	dVector FY_dat;
 	dVector FX_dat;
-	double FTStep;
-	double FFuelTasa;
+	double FFuelTasaInt;
 	int TipoInterp; // Tipo de interpolación: 1. Lineal, 2. Hermite (spinlines), 3. Step
 
 	double fOutput;
@@ -461,8 +461,8 @@ public:
 		return FAngIniIny;
 	};
 
-	double getFStepIny() {
-		return FStepIny;
+	double getFAStepIny() {
+		return FAStepIny;
 	};
 
 //	dVector getFY_dat() {
