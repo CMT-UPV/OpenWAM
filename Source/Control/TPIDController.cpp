@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -65,19 +65,25 @@ double TPIDController::Output(double Time) {
 			Kp = fKP_pos;
 			Ki = fKI_pos;
 			Kd = fKD_pos;
+			if(fError_ant < 0){
+			  fI_ant=0.;
+			}
 
 		}
 		else {
 			Kp = fKP_neg;
 			Ki = fKI_neg;
 			Kd = fKD_neg;
+			if(fError_ant < 0){
+			  fI_ant=0.;
+			}
 		}
 
 		fpact = Kp * fError;
 		fdact = Kd * (fError - fError_ant) / dt;
 		fiact = fI_ant + Ki * fError * dt;
 
-		fOutput = fOutput0 + fpact + fdact + fiact;
+		fOutput = fOutput_ant + fpact + fdact + fiact;
 		if (fOutput > fMax_out) {
 			fOutput = fMax_out;
 			if (fError < 0)
@@ -127,7 +133,7 @@ void TPIDController::LeeController(char *FileWAM, fpos_t &filepos) {
 
 	fscanf(fich, "%lf %lf %lf ", &fPeriod, &fDelay, &fGain);
 
-	fI_ant = fOutput;
+	fI_ant = 0;
 	fOutput_ant = fOutput;
 	fOutput_filt = fOutput;
 	fOutput_filt_ant = fOutput;
