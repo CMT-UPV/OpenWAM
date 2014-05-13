@@ -74,7 +74,7 @@ double TPIDController::Output(double Time) {
 			Kp = fKP_neg;
 			Ki = fKI_neg;
 			Kd = fKD_neg;
-			if(fError_ant < 0){
+			if(fError_ant > 0){
 			  fI_ant=0.;
 			}
 		}
