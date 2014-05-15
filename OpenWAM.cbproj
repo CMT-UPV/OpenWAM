@@ -512,9 +512,6 @@
 				<Form>Icon.res</Form>
 				<BuildOrder>91</BuildOrder>
 			</ResourceCompile>
-			<ResFiles Include="OpenWAM.res">
-				<BuildOrder>90</BuildOrder>
-			</ResFiles>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -539,7 +536,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">3</VersionInfo>
-						<VersionInfo Name="Build">6</VersionInfo>
+						<VersionInfo Name="Build">8</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -551,7 +548,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">2.0.3.6</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.0.3.8</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -564,7 +561,7 @@
 						<Debugging Name="DebugSourceDirs"/>
 					</Debugging>
 					<Parameters>
-						<Parameters Name="RunParams">4_Strokes_Turbocharged_HSDI_Engine_Ctrl.WAM</Parameters>
+						<Parameters Name="RunParams">sistema_distribucion_modificado_mejorado.WAM</Parameters>
 						<Parameters Name="UseLauncher">True</Parameters>
 						<Parameters Name="RemoteHost"/>
 						<Parameters Name="RemotePath"/>

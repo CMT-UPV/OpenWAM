@@ -452,6 +452,8 @@ public:
 
 	void ProgressBegin();
 
+	void ProgressEnd();
+
 	void NewEngineCycle();
 
 	void GeneralOutput();

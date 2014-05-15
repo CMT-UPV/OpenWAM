@@ -93,6 +93,8 @@ int main(int argc, char *argv[]) {
 
 	Aplication->GeneralOutput();
 
+	Aplication->ProgressEnd();
+
 	delete Aplication;
 
 	return 0;
