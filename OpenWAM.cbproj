@@ -22,6 +22,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<BCC_DataAlignment>Paragraph</BCC_DataAlignment>
 			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
 			<BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
 			<BCC_MonitorThis>true</BCC_MonitorThis>
@@ -69,29 +70,29 @@
 			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\release;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="Source\Act\INJECTION_RATE.cpp">
-				<VirtualFolder>{C98619DB-8B9A-4027-8944-C8D38DFFBE0A}</VirtualFolder>
-				<BuildOrder>2</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Boundaries\BoundaryFunctions.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\BoundaryFunctions.h</DependentOn>
-				<BuildOrder>5</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCUnionEntreDepositos.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCUnionEntreDepositos.h</DependentOn>
 				<BuildOrder>20</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCPreVble.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCPreVble.h</DependentOn>
-				<BuildOrder>17</BuildOrder>
+			<CppCompile Include="Source\Act\INJECTION_RATE.cpp">
+				<VirtualFolder>{C98619DB-8B9A-4027-8944-C8D38DFFBE0A}</VirtualFolder>
+				<BuildOrder>2</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCRamificacion.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCRamificacion.h</DependentOn>
 				<BuildOrder>19</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCExtremoCerrado.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCExtremoCerrado.h</DependentOn>
+				<BuildOrder>14</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCPreVble.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCPreVble.h</DependentOn>
+				<BuildOrder>17</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCCilindro.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
@@ -113,9 +114,6 @@
 				<DependentOn>Source\Boundaries\TCCDescargaExtremoAbierto.h</DependentOn>
 				<BuildOrder>10</BuildOrder>
 			</CppCompile>
-			<ResFiles Include="OpenWAM.res">
-				<BuildOrder>86</BuildOrder>
-			</ResFiles>
 			<CppCompile Include="Source\1DPipes\TTubo.cpp">
 				<VirtualFolder>{AE685930-8CAF-4065-9A5F-C73ECDCDCDA1}</VirtualFolder>
 				<DependentOn>Source\1DPipes\TTubo.h</DependentOn>
@@ -126,59 +124,59 @@
 				<DependentOn>Source\Boundaries\TCCExternalConnectionVol.h</DependentOn>
 				<BuildOrder>79</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCPerdidadePresion.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCPerdidadePresion.h</DependentOn>
-				<BuildOrder>16</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\TTimeControl.cpp">
-				<DependentOn>Source\TTimeControl.h</DependentOn>
-				<BuildOrder>1</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCExtremoInyeccion.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCExtremoInyeccion.h</DependentOn>
 				<BuildOrder>15</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCExtremoAnecoico.cpp">
+			<CppCompile Include="Source\Boundaries\TCCPerdidadePresion.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCExtremoAnecoico.h</DependentOn>
-				<BuildOrder>13</BuildOrder>
+				<DependentOn>Source\Boundaries\TCCPerdidadePresion.h</DependentOn>
+				<BuildOrder>16</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCondicionContorno.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCondicionContorno.h</DependentOn>
 				<BuildOrder>23</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCPulso.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCPulso.h</DependentOn>
-				<BuildOrder>18</BuildOrder>
+			<CppCompile Include="Source\Extern\TCoefDescarga.cpp">
+				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
+				<DependentOn>Source\Extern\TCoefDescarga.h</DependentOn>
+				<BuildOrder>48</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCFDConnection.cpp">
+			<CppCompile Include="Source\Boundaries\TCCExtremoAnecoico.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCFDConnection.h</DependentOn>
-				<BuildOrder>22</BuildOrder>
+				<DependentOn>Source\Boundaries\TCCExtremoAnecoico.h</DependentOn>
+				<BuildOrder>13</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCExtremoCerrado.cpp">
-				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCExtremoCerrado.h</DependentOn>
-				<BuildOrder>14</BuildOrder>
+			<CppCompile Include="Source\TTimeControl.cpp">
+				<DependentOn>Source\TTimeControl.h</DependentOn>
+				<BuildOrder>1</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCUnionEntreTubos.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCUnionEntreTubos.h</DependentOn>
 				<BuildOrder>21</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Source\Boundaries\TCCCompresor.cpp">
+			<CppCompile Include="Source\Boundaries\TCFDConnection.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
-				<DependentOn>Source\Boundaries\TCCCompresor.h</DependentOn>
-				<BuildOrder>7</BuildOrder>
+				<DependentOn>Source\Boundaries\TCFDConnection.h</DependentOn>
+				<BuildOrder>22</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Boundaries\TCCDeposito.cpp">
 				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
 				<DependentOn>Source\Boundaries\TCCDeposito.h</DependentOn>
 				<BuildOrder>9</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCPulso.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCPulso.h</DependentOn>
+				<BuildOrder>18</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Source\Boundaries\TCCCompresor.cpp">
+				<VirtualFolder>{993EC21C-E293-42F1-880C-E1152EF9A7C6}</VirtualFolder>
+				<DependentOn>Source\Boundaries\TCCCompresor.h</DependentOn>
+				<BuildOrder>7</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Connections\TCDFijo.cpp">
 				<VirtualFolder>{BC6146C5-1B1E-415F-8A6E-287B7601283E}</VirtualFolder>
@@ -292,11 +290,6 @@
 			<CppCompile Include="Source\TCGestorWAM.cpp">
 				<DependentOn>Source\TCGestorWAM.h</DependentOn>
 				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Source\Extern\TCoefDescarga.cpp">
-				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
-				<DependentOn>Source\Extern\TCoefDescarga.h</DependentOn>
-				<BuildOrder>48</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="Source\Extern\TControlFuel.cpp">
 				<VirtualFolder>{F6313D99-24C2-44AB-A042-16D6E1DE8C17}</VirtualFolder>
@@ -515,6 +508,13 @@
 				<VirtualFolder>{C98619DB-8B9A-4027-8944-C8D38DFFBE0A}</VirtualFolder>
 				<BuildOrder>3</BuildOrder>
 			</CppCompile>
+			<ResourceCompile Include="Icon.rc">
+				<Form>Icon.res</Form>
+				<BuildOrder>91</BuildOrder>
+			</ResourceCompile>
+			<ResFiles Include="OpenWAM.res">
+				<BuildOrder>90</BuildOrder>
+			</ResFiles>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -535,11 +535,11 @@
 				<CPlusPlusBuilder.Personality>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
-						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
-						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">True</VersionInfo>
+						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
-						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Release">3</VersionInfo>
+						<VersionInfo Name="Build">6</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -551,7 +551,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.0.3.6</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -564,7 +564,7 @@
 						<Debugging Name="DebugSourceDirs"/>
 					</Debugging>
 					<Parameters>
-						<Parameters Name="RunParams">POWERFUL_V07C.WAM</Parameters>
+						<Parameters Name="RunParams">4_Strokes_Turbocharged_HSDI_Engine_Ctrl.WAM</Parameters>
 						<Parameters Name="UseLauncher">True</Parameters>
 						<Parameters Name="RemoteHost"/>
 						<Parameters Name="RemotePath"/>

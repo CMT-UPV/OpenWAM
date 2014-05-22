@@ -52,7 +52,7 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
 	double n_limit = 1.165;
 	bool CalculaGR = false;
 
-#if tchtm
+#ifdef tchtm
 	fscanf(Input, "%d ", &Adiab);
 	if (Adiab == 0) {
 		FIsAdiabatic = false;

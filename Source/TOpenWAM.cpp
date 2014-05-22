@@ -62,12 +62,12 @@ TOpenWAM::TOpenWAM() {
 	Pipe = NULL;
 
 	// ! ARRAY OF CONCENTRIC ELEMENTS
-#if ConcentricElement
+#ifdef ConcentricElement
 	Concentric = NULL;
 #endif
 
 	// ! ARRAY OF DPFs
-#if ParticulateFilter
+#ifdef ParticulateFilter
 	DPF = NULL;
 #endif
 
@@ -194,7 +194,7 @@ TOpenWAM::TOpenWAM() {
 }
 
 TOpenWAM::~TOpenWAM() {
-#if completo
+#if completo==1
 	if (ThereIsDLL) {
 		EXTERN->FinECU();
 	}

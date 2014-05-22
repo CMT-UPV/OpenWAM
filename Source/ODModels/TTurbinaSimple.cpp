@@ -188,7 +188,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			FTrabajoIsenInstTotal = 0.;
 
 			// Calculo de las propiedades del gas a la salida
-#if !tchtm
+#ifndef tchtm
 			Landa = FCCSalida[0]->GetTuboExtremo(0).Landa;
 			Beta = FCCSalida[0]->GetTuboExtremo(0).Beta;
 			Entropia = FCCSalida[0]->GetTuboExtremo(0).Entropia;
@@ -250,7 +250,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 #endif
 
-#if tchtm
+#ifdef tchtm
 			FTempEntrada[0] = FAcTurb->T3();
 			FPresionEntrada[0] = FAcTurb->P3();
 
@@ -277,7 +277,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			}
 			gam_te = cpte / (cpte - FRMezcla);
 
-#if !tchtm
+#ifndef tchtm
 
 			FTemp0Entrada[0] = FTempEntrada[0] + pow2(FVelocidadEntrada[0]) /
 				(2. * cpte);
@@ -287,7 +287,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 #endif
 
-#if tchtm
+#ifdef tchtm
 
 			if (fabs(FGastoEntrada[0]) > 1e-10) {
 

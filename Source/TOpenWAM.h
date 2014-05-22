@@ -123,7 +123,7 @@
 
 // OUTPUT RESULTS
 #include "TOutputResults.h"
-#define completo true
+#define completo 1
 
 /* ! \def gestorcom
 Allow the communication with WAMer
@@ -139,12 +139,12 @@ Allow the communication with WAMer
   #define gestorcom true
   #define graphicalout true
 #else
-  #define gestorcom false
-  #define graphicalout false
+  #define gestorcom 0
+  #define graphicalout 0
 #endif
 #endif
 
-#if gestorcom
+#if gestorcom==1
 #include "TCGestorWAM.h"
 #endif
 

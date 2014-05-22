@@ -112,8 +112,8 @@ Fncilin=ncilin;
 
 void Tfql::lee_leylib(char *Ruta,FILE *fich)
 {
-char Filefql[256];
-char Datosfql[256];
+char *Filefql;
+char *Datosfql;
 
 try
 {
@@ -127,7 +127,7 @@ try
 
  Fichfql=fopen(Datosfql,"r");
  if((Fichfql=fopen(Datosfql,"r"))==NULL){
- std::cout << "ERROR: Fichero de leyes de liberación de calor no cargado";
+ std::cout << "ERROR: Fichero de leyes de liberaciï¿½n de calor no cargado";
  }else{
        fscanf(Fichfql,"%d ",&Fnley);
        fscanf(Fichfql,"%d ",&Fnwiebe);
@@ -357,7 +357,7 @@ for(int j=0;j<Fnley;++j){
 		Flab[n][j][i] = Fla[n][j] + tras;
 	}
 	if(Flab[0][j][i]-720. < Fang0){
-		Fang0 = Flab[0][j][i]-720.;   // ??????????  añado -720
+		Fang0 = Flab[0][j][i]-720.;   // ??????????  aï¿½ado -720
 	}
 	if((Flab[Fnwiebe-1][j][i] + Fli[Fnwiebe-1][j]-720.)>Ffinc){
 		Ffinc = Flab[Fnwiebe - 1][j][i] + Fli[Fnwiebe - 1][j]-720.;

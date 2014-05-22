@@ -50,13 +50,13 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // #include "StringDataBase.h"
 // ---------------------------------------------------------------------------
 
-#define vers 1102 /*n. de versi�n de WAM*/
+#define vers 1102 /*n. de version de WAM*/
 
-#define usetry true
-#define WriteINS false
-#define ConcentricElement false
-#define ParticulateFilter false
-#define tchtm false
+#define usetry 1
+//#define WriteINS 1
+//#define ConcentricElement 1
+//#define ParticulateFilter 1
+//#define tchtm 1
 
 
 // ---------------------------------------------------------------------------
@@ -1373,6 +1373,14 @@ struct stResInstantCilindro {
 	double *FraccionINS;
 	bool Gamma;
 	double GammaINS;
+	bool HeatHead;
+	double HeatHeadINS;
+	bool HeatCyl;
+	double HeatCylINS;
+	bool HeatPis;
+    double HeatPisINS;
+
+
 };
 
 // ---------------------------------------------------------------------------

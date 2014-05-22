@@ -181,6 +181,9 @@ STRINGTABLE
 1686, "BlowBy_Cyl_"
 1687, "Y_"
 1688, "Gamma_Cyl_"
+1689, "Heat_Cyl_Head_Cyl_"
+1690, "Heat_Cylinder_Cyl_"
+1691, "Heat_Piston_Cyl_"
 }
 
 // GENERAL

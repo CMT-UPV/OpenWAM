@@ -63,7 +63,7 @@ double FAnchoPetalo;
 double FRigidez;
 double FModuloYoung;
 double FEspesor;
-double FNumPestanyas;
+int FNumPestanyas;
 double FLongitud;
 double FLongReal;
 

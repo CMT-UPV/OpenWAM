@@ -551,13 +551,13 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		// CALOR TRANSMITIDO A LAS PAREDES
 		FCalor.TransCilindro = Fh * (FTempPared[0].Cylinder - FTemperature)
 			* 4 * (FVolumen / 2. + FVolumen0 / 2. - FMotor->getGeometria()
-			.VCC) / FMotor->getGeometria().Diametro * FDeltaT;
+			.VCC) / FMotor->getGeometria().Diametro;
 		FCalor.TransPiston = Fh * (FTempPared[0].Piston - FTemperature)
-			* FMotor->getGeometria().AreaPiston * FDeltaT;
+			* FMotor->getGeometria().AreaPiston;
 		FCalor.TransCulata = Fh * (FTempPared[0].Culata - FTemperature)
-			* FMotor->getGeometria().AreaCulata * FDeltaT;
-		FCalor.TransTotal = FCalor.TransCilindro + FCalor.TransPiston +
-			FCalor.TransCulata;
+			* FMotor->getGeometria().AreaCulata;
+		FCalor.TransTotal = (FCalor.TransCilindro + FCalor.TransPiston +
+			FCalor.TransCulata) * FDeltaT;
 
 		// CALCULO DEL CALOR LIBERADO
 		if (FCicloCerrado) {
@@ -627,7 +627,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FSaturado = true;
 
 						FMasaEspecieCicloCerrado[0] = FMasaEspecieCicloCerrado
-							[0] + FMairequem + mfquefin -
+							[0] + FMasaEspecieCicloCerrado[2] + mfquefin -
 							FComposicionCicloCerrado[0] * FMasaBlowBy;
 						// Gases Quemados
 						FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado
@@ -638,6 +638,13 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					}
 					else {
 						FCalor.Liberado = 0.;
+
+						FMasaEspecieCicloCerrado[0] = FMasaEspecieCicloCerrado
+							[0] - FComposicionCicloCerrado[0] * FMasaBlowBy;
+						// Gases Quemados
+						FMasaEspecieCicloCerrado[1] = FMasaEspecieCicloCerrado
+							[1] - FComposicionCicloCerrado[1]
+							* FMasaBlowBy + FFuelInstant; // Combustible
 					}
 
 				}

@@ -81,7 +81,7 @@ TEjeTurbogrupo::~TEjeTurbogrupo() {
 	if (FTurbina != NULL)
 		delete[]FTurbina;
 
-#if tchtm
+#ifdef tchtm
 	if (FHTM != NULL)
 		delete FHTM;
 
@@ -149,7 +149,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
 		int numide;
 		fscanf(fich, "%d ", &numide);
 
-#if tchtm
+#ifdef tchtm
 		fscanf(fich, "%d ", &htm);
 		if (htm == 1) {
 
@@ -260,7 +260,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			FRegimenEje = FController->Output(FTime);
 		}
 		else {
-#if tchtm
+#ifdef tchtm
 
 			double p1 = FCompresor[0]->AcousticC()->P1() * 1e5;
 			double p2 = FCompresor[0]->AcousticC()->P2() * 1e5;
@@ -626,7 +626,7 @@ void TEjeTurbogrupo::HeaderInstantaneousResultsEje(stringstream & insoutput) {
 			Label = "\t" + PutLabel(714) + IntToStr(FNumeroEje) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
-#if tchtm
+#ifdef tchtm
 		if (FResInstantEje.NodeTemp) {
 			FHTM->HeaderInsTemperatures(insoutput);
 		}
@@ -660,7 +660,7 @@ void TEjeTurbogrupo::ImprimeResultadosInstantaneosEje(stringstream & insoutput)
 			insoutput << "\t" << FResInstantEje.MechPowerINS;
 		if (FResInstantEje.MechEff)
 			insoutput << "\t" << FResInstantEje.MechEffINS;
-#if tchtm
+#ifdef tchtm
 		if (FResInstantEje.NodeTemp) {
 			FHTM->PrintInsTemperatures(insoutput);
 		}
@@ -720,7 +720,7 @@ void TEjeTurbogrupo::AsignaRPMController(TController * *Controller) {
 }
 
 void TEjeTurbogrupo::InitizlizeHTM(double Tamb) {
-#if tchtm
+#ifdef tchtm
 
 	FTamb = Tamb;
 

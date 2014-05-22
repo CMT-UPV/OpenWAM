@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -33,7 +33,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 // ---------------------------------------------------------------------------
 
-TTable1D::TTable1D(int i) : TController(nmCtlPID, i) {
+TTable1D::TTable1D(int i) : TController(nmCtlTable, i) {
 	fID = i + 1;
 	/* fError_ant=0;
 	fTime_ant=0;
@@ -68,7 +68,7 @@ void TTable1D::LeeController(char *FileWAM, fpos_t &filepos) {
 	fscanf(fich, "%d ", &fromfile);
 
 	if (fromfile == 1) {
-		char InputFile[256];
+		char *InputFile;
 		fscanf(fich, "%s ", &InputFile);
 
 		FILE *fichdata = fopen(InputFile, "r");

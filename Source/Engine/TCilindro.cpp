@@ -1179,11 +1179,11 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 			if (FResMediosCilindro.CalorCombustion)
 				FResMediosCilindro.CalorCombustionSUM += FCalor.Liberado;
 			if (FResMediosCilindro.CalorCilindro)
-				FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro;
+				FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro * DeltaT;
 			if (FResMediosCilindro.CalorCulata)
-				FResMediosCilindro.CalorCulataSUM += FCalor.TransCulata;
+				FResMediosCilindro.CalorCulataSUM += FCalor.TransCulata * DeltaT;
 			if (FResMediosCilindro.CalorPiston)
-				FResMediosCilindro.CalorPistonSUM += FCalor.TransPiston;
+				FResMediosCilindro.CalorPistonSUM += FCalor.TransPiston * DeltaT;
 
 			if (FResMediosCilindro.TemperaturaCilindroInterna)
 				FResMediosCilindro.TemperaturaCilindroInternaSUM += FTempPared
@@ -1492,6 +1492,15 @@ void TCilindro::ReadInstantaneousResultsCilindro(char *FileWAM,
 		FResInstantCilindro.Gamma = false;
 		FResInstantCilindro.GammaINS = 0.;
 
+		FResInstantCilindro.HeatHead=false;
+		FResInstantCilindro.HeatHeadINS=0;
+		FResInstantCilindro.HeatCyl=false;
+		FResInstantCilindro.HeatCylINS=0;
+		FResInstantCilindro.HeatPis=false;
+		FResInstantCilindro.HeatPisINS=0;
+
+
+
 		fscanf(fich, "%d ", &FNumVarIns);
 		for (int i = 0; i < FNumVarIns; i++) {
 			fscanf(fich, "%d ", &var);
@@ -1585,6 +1594,18 @@ void TCilindro::ReadInstantaneousResultsCilindro(char *FileWAM,
 				break;
 			case 29:
 				FResInstantCilindro.Gamma = true;
+				break;
+
+			case 30:
+				FResInstantCilindro.HeatHead = true;
+				break;
+
+			case 31:
+				FResInstantCilindro.HeatCyl = true;
+				break;
+
+			case 32:
+				FResInstantCilindro.HeatPis = true;
 				break;
 			}
 		}
@@ -1821,6 +1842,21 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 					+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
+			if (FResInstantCilindro.HeatHead) {
+				Label = "\t" + PutLabel(689) + IntToStr(FNumeroCilindro)
+					+ PutLabel(903);
+				insoutput << Label.c_str();
+			}
+			if (FResInstantCilindro.HeatCyl) {
+				Label = "\t" + PutLabel(690) + IntToStr(FNumeroCilindro)
+					+ PutLabel(903);
+				insoutput << Label.c_str();
+			}
+			if (FResInstantCilindro.HeatPis) {
+				Label = "\t" + PutLabel(691) + IntToStr(FNumeroCilindro)
+					+ PutLabel(903);
+				insoutput << Label.c_str();
+			}
 		}
 
 		// fclose(fich);
@@ -1970,6 +2006,14 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 			}
 			if (FResInstantCilindro.Gamma)
 				insoutput << "\t" << FResInstantCilindro.GammaINS;
+
+			if (FResInstantCilindro.HeatHead)
+				insoutput << "\t" << FResInstantCilindro.HeatHeadINS;
+			if (FResInstantCilindro.HeatCyl)
+				insoutput << "\t" << FResInstantCilindro.HeatCylINS;
+			if (FResInstantCilindro.HeatPis)
+				insoutput << "\t" << FResInstantCilindro.HeatPisINS;
+
 		}
 
 		// fclose(fich);
@@ -2141,6 +2185,13 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 			}
 			if (FResInstantCilindro.Gamma)
 				FResInstantCilindro.GammaINS = FGamma;
+			if (FResInstantCilindro.HeatHead)
+				FResInstantCilindro.HeatHeadINS = FCalor.TransCulata;
+			if (FResInstantCilindro.HeatCyl)
+				FResInstantCilindro.HeatCylINS = FCalor.TransCilindro;
+			if (FResInstantCilindro.HeatPis)
+				FResInstantCilindro.HeatPisINS = FCalor.TransPiston;
+
 		}
 	}
 	catch(Exception & N) {
@@ -2343,9 +2394,12 @@ void TCilindro::IniciaVariables() {
 		}
 
 		if (FMotor->GetDesfase(FNumeroCilindro - 1) == 0) {
+
 			FCicloCerrado = false;
-			FMasa = FMotor->getMasaInicial();
-			FMasaAtrapada = FMotor->getMasaInicial();
+			FPressure = FMotor->getPresionInicial();
+			FTemperature = 60;
+			FMasa = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
+			FMasaAtrapada = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
 			for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -2353,14 +2407,12 @@ void TCilindro::IniciaVariables() {
 				FMasaEspecieCicloCerrado[j] = FMasa * FComposicionCicloCerrado
 					[j];
 			}
-			FPressure = FMotor->getPresionInicial();
-			FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla - 273.;
 			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 		}
 		else {
 			// Ciclo cerrado. Compresion Isoentropica.
 			if (FAnguloActual < 180. || FAnguloActual > 540.) {
-				FCicloCerrado = false;
+				FCicloCerrado = true;
 				FMasa = FMotor->getMasaInicial();
 				FMasaAtrapada = FMotor->getMasaInicial();
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
@@ -2399,8 +2451,10 @@ void TCilindro::IniciaVariables() {
 			}
 			else {
 				FCicloCerrado = false;
-				FMasa = FMotor->getMasaInicial() * FVolumen / FVolumenCA;
-				FMasaAtrapada = FMotor->getMasaInicial();
+				FPressure = FMotor->getPresionInicial();
+				FTemperature = 60;
+				FMasa = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
+				FMasaAtrapada = FPressure * 1e5 * FVolumen / (FTemperature + 273) / FRMezcla;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 				}
@@ -2408,9 +2462,6 @@ void TCilindro::IniciaVariables() {
 					FMasaEspecieCicloCerrado[j] = FMasa *
 						FComposicionCicloCerrado[j];
 				}
-				FPressure = FMotor->getPresionInicial();
-				FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla -
-					273.;
 				FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 			}
 		}
@@ -2758,8 +2809,8 @@ double TCilindro::FuncionGamma(double T, double X) {
 		c = 0.485 * pow(X, 0.75) + 0.0975;
 
 		cv = (a + 2. * b * T00 - 3. * c * pow(T00, 2.)) * 1.455;
-		if (cv <= 866.) {
-			cv = 866.;
+		if (cv <= 700.) {
+			cv = 700.;
 		}
 		Result = R / cv + 1.;
 		return Result;
@@ -3097,20 +3148,9 @@ void TCilindro::CalculaTemperaturasPared() {
 // ---------------------------------------------------------------------------
 
 void TCilindro::CalculaFuelMEP(double MasaAire) {
-	try {
-		if (FMotor->getDosadoInicial() < 5) {
-			FMasaFuel = MasaAire / 5.;
-		}
-		else {
-			FMasaFuel = MasaAire / FMotor->getDosadoInicial();
-		}
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaFuelMEP en el cilindro: " <<
-			FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
-	}
+
+	FMasaFuel = fabs(MasaAire) * FMotor->getDosadoInicial() * FDosadoEstequiometrico;
+
 }
 
 // ---------------------------------------------------------------------------

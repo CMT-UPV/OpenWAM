@@ -56,7 +56,7 @@ void TCFDConnection::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Number
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
 
-	char TMP[256];
+	char *TMP;
 	fscanf(fich, "%s ", &TMP);
 	FCFDModel = TMP;
 	FCFDout = new char[(int)strlen(FCFDModel)];
