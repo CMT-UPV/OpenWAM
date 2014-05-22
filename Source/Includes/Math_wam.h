@@ -452,10 +452,151 @@ struct Step_interp : Base_interp {
 	}
 };
 
+/**
+ * @brief Solves a function using Brent's method.
+ * 
+ * Finds the root of a function using Brent's method.  It uses a combination of
+ * the bisection method, the secant method and inverse quadratic interpolation,
+ * and finds the root in an interval.  The function must have different signs
+ * at each bound of the interval.  If the signs are the same, returns one of
+ * the bounds, whichever is minimum.
+ * 
+ * @param func The function.
+ * @param x1 The lower bound of the interval.
+ * @param x2 The upper bound of the interval.
+ * @param tol The tolerance of the method.
+ * 
+ * @return The interpolated value.
+ */
 template<class T>
-double FindRoot(T & func, const double x1, const double x2) {
-	return zbrent(func, x1, x2, 1e-10);
+inline double zbrent(T& func, const double& x1,
+                     const double& x2,
+                     const double& tol) {
+        const int ITMAX = 100;
+        const double EPS = std::numeric_limits<double>::epsilon();
+        double a = x1;
+        double b = x2;
+        double c = x2;
+        double d;
+        double e;
+        double fa = func(a);
+        double fb = func(b);
+        double fc;
+        double p;
+        double q;
+        double r;
+        double s;
+        double tol1;
+        double xm;
+
+        if ((fa > 0.0 && fb > 0.0) || (fa < 0.0 && fb < 0.0))
+        {
+            if (abs(fa) < abs(fb))
+            {
+                fa = func(a);
+                return a;
+            } /* Condicion original if((abs(fa) < abs(fb)) && abs(fa) < tol) */
+            else if (abs(fa) > abs(fb))
+            {
+                fb = func(b);
+                return b;
+            } /* Original if((abs(fa) > abs(fb)) && abs(fb) < tol) */
+                // return 0;
+                /* throw("Root must be bracketed in zbrent"); */
+        }
+
+        fc = fb;
+        for (int iter = 0; iter < ITMAX; iter++)
+        {
+            if ((fb > 0.0 && fc > 0.0) || (fb < 0.0 && fc < 0.0))
+            {
+                c = a;
+                fc = fa;
+                e = d = b - a;
+            }
+            if (abs(fc) < abs(fb))
+            {
+                a = b;
+                b = c;
+                c = a;
+                fa = fb;
+                fb = fc;
+                fc = fa;
+            }
+            tol1 = 2.0 * EPS * abs(b) + 0.5 * tol;
+            xm = 0.5 * (c - b);
+            if (abs(xm) <= tol1 || fb == 0.0)
+            {
+                /* std::cout << iter << std::endl; */
+                return b;
+            }
+            if (abs(e) >= tol1 && abs(fa) > abs(fb))
+            {
+                s = fb / fa;
+                if (a == c)
+                {
+                    p = 2.0 * xm * s;
+                    q = 1.0 - s;
+                }
+                else
+                {
+                    q = fa / fc;
+                    r = fb / fc;
+                    p = s * (2.0 * xm * q * (q - r) - (b - a) * (r - 1.0));
+                    q = (q - 1.0) * (r - 1.0) * (s - 1.0);
+                }
+                if (p > 0.0) q = -q;
+                p = abs(p);
+                double min1 = 3.0 * xm * q - abs(tol1 * q);
+                double min2 = abs(e * q);
+                if (2.0 * p < (min1 < min2 ? min1 : min2))
+                {
+                    e = d;
+                    d = p / q;
+                }
+                else
+                {
+                    d = xm;
+                    e = d;
+                }
+
+            }
+            else
+            {
+                d = xm;
+                e = d;
+            }
+            a = b;
+            fa = fb;
+            if (abs(d) > tol1) b += d;
+            else  b += Sign(tol1, xm);
+            fb = func(b);
+        }
+    return b;
 }
+
+
+/**
+ * @brief Finds the root of a function.
+ * 
+ * Finds the root of a function using Brent's method.  It uses a combination of
+ * the bisection method, the secant method and inverse quadratic interpolation,
+ * and finds the root in an interval.  The function must have different signs
+ * at each bound of the interval.  If the signs are the same, returns one of
+ * the bounds, whichever is minimum.  It uses a default tolerance of 1e-10.
+ * 
+ * @param func The function.
+ * @param x1 The lower bound of the interval.
+ * @param x2 The upper bound of the interval.
+ * 
+ * @return The interpolated value.
+ */
+template<class T>
+inline double FindRoot(T & func, const double x1, const double x2)
+{
+    return zbrent(func, x1, x2, 1e-10);
+}
+
 
 template<class T>
 bool zbrac(T & func, double & x1, double & x2) {
@@ -535,87 +676,6 @@ void zbrak(T & fx, const double x1, const double x2, const int n, dVector & xb1,
 	}
 }
 
-template<class T>
-double zbrent(T & func, const double x1, const double x2, const double tol) {
-	const int ITMAX = 100;
-	const double EPS = std::numeric_limits<double>::epsilon();
-	double a = x1, b = x2, c = x2, d, e, fa = func(a), fb = func(b), fc, p, q, r, s, tol1, xm;
-	if ((fa > 0.0 && fb > 0.0) || (fa < 0.0 && fb < 0.0)) {
-		if (abs(fa) < abs(fb)) {
-			fa = func(a);
-			return a;
-		} /* Condicion original if((abs(fa) < abs(fb)) && abs(fa) < tol) */
-		else if (abs(fa) > abs(fb)) {
-			fb = func(b);
-			return b;
-		} /* Original if((abs(fa) > abs(fb)) && abs(fb) < tol) */
-		// return 0;
-		/* throw("Root must be bracketed in zbrent"); */
-	}
-
-	fc = fb;
-	for (int iter = 0; iter < ITMAX; iter++) {
-		if ((fb > 0.0 && fc > 0.0) || (fb < 0.0 && fc < 0.0)) {
-			c = a;
-			fc = fa;
-			e = d = b - a;
-		}
-		if (abs(fc) < abs(fb)) {
-			a = b;
-			b = c;
-			c = a;
-			fa = fb;
-			fb = fc;
-			fc = fa;
-		}
-		tol1 = 2.0 * EPS * abs(b) + 0.5 * tol;
-		xm = 0.5 * (c - b);
-		if (abs(xm) <= tol1 || fb == 0.0) {
-			/* std::cout << iter << std::endl; */ return b;
-		}
-		if (abs(e) >= tol1 && abs(fa) > abs(fb)) {
-			s = fb / fa;
-			if (a == c) {
-				p = 2.0 * xm * s;
-				q = 1.0 - s;
-			}
-			else {
-				q = fa / fc;
-				r = fb / fc;
-				p = s * (2.0 * xm * q * (q - r) - (b - a) * (r - 1.0));
-				q = (q - 1.0) * (r - 1.0) * (s - 1.0);
-			}
-			if (p > 0.0)
-				q = -q;
-			p = abs(p);
-			double min1 = 3.0 * xm * q - abs(tol1 * q);
-			double min2 = abs(e * q);
-			if (2.0 * p < (min1 < min2 ? min1 : min2)) {
-				e = d;
-				d = p / q;
-			}
-			else {
-				d = xm;
-				e = d;
-			}
-
-		}
-		else {
-			d = xm;
-			e = d;
-		}
-		a = b;
-		fa = fb;
-		if (abs(d) > tol1)
-			b += d;
-		else
-			b += Sign(tol1, xm);
-		fb = func(b);
-
-	}
-
-	return b;
-}
 
 template<class T>
 double rtbis(T & func, const double x1, const double x2, const double xacc) {
