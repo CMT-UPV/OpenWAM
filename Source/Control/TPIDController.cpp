@@ -58,6 +58,7 @@ double TPIDController::Output(double Time) {
 
 		if (fInicio) {
 			fError_ant = fError;
+			fiact = 0;
 			fInicio = false;
 		}
 
@@ -65,38 +66,46 @@ double TPIDController::Output(double Time) {
 			Kp = fKP_pos;
 			Ki = fKI_pos;
 			Kd = fKD_pos;
-			if(fError_ant < 0){
-			  fI_ant=0.;
-			}
+//			if(fError_ant < 0){
+//			  fiact=0.;
+//			}
 
 		}
 		else {
 			Kp = fKP_neg;
 			Ki = fKI_neg;
 			Kd = fKD_neg;
-			if(fError_ant > 0){
-			  fI_ant=0.;
-			}
+//			if(fError_ant > 0){
+//			  fiact=0.;
+//			}
 		}
 
 		fpact = Kp * fError;
 		fdact = Kd * (fError - fError_ant) / dt;
-		fiact = fI_ant + Ki * fError * dt;
+		fiact = fiact + Ki * fError * dt;
+		//fiact = Ki * fError * dt;
 
-		fOutput = fOutput_ant + fpact + fdact + fiact;
+		//fOutput = fOutput_ant + fpact + fdact + fiact;
+
+		fOutput = fpact + fdact + fiact;
+
 		if (fOutput > fMax_out) {
 			fOutput = fMax_out;
-			if (fError < 0)
-				fI_ant = fI_ant + Ki * fError * dt;
+			fiact = fI_ant;
+//			if (fError < 0)
+//				fI_ant = fI_ant + Ki * fError * dt;
 		}
 		else if (fOutput < fMin_out) {
 			fOutput = fMin_out;
-			if (fError > 0)
-				fI_ant = fI_ant + Ki * fError * dt;
+			fiact = fI_ant;
+//			if (fError > 0)
+//				fI_ant = fI_ant + Ki * fError * dt;
 		}
-		else {
-			fI_ant = fI_ant + Ki * fError * dt;
-		}
+//		else {
+//			fI_ant = fI_ant + Ki * fError * dt;
+//		}
+
+        fI_ant = fiact;
 		fError_ant = fError;
 
 		fTime_ant = Time;
