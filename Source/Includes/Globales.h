@@ -2031,7 +2031,7 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 // return 0;
 // }
 
-void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, bool Fuel,
+inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, bool Fuel,
 	nmTipoCalculoEspecies SpeciesModel) {
 	double fracciontotal;
 

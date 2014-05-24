@@ -7,6 +7,7 @@ add_subdirectory(Engine)
 add_subdirectory(Extern)
 add_subdirectory(ODModels)
 add_subdirectory(Output)
+add_subdirectory(pugixml)
 add_subdirectory(Turbocompressor)
 add_subdirectory(Wrappers)
 include_directories(1DPipes)
@@ -21,9 +22,11 @@ include_directories(Extern)
 include_directories(Includes)
 include_directories(ODModels)
 include_directories(Output)
+include_directories(pugixml)
 include_directories(Turbocompressor)
 include_directories(Wrappers)
 add_executable(OpenWAM
+  CheckXML.cpp
   OpenWAM.cpp
   TOpenWAM.cpp
   TTimeControl.cpp)
@@ -38,6 +41,7 @@ target_link_libraries(
   Extern
   ODModels
   Output
+  pugixml
   Turbocompressor
   Wrappers
 )
