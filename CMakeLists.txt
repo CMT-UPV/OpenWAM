@@ -1,5 +1,6 @@
 project (OpenWAM)
 cmake_minimum_required(VERSION 2.8)
+set(CMAKE_CXX_FLAGS "-std=c++11")
 option(BUILD_DOCUMENTATION "Use Doxygen to create the HTML and TEX based API documentation" OFF)
 if(BUILD_DOCUMENTATION)
   FIND_PACKAGE(Doxygen)
@@ -17,5 +18,6 @@ if(BUILD_DOCUMENTATION)
   # IF you do NOT want the documentation to be generated EVERY time you build the project
   # then leave out the 'ALL' keyword from the above command.
 endif()
+include_directories(/usr/include/eigen3/)
 add_subdirectory(Source)
 

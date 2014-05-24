@@ -6225,7 +6225,7 @@ inline double TTubo::Limita(double r) {
 	if (ret_val != ret_val)
 		ret_val = 1.;
 #else
-	if (isnan(r))
+	if (std::isnan(r))
 		if (signbit(r))
 			ret_val = 1;
 		else
@@ -6233,7 +6233,7 @@ inline double TTubo::Limita(double r) {
 	else
 		ret_val = (fabs(r) + r) / (1. + fabs(r));
 
-	if (isnan(ret_val))
+	if (std::isnan(ret_val))
 		if (signbit(r))
 			ret_val = 1;
 		else
