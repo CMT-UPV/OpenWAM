@@ -4586,7 +4586,9 @@ bool TOpenWAM::CalculationEnd() {
 }
 
 void TOpenWAM::ProgressBegin() {
-	// putenv(tzstr);
+	char* tzcharstring = new char [tzstr.length() + 1];
+	std::strcpy(tzcharstring, tzstr.c_str());
+	putenv(tzcharstring);
 
 #if gestorcom
 	if (GestorWAM != NULL)

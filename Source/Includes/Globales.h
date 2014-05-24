@@ -61,9 +61,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <sstream>
 #include <cstring>
-// #include <system.hpp>
+#include <string>
 #include <ctime>
-// #include <sys\timeb.h>
 #include "Constantes.h"
 #include <limits>
 #include <cmath>
@@ -334,7 +333,7 @@ class TDPF;
 // ---------------------------------------------------------------------------
 
 struct stEspecies {
-	char *Nombre;
+	std::string Nombre;
 	double R;
 };
 
