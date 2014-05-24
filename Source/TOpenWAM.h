@@ -35,6 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 #pragma hdrstop
 #include "Globales.h"
 
@@ -156,7 +157,7 @@ private:
 	TCGestorWAM *GestorWAM;
 #endif
 
-	char *tzstr;
+	std::string tzstr;
 	struct timeb begining, final, current;
 
 	stRun Run;
