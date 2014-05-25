@@ -5,6 +5,7 @@ add_subdirectory(Connections)
 add_subdirectory(Control)
 add_subdirectory(Engine)
 add_subdirectory(Extern)
+add_subdirectory(Math_wam)
 add_subdirectory(ODModels)
 add_subdirectory(Output)
 add_subdirectory(Turbocompressor)
@@ -19,6 +20,7 @@ include_directories(DPF)
 include_directories(Engine)
 include_directories(Extern)
 include_directories(Includes)
+include_directories(Math_wam)
 include_directories(ODModels)
 include_directories(Output)
 include_directories(Turbocompressor)
@@ -36,6 +38,7 @@ target_link_libraries(
   Control
   Engine
   Extern
+  Math_wam
   ODModels
   Output
   Turbocompressor
