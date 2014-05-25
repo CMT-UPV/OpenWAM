@@ -1,8 +1,7 @@
 include_directories(../Includes)
 include_directories(../Math_wam)
+include_directories(../pugixml)
 include_directories(../Wrappers)
-include_directories(../Act)
-add_library(
-  Act
-  ACT_Sub_DLL.cpp
-  INJECTION_RATE.cpp)
+add_library(Math_wam
+  Math_wam.cpp
+)
