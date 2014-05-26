@@ -700,7 +700,7 @@ inline double rtsafe(T & funcd, const double x1, const double x2, const double x
 }
 
 struct LUdcmp {
-	int n;
+	dVector::size_type n;
 	dMatrix lu;
 	iVector indx;
 	double d;

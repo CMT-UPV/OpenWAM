@@ -107,13 +107,13 @@ FLiftCDin.resize(Origen->FLiftCDin.size());
 FDatosCDEntrada.resize(Origen->FDatosCDEntrada.size());
 FLiftCDout.resize(Origen->FLiftCDout.size());
 FDatosCDSalida.resize(Origen->FDatosCDSalida.size());
-for(int i=0;i<FDatosCDEntrada.size();i++){
+for(dVector::size_type i=0;i<FDatosCDEntrada.size();i++){
 	 FLiftCDin[i]=Origen->FLiftCDin[i];
      FDatosCDEntrada[i]=Origen->FDatosCDEntrada[i];
 }
 fun_CDin=new Hermite_interp(FLiftCDin,FDatosCDEntrada);
 
-for(int i=0;i<FDatosCDSalida.size();i++){
+for(dVector::size_type i=0;i<FDatosCDSalida.size();i++){
 	 FLiftCDout[i]=Origen->FLiftCDout[i];
 	 FDatosCDSalida[i]=Origen->FDatosCDSalida[i];
 }

@@ -232,7 +232,7 @@ double TIsoSpeedLine::Efficiency(double ERAdim) {
 }
 
 void TIsoSpeedLine::PrintEffectiveSection(FILE * fich) {
-	for (int i = 0; i < FExpansionRatio.size(); i++) {
+	for (dVector::size_type i = 0; i < FExpansionRatio.size(); i++) {
 		fprintf(fich, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n", FSpeed,
 			FExpansionRatio[i], FReducedAirMassFlow[i], FEfficiency[i],
 			FExpansionRatioAdim[i], StatorEffectiveSection[i],

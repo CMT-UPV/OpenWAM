@@ -1519,7 +1519,8 @@ void TBloqueMotor::AsignMfController(TController **Controller) {
 // ---------------------------------------------------------------------------
 
 void TBloqueMotor::NewInjectionData(double Time) {
-	for (int i = 0; i < FInjecPulse.size(); i++) {
+    vector<stInjecPulse>::size_type i;
+	for (i = 0; i < FInjecPulse.size(); i++) {
 		if (FInjecPulse[i].CtrAngd)
 			FInjecPulse[i].Angulo = FInjecPulse[i].CtrAng->Output(Time);
 		if (FInjecPulse[i].CtrMasd)

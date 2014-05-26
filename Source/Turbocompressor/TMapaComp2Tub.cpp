@@ -1616,7 +1616,9 @@ void TMapaComp2Tub::RearrangeGTPowerMap(double rtip,double rhub,double rwheel)
 			}
 			            	printf("\n"); */
 			//SplineVector(k,FGTMass[i],FGTPres[i],FGTMass[i]);
-			if(FGTEff[i].size()>FNumCurvasRendMax) FNumCurvasRendMax=FGTEff[i].size();
+			if (FGTEff[i].size() > (dMatrix::size_type)FNumCurvasRendMax){
+                FNumCurvasRendMax = FGTEff[i].size();
+            }
 		}
 
 		FGastoRelComp1=new double[FNumCurvasReg];

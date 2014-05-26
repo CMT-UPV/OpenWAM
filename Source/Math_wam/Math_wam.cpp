@@ -348,7 +348,7 @@ double Step_interp::rawinterp(int j, double x)
 LUdcmp::LUdcmp(dMatrix &a) : n(a.size()), lu(a), aref(a), indx(n) {
 
 	const double TINY = 1.0e-40;
-	int i, imax, j, k;
+	dVector::size_type i, imax, j, k;
 	double big, temp;
 	dVector vv(n);
 	d = 1.0;
@@ -393,7 +393,7 @@ LUdcmp::LUdcmp(dMatrix &a) : n(a.size()), lu(a), aref(a), indx(n) {
 
 
 void LUdcmp::solve(dVector &b, dVector &x) {
-	int i, ii = 0, ip, j;
+	dVector::size_type i, ii = 0, ip, j;
 	double sum;
 	if (b.size() != n || x.size() != n)
 		throw("LUdcmp::solve bad sizes");
