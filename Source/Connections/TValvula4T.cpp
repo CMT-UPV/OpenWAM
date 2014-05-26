@@ -209,11 +209,11 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 			fscanf(fich, "%d ", &param);
 			switch(param) {
 			case 0:
-				fscanf(fich, "%d ", &FVVTLiftCtrlID);
+				fscanf(fich, "%d ", &FVVTTimingCtrlID);
 				FVVTLift = true;
 				break;
 			case 1:
-				fscanf(fich, "%d ", &FVVTTimingCtrlID);
+				fscanf(fich, "%d ", &FVVTLiftCtrlID);
 				FVVTTiming = true;
 				break;
 			case 2:
