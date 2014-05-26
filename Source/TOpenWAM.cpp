@@ -4453,6 +4453,26 @@ void TOpenWAM::ProgressBegin() {
 	printf(" Thousandths of a second : %d \n ", begining.millitm);
 }
 
+void TOpenWAM::ProgressEnd(){
+
+	ftime(&final);
+	float tiempotot = (final.time - begining.time) * 1000 +
+		(final.millitm - begining.millitm);
+
+	int seg = int(tiempotot / 1000.);
+	int min = int(seg / 60.);
+	int hor = int(min / 60.);
+	int mil = int(tiempotot) - seg * 1000;
+	seg = seg - min * 60;
+	min = min - hor * 60;
+	std::cout << std::endl;
+	std::cout << "===================================" << std::endl;
+	printf("Time consumed: %d:%02d:%02d,%03d \n", hor, min, seg,
+		mil);
+	std::cout << "===================================" << std::endl;
+	std::cout << std::endl;
+}
+
 void TOpenWAM::NewEngineCycle() {
 
 	if (EngineBlock) {
