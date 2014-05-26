@@ -142,7 +142,13 @@ struct stFSSup {
 
 	double operator()(const double U2) {
 
-		A2 = sqrt(pow2(Ac) - Ga3 * pow2(U2));
+		double dif = pow2(Ac) - Ga3 * pow2(U2);
+		if (dif > 0) {
+			A2 = sqrt(dif);
+		}else{
+			A2 = 0;
+        }
+		//A2 = sqrt(pow2(Ac) - Ga3 * pow2(U2));
 		double A2_2 = sqrt(U2 * pow((BC + Ga3 * U2) * invAA, Gam / Ga3) * invFcc);
 
 		return A2 - A2_2;
