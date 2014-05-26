@@ -519,7 +519,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		int MfControllerID;
 		for (int i = 0; i < FGeom.NCilin; ++i) {
 			fscanf(fich, "%d ", &controllers);
-			for (int i = 0; i < controllers; ++i) {
+			for (int j = 0; j < controllers; ++j) {
 				fscanf(fich, "%d ", &param);
 				switch(param) {
 				case 0: // Mass fluel controller
