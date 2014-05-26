@@ -5152,8 +5152,8 @@ double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo,
 					}
 					dist = distp / distt;
 
-					if (dist < 0.) {
-						printf("WARNING: dist=%lf disp=%lf distt=%lf\n", dist,
+					if (dist < -1e-15) {
+						printf("WARNING: dist=%g disp=%lf distt=%lf\n", dist,
 							distp, distt);
 						dist = 0;
 					}
@@ -5389,8 +5389,9 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 			ind = extremo;
 
 			axant = dtdx * (FVelocidadDim[ind] - signo * FAsonidoDim[ind]);
-			ax = dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim
-				[ind + signo]);
+			if(fabs(dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim[ind + signo]))>1.5){
+				printf("Esto es un desastre\n");
+			}
 			if (ax > 1. || ax < -1.) {
 				ax = (double) - signo;
 			}
@@ -5430,9 +5431,9 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 				dist = distp / distt;
 
 				if (dist < 0.){
-					dist = 0.;
-					printf("WARNING: dist=%lf disp=%lf distt=%lf\n", dist, distp,
+					printf("WARNING: dist=%g disp=%lf distt=%lf\n", dist, distp,
 					distt);
+					dist = 0.;
 				}
 
 				// Cálculo de la velocidad en p

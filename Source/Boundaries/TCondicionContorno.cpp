@@ -115,7 +115,8 @@ FTuboExtremo[i].Entropia=valor;
 ////void TCondicionContorno::PutPosicionNodo(double valor)
 //{
 //FPosicionNodo=valor;
-//}
+//}
+
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
