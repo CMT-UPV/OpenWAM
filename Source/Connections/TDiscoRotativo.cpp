@@ -185,7 +185,8 @@ double DeltaA=6*FEngine->getRegimen()*DeltaT*FRelacionVelocidades;
 
 FCDTubVol=fun_CDin->interp(Angulo)*FSectionRatio;
 
-//printf("%lf %lf\n",Angulo, FCDTubVol);
+if(FCDTubVol > 1) FCDTubVol = 1.;
+
 }
 
 
@@ -209,6 +210,8 @@ double DeltaA=6*FEngine->getRegimen()*DeltaT*FRelacionVelocidades;
 }
 
 FCDVolTub=fun_CDout->interp(Angulo)*FSectionRatio;
+
+if(FCDVolTub > 1) FCDVolTub = 1.;
 
 }
 
