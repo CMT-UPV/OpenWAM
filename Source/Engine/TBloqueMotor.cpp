@@ -984,7 +984,7 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos)
 	try {
 		int nvars, Tipovar;
 
-		FILE *fich = fopen(FileWAM, " r ");
+		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
 		FResMediosMotor.ParNeto = false;
@@ -1063,9 +1063,9 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos)
 		FResMediosMotor.TiempoSUM = 0.;
 		FResMediosMotor.Tiempo0 = 0.;
 
-		fscanf(fich, " % d ", &nvars);
+		fscanf(fich, "%d", &nvars);
 		for (int i = 0; i < nvars; i++) {
-			fscanf(fich, " % d ", &Tipovar);
+			fscanf(fich, "%d", &Tipovar);
 			switch(Tipovar) {
 			case 0:
 				FResMediosMotor.ParNeto = true;
@@ -1177,115 +1177,115 @@ void TBloqueMotor::HeaderAverageResultsBloqueMotor(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosMotor.ParNeto) {
-			Label = " \t " + PutLabel(601);
+			Label = "\t" + PutLabel(601);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParEfectivo) {
-			Label = " \t " + PutLabel(602);
+			Label = "\t" + PutLabel(602);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParEfectivoCiclo) {
-			Label = " \t " + PutLabel(603);
+			Label = "\t" + PutLabel(603);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParPerdidasMecanicas) {
-			Label = " \t " + PutLabel(604);
+			Label = "\t" + PutLabel(604);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.TrabajoNeto) {
-			Label = " \t " + PutLabel(605);
+			Label = "\t" + PutLabel(605);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.TrabajoBombeo) {
-			Label = " \t " + PutLabel(606);
+			Label = "\t" + PutLabel(606);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMN) {
-			Label = " \t " + PutLabel(607);
+			Label = "\t" + PutLabel(607);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PME) {
-			Label = " \t " + PutLabel(608);
+			Label = "\t" + PutLabel(608);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMNCiclo) {
-			Label = " \t " + PutLabel(609);
+			Label = "\t" + PutLabel(609);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMECiclo) {
-			Label = " \t " + PutLabel(610);
+			Label = "\t" + PutLabel(610);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMICiclo) {
-			Label = " \t " + PutLabel(611);
+			Label = "\t" + PutLabel(611);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMBCiclo) {
-			Label = " \t " + PutLabel(612);
+			Label = "\t" + PutLabel(612);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.Potencia) {
-			Label = " \t " + PutLabel(613);
+			Label = "\t" + PutLabel(613);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PotenciaCiclo) {
-			Label = " \t " + PutLabel(614);
+			Label = "\t" + PutLabel(614);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.MasaAdmision) {
-			Label = " \t " + PutLabel(615);
+			Label = "\t" + PutLabel(615);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.MasaFuel) {
-			Label = " \t " + PutLabel(616);
+			Label = "\t" + PutLabel(616);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.MasaAtrapada) {
-			Label = " \t " + PutLabel(617);
+			Label = "\t" + PutLabel(617);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RegimenGiro) {
-			Label = " \t " + PutLabel(618);
+			Label = "\t" + PutLabel(618);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendimientoVolumetrico) {
-			Label = " \t " + PutLabel(619);
+			Label = "\t" + PutLabel(619);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendimientoVolumetricoAtm) {
-			Label = " \t " + PutLabel(620);
+			Label = "\t" + PutLabel(620);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendEfectivo) {
-			Label = " \t " + PutLabel(621);
+			Label = "\t" + PutLabel(621);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendIndicado) {
-			Label = " \t " + PutLabel(622);
+			Label = "\t" + PutLabel(622);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ConsumoEspecifico) {
-			Label = " \t " + PutLabel(623);
+			Label = "\t" + PutLabel(623);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParResistente) {
-			Label = " \t " + PutLabel(624);
+			Label = "\t" + PutLabel(624);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.VelocidadVehiculo) {
-			Label = " \t " + PutLabel(625);
+			Label = "\t" + PutLabel(625);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.Dosado) {
-			Label = " \t " + PutLabel(626);
+			Label = "\t" + PutLabel(626);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.AFR) {
-			Label = " \t " + PutLabel(627);
+			Label = "\t" + PutLabel(627);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.Swirl) {
-			Label = " \t " + PutLabel(628);
+			Label = "\t" + PutLabel(628);
 			medoutput << Label.c_str();
 		}
 
@@ -1307,61 +1307,61 @@ void TBloqueMotor::ImprimeResultadosMediosBloqueMotor(stringstream& medoutput) {
 		// FILE *fich=fopen(FileSALIDA," a ");
 
 		if (FResMediosMotor.ParNeto)
-			medoutput << " \t " << FResMediosMotor.ParNetoMED;
+			medoutput << "\t" << FResMediosMotor.ParNetoMED;
 		if (FResMediosMotor.ParEfectivo)
-			medoutput << " \t " << FResMediosMotor.ParEfectivoMED;
+			medoutput << "\t" << FResMediosMotor.ParEfectivoMED;
 		if (FResMediosMotor.ParEfectivoCiclo)
-			medoutput << " \t " << FResMediosMotor.ParEfectivoCicloMED;
+			medoutput << "\t" << FResMediosMotor.ParEfectivoCicloMED;
 		if (FResMediosMotor.ParPerdidasMecanicas)
-			medoutput << " \t " << FResMediosMotor.ParPerdidasMecanicasMED;
+			medoutput << "\t" << FResMediosMotor.ParPerdidasMecanicasMED;
 		if (FResMediosMotor.TrabajoNeto)
-			medoutput << " \t " << FResMediosMotor.TrabajoNetoMED;
+			medoutput << "\t" << FResMediosMotor.TrabajoNetoMED;
 		if (FResMediosMotor.TrabajoBombeo)
-			medoutput << " \t " << FResMediosMotor.TrabajoBombeoMED;
+			medoutput << "\t" << FResMediosMotor.TrabajoBombeoMED;
 		if (FResMediosMotor.PMN)
-			medoutput << " \t " << FResMediosMotor.PMNMED;
+			medoutput << "\t" << FResMediosMotor.PMNMED;
 		if (FResMediosMotor.PME)
-			medoutput << " \t " << FResMediosMotor.PMEMED;
+			medoutput << "\t" << FResMediosMotor.PMEMED;
 		if (FResMediosMotor.PMNCiclo)
-			medoutput << " \t " << FResMediosMotor.PMNCicloMED;
+			medoutput << "\t" << FResMediosMotor.PMNCicloMED;
 		if (FResMediosMotor.PMECiclo)
-			medoutput << " \t " << FResMediosMotor.PMECicloMED;
+			medoutput << "\t" << FResMediosMotor.PMECicloMED;
 		if (FResMediosMotor.PMICiclo)
-			medoutput << " \t " << FResMediosMotor.PMICicloMED;
+			medoutput << "\t" << FResMediosMotor.PMICicloMED;
 		if (FResMediosMotor.PMBCiclo)
-			medoutput << " \t " << FResMediosMotor.PMBCicloMED;
+			medoutput << "\t" << FResMediosMotor.PMBCicloMED;
 		if (FResMediosMotor.Potencia)
-			medoutput << " \t " << FResMediosMotor.PotenciaMED;
+			medoutput << "\t" << FResMediosMotor.PotenciaMED;
 		if (FResMediosMotor.PotenciaCiclo)
-			medoutput << " \t " << FResMediosMotor.PotenciaCicloMED;
+			medoutput << "\t" << FResMediosMotor.PotenciaCicloMED;
 		if (FResMediosMotor.MasaAdmision)
-			medoutput << " \t " << FResMediosMotor.MasaAdmisionMED;
+			medoutput << "\t" << FResMediosMotor.MasaAdmisionMED;
 		if (FResMediosMotor.MasaFuel)
-			medoutput << " \t " << FResMediosMotor.MasaFuelMED;
+			medoutput << "\t" << FResMediosMotor.MasaFuelMED;
 		if (FResMediosMotor.MasaAtrapada)
-			medoutput << " \t " << FResMediosMotor.MasaAtrapadaMED;
+			medoutput << "\t" << FResMediosMotor.MasaAtrapadaMED;
 		if (FResMediosMotor.RegimenGiro)
-			medoutput << " \t " << FResMediosMotor.RegimenGiroMED;
+			medoutput << "\t" << FResMediosMotor.RegimenGiroMED;
 		if (FResMediosMotor.RendimientoVolumetrico)
-			medoutput << " \t " << FResMediosMotor.RendimientoVolumetricoMED;
+			medoutput << "\t" << FResMediosMotor.RendimientoVolumetricoMED;
 		if (FResMediosMotor.RendimientoVolumetricoAtm)
-			medoutput << " \t " << FResMediosMotor.RendimientoVolumetricoAtmMED;
+			medoutput << "\t" << FResMediosMotor.RendimientoVolumetricoAtmMED;
 		if (FResMediosMotor.RendEfectivo)
-			medoutput << " \t " << FResMediosMotor.RendEfectivoMED;
+			medoutput << "\t" << FResMediosMotor.RendEfectivoMED;
 		if (FResMediosMotor.RendIndicado)
-			medoutput << " \t " << FResMediosMotor.RendIndicadoMED;
+			medoutput << "\t" << FResMediosMotor.RendIndicadoMED;
 		if (FResMediosMotor.ConsumoEspecifico)
-			medoutput << " \t " << FResMediosMotor.ConsumoEspecificoMED;
+			medoutput << "\t" << FResMediosMotor.ConsumoEspecificoMED;
 		if (FResMediosMotor.ParResistente)
-			medoutput << " \t " << FResMediosMotor.ParResistenteMED;
+			medoutput << "\t" << FResMediosMotor.ParResistenteMED;
 		if (FResMediosMotor.VelocidadVehiculo)
-			medoutput << " \t " << FResMediosMotor.VelocidadVehiculoMED;
+			medoutput << "\t" << FResMediosMotor.VelocidadVehiculoMED;
 		if (FResMediosMotor.Dosado)
-			medoutput << " \t " << FResMediosMotor.DosadoMED;
+			medoutput << "\t" << FResMediosMotor.DosadoMED;
 		if (FResMediosMotor.AFR)
-			medoutput << " \t " << FResMediosMotor.AFRMED;
+			medoutput << "\t" << FResMediosMotor.AFRMED;
 		if (FResMediosMotor.Swirl)
-			medoutput << " \t " << FResMediosMotor.SwirlMED;
+			medoutput << "\t" << FResMediosMotor.SwirlMED;
 
 		// fclose(fich);
 	}

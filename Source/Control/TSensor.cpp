@@ -53,7 +53,7 @@ void TSensor::ReadSensor(char *FileWAM, fpos_t &filepos) {
 	fsetpos(fich, &filepos);
 
 	fscanf(fich, "%d %d", &obj, &prm);
-	if (obj != 0)
+	if (obj != 0 && obj != 3)
 		fscanf(fich, "%d ", &FObjectID);
 	switch(obj) {
 	case 0:
@@ -112,6 +112,7 @@ void TSensor::ReadSensor(char *FileWAM, fpos_t &filepos) {
 			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj <<
 				"no valido, sensor: " << FNumeroSensor << std::endl;
 		}
+		break;
 	default:
 		std::cout << "ERROR: Objeto " << obj << "no valido, sensor: " << FNumeroSensor << std::endl;
 	}
