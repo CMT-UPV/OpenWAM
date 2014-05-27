@@ -1,137 +1,141 @@
-/*--------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
- \\ |  X  | //  W ave     |
-  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-   \\/   \//    M odel    |
+\\ |  X  | //  W ave     |
+\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+\\/   \//    M odel    |
 ----------------------------------------------------------------------------------
 License
 
-	This file is part of OpenWAM.
+This file is part of OpenWAM.
 
-	OpenWAM is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+OpenWAM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-	OpenWAM is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+OpenWAM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
-
-
-\*--------------------------------------------------------------------------------*/
+You should have received a copy of the GNU General Public License
+along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-//---------------------------------------------------------------------------
+\*-------------------------------------------------------------------------------- */
+
+// ---------------------------------------------------------------------------
 
 #ifndef TLaminaH
 #define TLaminaH
 
 #include <cstdio>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
-//#include <iostream>
-//#include <cmath>
+// #include <iostream>
+// #include <cmath>
 
 #include "TTipoValvula.h"
 #include "Globales.h"
-//#include "interp_1d.h"
+// #include "interp_1d.h"
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
-enum nmTipoLamina{nmLamina0D=0,nmLamina1D=1,nmLamina2D=2};
+enum nmTipoLamina {
+	nmLamina0D = 0, nmLamina1D = 1, nmLamina2D = 2
+};
 
-class TLamina : public TTipoValvula
-{
+class TLamina : public TTipoValvula {
 private:
-//CONSTANTES INICIALES
-nmTipoLamina FTipoLamina;
-int FSentidoLamina;
-double FDiametroRef;
+	// CONSTANTES INICIALES
+	nmTipoLamina FTipoLamina;
+	int FSentidoLamina;
+	double FDiametroRef;
 
-double FMasa;
-double FDensidad;
-double FAmortiguamiento;
-double FArea;
-double FAnchoPetalo;
-double FRigidez;
-double FModuloYoung;
-double FEspesor;
-int FNumPestanyas;
-double FLongitud;
-double FLongReal;
+	double FMasa;
+	double FDensidad;
+	double FAmortiguamiento;
+	double FArea;
+	double FAnchoPetalo;
+	double FRigidez;
+	double FModuloYoung;
+	double FEspesor;
+	int FNumPestanyas;
+	double FLongitud;
+	double FLongReal;
 
-double FKCDE;
-double FKCDS;
+	double FKCDE;
+	double FKCDS;
 
-int FNumLevCDE;
-int FNumLevCDS;
-double FIncrLev;
-dVector FLiftCDin;
-dVector FDatosCDEntrada;
-Hermite_interp *fun_CDin;
-dVector FLiftCDout;
-dVector FDatosCDSalida;
-Hermite_interp *fun_CDout;
+	int FNumLevCDE;
+	int FNumLevCDS;
+	double FIncrLev;
+	dVector FLiftCDin;
+	dVector FDatosCDEntrada;
+	Hermite_interp *fun_CDin;
+	dVector FLiftCDout;
+	dVector FDatosCDSalida;
+	Hermite_interp *fun_CDout;
 
-int FNodosLamina;
-int FNodosFijos;
-int FBucle;
+	int FNodosLamina;
+	int FNodosFijos;
+	int FBucle;
 
-double FCoefC;
-double FAreaTrans;
-double FDeltaX;
+	double FCoefC;
+	double FAreaTrans;
+	double FDeltaX;
 
-//VARIABLES DE CALCULO
-int FValvula;
+	// VARIABLES DE CALCULO
+	int FValvula;
 
-double FLev;
-double FdLev;
-double FddLev;
+	double FLev;
+	double FdLev;
+	double FddLev;
 
-double *FFuerza;
-double *FLev1;
-double *FLev2;
-double *FLev3;
-double FDerivada4;
+	double *FFuerza;
+	double *FLev1;
+	double *FLev2;
+	double *FLev3;
+	double FDerivada4;
 
-bool FGraficasLam;
-bool FGrafLev;
+	bool FGraficasLam;
+	bool FGrafLev;
 
 public:
 
-TLamina(TLamina *Origen,int valv);
+	TLamina(TLamina *Origen, int valv);
 
-TLamina();
+	TLamina();
 
-~TLamina();
+	~TLamina();
 
-    double getLevantamiento(){return FLev;};
+	double getLevantamiento() {
+		return FLev;
+	};
 
-void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
+	void LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
 		TBloqueMotor *Engine);
 
-void CalculaCD(double deltaP,double deltaT);
+	void CalculaCD(double deltaP, double deltaT);
 
-void LeeDatosGraficas(char *FileWAM,fpos_t &filepos);
+	void LeeDatosGraficas(char *FileWAM, fpos_t &filepos);
 
-void CabeceraGraficaINS(stringstream& insoutput,int lam);
+	void LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor, TBloqueMotor *Engine);
 
-void ImprimeGraficaINS(stringstream& insoutput);
+	void CabeceraGraficaINS(stringstream& insoutput, int lam);
 
-void GetCDin(double Time);
+	void ImprimeGraficaINS(stringstream& insoutput);
 
-void GetCDout(double Time);
+	void GetCDin(double Time);
+
+	void GetCDout(double Time);
 
 };
 
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 #endif

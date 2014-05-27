@@ -1451,12 +1451,12 @@ void TOpenWAM::ReadValvesXML() {
 				val = NumTValvula4T;
 				NumTValvula4T++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "Reed") {
 				TypeOfValve[id] = new TLamina();
 				val = NumberOfReedValves;
 				NumberOfReedValves++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "Rotary") {
 				TypeOfValve[id] = new TDiscoRotativo();
 				val = NumTDiscoRotativo;
 				NumTDiscoRotativo++;
@@ -4594,8 +4594,8 @@ void TOpenWAM::ProgressBegin() {
 #endif
 	// tzset();
 	ftime(&begining);
-	printf(" Seconds since 1 / 1 / 1970 GMT : % ld \n ", begining.time);
-	printf(" Thousandths of a second : %d \n ", begining.millitm);
+	printf("Seconds since 1 / 1 / 1970 GMT : % ld \n", begining.time);
+	printf("Thousandths of a second : %d \n", begining.millitm);
 }
 
 void TOpenWAM::ProgressEnd(){

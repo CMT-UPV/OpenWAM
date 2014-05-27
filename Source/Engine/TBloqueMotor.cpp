@@ -928,8 +928,8 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam, nmTipoModelado& Simulation
 		}
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::LeeMotor en el Bloque Engine." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::LeeMotor en el Bloque Engine." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -948,9 +948,9 @@ void TBloqueMotor::AsignacionTuboRendVol(TTubo **Pipe) {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::AsignacionTuboRendVol en el Bloque Engine." <<
+		std::cout << "ERROR : TBloqueMotor::AsignacionTuboRendVol en el Bloque Engine." <<
 			std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -967,12 +967,12 @@ void TBloqueMotor::IniciaAnguloCalculo() {
 			FTheta = 256.;
 		}
 		else {
-			std::cout << " ERROR : Tipo de motor mal definido " << std::endl;
+			std::cout << "ERROR : Tipo de motor mal definido " << std::endl;
 		}
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::IniciaAnguloCalculo en el Bloque Engine." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::IniciaAnguloCalculo en el Bloque Engine." << std::endl;
+		std::cout << " ipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1063,9 +1063,9 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos)
 		FResMediosMotor.TiempoSUM = 0.;
 		FResMediosMotor.Tiempo0 = 0.;
 
-		fscanf(fich, "%d", &nvars);
+		fscanf(fich, "%d ", &nvars);
 		for (int i = 0; i < nvars; i++) {
-			fscanf(fich, "%d", &Tipovar);
+			fscanf(fich, "%d ", &Tipovar);
 			switch(Tipovar) {
 			case 0:
 				FResMediosMotor.ParNeto = true;
@@ -1366,8 +1366,8 @@ void TBloqueMotor::ImprimeResultadosMediosBloqueMotor(stringstream& medoutput) {
 		// fclose(fich);
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::ImprimeResultadosMediosBloqueMotor " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::ImprimeResultadosMediosBloqueMotor " << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1636,102 +1636,102 @@ void TBloqueMotor::PrestacionesMotor() {
 
 		printf(" \n \n \n ");
 		std::cout <<
-			" INFO : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --" << std::endl;
-		std::cout << " INFO : ENGINE PERFORMANCE " << std::endl;
+			"INFO : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --" << std::endl;
+		std::cout << "INFO : ENGINE PERFORMANCE " << std::endl;
 		std::cout <<
-			" INFO : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --" << std::endl;
+			"INFO : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --" << std::endl;
 		if (FResMediosMotor.ParNeto)
-			std::cout << " INFO : Net torque : " << FResMediosMotor.ParNetoMED << "(Nm)" <<
+			std::cout << "INFO : Net torque : " << FResMediosMotor.ParNetoMED << "(Nm)" <<
 				std::endl;
 		if (FResMediosMotor.ParEfectivo)
-			std::cout << " INFO : Effective torque : " << FResMediosMotor.ParEfectivoMED <<
+			std::cout << "INFO : Effective torque : " << FResMediosMotor.ParEfectivoMED <<
 				"(Nm)" << std::endl;
 		if (FResMediosMotor.ParEfectivoCiclo)
-			std::cout << " INFO : Effective torque cycle : " <<
+			std::cout << "INFO : Effective torque cycle : " <<
 				FResMediosMotor.ParEfectivoCicloMED << "(Nm)" << std::endl;
 		if (FResMediosMotor.ParPerdidasMecanicas)
-			std::cout << " INFO : Torque of mechanical losses : " <<
+			std::cout << "INFO : Torque of mechanical losses : " <<
 				FResMediosMotor.ParPerdidasMecanicasMED << "(Nm)" << std::endl;
 		if (FResMediosMotor.TrabajoNeto)
-			std::cout << " INFO : Net work : " << FResMediosMotor.TrabajoNetoMED << "(J)" <<
+			std::cout << "INFO : Net work : " << FResMediosMotor.TrabajoNetoMED << "(J)" <<
 				std::endl;
 		if (FResMediosMotor.TrabajoBombeo)
-			std::cout << " INFO : Pumping work : " << FResMediosMotor.TrabajoBombeoMED << "(J)" <<
+			std::cout << "INFO : Pumping work : " << FResMediosMotor.TrabajoBombeoMED << "(J)" <<
 				std::endl;
 		if (FResMediosMotor.PMN)
-			std::cout << " INFO : NMEP(Mechanism) : " << FResMediosMotor.PMNMED << "(bar)" <<
+			std::cout << "INFO : NMEP(Mechanism) : " << FResMediosMotor.PMNMED << "(bar)" <<
 				std::endl;
 		if (FResMediosMotor.PME)
-			std::cout << " INFO : BMEP(Mechanism) : " << FResMediosMotor.PMEMED << "(bar)" <<
+			std::cout << "INFO : BMEP(Mechanism) : " << FResMediosMotor.PMEMED << "(bar)" <<
 				std::endl;
 		if (FResMediosMotor.PMNCiclo)
-			std::cout << " INFO : NMEP(Cycle) : " << FResMediosMotor.PMNCicloMED << "(bar)" <<
+			std::cout << "INFO : NMEP(Cycle) : " << FResMediosMotor.PMNCicloMED << "(bar)" <<
 				std::endl;
 		if (FResMediosMotor.PMECiclo)
-			std::cout << " INFO : BMEP(Cycle) : " << FResMediosMotor.PMECicloMED << "(bar)" <<
+			std::cout << "INFO : BMEP(Cycle) : " << FResMediosMotor.PMECicloMED << "(bar)" <<
 				std::endl;
 		if (FResMediosMotor.PMICiclo)
-			std::cout << " INFO : IMEP(Cycle) : " << FResMediosMotor.PMICicloMED << "(bar)" <<
+			std::cout << "INFO : IMEP(Cycle) : " << FResMediosMotor.PMICicloMED << "(bar)" <<
 				std::endl;
 		if (FResMediosMotor.PMBCiclo)
-			std::cout << " INFO : PMEP(Cycle) : " << FResMediosMotor.PMBCicloMED << "(bar)" <<
+			std::cout << "INFO : PMEP(Cycle) : " << FResMediosMotor.PMBCicloMED << "(bar)" <<
 				std::endl;
 		if (FResMediosMotor.Potencia)
-			std::cout << " INFO : Effective Power(Mechanism) : " << FResMediosMotor.PotenciaMED <<
+			std::cout << "INFO : Effective Power(Mechanism) : " << FResMediosMotor.PotenciaMED <<
 				"(kW)" << std::endl;
 		if (FResMediosMotor.PotenciaCiclo)
-			std::cout << " INFO : Effective Power(Cycle) : " << FResMediosMotor.PotenciaCicloMED <<
+			std::cout << "INFO : Effective Power(Cycle) : " << FResMediosMotor.PotenciaCicloMED <<
 				"(kW)" << std::endl;
 		if (FResMediosMotor.MasaAdmision)
-			std::cout << " INFO : Intake Mass : " << FResMediosMotor.MasaAdmisionMED <<
+			std::cout << "INFO : Intake Mass : " << FResMediosMotor.MasaAdmisionMED <<
 				"(kg / cc)" << std::endl;
 		if (FResMediosMotor.MasaFuel)
-			std::cout << " INFO : Fuel Mass : " << FResMediosMotor.MasaFuelMED << "(kg / cc)" <<
+			std::cout << "INFO : Fuel Mass : " << FResMediosMotor.MasaFuelMED << "(kg / cc)" <<
 				std::endl;
 		if (FResMediosMotor.MasaAtrapada)
-			std::cout << " INFO : Trapped Mass : " << FResMediosMotor.MasaAtrapadaMED <<
+			std::cout << "INFO : Trapped Mass : " << FResMediosMotor.MasaAtrapadaMED <<
 				"(kg / cc)" << std::endl;
 		if (FResMediosMotor.RegimenGiro)
-			std::cout << " INFO : Engine Speed : " << FResMediosMotor.RegimenGiroMED << "(rpm)" <<
+			std::cout << "INFO : Engine Speed : " << FResMediosMotor.RegimenGiroMED << "(rpm)" <<
 				std::endl;
 		if (FResMediosMotor.RendimientoVolumetrico)
-			std::cout << " INFO : Volumetric Efficiency(refered pipe n." <<
+			std::cout << "INFO : Volumetric Efficiency(refered pipe n." <<
 				FTuboRendVol->getNumeroTubo() << ") : " <<
 				FResMediosMotor.RendimientoVolumetricoMED << "( - )" << std::endl;
 		if (FResMediosMotor.RendimientoVolumetricoAtm)
-			std::cout << " INFO : Volumetric Efficiency(Ambient Condic) : " <<
+			std::cout << "INFO : Volumetric Efficiency(Ambient Condic) : " <<
 				FResMediosMotor.RendimientoVolumetricoAtmMED << "( - )" << std::endl;
 		if (FResMediosMotor.RendEfectivo)
-			std::cout << " INFO : Effective Efficiency : " << FResMediosMotor.RendEfectivoMED <<
+			std::cout << "INFO : Effective Efficiency : " << FResMediosMotor.RendEfectivoMED <<
 				"( - )" << std::endl;
 		if (FResMediosMotor.RendIndicado)
-			std::cout << " INFO : Indicated Efficiency : " << FResMediosMotor.RendIndicadoMED <<
+			std::cout << "INFO : Indicated Efficiency : " << FResMediosMotor.RendIndicadoMED <<
 				"( - )" << std::endl;
 		if (FResMediosMotor.ConsumoEspecifico)
-			std::cout << " INFO : BSFC : " << FResMediosMotor.ConsumoEspecificoMED <<
+			std::cout << "INFO : BSFC : " << FResMediosMotor.ConsumoEspecificoMED <<
 				"(g / kWh)" << std::endl;
 		if (FResMediosMotor.ParResistente)
-			std::cout << " INFO : Resistant Torque : " << FResMediosMotor.ParResistenteMED <<
+			std::cout << "INFO : Resistant Torque : " << FResMediosMotor.ParResistenteMED <<
 				"(Nm)" << std::endl;
 		if (FResMediosMotor.VelocidadVehiculo)
-			std::cout << " INFO : Vehicle Speed : " << FResMediosMotor.VelocidadVehiculoMED <<
+			std::cout << "INFO : Vehicle Speed : " << FResMediosMotor.VelocidadVehiculoMED <<
 				"(Nm)" << std::endl;
 		if (FResMediosMotor.Dosado)
-			std::cout << " INFO : Fuel - to - air ratio : (refered pipe n." <<
+			std::cout << "INFO : Fuel - to - air ratio : (refered pipe n." <<
 				FTuboRendVol->getNumeroTubo() << ") : " << FResMediosMotor.DosadoMED <<
 				"( - )" << std::endl;
 		if (FResMediosMotor.AFR)
-			std::cout << " INFO : AFR : " << FResMediosMotor.AFRMED << "( - )" << std::endl;
+			std::cout << "INFO : AFR : " << FResMediosMotor.AFRMED << "( - )" << std::endl;
 		if (FResMediosMotor.Swirl)
-			std::cout << " INFO : Swirl at T.D.C. : " << FResMediosMotor.SwirlMED << "( - )" <<
+			std::cout << "INFO : Swirl at T.D.C. : " << FResMediosMotor.SwirlMED << "( - )" <<
 				std::endl;
 		std::cout <<
-			" INFO : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --" << std::endl;
+			"INFO : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --" << std::endl;
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::PrestacionesMotor en el Bloque Engine." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::PrestacionesMotor en el Bloque Engine." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1788,8 +1788,8 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::ModeloDeVehiculo en el Bloque Engine." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::ModeloDeVehiculo en el Bloque Engine." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1802,8 +1802,8 @@ TCilindro* TBloqueMotor::GetCilindro(int i) {
 		return FCilindro[i];
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::GetCilindro en el EngineBlock." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::GetCilindro en el EngineBlock." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1816,8 +1816,8 @@ double TBloqueMotor::GetDesfase(int i) {
 		return FDesfase[i];
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::GetCilindro en el EngineBlock." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::GetCilindro en el EngineBlock." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1846,8 +1846,8 @@ void TBloqueMotor::PutATCAdm(double valor) {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::PutATCAdm en el EngineBlock." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::PutATCAdm en el EngineBlock." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1862,8 +1862,8 @@ void TBloqueMotor::PutATCEsc(double valor) {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::PutATCEsc en el EngineBlock." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::PutATCEsc en el EngineBlock." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1912,8 +1912,8 @@ void TBloqueMotor::IniciaVarCilindro() {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::IniciaVarCilindro en el EngineBlock." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::IniciaVarCilindro en el EngineBlock." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1928,8 +1928,8 @@ double TBloqueMotor::GetComposicionInicial(int i) {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::GetComposicionInicial en el EngineBlock." << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "ERROR : TBloqueMotor::GetComposicionInicial en el EngineBlock." << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
@@ -1944,9 +1944,9 @@ double TBloqueMotor::GetComposicionAtmosfera(int i) {
 
 	}
 	catch(Exception & N) {
-		std::cout << " ERROR : TBloqueMotor::GetComposicionAtmosfera en el EngineBlock." <<
+		std::cout << "ERROR : TBloqueMotor::GetComposicionAtmosfera en el EngineBlock." <<
 			std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
