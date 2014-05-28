@@ -77,7 +77,7 @@ int CountNodes(xml_node node, const char* label) {
 double GetXMLArea(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
-	std::string unit = unit_node.attribute("Length").value();
+	std::string unit = unit_node.attribute("Area").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_square_metres(x, unit);
 }
@@ -113,7 +113,7 @@ double GetXMLSpeed(const xml_node& node, const std::string& name)
 double GetXMLTemperature(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
-	std::string unit = unit_node.attribute("Speed").value();
+	std::string unit = unit_node.attribute("Temperature").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_celsius(x, unit);
 }
