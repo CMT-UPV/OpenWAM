@@ -233,7 +233,7 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 		else if (Type == "1D") {
 			FTipoLamina = nmLamina1D;
 		}
-		else if (Type = "2D") {
+		else if (Type == "2D") {
 			FTipoLamina = nmLamina2D;
 		}
 
@@ -277,17 +277,19 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 		FKCDE = GetAttributeAsDouble(node_reed, "MultDCin");
 		FKCDS = GetAttributeAsDouble(node_reed, "MultDCout");
 
-		j = 0;
+		int j = 0;
 		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCin"); node_dcin;
 			node_dcin = node_dcin.next_sibling("RdV:DCin")) {
 			FLiftCDin[j] = (double)j * FIncrLev;
-			FDatosCDEntrada[j] = GetAttributeAsDouble(node_dcin, "DCin")
+			FDatosCDEntrada[j] = GetAttributeAsDouble(node_dcin, "DCin");
+			++j;
 		}
 		j = 0;
 		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCout"); node_dcin;
 			node_dcin = node_dcin.next_sibling("RdV:DCout")) {
 			FLiftCDout[j] = (double)j * FIncrLev;
-			FDatosCDSalida[j] = GetAttributeAsDouble(node_dcin, "DCout")
+			FDatosCDSalida[j] = GetAttributeAsDouble(node_dcin, "DCout");
+			++j;
 		}
 	}
 	catch(Exception & N) {
