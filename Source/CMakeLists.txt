@@ -1,6 +1,7 @@
 add_subdirectory(1DPipes)
 add_subdirectory(Act)
 add_subdirectory(Boundaries)
+add_subdirectory(CheckXML)
 add_subdirectory(Connections)
 add_subdirectory(Control)
 add_subdirectory(Engine)
@@ -15,6 +16,7 @@ include_directories(1DPipes)
 include_directories(Act)
 include_directories(Boundaries)
 include_directories("Concentric Pipe")
+include_directories(CheckXML)
 include_directories(Connections)
 include_directories(Control)
 include_directories(DPF)
@@ -37,6 +39,7 @@ target_link_libraries(
   1DPipes
   Act
   Boundaries
+  CheckXML
   Connections
   Control
   Engine

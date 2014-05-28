@@ -1,6 +1,7 @@
 include_directories(../1DPipes)
 include_directories(../Act)
 include_directories(../Boundaries)
+include_directories(../CheckXML)
 include_directories(../Control)
 include_directories(../DPF)
 include_directories(../Engine)
