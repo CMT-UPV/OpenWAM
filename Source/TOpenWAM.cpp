@@ -1461,7 +1461,7 @@ void TOpenWAM::ReadValvesXML() {
 				val = NumTDiscoRotativo;
 				NumTDiscoRotativo++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "2SPort") {
 				TypeOfValve[id] = new TLumbrera(Engine[0]->getGeometria().Biela,
 					Engine[0]->getGeometria().Carrera);
 				val = NumTLumbrera;
