@@ -170,6 +170,32 @@ double GetXMLLength(const xml_node& node, const std::string& name);
 
 
 /**
+ * @brief Gets an attribute as a mass flow rate.
+ * 
+ * Gets an attribute as a mass flow rate.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Mass flow rate. [kg / s]
+ */
+double GetXMLMassFlow(const xml_node& node, const std::string& name);
+
+
+/**
+ * @brief Gets an attribute as a mass flow rate.
+ * 
+ * Gets an attribute as a mass flow rate.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node.
+ * @return Mass flow rate. [kg / s]
+ */
+double GetXMLMassFlow(const xml_node& node, const std::string& name,
+	const std::string& unit);
+
+
+/**
  * @brief Gets an attribute as a pressure.
  * 
  * Gets an attribute as a pressure.
@@ -275,6 +301,18 @@ double to_celsius(const double& x, const std::string& unit);
  * @return The angle in degrees. [deg]
  */
 double to_degrees(const double& x, const std::string& unit);
+
+
+/**
+ * @brief Converts a given mass flow from some unit to kg / s.
+ * 
+ * Converts a given mass flow rate from some unit to kg / s.
+ * 
+ * @param x mass flow rate to convert.
+ * @param unit Original unit.
+ * @return The mass flow in kilograms per second. [kg / s]
+ */
+double to_kg_s(const double& x, const std::string& unit);
 
 
 /**

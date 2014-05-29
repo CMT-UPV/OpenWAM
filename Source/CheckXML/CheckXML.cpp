@@ -130,6 +130,22 @@ double GetXMLLength(const xml_node& node, const std::string& name)
 }
 
 
+double GetXMLMassFlow(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("MassFlow").value();
+	return GetXMLMassFlow(node, name, unit);
+}
+
+
+double GetXMLMassFlow(const xml_node& node, const std::string& name,
+	const std::string& unit)
+{
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_kg_s(x, unit);
+}
+
+
 double GetXMLPower(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
@@ -281,6 +297,92 @@ double to_degrees(const double& x, const std::string& unit)
 		std::cout << "ERROR: Unit unknown" << std::endl;
 		std::cout << "       UNIT: " << unit << std::endl;
 		std::cout << "       Assuming degrees..." << std::endl;
+		return x;
+	}
+}
+
+
+double to_kg_s(const double& x, const std::string& unit)
+{
+	if (unit == "") {
+		return x;
+	}
+	else if (unit == "kg / s") {
+		return x;
+	}
+	else if (unit == "kg/s") {
+		return x;
+	}
+	else if (unit == "kg / min") {
+		return x / 60.;
+	}
+	else if (unit == "kg/min") {
+		return x / 60.;
+	}
+	else if (unit == "kg / h") {
+		return x / 3600.;
+	}
+	else if (unit == "kg/h") {
+		return x / 3600.;
+	}
+	else if (unit == "kg / hr") {
+		return x / 3600.;
+	}
+	else if (unit == "kg/hr") {
+		return x / 3600.;
+	}
+	else if (unit == "g / s") {
+		return x / 1000.;
+	}
+	else if (unit == "g/s") {
+		return x / 1000.;
+	}
+	else if (unit == "g / min") {
+		return x / 1000. / 60.;
+	}
+	else if (unit == "g/min") {
+		return x / 1000. / 60.;
+	}
+	else if (unit == "g / h") {
+		return x / 1000. / 3600.;
+	}
+	else if (unit == "g/h") {
+		return x / 1000. / 3600.;
+	}
+	else if (unit == "g / hr") {
+		return x / 1000. / 3600.;
+	}
+	else if (unit == "g/hr") {
+		return x / 1000. / 3600.;
+	}
+	else if (unit == "lb / s") {
+		return x * 0.45359237;
+	}
+	else if (unit == "lb/s") {
+		return x * 0.45359237;
+	}
+	else if (unit == "lb / min") {
+		return x * 0.45359237 / 60.;
+	}
+	else if (unit == "lb/min") {
+		return x * 0.45359237 / 60.;
+	}
+	else if (unit == "lb / h") {
+		return x * 0.45359237 / 3600.;
+	}
+	else if (unit == "lb/h") {
+		return x * 0.45359237 / 3600.;
+	}
+	else if (unit == "lb / hr") {
+		return x * 0.45359237 / 3600.;
+	}
+	else if (unit == "lb/hr") {
+		return x * 0.45359237 / 3600.;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming kg / s..." << std::endl;
 		return x;
 	}
 }
