@@ -74,6 +74,15 @@ int CountNodes(xml_node node, const char* label) {
 }
 
 
+double GetXMLAngle(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Time").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_degrees(x, unit);
+}
+
+
 double GetXMLArea(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
@@ -92,12 +101,31 @@ double GetXMLLength(const xml_node& node, const std::string& name)
 }
 
 
+double GetXMLPower(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Power").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_watts(x, unit);
+}
+
+
+
 double GetXMLPressure(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
 	std::string unit = unit_node.attribute("Pressure").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_bar(x, unit);
+}
+
+
+double GetXMLRotationalSpeed(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Rotational_Speed").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_rpm(x, unit);
 }
 
 
@@ -116,6 +144,15 @@ double GetXMLTemperature(const xml_node& node, const std::string& name)
 	std::string unit = unit_node.attribute("Temperature").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_celsius(x, unit);
+}
+
+
+double GetXMLTime(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Time").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_seconds(x, unit);
 }
 
 
@@ -210,6 +247,41 @@ double to_celsius(const double& x, const std::string& unit)
 }
 
 
+double to_degrees(const double& x, const std::string& unit)
+{
+	if (unit == "") {
+		return x;
+	}
+	else if (unit == "º") {
+		return x;
+	}
+	else if (unit == "°") {
+		return x;
+	}
+	else if (unit == "grad") {
+		return x;
+	}
+	else if (unit == "deg") {
+		return x;
+	}
+	else if (unit == "degree") {
+		return x;
+	}
+	else if (unit == "rad") {
+		return x / 3.14159265;
+	}
+	else if (unit == "radian") {
+		return x / 3.14159265;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming º..." << std::endl;
+		return x;
+	}
+}
+
+
 double to_metres(const double& x, const std::string& unit)
 {
 	if (unit == ""){
@@ -284,6 +356,61 @@ double to_m_s(const double& x, const std::string& unit)
 		std::cout << "ERROR: Unit unknown" << std::endl;
 		std::cout << "       UNIT: " << unit << std::endl;
 		std::cout << "       Assuming m / s..." << std::endl;
+		return x;
+	}
+}
+
+
+double to_rpm(const double& x, const std::string& unit)
+{
+	if (unit == ""){
+		return x;
+	}
+	else if (unit == "rpm"){
+		return x;
+	}
+	else if (unit == "rad / s"){
+		return x / (2. * 3.14159265) * 60.;
+	}
+	else if (unit == "rad/s") {
+		return x / (2. * 3.14159265) * 60.;
+	}
+	else if (unit == "Hz") {
+		return x * 60.;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming rpm..." << std::endl;
+		return x;
+	}
+}
+
+
+double to_seconds(const double& x, const std::string& unit)
+{
+	if (unit == ""){
+		return x;
+	}
+	else if (unit == "s"){
+		return x;
+	}
+	else if (unit == "ms"){
+		return x / 1000.;
+	}
+	else if (unit == "m") {
+		return x *  60.;
+	}
+	else if (unit == "min") {
+		return x * 60.;
+	}
+	else if (unit == "h") {
+		return x * 3600.;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming s..." << std::endl;
 		return x;
 	}
 }
@@ -382,6 +509,32 @@ double to_square_metres(const double& x, const std::string& unit)
 		std::cout << "ERROR: Unit unknown" << std::endl;
 		std::cout << "       UNIT: " << unit << std::endl;
 		std::cout << "       Assuming m / s..." << std::endl;
+		return x;
+	}
+}
+
+
+double to_watts(const double& x, const std::string& unit)
+{
+	if (unit == ""){
+		return x;
+	}
+	else if (unit == "W"){
+		return x;
+	}
+	else if (unit == "kW"){
+		return x / 1000.;
+	}
+	else if (unit == "CV") {
+		return x *  735.498750;
+	}
+	else if (unit == "HP") {
+		return x * 745.69987158227022;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming W..." << std::endl;
 		return x;
 	}
 }

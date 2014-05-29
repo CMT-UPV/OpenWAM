@@ -25,6 +25,18 @@ int CountNodes(xml_node node, const char* label);
 
 
 /**
+ * @brief Gets an attribute as an angle.
+ * 
+ * Gets an attribute as an angle.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Angle. [rad]
+ */
+double GetXMLAngle(const xml_node& node, const std::string& name);
+
+
+/**
  * @brief Gets an attribute as an area.
  * 
  * Gets an attribute as an area.
@@ -61,6 +73,30 @@ double GetXMLPressure(const xml_node& node, const std::string& name);
 
 
 /**
+ * @brief Gets an attribute as a power.
+ * 
+ * Gets an attribute as a power.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Power. [W]
+ */
+double GetXMLPower(const xml_node& node, const std::string& name);
+
+
+/**
+ * @brief Gets an attribute as a rotational speed.
+ * 
+ * Gets an attribute as a rotational speed.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Rotational speed. [rpm]
+ */
+double GetXMLRotationalSpeed(const xml_node& node, const std::string& name);
+
+
+/**
  * @brief Gets an attribute as a speed.
  * 
  * Gets an attribute as a speed.
@@ -82,6 +118,18 @@ double GetXMLSpeed(const xml_node& node, const std::string& name);
  * @return Temperature. [ºC]
  */
 double GetXMLTemperature(const xml_node& node, const std::string& name);
+
+
+/**
+ * @brief Gets an attribute as a time.
+ * 
+ * Gets an attribute as a time.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Time. [s]
+ */
+double GetXMLTime(const xml_node& node, const std::string& name);
 
 
 /**
@@ -109,6 +157,18 @@ double to_celsius(const double& x, const std::string& unit);
 
 
 /**
+ * @brief Converts a given angle from some unit to degrees.
+ * 
+ * Converts a given angle from some unit to degrees.
+ * 
+ * @param x Angle to convert.
+ * @param unit Original unit.
+ * @return The angle in degrees. [º]
+ */
+double to_degrees(const double& x, const std::string& unit);
+
+
+/**
  * @brief Converts a given length from some unit to metres.
  * 
  * Converts a given length from some unit to metres.
@@ -133,6 +193,31 @@ double to_m_s(const double& x, const std::string& unit);
 
 
 /**
+ * @brief Converts a given rotational speed from some unit to rpm.
+ * 
+ * Converts a given rotational speed from some unit to revolutions
+ * per minute.
+ * 
+ * @param x Rotational speed to convert.
+ * @param unit Original unit.
+ * @return The rotational speed in revolutions per minute. [rpm]
+ */
+double to_rpm(const double& x, const std::string& unit);
+
+
+/**
+ * @brief Converts a given time from some unit to seconds.
+ * 
+ * Converts a given time from some unit to seconds.
+ * 
+ * @param x Time to convert.
+ * @param unit Original unit.
+ * @return The time in seconds. [s]
+ */
+double to_seconds(const double& x, const std::string& unit);
+
+
+/**
  * @brief Converts a given area from some unit to square metres.
  * 
  * Converts a given area from some unit to square metres.
@@ -142,5 +227,17 @@ double to_m_s(const double& x, const std::string& unit);
  * @return The area in square metres. [m ** 2]
  */
 double to_square_metres(const double& x, const std::string& unit);
+
+
+/**
+ * @brief Converts a given power from some unit to watts.
+ * 
+ * Converts a given power from some unit to watts.
+ * 
+ * @param x Power to convert.
+ * @param unit Original unit.
+ * @return The power in watts. [W]
+ */
+double to_watts(const double& x, const std::string& unit);
 
 #endif
