@@ -49,9 +49,9 @@ FILE *FichInyeccion;
 
 int FNumeroInyecciones;
 double *FMasaFuel;  // Masa de combustible inyectada en cada una de las inyecciones realizadas
-double *FSOI;      // Punto de inyecci�n para cada una de la inyecciones realizadas
-double FPrail;      // Presi�n del common rail
-double FDiferencia_SOI;  // Diferencia entre el �ngulo de inyecci�n de la principal y el de la piloto.
+double *FSOI;      // Punto de inyeccion para cada una de la inyecciones realizadas
+double FPrail;      // Presion del common rail
+double FDiferencia_SOI;  // Diferencia entre el angulo de inyeccion de la principal y el de la piloto.
 
 int FNumeroDatos_Prail_Regimen;
 int FNumeroDatos_Mf_Prail;

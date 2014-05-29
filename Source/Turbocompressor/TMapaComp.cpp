@@ -176,7 +176,7 @@ if(FCoefSplRend!=NULL){
 //---------------------------------------------------------------------------
 // ---------- LeeMapa -------------------------------------------------------
 // Lectura del mapa del compresor desde el fichero .wam                    //
-// Incializaci�n de la variables del mapa                                  //
+// Incializacion de la variables del mapa                                  //
 // Calculo de los coeficientes de la spline que ajusta la linea de bombeo  //
 // Calculo de los coeficientes ortogonales que ajustan el rendimiento      //
 //---------------------------------------------------------------------------
@@ -197,7 +197,7 @@ std::cout << "Datos de Referencia:" << std::endl;
 std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;
 std::cout << "Temperature: " << FTempRef << " K" << std::endl;
 
-// Rango e incremento de r�gimenes de giro.
+// Rango e incremento de regimenes de giro.
 fscanf(fich,"%lf %lf %lf ",&FRegMin,&FRegMax,&FIncReg);
 FNumCurvasReg = floor(((FRegMax-FRegMin)/FIncReg)+0.5)+1;
 
@@ -251,7 +251,7 @@ for(int i=0;i<FNumCurvasReg;i++){
           }
           if(FGastoRend[i][j]>FGastoRelComp1[i]){
                std::cout << "WARNING: Existen puntos de rendimiento en la curva de regimen: " << FRegimenCurva[i] << std::endl;
-               std::cout << "         con valores de massflow mayores del massflow de relaci�n de compresion 1" << std::endl;
+               std::cout << "         con valores de massflow mayores del massflow de relacion de compresion 1" << std::endl;
                std::cout << "         -Valor del massflow del punto de rendimiento:    " << FGastoRend[i][j] << std::endl;
                std::cout << "         -Valor del massflow de relacion de compresion 1: " << FGastoRelComp1[i] << std::endl;
                std::cout << "         Revisa el mapa. Esto puede inducir errores importantes de interpolacion" << std::endl;
@@ -356,7 +356,7 @@ for(int i=0;i<FNumCurvasReg;i++){
                FRendAdim[i][j]=FRend[i][j-1];
           }
           if(FGastoAdim[i][j]<=FGastoAdim[i][j-1]){
-               std::cout << "WARNING: La tabla Massflow-Rendimiento en el r�gimen de " << FRegimenCurva[i] << " rpm esta desordenada" << std::endl;
+               std::cout << "WARNING: La tabla Massflow-Rendimiento en el regimen de " << FRegimenCurva[i] << " rpm esta desordenada" << std::endl;
                std::cout << "         Si se continua con este mapa pueden aparecer errores en la interpolacion" << std::endl;
                std::cout << "         Ordene los datos de forma creciente en massflow" << std::endl;
           }
@@ -392,7 +392,7 @@ for(int i=1;i<n;++i){
      FSpl[i].dif=y[i]-y[i-1];
      if(FSpl[i].h<=0.){
           std::cout << "ERROR: Error al crear la spline" << std::endl;
-          std::cout << "       Los valores en X no est�n ordenados o existen 2 puntos situados en el mismo X" << std::endl << std::endl;
+          std::cout << "       Los valores en X no estan ordenados o existen 2 puntos situados en el mismo X" << std::endl << std::endl;
           throw Exception("ERROR: Error al crear la spline");
      }
 }
@@ -403,24 +403,24 @@ for(int i=1;i<n-1;++i){
      Espaciado=FSpl[i+1].h/FSpl[i].h;
      if(Espaciado < 0.1 || Espaciado > 10.){
           std::cout << "WARNING: Deberias utilizar una distribucion mas uniforme entre los valores de X" << std::endl;
-          std::cout << "         utilizados para ajustar la spline y as� evitar problemas" << std::endl << std::endl;
+          std::cout << "         utilizados para ajustar la spline y asi evitar problemas" << std::endl << std::endl;
      }
      FSpl[i].d=2*(FSpl[i+1].h+FSpl[i].h);
      FSpl[i].d1=FSpl[i+1].h;
      FSpl[i].b=(FSpl[i+1].dif/FSpl[i+1].h-FSpl[i].dif/FSpl[i].h)*6.;
 }
-//Descomposici�n de Cholesky
+//Descomposicion de Cholesky
 FSpl[1].ud=sqrt(FSpl[1].d);
 for(int i=2;i<n-1;i++){
      FSpl[i-1].ud1=FSpl[i-1].d1/FSpl[i-1].ud;
      FSpl[i].ud=sqrt(FSpl[i].d-FSpl[i-1].ud1*FSpl[i-1].ud1);
 }
-//Sustituci�n directa
+//Sustitucion directa
 FSpl[1].yp=FSpl[1].b/FSpl[1].ud;
 for(int i=2;i<n-1;++i){
      FSpl[i].yp=(FSpl[i].b-FSpl[i-1].ud1*FSpl[i-1].yp)/FSpl[i].ud;
 }
-//Sustituci�n inversa
+//Sustitucion inversa
 sol[0]=0.;
 if(n>=2){
      sol[n-1]=0;
@@ -454,7 +454,7 @@ double TMapaComp::EvaluaSpline(double punto,int n,double *x,double *y,double *so
 try
 {
 int k=0;
-//Determinacion del indice para evaluaci�n spline
+//Determinacion del indice para evaluacion spline
 while(x[k]<punto && k<n-1){
      ++k;
 }
@@ -497,7 +497,7 @@ if(Massflow<FGastoInt[0]){
 }else{
      int k=0;
      int n=FNumPuntos;
-     //Determinacion del indice para evaluaci�n spline
+     //Determinacion del indice para evaluacion spline
      while(FGastoInt[k]<Massflow && k<n){
           ++k;
      }
@@ -543,7 +543,7 @@ if(Massflow<FGastoInt[0]){
 }else{
 	 int k=0;
 	 int n=FNumPuntos;
-	 //Determinacion del indice para evaluaci�n spline
+	 //Determinacion del indice para evaluacion spline
 	 while(FGastoInt[k]<Massflow && k<n){
 		  ++k;
 	 }
@@ -576,7 +576,7 @@ throw Exception("ERROR: EvaluaRCSpline en el compresor: " +AnsiString(FNumeroCom
 // terminos que tienen los coeficientes, 'npoint' es el numero de puntos de//
 // rendimiento que tiene una curva determinada 'ma' representa el massflow    //
 //'rd' el rendimiento para dicho massflow y 'w' es un vector cuyas componentes//
-// valen 1  Ajuste por m�nimos cuadrados                                   //
+// valen 1  Ajuste por minimos cuadrados                                   //
 //---------------------------------------------------------------------------
 
 void TMapaComp::PolOrtogonal(int nterms,int npoint,double *ma,double *rd,double *w,double *b,
@@ -640,7 +640,7 @@ throw Exception("ERROR: PolOrtogonal en el compresor: "/* +AnsiString(FNumeroCom
 
 //---------------------------------------------------------------------------
 //--------InterpolaMapa -----------------------------------------------------
-// Ajusta los coeficientes de una spline que representa la curva de r�gimen//
+// Ajusta los coeficientes de una spline que representa la curva de regimen//
 // 'rtc' a temperatura ambiente 'AmbientTemperature' e interpola los coeficiente del     //
 // polinomio ortogonal que ajusta el rendimiento                           //
 //---------------------------------------------------------------------------
@@ -695,9 +695,9 @@ if(FRegComp>FRegMax){
           DeltaN;
 }
 
-// Calculo de la curva interpolada Relaci�n de compresion/Masa corregida
+// Calculo de la curva interpolada Relacion de compresion/Masa corregida
 
-// Se haya el �ltimo massflow del que se tiene informaci�n para el regimen de giro inferior
+// Se haya el ultimo massflow del que se tiene informacion para el regimen de giro inferior
 
 if(FRegComp<FRegMin){
      FNumPuntos=floor(FGastoRelComp1X/FIncGasto)+1;
@@ -819,7 +819,7 @@ double DeltaN;
 try
 {
 if(MasaAire<FGastoBombeoX){
-     //En Bombeo se toma como rendimiento el del �ltimo punto.
+     //En Bombeo se toma como rendimiento el del ultimo punto.
      DeltaN=(FRegComp-FRegimenCurva[FCurvInf])/FIncReg;
 
      RendInf=FRendAdim[FCurvInf][0];

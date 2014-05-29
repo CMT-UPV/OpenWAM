@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -83,7 +83,7 @@ TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature,
 
 TBloqueMotor::~TBloqueMotor() {
 
-	// Liberaci�n memoria din�mica Cilindros.
+	// Liberacion memoria dinamica Cilindros.
 	if (FGeom.NCilin > 0 && FCilindro != NULL) {
 		for (int i = 0; i < FGeom.NCilin; i++)
 			delete FCilindro[i];
@@ -250,7 +250,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		}
 
 		// ------------------------------
-		// WOSCHNI.TRANSMISI�N DE CALOR
+		// WOSCHNI.TRANSMISION DE CALOR
 		// ------------------------------
 		fscanf(fich, "%lf ", &FWoschni.cw1);
 		fscanf(fich, "%lf ", &FWoschni.cw2);
@@ -290,7 +290,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			&FPerMec.Coef3);
 
 		// --------------------
-		// MODELO DE VEH�CULO
+		// MODELO DE VEHICULO
 		// --------------------
 
 		if (SimulationType == nmTransitorioRegimen) {
@@ -397,7 +397,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		}
 
 		// ------------------------------
-		// CREACI�N OBJETO CILINDRO.
+		// CREACION OBJETO CILINDRO.
 		// ------------------------------
 
 		if (FGeom.NCilin > 1) {
@@ -940,7 +940,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam, nmTipoModelado& Simulation
 void TBloqueMotor::AsignacionTuboRendVol(TTubo **Pipe) {
 	try {
 
-		// Asignaci�n del tubo al que se refiere el rendimiento volum�trico.
+		// Asignacion del tubo al que se refiere el rendimiento volumetrico.
 
 		FTuboRendVol = Pipe[FNumTuboRendVol - 1];
 

@@ -27,8 +27,8 @@ private:
 	double FT_Boundary;
 	double FU_Boundary;
 
-	double *FCC; // Característica conocida del tubo.
-	double *FCD; // Característica desconocida del tubo.
+	double *FCC; // Caracteristica conocida del tubo.
+	double *FCD; // Caracteristica desconocida del tubo.
 
 	int FNodoFin;
 	int FIndiceCC;

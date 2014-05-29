@@ -38,27 +38,27 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 class TCCCompresorVolumetrico : public TCondicionContorno {
 private:
 
-	// int FNumeroCV;     // Número Compressor Volumétrico (de tornillo)
+	// int FNumeroCV;     // Numero Compressor Volumetrico (de tornillo)
 	bool asgNumeroCV;
 
-	double FRelacionVelocidadesCV; // Relación de velocidades compresor volumétrico - motor.
-	double FPresionCV; // Presión de aspiración.
-	double FTemperaturaCV; // Temperature de aspiración.
+	double FRelacionVelocidadesCV; // Relacion de velocidades compresor volumetrico - motor.
+	double FPresionCV; // Presion de aspiracion.
+	double FTemperaturaCV; // Temperature de aspiracion.
 
-	// Declaración de los coeficientes de caudal, temperatura y potencia del compresor volumétrico.
+	// Declaracion de los coeficientes de caudal, temperatura y potencia del compresor volumetrico.
 	double FC1Caudal, FC2Caudal, FC3Caudal;
 	double FC1Temperatura, FC2Temperatura, FC3Temperatura;
 	double FC1Potencia, FC2Potencia, FC3Potencia, FC4Potencia, FC5Potencia, FC6Potencia;
 
-	int FNodoFin; // Nodo en el extremo del tubo que está en la condición de contorno.
-	int FIndiceCC; // Posición del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-	double *FCC; // Característica conocida del tubo.
-	double *FCD; // Característica desconocida del tubo.
-	double FSeccionTubo; // Diámetro del tubo en la condición de contorno.
+	int FNodoFin; // Nodo en el extremo del tubo que esta en la condicion de contorno.
+	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+	double *FCC; // Caracteristica conocida del tubo.
+	double *FCD; // Caracteristica desconocida del tubo.
+	double FSeccionTubo; // Diametro del tubo en la condicion de contorno.
 
-	double FGasto; // Massflow volumétrico del compresor en kg/s.
-	double FDensidad; // Density del aire en la aspiración.
-	double FTemperature; // Temperature del gas entrante en ºC.
+	double FGasto; // Massflow volumetrico del compresor en kg/s.
+	double FDensidad; // Density del aire en la aspiracion.
+	double FTemperature; // Temperature del gas entrante en degC.
 	double FPotencia;
 	double FPressure;
 	double FRegimen;
@@ -71,7 +71,7 @@ private:
 
 	nmRegimenValv FControlRegimen;
 
-	double FGamma3; // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma función.
+	double FGamma3; // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma funcion.
 	double FGamma4;
 	double *FComposicion;
 
@@ -88,7 +88,7 @@ public:
 			asgNumeroCV = true;
 		}
 		else {
-			std::cout << "ERROR: Este Compressor Volumétrico ya tiene número asignado" << std::endl;
+			std::cout << "ERROR: Este Compressor Volumetrico ya tiene numero asignado" << std::endl;
 			throw Exception("");
 		}
 
@@ -96,7 +96,7 @@ public:
 
 	int FNumeroCV;
 
-	// Número Compressor Volumétrico (de tornillo)
+	// Numero Compressor Volumetrico (de tornillo)
 	int getNumeroCV() {
 		return FNumeroCV;
 	}

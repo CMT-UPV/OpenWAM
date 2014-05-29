@@ -49,7 +49,7 @@ double *FTiempo;
 double *FRegimen;
 int FNumeroDatos;
 
-//Funcion de interpolaci�n
+//Funcion de interpolacion
 double xit_(double vizq,double vder,double axid,double xif);
 
 public:

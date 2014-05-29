@@ -48,12 +48,12 @@ private:
 TTipoValvula *FValvula;
 TDeposito *FDeposito;
 
-int FNumeroDeposito;    // N�mero de dep�sito ligado a la condici�n de contorno.
+int FNumeroDeposito;    // Numero de deposito ligado a la condicion de contorno.
 
 int FNodoFin;               // Nodo en el extremo del tubo.
-int FIndiceCC;              // Posici�n del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-double *FCC;                // Caracter�stica conocida del tubo.
-double *FCD;                // Caracter�stica desconocida del tubo.
+int FIndiceCC;              // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+double *FCC;                // Caracteristica conocida del tubo.
+double *FCD;                // Caracteristica desconocida del tubo.
 
 double FPref;            // Pressure de referencia
 
@@ -61,24 +61,24 @@ double FCDEntrada;       // Coeficiente de descarga a la entrada
 double FCDSalida;        // Coeficiente de descarga a la salida
 double FCTorbellino;    // Coeficiente de torbellino
 
-double FSeccionEficaz;   // Secci�n eficaz de la v�lvula
+double FSeccionEficaz;   // Seccion eficaz de la valvula
 double FGasto;           // Massflow en el extremo del tubo. Si es entrante, signo -. Si es saliente, signo +
 double FVelocity;         // Velocity en el extremo del tubo
 double FSonido;            // Velocity del sonido en el extremo del tubo
 double FVelocidadGarganta;  // Velocity en la garganta
-double FMachGarganta;       // N�mero de Mach en la garganta.
+double FMachGarganta;       // Numero de Mach en la garganta.
 double FGastoGarganta;      // Massflow en la garganta.
 double FRelacionPresionGarganta;
 double FAd;
-double FAdCr;              // Ad teniendo en cuenta la recuperaci�n de energ�a cin�tica.
+double FAdCr;              // Ad teniendo en cuenta la recuperacion de energia cinetica.
 
-double FSeccionValvula;   // Secci�n en la garganta
-double FSeccionTubo;      // Secci�n en el extremo del tubo
+double FSeccionValvula;   // Seccion en la garganta
+double FSeccionTubo;      // Seccion en el extremo del tubo
 
 double FCarrera;
-double Fk;                // Relaci�n entre la secci�n del tubo en el extremo y la secci�n eficaz de la v�lvula.
-double Fcc;               // Variable auxiliar utilizada para el c�lculo de el caso saliente supercr�tico.
-// double FMachVenturi;      // N�mero de Mach en la condici�n de contorno que para el c�lculo de presi�n de parada en                    // por el modelo en el extremo del tubo. Influye en el calculo de FAdCr
+double Fk;                // Relacion entre la seccion del tubo en el extremo y la seccion eficaz de la valvula.
+double Fcc;               // Variable auxiliar utilizada para el calculo de el caso saliente supercritico.
+// double FMachVenturi;      // Numero de Mach en la condicion de contorno que para el calculo de presion de parada en                    // por el modelo en el extremo del tubo. Influye en el calculo de FAdCr
                           // el extremo del tubo.
 nmCaso FCaso;
 nmSentidoFlujo FSentidoFlujo;

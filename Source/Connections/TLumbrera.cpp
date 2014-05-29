@@ -149,11 +149,11 @@ void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMo
 
 		FNumCD = CountNodes(node_2sport, "RtV:FlowCoef");
 
-		fscanf(fich, "%d ", &FNumCD);
-
-		FApertura.resize(FNumCD);
-		FDatosCDEntrada.resize(FNumCD);
-		FDatosCDSalida.resize(FNumCD);
+// 		fscanf(fich, "%d ", &FNumCD);
+// 
+// 		FApertura.resize(FNumCD);
+// 		FDatosCDEntrada.resize(FNumCD);
+// 		FDatosCDSalida.resize(FNumCD);
 
 //		for (int j = 0; j < FNumCD; ++j) {
 //			fscanf(fich, "%lf ", &FApertura[j]);

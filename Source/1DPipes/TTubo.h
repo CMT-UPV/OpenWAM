@@ -94,7 +94,7 @@ private:
         int 						FTuboCCNodoIzq;    		//!< Save the position in the struct TuboExtremo of the pipe connected to the left end
         int 						FTuboCCNodoDer;    		//!< Save the position in the struct TuboExtremo of the pipe connected to the right end
 
-        // Datos Geométricos
+        // Datos Geometricos
 
         int 						FNumeroTubo;          	//!< Number of the pipe
         int 						FNodoIzq;               //!< Number of the connection at the left end
@@ -121,7 +121,7 @@ private:
 		bool 						FConcentrico;           //!< Does the pipe form part of a concentric duct?
 		int 						FNumeroConductos;       //!< Number of similar pipes that form the set
 
-        // Propiedades térmicas y fricción
+        // Propiedades termicas y friccion
 
         double 						FFriccion;              //!< Friction of the pipe
         nmTipoTransCal 				FTipoTransCal;     		//!< Type of heat transfer
@@ -178,7 +178,7 @@ private:
 		double 						*FTemperature;			//!< Gas temperature at the nodes
 		double 						*FFlowMass;				//!< Air mass flow at the nodes
 
-        // Vectores método de cálculo
+        // Vectores metodo de calculo
 
         stModeloCalculoTubos 		FMod;					//!< Struct with the options of the numerical scheme used to solve the duct
         double 						**FU0;					//!< State vector at the current time                     

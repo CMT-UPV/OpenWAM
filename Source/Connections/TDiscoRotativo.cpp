@@ -138,7 +138,7 @@ void TDiscoRotativo::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norde
 		}
 		else {
 			std::cout <<
-				"ERROR: TDiscoRotativo::LeeDatosIniciales Lectura del Control del Régimen errónea "
+				"ERROR: TDiscoRotativo::LeeDatosIniciales Lectura del Control del Regimen erronea "
 				<< std::endl;
 			throw Exception(" ");
 		}

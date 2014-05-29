@@ -1,4 +1,4 @@
-﻿#ifndef TURBO_BEARINGS_HPP
+#ifndef TURBO_BEARINGS_HPP
 #define TURBO_BEARINGS_HPP
 
 //#include <cmath>
@@ -7,7 +7,7 @@
 
 /**
  * @file turbo_bearings.hpp
- * @author Luis Miguel García-Cuevas González <luiga12@mot.upv.es>
+ * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
  * @version 0.2
  *
  * @section LICENSE
@@ -108,8 +108,8 @@ public:
      * A value proportional to the thrust bearing oil film thickness is computed
      * as:
      * @f[
-     * h_{tb} = k_m m / (\rho \left| (C_A_c A_c (p_2 - p_1) / 4
-     * + C_A_t A_t (p_3 - p_4) / 2)) f g
+     * h_{tb} = k_m m / (\rho \left| (C_{A_c} A_c (p_2 - p_1) / 4
+     * + C_{A_t} A_t (p_3 - p_4) / 2)) \right| f g
      * @f]
      *
      * @param T The journal bearing oil temperature, in K.

@@ -42,7 +42,7 @@ void TEffCorrector::InputData(double T_AF, double T_Humidity, double T_MassFlow,
 	FT.AF = T_AF; // Turbine A/F
 	FT.Humidity = T_Humidity; // Turbine Humidity
 	FT.MassFlow = T_MassFlow; // Turbine mass flow (kg/s)
-	FT.IT_C = T_IT_C; // Turbine Inlet Temperature (ºC)
+	FT.IT_C = T_IT_C; // Turbine Inlet Temperature (degC)
 	FT.IT_K = FT.IT_C + 273.; // Turbine Inlet Temperature (K)
 	FT.IP = T_IP; // Turbine Inlet Pressure (bar)
 	FT.PR = T_PR; // Turbine expansion ratio (-)
@@ -50,14 +50,14 @@ void TEffCorrector::InputData(double T_AF, double T_Humidity, double T_MassFlow,
 	// Input compressor data
 	FC.Humidity = C_Humidity; // Compressor Humidity;
 	FC.MassFlow = C_MassFlow; // Compressor mass flow (kg/s)
-	FC.IT_C = C_IT_C; // Compressor inlet temperature (ºC)
+	FC.IT_C = C_IT_C; // Compressor inlet temperature (degC)
 	FC.IT_K = FC.IT_C + 273.; // Compressor inlet temperature (K)
 	FC.IP = C_IP; // Compressor inelt pressure (bar)
 	FC.PR = C_PR; // Compressor compression ratio (-)
 
 	// Input oil data
 	FO_MassFlow = O_MassFlow; // Oil mass flow (kg/s)
-	FO_IT_C = O_IT_C; // Oil inlet temperature (ºC)
+	FO_IT_C = O_IT_C; // Oil inlet temperature (degC)
 	FO_IT_K = FO_IT_C + 273.; // Oil inlet temperature (K)
 	FO_IP = O_IP; // Oil inlet pressure (bar)
 

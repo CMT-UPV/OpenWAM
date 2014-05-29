@@ -127,7 +127,7 @@ try
 
  Fichfql=fopen(Datosfql,"r");
  if((Fichfql=fopen(Datosfql,"r"))==NULL){
- std::cout << "ERROR: Fichero de leyes de liberaci�n de calor no cargado";
+ std::cout << "ERROR: Fichero de leyes de liberacion de calor no cargado";
  }else{
        fscanf(Fichfql,"%d ",&Fnley);
        fscanf(Fichfql,"%d ",&Fnwiebe);
@@ -357,7 +357,7 @@ for(int j=0;j<Fnley;++j){
 		Flab[n][j][i] = Fla[n][j] + tras;
 	}
 	if(Flab[0][j][i]-720. < Fang0){
-		Fang0 = Flab[0][j][i]-720.;   // ??????????  a�ado -720
+		Fang0 = Flab[0][j][i]-720.;   // ??????????  anado -720
 	}
 	if((Flab[Fnwiebe-1][j][i] + Fli[Fnwiebe-1][j]-720.)>Ffinc){
 		Ffinc = Flab[Fnwiebe - 1][j][i] + Fli[Fnwiebe - 1][j]-720.;

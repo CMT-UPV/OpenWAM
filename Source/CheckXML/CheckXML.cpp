@@ -1,5 +1,34 @@
 #include "CheckXML.h"
 
+/**
+ * @file CheckXML.cpp
+ * @author Francisco Jose Arnau Martinez <farnau@mot.upv.es>
+ * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
+ *
+ * @section LICENSE
+ *
+ * This file is part of OpenWAM.
+ *
+ * OpenWAM is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenWAM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @section DESCRIPTION
+ * The functions defined in this file are used to get the values of
+ * XML attributes.
+ * 
+ * This file contains the implementations of such functions.
+ */
+
 xml_node GetNodeChild(xml_node node, const char* name) {
 	if (node.child(name).empty()) {
 		std::cout << "ERROR: Child node not found" << std::endl;
@@ -199,16 +228,7 @@ double to_celsius(const double& x, const std::string& unit)
 	if (unit == ""){
 		return x;
 	}
-	else if (unit == "C"){
-		return x;
-	}
-	else if (unit == "ºC") {
-		return x;
-	}
-	else if (unit == "°C") {
-		return x;
-	}
-	else if (unit == "℃") {
+	else if (unit == "degC") {
 		return x;
 	}
 	else if (unit == "K") {
@@ -217,31 +237,21 @@ double to_celsius(const double& x, const std::string& unit)
 	else if (unit == "F") {
 		return (x - 32.) * 5. / 9.;
 	}
-	else if (unit == "ºF") {
-		return (x - 32.) * 5. / 9.;
-	}
-	else if (unit == "°F") {
-		return (x - 32.) * 5. / 9.;
-	}
-	else if (unit == "℉") {
+	else if (unit == "degF") {
 		return (x - 32.) * 5. / 9.;
 	}
 	else if (unit == "R")
 	{
 		return (x - 491.67) * 5. / 9.;
 	}
-	else if (unit == "ºR")
-	{
-		return (x - 491.67) * 5. / 9.;
-	}
-	else if (unit == "°R")
+	else if (unit == "degR")
 	{
 		return (x - 491.67) * 5. / 9.;
 	}
 	else {
 		std::cout << "ERROR: Unit unknown" << std::endl;
 		std::cout << "       UNIT: " << unit << std::endl;
-		std::cout << "       Assuming ºC..." << std::endl;
+		std::cout << "       Assuming degC..." << std::endl;
 		return x;
 	}
 }
@@ -250,12 +260,6 @@ double to_celsius(const double& x, const std::string& unit)
 double to_degrees(const double& x, const std::string& unit)
 {
 	if (unit == "") {
-		return x;
-	}
-	else if (unit == "º") {
-		return x;
-	}
-	else if (unit == "°") {
 		return x;
 	}
 	else if (unit == "grad") {
@@ -276,7 +280,7 @@ double to_degrees(const double& x, const std::string& unit)
 	else {
 		std::cout << "ERROR: Unit unknown" << std::endl;
 		std::cout << "       UNIT: " << unit << std::endl;
-		std::cout << "       Assuming º..." << std::endl;
+		std::cout << "       Assuming degrees..." << std::endl;
 		return x;
 	}
 }

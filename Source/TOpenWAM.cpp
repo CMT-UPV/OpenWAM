@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -210,7 +210,7 @@ TOpenWAM::~TOpenWAM() {
 	if (EXTERN != NULL)
 		delete EXTERN;
 
-	// Liberaci�n memoria din�mica Dep�sitos.
+	// Liberacion memoria dinamica Depositos.
 	if (NumberOfPlenums > 0 && Plenum != NULL) {
 		for (int i = 0; i < NumberOfPlenums; i++)
 			delete Plenum[i];
@@ -223,21 +223,21 @@ TOpenWAM::~TOpenWAM() {
 	if (NumberOfVenturis > 0 && Venturi != NULL)
 		delete[]Venturi;
 
-	// Liberaci�n memoria din�mica Compressor.
+	// Liberacion memoria dinamica Compressor.
 	if (NumberOfCompressors > 0 && Compressor != NULL) {
 		for (int i = 0; i < NumberOfCompressors; i++)
 			delete Compressor[i];
 		delete[]Compressor;
 	}
 
-	// Liberaci�n memoria din�mica Tubos.
+	// Liberacion memoria dinamica Tubos.
 	if (NumberOfPipes > 0 && Pipe != NULL) {
 		for (int i = 0; i < NumberOfPipes; i++)
 			delete Pipe[i];
 		delete[]Pipe;
 	}
 
-	// Liberaci�n memoria din�mica Concentricos.
+	// Liberacion memoria dinamica Concentricos.
 #if ConcentricElement
 	if (NumberOfConcentrics > 0 && Concentric != NULL) {
 		for (int i = 0; i < NumberOfConcentrics; i++)
@@ -246,7 +246,7 @@ TOpenWAM::~TOpenWAM() {
 	}
 #endif
 
-	// Liberaci�n memoria din�mica DPFs.
+	// Liberacion memoria dinamica DPFs.
 #if ParticulateFilter
 	if (NumberOfDPF > 0 && DPF != NULL) {
 		for (int i = 0; i < NumberOfDPF; i++)
@@ -255,21 +255,21 @@ TOpenWAM::~TOpenWAM() {
 	}
 #endif
 
-	// Liberaci�n memoria din�mica Condiciones de Contorno.
+	// Liberacion memoria dinamica Condiciones de Contorno.
 	if (NumberOfConnections > 0 && *BC != NULL) {
 		for (int i = 0; i < NumberOfConnections; i++)
 			delete BC[i];
 		delete[]BC;
 	}
 
-	// Liberaci�n memoria din�mica Axis de Turbogrupo.
+	// Liberacion memoria dinamica Axis de Turbogrupo.
 	if (NumberOfAxis > 0 && Axis != NULL) {
 		for (int i = 0; i < NumberOfAxis; i++)
 			delete Axis[i];
 		delete[]Axis;
 	}
 
-	// Liberaci�n memoria din�mica Engine.
+	// Liberacion memoria dinamica Engine.
 	if (EngineBlock && Engine != NULL) {
 		delete Engine[0];
 		delete[]Engine;
@@ -802,7 +802,7 @@ void TOpenWAM::ReadGeneralData() {
 		}
 		else if (SpeciesModel == nmCalculoSimple) {
 			fscanf(FileInput, "%d ", &haycombustible);
-			if (haycombustible == 1) { // Existe inyecci�n de combustible
+			if (haycombustible == 1) { // Existe inyeccion de combustible
 				fscanf(FileInput, "%d ", &tipocombustible);
 				switch(tipocombustible) {
 				case 0:
@@ -815,7 +815,7 @@ void TOpenWAM::ReadGeneralData() {
 				SpeciesNumber = 4;
 			}
 			else if (haycombustible == 0) {
-				// No existe inyecci�n de combustible
+				// No existe inyeccion de combustible
 				SpeciesNumber = 3;
 			}
 			DatEsp = new stEspecies[SpeciesNumber - IntEGR];
@@ -859,7 +859,7 @@ void TOpenWAM::ReadGeneralData() {
 		}
 		SpeciesName = DatEsp;
 
-		// A continuaci�n se lee la composici�n del aire atm�sferico
+		// A continuacion se lee la composicion del aire atmasferico
 
 		CompAtmosfera = new double[SpeciesNumber - IntEGR];
 		for (int i = 0; i < SpeciesNumber - 1; i++) {
@@ -1006,11 +1006,11 @@ void TOpenWAM::ReadGeneralDataXML() {
 
 		}
 		else if (SpeciesModel == nmCalculoSimple) {
-			if (ThereIsFuel) { // Existe inyecci�n de combustible
+			if (ThereIsFuel) { // Existe inyeccion de combustible
 				SpeciesNumber = 4;
 			}
 			else {
-				// No existe inyecci�n de combustible
+				// No existe inyeccion de combustible
 				SpeciesNumber = 3;
 			}
 			DatEsp = new stEspecies[SpeciesNumber - IntEGR];
@@ -1054,7 +1054,7 @@ void TOpenWAM::ReadGeneralDataXML() {
 		}
 		SpeciesName = DatEsp;
 
-		// A continuaci�n se lee la composici�n del aire atm�sferico
+		// A continuacion se lee la composicion del aire atmasferico
 
 		CompAtmosfera = new double[SpeciesNumber - IntEGR];
 		for (int i = 0; i < SpeciesNumber - IntEGR; i++) {
@@ -1675,13 +1675,13 @@ void TOpenWAM::ReadCompressors() {
 			fclose(FileInput);
 			switch(TipoCompresor) {
 			case 0:
-				/* Pipe - Dep�sito */
+				/* Pipe - Deposito */
 				Compressor[j] = new TCompTubDep(j, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
 				(dynamic_cast<TCompTubDep*>(Compressor[j]))->LeeCompresor(fileinput, filepos);
 				break;
 			case 1:
-				/* Entre Dep�sitos */
+				/* Entre Depositos */
 				Compressor[j] = new TCompresorDep(j, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
 				(dynamic_cast<TCompresorDep*>(Compressor[j]))->LeeCompresor(fileinput, filepos);
@@ -2469,10 +2469,10 @@ void TOpenWAM::InitializeRunningAngles() {
 	try {
 
 		if (!EngineBlock) {
-			/* Inicio �ngulos de la ejecuci�n */ Theta = 0.;
+			/* Inicio angulos de la ejecucion */ Theta = 0.;
 		}
 		else {
-			/* Inicio �ngulos de la ejecuci�n */ Engine[0]->IniciaAnguloCalculo();
+			/* Inicio angulos de la ejecucion */ Engine[0]->IniciaAnguloCalculo();
 			Theta = Engine[0]->getTheta();
 		}
 
@@ -2529,7 +2529,7 @@ void TOpenWAM::AllocateVGTData() {
 			DatosTGV = new stDatosTGV[CountVGT];
 			for (int i = 0; i < NumberOfTurbines; i++) {
 				if (RotorTurbine[i]->getTipoRotor() == nmRotVariable) {
-					// En su momento asignar al objeto turbina correspondiente el n�mero de TGV que le corresponde.Falta hacer.26-12-05
+					// En su momento asignar al objeto turbina correspondiente el numero de TGV que le corresponde.Falta hacer.26-12-05
 					DatosTGV[tgv].Entradas = Turbine[i]->getNumeroEntradas();
 					DatosTGV[tgv].Turbine = i;
 					DatosTGV[tgv].Estator = new TTipoValvula*[Turbine[i]->getNumeroEntradas()];
@@ -3830,7 +3830,7 @@ void TOpenWAM::CalculateFlowIndependent() {
 					(DPF[JCurrentDPF]->GetCanal(j, k))->CalculaCaracteristicasExtremos(BC,
 						IncrementoTiempo);
 
-					/* C�lculo de las Condiciones de Contorno en los extremos de los canales */
+					/* Calculo de las Condiciones de Contorno en los extremos de los canales */
 					for (int i = 0; i < 2; i++) {
 						if (i == 0)
 							OneDEnd = (DPF[JCurrentDPF]->GetCanal(j, k))->getNodoIzq();
@@ -3960,7 +3960,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 
 		if (CalculaElementosAdyacentes) {
 
-			/* Se determina el n�mero de dep�sito o cilindro al que pertenece la condici�n de contorno current */
+			/* Se determina el numero de deposito o cilindro al que pertenece la condicion de contorno current */
 			if (BC[OneDEnd - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 				NumDepInicial = dynamic_cast<TCCDeposito*>(BC[OneDEnd - 1])->getPlenum()
 					->getNumeroDeposito();
@@ -3995,8 +3995,8 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 					Engine[0]->GetCilindro(NumeroCilindro - 1)->PutCalculadoPaso(true);
 			}
 
-			/* Si se trata de un dep�sito de volumen constante o variable se inicia la b�squeda de condiciones de contorno de tipo
-			uni�n entre dep�sitos o compresores entre dep�sitos que posea, para realizar su c�lculo. Esta b�squeda  se realiza
+			/* Si se trata de un deposito de volumen constante o variable se inicia la busqueda de condiciones de contorno de tipo
+			union entre depositos o compresores entre depositos que posea, para realizar su calculo. Esta busqueda  se realiza
 			de forma recursiva hasta que se llega a otro tubo. */
 			if (CalculoDeposito) {
 				if (Plenum[NumDepInicial - 1]->getCalculadoPaso()) {
@@ -4012,7 +4012,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 									(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))
 									->getInstanteCalculo() != TiempoActual) {
 
-									/* Aqu� se determina el siguiente dep�sito en el que se continuar� la b�squeda */
+									/* Aqui se determina el siguiente deposito en el que se continuara la busqueda */
 									if (dynamic_cast<TCCCompresor*>
 										(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))
 										->getNumeroDepositoRot() == NumDepInicial) {
@@ -4027,7 +4027,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 
 									Plenum[NumDepSiguiente - 1]->PutCalculadoPaso(true);
 
-									/* C�lculo de la condici�n de contorno compresor entre dep�sitos encontrada */
+									/* Calculo de la condicion de contorno compresor entre depositos encontrada */
 									dynamic_cast<TCCCompresor*>
 										(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))
 										->ObtencionValoresInstantaneos(Theta, TiempoActual);
@@ -4037,7 +4037,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 										(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))
 										->PutInstanteCalculo(TiempoActual);
 								}
-								/* Comienzo de la b�squeda recursiva en el siguiente dep�sito */
+								/* Comienzo de la busqueda recursiva en el siguiente deposito */
 								if (Plenum[NumDepSiguiente - 1]->getCalculadoPaso()) {
 									SolveBranch(NumDepSiguiente, TiempoActual);
 								}
@@ -4047,7 +4047,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 								(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))
 								->getInstanteCalculo() != TiempoActual) {
 
-								/* Aqu� se determina el siguiente dep�sito en el que se continuar� la b�squeda */
+								/* Aqui se determina el siguiente deposito en el que se continuara la busqueda */
 								if (dynamic_cast<TCCUnionEntreDepositos*>
 									(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))
 									->getNumeroDeposito1() == NumDepInicial) {
@@ -4095,7 +4095,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 								else
 									Plenum[NumDepSiguiente - 1]->PutCalculadoPaso(true);
 
-								/* C�lculo de la condici�n de contorno uni�n entre dep�sitos encontrada */
+								/* Calculo de la condicion de contorno union entre depositos encontrada */
 								if (dynamic_cast<TCCUnionEntreDepositos*>
 									(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))->getValvula
 									()->getTypeOfValve() != nmCDFijo) {
@@ -4124,7 +4124,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 									(Plenum[NumDepInicial - 1]->GetCCUnionEntreDep(i))->getValvula
 									()->AcumulaCDMedio(TiempoActual);
 
-								/* Comienzo de la b�squeda recursiva en el siguiente dep�sito */
+								/* Comienzo de la busqueda recursiva en el siguiente deposito */
 								if (Plenum[NumDepSiguiente - 1]->getCalculadoPaso()) {
 									SolveBranch(NumDepSiguiente, TiempoActual);
 								}
@@ -4145,7 +4145,7 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 				}
 			}
 			else if (Plenum[NumDepInicial - 1]->getCalculadoPaso()) {
-				/* C�lculo del Dep�sito en el instante de c�lculo del Pipe Actual */
+				/* Calculo del Deposito en el instante de calculo del Pipe Actual */
 				Plenum[NumDepInicial - 1]->UpdateProperties0DModel(TiempoActual);
 			}
 		}
@@ -4174,7 +4174,7 @@ void TOpenWAM::SolveBranch(int NumDeposito, double TiempoActual) {
 					(Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i))->getInstanteCalculo()
 					!= TiempoActual) {
 
-					/* Aqu� se determina el siguiente dep�sito en el que se continuar� la b�squeda */
+					/* Aqui se determina el siguiente deposito en el que se continuara la busqueda */
 					if (dynamic_cast<TCCCompresor*>(Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i))
 						->getNumeroDepositoRot() == NumDeposito) {
 						NumDepSiguiente = dynamic_cast<TCCCompresor*>
@@ -4189,7 +4189,7 @@ void TOpenWAM::SolveBranch(int NumDeposito, double TiempoActual) {
 
 					Plenum[NumDepSiguiente - 1]->PutCalculadoPaso(true);
 
-					/* C�lculo de la condici�n de contorno compresor entre dep�sitos encontrada */
+					/* Calculo de la condicion de contorno compresor entre depositos encontrada */
 					dynamic_cast<TCCCompresor*>(Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i))
 						->ObtencionValoresInstantaneos(Theta, TiempoActual);
 					Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i)->CalculaCondicionContorno
@@ -4204,7 +4204,7 @@ void TOpenWAM::SolveBranch(int NumDeposito, double TiempoActual) {
 				(Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i))->getInstanteCalculo()
 				!= TiempoActual) {
 
-				/* Aqu� se determina el siguiente dep�sito en el que se continuar� la b�squeda */
+				/* Aqui se determina el siguiente deposito en el que se continuara la busqueda */
 				if (dynamic_cast<TCCUnionEntreDepositos*>
 					(Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i))->getNumeroDeposito1()
 					== NumDeposito) {
@@ -4246,7 +4246,7 @@ void TOpenWAM::SolveBranch(int NumDeposito, double TiempoActual) {
 				else
 					Plenum[NumDepSiguiente - 1]->PutCalculadoPaso(true);
 
-				/* C�lculo de la condici�n de contorno compresor entre dep�sitos encontrada */
+				/* Calculo de la condicion de contorno compresor entre depositos encontrada */
 				if (dynamic_cast<TCCUnionEntreDepositos*>
 					(Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i))->getValvula()->getTypeOfValve
 					() != nmCDFijo) {
@@ -4631,7 +4631,7 @@ void TOpenWAM::NewEngineCycle() {
 			}
 		}
 	}
-	// C�lculo de las propiedades de transmisi�n de calor en el filtro de part�culas cada paso de integraci�n global
+	// Calculo de las propiedades de transmision de calor en el filtro de particulas cada paso de integracion global
 #if ParticulateFilter
 	for (int i = 0; i < NumberOfDPF; i++) {
 		if (DPF[i]->getCicloDPF() > 1) {
@@ -4760,7 +4760,7 @@ void TOpenWAM::Actuadores()
 				->getDistribucion().CA && Engine[0]->GetCilindro(i)->getAnguloAnterior()
 				<= Engine[0]->GetCilindro(i)->getDistribucion().CA) {
 				Engine[0]->GetCilindro(i)->PutMasaFuel(EXTERN->GetOutput_dll(compo));
-				/* Actuador de fuel del cilindro en cuesti�n */
+				/* Actuador de fuel del cilindro en cuestion */
 			}
 			compo += 1; /* Hay que hacer un bucle */
 		}
@@ -4777,7 +4777,7 @@ void TOpenWAM::Actuadores()
 				contador = 0;
 				for (int j = 0; j < 8; j++) {
 					if (Engine[0]->getACT()) {
-						// Significa que la combusti�n es con ACT
+						// Significa que la combustion es con ACT
 						Engine[0]->GetCilindro(i)->PutSOP(j,
 							EXTERN->GetOutput_dll(compo + 2 + j + contador));
 						Engine[0]->GetCilindro(i)->PutMasaFuelPorInyeccion(j,
@@ -4830,7 +4830,7 @@ void TOpenWAM::Actuadores()
 			if (Engine[0]->GetCilindro(i)->getAnguloActual() > Engine[0]->GetCilindro(i)
 				->getDistribucion().AE && Engine[0]->GetCilindro(i)->getAnguloAnterior()
 				<= Engine[0]->GetCilindro(i)->getDistribucion().AE) {
-				for (int j = 0; j < Engine[0]->getSpeciesNumber() - 1; j++) { // Se pone -1 porque la �ltima especie es siempre el EGR, y este no debe modificarlo el usuario.
+				for (int j = 0; j < Engine[0]->getSpeciesNumber() - 1; j++) { // Se pone -1 porque la ultima especie es siempre el EGR, y este no debe modificarlo el usuario.
 					Engine[0]->GetCilindro(i)->PutFraccionMasicaEspecie(j,
 						EXTERN->GetOutput_dll(compo));
 

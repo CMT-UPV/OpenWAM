@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -290,7 +290,7 @@ void TTable1D::ResultadosMediosController() {
 
 void TTable1D::AcumulaResultadosMediosController(double Actual) {
 	try {
-		/* Lo que se hace en esta funci�n se realiza dentro del calculo del eje, para as� poder
+		/* Lo que se hace en esta funcion se realiza dentro del calculo del eje, para asi poder
 		llevar a cabo la salida de resultados medios por pantalla. */
 		double Delta = Actual - FResMediosCtrl.Tiempo0;
 

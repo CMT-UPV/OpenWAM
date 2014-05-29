@@ -198,7 +198,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 		}
 		else {
 			std::cout <<
-				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Régimen errónea " <<
+				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " <<
 				std::endl;
 			throw Exception(" ");
 		}

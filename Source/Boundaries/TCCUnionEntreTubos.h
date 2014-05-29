@@ -41,14 +41,14 @@ class TCCUnionEntreTubos : public TCondicionContorno
 private:
 
 int *FNodoFin;               // Nodo del tubo en el extremo del tubo.
-int *FIndiceCC;              // Posición del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-double **FCC;                // Característica conocida del tubo.
-double **FCD;                // Característica desconocida del tubo.
+int *FIndiceCC;              // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+double **FCC;                // Caracteristica conocida del tubo.
+double **FCD;                // Caracteristica desconocida del tubo.
 int *FNumeroTubo;
-int *FTubo;                  // Almacena el número de tubo en la condición de contorno.
+int *FTubo;                  // Almacena el numero de tubo en la condicion de contorno.
 int FTuboActual;
 
-double FGamma3;    // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma función.
+double FGamma3;    // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma funcion.
 double FGamma2;
 double FGamma1;
 

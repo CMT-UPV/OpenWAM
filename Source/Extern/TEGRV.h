@@ -27,9 +27,9 @@ License
 
 
 //---------------------------------------------------------------------------
-// OBJETO PARA EL CALCULO DE LA V�LVULA DE EGR DEL MOTOR DW10 DE PSA PARA
+// OBJETO PARA EL CALCULO DE LA VALVULA DE EGR DEL MOTOR DW10 DE PSA PARA
 // EL PROYECTO DEL ESTUDIO DEL EGR. CALCULA LOS COEFS DE DESCARGA Y TURBULENCIA
-// A PARTIR DE LA POSICI�N DE LA V�LVULA Y UNA CORRELACI�N
+// A PARTIR DE LA POSICION DE LA VALVULA Y UNA CORRELACION
 
 //
 //              22 - MARZO - 2005
@@ -82,7 +82,7 @@ nmTipoControl FTipoControl;
 
 int FCicloCerrado;
 
-//Funcion de interpolaci�n
+//Funcion de interpolacion
 double xit_(double vizq,double vder,double axid,double xif);
 
 public:

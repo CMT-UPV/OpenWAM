@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -51,7 +51,7 @@ private:
 
 protected:
 
-	int FNumeroEje; // N�mero de Axis (empieza en 1).
+	int FNumeroEje; // Numero de Axis (empieza en 1).
 	int FNumCilindros;
 
 	double FRegimenEje;
@@ -60,10 +60,10 @@ protected:
 
 	double FMomentoInercia; // Momento de Inercia del Axis.
 
-	int FNumCompresoresAcoplados; // N�mero de Compresores acoplados al eje.
-	int FNumTurbinasAcopladas; // N�mero de Turbinas acoplados al eje.
-	int *FNumeroCompresor; // Vector con los n�meros de compresor acoplados al eje.
-	int *FNumeroTurbina; // Vector con los n�meros de turbina acopladas al eje.
+	int FNumCompresoresAcoplados; // Numero de Compresores acoplados al eje.
+	int FNumTurbinasAcopladas; // Numero de Turbinas acoplados al eje.
+	int *FNumeroCompresor; // Vector con los numeros de compresor acoplados al eje.
+	int *FNumeroTurbina; // Vector con los numeros de turbina acopladas al eje.
 	TCompresor **FCompresor; // Vector de objetos Compressor.
 	TTurbina **FTurbina; // Vector de objetos Turbine.
 

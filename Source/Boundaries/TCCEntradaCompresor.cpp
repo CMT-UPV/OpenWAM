@@ -106,7 +106,7 @@ fscanf(fich,"%d ",&FNumeroCompresor);
 fgetpos(fich, &filepos);
 fclose(fich);
 
-// Inicializaci�n del transporte de especies qu�micas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
    FFraccionMasicaEspecie[i]=FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
@@ -115,7 +115,7 @@ for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCEntradaCompresor::AsignaTubos en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCEntradaCompresor::AsignaTubos en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -133,7 +133,7 @@ FCompresor=Compressor[FNumeroCompresor-1];
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCEntradaCompresor::AsignaCompresor en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCEntradaCompresor::AsignaCompresor en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -169,23 +169,23 @@ while(error>1e-5 && contador<800){
       FPressure=presionact;
 }
 if (contador > 799){
-      printf("ERROR: TCCEntradaCompresor::CalculaCondicionContorno, no converge en entrada compresor en la condici�n de contorno: %d\n",FNumeroCC);
+      printf("ERROR: TCCEntradaCompresor::CalculaCondicionContorno, no converge en entrada compresor en la condicion de contorno: %d\n",FNumeroCC);
       throw Exception("ERROR: TCCEntradaCompresor::CalculaCondicionContorno no converge en entrada compresor");
 }
 
-// Calculo de velocidad,velocidad del sonido y caracter�stica reflejada.
+// Calculo de velocidad,velocidad del sonido y caracteristica reflejada.
 FSonido=FTuboExtremo[0].Entropia*pow(FPressure,FGamma5);
 FVelocity=(*FCC-FSonido)/FGamma3;
 *FCD=FSonido-FGamma3*FVelocity;
 
-// Seg�n este modelo de compresor,el flujo solo puede entrar en el compresor. As� que la composici�n
-// ser� la determinada por la l�nea de corriente que llega del tubo. Esta ser� la composici�n del fluido
+// Segun este modelo de compresor,el flujo solo puede entrar en el compresor. Asi que la composicion
+// sera la determinada por la linea de corriente que llega del tubo. Esta sera la composicion del fluido
 // en el compresor. Se actualiza directamente en el compresor.
 
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCEntradaCompresor::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCEntradaCompresor::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
