@@ -15,6 +15,10 @@ if(BUILD_DOCUMENTATION)
   add_custom_target (doc ALL 
     COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile
     SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
+  add_custom_target (refman.pdf
+    ${CMAKE_COMMAND}
+    -E chdir ${PROJECT_BINARY_DIR}/doc/latex/ ${CMAKE_MAKE_PROGRAM}
+    DEPENDS ${PROJECT_BINARY_DIR}/doc/latex/refman.tex)
   # IF you do NOT want the documentation to be generated EVERY time you build the project
   # then leave out the 'ALL' keyword from the above command.
 endif()
