@@ -140,34 +140,27 @@ void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMo
 
 		xml_node node_2sport = GetNodeChild(node_valve, "Val:2SPort");
 
-		FAltura = GetAttributeAsDouble(node_2sport, "Height");
-		FAnchura = GetAttributeAsDouble(node_2sport, "Width");
-		FRadioSup = GetAttributeAsDouble(node_2sport, "UpRadius");
-		FRadioInf = GetAttributeAsDouble(node_2sport, "DownRadius");
-		FPosicionPMI = GetAttributeAsDouble(node_2sport, "BDCRef");
-		FDiametroRef = GetAttributeAsDouble(node_2sport, "RefDiameter");
+		FAltura = GetXMLLength(node_2sport, "Height");
+		FAnchura = GetXMLLength(node_2sport, "Width");
+		FRadioSup = GetXMLLength(node_2sport, "UpRadius");
+		FRadioInf = GetXMLLength(node_2sport, "DownRadius");
+		FPosicionPMI = GetXMLLength(node_2sport, "BDCRef");
+		FDiametroRef = GetXMLLength(node_2sport, "RefDiameter");
 
 		FNumCD = CountNodes(node_2sport, "RtV:FlowCoef");
-
-		fscanf(fich, "%d ", &FNumCD);
 
 		FApertura.resize(FNumCD);
 		FDatosCDEntrada.resize(FNumCD);
 		FDatosCDSalida.resize(FNumCD);
 
-//		for (int j = 0; j < FNumCD; ++j) {
-//			fscanf(fich, "%lf ", &FApertura[j]);
-//		}
-//		for (int j = 0; j < FNumCD; ++j) {
-//			fscanf(fich, "%lf ", &FDatosCDEntrada[j]);
-//		}
-//		for (int j = 0; j < FNumCD; ++j) {
-//			fscanf(fich, "%lf ", &FDatosCDSalida[j]);
-//		}
-//
-//		fgetpos(fich, &filepos);
-//		fclose(fich);
-
+		int j = 0;
+		for (xml_node node_flowc = GetNodeChild(node_2sport, "P2s:FlowCoef"); node_flowc;
+			node_flowc = node_flowc.next_sibling("P2s:FlowCoef")) {
+			FApertura[j]=GetXMLLength(node_flowc, "Opening");
+			FDatosCDEntrada[j]=GetAttributeAsDouble(node_flowc, "DCin");
+			FDatosCDSalida[j]=GetAttributeAsDouble(node_flowc, "DCout");
+			j++;
+		}
 	}
 	catch(Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Lumbrera" << std::endl;

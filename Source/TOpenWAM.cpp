@@ -1467,7 +1467,7 @@ void TOpenWAM::ReadValvesXML() {
 				val = NumTLumbrera;
 				NumTLumbrera++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "Controlled") {
 				TypeOfValve[id] = new TValvulaContr();
 				val = NumTValvulaContr;
 				NumTValvulaContr++;
