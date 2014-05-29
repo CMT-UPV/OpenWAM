@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -72,7 +72,7 @@ inline int matherr(struct exception *a) {
 	return 0;
 }
 
-// ENUM�s
+// ENUM's
 
 // ! Different ways to define how the turbine discharge coefficients are calculated
 enum nmTurbineType {
@@ -1664,7 +1664,7 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
-			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
+			// Temperature en Kelvin. Calculado segun la correlacion de JANAF.
 			CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
 				/ Temperature) * RN2;
 			CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
@@ -1686,7 +1686,7 @@ inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 	double R = 287;
 	if (GammaCalculation != nmGammaConstante) {
 		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RN2 * (1 - YO2 - YCO2 - YH2O - 0.012)
-			+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
+			+ 208.13 * 0.012; // El ultimo termino es el Argon
 	}
 	return R;
 };
@@ -1835,7 +1835,7 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 			Valor_mapa_fila_yref_columna_x2 = Mapa[y1][x2] - (Mapa[y1][x2] - Mapa[y2][x2]) *
 				(Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
 
-			/* A continuaci�n se interpola el valor entre las filas del mapa, para obtener el (valor en xref,yref) */
+			/* A continuacion se interpola el valor entre las filas del mapa, para obtener el (valor en xref,yref) */
 			Valor_mapa_fila_yref_columna_xref = Valor_mapa_fila_yref_columna_x1 -
 				(Valor_mapa_fila_yref_columna_x1 - Valor_mapa_fila_yref_columna_x2) *
 				(Mapa_col[x1] - xref) / (Mapa_col[x1] - Mapa_col[x2]);

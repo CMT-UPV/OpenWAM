@@ -155,7 +155,7 @@ void TCCExternalConnection::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int
 		i++;
 	}
 
-	// Inicialización del transporte de especies químicas.
+	// Inicializacion del transporte de especies quimicas.
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 		FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);

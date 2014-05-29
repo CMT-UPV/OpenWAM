@@ -54,7 +54,7 @@ double *FVector_Ma_mapa;
 double *FVector_Regimen_mapa;
 double **FMapa_Limitador_Humos;
 
- //Funcion de interpolaci�n
+ //Funcion de interpolacion
 double xit_(double vizq,double vder,double axid,double xif);
 
 public:

@@ -44,13 +44,13 @@ class TCCPulso : public TCondicionContorno
 private:
 
 TEntradaPulso *FPulso;
-int FNodoFin;               // Nodo del extremo del tubo que conecta con la condición de contorno.
-int FIndiceCC;              // Posición del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+int FNodoFin;               // Nodo del extremo del tubo que conecta con la condicion de contorno.
+int FIndiceCC;              // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
 double FPref;               //Pressure de referencia.
-double FTiempo;             //Instante de cálculo. Para interpolar presión y entropia.
+double FTiempo;             //Instante de calculo. Para interpolar presion y entropia.
 
-double *FCC;          // Característica conocida del tubo.
-double *FCD;          // Característica desconocida del tubo.
+double *FCC;          // Caracteristica conocida del tubo.
+double *FCD;          // Caracteristica desconocida del tubo.
 
 double *FComposicion;
 

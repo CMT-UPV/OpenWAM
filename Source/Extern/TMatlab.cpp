@@ -80,7 +80,7 @@ try
 int i;
 
 char daux[140];
-/* Inicialización del acceso a MATLAB*/
+/* Inicializacion del acceso a MATLAB*/
 
 
 for (i=0; i<140; i++){

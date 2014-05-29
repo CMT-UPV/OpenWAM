@@ -90,10 +90,10 @@ double FGamma1;
 double FGamma3;
 double FGamma4;
 double FGamma5;
-double FRAtm;       // Valor de R para la composición atmósferica.
-double FCvAtm;      // Valor de Cv para la composición atmósferica.
-double FCpAtm;      // Valor de Cp para la composición atmósferica.
-double FGammaAtm;   // Valor de Gamma para la composición atmósferica.
+double FRAtm;       // Valor de R para la composicion atmosferica.
+double FCvAtm;      // Valor de Cv para la composicion atmosferica.
+double FCpAtm;      // Valor de Cp para la composicion atmosferica.
+double FGammaAtm;   // Valor de Gamma para la composicion atmosferica.
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

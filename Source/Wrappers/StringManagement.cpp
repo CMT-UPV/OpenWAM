@@ -2,7 +2,7 @@
 
 /**
  * @file StringManagement.cpp
- * @author Luis Miguel García-Cuevas González <luiga12@mot.upv.es>
+ * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
  * @version 0.2
  * 
  * @section LICENSE

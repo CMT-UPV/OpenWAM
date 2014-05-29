@@ -55,7 +55,7 @@ TCDFijo::TCDFijo(TCDFijo *Origen, int Valvula) : TTipoValvula(nmCDFijo) {
 	FDiametroRef = Origen->FDiametroRef;
 	FNumeroOrden = Origen->FNumeroOrden;
 
-	// Se utilizará el diámetro del tubo
+	// Se utilizara el diametro del tubo
 	if (FActivaDiamRef) {
 		FDiamRef = FDiametroRef;
 	}

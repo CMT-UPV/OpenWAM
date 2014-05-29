@@ -110,7 +110,7 @@ fsetpos(fich, &filepos);
 FPulso=new TEntradaPulso();
 FPulso->LeeEntradaPulso(fich);
 
-// Inicializaci�n del transporte de especies qu�micas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 FComposicion=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-1;i++){
@@ -130,7 +130,7 @@ if(FHayEGR){
 }
 
 if(fracciontotal!=1.){
-   std::cout << "ERROR: La fracci�n m�sica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC <<std::endl;
+   std::cout << "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC <<std::endl;
    throw Exception(" ");
 }
 
@@ -141,7 +141,7 @@ fclose(fich);
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCPreVble::LecturaPulso en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCPreVble::LecturaPulso en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -181,7 +181,7 @@ if((FTuboExtremo[0].TipoExtremo==nmIzquierda && FTuboExtremo[0].Pipe->GetVelocid
 //*FCC=Entropia;
 //FTuboExtremo[0].Entropia=Entropia;
 
-// Transporte de Especies Qu�micas
+// Transporte de Especies Quimicas
 if(*FCC>*FCD){ // Flujo saliente del tubo
    for(int j=0;j<FNumeroEspecies-2;j++){
       FFraccionMasicaEspecie[j]=FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,j);
@@ -194,13 +194,13 @@ if(*FCC>*FCD){ // Flujo saliente del tubo
       FFraccionMasicaEspecie[j]=FComposicion[j];
    }
 }
-/* La �ltima opci�n es que *FCC=*FCD. En este caso el flujo esta parado y la fracci�n masica
+/* La ultima opcion es que *FCC=*FCD. En este caso el flujo esta parado y la fraccion masica
    de las especies permanece constante en dicho instante */
 
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCPreVble::CalculaCondicionesContorno en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCPreVble::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }

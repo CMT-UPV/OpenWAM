@@ -72,7 +72,7 @@ for(int i=0;i<FNumeroDatos;i++){
      fscanf(fich,"%lf %lf %lf ",&FTiempo[i],&FPresionRelativa[i],&FNivelEntropia[i]);
 }
 if(FTiempo[0]>0.0){
-     std::cout << "WARNING: El primer instante de tiempo debería ser 0 para evitar problemas" << std::endl;
+     std::cout << "WARNING: El primer instante de tiempo deberia ser 0 para evitar problemas" << std::endl;
 }
 }
 catch(Exception &N)

@@ -99,7 +99,7 @@ void TVenturi::LeeDatosVenturi(char *FileWAM, fpos_t &filepos) {
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TVenturi::LeeDatosVenturi en el dep�sito: " << FNumeroDeposito << std::endl;
+		std::cout << "ERROR: TVenturi::LeeDatosVenturi en el deposito: " << FNumeroDeposito << std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -316,7 +316,7 @@ void TVenturi::CalculaVenturi() {
 					printf("N. de Mach en el venturi situado en el deposito %d = 1. ",
 						FNumeroDeposito);
 					printf("Velocity = %g (m/s) \t", VelGarganta1 * ARef);
-					printf("Temperature = %g (�C)\n", TempGarganta);
+					printf("Temperature = %g (degC)\n", TempGarganta);
 				}
 				else if (Mach1 == 1.) {
 					VelGarganta1 = pow
@@ -364,7 +364,7 @@ void TVenturi::CalculaVenturi() {
 //			asgNumeroVenturi = true;
 //		}
 //		else {
-//			std::cout << "ERROR: Este Venturi ya tiene n�mero asignado" << std::endl;
+//			std::cout << "ERROR: Este Venturi ya tiene numero asignado" << std::endl;
 //			throw Exception("");
 //		}
 //	}

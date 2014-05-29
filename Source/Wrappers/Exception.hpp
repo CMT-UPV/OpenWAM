@@ -1,7 +1,7 @@
 /*
  * Exception.hpp
  *
- * Copyright (C) 2011 Luis Miguel García-Cuevas González <luismiguelgcg@gmail.com>
+ * Copyright (C) 2011 Luis Miguel Garcia-Cuevas Gonzalez <luismiguelgcg@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

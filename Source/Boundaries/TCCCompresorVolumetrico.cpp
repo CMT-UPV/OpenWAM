@@ -124,7 +124,7 @@ if(FControlRegimen==nmPropio){
 }else if(FControlRegimen==nmMotor && HayMotor){
     fscanf(fich,"%lf ",&FRelacionVelocidadesCV);
 }else{
-    std::cout << "ERROR: TCCCompresorVolumetrico::LeeCCDeposito Lectura del Control del R�gimen err�nea en la condici�n de contorno: " << FNumeroCC << std::endl;
+    std::cout << "ERROR: TCCCompresorVolumetrico::LeeCCDeposito Lectura del Control del Regimen erronea en la condicion de contorno: " << FNumeroCC << std::endl;
     throw Exception(" ");
 }
 
@@ -134,7 +134,7 @@ fscanf(fich,"%lf %lf %lf ",&FC1Temperatura,&FC2Temperatura,&FC3Temperatura);
 fscanf(fich,"%lf %lf %lf ",&FC1Potencia,&FC2Potencia,&FC3Potencia);
 fscanf(fich,"%lf %lf %lf ",&FC4Potencia,&FC5Potencia,&FC6Potencia);
 
-// Inicializaci�n del transporte de especies qu�micas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 FComposicion=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-1;i++){
@@ -153,7 +153,7 @@ if(FHayEGR){
    }
 }
 if(fracciontotal!=1.){
-   std::cout << "ERROR: La fracci�n m�sica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC <<std::endl;
+   std::cout << "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC <<std::endl;
    throw Exception(" ");
 }
 
@@ -164,7 +164,7 @@ fclose(fich);
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -186,7 +186,7 @@ if(FControlRegimen==nmMotor){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCompresorVolumetrico::ObtencionValoresInstantaneos en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCompresorVolumetrico::ObtencionValoresInstantaneos en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -207,14 +207,14 @@ FRMezcla=FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
 FGamma3=Gamma3(FGamma);
 FGamma4=Gamma4(FGamma);
 
-/* C�lculo del massflow volum�trico (l/s) */
+/* Calculo del massflow volumetrico (l/s) */
 massflow=FC1Caudal+FC2Caudal*FPressure+FC3Caudal*FRelacionVelocidadesCV*FRegimen;
 
-/* C�lculo del massflow m�sico (kg/s) */
+/* Calculo del massflow masico (kg/s) */
 FDensidad=FPresionCV*1e5/(FRMezcla*(FTemperaturaCV+273.));
 FGasto=massflow*FDensidad/1000.;
 
-/* Temperature del gas entrante en grados cent�grados */
+/* Temperature del gas entrante en grados centigrados */
 FTemperature=FC1Temperatura*pow(FPressure,2.)+FC2Temperatura*FPressure+FC3Temperatura;
 
 /* Velocity del sonido en el tubo */
@@ -224,24 +224,24 @@ FSonido=sqrt(FGamma*(FTemperature+273.)*FRMezcla)/ARef;
 FPotencia=FC1Potencia*pow(FPressure,3.)+FC2Potencia*pow(FPressure,2.)+FC3Potencia*FPressure+
 		  FC4Potencia+FC5Potencia*exp(FC6Potencia*FRelacionVelocidadesCV*FRegimen);
 
-/*!Acotaci�n del intervalo donde esta U*/
+/*!Acotacion del intervalo donde esta U*/
 	ei=0;
 	ed=FSonido;
 
   stComprVol CV(FTuboExtremo[0].Entropia,*FCC,FGamma,FSonido,FGasto,FSeccionTubo,PRef,ARef);
 		FVelocity =FindRoot(CV,ei,ed);
 
- /* printf("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volum�trico en la condici�n de contorno: %d.\n",FNumeroCC);
-  printf("Repasar los datos. El compresor est� en condiciones supers�nicas.\n");
-  throw Exception("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volum�trico.");*/
+ /* printf("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volumetrico en la condicion de contorno: %d.\n",FNumeroCC);
+  printf("Repasar los datos. El compresor esta en condiciones supersonicas.\n");
+  throw Exception("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volumetrico.");*/
 
 
-/* Obtenci�n de las variables de Riemann */       // Tal y como esta planteada esta BC, el flujo siempre sera entrante al tubo.
+/* Obtencion de las variables de Riemann */       // Tal y como esta planteada esta BC, el flujo siempre sera entrante al tubo.
 FTuboExtremo[0].Entropia=CV.entropia;
 *FCC=FSonido-FGamma3*FVelocity;
 *FCD=FSonido+FGamma3*FVelocity;
 
-// Transporte de Especies Qu�micas
+// Transporte de Especies Quimicas
 if(*FCC>*FCD){       // Flujo saliente del tubo
    for(int j=0;j<FNumeroEspecies-2;j++){
 	   FFraccionMasicaEspecie[j]=FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,j);
@@ -254,7 +254,7 @@ if(*FCC>*FCD){       // Flujo saliente del tubo
       FFraccionMasicaEspecie[j]=FComposicion[j];
    }
 }
-/* La �ltima opci�n es que *FCC=*FCD. En este caso el flujo esta parado y la fracci�n masica
+/* La ultima opcion es que *FCC=*FCD. En este caso el flujo esta parado y la fraccion masica
    de las especies permanece constante en dicho instante */
 
 AcumulaResultadosMediosCV(Time);
@@ -262,7 +262,7 @@ AcumulaResultadosMediosCV(Time);
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -279,7 +279,7 @@ throw Exception(N.Message);
 //     FNumeroCV=valor;
 //     asgNumeroCV=true;
 //}else{
-//     std::cout << "ERROR: Este Compressor Volum�trico ya tiene n�mero asignado" << std::endl;
+//     std::cout << "ERROR: Este Compressor Volumetrico ya tiene numero asignado" << std::endl;
 //     throw Exception("");
 //}
 //}

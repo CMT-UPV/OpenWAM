@@ -28,9 +28,9 @@ License
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-// En la Tesis de Jos� Miguel Corber�n, p�ginas 104-139
-// Resumido en el art�culo "Soluci�n a la condici�n de contorno de la uni�n
-// cilindro-conducto de los MCIA" (Est� en el COMETT PROGRAMME 1995)
+// En la Tesis de Jose Miguel Corberan, paginas 104-139
+// Resumido en el articulo "Solucion a la condicion de contorno de la union
+// cilindro-conducto de los MCIA" (Esta en el COMETT PROGRAMME 1995)
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 #pragma hdrstop
@@ -51,7 +51,7 @@ TCCCilindro::TCCCilindro(nmTypeBC TipoCC,int numCC):TCondicionContorno(TipoCC,nu
 
 if(TipoCC==nmIntakeValve)  FTipoValv=nmValvAdmision;
 else if(TipoCC==nmExhaustValve)  FTipoValv=nmValvEscape;
-else printf("ERROR en tipo de v�lvula TCCCilindro en la condici�n de contorno: %d\n",FNumeroCC);
+else printf("ERROR en tipo de valvula TCCCilindro en la condicion de contorno: %d\n",FNumeroCC);
 
 FTuboExtremo=NULL;
 FValvula=NULL;
@@ -98,7 +98,7 @@ FValvula->putDiametroTubo(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::AsignaTipoValvula en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::AsignaTipoValvula en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -126,7 +126,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FNodoFin=0;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Landa);
-           FSigno=1;   // No har� falta en el futuro.
+           FSigno=1;   // No hara falta en el futuro.
         }
         if(Pipe[i]->getNodoDer()==FNumeroCC){
            FNumeroTubosCC++;
@@ -135,7 +135,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FNodoFin=Pipe[i]->getNin()-1;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Beta);
-           FSigno=-1;  // No har� falta en el futuro.
+           FSigno=-1;  // No hara falta en el futuro.
         }
         i++;
 }
@@ -151,7 +151,7 @@ fclose(fich);
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::AsignaTubos en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCCilindro::AsignaTubos en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -164,7 +164,7 @@ void TCCCilindro::ObtencionValoresInstantaneos()
 {
 try
 {
-/* LO QUE SE NECESITA SE OBTENDR� A COMUNICANDO CON EL OBJETO CILINDRO
+/* LO QUE SE NECESITA SE OBTENDRA A COMUNICANDO CON EL OBJETO CILINDRO
 FPresionCil=presion_cil;
 FVelSonidoCil=vel_sonido_cil;
 FMomentoAngular=momento_angular;
@@ -177,18 +177,18 @@ FCDSalida=FValvula->getCDVolTub();
 FCTorbellino=FValvula->getCTorb();
 
 if (FCDEntrada > 2.0 || FCDEntrada < 0.0) {
-     printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga entrante: %lf, en %lf grados, en la condici�n de contorno: %d\n",FCDEntrada,Angulo,FNumeroCC);
+     printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga entrante: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDEntrada,Angulo,FNumeroCC);
      throw Exception("ERROR: en calculo coeficiente descarga entrante: "+AnsiString(FCDEntrada)+", en "+AnsiString(Angulo)+" grados");
 }
 if (FCDSalida > 1.0 || FCDSalida < 0.0) {
-     printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condici�n de contorno: %d\n",FCDSalida,Angulo,FNumeroCC);
+     printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDSalida,Angulo,FNumeroCC);
      throw Exception("ERROR: en calculo coeficiente descarga saliente: "+AnsiString(FCDSalida)+", en "+AnsiString(Angulo)+" grados ");
 }
 */
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::ObtencionValoresInstantaneos en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::ObtencionValoresInstantaneos en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -290,7 +290,7 @@ if (rel_CCon_Entropia / FAd > 1.000005){     // Flujo entrante al cilindro
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -309,15 +309,15 @@ double vel_son_garganta,velocidad_garganta,Mach,xaa2,ycal,d1;
 Fk=FSeccionTubo/FSeccionEficaz;
 vel_son_garganta=FTuboExtremo[0].Entropia*FAd;    //Velocity del sonido en la garganta. Adimensional.
 
-//C�lculo de la velocidad en la garganta.Caso de salto subcr�tico.
+//Calculo de la velocidad en la garganta.Caso de salto subcritico.
 FCaso=nmFlujoEntranteSaltoSubcritico;
 Resolucion(vel_son_garganta,*FCC,FCaso,&FVelocity,&FSonido,1e-5,2e-6);
 
-//Ecuaci�n de la energ�a
+//Ecuacion de la energia
 velocidad_garganta=sqrt(2.*Gamma6*(pow(FSonido,2.)+Gamma3*pow(FVelocity,2.)-pow(vel_son_garganta,2.)));
 //Se ha calculado la velocidad en la garganta en valor absoluto.
 
-//C�lculo de la velocidad en la garganta en el caso de salto supercr�tico
+//Calculo de la velocidad en la garganta en el caso de salto supercritico
 if (velocidad_garganta > vel_son_garganta) {
         FCaso=nmFlujoEntranteSaltoSupercritico;
 	Resolucion(0.0, 1.0,FCaso,&ycal,&Mach,1e-5,2e-6);
@@ -328,7 +328,7 @@ if (velocidad_garganta > vel_son_garganta) {
 	vel_son_garganta = pow(d1,Gamma1/Gamma2);
 	velocidad_garganta = vel_son_garganta;  // En valor absoluto.
 }
-//Fin caso de salto supercr�tico
+//Fin caso de salto supercritico
 
 xaa2 = pow(FTuboExtremo[0].Entropia,Gamma4);
 FGasto=-fabs(Gamma*FSeccionTubo*pow(FSonido,2*Gamma6)*FVelocity*1e5/(ARef*xaa2));  // Massflow entrante al cilindro negativo
@@ -342,7 +342,7 @@ FVelocidadGarganta=-FSigno*velocidad_garganta;
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::FlujoEntranteCilindro en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::FlujoEntranteCilindro en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -364,20 +364,20 @@ double relacion_velocidades_son,Mach_tras_ondachoque,Mach,
 
 Fk=FSeccionTubo/FSeccionEficaz;
 
-/* C�lculo del valor de la velocidad del sonido en el extremo del tubo para
- el cual el salto es cr�tico. */
+/* Calculo del valor de la velocidad del sonido en el extremo del tubo para
+ el cual el salto es critico. */
 u2cr=FVelSonidoCil*sqrt(2./Gamma2)*(sqrt(pow(Fk,2.)+Gamma1*Gamma2)-Fk)*FSigno/Gamma1;
-a2cr=sqrt(pow(FVelSonidoCil,2.)-Gamma3*pow(u2cr,2.)); //Ecuaci�n de la energ�a. Garganta-Cylinder.
+a2cr=sqrt(pow(FVelSonidoCil,2.)-Gamma3*pow(u2cr,2.)); //Ecuacion de la energia. Garganta-Cylinder.
 
-/* A partir  de a2cr se determina el error en el c�lculo de A2 al suponer salto
- subcr�tico. Si es negativo, el salto es supercr�tico. Si es positivo, el salto
- es subcr�tico. */
+/* A partir  de a2cr se determina el error en el calculo de A2 al suponer salto
+ subcritico. Si es negativo, el salto es supercritico. Si es positivo, el salto
+ es subcritico. */
 FSSubcritico(a2cr,&error,&miembro2);
 
-if(error<0.){  // Salto de presiones supercr�tico.
+if(error<0.){  // Salto de presiones supercritico.
 
-        /* Determinaci�n del intervalo de iteraci�n. Para ello se supone que
-        en el extremo del tubo se dan las condiciones cr�ticas. Explicado en
+        /* Determinacion del intervalo de iteracion. Para ello se supone que
+        en el extremo del tubo se dan las condiciones criticas. Explicado en
         los apuntes de Pedro. */
 	a1 = sqrt(2./Gamma2)*FVelSonidoCil;
         FVelocidadGarganta=FSigno*a1;
@@ -388,8 +388,8 @@ if(error<0.){  // Salto de presiones supercr�tico.
 	if (val1-val2<0.)  valde = FVelocidadGarganta;
 	if (val1-val2>=0.) valde = FSigno*FVelSonidoCil/sqrt(Gamma3);
 
-        /* Una vez conocido el intervalo de iteraci�n, se pasa a la resoluci�n
-        del caso flujo saliente salto supercr�tico. */
+        /* Una vez conocido el intervalo de iteracion, se pasa a la resolucion
+        del caso flujo saliente salto supercritico. */
         FCaso=nmFlujoSalienteSaltoSupercritico;
 	Resolucion(0.0,valde,FCaso,&FVelocity,&FSonido,1e-5, 2e-6);
 
@@ -398,18 +398,18 @@ if(error<0.){  // Salto de presiones supercr�tico.
 	yy = pow(FAd,Gamma4);
         FGasto = FCDSalida*FSeccionValvula*Gamma*xx*yy*1e5/(FVelSonidoCil*ARef);
 
-        /* Reducci�n a flujo subs�nico mediante onda de choque plana en el caso
-         de que se hayan obtenido condiciones supers�nicas en el extremo del
-         tubo. Explicado en la tesis Corber�n (p�gina de la 47 a la 52
+        /* Reduccion a flujo subsonico mediante onda de choque plana en el caso
+         de que se hayan obtenido condiciones supersonicas en el extremo del
+         tubo. Explicado en la tesis Corberan (pagina de la 47 a la 52
          (punto 2.5) y de la 122 a la 129 (lo importante a partir de la 127) */
 	Mach = fabs(FVelocity/FSonido);
 	xx = *FCC+Gamma3*FVelocity*FSigno;
-	FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia*FSonido/xx;   // Ecuaci�n de la caracter�stica incidente.
+	FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia*FSonido/xx;   // Ecuacion de la caracteristica incidente.
 	if(Mach>1.){
 
-           /* Las ecuaciones siguientes corresponden a la resoluci�n de la onda
+           /* Las ecuaciones siguientes corresponden a la resolucion de la onda
              de choque plana. Se pueden encontrar en el punto 2.5 de la tesis
-             de Corber�n.  */
+             de Corberan.  */
            xx = Gamma4*pow(Mach,2)-1.;
            Mach_tras_ondachoque = sqrt((pow(Mach,2.)+2./Gamma1)/xx);
            temp_tras_ondachoque = Gamma3*pow(Mach,2)+1.;
@@ -421,21 +421,21 @@ if(error<0.){  // Salto de presiones supercr�tico.
            FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia*relacion_velocidades_son/pow(d1,Gamma5);
 	}
 
-} else { // Salto de presiones subcr�tico.
+} else { // Salto de presiones subcritico.
 
-        // Resoluci�n del caso de flujo saliente salto subcr�tico.
+        // Resolucion del caso de flujo saliente salto subcritico.
         FCaso=nmFlujoSalienteSaltoSubcritico;
 	Resolucion(a2cr,FVelSonidoCil,FCaso,&ycal,&FSonido,1e-5, 2e-6);
-        // Aplicando la Ecuaci�n de la Energ�a entre el cilindro y la garganta:
+        // Aplicando la Ecuacion de la Energia entre el cilindro y la garganta:
 	FVelocity = sqrt((pow(FVelSonidoCil,2)-pow(FSonido,2))/Gamma3)*FSigno;
 
-        // C�lculo del massflow. Como es saliente del cilindro, siempre es positivo.
+        // Calculo del massflow. Como es saliente del cilindro, siempre es positivo.
 	a1 = FVelSonidoCil*(*FCC+Gamma3*FVelocity*FSigno)/(FTuboExtremo[0].Entropia*FAd);
         FVelocidadGarganta = Fk*pow(a1,2)*FVelocity/pow(FSonido,2);
         FGasto = fabs(FCDSalida*FSeccionValvula*Gamma*pow(FAd/FVelSonidoCil,Gamma4)*
                  FVelocidadGarganta*pow(a1,2./Gamma1)*1e5/ARef);
 	xx = *FCC+Gamma3*FVelocity*FSigno;
-	FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia*FSonido/xx;  // Ecuaci�n de la caracter�stica incidente.
+	FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia*FSonido/xx;  // Ecuacion de la caracteristica incidente.
 }
 *FCD = FSonido+Gamma3*FVelocity*FSigno;
 *FCC = FSonido-Gamma3*FVelocity*FSigno;
@@ -447,7 +447,7 @@ FGastoGarganta = FGasto/(FCDSalida*FSeccionValvula);
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::FlujoSalienteCilindro en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::FlujoSalienteCilindro en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -485,7 +485,7 @@ while (contador <= 800 && ! salida) {
          case nmFlujoSalienteSaltoSupercritico:
                 FSSupercritico(medio,&xx1,&xx2);
                 break;
-         default: printf ("Error en la definici�n del flujo TCCCilindro::Resolucion en la condici�n de contorno: %d\n",FNumeroCC);
+         default: printf ("Error en la definicion del flujo TCCCilindro::Resolucion en la condicion de contorno: %d\n",FNumeroCC);
          throw Exception("");
         } /*fin del switch*/
 
@@ -527,18 +527,18 @@ if(salida){
                 *a2t=xx2;
                 *u2t=ei;
                 break;
-         default: printf ("Error en la definici�n del flujo TCCCilindro::Resolucion en la condici�n de contorno: %d\n",FNumeroCC);
+         default: printf ("Error en la definicion del flujo TCCCilindro::Resolucion en la condicion de contorno: %d\n",FNumeroCC);
          throw Exception("");
         } /*fin del switch*/
 }
 if(contador>800){
-   printf("ERROR: TCCCilindro::Resolucion. No se cumplen las condiciones de convergencia en la condici�n de contorno: %d\n",FNumeroCC);
+   printf("ERROR: TCCCilindro::Resolucion. No se cumplen las condiciones de convergencia en la condicion de contorno: %d\n",FNumeroCC);
 }
 }
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::Resolucion en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::Resolucion en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -554,32 +554,32 @@ try
 
 double xx,yy,u2;
 
-/* Resoluci�n de la ecuaci�n (20) del art�culo "Soluci�n a la condici�n de
-   contorno de la uni�n cilindro-conducto de los MCIA". Ecuaci�n 4.30 en la
-   tesis de Corber�n */
+/* Resolucion de la ecuacion (20) del articulo "Solucion a la condicion de
+   contorno de la union cilindro-conducto de los MCIA". Ecuacion 4.30 en la
+   tesis de Corberan */
 
 xx=vel_son_supuesta/(FTuboExtremo[0].Entropia*FAd);
 yy=pow(xx,4.*Gamma6);
 yy=pow(Fk,2.)*yy-1.;
 u2=-FTuboExtremo[0].Entropia*FAd*sqrt(2.*Gamma6*(pow(xx,2.)-1.)/yy)*FSigno;
 
-// Se pone el siguiente if para que en Resolucion la elecci�n del intervalo
-// de c�lculo sea la adecuada. En la p�gina 59 de Apuntes de Pedro esta explicado.
+// Se pone el siguiente if para que en Resolucion la eleccion del intervalo
+// de calculo sea la adecuada. En la pagina 59 de Apuntes de Pedro esta explicado.
 if(u2>=0){
         *u2_2=u2;
-        /* Resoluci�n de la ecuaci�n de la caracter�stica incidente. */
+        /* Resolucion de la ecuacion de la caracteristica incidente. */
 
         *u2_1=(vel_son_supuesta-*FCC)*FSigno/Gamma3;
 }else{
         *u2_1=u2;
-        /* Resoluci�n de la ecuaci�n de la caracter�stica incidente. */
+        /* Resolucion de la ecuacion de la caracteristica incidente. */
 
         *u2_2=(vel_son_supuesta-*FCC)*FSigno/Gamma3;
 }
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::FESubcritico en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::FESubcritico en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -596,19 +596,19 @@ try
 
 double xx,yy;
 
-/* Resoluci�n de la ecuaci�n (21) del art�culo "Soluci�n a la condici�n de
-   contorno de la uni�n cilindro-conducto de los MCIA". Ecuaci�n (4.31) de
-   la tesis de Corber�n */
+/* Resolucion de la ecuacion (21) del articulo "Solucion a la condicion de
+   contorno de la union cilindro-conducto de los MCIA". Ecuacion (4.31) de
+   la tesis de Corberan */
 
 yy=(Gamma2/2.)*pow(Fk*mach_supuesto,2.*Gamma1/Gamma2);
 xx=Gamma3*pow(mach_supuesto,2);
-*miembro1=xx-yy+1.;     // Miembro 1 de la ecuaci�n (21)
-*miembro2=0;            // Miembro 2 de la ecuaci�n (21)
+*miembro1=xx-yy+1.;     // Miembro 1 de la ecuacion (21)
+*miembro2=0;            // Miembro 2 de la ecuacion (21)
 
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::FESupercritico en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::FESupercritico en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -625,8 +625,8 @@ double a1,u1,u2;
 
 *miembro2=0;
 
-/* Resoluci�n del algoritmo de c�lculo propuesto en la p�gina 113 de la tesis
-   de Corber�n. */
+/* Resolucion del algoritmo de calculo propuesto en la pagina 113 de la tesis
+   de Corberan. */
 
 u2 = sqrt((pow(FVelSonidoCil,2)-pow(vel_son_supuesta,2))/Gamma3)*FSigno;
 a1 = FVelSonidoCil*(*FCC+Gamma3*u2*FSigno)/(FTuboExtremo[0].Entropia*FAd);
@@ -636,7 +636,7 @@ u1 = Fk*u2*pow(a1,2)/pow(vel_son_supuesta,2);
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::FSSubcritico en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::FSSubcritico en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -650,17 +650,17 @@ void TCCCilindro::FSSupercritico(double vel_supuesta,double *a2_1,double *a2_2)
 try
 {
 
-// Resoluci�n de la ecuaci�n de la energ�a entre el cilindro y el extremo del tubo.
+// Resolucion de la ecuacion de la energia entre el cilindro y el extremo del tubo.
 *a2_1 = sqrt(pow(FVelSonidoCil,2)-Gamma3*pow(vel_supuesta,2));
 
-// Resoluci�n de la ecuaci�n 4.20 de la tesis de Corber�n.
+// Resolucion de la ecuacion 4.20 de la tesis de Corberan.
 *a2_2 = sqrt(vel_supuesta*pow((*FCC+Gamma3*vel_supuesta*FSigno)/
-        FTuboExtremo[0].Entropia,Gamma4)/Fcc);  // Si vel_supuesta < 0, Fcc tambi�n lo es.
+        FTuboExtremo[0].Entropia,Gamma4)/Fcc);  // Si vel_supuesta < 0, Fcc tambien lo es.
 
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCCilindro::FSSupercritico en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCCilindro::FSSupercritico en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }

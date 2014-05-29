@@ -75,8 +75,8 @@ double FGasto;        // Se calcula en valor absluto. EL tratamiento de su signo
                       // auxialares FSentidoFlujoED.
 double FVelocity;
 double FGastoImpreso;
-double Fa0;           // Velocity del sonido en el dep�sito del que sale el flujo.
-double Fa1;           // Velocity del sonido en el dep�sito al que llega el flujo.
+double Fa0;           // Velocity del sonido en el deposito del que sale el flujo.
+double Fa1;           // Velocity del sonido en el deposito al que llega el flujo.
 
 int FSentidoFlujoED1;
 int FSentidoFlujoED2;

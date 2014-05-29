@@ -10,7 +10,7 @@ struct stTurbomachinery {
 	double AF; // Air fuel ratio
 	double Humidity; // Humidity
 	double MassFlow; // Mass flow (kg/s)
-	double IT_C; // Inlet temperature (ºC)
+	double IT_C; // Inlet temperature (degC)
 	double IT_K; // Inlet temperature (K)
 	double IP; // Inlet pressure (bar)
 	double PR; // Pressure ratio (-)
@@ -66,7 +66,7 @@ private:
 
 	// Input oil data
 	double FO_MassFlow; // Oil mass flow (kg/s)
-	double FO_IT_C; // Oil inlet temperature (ºC)
+	double FO_IT_C; // Oil inlet temperature (degC)
 	double FO_IT_K; // Oil inlet temperature (K)
 	double FO_IP; // Oil inlet pressure (bar)
 

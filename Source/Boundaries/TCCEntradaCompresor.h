@@ -48,10 +48,10 @@ private:
 int FNumeroCompresor;
 TCompresor *FCompresor;
 
-int FNodoFin;         // Nodo en el extremo del tubo que est� en la condici�n de contorno.
-double *FCC;          // Caracter�stica conocida del tubo.
-double *FCD;          // Caracter�stica desconocida del tubo.
-double FSeccionTubo;  // Di�metro del tubo en la condici�n de contorno.
+int FNodoFin;         // Nodo en el extremo del tubo que esta en la condicion de contorno.
+double *FCC;          // Caracteristica conocida del tubo.
+double *FCD;          // Caracteristica desconocida del tubo.
+double FSeccionTubo;  // Diametro del tubo en la condicion de contorno.
 
 
 double FVelocity;

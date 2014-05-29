@@ -187,8 +187,8 @@ struct stRecover {
 		return A2 - A2_2;
 	}
 };
-/* NUEVO- PROGRAMACIÓN DE LAS EXPRESIONES NECESARIAS PARA
-EL MÉTODO DE BRENT:
+/* NUEVO- PROGRAMACION DE LAS EXPRESIONES NECESARIAS PARA
+EL METODO DE BRENT:
 - Union Tubos: Ensanchamiento -	Estrechamiento
 - Compressor Volumetrico
 - Perdida de presion adiabatica
@@ -198,16 +198,16 @@ EL MÉTODO DE BRENT:
 struct stExpansion {
 
 	/* !Definicion de las VARIABLES LOCALES/
-	/*Variables locales que almacenarán la inforamción pasada por función */
+	/*Variables locales que almacenaran la inforamcion pasada por funcion */
 
-	double CCS; // Variable local asociada a la caracteristica conocida en 1 (salida del tubo) y que se pasa por función//
+	double CCS; // Variable local asociada a la caracteristica conocida en 1 (salida del tubo) y que se pasa por funcion//
 	double CCE; // Variable l.a. a la caracteristica conocida en 2, entrada al tubo//
 	double Gam; // Variable l.a. al Gamma pasado por funcion//
 	double rel_area; // Variable l.a. a la relacion de area pasada por funcion//
 	double rel_entropia; // Variable l.a. a la relacion de entropia pasada por funcion//
 
-	/* Variables locales internas, si no se quiere acceder después a la
-	información que contienen, es preferible definirlas directamente dentro del
+	/* Variables locales internas, si no se quiere acceder despues a la
+	informacion que contienen, es preferible definirlas directamente dentro del
 	operador */
 
 	double U1; // V.L para la velocidad del fluido en 1 (SALIENTE del tubo//
@@ -223,7 +223,7 @@ struct stExpansion {
 	stExpansion(const double iCCS, const double iCCE, const double R_E, const double R_A, const double iGam)
 		: CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
-		/* Definición de aquellas variables internas que se usaran en el operador, pero que no se requiere su acceso, aqui o dentro del operador */
+		/* Definicion de aquellas variables internas que se usaran en el operador, pero que no se requiere su acceso, aqui o dentro del operador */
 		Ga2 = Gam + 1;
 	}
 
@@ -259,16 +259,16 @@ struct stExpansion {
 
 struct stContraction {
 
-	/* Definición de variables locales */
-	/* Variables locales para almacenar la información pasada por funcion */
+	/* Definicion de variables locales */
+	/* Variables locales para almacenar la informacion pasada por funcion */
 
 	double CCS; // Variable local asociada a la caracteristica incidente conocida en 1, pasada por funcion//
 	double CCE; // Variable l.a a la caracteristica conocida en 2 inicial, pasada por funcion//
 	double rel_entropia; // Variable l.a a la relacion de entropia pasada por funcion//
-	double rel_area; // Variable l.a a la relación de area, pasada por funcion//
+	double rel_area; // Variable l.a a la relacion de area, pasada por funcion//
 	double Gam; // Variable l.a a gamma, pasado por funcion//
 
-	/* Variables locales internas, que permitirán el acceso. Si no se requiere acceso
+	/* Variables locales internas, que permitiran el acceso. Si no se requiere acceso
 	es mejor definirlas directamente dentro del operador */
 
 	double A1; // Variable local para la velocidad del sonido en 1//
@@ -277,7 +277,7 @@ struct stContraction {
 	double Ga1;
 	double Ga3;
 
-	/* CONSTRUCTOR: Se recibe la información por funcion en variables ficticias y se
+	/* CONSTRUCTOR: Se recibe la informacion por funcion en variables ficticias y se
 	almacena en las variables locales */
 
 	stContraction(const double iCCS, const double iCCE, const double R_E, const double R_A,
@@ -318,14 +318,14 @@ struct stContraction {
 
 struct stPerdPresAd {
 
-	/* Definir las variables locales donde se almacenará la informacion que se pase
+	/* Definir las variables locales donde se almacenara la informacion que se pase
 	desde el programa y que son necesarias para el calculo de la condicion de contorno.
 	Son variables de tipo double */
 
 	// VARIABLES ALMACENAMIENTO DE VARIABLES QUE SE PASARAN//
 	double CC1; // Variable local asociada a la caracteristica incidente del extremo 1 pasada por funcion//
 	double CC2; // Variable l.a. a la caracteristica incidente del extremo 2 pasada por funcion//
-	double FK; // Variable l.a. al parámetro K pasado por funcion//
+	double FK; // Variable l.a. al parametro K pasado por funcion//
 	double Gam; // Variable l.a. a Gamma pasado por funcion//
 	double FRE; // Variable l.a. a la relacion de entropia que se pasa por funcion//
 
@@ -377,7 +377,7 @@ struct stPerdPresAdL {
 
 	double CC1; // Variable local asociada a la caracteristica incidente del extremo 1 pasada por funcion//
 	double CC2; // Variable l.a. a la caracteristica incidente del extremo 2 pasada por funcion//
-	double FK; // Variable l.a. al parámetro K pasado por funcion//
+	double FK; // Variable l.a. al parametro K pasado por funcion//
 	double Gam; // Variable l.a. a Gamma pasado por funcion//
 	double FRE; // Variable l.a. a la relacion de entropia que se pasa por funcion//
 	double ARef; // Variable l.a. a la velocidad del sonido de referencia //
@@ -401,10 +401,10 @@ struct stPerdPresAdL {
 
 	double operator()(const double A1) {
 
-		U1 = (CC1 - A1) / Ga3; // Cálculo de la velocidad  saliente.//
+		U1 = (CC1 - A1) / Ga3; // Calculo de la velocidad  saliente.//
 		double b1 = -FK * fabs(U1) / pow2(A1) + 1.;
-		b1 += 1e-14; // Resolución ecuación de 2º grado y cálculo de la velocidad entrante.OJO que he cambiado la fórmula.Pedro.//
-		// Resolución ecuación de 2º grado y cálculo de la velocidad entrante.//
+		b1 += 1e-14; // Resolucion ecuacion de 2 grado y calculo de la velocidad entrante.OJO que he cambiado la formula.Pedro.//
+		// Resolucion ecuacion de 2 grado y calculo de la velocidad entrante.//
 		double a = Ga3;
 		double b = b1 * pow2(A1);
 		double c = -(pow2(A1) + Ga3 * pow2(U1)) * pow2(U1);
@@ -416,7 +416,7 @@ struct stPerdPresAdL {
 			U2 = u2u1 / U1;
 		}
 		A2 = sqrt(pow2(A1) + Ga3 * (pow2(U1) - pow2(U2)));
-		// Cálculo de la velocidad del sonido entrante.
+		// Calculo de la velocidad del sonido entrante.
 
 		xx3 = CC2 + U2 * Ga3;
 
@@ -431,8 +431,8 @@ struct stPerdPresAdL {
 struct stComprVol {
 
 	/* Definicion de las variables locales (pueden tomar cualquier nombre)
-	y que almacenarán la información de las variables pasadas a la funcion
-	desde el programa, LA INFORMACIÓN SE ASOCIARÁ EN EL CONSTRUCTOR. AQUI
+	y que almacenaran la informacion de las variables pasadas a la funcion
+	desde el programa, LA INFORMACION SE ASOCIARA EN EL CONSTRUCTOR. AQUI
 	SOLO SE ESTAN DEFINIENDO */
 
 	/* PASO POR EL CONSTRUCTOR ARef y PRef para evitar incluir la libreria globales */
@@ -456,8 +456,8 @@ struct stComprVol {
 	/* CONSTRUCTOR: Aqui se RECIBEN las VARIABLES PASADAS con un nombre ficticio
 	parecido al de la definicio de las variables locales (por ejemplo precedido de i)
 	EN EL LADO IZQUIERDO (variables recibidas) : EN EL LADO DERECHO (informacion almacenada)
-	y que son necesarias para el cálculo del operador (tipo de variable y nombre ficticio) y a continuación
-	SE ASOCIAN a las variables locales que almacenaran la información pasada */
+	y que son necesarias para el calculo del operador (tipo de variable y nombre ficticio) y a continuacion
+	SE ASOCIAN a las variables locales que almacenaran la informacion pasada */
 
 	stComprVol(const double iAA, const double iCC, const double iGam, const double iA, const double iGS,
 		const double iF, const double iPRef, const double iARef) : AA(iAA), BC(iCC), Gam(iGam),

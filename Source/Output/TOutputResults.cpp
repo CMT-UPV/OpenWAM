@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -574,7 +574,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 	int NumPipesIns;
 	int PipeID;
 	fscanf(FileInput, "%d ", &NumPipesIns);
-	/* Dato para WAMer. N�mero de resultados instant�neos en tubos */
+	/* Dato para WAMer. Numero de resultados instantaneos en tubos */
 	int numeroparawamer;
 	fscanf(FileInput, "%d ", &numeroparawamer);
 	for (int i = 0; i < NumPipesIns; i++) {
@@ -701,7 +701,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 	}
 
 	//
-	// // RESULTADOS INSTANT�NEOS WASTE-GATE.
+	// // RESULTADOS INSTANTANEOS WASTE-GATE.
 
 	int NumWasteGateIns;
 	int WasteGateID;
@@ -733,7 +733,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 		valido = false;
 	}
 	//
-	// // RESULTADOS INSTANT�NEOS L�MINA.
+	// // RESULTADOS INSTANTANEOS LAMINA.
 	int NumReedIns;
 	int ReedID;
 	fscanf(FileInput, "%d ", &NumReedIns);
@@ -818,7 +818,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 void TOutputResults::ReadSpaceTimeResults(char* FileWAM, fpos_t &filepos, TTubo** Pipe,
 	TBloqueMotor** Engine, TDeposito **Plenum) {
 
-	// N�mero de elementos en los que se grafica
+	// Numero de elementos en los que se grafica
 	int FNumMagnitudesEspTemp;
 	int NumCilEspTemp;
 	int NumDepEspTemp;
@@ -1178,7 +1178,7 @@ void TOutputResults::HeaderSpaceTimeResults(double thmax, double grmax, double a
 
 	for (unsigned int i = 0; i < FParameterSpaceTime.size(); ++i) {
 		switch(FParameterSpaceTime[i]) {
-		case 0: // PRESI�N
+		case 0: // PRESION
 			fprintf(FileOutPressure, "%d %d %d\n", STCylinder.size(), STPlenum.size(),
 				STPipe.size());
 			for (unsigned int j = 0; j < STCylinder.size(); ++j) {
@@ -1255,7 +1255,7 @@ void TOutputResults::HeaderSpaceTimeResults(double thmax, double grmax, double a
 			}
 			fprintf(FileOutFlow, "\n%d", (int)((thmax - grmax) / agincr));
 			break;
-		case 4: // FRACCI�N M�SICA DE ESPECIES
+		case 4: // FRACCION MASICA DE ESPECIES
 			if (SpeciesNumber == 3) {
 				fprintf(FOutYBurntGas, "%d %d %d\n", STCylinder.size(), STPlenum.size(),
 					STPipe.size());
@@ -1502,7 +1502,7 @@ void TOutputResults::HeaderSpaceTimeResults(double thmax, double grmax, double a
 				fprintf(FOutYN2, "\n%d", (int)((thmax - grmax) / agincr));
 			}
 			break;
-		case 5: // GASTO M�SICO DE ESPECIES
+		case 5: // GASTO MASICO DE ESPECIES
 			if (SpeciesNumber == 3) {
 				fprintf(FOutFlowBurntGas, "%d %d %d\n", STCylinder.size(), STPlenum.size(),
 					STPipe.size());
@@ -2210,88 +2210,88 @@ void TOutputResults::HeaderInstantaneousResults(TCalculoExtern *EXTERN, bool The
 		// fflush(fg);
 		// fclose(fg);
 
-		// CABECERA RESULTADOS INSTANT�NEOS CILINDROS.
+		// CABECERA RESULTADOS INSTANTANEOS CILINDROS.
 		for (unsigned int i = 0; i < InsCylinder.size(); ++i) {
 			InsCylinder[i]->HeaderInstantaneousResultsCilindro(FInsOutput, SpeciesName);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS DEP�SITOS.
+		// CABECERA RESULTADOS INSTANTANEOS DEPOSITOS.
 		for (unsigned int i = 0; i < InsPlenum.size(); ++i) {
 			InsPlenum[i]->HeaderInstantaneousResultsDep(FInsOutput, SpeciesName);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS TUBOS.
+		// CABECERA RESULTADOS INSTANTANEOS TUBOS.
 
 		for (unsigned int i = 0; i < InsPipe.size(); i++) {
 			InsPipe[i]->HeaderInstantaneousResults(FInsOutput, SpeciesName);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS DPF.
+		// CABECERA RESULTADOS INSTANTANEOS DPF.
 		#ifdef ParticulateFilter
 		for(unsigned int i=0;i<InsDPF.size();i++){
 			InsDPF[i]->CabeceraResultadosInstantaneos(FInsOutput, SpeciesName);
 		}
 		#endif
 
-		// CABECERA RESULTADOS INSTANT�NEOS VENTURIS.
+		// CABECERA RESULTADOS INSTANTANEOS VENTURIS.
 
 		for (unsigned int i = 0; i < InsVenturi.size(); i++) {
 			InsVenturi[i]->CabeceraResultadosInstantVenturi(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS EJES.
+		// CABECERA RESULTADOS INSTANTANEOS EJES.
 
 		for (unsigned int i = 0; i < InsTurbo.size(); ++i) {
 			InsTurbo[i]->HeaderInstantaneousResultsEje(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS TURBINAS.
+		// CABECERA RESULTADOS INSTANTANEOS TURBINAS.
 		for (unsigned int i = 0; i < InsTurbine.size(); i++) {
 			InsTurbine[i]->CabeceraResultadosInstantTurb(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS COMPRESOR.
+		// CABECERA RESULTADOS INSTANTANEOS COMPRESOR.
 		for (unsigned int i = 0; i < InsCompressor.size(); ++i) {
 			InsCompressor[i]->CabeceraGraficasInstantaneas(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS V�LVULAS.
+		// CABECERA RESULTADOS INSTANTANEOS VALVULAS.
 
 		for (unsigned int i = 0; i < InsValve.size(); i++) {
 			InsValve[i]->CabeceraGraficaINS(FInsOutput, InsValveNode[i]);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS WASTE-GATES.
+		// CABECERA RESULTADOS INSTANTANEOS WASTE-GATES.
 		for (unsigned int i = 0; i < InsWasteGate.size(); i++) {
 			InsWasteGate[i]->CabeceraGraficaINS(FInsOutput, i);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS L�MINAS.
+		// CABECERA RESULTADOS INSTANTANEOS LAMINAS.
 		for (unsigned int i = 0; i < InsReedValve.size(); i++) {
 			InsReedValve[i]->CabeceraGraficaINS(FInsOutput, i);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS COMPRESOR VOLUM�TRICO (TORNILLO).
+		// CABECERA RESULTADOS INSTANTANEOS COMPRESOR VOLUMETRICO (TORNILLO).
 		for (unsigned int i = 0; i < InsRoot.size(); i++) {
 			InsRoot[i]->CabeceraResultadosInstantCV(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS UNI�N ENTRE DEP�SITOS.
+		// CABECERA RESULTADOS INSTANTANEOS UNION ENTRE DEPOSITOS.
 		for (unsigned int i = 0; i < InsConnection.size(); i++) {
 			InsConnection[i]->CabeceraResultadosInstantUED(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS SENSOR.
+		// CABECERA RESULTADOS INSTANTANEOS SENSOR.
 		for (unsigned int i = 0; i < InsSensor.size(); i++) {
 			InsSensor[i]->CabeceraResultadosInsSensor(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS CONTROLADOR.
+		// CABECERA RESULTADOS INSTANTANEOS CONTROLADOR.
 		for (unsigned int i = 0; i < InsController.size(); i++) {
 			InsController[i]->CabeceraResultadosInsControlador(FInsOutput);
 		}
 
-		// CABECERA RESULTADOS INSTANT�NEOS C�LCULOS EXTERNOS.
+		// CABECERA RESULTADOS INSTANTANEOS CALCULOS EXTERNOS.
 		if (ThereIsDLL) {
 			EXTERN->ImprimeCabeceraInstantaneas(FInsOutput);
 		}
@@ -2398,52 +2398,52 @@ void TOutputResults::OutputInstantaneousResults(TCalculoExtern *EXTERN, bool The
 			FInsOutput << "\t" << pasafloat;
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS CILINDROS.
+		// IMPRIME RESULTADOS INSTANTANEOS CILINDROS.
 		for (unsigned int i = 0; i < InsCylinder.size(); ++i) {
 			InsCylinder[i]->CalculaResultadosInstantaneosCilindro();
 			InsCylinder[i]->ImprimeResultadosInstantaneosCilindro(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS DEP�SITOS.
+		// IMPRIME RESULTADOS INSTANTANEOS DEPOSITOS.
 		for (unsigned int i = 0; i < InsPlenum.size(); ++i) {
 			InsPlenum[i]->ResultadosInstantaneosDep();
 			InsPlenum[i]->ImprimeResultadosInstantaneosDep(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS TUBOS.
+		// IMPRIME RESULTADOS INSTANTANEOS TUBOS.
 
 		for (unsigned int i = 0; i < InsPipe.size(); i++) {
 			InsPipe[i]->CalculaResultadosInstantaneos();
 			InsPipe[i]->ImprimeResultadosInstantaneos(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS VENTURIS.
+		// IMPRIME RESULTADOS INSTANTANEOS VENTURIS.
 
 		for (unsigned int i = 0; i < InsVenturi.size(); i++) {
 			InsVenturi[i]->CalculaResultadosVenturi();
 			InsVenturi[i]->ImprimeResultadosInstantVenturi(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS EJES.
+		// IMPRIME RESULTADOS INSTANTANEOS EJES.
 
 		for (unsigned int i = 0; i < InsTurbo.size(); ++i) {
 			InsTurbo[i]->ResultadosInstantEje();
 			InsTurbo[i]->ImprimeResultadosInstantaneosEje(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS TURBINAS.
+		// IMPRIME RESULTADOS INSTANTANEOS TURBINAS.
 		for (unsigned int i = 0; i < InsTurbine.size(); i++) {
 			InsTurbine[i]->ResultadosInstantTurb();
 			InsTurbine[i]->ImprimeResultadosInstantTurb(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS COMPRESOR.
+		// IMPRIME RESULTADOS INSTANTANEOS COMPRESOR.
 		for (unsigned int i = 0; i < InsCompressor.size(); ++i) {
 			InsCompressor[i]->CalculaInstantaneos();
 			InsCompressor[i]->ImprimeGraficasInstantaneas(FInsOutput);
 		}
 
-		// RESULTADOS INSTANT�NEOS EN DPF.
+		// RESULTADOS INSTANTANEOS EN DPF.
 		#ifdef ParticulateFilter
 		for(int i=0;i<InsDPF.size();i++){
 			InsDPF[i]->CalculaResultadosInstantaneos();
@@ -2451,47 +2451,47 @@ void TOutputResults::OutputInstantaneousResults(TCalculoExtern *EXTERN, bool The
 		}
         #endif
 
-		// IMPRIME RESULTADOS INSTANT�NEOS V�LVULAS.
+		// IMPRIME RESULTADOS INSTANTANEOS VALVULAS.
 
 		for (unsigned int i = 0; i < InsValve.size(); i++) {
 			InsValve[i]->ImprimeGraficaINS(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS WASTE-GATES.
+		// IMPRIME RESULTADOS INSTANTANEOS WASTE-GATES.
 		for (unsigned int i = 0; i < InsWasteGate.size(); i++) {
 			InsWasteGate[i]->ImprimeGraficaINS(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS L�MINAS.
+		// IMPRIME RESULTADOS INSTANTANEOS LAMINAS.
 		for (unsigned int i = 0; i < InsReedValve.size(); i++) {
 			InsReedValve[i]->ImprimeGraficaINS(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS COMPRESOR VOLUM�TRICO (TORNILLO).
+		// IMPRIME RESULTADOS INSTANTANEOS COMPRESOR VOLUMETRICO (TORNILLO).
 		for (unsigned int i = 0; i < InsRoot.size(); i++) {
 			InsRoot[i]->ResultadosInstantCV();
 			InsRoot[i]->ImprimeResultadosInstantCV(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS UNI�N ENTRE DEP�SITOS.
+		// IMPRIME RESULTADOS INSTANTANEOS UNION ENTRE DEPOSITOS.
 		for (unsigned int i = 0; i < InsConnection.size(); i++) {
 			InsConnection[i]->ResultadosInstantUED();
 			InsConnection[i]->ImprimeResultadosInstantUED(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS SENSOR.
+		// IMPRIME RESULTADOS INSTANTANEOS SENSOR.
 		for (unsigned int i = 0; i < InsSensor.size(); i++) {
 			InsSensor[i]->ResultadosInstantSensor();
 			InsSensor[i]->ImprimeResultadosInsSensor(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS CONTROLADOR.
+		// IMPRIME RESULTADOS INSTANTANEOS CONTROLADOR.
 		for (unsigned int i = 0; i < InsController.size(); i++) {
 			InsController[i]->ResultadosInstantController();
 			InsController[i]->ImprimeResultadosInsControlador(FInsOutput);
 		}
 
-		// IMPRIME RESULTADOS INSTANT�NEOS C�LCULOS EXTERNOS.
+		// IMPRIME RESULTADOS INSTANTANEOS CALCULOS EXTERNOS.
 		if (ThereIsDLL) {
 			EXTERN->ImprimeGraficosInstantaneas(FInsOutput);
 		}

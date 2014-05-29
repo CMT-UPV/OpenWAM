@@ -54,7 +54,7 @@ const double PMNO2=46;
 const double PMNO=30;
 const double PMCO=28.01;
 const double PMDiesel=148.4; // Diesel C10.8H18.7 , los HC mantienen la misma relacion C/H y le damos
-const double PMHC=55.04;     // la composici�n C4H6.93
+const double PMHC=55.04;     // la composicion C4H6.93
 
 
 const double Pi=3.1415927;
