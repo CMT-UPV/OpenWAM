@@ -51,6 +51,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include "CheckXML.h"
 
 using namespace pugi;
+using namespace std;
 
 // #include "StringDataBase.h"
 // ---------------------------------------------------------------------------
