@@ -8,7 +8,7 @@
 /**
  * @file turbo_bearings.hpp
  * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
- * @version 0.2
+ * @version 0.3.4
  *
  * @section LICENSE
  *
@@ -50,6 +50,7 @@ private:
     double _L_jb;
     double _h_jb;
     double _k_jb;
+    double _k_tb;
     double _T1;
     double _n;
     double _p1;
@@ -60,13 +61,12 @@ private:
     double _m;
     double _c;
     double _rho;
-    double _C_A_c;
-    double _C_A_t;
+    double _k_A_c;
+    double _k_A_t;
     double _A_c;
     double _A_t;
     double _R_tb_min;
     double _R_tb_max;
-    double _f;
 
 public:
 
@@ -87,20 +87,20 @@ public:
      * @param h_jb Film thickness at the journal bearing in m.
      * @param k_jb Correction factor for the oil tangential speed gradient at
      * the journal bearing.
-     * @param C_A_c Form factor of the pressure distribution at the compressor wheel.
-     * @param C_A_t Form factor of the pressure distribution at the turbine wheel.
+     * @param k_A_c Form factor of the pressure distribution at the compressor wheel.
+     * @param k_A_t Form factor of the pressure distribution at the turbine wheel.
      * @param A_c Compressor disc area in m^2.
      * @param A_t Turbine disc area in m^2.
      * @param k_m Fraction of oil mass flow that goes through the thrust bearing.
      * @param R_tb_min Minimum radius of the thrust bearing, in m.
      * @param R_tb_max Maximum radius of the thrust bearing, in m.
-     * @param f Second derivative of the radial velocity of the oil in the
-     * thrust bearing.
+     * @param k_tb Correction factor for the oil tangential speed gradient at
+     * the thrust bearing.
      */
 
     TurboBearings(stHTMoil *Oil, double L_jb, double R_jb, double h_jb,
-        double k_jb, double C_A_c, double C_A_t, double A_c, double A_t,
-        double k_m, double R_tb_min, double R_tb_max, double f);
+        double k_jb, double k_A_c, double k_A_t, double A_c,
+        double A_t, double k_m, double R_tb_min, double R_tb_max, double k_tb);
 
     /**
      * \brief Compute the thrust bearing oil film thickness.
@@ -108,8 +108,9 @@ public:
      * A value proportional to the thrust bearing oil film thickness is computed
      * as:
      * @f[
-     * h_{tb} = k_m m / (\rho \left| (C_{A_c} A_c (p_2 - p_1) / 4
-     * + C_{A_t} A_t (p_3 - p_4) / 2)) \right| f g
+     * h_{tb} = \left| \frac{k_m \dot{m} 12 g) \mu}{\rho
+     * (k_{A_c} A_c (p_2 - p_1) / 4 + k_{A_t} A_t (p_3 - p_4) / 2)}\right|
+     * ^{\frac{1}{3}}
      * @f]
      *
      * @param T The journal bearing oil temperature, in K.
@@ -136,7 +137,8 @@ public:
      *
      * The thrust bearing power losses are computed as:
      * @f[
-     * P_{tb} = \pi R_{tb}^4 \mu n^2 / h_{tb}
+     * P_{tb} = \pi \left( R_{tb,max} ^ 2 - R_{tb,min} ^ 2 \right)
+     * \bar{R}_{tb}^2 k_{tb} \mu n^2 / h_{tb}
      * @f]
      *
      * @param T The thrust bearing oil temperature, in K.
@@ -152,12 +154,12 @@ public:
      * temperature, so in adiabatic conditions:
      *
      * @f[
-     * \dot{m} c \left[ T_1 + 2 \left(T_m - T_1\right) \right]
-     * = P_{jb} + P_{tb}
+     * \dot{m} c \left( T_m - T_1 \right)
+     * = 0.75 \left( P_{jb} + P_{tb} \right)
      * @f]
      *
      * @f[
-     * 2 T_1 - 2 T_m + \left(P_{jb} + P_{tb} \right) / \left(\dot{m} c \right)
+     * T_m = T_1 + 0.75 \left(P_{jb} + P_{tb} \right) / \left(\dot{m} c \right)
      * @f]
      *
      * @return The mean temperature of the oil, in W.

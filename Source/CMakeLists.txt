@@ -30,7 +30,6 @@ include_directories(pugixml)
 include_directories(Turbocompressor)
 include_directories(Wrappers)
 add_executable(OpenWAM
-  CheckXML.cpp
   OpenWAM.cpp
   TOpenWAM.cpp
   TTimeControl.cpp)
