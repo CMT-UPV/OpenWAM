@@ -288,10 +288,10 @@ double to_degrees(const double& x, const std::string& unit)
 		return x;
 	}
 	else if (unit == "rad") {
-		return x / 3.14159265;
+		return x / Pi;
 	}
 	else if (unit == "radian") {
-		return x / 3.14159265;
+		return x / Pi;
 	}
 	else {
 		std::cout << "ERROR: Unit unknown" << std::endl;
@@ -476,10 +476,10 @@ double to_rpm(const double& x, const std::string& unit)
 		return x;
 	}
 	else if (unit == "rad / s"){
-		return x / (2. * 3.14159265) * 60.;
+		return x / (2. * Pi) * 60.;
 	}
 	else if (unit == "rad/s") {
-		return x / (2. * 3.14159265) * 60.;
+		return x / (2. * Pi) * 60.;
 	}
 	else if (unit == "Hz") {
 		return x * 60.;

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "Constantes.h"
 #include "pugixml.hpp"
 
 
