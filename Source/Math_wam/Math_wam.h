@@ -25,6 +25,32 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 \*-------------------------------------------------------------------------------- */
 
+/**
+ * @file Math_wam.h
+ * @author Francisco Jose Arnau <farnau@mot.upv.es>
+ * 
+ * @section LICENSE
+ *
+ * This file is part of OpenWAM.
+ *
+ * OpenWAM is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenWAM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @section DESCRIPTION
+ * This file declares several auxiliary math functions, as well as some
+ * typedefs.
+ */
+
 // ---------------------------------------------------------------------------
 
 #ifndef Math_wamH
@@ -41,13 +67,13 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-typedef unsigned int Uint;
-typedef std::vector<double>dVector; // !< Definition of vector double
-typedef std::vector<std::vector<double> >dMatrix; // !< Definition of a 2-dimensional matrix double
-typedef std::vector<int>iVector; // !< Definition of vector integer
-typedef std::vector<std::vector<int> >iMatrix; // !< Definition of a 2-dimensional matrix integer
-typedef std::vector<bool>bVector; // !< Definition of vector integer
-typedef std::vector<std::vector<bool> >bMatrix; // !< Definition of a 2-dimensional matrix integer
+typedef unsigned int Uint; ///< Unsigned integer
+typedef std::vector<double>dVector; ///< Double vector
+typedef std::vector<std::vector<double> >dMatrix; ///< 2-dimensional double matrix
+typedef std::vector<int>iVector; ///< Integer vector
+typedef std::vector<std::vector<int> >iMatrix; ///< 2-dimensional integer matrix
+typedef std::vector<bool>bVector; ///< Boolean vector
+typedef std::vector<std::vector<bool> >bMatrix; ///< 2-dimensional boolean matrix
 
 double Interpola(double vizq, double vder, double axid, double xif);
 

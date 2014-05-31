@@ -25,6 +25,33 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 \*-------------------------------------------------------------------------------- */
 
+/**
+ * @file Globales.h
+ * @author Francisco Jose Arnau <farnau@mot.upv.es>
+ * 
+ * @section LICENSE
+ *
+ * This file is part of OpenWAM.
+ *
+ * OpenWAM is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenWAM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @section DESCRIPTION
+ * The common enums, structs, classes and functions of the project are declared
+ * and / or defined here.
+ */
+
+
 // ---------------------------------------------------------------------------
 
 #ifndef GlobalesH
@@ -1601,19 +1628,60 @@ inline double Gamma7(double gamma) {
 	return(3 - gamma) / (gamma + 1);
 };
 
-inline double CalculoSimpleGamma(double RMezcla, double CvMezcla, nmCalculoGamma GammaCalculation) {
-	double Gamma = 1.4;
+
+/**
+ * @brief Heat capacities ratio of air.
+ * 
+ * Computes the heat capacities ratio of air, with some burnt fraction.
+ * 
+ * @f[ \gamma = 1 + \cfrac{R}{c_v} @f]
+ *
+ * If @f$ \gamma @f$ is not a function of temperature, returns 1.4.
+ * 
+ * @param RMezcla Gas constant. [J / (kg / K)]
+ * @param CvMezcla Specific heat capacity at constant volume. [J / (kg / K)]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Heat capacities ratio.
+ */
+inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
+	nmCalculoGamma GammaCalculation) {
+	double g = Gamma;
 
 	if (GammaCalculation != nmGammaConstante) {
-		Gamma = 1 + RMezcla / CvMezcla;
+		g = 1. + RMezcla / CvMezcla;
 	}
 
-	return Gamma;
+	return g;
 };
 
+
+/**
+ * @brief Specific heat capacity at constant volume of air, simplified
+ * version.
+ * 
+ * Computes the specific heat capacity at constant volume of air, with
+ * some burnt fraction.
+ *
+ * @f[
+ * c_v = c_{v_{bf}} \cdot Y_{bf}
+ * + c_{v_{da}} \cdot \left( 1 - Y_{wv} - Y \right)
+ * + c_{v_{wv}} \cdot  Y_{wv}
+ * @f]
+ * 
+ * where @f$ c_v @f$ is the specific heat capacity at constant volume
+ * and @f$ Y @f$ is the mass fraction.  If @f$ \gamma @f$ is not a function
+ * of temperature, returns 717.5
+ * 
+ * @param Temperature Air temperature. [K]
+ * @param YQuemados Burnt gases mass fraction. [-]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Specific heat capacity at constant volume. [J / (kg * K)]
+ */
 inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 	nmCalculoGamma GammaCalculation) {
-	double CvMezcla = 717.5;
+	double CvMezcla = R / (Gamma - 1.);
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
@@ -1622,39 +1690,110 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 			double RaizdeT = sqrt(Temperature);
 
 			CvAire = -10.4199 * RaizdeT + 2522.88 +
-				(-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT) / Temperature;
+				(-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
+				/ Temperature;
 			CvQuemados = 641.154 + Temperature *
-				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
-			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+				(0.43045 + Temperature
+				* (-0.0001125 + Temperature * 8.979e-9));
+			CvH2O = (22.605 - 0.09067 * RaizdeT
+				+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O - RH2O;
 		}
-		CvMezcla = CvQuemados * YQuemados + (CvAire * (1 - YQuemados - 0.0164) + 0.0164 * CvH2O);
+		CvMezcla = CvQuemados * YQuemados + CvAire * (1. - YQuemados - 0.0164)
+			+ 0.0164 * CvH2O;
 	}
 	return CvMezcla;
 };
 
-inline double CalculoSimpleRMezcla(double YQuemados, nmCalculoGamma GammaCalculation) {
-	double R = 287;
+
+/**
+ * @brief Gas constant of air, simplified version.
+ * 
+ * Computes the gas constant of air, possibly mixed with burnt gases.
+ * 
+ * @f[
+ * R = R_{bf} \cdot Y_{bf}
+ * + R_{da} \cdot \left( 1 - Y_{wv} - Y \right)
+ * + R_{wv} \cdot  Y_{wv}
+ * @f]
+ * 
+ * where @f$ R @f$ is the gas constant and @f$ Y @f$ is mass fraction.
+ * If @f$ \gamma @f$ is not a function of temperature, returns 287.
+ * 
+ * @param YQuemados Burnt gases mass fraction. [-]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Gas constant. [J / (kg * K)]
+ */
+inline double CalculoSimpleRMezcla(double YQuemados,
+	nmCalculoGamma GammaCalculation) {
+	double R_ = R;
 	if (GammaCalculation != nmGammaConstante) {
-		R = RBurnt * YQuemados + (RAir * (1 - YQuemados - 0.0164) + 0.0164 * RH2O);
+		R_ = RBurnt * YQuemados + (RAir * (1 - YQuemados - 0.0164)
+			+ 0.0164 * RH2O);
 	}
-	return R;
+	return R_;
 };
 
+
+/**
+ * @brief Heat capacities ratio of air.
+ * 
+ * Computes the heat capacities ratio of air, with some burnt fraction.
+ * 
+ * @f[ \gamma = \cfrac{c_p}{c_p - R} @f]
+ *
+ * If @f$ \gamma @f$ is not a function of temperature, then returns 1.4.
+ * 
+ * @param RMezcla Gas constant. [J / (kg / K)]
+ * @param CpMezcla Specific heat capacity at constant pressure. [J / (kg / K)]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Heat capacities ratio.
+ */
 inline double CalculoCompletoGamma(double RMezcla, double CpMezcla,
 	nmCalculoGamma GammaCalculation) {
-	double Gamma = 1.4;
+	double g = Gamma;
 
 	if (GammaCalculation != nmGammaConstante) {
-		Gamma = CpMezcla / (CpMezcla - RMezcla);
+		g = CpMezcla / (CpMezcla - RMezcla);
 	}
-	return Gamma;
+	return g;
 };
 
+
+
+/**
+ * @brief Specific heat capacity at constant pressure of air with some fuel
+ * burnt, precission version.
+ * 
+ * Computes the specific heat capacity at constant pressure of a mix of O2,
+ * CO2, H2O, N2 and traces of other gases.
+ *
+ * @f[
+ * c_p = c_{p_{O_2}} \cdot Y_{O_2}
+ * + c_{p_{CO_2}} \cdot Y_{CO_2}
+ * + c_{p_{H_2O}} \cdot Y_{H_2O}
+ * + c_{p_{N_2}} \cdot Y_{N_2}
+ * + c_{p_X} \cdot Y_X
+ * * @f]
+ * 
+ * where @f$ c_p @f$ is the specific heat capacity at constant pressure and
+ * @f$ Y @f$ is the mass fraction.  If @f$ \gamma @f$ is not a function of
+ * temperature, returns 1004.5.
+ * 
+ * @param YO2 O2 mass fraction. [-]
+ * @param YCO2 CO2 mass fraction. [-]
+ * @param YH2O H2O mass fraction. [-]
+ * @param Temperature Air temperature. [K]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Specific heat capacity at constant pressure. [J / (kg * K)]
+ */
 inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double Temperature,
 	nmCalculoGamma GammaCalculation) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
-	double CpMezcla = 1004.5;
+	double CpMezcla = R / (Gamma - 1.) * Gamma;
 
 	if (GammaCalculation != nmGammaConstante) {
 		double CpN2 = 1039.82;
@@ -1664,31 +1803,62 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
-			// Temperature en Kelvin. Calculado segun la correlacion de JANAF.
-			CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
+			// Temperatures in K.
+			// Computed accordint to JANAF correlations.
+			CpN2 = (12.531 - 0.05932 * RaizdeT
+				+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
 				/ Temperature) * RN2;
-			CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
+			CpO2 = (-0.112 + 0.0479 * RaizdeT
+				+ (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
 				/ Temperature) * RO2;
-			CpCO2 = (12.019 - 0.03566 * RaizdeT + (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
+			CpCO2 = (12.019 - 0.03566 * RaizdeT
+				+ (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
 				/ Temperature) * RCO2;
-			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+			CpH2O = (22.605 - 0.09067 * RaizdeT
+				+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O;
 		}
-		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
-			+ 520.32 * 0.01292;
+		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O
+			+ CpN2 * (YN2 - 0.01292) + 520.32 * 0.01292;
 	}
 
 	return CpMezcla;
 };
 
+
+/**
+ * @brief Gas constant of air with some fuel burnt, precission version.
+ * 
+ * Computes the gas constant of a mix of O2, CO2, H2O, N2 and traces
+ * of other gases (mainly Ar).
+ *
+ * @f[
+ * R = R_{O_2} \cdot Y_{O_2}
+ * + R_{CO_2} \cdot Y_{CO_2}
+ * + R_{H_2O} \cdot Y_{H_2O}
+ * + R_{N_2} \cdot Y_{N_2}
+ * + R_X \cdot Y_X
+ * @f]
+ * 
+ * where @f$ R @f$ is the gas constant and Y is the mass fraction.
+ * If @f$ \gamma @f$ is not a function of temperature, returns 287.
+ * 
+ * @param YO2 O2 mass fraction. [-]
+ * @param YCO2 CO2 mass fraction. [-]
+ * @param YH2O H2O mass fraction. [-]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Specific heat capacity at constant pressure. [J / (kg * K)]
+ */
 inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 	nmCalculoGamma GammaCalculation) {
-	double R = 287;
+	double R_ = R;
 	if (GammaCalculation != nmGammaConstante) {
-		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RN2 * (1 - YO2 - YCO2 - YH2O - 0.012)
-			+ 208.13 * 0.012; // El ultimo termino es el Argon
+		R_ = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O
+			+ RN2 * (1 - YO2 - YCO2 - YH2O - 0.01292)
+			+ 208.13 * 0.01292; // El ultimo termino es el Argon
 	}
-	return R;
+	return R_;
 };
 
 inline double Seccion(double d) {
