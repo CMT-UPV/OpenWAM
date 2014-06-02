@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <string>
+#include "Constantes.h"
 #include "pugixml.hpp"
+#include "units.hpp"
 
 
 /**
@@ -158,6 +160,18 @@ double GetXMLArea(const xml_node& node, const std::string& name);
 
 
 /**
+ * @brief Gets an attribute as a damping coefficient.
+ * 
+ * Gets an attribute as a damping coefficient.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Damping coefficient. [N * s / m]
+ */
+double GetXMLDamping(const xml_node& node, const std::string& name);
+
+
+/**
  * @brief Gets an attribute as a length.
  * 
  * Gets an attribute as a length.
@@ -167,6 +181,18 @@ double GetXMLArea(const xml_node& node, const std::string& name);
  * @return Length. [m]
  */
 double GetXMLLength(const xml_node& node, const std::string& name);
+
+
+/**
+ * @brief Gets an attribute as a force.
+ * 
+ * Gets an attribute as a force.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Force. [N]
+ */
+double GetXMLForce(const xml_node& node, const std::string& name);
 
 
 /**
@@ -244,6 +270,18 @@ double GetXMLSpeed(const xml_node& node, const std::string& name);
 
 
 /**
+ * @brief Gets an attribute as a stiffness.
+ * 
+ * Gets an attribute as a stiffness.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Stiffness. [N / m]
+ */
+double GetXMLStiffness(const xml_node& node, const std::string& name);
+
+
+/**
  * @brief Gets an attribute as a temperature.
  * 
  * Gets an attribute as a temperature.
@@ -265,126 +303,5 @@ double GetXMLTemperature(const xml_node& node, const std::string& name);
  * @return Time. [s]
  */
 double GetXMLTime(const xml_node& node, const std::string& name);
-
-
-/**
- * @brief Converts a given pressure from some unit to bar.
- * 
- * Converts a given pressure from some unit to bar.
- * 
- * @param x Pressure to convert.
- * @param unit Original unit.
- * @return The pressure in bar. [bar]
- */
-double to_bar(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given temperature from some unit to celsius.
- * 
- * Converts a given temperature from some unit to celsius.
- * 
- * @param x Temperature to convert.
- * @param unit Original unit.
- * @return The temperature. [degC]
- */
-double to_celsius(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given angle from some unit to degrees.
- * 
- * Converts a given angle from some unit to degrees.
- * 
- * @param x Angle to convert.
- * @param unit Original unit.
- * @return The angle in degrees. [deg]
- */
-double to_degrees(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given mass flow from some unit to kg / s.
- * 
- * Converts a given mass flow rate from some unit to kg / s.
- * 
- * @param x mass flow rate to convert.
- * @param unit Original unit.
- * @return The mass flow in kilograms per second. [kg / s]
- */
-double to_kg_s(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given length from some unit to metres.
- * 
- * Converts a given length from some unit to metres.
- * 
- * @param x Size to convert.
- * @param unit Original unit.
- * @return The size in metres. [m]
- */
-double to_metres(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given speed from some unit to metres per second.
- * 
- * Converts a given speed from some unit to metres per second.
- * 
- * @param x Speed to convert.
- * @param unit Original unit.
- * @return The speed in metres per second. [m / s]
- */
-double to_m_s(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given rotational speed from some unit to rpm.
- * 
- * Converts a given rotational speed from some unit to revolutions
- * per minute.
- * 
- * @param x Rotational speed to convert.
- * @param unit Original unit.
- * @return The rotational speed in revolutions per minute. [rpm]
- */
-double to_rpm(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given time from some unit to seconds.
- * 
- * Converts a given time from some unit to seconds.
- * 
- * @param x Time to convert.
- * @param unit Original unit.
- * @return The time in seconds. [s]
- */
-double to_seconds(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given area from some unit to square metres.
- * 
- * Converts a given area from some unit to square metres.
- * 
- * @param x Area to convert.
- * @param unit Original unit.
- * @return The area in square metres. [m ** 2]
- */
-double to_square_metres(const double& x, const std::string& unit);
-
-
-/**
- * @brief Converts a given power from some unit to watts.
- * 
- * Converts a given power from some unit to watts.
- * 
- * @param x Power to convert.
- * @param unit Original unit.
- * @return The power in watts. [W]
- */
-double to_watts(const double& x, const std::string& unit);
 
 #endif
