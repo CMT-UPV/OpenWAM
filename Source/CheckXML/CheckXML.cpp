@@ -106,7 +106,7 @@ int CountNodes(xml_node node, const char* label) {
 double GetXMLAngle(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
-	std::string unit = unit_node.attribute("Time").value();
+	std::string unit = unit_node.attribute("Angle").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_degrees(x, unit);
 }
@@ -118,6 +118,24 @@ double GetXMLArea(const xml_node& node, const std::string& name)
 	std::string unit = unit_node.attribute("Area").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_square_metres(x, unit);
+}
+
+
+double GetXMLDamping(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Damping").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_N_s_per_m(x, unit);
+}
+
+
+double GetXMLForce(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Force").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_N(x, unit);
 }
 
 
@@ -168,7 +186,7 @@ double GetXMLPressure(const xml_node& node, const std::string& name)
 double GetXMLRotationalSpeed(const xml_node& node, const std::string& name)
 {
 	xml_node unit_node = node.child("Units");
-	std::string unit = unit_node.attribute("Rotational_Speed").value();
+	std::string unit = unit_node.attribute("RotationalSpeed").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_rpm(x, unit);
 }
@@ -180,6 +198,15 @@ double GetXMLSpeed(const xml_node& node, const std::string& name)
 	std::string unit = unit_node.attribute("Speed").value();
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_m_s(x, unit);
+}
+
+
+double GetXMLStiffness(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Stiffness").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_N_per_m(x, unit);
 }
 
 

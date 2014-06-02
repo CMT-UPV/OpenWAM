@@ -294,6 +294,147 @@ double to_m_s(const double& x, const std::string& unit)
 }
 
 
+double to_N(const double& x, const std::string& unit)
+{
+	if (unit == ""){
+		return x;
+	}
+	else if (unit == "N"){
+		return x;
+	}
+	else if (unit == "mN"){
+		return x * 1E-3;
+	}
+	else if (unit == "kN"){
+		return x * 1E3;
+	}
+	else if (unit == "MN") {
+		return x * 1E6;
+	}
+	else if (unit == "lbf") {
+		return x * 4.4482216152605;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming N..." << std::endl;
+		return x;
+	}
+}
+
+
+double to_N_per_m(const double& x, const std::string& unit)
+{
+	if (unit == ""){
+		return x;
+	}
+	else if (unit == "N / m"){
+		return x;
+	}
+	else if (unit == "N/m"){
+		return x;
+	}
+	else if (unit == "mN / m"){
+		return x * 1E-3;
+	}
+	else if (unit == "mN/m"){
+		return x * 1E-3;
+	}
+	else if (unit == "kN / m"){
+		return x * 1E3;
+	}
+	else if (unit == "kN/m"){
+		return x * 1E3;
+	}
+	else if (unit == "MN / m") {
+		return x * 1E6;
+	}
+	else if (unit == "MN/m") {
+		return x * 1E6;
+	}
+	else if (unit == "N / mm"){
+		return x * 1E3;
+	}
+	else if (unit == "N/mm"){
+		return x * 1E3;
+	}
+	else if (unit == "N / cm"){
+		return x * 1E2;
+	}
+	else if (unit == "N/cm"){
+		return x * 1E2;
+	}
+	else if (unit == "lbf / in") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf / inch") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf/in") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf/inch") {
+		return x * 175.126835;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming N / m..." << std::endl;
+		return x;
+	}
+}
+
+
+double to_N_s_per_m(const double& x, const std::string& unit)
+{
+	if (unit == ""){
+		return x;
+	}
+	else if (unit == "N * s / m"){
+		return x;
+	}
+	else if (unit == "N s / m"){
+		return x;
+	}
+	else if (unit == "N * s / m"){
+		return x;
+	}
+	else if (unit == "N*s/m"){
+		return x;
+	}
+	else if (unit == "lbf * s / in") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf s / in") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf * s / inch") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf s / inch") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbfs/in") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf*s/in") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbfs/inch") {
+		return x * 175.126835;
+	}
+	else if (unit == "lbf*s/inch") {
+		return x * 175.126835;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming N * s / m..." << std::endl;
+		return x;
+	}
+}
+
+
 double to_rpm(const double& x, const std::string& unit)
 {
 	if (unit == ""){

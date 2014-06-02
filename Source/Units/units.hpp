@@ -107,6 +107,42 @@ double to_m_s(const double& x, const std::string& unit);
 
 
 /**
+ * @brief Converts a given force from some unit to newtons.
+ * 
+ * Converts a given force from some unit to newtons.
+ * 
+ * @param x Force to convert.
+ * @param unit Original unit.
+ * @return The force in newtons. [N]
+ */
+double to_N(const double& x, const std::string& unit);
+
+
+/**
+ * @brief Converts a given stiffness from some unit to newtons per metre.
+ * 
+ * Converts a given stiffness from some unit to newtons per metre.
+ * 
+ * @param x Stiffness to convert.
+ * @param unit Original unit.
+ * @return The stiffness in newtons per metre. [N / m]
+ */
+double to_N_per_m(const double& x, const std::string& unit);
+
+
+/**
+ * @brief Converts a given damping coefficient from some unit to N * s / m.
+ * 
+ * Converts a given damping coefficient from some unit to N * s / m.
+ * 
+ * @param x Damping coefficient to convert.
+ * @param unit Original unit.
+ * @return The damping coefficient. [N * s / m]
+ */
+double to_N_s_per_m(const double& x, const std::string& unit);
+
+
+/**
  * @brief Converts a given rotational speed from some unit to rpm.
  * 
  * Converts a given rotational speed from some unit to revolutions

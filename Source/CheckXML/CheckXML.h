@@ -160,6 +160,18 @@ double GetXMLArea(const xml_node& node, const std::string& name);
 
 
 /**
+ * @brief Gets an attribute as a damping coefficient.
+ * 
+ * Gets an attribute as a damping coefficient.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Damping coefficient. [N * s / m]
+ */
+double GetXMLDamping(const xml_node& node, const std::string& name);
+
+
+/**
  * @brief Gets an attribute as a length.
  * 
  * Gets an attribute as a length.
@@ -169,6 +181,18 @@ double GetXMLArea(const xml_node& node, const std::string& name);
  * @return Length. [m]
  */
 double GetXMLLength(const xml_node& node, const std::string& name);
+
+
+/**
+ * @brief Gets an attribute as a force.
+ * 
+ * Gets an attribute as a force.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Force. [N]
+ */
+double GetXMLForce(const xml_node& node, const std::string& name);
 
 
 /**
@@ -243,6 +267,18 @@ double GetXMLRotationalSpeed(const xml_node& node, const std::string& name);
  * @return Speed. [m / s]
  */
 double GetXMLSpeed(const xml_node& node, const std::string& name);
+
+
+/**
+ * @brief Gets an attribute as a stiffness.
+ * 
+ * Gets an attribute as a stiffness.
+ * 
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Stiffness. [N / m]
+ */
+double GetXMLStiffness(const xml_node& node, const std::string& name);
 
 
 /**
