@@ -1,7 +1,3 @@
-include_directories(../Includes)
-include_directories(../Math_wam)
-include_directories(../Wrappers)
-include_directories(../Act)
 add_library(
   Act
   ACT_Sub_DLL.cpp
