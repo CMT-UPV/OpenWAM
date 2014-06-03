@@ -25,6 +25,31 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 \*-------------------------------------------------------------------------------- */
 
+/**
+ * @file TTubo.cpp
+ * @author Francisco Jose Arnau <farnau@mot.upv.es>
+ *
+ * @section LICENSE
+ *
+ * This file is part of OpenWAM.
+ *
+ * OpenWAM is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenWAM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @section DESCRIPTION
+ * This file defines a finite differences pipe.
+ */
+
 // ---------------------------------------------------------------------------
 #pragma hdrstop
 
@@ -6184,5 +6209,199 @@ void TTubo::RoeConstants() {
 		sqrtRhoA[i + 1] = sqrt(FU1[0][i + 1]);
 	}
 }
+
+
+double TTubo::GetArea(int i) const
+{
+	return FArea[i];
+}
+
+
+double TTubo::GetAsonido(int i) const
+{
+	return FAsonido0[i];
+}
+
+
+double TTubo::GetCoefTurbulencia(int i) const
+{
+	return FCoefTurbulencia[i];
+}
+
+
+double TTubo::GetCpMezcla(int i) const
+{
+	return FCpMezcla[i];
+}
+
+
+double TTubo::GetCvMezcla(int i) const
+{
+	return FCvMezcla[i];
+}
+
+
+
+double TTubo::getDeltaTime() const
+{
+	return FDeltaTime;
+}
+
+
+double TTubo::GetDensidad(int i) const
+{
+	return Frho[i];
+}
+
+
+double TTubo::GetDiametro(int i) const
+{
+	return FDiametroTubo[i];
+}
+
+
+double TTubo::GetFraccionMasicaInicial(int i) const
+{
+	return FComposicionInicial[i];
+}
+
+
+double TTubo::GetGamma(int i) const
+{
+	return FGamma[i];
+}
+
+
+double TTubo::getLongitudTotal() const
+{
+	return FLongitudTotal;
+}
+
+
+double TTubo::getMallado() const
+{
+	return FMallado;
+}
+
+int TTubo::getNodoDer() const
+{
+	return FNodoDer;
+}
+
+
+int TTubo::getNodoIzq() const{
+	return FNodoIzq;
+}
+
+
+int TTubo::getNumeroTubo() const
+{
+	return FNumeroTubo;
+}
+
+
+double TTubo::GetPresion(int i) const
+{
+	return FPresion0[i];
+}
+
+
+double TTubo::getPresionInicial() const
+{
+	return FPini;
+}
+
+
+double TTubo::GetRMezcla(int i) const
+{
+	return FRMezcla[i];
+}
+
+
+double TTubo::getTemperaturaInicial() const
+{
+	return FTini;
+}
+
+
+double TTubo::getTempWallIni() const
+{
+	return FTIniParedTub;
+}
+
+
+double TTubo::getTime0() const
+{
+	return FTime0;
+}
+
+
+double TTubo::getTime1() const
+{
+	return FTime1;
+}
+
+
+double TTubo::GetTPTubo(int j, int i) const
+{
+	// j is the wall node and i is the cell
+	return FTPTubo[j][i];
+}
+
+
+double TTubo::GetTPTuboAnt(int j, int i) const
+{
+	return FTParedAnt[j][i];
+}
+
+
+double TTubo::GetVelocidad(int i) const
+{
+	return FVelocidad0[i];
+}
+
+
+double TTubo::getVelocidadMedia() const
+{
+	return FVelMedia;
+}
+
+
+double TTubo::GetVelPro(int i) const
+{
+	return FVelPro[i];
+}
+
+
+void TTubo::PutDeltaTime(double valor)
+{
+	FDeltaTime = valor;
+}
+
+
+void TTubo::PutTime0(double valor)
+{
+	FTime0 = valor;
+}
+
+
+void TTubo::PutTime1(double valor)
+{
+	FTime1 = valor;
+}
+
+
+void TTubo::PutTPTubo(int k, int i, double valor)
+{
+	FTPTubo[k][i] = valor;
+}
+
+
+void TTubo::PutVelPro(int i, double valor)
+{
+	FVelPro[i] = valor;
+}
+
+
 
 #pragma package(smart_init)
