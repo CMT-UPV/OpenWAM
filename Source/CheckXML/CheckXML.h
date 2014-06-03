@@ -197,9 +197,9 @@ double GetXMLForce(const xml_node& node, const std::string& name);
 
 /**
  * @brief Gets an attribute as a mass flow rate.
- * 
+ *
  * Gets an attribute as a mass flow rate.
- * 
+ *
  * @param node XML node.
  * @param name Attribute name.
  * @return Mass flow rate. [kg / s]
@@ -209,9 +209,9 @@ double GetXMLMassFlow(const xml_node& node, const std::string& name);
 
 /**
  * @brief Gets an attribute as a mass flow rate.
- * 
+ *
  * Gets an attribute as a mass flow rate.
- * 
+ *
  * @param node XML node.
  * @param name Attribute name.
  * @param unit Unit used in the node.
@@ -220,6 +220,29 @@ double GetXMLMassFlow(const xml_node& node, const std::string& name);
 double GetXMLMassFlow(const xml_node& node, const std::string& name,
 	const std::string& unit);
 
+/**
+ * @brief Gets an attribute as a mass.
+ *
+ * Gets an attribute as a mass.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Mass. [kg]
+ */
+double GetXMLMass(const xml_node& node, const std::string& name);
+
+/**
+ * @brief Gets an attribute as a mass.
+ *
+ * Gets an attribute as a mass.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node.
+ * @return Mass. [kg]
+ */
+double GetXMLMass(const xml_node& node, const std::string& name,
+	const std::string& unit);
 
 /**
  * @brief Gets an attribute as a pressure.

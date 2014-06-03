@@ -333,7 +333,7 @@ class TDPF;
 // ---------------------------------------------------------------------------
 
 struct stEspecies {
-	std::string Nombre;
+	AnsiString Nombre;
 	double R;
 };
 

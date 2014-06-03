@@ -72,14 +72,25 @@ double to_degrees(const double& x, const std::string& unit);
 
 /**
  * @brief Converts a given mass flow from some unit to kg / s.
- * 
+ *
  * Converts a given mass flow rate from some unit to kg / s.
- * 
+ *
  * @param x mass flow rate to convert.
  * @param unit Original unit.
  * @return The mass flow in kilograms per second. [kg / s]
  */
 double to_kg_s(const double& x, const std::string& unit);
+
+/**
+ * @brief Converts a given massfrom some unit to kg.
+ *
+ * Converts a given mass flow from some unit to kg.
+ *
+ * @param x mass flow rate to convert.
+ * @param unit Original unit.
+ * @return The mass in kilograms. [kg]
+ */
+double to_kg(const double& x, const std::string& unit);
 
 
 /**

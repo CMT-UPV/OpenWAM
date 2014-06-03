@@ -214,6 +214,30 @@ double to_kg_s(const double& x, const std::string& unit)
 	}
 }
 
+double to_kg(const double& x, const std::string& unit)
+{
+	if (unit == "") {
+		return x;
+	}
+	else if (unit == "kg") {
+		return x;
+	}
+	else if (unit == "lb") {
+		return x * 0.45359237;
+	}
+	else if (unit == "g") {
+		return x * 1e-3;
+	}
+	else if (unit == "mg") {
+		return x * 1e-6;
+	}
+	else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming kg..." << std::endl;
+		return x;
+	}
+}
 
 double to_metres(const double& x, const std::string& unit)
 {

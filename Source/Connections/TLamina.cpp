@@ -251,14 +251,14 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 			xml_node node_1d = GetNodeChild(node_reed, "RdV:Valve1D");
 			FMasa = GetAttributeAsDouble(node_1d, "Mass");
 			FAmortiguamiento = GetAttributeAsDouble(node_1d, "Damping");
-			FRigidez = GetAttributeAsDouble(node_1d, "SpringConstan");
+			FRigidez = GetAttributeAsDouble(node_1d, "Stiffness");
 			FArea = GetAttributeAsDouble(node_1d, "Area");
 		}
 		else if (FTipoLamina == nmLamina2D) {
 			xml_node node_2d = GetNodeChild(node_reed, "RdV:Valve2D");
 			FDensidad = GetAttributeAsDouble(node_2d, "Density");
 			FAmortiguamiento = GetAttributeAsDouble(node_2d, "Damping");
-			FModuloYoung = GetAttributeAsDouble(node_2d, "YoungModulus");
+			FModuloYoung = GetAttributeAsDouble(node_2d, "Stiffness");
 			FAnchoPetalo = GetAttributeAsDouble(node_2d, "PetalWidth");
 			FEspesor = GetAttributeAsDouble(node_2d, "Thickness");
 			FNumPestanyas = GetAttributeAsDouble(node_2d, "NumPetals");

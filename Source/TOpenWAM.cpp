@@ -1472,7 +1472,7 @@ void TOpenWAM::ReadValvesXML() {
 				val = NumTValvulaContr;
 				NumTValvulaContr++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "WasteGate") {
 				TypeOfValve[id] = new TWasteGate();
 				val = NumberOfWasteGates;
 				NumberOfWasteGates++;

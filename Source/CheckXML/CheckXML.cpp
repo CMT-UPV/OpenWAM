@@ -163,6 +163,20 @@ double GetXMLMassFlow(const xml_node& node, const std::string& name,
 	return to_kg_s(x, unit);
 }
 
+double GetXMLMass(const xml_node& node, const std::string& name)
+{
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Mass").value();
+	return GetXMLMassFlow(node, name, unit);
+}
+
+
+double GetXMLMass(const xml_node& node, const std::string& name,
+	const std::string& unit)
+{
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_kg(x, unit);
+}
 
 double GetXMLPower(const xml_node& node, const std::string& name)
 {
