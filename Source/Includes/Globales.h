@@ -68,6 +68,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <cmath>
 #include "Math_wam.h"
 #ifndef __BORLANDC__
+#include "labels.hpp"
 #include "StringManagement.hpp"
 #include "Exception.hpp"
 #define ffGeneral 3
@@ -2015,42 +2016,6 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 	return Valor_mapa_fila_yref_columna_xref;
 };
 
-// char* PutLabel(int str) {
-// int lang;
-// AnsiString label;
-// if (str < 900) {
-// if (CompareStr(LoadStr(10000), "ES") == 0) {
-// lang = 2000 + str;
-// }
-// if (CompareStr(LoadStr(10000), "EN") == 0) {
-// lang = 1000 + str;
-// }
-// }
-// else {
-// lang = str;
-// }
-// label = AnsiString(LoadStr(lang)).c_str();
-// // label=LoadStr(lang).c_str();
-// return label;
-// };
-
-inline AnsiString PutLabel(int str) {
-	int lang;
-	AnsiString label;
-	if (str < 900) {
-		if (CompareStr(LoadStr(10000), "ES") == 0) {
-			lang = 2000 + str;
-		}
-		if (CompareStr(LoadStr(10000), "EN") == 0) {
-			lang = 1000 + str;
-		}
-	}
-	else {
-		lang = str;
-	}
-	label = LoadStr(lang);
-	return label;
-};
 
 inline void Hermite(int n, double *x, double *y, double *sol) {
 	double DeltaK, AlphaK, BetaK, TauK;
