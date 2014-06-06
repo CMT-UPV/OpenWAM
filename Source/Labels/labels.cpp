@@ -467,10 +467,10 @@ AnsiString PutLabel(int idx)
 	
 	
 	if (idx < 900) {
-		if (CompareStr(LoadStr(10000), "ES") == 0) {
+		if (CompareStr(labels[10000], "ES") == 0) {
 			idx += 2000;
 		}
-		else if (CompareStr(LoadStr(10000), "EN") == 0) {
+		else if (CompareStr(labels[10000], "EN") == 0) {
 			idx += 1000;
 		}
 	}
