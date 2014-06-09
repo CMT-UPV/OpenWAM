@@ -82,7 +82,7 @@ void TCCPreVble::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPi
 		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
 			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FNodoFin = 0;
@@ -91,7 +91,7 @@ void TCCPreVble::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPi
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FNodoFin = FTuboExtremo[FNumeroTubosCC].Pipe->getNin() - 1;

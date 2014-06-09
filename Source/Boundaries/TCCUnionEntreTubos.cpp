@@ -115,7 +115,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 		if (Pipe[FTubo[0]]->GetDiametro(FNodoFin[0]) >= Pipe[FTubo[1]]->GetDiametro(FNodoFin[1])) {
 			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
-				FTuboExtremo[1].TipoExtremo = nmIzquierda;
+				FTuboExtremo[1].TipoExtremo = nmLeft;
 				FNodoFin[1] = 0;
 				FIndiceCC[1] = 0;
 				FNumeroTubo[1] = FTubo[0];
@@ -124,7 +124,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 			if (Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
-				FTuboExtremo[1].TipoExtremo = nmDerecha;
+				FTuboExtremo[1].TipoExtremo = nmRight;
 				FNodoFin[1] = Pipe[FTubo[0]]->getNin() - 1;
 				FIndiceCC[1] = 1;
 				FNumeroTubo[1] = FTubo[0];
@@ -133,7 +133,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 			if (Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[1]];
-				FTuboExtremo[0].TipoExtremo = nmIzquierda;
+				FTuboExtremo[0].TipoExtremo = nmLeft;
 				FNodoFin[0] = 0;
 				FIndiceCC[0] = 0;
 				FNumeroTubo[0] = FTubo[1];
@@ -142,7 +142,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 			if (Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[1]];
-				FTuboExtremo[0].TipoExtremo = nmDerecha;
+				FTuboExtremo[0].TipoExtremo = nmRight;
 				FNodoFin[0] = Pipe[FTubo[1]]->getNin() - 1;
 				FIndiceCC[0] = 1;
 				FNumeroTubo[0] = FTubo[1];
@@ -154,7 +154,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 		else {
 			if (Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[1]];
-				FTuboExtremo[1].TipoExtremo = nmIzquierda;
+				FTuboExtremo[1].TipoExtremo = nmLeft;
 				FNodoFin[1] = 0;
 				FIndiceCC[1] = 0;
 				FNumeroTubo[1] = FTubo[1];
@@ -163,7 +163,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 			if (Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[1]];
-				FTuboExtremo[1].TipoExtremo = nmDerecha;
+				FTuboExtremo[1].TipoExtremo = nmRight;
 				FNodoFin[1] = Pipe[FTubo[1]]->getNin() - 1;
 				FIndiceCC[1] = 1;
 				FNumeroTubo[1] = FTubo[1];
@@ -172,7 +172,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[0]];
-				FTuboExtremo[0].TipoExtremo = nmIzquierda;
+				FTuboExtremo[0].TipoExtremo = nmLeft;
 				FNodoFin[0] = 0;
 				FIndiceCC[0] = 0;
 				FNumeroTubo[0] = FTubo[0];
@@ -181,7 +181,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 			if (Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[0]];
-				FTuboExtremo[0].TipoExtremo = nmDerecha;
+				FTuboExtremo[0].TipoExtremo = nmRight;
 				FNodoFin[0] = Pipe[FTubo[0]]->getNin() - 1;
 				FIndiceCC[0] = 1;
 				FNumeroTubo[0] = FTubo[0];
@@ -429,7 +429,7 @@ throw Exception(N.Message.c_str());
 //
 //	for(int i=0;i<FNumeroTubosCC;i++){
 //		signo=1.;
-//		if(FTuboExtremo[i].TipoExtremo==nmDerecha) signo=-1;
+//		if(FTuboExtremo[i].TipoExtremo==nmRight) signo=-1;
 //		signo=FTuboExtremo[i].Pipe->getNumeroTubo();
 //		//if(FTuboExtremo[i].Pipe->GetVelocidad(0)*signo<=0){
 //			//FTuboExtremo[i].Entropia=FTuboExtremo[i].Pipe

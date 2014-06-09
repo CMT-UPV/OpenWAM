@@ -73,14 +73,14 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FTuboExtremo[FNumeroTubosCC].Pipe=Pipe[i];
            FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Landa);
-           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmIzquierda;
+           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmLeft;
            FNodoFin=0;
            FIndiceCC=0;
            FNumeroTubosCC++;
         }
         if(Pipe[i]->getNodoDer()==FNumeroCC){
            FTuboExtremo[FNumeroTubosCC].Pipe=Pipe[i];
-           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmDerecha;
+           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmRight;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Beta);
            FNodoFin=FTuboExtremo[FNumeroTubosCC].Pipe->getNin()-1;

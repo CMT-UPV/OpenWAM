@@ -46,7 +46,7 @@ class TCCCompresor : public TCondicionContorno {
 private:
 
 	nmCompressorInlet FEntradaCompresor;
-	nmExtremoTubo FExtremoTuboRotor;
+	nmPipeEnd FExtremoTuboRotor;
 
 	int FNumeroCompresor;
 	int FNumeroDeposito;
@@ -88,7 +88,7 @@ public:
 		return FTuboRotor;
 	};
 
-	nmExtremoTubo getExtremoTuboRotor() {
+	nmPipeEnd getExtremoTuboRotor() {
 		return FExtremoTuboRotor;
 	};
 

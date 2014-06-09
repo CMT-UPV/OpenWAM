@@ -98,7 +98,7 @@ for(int i=0;i<2;i++){
 while(FNumeroTubosCC<2 && i<NumberOfPipes){
         if(Pipe[i]->getNodoIzq()==FNumeroCC){
            FTuboExtremo[FNumeroTubosCC].Pipe=Pipe[i];
-           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmIzquierda;
+           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmLeft;
            FNodoFin[FNumeroTubosCC]=0;
            FIndiceCC[FNumeroTubosCC]=0;
            FNumeroTubo[FNumeroTubosCC]=Pipe[i]->getNumeroTubo()-1;
@@ -108,7 +108,7 @@ while(FNumeroTubosCC<2 && i<NumberOfPipes){
         }
         if(Pipe[i]->getNodoDer()==FNumeroCC){
            FTuboExtremo[FNumeroTubosCC].Pipe=Pipe[i];
-           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmDerecha;
+           FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmRight;
            FNodoFin[FNumeroTubosCC]=Pipe[i]->getNin()-1;
            FIndiceCC[FNumeroTubosCC]=1;
            FNumeroTubo[FNumeroTubosCC]=Pipe[i]->getNumeroTubo()-1;

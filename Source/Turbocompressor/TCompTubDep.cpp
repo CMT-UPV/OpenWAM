@@ -467,17 +467,16 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 		double Cp;
 
 		FEntradaCompresor = EntradaCompresor;
-		if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmIzquierda) {
-			FAreaSalComp = pow(BC[numeroCC - 1]->GetTuboExtremo(0)
-				.Pipe->GetDiametro(0), 2.) * Pi / 4.;
+		if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmLeft) {
+			FAreaSalComp = pow(BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(0), 2.)
+				* Pi / 4.;
 			FExtremoSalida = nmLeft;
 			FNodoFinTuboSalida = 0;
 			FIndiceCC = 0;
 		}
-		else if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmDerecha) {
-			FAreaSalComp = pow(BC[numeroCC - 1]->GetTuboExtremo(0)
-				.Pipe->GetDiametro(BC[numeroCC - 1]->GetTuboExtremo(0)
-					.Pipe->getNin() - 1), 2.) * Pi / 4.;
+		else if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmRight) {
+			FAreaSalComp = pow(BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro
+				(BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->getNin() - 1), 2.) * Pi / 4.;
 			FExtremoSalida = nmRight;
 			FNodoFinTuboSalida = BC[numeroCC - 1]->GetTuboExtremo(0)
 				.Pipe->getNin() - 1;
@@ -545,7 +544,7 @@ void TCompTubDep::Initialize() {
 		break;
 
 	case nmPipe:
-		if (FExtremoTuboRotor == nmIzquierda) {
+		if (FExtremoTuboRotor == nmLeft) {
 			FNodoFinEntrada = 0;
 			Cp = (FTuboRotor->GetGamma(0) * FTuboRotor->GetRMezcla(0)) /
 				(FTuboRotor->GetGamma(0) - 1);
@@ -643,7 +642,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 			FGamma4 = Gamma4(FGamma);
 			FGamma5 = Gamma5(FGamma);
 
-			if (FExtremoTuboRotor == nmIzquierda) {
+			if (FExtremoTuboRotor == nmLeft) {
 				pentcomp = FTuboRotor->GetPresion(0) * 1e5;
 				ventcomp = FTuboRotor->GetVelocidad(0) * ARef;
 				tentcomp = pow(FTuboRotor->GetAsonido(0) * ARef, 2.)

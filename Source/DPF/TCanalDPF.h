@@ -310,10 +310,10 @@ private:
         //void FuncionTVD();
 
         void Calculo_Entropia(double  *entropia,double *velocidadp,int ind,double dist,
-             int signo,double DeltaTiempo,int indiceCC,nmExtremoTubo TipoExtremoTubo);
+             int signo,double DeltaTiempo,int indiceCC,nmPipeEnd TipoExtremoTubo);
 
         void Calculo_Caracteristica(double *caracteristica,double *velocidadp,double *asonidop,int ind,
-             double dist,int signo,double entropia,double DeltaTiempo,nmExtremoTubo TipoExtremoTubo);
+             double dist,int signo,double entropia,double DeltaTiempo,nmPipeEnd TipoExtremoTubo);
 
         void CalculaB();
 
@@ -388,9 +388,9 @@ public:
 
   void CalculaCaracteristicasExtremos(TCondicionContorno **CC,double DeltaTiempo);
 
-  double Interpola_Entropia(nmExtremoTubo TipoExtremoTubo,double DeltaTiempo);
+  double Interpola_Entropia(nmPipeEnd TipoExtremoTubo,double DeltaTiempo);
 
-  double Interpola_Caracteristica(double entropia,int signo, int extremo,double DeltaTiempo,nmExtremoTubo TipoExtremoTubo);
+  double Interpola_Caracteristica(double entropia,int signo, int extremo,double DeltaTiempo,nmPipeEnd TipoExtremoTubo);
 
   void ComunicacionCanal_CC(TCondicionContorno **CC);
 

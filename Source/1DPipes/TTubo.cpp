@@ -920,7 +920,7 @@ void TTubo::ComunicacionDPF(TCondicionContorno **CC, TDeposito **Deposito) {
 						FDPFEntradaTubo = Deposito[numDeposito - 1]
 							->GetCCDeposito(k)->GetTuboExtremo(0).DPF;
 						if (Deposito[numDeposito - 1]->GetCCDeposito(k)
-							->GetTuboExtremo(0).TipoExtremo == nmIzquierda) {
+							->GetTuboExtremo(0).TipoExtremo == nmLeft) {
 							FNodoDPFEntrada = 0;
 						}
 						else {
@@ -945,7 +945,7 @@ void TTubo::ComunicacionDPF(TCondicionContorno **CC, TDeposito **Deposito) {
 						FDPFSalidaTubo = Deposito[numDeposito - 1]
 							->GetCCDeposito(k)->GetTuboExtremo(0).DPF;
 						if (Deposito[numDeposito - 1]->GetCCDeposito(k)
-							->GetTuboExtremo(0).TipoExtremo == nmIzquierda) {
+							->GetTuboExtremo(0).TipoExtremo == nmLeft) {
 							FNodoDPFSalida = 0;
 						}
 						else {
@@ -4109,7 +4109,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 								.Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
 								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4120,7 +4120,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 							else {
 								extremo = 0;
 								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4132,8 +4132,8 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 								.Pipe->GetTPTuboAnt(1, nodo) + 273.;
 						}
 					}
-#ifdef ParticulateFilter
-					else if (BC[FNodoIzq - 1]->getTipoCC() == nmPlenum) {
+#if ParticulateFilter
+					else if (BC[FNodoIzq - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 						if (FHayDPFNodoIzq) {
 							Tpantant = FDPFEntradaTubo->GetTSuperficie
 								(FNodoDPFEntrada, 2) + 273.;
@@ -4151,7 +4151,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 								.Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
 								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4162,7 +4162,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 							else {
 								extremo = 0;
 								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4294,7 +4294,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 										if
 										(BC[FNodoIzq - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4307,7 +4307,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 										if
 										(BC[FNodoIzq - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4323,7 +4323,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 #ifdef ParticulateFilter
 								else if
 									(BC[FNodoIzq - 1]->getTipoCC()
-									== nmPlenum) {
+									== nmPipeToPlenumConnection) {
 									if (FHayDPFNodoIzq) {
 										Tpantant =
 										FDPFEntradaTubo->GetTSuperficie
@@ -4348,7 +4348,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 										if
 										(BC[FNodoDer - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4361,7 +4361,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 										if
 										(BC[FNodoDer - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4377,7 +4377,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 #ifdef ParticulateFilter
 								else if
 									(BC[FNodoDer - 1]->getTipoCC()
-									== nmPlenum) {
+									== nmPipeToPlenumConnection) {
 									if (FHayDPFNodoDer) {
 										Tpantpos =
 										FDPFSalidaTubo->GetTSuperficie
@@ -4558,7 +4558,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 								.Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
 								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4569,7 +4569,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 							else {
 								extremo = 0;
 								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4581,8 +4581,8 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 								.Pipe->GetTPTuboAnt(1, nodo) + 273.;
 						}
 					}
-#ifdef ParticulateFilter
-					else if (BC[FNodoIzq - 1]->getTipoCC() == nmPlenum) {
+#if ParticulateFilter
+					else if (BC[FNodoIzq - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 						if (FHayDPFNodoIzq) {
 							Tpantant = FDPFEntradaTubo->GetTSuperficie
 								(FNodoDPFEntrada, 2) + 273.;
@@ -4600,7 +4600,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 								.Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
 								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4611,7 +4611,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 							else {
 								extremo = 0;
 								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo)
-									.TipoExtremo == nmIzquierda) {
+									.TipoExtremo == nmLeft) {
 									nodo = 0;
 								}
 								else {
@@ -4623,8 +4623,8 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 								.Pipe->GetTPTuboAnt(1, nodo) + 273.;
 						}
 					}
-#ifdef ParticulateFilter
-					else if (BC[FNodoDer - 1]->getTipoCC() == nmPlenum) {
+#if ParticulateFilter
+					else if (BC[FNodoDer - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 						if (FHayDPFNodoDer) {
 							Tpantpos = FDPFSalidaTubo->GetTSuperficie
 								(FNodoDPFSalida, 2) + 273.;
@@ -4741,7 +4741,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 										if
 										(BC[FNodoIzq - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4754,7 +4754,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 										if
 										(BC[FNodoIzq - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4770,7 +4770,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 #ifdef ParticulateFilter
 								else if
 									(BC[FNodoIzq - 1]->getTipoCC()
-									== nmPlenum) {
+									== nmPipeToPlenumConnection) {
 									if (FHayDPFNodoIzq) {
 										Tpantant =
 										FDPFEntradaTubo->GetTSuperficie
@@ -4795,7 +4795,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 										if
 										(BC[FNodoDer - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4808,7 +4808,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 										if
 										(BC[FNodoDer - 1]->GetTuboExtremo
 										(extremo)
-										.TipoExtremo == nmIzquierda) {
+										.TipoExtremo == nmLeft) {
 										nodo = 0;
 										}
 										else {
@@ -4824,7 +4824,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 #ifdef ParticulateFilter
 								else if
 									(BC[FNodoDer - 1]->getTipoCC()
-									== nmPlenum) {
+									== nmPipeToPlenumConnection) {
 									if (FHayDPFNodoDer) {
 										Tpantpos =
 										FDPFSalidaTubo->GetTSuperficie
@@ -5065,7 +5065,7 @@ void TTubo::CalculaCaracteristicasExtremos(TCondicionContorno **BC,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo,
+double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 	double DeltaTiempo) {
 #ifdef usetry
 	try {
@@ -5079,12 +5079,12 @@ double TTubo::Interpola_Entropia(nmExtremoTubo TipoExtremoTubo,
 
 		double dtdx = DeltaTiempo / FXref;
 
-		if (TipoExtremoTubo == nmIzquierda) { // PipeEnd Izquierdo
+		if (TipoExtremoTubo == nmLeft) { // PipeEnd Izquierdo
 			signo = 1;
 			extremo = 0;
 			indiceCC = 0;
 		}
-		if (TipoExtremoTubo == nmDerecha) { // PipeEnd Derecho
+		if (TipoExtremoTubo == nmRight) { // PipeEnd Derecho
 			signo = -1;
 			extremo = FNin - 1;
 			indiceCC = 1;
