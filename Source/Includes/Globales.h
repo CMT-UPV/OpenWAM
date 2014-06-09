@@ -190,9 +190,9 @@ enum nmTipoGas {
 	nmAireFresco = 0, nmGasEscape = 1
 };
 
-enum nmExtremoTubo {
-	nmIzquierda = 0, nmDerecha = 1
-};
+//enum nmExtremoTubo {
+//	nmLeft = 0, nmRight = 1
+//};
 
 enum nmModelo {
 	nmLaxWendroff = 0, nmMacCormak = 1, nmCESE = 2, nmTVD = 3
@@ -772,7 +772,7 @@ struct stResInstantSensor {
 
 struct stTuboExtremo {
 	TTubo *Pipe; // Pipe asociado al nodo
-	nmExtremoTubo TipoExtremo; // PipeEnd del tubo: derecho o izquierdo
+	nmPipeEnd TipoExtremo; // PipeEnd del tubo: derecho o izquierdo
 	double Entropia;
 	double Landa;
 	double Beta;

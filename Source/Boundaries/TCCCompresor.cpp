@@ -116,12 +116,12 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 			while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
 				if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 					FNumeroTubosCC++;
 				}
 				if (Pipe[i]->getNodoDer() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 					FNumeroTubosCC++;
 				}
 				i++;
@@ -201,13 +201,13 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 			while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
 				if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 					FNumeroTubo[FNumeroTubosCC] = i;
 					FNumeroTubosCC++;
 				}
 				if (Pipe[i]->getNodoDer() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 					FNumeroTubo[FNumeroTubosCC] = i;
 					FNumeroTubosCC++;
 				}
@@ -389,12 +389,12 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 			while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
 				if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 					FNumeroTubosCC++;
 				}
 				if (Pipe[i]->getNodoDer() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 					FNumeroTubosCC++;
 				}
 				i++;
@@ -446,13 +446,13 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 			while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
 				if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 					FNumeroTubo[FNumeroTubosCC] = i;
 					FNumeroTubosCC++;
 				}
 				if (Pipe[i]->getNodoDer() == FNumeroCC) {
 					FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+					FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 					FNumeroTubo[FNumeroTubosCC] = i;
 					FNumeroTubosCC++;
 				}

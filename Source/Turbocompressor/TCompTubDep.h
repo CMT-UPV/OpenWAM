@@ -57,7 +57,7 @@ int FIndiceCC;
 double FNodoFinTuboSalida;
 double FNodoFinEntrada;
 nmCompressorInlet FEntradaCompresor;
-nmExtremoTubo FExtremoTuboRotor;
+nmPipeEnd FExtremoTuboRotor;
 nmCompressorMapFormat FCompressorMapFormat;
 
 int FParticionEntrada;    // Se pueden borrar.Pedro

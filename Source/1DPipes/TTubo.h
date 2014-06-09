@@ -1158,7 +1158,7 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 	/*!Comment  */
 	double  Interpola_Entropia
 			(
-			  nmExtremoTubo TipoExtremoTubo,    //!< Comment
+			  nmPipeEnd TipoExtremoTubo,    //!< Comment
 			  double        DeltaTiempo         //!< Comment
 			);
 

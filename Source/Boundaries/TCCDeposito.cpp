@@ -119,7 +119,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
 			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FNodoFin = 0;
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
@@ -130,7 +130,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FNodoFin = Pipe[i]->getNin() - 1;
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
@@ -150,7 +150,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 						 FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
 						 FTuboExtremo[FNumeroTubosCC].TipoCanal=0;
 						 FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
-						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmIzquierda;
+						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmLeft;
 						 FNodoFin=0;
 						 FIndiceCC=0;
 						 FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
@@ -161,7 +161,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 						 FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
 						 FTuboExtremo[FNumeroTubosCC].TipoCanal=0;
 						 FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
-						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmDerecha;
+						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmRight;
 						 FNodoFin=DPF[j]->GetCanal(k,0)->getNin()-1;
 						 FIndiceCC=1;
 						 FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
@@ -172,7 +172,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 						 FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
 						 FTuboExtremo[FNumeroTubosCC].TipoCanal=1;
 						 FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
-						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmIzquierda;
+						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmLeft;
 						 FNodoFin=0;
 						 FIndiceCC=0;
 						 FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
@@ -183,7 +183,7 @@ void TCCDeposito::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfP
 						 FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
 						 FTuboExtremo[FNumeroTubosCC].TipoCanal=1;
 						 FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
-						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmDerecha;
+						 FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmRight;
 						 FNodoFin=DPF[j]->GetCanal(k,1)->getNin()-1;
 						 FIndiceCC=1;
 						 FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
@@ -363,7 +363,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			break;
 
 		case nmLamina:
-			if (FTuboExtremo[0].TipoExtremo == nmIzquierda) {
+			if (FTuboExtremo[0].TipoExtremo == nmLeft) {
 				NodoFin = 0;
 			}
 			else
@@ -421,7 +421,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			break;
 
 		case nmWasteGate:
-			if (FTuboExtremo[0].TipoExtremo == nmIzquierda) {
+			if (FTuboExtremo[0].TipoExtremo == nmLeft) {
 				NodoFin = 0;
 			}
 			else

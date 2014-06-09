@@ -172,7 +172,7 @@ void TCondicionContorno::CalculaCaracteristicas(double Time)
 
 	for(int i=0;i<FNumeroTubosCC;i++){
 	double dt=Time-FTuboExtremo[i].Pipe->getTime0();
-		if(FTuboExtremo[i].TipoExtremo==nmDerecha){
+		if(FTuboExtremo[i].TipoExtremo==nmRight){
 			int nin=FTuboExtremo[i].Pipe->getNin()-1;
 			if(FTuboExtremo[i].Pipe->GetVelocidad(nin)>0){
 				FTuboExtremo[i].Entropia=FTuboExtremo[i].Pipe->Interpola_Entropia(FTuboExtremo[i].TipoExtremo,
