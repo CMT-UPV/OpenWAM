@@ -86,7 +86,8 @@ const double PMHC=55.04; ///< Molar mass of HC. [g]
 
 const double Pi=3.1415927; ///< The value of @f$ \pi @f$
 const double Gamma=1.4; ///< Air specific heat capacities ratio.
-const double ARef=343.11; //< Reference speed of sound. [m / s]
+const double ARef=343.11; ///< Reference speed of sound. [m / s]
+const double TRef=292.99271; ///< Reference temperature. [K]
 const double ARef2=117724.4721;
 const double PRef=1.0; ///< Reference pressure. [bar]
 
