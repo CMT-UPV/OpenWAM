@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -3738,44 +3738,50 @@ void TOpenWAM::CalculateFlowIndependent() {
 	int OneDEnd;
 
 	do {
-		// ! Search which pipipe must be calculated
+		// ! Search which pipe must be calculated
 		SearchMinimumTimeStep();
 		if (TimeMinPipe) {
-			// ! Solver for the flow in the pipe
-			Pipe[JCurrent]->CalculaVariablesFundamentales();
-
-			// ! Calculation of the boundary conditions at the pipe end
-			for (int i = 0; i < 2; i++) {
-				if (i == 0)
-					OneDEnd = Pipe[JCurrent]->getNodoIzq();
-				if (i == 1)
-					OneDEnd = Pipe[JCurrent]->getNodoDer();
-
-				BC[OneDEnd - 1]->CalculaCaracteristicas(Pipe[JCurrent]->getTime1());
-
-				BC[OneDEnd - 1]->TuboCalculandose(JCurrent);
-
-				if (BC[OneDEnd - 1]->getTipoCC() == nmVolumetricCompressor) {
-
-					dynamic_cast<TCCCompresorVolumetrico*>(BC[OneDEnd - 1])
-						->ObtencionValoresInstantaneos(ene);
-
+#pragma omp parallel for private(OneDEnd) num_threads(3)
+			for (int i = -1; i < 2; i++) {
+				if (i == - 1) {
+					// ! Solver for the flow in the pipe
+					Pipe[JCurrent]->CalculaVariablesFundamentales();
 				}
-				else if (BC[OneDEnd - 1]->getTipoCC() == nmInjectionEnd) {
+				else {
+					// ! Calculation of the boundary conditions at the pipe end
+					if (i == 0)
+						OneDEnd = Pipe[JCurrent]->getNodoIzq();
+					if (i == 1)
+						OneDEnd = Pipe[JCurrent]->getNodoDer();
 
-					dynamic_cast<TCCExtremoInyeccion*>(BC[OneDEnd - 1])
-						->ObtencionValoresInstantaneos(Theta);
+					BC[OneDEnd - 1]->CalculaCaracteristicas
+						(Pipe[JCurrent]->getTime1());
 
+					BC[OneDEnd - 1]->TuboCalculandose(JCurrent);
+
+					if (BC[OneDEnd - 1]->getTipoCC()
+						== nmVolumetricCompressor) {
+						dynamic_cast<TCCCompresorVolumetrico*>(BC[OneDEnd - 1])
+							->ObtencionValoresInstantaneos(ene);
+
+					}
+					else if (BC[OneDEnd - 1]->getTipoCC() == nmInjectionEnd) {
+						dynamic_cast<TCCExtremoInyeccion*>(BC[OneDEnd - 1])
+							->ObtencionValoresInstantaneos(Theta);
+
+					}
+					else if (BC[OneDEnd - 1]->getTipoCC() == nmCompresor) {
+
+						dynamic_cast<TCCCompresor*>(BC[OneDEnd - 1])
+							->ObtencionValoresInstantaneos(Theta,
+							Pipe[JCurrent]->getTime1());
+					}
+
+					BC[OneDEnd - 1]->CalculaCondicionContorno
+						(Pipe[JCurrent]->getTime1());
+
+					SolveAdjacentElements(OneDEnd, Pipe[JCurrent]->getTime1());
 				}
-				else if (BC[OneDEnd - 1]->getTipoCC() == nmCompresor) {
-
-					dynamic_cast<TCCCompresor*>(BC[OneDEnd - 1])->ObtencionValoresInstantaneos
-						(Theta, Pipe[JCurrent]->getTime1());
-				}
-
-				BC[OneDEnd - 1]->CalculaCondicionContorno(Pipe[JCurrent]->getTime1());
-
-				SolveAdjacentElements(OneDEnd, Pipe[JCurrent]->getTime1());
 			}
 			Pipe[JCurrent]->ActualizaValoresNuevos(BC);
 
@@ -3894,7 +3900,7 @@ void TOpenWAM::CalculateFlowIndependent() {
 		}
 	}
 	while (JCurrent != JStepMax && JCurrentDPF != JStepMaxDPF);
-	// Loop end for all piepes.
+	// Loop end for all pipes.
 
 	if (EngineBlock) {
 		UpdateEngine();
