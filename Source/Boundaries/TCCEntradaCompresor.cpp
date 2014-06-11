@@ -81,7 +81,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FNodoFin=0;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Landa);
-           FSeccionTubo=Pi*pow(Pipe[i]->GetDiametro(FNodoFin),2)/4;
+           FSeccionTubo=Pi*pow2(Pipe[i]->GetDiametro(FNodoFin))/4;
            FPressure=Pipe[i]->GetPresion(FNodoFin);
            FNumeroTubosCC++;
         }
@@ -91,7 +91,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FNodoFin=Pipe[i]->getNin()-1;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Beta);
-           FSeccionTubo=Pi*pow(Pipe[i]->GetDiametro(FNodoFin),2)/4;
+           FSeccionTubo=Pi*pow2(Pipe[i]->GetDiametro(FNodoFin))/4;
            FPressure=Pipe[i]->GetPresion(FNodoFin);
            FNumeroTubosCC++;
         }
@@ -157,7 +157,7 @@ FGamma5=Gamma5(FGamma);
 
 FGasto=FCompresor->getMassflow();
 cte1=FTuboExtremo[0].Entropia;
-cte2=FGamma1*pow(FTuboExtremo[0].Entropia,2)*FGasto*ARef/(2*FGamma*FSeccionTubo*1e5);
+cte2=FGamma1*pow2(FTuboExtremo[0].Entropia)*FGasto*ARef/(2*FGamma*FSeccionTubo*1e5);
 ctea=FGamma1/FGamma;
 
 while(error>1e-5 && contador<800){

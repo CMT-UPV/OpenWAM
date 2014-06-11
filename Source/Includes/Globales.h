@@ -2013,9 +2013,9 @@ inline void GetName(char *origin, char *destination, const char *add) {
 inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 	double Machx = v / a;
 	double g3 = (g - 1) / 2;
-	double Machy = Machx / fabs(Machx) * sqrt((pow(Machx, 2) + 1 / g3) / (g / g3 * pow(Machx,
+	double Machy = Machx / fabs(Machx) * sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx,
 				2) - 1.));
-	a = a * sqrt((g3 * pow(Machx, 2) + 1.) / (g3 * pow(Machy, 2) + 1.));
+	a = a * sqrt((g3 * Machx * Machx + 1.) / (g3 * Machy * Machy + 1.));
 
 	v = a * Machy;
 };

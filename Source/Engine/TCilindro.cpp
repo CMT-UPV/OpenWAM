@@ -470,8 +470,8 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		Fctorbadmp = CalculaCTorbAdmProm();
 		FKctm = exp(-0.200679 * pow(Fctorbadmp, 0.431202));
-		Fratioctm = pow(FMotor->getGeometria()
-			.DiametroBowl / FMotor->getGeometria().Diametro, 2.) / FKctm;
+		Fratioctm = pow2(FMotor->getGeometria()
+			.DiametroBowl / FMotor->getGeometria().Diametro) / FKctm;
 
 		nmTipoValvula IntakeValveType = dynamic_cast<TCCCilindro*>
 			(FCCValvulaAdm[0])->getValvula()->getTypeOfValve();
@@ -2571,17 +2571,17 @@ void TCilindro::InicioFinCombustion() {
 				else {
 					k = 0; // Cuando hay 3 wiebes(premezcla,difusi�n y cola)
 				}
-				distReg = pow((FRegInt - FMotor->getLeyQuemadoBD()[i].n)
-					/ FMotor->getLQRegMax(), 2.);
-				distMf = pow((FMfint - FMotor->getLeyQuemadoBD()[i].mf)
-					/ FMotor->getLQMfMax(), 2.);
-				distMa = pow((FMaint - FMotor->getLeyQuemadoBD()[i].ma)
-					/ FMotor->getLQMaMax(), 2.);
+				distReg = pow2((FRegInt - FMotor->getLeyQuemadoBD()[i].n)
+					/ FMotor->getLQRegMax());
+				distMf = pow2((FMfint - FMotor->getLeyQuemadoBD()[i].mf)
+					/ FMotor->getLQMfMax());
+				distMa = pow2((FMaint - FMotor->getLeyQuemadoBD()[i].ma)
+					/ FMotor->getLQMaMax());
 				b = distReg + distMf + distMa;
 
 				if (b < 1e-15)
 					b = 1e-15;
-				Dist[i] = pow(b, 0.5);
+				Dist[i] = sqrt(b);
 				if (i == 0) {
 					DistMax = Dist[i];
 					DistMin = Dist[i];
@@ -2601,8 +2601,8 @@ void TCilindro::InicioFinCombustion() {
 				// Denominador+=1./dist;
 			}
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
-				Weight = pow(((1 / Dist[i]) - (1 / DistMax)) /
-					((1 / DistMin) - (1 / DistMax)), 4);
+				Weight = pow4(((1 / Dist[i]) - (1 / DistMax)) /
+					((1 / DistMin) - (1 / DistMax)));
 				Numerador += FMotor->getLeyQuemadoBD()
 					[i].Wiebes[k].Alpha0 * Weight;
 				Denominador += Weight;
@@ -2683,20 +2683,20 @@ double TCilindro::CalculaCalorLiberado(double x) {
 			LeyFQL.resize(FMotor->getLeyQuemadoBD().size());
 
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
-				distReg = pow((FRegInt - FMotor->getLeyQuemadoBD()[i].n)
-					/ FMotor->getLQRegMax(), 2.);
-				distMf = pow((FMfint - FMotor->getLeyQuemadoBD()[i].mf)
-					/ FMotor->getLQMfMax(), 2.);
+				distReg = pow2((FRegInt - FMotor->getLeyQuemadoBD()[i].n)
+					/ FMotor->getLQRegMax());
+				distMf = pow2((FMfint - FMotor->getLeyQuemadoBD()[i].mf)
+					/ FMotor->getLQMfMax());
 				/* OJO: kg/cc */
-				distMa = pow((FMaint - FMotor->getLeyQuemadoBD()[i].ma)
-					/ FMotor->getLQMaMax(), 2.);
+				distMa = pow2((FMaint - FMotor->getLeyQuemadoBD()[i].ma)
+					/ FMotor->getLQMaMax());
 				/* OJO: kg/cc */
 				// dist=pow(distReg+distMf+distMa,0.5);
 				b = distReg + distMf + distMa;
 
 				if (b < 1e-15)
 					b = 1e-15;
-				Dist[i] = pow(b, 0.5);
+				Dist[i] = sqrt(b);
 				if (i == 0) {
 					DistMax = Dist[i];
 					DistMin = Dist[i];
@@ -2718,8 +2718,8 @@ double TCilindro::CalculaCalorLiberado(double x) {
 				// Denominador+=1./dist;
 			}
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
-				Weight = pow(((1 / Dist[i]) - (1 / DistMax)) /
-					((1 / DistMin) - (1 / DistMax)), 4);
+				Weight = pow4(((1 / Dist[i]) - (1 / DistMax)) /
+					((1 / DistMin) - (1 / DistMax)));
 				Numerador += LeyFQL[i] * Weight;
 				Denominador += Weight;
 			}
@@ -2806,9 +2806,9 @@ double TCilindro::FuncionGamma(double T, double X) {
 			X = 0.;
 		a = 46.4 * pow(X, 0.93) + 489.6;
 		b = 3.36 * pow(X, 0.8) + 7.768;
-		c = 0.485 * pow(X, 0.75) + 0.0975;
+		c = 0.485 * pow075(X) + 0.0975;
 
-		cv = (a + 2. * b * T00 - 3. * c * pow(T00, 2.)) * 1.455;
+		cv = (a + 2. * b * T00 - 3. * c * pow2(T00)) * 1.455;
 		if (cv <= 700.) {
 			cv = 700.;
 		}
@@ -2850,14 +2850,14 @@ void TCilindro::CalculaTemperaturasPared() {
 			(FMotor->getGeometria().Carrera, 2.);
 		Re = Vel * FMotor->getGeometria().Carrera / 2.3 / ViscGas;
 		Cond = 0.67;
-		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow(Re, 0.25)) * pow(Re,
-			0.8) * pow(1.98, 0.33) * pow(ViscGas / ViscPared, 0.14) * Cond /
+		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re,
+			0.8) * cbrt(1.98) * pow(ViscGas / ViscPared, 0.14) * Cond /
 			(FMotor->getGeometria().Carrera / 2.3);
 
 		Fo = (FMotor->getParedCilindro()
 			.Conductividad / FMotor->getParedCilindro()
 			.Density / FMotor->getParedCilindro().CalorEspecifico)
-			* FDeltaT / (pow(FMotor->getParedCilindro().Espesor, 2.) / 4.);
+			* FDeltaT / (pow2(FMotor->getParedCilindro().Espesor) / 4.);
 		Bii = Fh * FMotor->getParedCilindro()
 			.Espesor / 2. / FMotor->getParedCilindro().Conductividad;
 		Bie = hExt * FMotor->getParedCilindro()
@@ -2953,7 +2953,7 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		Fo = (FMotor->getParedPiston().Conductividad / FMotor->getParedPiston()
 			.Density / FMotor->getParedPiston().CalorEspecifico) * FDeltaT /
-			(pow(FMotor->getParedPiston().Espesor, 2.) / 4.);
+			(pow2(FMotor->getParedPiston().Espesor) / 4.);
 		Bii = Fh * FMotor->getParedPiston()
 			.Espesor / 2. / FMotor->getParedPiston().Conductividad;
 		Bie = hExt * FMotor->getParedPiston()
@@ -3044,13 +3044,13 @@ void TCilindro::CalculaTemperaturasPared() {
 			/ FMotor->getGeometria().NCilin / pow
 			(1.1 * FMotor->getGeometria().Diametro, 2.);
 		Re = Vel * FMotor->getGeometria().Carrera / 2.3 / ViscGas;
-		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow(Re, 0.25)) * pow(Re,
-			0.8) * pow(1.98, 0.33) * pow(ViscGas / ViscPared, 0.14) * Cond /
+		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re,
+			0.8) * cbrt(1.98) * pow(ViscGas / ViscPared, 0.14) * Cond /
 			(1.1 * FMotor->getGeometria().Diametro / 2.3);
 
 		Fo = (FMotor->getParedCulata().Conductividad / FMotor->getParedCulata()
 			.Density / FMotor->getParedCulata().CalorEspecifico) * FDeltaT /
-			(pow(FMotor->getParedCulata().Espesor, 2.) / 4.);
+			(pow2(FMotor->getParedCulata().Espesor) / 4.);
 		Bii = Fh * FMotor->getParedCulata()
 			.Espesor / 2. / FMotor->getParedCulata().Conductividad;
 		Bie = hExt * FMotor->getParedCulata()
@@ -3549,14 +3549,14 @@ void TCilindro::CalculaSWIRL() {
 	try {
 		double wctcc;
 
-		wctcc = Pi * pow(FMotor->getGeometria().DiametroBowl, 2.)
+		wctcc = Pi * pow2(FMotor->getGeometria().DiametroBowl)
 			/ 4. * FMotor->getGeometria().AlturaBowl;
-		wctcc = (pow(FMotor->getGeometria().Diametro,
-				2.) * (FMotor->getGeometria().VCC - wctcc) + pow
-			(FMotor->getGeometria().DiametroBowl, 2.) * wctcc)
+		wctcc = (pow2(FMotor->getGeometria().Diametro)
+			* (FMotor->getGeometria().VCC - wctcc)
+			+ pow2(FMotor->getGeometria().DiametroBowl) * wctcc)
 			/ FMotor->getGeometria().VCC / 8.;
 
-		FWoma = FMomentoAngular / pow(wctcc, 2.);
+		FWoma = FMomentoAngular / pow2(wctcc);
 		FSwirl = FWoma * 60 / (2. * Pi * FMotor->getRegimen());
 
 		FSwirlSUM += FSwirl * FDeltaT;

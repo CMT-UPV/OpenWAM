@@ -107,7 +107,7 @@ try
 double viscgas,rho,deltaRe,VariacionRe,K_Actual;
 int i=0;
 
-viscgas=1.4615e-6*pow(temperatura+273.,1.5)/(temperatura+273.+110.4);
+viscgas=1.4615e-6*pow150(temperatura+273.)/(temperatura+273.+110.4);
 rho=presion*1e5/(temperatura+273.)/R_mezcla;
 FRe=rho*velocidad*FDiametro/viscgas;
 

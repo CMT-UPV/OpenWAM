@@ -393,7 +393,7 @@ if(FIndependiente){
       FGamma=FDeposito1->getGamma();
       FRMezcla=FDeposito1->getR();
       p0=FDeposito1->getPressure()*1e5;
-      T0=pow(FDeposito1->getSpeedsound()*ARef,2)/(FGamma*FRMezcla);
+      T0=pow2(FDeposito1->getSpeedsound()*ARef)/(FGamma*FRMezcla);
       Fa0=FDeposito1->getSpeedsound();
       //Fa1=FDeposito2->getSpeedsound();
       p1=FDeposito2->getPressure()*1e5;
@@ -403,7 +403,7 @@ if(FIndependiente){
       FGamma=FDeposito2->getGamma();
       FRMezcla=FDeposito2->getR();
       p0=FDeposito2->getPressure()*1e5;
-      T0=pow(FDeposito2->getSpeedsound()*ARef,2)/(FGamma*FRMezcla);
+      T0=pow2(FDeposito2->getSpeedsound()*ARef)/(FGamma*FRMezcla);
       Fa0=FDeposito2->getSpeedsound();
       //Fa1=FDeposito1->getSpeedsound();
       p1=FDeposito1->getPressure()*1e5;
@@ -413,7 +413,7 @@ if(FIndependiente){
    FGamma1=Gamma1(FGamma);
    FGamma2=Gamma2(FGamma);
 
-   paso1=(Pi*pow(FValvula->getDiametro(),2)/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
+   paso1=(Pi*pow2(FValvula->getDiametro())/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
    paso2=pow(p1/p0,2/FGamma);
    paso3=pow(p1/p0,FGamma2/FGamma);
    paso4=sqrt(paso2-paso3);
@@ -428,7 +428,7 @@ if(FIndependiente){
    if(FDeposito1->getPressure() > FDeposito2->getPressure()){ /* Flujo del dep�sito 1 al dep�sito 2 */
       Massflow=FCDSalida*gasto_isen;
       FGasto=0.9*FGasto+0.1*Massflow;
-      FVelocity=FGasto/(Pi*pow(FValvula->getDiametro(),2)/4)/(p0/(FRMezcla*T0));
+      FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=-1; /* Saliente -1*/
       FSentidoFlujoED2=1;  /* Entrante */
       FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del dep�sito
@@ -445,7 +445,7 @@ if(FIndependiente){
    }else{                                  /* Flujo del dep�sito 2 al dep�sito 1 */
       Massflow=FCDEntrada*gasto_isen;
       FGasto=0.9*FGasto-0.1*Massflow;
-      FVelocity=FGasto/(Pi*pow(FValvula->getDiametro(),2)/4)/(p0/(FRMezcla*T0));
+      FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=-1;  /* Entrante */
       FSentidoFlujoED2=1;   /* Saliente -1*/
       FGastoImpreso=FGasto;
@@ -470,7 +470,7 @@ if(FIndependiente){
       FGamma=FDeposito1->getGamma();
       FRMezcla=FDeposito1->getR();
       p0=FDeposito1->getPressure()*1e5;
-      T0=pow(FDeposito1->getSpeedsound()*ARef,2)/(FGamma*FRMezcla);
+      T0=pow2(FDeposito1->getSpeedsound()*ARef)/(FGamma*FRMezcla);
       Fa0=FDeposito1->getSpeedsound();
       //Fa1=FDeposito2->getSpeedsound();
       p1=FDeposito2->getPressure()*1e5;
@@ -480,7 +480,7 @@ if(FIndependiente){
       FGamma=FDeposito2->getGamma();
       FRMezcla=FDeposito2->getR();
       p0=FDeposito2->getPressure()*1e5;
-      T0=pow(FDeposito2->getSpeedsound()*ARef,2)/(FGamma*FRMezcla);
+      T0=pow2(FDeposito2->getSpeedsound()*ARef)/(FGamma*FRMezcla);
       Fa0=FDeposito2->getSpeedsound();
       //Fa1=FDeposito1->getSpeedsound();
       p1=FDeposito1->getPressure()*1e5;
@@ -490,7 +490,7 @@ if(FIndependiente){
    FGamma1=Gamma1(FGamma);
    FGamma2=Gamma2(FGamma);
 
-   paso1=(Pi*pow(FValvula->getDiametro(),2)/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
+   paso1=(Pi*pow2(FValvula->getDiametro())/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
    paso2=pow(p1/p0,2/FGamma);
    paso3=pow(p1/p0,FGamma2/FGamma);
    paso4=sqrt(paso2-paso3);
@@ -504,7 +504,7 @@ if(FIndependiente){
 
    if(FDeposito1->getPressure() > FDeposito2->getPressure()){ /* Flujo del dep�sito 1 al dep�sito 2 */
       FGasto=FCDSalida*gasto_isen;
-      FVelocity=FGasto/(Pi*pow(FValvula->getDiametro(),2)/4)/(p0/(FRMezcla*T0));
+      FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=-1; /* Saliente */
       FSentidoFlujoED2=1;  /* Entrante */
       FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del dep�sito
@@ -520,7 +520,7 @@ if(FIndependiente){
 
    }else{                                  /* Flujo del dep�sito 2 al dep�sito 1 */
       FGasto=FCDEntrada*gasto_isen;
-      FVelocity=FGasto/(Pi*pow(FValvula->getDiametro(),2)/4)/(p0/(FRMezcla*T0));
+      FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=1;   /* Entrante */
       FSentidoFlujoED2=-1;  /* Saliente */
       FGastoImpreso=FGasto;
@@ -563,14 +563,14 @@ if(FPresionDep1 > FPresionDep2){
      FRMezcla=FRDep1SUM/FTiempoDep1SUM;
      p0=FPresionDep1*1e5;
      a0=FAsonidoDep1SUM/FTiempoDep1SUM;
-     T0=pow(a0*ARef,2)/(FGamma*FRMezcla);
+     T0=pow2(a0*ARef)/(FGamma*FRMezcla);
      Fa1=FAsonidoDep2SUM/FTiempoDep2SUM;
      p1=FPresionDep2*1e5;
 
      FGamma1=Gamma1(FGamma);
      FGamma2=Gamma2(FGamma);
 
-     paso1=(Pi*pow(FValvula->getDiametro(),2)/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
+     paso1=(Pi*pow2(FValvula->getDiametro())/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
      paso2=pow(p1/p0,2/FGamma);
      paso3=pow(p1/p0,FGamma2/FGamma);
      paso4=sqrt(paso2-paso3);
@@ -581,14 +581,14 @@ if(FPresionDep1 > FPresionDep2){
      FRMezcla=FRDep2SUM/FTiempoDep2SUM;
      p0=FPresionDep2*1e5;
      a0=FAsonidoDep2SUM/FTiempoDep2SUM;;
-     T0=pow(a0*ARef,2)/(FGamma*FRMezcla);
+     T0=pow2(a0*ARef)/(FGamma*FRMezcla);
      Fa1=FAsonidoDep1SUM/FTiempoDep1SUM;
      p1=FPresionDep1*1e5;
 
      FGamma1=Gamma1(FGamma);
      FGamma2=Gamma2(FGamma);
 
-     paso1=(Pi*pow(FValvula->getDiametro(),2)/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
+     paso1=(Pi*pow2(FValvula->getDiametro())/4)*p0*sqrt(2*FGamma/(FRMezcla*FGamma1*T0));
      paso2=pow(p1/p0,2/FGamma);
      paso3=pow(p1/p0,FGamma2/FGamma);
      paso4=sqrt(paso2-paso3);

@@ -270,7 +270,7 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, do
 			EOI[j] = SOI[j] + (b / a + DLM + b / -c) * 6 * speed;
 		}
 		else {
-			double levmaxi = pow((2. * MFI[j]) / (1. / a + 1. / -c), 0.5);
+			double levmaxi = sqrt((2. * MFI[j]) / (1. / a + 1. / -c));
 			double DTL = levmaxi / a;
 			double DTB = levmaxi / -c;
 			for (int k = 0; k < CAI; k++) {

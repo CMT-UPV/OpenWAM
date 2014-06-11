@@ -46,7 +46,7 @@ struct stTurbomachinery {
 	};
 
 	double funT0() {
-		return IT_K + pow(MassFlow * 287 * IT_K / IP / SecIn, 2.) / 2 / Cp;
+		return IT_K + pow2(MassFlow * 287 * IT_K / IP / SecIn) / 2 / Cp;
 	};
 
 	double funP0(double g) {
@@ -102,17 +102,17 @@ private:
 	};
 
 	inline double hAk_H1_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil, double mu_oil_h1) {
-		return 2.7 * pow(Re_mass_oil, 1.46) * pow(Re_shaft, -1.12) * pow(Pr_oil, 1 / 3) * pow
+		return 2.7 * pow(Re_mass_oil, 1.46) * pow(Re_shaft, -1.12) * cbrt(Pr_oil) * pow
 			(mu_oil_h1, -0.69);
 	};
 
 	inline double hAk_H2_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil, double mu_oil_h2) {
-		return 6.2e-3 * pow(Re_mass_oil, 3.83) * pow(Re_shaft, -2.02) * pow(Pr_oil, 1 / 3) * pow
+		return 6.2e-3 * pow(Re_mass_oil, 3.83) * pow(Re_shaft, -2.02) * cbrt(Pr_oil) * pow
 			(mu_oil_h2, -1.02);
 	};
 
 	inline double hAk_H3_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil, double mu_oil_h3) {
-		return 6.6e-3 * pow(Re_mass_oil, -0.128) * pow(Re_shaft, 1.25) * pow(Pr_oil, 1 / 3) * pow
+		return 6.6e-3 * pow(Re_mass_oil, -0.128) * pow(Re_shaft, 1.25) * cbrt(Pr_oil) * pow
 			(mu_oil_h3, -0.876);
 	};
 

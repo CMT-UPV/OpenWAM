@@ -306,7 +306,8 @@ try
 {
 //if(Fhayecu){
 //	 ECU->FinalizaECU();
-//}
+//}
+
 }
 catch(Exception &N)
 {
@@ -624,7 +625,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              T = temp*temp/Pipe[t]->GetGamma(0)/Pipe[t]->GetRMezcla(0)-273.;
                              den = Pipe[t]->getPresionInicial()*1e5/Pipe[t]->GetRMezcla(0)/(T+273.);
                              v1= Pipe[t]->getVelocidadMedia();
-                             FSensorTubo[cont].valreal=(pow(Pipe[t]->GetDiametro(n1),2.0)*Pi/4.)*v1*den;
+                             FSensorTubo[cont].valreal=(pow2(Pipe[t]->GetDiametro(n1))*Pi/4.)*v1*den;
                              FSensorTubo[cont].valact=FSensorTubo[cont].valreal;
                              FSensorTubo[cont].valant=FSensorTubo[cont].valreal;
                              FSensorTubo[cont].valrealant=FSensorTubo[cont].valreal;
@@ -1592,7 +1593,7 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe,double deltaT)
       		                  T = temp*temp/Pipe[j]->GetGamma(n1)/Pipe[j]->GetRMezcla(n1)-273.;
                                   den =Pipe[j]->GetPresion(n1)*1e5/Pipe[j]->GetRMezcla(n1)/(T+273.);
                                   v1= Pipe[j]->GetVelocidad(n1)*ARef;
-                                  FSensorTubo[i].valreal=(pow(Pipe[j]->GetDiametro(n1),2.0)*Pi/4.)*v1*den;
+                                  FSensorTubo[i].valreal=(pow2(Pipe[j]->GetDiametro(n1))*Pi/4.)*v1*den;
                                   FSensorTubo[i].valact=((2*FSensorTubo[i].ctetiempo-deltaT) * FSensorTubo[i].valant+deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / ( 2*FSensorTubo[i].ctetiempo + deltaT );
                                   FSensorTubo[i].valant=FSensorTubo[i].valact;
                                   FSensorTubo[i].valrealant=FSensorTubo[i].valreal;
@@ -1687,8 +1688,8 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe,double deltaT)
                                    den=p*1e5/Rmezcla/(T+273);
                                    v1=Pipe[j]->GetVelocidad(n1)*ARef;
                                    v2=Pipe[j]->GetVelocidad(n2)*ARef;
-                                   gto1=pow(Pipe[j]->GetDiametro(n1),2.0)*Pi/4.;
-                                   gto2=pow(Pipe[j]->GetDiametro(n2),2.0)*Pi/4.;
+                                   gto1=pow2(Pipe[j]->GetDiametro(n1))*Pi/4.;
+                                   gto2=pow2(Pipe[j]->GetDiametro(n2))*Pi/4.;
                                    gto1*=v1;
                                    gto2*=v2;
                                    FSensorTubo[i].valreal=xit_(gto1, gto2, 1.0, d)*den;

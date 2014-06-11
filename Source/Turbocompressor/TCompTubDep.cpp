@@ -129,9 +129,9 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		FEntropia2 = sqrt(FGamma * FRMezcla * FTemperatura20) / pow
 		(FPresion20 * 1e5 / 1e5, FGamma5) / ARef;
 
-		ac = pow(FEntropia2 * FGamma3 / *FEntro, 2.0) + FGamma3;
-		bc = -pow(FEntropia2 / *FEntro, 2.0) * FGamma1 * *FLanda;
-		cc = pow(FEntropia2 * *FLanda / *FEntro, 2.0)
+		ac = pow2(FEntropia2 * FGamma3 / *FEntro) + FGamma3;
+		bc = -pow2(FEntropia2 / *FEntro) * FGamma1 * *FLanda;
+		cc = pow2(FEntropia2 * *FLanda / *FEntro)
 		- FTemperatura20 * FGamma * FRMezcla / ARef / ARef;
 		discr = bc * bc - ac * 4 * cc;
 
@@ -145,7 +145,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		FASonidoSalida = (*FLanda - FGamma3 * FVelocidad2)
 		* FEntropia2 / *FEntro;
 		FDensidad20 = FPresion20 * 1e5 / FRMezcla / FTemperatura20;
-		FTemperatura2 = pow(FASonidoSalida * ARef, 2.0) / FGamma / FRMezcla;
+		FTemperatura2 = pow2(FASonidoSalida * ARef) / FGamma / FRMezcla;
 		FDensidad2 = FDensidad20 * pow(FTemperatura2 / FTemperatura20,
 			1. / FGamma1);
 		ret_val = -FDensidad2 * FVelocidad2 * FAreaSalComp * ARef * sqrt
@@ -213,15 +213,15 @@ double TCompTubDep::RegulaFalsi() {
 				double Adep = sqrt(FGamma * FRMezcla * FTemperatura20) / ARef;
 				FEntropia2 = Adep / pow(FPresion20 * 1e5 / 1e5, FGamma5);
 
-				double a = pow(FGamma3 * FEntropia2 / *FEntro, 2.) + FGamma3;
+				double a = pow2(FGamma3 * FEntropia2 / *FEntro) + FGamma3;
 				double b = Gamma1(FGamma) * *FLanda * pow(FEntropia2 / *FEntro,
 					2);
-				double c = pow(FEntropia2 / *FEntro * *FLanda, 2.) - pow(Adep,
+				double c = pow2(FEntropia2 / *FEntro * *FLanda) - pow(Adep,
 					2);
 
 				FVelocidad2 = -QuadraticEqP(a, b, c);
 				FASonidoSalida = sqrt
-					(pow(Adep, 2.) - FGamma3 * pow(FVelocidad2, 2.));
+					(pow2(Adep) - FGamma3 * pow2(FVelocidad2));
 
 				std::cout << "WARNING: El compresor: " << FNumeroCompresor <<
 					" esta trabajando en zona de choque" << std::endl;
@@ -645,7 +645,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 			if (FExtremoTuboRotor == nmLeft) {
 				pentcomp = FTuboRotor->GetPresion(0) * 1e5;
 				ventcomp = FTuboRotor->GetVelocidad(0) * ARef;
-				tentcomp = pow(FTuboRotor->GetAsonido(0) * ARef, 2.)
+				tentcomp = pow2(FTuboRotor->GetAsonido(0) * ARef)
 					/ FGamma / FRMezcla;
 				Cp = (FTuboRotor->GetGamma(0) * FTuboRotor->GetRMezcla(0)) /
 					(FTuboRotor->GetGamma(0) - 1);
@@ -655,13 +655,13 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 					* 1e5;
 				ventcomp = FTuboRotor->GetVelocidad(FTuboRotor->getNin() - 1)
 					* ARef;
-				tentcomp = pow(FTuboRotor->GetAsonido(FTuboRotor->getNin() - 1)
-					* ARef, 2.) / FGamma / FRMezcla;
+				tentcomp = pow2(FTuboRotor->GetAsonido(FTuboRotor->getNin() - 1)
+					* ARef) / FGamma / FRMezcla;
 				Cp = (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1)
 					* FTuboRotor->GetRMezcla(FTuboRotor->getNin() - 1)) /
 					(FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) - 1);
 			}
-			FTemperatura10 = tentcomp + pow(ventcomp, 2.) / 2. / Cp;
+			FTemperatura10 = tentcomp + pow2(ventcomp) / 2. / Cp;
 			FPresion10 = pentcomp * pow((FTemperatura10 / tentcomp),
 				(FGamma / FGamma1));
 			break;

@@ -204,8 +204,8 @@ try
 double rel_CCon_Entropia,coef;
 
 
-FSeccionValvula = Pi * pow(FValvula->getDiametro(),2.)/ 4.;
-FSeccionTubo=Pi*pow(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin),2.)/4.;
+FSeccionValvula = Pi * pow2(FValvula->getDiametro())/ 4.;
+FSeccionTubo=Pi*pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin))/4.;
 
 FAd = pow(FPresionCil/FPref, 1. / Gamma4);
 rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
@@ -223,8 +223,8 @@ if (rel_CCon_Entropia / FAd > 1.000005){     // Flujo entrante al cilindro
               }else{
                  coef=FCTorbellino;
               }
-          FMomento = coef * pow(ARef*FGasto,2.)/ (200000*FCarrera*Gamma
-          *FPresionCil)*(pow((*FCC+*FCD),2.)/4.+Gamma3*pow(((*FCD-*FCC)/Gamma1),2.));
+          FMomento = coef * pow2(ARef*FGasto)/ (200000*FCarrera*Gamma
+          *FPresionCil)*(pow2(*FCC+*FCD)/4.+Gamma3*pow2((*FCD-*FCC)/Gamma1));
           }
           /*if (i == 0) {
             *g1lf = FCDEentrada * sval;// Se refiere a salida de resultados del cilindro.A revisar.
@@ -314,7 +314,7 @@ FCaso=nmFlujoEntranteSaltoSubcritico;
 Resolucion(vel_son_garganta,*FCC,FCaso,&FVelocity,&FSonido,1e-5,2e-6);
 
 //Ecuaci�n de la energ�a
-velocidad_garganta=sqrt(2.*Gamma6*(pow(FSonido,2.)+Gamma3*pow(FVelocity,2.)-pow(vel_son_garganta,2.)));
+velocidad_garganta=sqrt(2.*Gamma6*(pow2(FSonido)+Gamma3*pow2(FVelocity)-pow2(vel_son_garganta)));
 //Se ha calculado la velocidad en la garganta en valor absoluto.
 
 //C�lculo de la velocidad en la garganta en el caso de salto supercr�tico
@@ -366,8 +366,8 @@ Fk=FSeccionTubo/FSeccionEficaz;
 
 /* C�lculo del valor de la velocidad del sonido en el extremo del tubo para
  el cual el salto es cr�tico. */
-u2cr=FVelSonidoCil*sqrt(2./Gamma2)*(sqrt(pow(Fk,2.)+Gamma1*Gamma2)-Fk)*FSigno/Gamma1;
-a2cr=sqrt(pow(FVelSonidoCil,2.)-Gamma3*pow(u2cr,2.)); //Ecuaci�n de la energ�a. Garganta-Cylinder.
+u2cr=FVelSonidoCil*sqrt(2./Gamma2)*(sqrt(pow2(Fk)+Gamma1*Gamma2)-Fk)*FSigno/Gamma1;
+a2cr=sqrt(pow2(FVelSonidoCil)-Gamma3*pow2(u2cr)); //Ecuaci�n de la energ�a. Garganta-Cylinder.
 
 /* A partir  de a2cr se determina el error en el c�lculo de A2 al suponer salto
  subcr�tico. Si es negativo, el salto es supercr�tico. Si es positivo, el salto
@@ -410,10 +410,10 @@ if(error<0.){  // Salto de presiones supercr�tico.
            /* Las ecuaciones siguientes corresponden a la resoluci�n de la onda
              de choque plana. Se pueden encontrar en el punto 2.5 de la tesis
              de Corber�n.  */
-           xx = Gamma4*pow(Mach,2)-1.;
-           Mach_tras_ondachoque = sqrt((pow(Mach,2.)+2./Gamma1)/xx);
-           temp_tras_ondachoque = Gamma3*pow(Mach,2)+1.;
-           temp_antes_ondachoque = Gamma3*pow(Mach_tras_ondachoque,2)+1.;
+           xx = Gamma4*pow2(Mach)-1.;
+           Mach_tras_ondachoque = sqrt((pow2(Mach)+2./Gamma1)/xx);
+           temp_tras_ondachoque = Gamma3*pow2(Mach)+1.;
+           temp_antes_ondachoque = Gamma3*pow2(Mach_tras_ondachoque)+1.;
            relacion_velocidades_son = sqrt(temp_tras_ondachoque/temp_antes_ondachoque);
            FSonido = FSonido*relacion_velocidades_son;
            FVelocity = FSonido*Mach_tras_ondachoque*FSigno;
@@ -427,11 +427,11 @@ if(error<0.){  // Salto de presiones supercr�tico.
         FCaso=nmFlujoSalienteSaltoSubcritico;
 	Resolucion(a2cr,FVelSonidoCil,FCaso,&ycal,&FSonido,1e-5, 2e-6);
         // Aplicando la Ecuaci�n de la Energ�a entre el cilindro y la garganta:
-	FVelocity = sqrt((pow(FVelSonidoCil,2)-pow(FSonido,2))/Gamma3)*FSigno;
+	FVelocity = sqrt((pow2(FVelSonidoCil)-pow2(FSonido))/Gamma3)*FSigno;
 
         // C�lculo del massflow. Como es saliente del cilindro, siempre es positivo.
 	a1 = FVelSonidoCil*(*FCC+Gamma3*FVelocity*FSigno)/(FTuboExtremo[0].Entropia*FAd);
-        FVelocidadGarganta = Fk*pow(a1,2)*FVelocity/pow(FSonido,2);
+        FVelocidadGarganta = Fk*pow2(a1)*FVelocity/pow2(FSonido);
         FGasto = fabs(FCDSalida*FSeccionValvula*Gamma*pow(FAd/FVelSonidoCil,Gamma4)*
                  FVelocidadGarganta*pow(a1,2./Gamma1)*1e5/ARef);
 	xx = *FCC+Gamma3*FVelocity*FSigno;
@@ -560,8 +560,8 @@ double xx,yy,u2;
 
 xx=vel_son_supuesta/(FTuboExtremo[0].Entropia*FAd);
 yy=pow(xx,4.*Gamma6);
-yy=pow(Fk,2.)*yy-1.;
-u2=-FTuboExtremo[0].Entropia*FAd*sqrt(2.*Gamma6*(pow(xx,2.)-1.)/yy)*FSigno;
+yy=pow2(Fk)*yy-1.;
+u2=-FTuboExtremo[0].Entropia*FAd*sqrt(2.*Gamma6*(pow2(xx)-1.)/yy)*FSigno;
 
 // Se pone el siguiente if para que en Resolucion la elecci�n del intervalo
 // de c�lculo sea la adecuada. En la p�gina 59 de Apuntes de Pedro esta explicado.
@@ -601,7 +601,7 @@ double xx,yy;
    la tesis de Corber�n */
 
 yy=(Gamma2/2.)*pow(Fk*mach_supuesto,2.*Gamma1/Gamma2);
-xx=Gamma3*pow(mach_supuesto,2);
+xx=Gamma3*pow2(mach_supuesto);
 *miembro1=xx-yy+1.;     // Miembro 1 de la ecuaci�n (21)
 *miembro2=0;            // Miembro 2 de la ecuaci�n (21)
 
@@ -628,10 +628,10 @@ double a1,u1,u2;
 /* Resoluci�n del algoritmo de c�lculo propuesto en la p�gina 113 de la tesis
    de Corber�n. */
 
-u2 = sqrt((pow(FVelSonidoCil,2)-pow(vel_son_supuesta,2))/Gamma3)*FSigno;
+u2 = sqrt((pow2(FVelSonidoCil)-pow2(vel_son_supuesta))/Gamma3)*FSigno;
 a1 = FVelSonidoCil*(*FCC+Gamma3*u2*FSigno)/(FTuboExtremo[0].Entropia*FAd);
-u1 = Fk*u2*pow(a1,2)/pow(vel_son_supuesta,2);
-*error=pow(a1,2)+Gamma3*pow(u1,2)-pow(FVelSonidoCil,2);
+u1 = Fk*u2*pow2(a1)/pow2(vel_son_supuesta);
+*error=pow2(a1)+Gamma3*pow2(u1)-pow2(FVelSonidoCil);
 
 }
 catch(Exception &N)
@@ -651,7 +651,7 @@ try
 {
 
 // Resoluci�n de la ecuaci�n de la energ�a entre el cilindro y el extremo del tubo.
-*a2_1 = sqrt(pow(FVelSonidoCil,2)-Gamma3*pow(vel_supuesta,2));
+*a2_1 = sqrt(pow2(FVelSonidoCil)-Gamma3*pow2(vel_supuesta));
 
 // Resoluci�n de la ecuaci�n 4.20 de la tesis de Corber�n.
 *a2_2 = sqrt(vel_supuesta*pow((*FCC+Gamma3*vel_supuesta*FSigno)/

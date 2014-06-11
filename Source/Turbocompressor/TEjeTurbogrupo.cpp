@@ -327,7 +327,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 
 					FDeltaReg =
 						(FSumTrabajoTurbinas - FSumTrabajoCompresores -
-						MechWork) * pow(30. / Pi, 2.) /
+						MechWork) * pow2(30. / Pi) /
 						(FMomentoInercia * FRegimenEje);
 					FRegimenEje += FDeltaReg;
 

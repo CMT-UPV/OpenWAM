@@ -845,8 +845,8 @@ void TTubo::CalculoPuntosMalla(double ene) {
 		FArea12 = new double[FNin];
 		for (int i = 0; i < FNin - 1; i++) {
 			FDiametroD12[i] = (FDiametroTubo[i + 1] + FDiametroTubo[i]) / 2.;
-			FDiametroS12[i] = sqrt((pow(FDiametroTubo[i + 1],
-						2.) + pow(FDiametroTubo[i], 2.)) / 2.);
+			FDiametroS12[i] = sqrt((pow2(FDiametroTubo[i + 1])
+				+ pow2(FDiametroTubo[i])) / 2.);
 			FArea12[i] = (FArea[i + 1] + FArea[i]) / 2.;
 		}
 
@@ -1125,7 +1125,7 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 			FFraccionMasicaCC[1][j] = FComposicionInicial[j];
 		}
 
-		double viscgas = 1.4615e-6 * pow(FTini + 273., 1.5) /
+		double viscgas = 1.4615e-6 * pow150(FTini + 273.) /
 			(FTini + 273. + 110.4);
 
 		for (int i = 0; i < FNin; i++) {
@@ -1420,14 +1420,12 @@ void TTubo::Transforma3Area(double **Ufct, double **U, double Area,
 #endif
 
 		Ufct[0][i] = U[1][i]; // Massflow
-		Ufct[1][i] = Gamma * U[2][i] / U[0][i] - pow(U[1][i], 2.)
+		Ufct[1][i] = Gamma * U[2][i] / U[0][i] - pow2(U[1][i])
 			* Gamma1 / 2. / U[0][i] / U[0][i];
-		Ufct[2][i] = ((U[2][i] - pow(U[1][i], 2.) / U[0][i] / 2.) * Gamma1)
-			* pow((1. + (Gamma1 / 2.) * pow(U[1][i],
-					2.) / U[0][i] / U[0][i] /
-				(Gamma * ((U[2][i] - pow(U[1][i],
-								2.) / U[0][i] / 2.) * Gamma1) / U[0][i])),
-			Gamma * Gamma6) / Area;
+		Ufct[2][i] = ((U[2][i] - pow2(U[1][i]) / U[0][i] / 2.) * Gamma1)
+			* pow((1. + (Gamma1 / 2.) * pow2(U[1][i]) / U[0][i] / U[0][i] /
+				(Gamma * ((U[2][i] - pow2(U[1][i]) / U[0][i] / 2.) * Gamma1)
+				/ U[0][i])), Gamma * Gamma6) / Area;
 
 		for (int j = 3; j < FNumEcuaciones; j++) {
 			Ufct[j][i] = U[j][i] * U[1][i] / U[0][i];
@@ -1468,11 +1466,11 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 
 			fu = vel - Ufctd[0][i] / (Area * Ufctd[2][i] * Gamma4) * pow
 				(2. * Ufctd[1][i], (Gamma / Gamma1)) * pow
-				((2. * Ufctd[1][i] - pow(vel, 2.)), -Gamma6);
+				((2. * Ufctd[1][i] - pow2(vel)), -Gamma6);
 
 			dfu = 1. - Ufctd[0][i] * vel / (Area * Ufctd[2][i] * Gamma) * pow
 				(2. * Ufctd[1][i], (Gamma / Gamma1)) * pow
-				((2. * Ufctd[1][i] - pow(vel, 2.)), -Gamma / Gamma1);
+				((2. * Ufctd[1][i] - pow2(vel)), -Gamma / Gamma1);
 
 			vel1 = vel - fu / dfu;
 			error = fabs(vel1 - vel);
@@ -1481,8 +1479,8 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 
 		if (!peta) {
 			v = vel / ARef;
-			a = pow(Gamma1 * (Ufctd[1][i] - (vel * vel) / 2.), 0.5) / ARef;
-			p = Ufctd[2][i] / pow((1 + Gamma3 * pow(v / a, 2.)),
+			a = sqrt(Gamma1 * (Ufctd[1][i] - (vel * vel) / 2.)) / ARef;
+			p = Ufctd[2][i] / pow((1 + Gamma3 * pow2(v / a)),
 				Gamma / Gamma1) / 1.e5;
 			for (int j = 0; j < FNumeroEspecies - 1 - FIntEGR; j++) {
 				if (Ufctd[0][i] != 0.) {
@@ -2514,11 +2512,11 @@ void TTubo::ReduccionFlujoSubsonico() {
 			Machx = FVelocidad0[i] / FAsonido0[i];
 			if (-1. >= Machx || Machx > 1.) {
 				Machy = Machx / fabs(Machx) * sqrt
-					((pow(Machx, 2) + 2. / FGamma1[i]) /
-					(FGamma4[i] * pow(Machx, 2) - 1.));
+					((pow2(Machx) + 2. / FGamma1[i]) /
+					(FGamma4[i] * pow2(Machx) - 1.));
 				Sonidoy = FAsonido0[i] * sqrt
-					((FGamma1[i] / 2. * pow(Machx, 2) + 1.) /
-					(FGamma1[i] / 2. * pow(Machy, 2) + 1.));
+					((FGamma1[i] / 2. * pow2(Machx) + 1.) /
+					(FGamma1[i] / 2. * pow2(Machy) + 1.));
 
 				Velocidady = Sonidoy * Machy;
 				FAsonido0[i] = Sonidoy;
@@ -2555,15 +2553,15 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 			Machx = velocidad / asonido;
 			if (-1. >= Machx || Machx > 1.) {
 				Machy = Machx / fabs(Machx) * sqrt
-					((pow(Machx, 2) + 2. / FGamma1[i]) /
-					(FGamma4[i] * pow(Machx, 2) - 1.));
-				Sonidoy = asonido * sqrt((FGamma1[i] / 2. * pow(Machx, 2) + 1.)
-					/ (FGamma1[i] / 2. * pow(Machy, 2) + 1.));
+					((pow2(Machx) + 2. / FGamma1[i]) /
+					(FGamma4[i] * pow2(Machx) - 1.));
+				Sonidoy = asonido * sqrt((FGamma1[i] / 2. * pow2(Machx) + 1.)
+					/ (FGamma1[i] / 2. * pow2(Machy) + 1.));
 
 				Velocidady = Sonidoy * Machy;
 				asonido = Sonidoy;
 				velocidad = Velocidady;
-				FU1[0][i] = FGamma[i] * presion * 1e5 / pow(asonido * ARef, 2)
+				FU1[0][i] = FGamma[i] * presion * 1e5 / pow2(asonido * ARef)
 					* FArea[i];
 				FU1[1][i] = FU1[0][i] * velocidad * ARef;
 				FU1[2][i] = FArea[i] * presion * 1e5 / FGamma1[i] + FU1[1][i]
@@ -3370,7 +3368,7 @@ void TTubo::CalculaResultadosInstantaneos() {
 						ResultInstantaneos[i].VelocidadINS = FVelocidad0
 							[FNin - 1] * ARef;
 					if (ResultInstantaneos[i].TemperaturaGas) {
-						double temp = pow(FAsonido0[FNin - 1] * ARef, 2.) /
+						double temp = pow2(FAsonido0[FNin - 1] * ARef) /
 							(FGamma[FNin - 1] * FRMezcla[FNin - 1]) - 273.;
 						ResultInstantaneos[i].TemperaturaGasINS = temp;
 					}
@@ -3619,7 +3617,7 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 						// Condiciones del aire a temperatura media (temed) y 1m/s
 						rhog = AmbientPressure * 1e5 / RAir / temed;
 						// Density del aire atmosférico (se considera R=cte=287)
-						viscext = 1.4615e-6 * pow(temed, 1.5) / (temed + 110.4);
+						viscext = 1.4615e-6 * pow150(temed) / (temed + 110.4);
 						Pr = 0.7;
 						cond = (-8.39061e-09 * temed + 7.05256e-05)
 							* temed + 6.51528e-03;
@@ -3664,16 +3662,15 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 						n1 = 0.625;
 						n2 = 0.8;
 					}
-					Fhe[i] = 0.3 + 0.62 * pow(Re, 0.5) * pow(Pr, 0.333333) / pow
-						(1 + pow(0.4 / Pr, 0.666666), 0.25) * pow
+					Fhe[i] = 0.3 + 0.62 * sqrt(Re) * cbrt(Pr)
+						/ pow025(1 + pow(0.4 / Pr, 0.666666)) * pow
 						(1 + pow(Re / 282000, n1), n2) * cond / FDiametroTubo
 						[i];
 
 					// Termino de radiación
 					if (dtem != 0.) {
 						Fhe[i] = Fhe[i] + 5.669e-8 * FEmisividad *
-							(pow((FTPTubo[2][i] + 273.), 4) - pow(FTExt,
-								4.)) / dtem;
+							(pow4(FTPTubo[2][i] + 273.) - pow4(FTExt)) / dtem;
 					}
 					Fhe[i] = Fhe[i] * FCoefExt;
 				}
@@ -3707,8 +3704,9 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 							* Tp2 - 9.530709E-04) * Tp2 + 1.114642E-01;
 					}
 
-					Fhe[i] = 0.027 * (1 + 24.2 / pow(2.3, 0.7) / pow(Re, 0.25))
-						* pow(Re, 0.8) * pow(Pr, 0.333333) * pow
+					Fhe[i] = 0.027 * (1 + 24.2 / pow(2.3, 0.7)
+						/ pow025(Re))
+						* pow(Re, 0.8) * cbrt(Pr) * pow
 						(viscext / viscpared, 0.14) * cond / (L / 2.3);
 				}
 			}
@@ -3763,7 +3761,7 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 										(1 / FCapa[j].EmisividadExterior - 1))
 										/ (5.67e-8 * Pi * Dint * FXref) *
 										(Tint - Text) /
-										(pow(Tint, 4) - pow(Text, 4));
+										(pow4(Tint) - pow4(Text));
 									FResistRadInt[i] += 1 /
 										(1 / Rcond + 1 / Rrad);
 								}
@@ -3790,7 +3788,7 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 										(1 / FCapa[j].EmisividadExterior - 1))
 										/ (5.67e-8 * Pi * Dint * FXref) *
 										(Tint - Text) /
-										(pow(Tint, 4) - pow(Text, 4));
+										(pow4(Tint) - pow4(Text));
 									FResistRadExt[i] += 1 /
 										(1 / Rcond + 1 / Rrad);
 								}
@@ -3988,7 +3986,7 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 
 				Tg = FTemperature[i];
 				cesp = FGamma[i] * FRMezcla[i] / (FGamma[i] - 1);
-				viscgas = 1.4615e-6 * pow(Tg, 1.5) / (Tg + 110.4);
+				viscgas = 1.4615e-6 * pow150(Tg) / (Tg + 110.4);
 				cond = viscgas * cesp / 0.709;
 				if (DoubEqZero(FVelPro[i])) {
 					FRe[i] = 1E-06; // Para que nunca valga 0 y evitar divisiones por cero.
@@ -4001,12 +3999,12 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 				switch(FTipoTransCal) {
 				case nmTuboAdmision:
 					// Término de convección correlación Depcick - Assanis
-					Fhi[i] = 0.0694 * pow(FRe[i], 0.75) * cond / FDiametroTubo
+					Fhi[i] = 0.0694 * pow075(FRe[i]) * cond / FDiametroTubo
 						[i];
 					break;
 				case nmPipaAdmision:
 					// Término de convección correlación Depcick - Assanis
-					Fhi[i] = 0.0694 * pow(FRe[i], 0.75) * cond / FDiametroTubo
+					Fhi[i] = 0.0694 * pow075(FRe[i]) * cond / FDiametroTubo
 						[i];
 					break;
 				case nmTuboEscape:
@@ -4016,7 +4014,7 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 					break;
 				case nmPipaEscape:
 					// Término de convección correlación de Caton + M. Reyes
-					viscpared = 1.4615e-6 * pow(FTPTubo[0][i] + 273., 1.5) /
+					viscpared = 1.4615e-6 * pow150(FTPTubo[0][i] + 273.) /
 						(FTPTubo[0][i] + 273. + 110.4);
 					Fhi[i] = 0.1 * pow(FRe[i], 0.8) * 0.709 * pow
 						(viscgas / viscpared, 0.14) * cond / FDiametroTubo[i];
@@ -4031,7 +4029,7 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 		else if (FCoefAjusFric != 0) {
 			for (int i = 0; i < FNin; i++) {
 				Tg = FTemperature[i];
-				viscgas = 1.4615e-6 * pow(Tg, 1.5) / (Tg + 110.4);
+				viscgas = 1.4615e-6 * pow150(Tg) / (Tg + 110.4);
 				FRe[i] = Frho[i] * FVelPro[i] * FDiametroTubo[i] / viscgas;
 			}
 		}

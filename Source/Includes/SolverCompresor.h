@@ -156,10 +156,10 @@ struct stCompSolverVIn{
 //		}
 
 		PresIn=1e5*pow(AaIn/AIn,-Gam4);
-		TempIn=pow(AIn,2.)/Gam/RMezcla;
+		TempIn=pow2(AIn)/Gam/RMezcla;
 		VIn=2*(ARef*CarIn-AIn)/Gam1;
 		RhoIn=PresIn/(RMezcla*TempIn);
-		TempTotIn=TempIn+pow(VIn,2.)/2./CpMezcla;
+		TempTotIn=TempIn+pow2(VIn)/2./CpMezcla;
 		PresTotIn=PresIn*pow(TempTotIn/TempIn,Gam/Gam1);
 
 		Massflow=SentFlow*SecIn*RhoIn*VIn;

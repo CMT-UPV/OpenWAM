@@ -84,7 +84,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FIndiceCC=0;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Landa);
-           FSeccion=Pi*pow(Pipe[i]->GetDiametro(FNodoFin),2)/4;
+           FSeccion=Pi*pow2(Pipe[i]->GetDiametro(FNodoFin))/4;
            FNumeroTubosCC++;
         }
         if(Pipe[i]->getNodoDer()==FNumeroCC){
@@ -94,7 +94,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FIndiceCC=1;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Beta);
-           FSeccion=Pi*pow(Pipe[i]->GetDiametro(FNodoFin),2)/4;
+           FSeccion=Pi*pow2(Pipe[i]->GetDiametro(FNodoFin))/4;
            FNumeroTubosCC++;
         }
         i++;

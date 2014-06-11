@@ -368,14 +368,14 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			/* ________ */
 			aap = FVelocidadSonidoDep / yyy;
 			xyx = aap / FTuboExtremo[0].Entropia;
-			b = Gamma1(FGamma) * *FCC * pow(xyx, 2) * FPerdidaExtremo;
-			a2 = pow(FGamma3 * xyx * FPerdidaExtremo, 2.) + FGamma3;
-			c = pow(xyx * *FCC, 2.) - pow(FVelocidadSonidoDep, 2);
-			u_isen = (-b + sqrt(pow(b, 2.) - a2 * 4. * c)) / (2. * a2);
+			b = Gamma1(FGamma) * *FCC * pow2(xyx) * FPerdidaExtremo;
+			a2 = pow2(FGamma3 * xyx * FPerdidaExtremo) + FGamma3;
+			c = pow2(xyx * *FCC) - pow2(FVelocidadSonidoDep);
+			u_isen = (-b + sqrt(pow2(b) - a2 * 4. * c)) / (2. * a2);
 			// Resolución ecuación de segundo grado
-			a_isen = sqrt(pow(FVelocidadSonidoDep, 2.) - FGamma3 * pow(u_isen, 2.));
+			a_isen = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_isen));
 			u_real = u_isen * FPerdidaExtremo; // Con esta relación obtenemos la velocidad real.
-			a_real = sqrt(pow(FVelocidadSonidoDep, 2.) - FGamma3 * pow(u_real, 2.));
+			a_real = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_real));
 			aap = a_real / a_isen * aap;
 			if (fabs(u_real) > a_real) { /* Condición flujo supersónico */
 				a_real = sqrt(2 / Gamma2(FGamma)) * FVelocidadSonidoDep;

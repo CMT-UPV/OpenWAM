@@ -80,7 +80,7 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 		do {
 			tmp1 = tmp2;
 			tmp2 = 1 + ((FGamma - 1) / 2) * (FR / FGamma) *
-			(pow((FReducedAirMassFlow[i] / 1000000), 2) / pow(Area, 2)) * pow
+			(pow2(FReducedAirMassFlow[i] / 1000000) / pow2(Area)) * pow
 			((tmp1), ((FGamma + 1) / (FGamma - 1)));
 		}
 		while (fabs(tmp1 - tmp2) / tmp1 > 1e-12);
@@ -94,7 +94,7 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 					((FGamma - 1) / FGamma))));
 		if (CalculaGR) {
 			GR = 1 - (((2 * FR * tan(Angle * 2 * Pi / 360)) /
-					(Diam1 * pow(Diam2, 2) * pow(Pi, 2))) *
+					(Diam1 * pow2(Diam2) * pow2(Pi))) *
 				((FReducedAirMassFlow[i] / 1000000) / FSpeed) * f_P2_P0);
 			// new code --> if the reaction degree is lower than 0.4 then force it to 0.4 value instead of calculating lower values or even negative values
 			if (GR < 0.5) {

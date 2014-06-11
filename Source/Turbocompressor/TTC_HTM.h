@@ -123,7 +123,7 @@ struct stTurbomachinery {
 	};
 
 	double funT0() {
-		return IT_K + pow(MassFlow * 287 * IT_K / IP / SecIn, 2.)
+		return IT_K + pow2(MassFlow * 287 * IT_K / IP / SecIn)
 			/ 2 / Fluid->Cp;
 	};
 
