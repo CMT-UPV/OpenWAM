@@ -327,7 +327,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			break;
 		case nmLamina1D:
 			FddLev = (deltaP2 * 1e5 * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
-			FLev = FLev + FdLev * deltaT + FddLev / 2 * pow(deltaT, 2.);
+			FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 			FdLev = FdLev + FddLev * deltaT;
 
 			if (FLev > 99999911.0e-3) {
@@ -363,8 +363,8 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 				for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
 					FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1]
 						+ FLev2[i + 2];
-					FDerivada4 = FDerivada4 / pow(FDeltaX, 4.);
-					FLev3[i] = pow(deltaT2, 2.) * (FFuerza[i] - FCoefC * FDerivada4) +
+					FDerivada4 = FDerivada4 / pow4(FDeltaX);
+					FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4) +
 						(2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
 					FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 					if (FLev3[i] < 0)
@@ -433,7 +433,7 @@ void TLamina::GetCDin(double Time) {
 		break;
 	case nmLamina1D:
 		FddLev = (deltaP * 1e5 * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
-		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow(deltaT, 2.);
+		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
 
 		if (FLev > 99999911.0e-3) {
@@ -467,8 +467,8 @@ void TLamina::GetCDin(double Time) {
 			for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
 				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1]
 					+ FLev2[i + 2];
-				FDerivada4 = FDerivada4 / pow(FDeltaX, 4.);
-				FLev3[i] = pow(deltaT2, 2.) * (FFuerza[i] - FCoefC * FDerivada4) +
+				FDerivada4 = FDerivada4 / pow4(FDeltaX);
+				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4) +
 					(2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
 				FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 				if (FLev3[i] < 0)
@@ -527,7 +527,7 @@ void TLamina::GetCDout(double Time) {
 		break;
 	case nmLamina1D:
 		FddLev = (deltaP * 1e5 * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
-		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow(deltaT, 2.);
+		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
 
 		if (FLev > 99999911.0e-3) {
@@ -561,8 +561,8 @@ void TLamina::GetCDout(double Time) {
 			for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
 				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1]
 					+ FLev2[i + 2];
-				FDerivada4 = FDerivada4 / pow(FDeltaX, 4.);
-				FLev3[i] = pow(deltaT2, 2.) * (FFuerza[i] - FCoefC * FDerivada4) +
+				FDerivada4 = FDerivada4 / pow4(FDeltaX);
+				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4) +
 					(2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
 				FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 				if (FLev3[i] < 0)

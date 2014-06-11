@@ -465,8 +465,8 @@ double h=x[k+1]-x[k];
 double h2=h*h;
 double dx1=x[k+1]-punto;
 double dx2=punto-x[k];
-double dx13=pow(dx1,3.);
-double dx23=pow(dx2,3.);
+double dx13=pow3(dx1);
+double dx23=pow3(dx2);
 
 double ret_val=(sol[k]*dx13+sol[k+1]*dx23+(6*y[k+1]-h2*sol[k+1])*dx2+(6*y[k]-h2*sol[k])*dx1)/(6*h);
 
@@ -508,8 +508,8 @@ if(Massflow<FGastoInt[0]){
      double h2=h*h;
      double dx1=FGastoInt[k+1]-Massflow;
      double dx2=Massflow-FGastoInt[k];
-     double dx13=pow(dx1,3.);
-     double dx23=pow(dx2,3.);
+     double dx13=pow3(dx1);
+     double dx23=pow3(dx2);
 
      ret_val=(FCoefSplRC[k]*dx13+FCoefSplRC[k+1]*dx23+(6*FRelCompInt[k+1]-
           h2*FCoefSplRC[k+1])*dx2+(6*FRelCompInt[k]-h2*FCoefSplRC[k])*dx1)/(6*h);

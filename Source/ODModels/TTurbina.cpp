@@ -270,7 +270,7 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 			// FTemperature = pow(FAsonido, 2) / (FGamma * FRMezcla) * pow(ARef, 2);
 			FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen * FMasa * 1e-5;
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FTemperature = pow(FAsonido * ARef, 2.) / FGamma / FRMezcla - 273.;
+			FTemperature = pow2(FAsonido * ARef) / FGamma / FRMezcla - 273.;
 		}
 		FTime = TimeCalculo;
 	}

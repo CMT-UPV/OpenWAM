@@ -319,24 +319,24 @@ void TVenturi::CalculaVenturi() {
 					printf("Temperature = %g (degC)\n", TempGarganta);
 				}
 				else if (Mach1 == 1.) {
-					VelGarganta1 = pow
-						(((1. + FGamma1 / 2. * pow(Mach0, 2.)) / (FGamma2 * pow(Mach0,
-									2.) / 2.) * pow(Velocity, 2.)), 0.5);
+					VelGarganta1 = sqrt
+						(((1. + FGamma1 / 2. * pow2(Mach0))
+							/ (FGamma2 * pow2(Mach0) / 2.)
+							* pow2(Velocity)));
 				}
 				else {
 					VelGarganta1 = FRelacionSecciones * Velocity * pow(TempEntrada / TempGarganta,
 						FGamma6);
 				}
 
-				TempGarganta = TempEntrada - (pow(VelGarganta1 * ARef, 2.) - pow(Velocity * ARef,
-						2.)) / (2. * FCpMezcla);
+				TempGarganta = TempEntrada - (pow2(VelGarganta1 * ARef)
+					- pow2(Velocity * ARef)) / (2. * FCpMezcla);
 
-				Mach1 = VelGarganta1 * ARef / pow(FGamma * FRMezcla * TempGarganta, 0.5);
+				Mach1 = VelGarganta1 * ARef / sqrt(FGamma * FRMezcla * TempGarganta);
 				Converge = VelGarganta1 / VelGarganta0;
 				VelGarganta0 = VelGarganta1;
 			}
-			VelGarganta0 = pow((FRendimientoVenturi * pow(VelGarganta0, 2.) - FPerdidasCalor * 2.),
-				0.5);
+			VelGarganta0 = sqrt((FRendimientoVenturi * pow2(VelGarganta0) - FPerdidasCalor * 2.));
 // dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = (VelGarganta0  * ARef)/pow(FGamma*FRMezcla*TempGarganta,0.5);
 			dynamic_cast<TCCDeposito*>(FCCLateral)->putMachVenturi((VelGarganta0 * ARef) / pow
 				(FGamma * FRMezcla * TempGarganta, 0.5));
@@ -527,7 +527,7 @@ void TVenturi::CalculaResultadosVenturi() {
 		}
 		if (FResInstantVenturi.PresionGarganta) {
 			FResInstantVenturi.PresionGargantaINS = FPressure / pow
-				(1 + FGamma1 / 2 * pow(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi(), 2),
+				(1 + FGamma1 / 2 * pow2(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi()),
 				FGamma / FGamma1);
 		}
 		if (FResInstantVenturi.MachEntrada) {

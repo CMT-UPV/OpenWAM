@@ -182,7 +182,7 @@ if(dynamic_cast<TCCDeposito *>(FCCSalida[0])->getSentidoFlujo()==nmEntrante) {
 }else if (dynamic_cast<TCCDeposito *>(FCCSalida[0])->getSentidoFlujo()==nmSaliente){
     SentidoSalida=-1;
 }
-FTempSalida=pow(FAsonidoSalida*ARef,2.)/(FCCSalida[0]->getGamma()*FCCSalida[0]->getR());
+FTempSalida=pow2(FAsonidoSalida*ARef)/(FCCSalida[0]->getGamma()*FCCSalida[0]->getR());
 FVelocidadSalida*=ARef*SentidoSalida;
 FRhoSalida=1e5*FPresionSalida/FTempSalida/FCCSalida[0]->getR();
 FGastoSalida=FRhoSalida*FVelocidadSalida*dynamic_cast<TCCDeposito *>(FCCSalida[0])->getSeccionTubo();
@@ -201,7 +201,7 @@ for(int i=0;i<2;i++){
      }else if (dynamic_cast<TCCDeposito *>(FCCEntrada[i])->getSentidoFlujo()==nmSaliente){
          SentidoEntrada[i]=-1;
      }
-     FTempEntrada[i]=pow(FAsonidoEntrada[i]*ARef,2.)/(FCCEntrada[i]->getGamma()*FCCEntrada[i]->getR());
+     FTempEntrada[i]=pow2(FAsonidoEntrada[i]*ARef)/(FCCEntrada[i]->getGamma()*FCCEntrada[i]->getR());
      FVelocidadEntrada[i]*=ARef*SentidoEntrada[i];
      FRhoEntrada[i]=1e5*FPresionEntrada[i]/FTempEntrada[i]/FCCEntrada[i]->getR();
      FGastoEntrada[i]=FRhoEntrada[i]*FVelocidadEntrada[i]*dynamic_cast<TCCDeposito *>(FCCEntrada[i])->getSeccionTubo();
@@ -229,7 +229,7 @@ for(int i=0;i<2;i++){
      }*/
      cpte[i]=FCCEntrada[i]->getR()*FCCEntrada[i]->getGamma()/(FCCEntrada[i]->getGamma()-1.);
 
-     FTemp0Entrada[i]=FTempEntrada[i] + pow(FVelocidadEntrada[i],2.)/(2.*cpte[i]);
+     FTemp0Entrada[i]=FTempEntrada[i] + pow2(FVelocidadEntrada[i])/(2.*cpte[i]);
      FEntalpia0Entrada[i]=cpte[i]*FTemp0Entrada[i];
      FPresion0Entrada[i]=FPresionEntrada[i]*pow(FTemp0Entrada[i]/FTempEntrada[i],(FCCEntrada[i]->getGamma()/(FCCEntrada[i]->getGamma()-1.0)));
 
@@ -320,19 +320,19 @@ if((FGastoEntrada[0]>0.||FGastoEntrada[1]>0.)&&((FEntalpia0Entrada[0]-FEntalpiaI
                if(FRelacionCinematica[i]<=0 || FRelacionCinematica[i]>=1.19){
                     FRendTurbina[i]=0;
                }
-               FRendTurbina[i]=0.004022+1.55766*FRelacionCinematica[i]-0.511626*pow(FRelacionCinematica[i],2.)-0.121795*
-                    pow(FRelacionCinematica[i],3.)-0.445804*pow(FRelacionCinematica[i],4.);
+               FRendTurbina[i]=0.004022+1.55766*FRelacionCinematica[i]-0.511626*pow2(FRelacionCinematica[i])-0.121795*
+                    pow3(FRelacionCinematica[i])-0.445804*pow4(FRelacionCinematica[i]);
 
           }else if(FCalRendTurbina==nmPolinomio){
               if(FRelacionCinematica[i]>=FRcmaxima || FRelacionCinematica[i]<=0){
                     FRendTurbina[i]=0.;
               }else{
-                    dd=2.*pow(FRcoptima,3.)*pow(FRcmaxima,2.)-pow(FRcoptima,2.)*pow(FRcmaxima,3.)-pow(FRcoptima,4.)*FRcmaxima;
-                    b=FRendmaximo*(3.*pow(FRcmaxima,2.)*pow(FRcoptima,2.)-2*pow(FRcmaxima,3.)*FRcoptima)/dd;
-                    c=FRendmaximo*(pow(FRcmaxima,3.)-3.*FRcmaxima*pow(FRcoptima,2.))/dd;
-                    d=FRendmaximo*(2.*FRcmaxima*FRcoptima-pow(FRcmaxima,2.))/dd;
+                    dd=2.*pow3(FRcoptima)*pow2(FRcmaxima)-pow2(FRcoptima)*pow3(FRcmaxima)-pow4(FRcoptima)*FRcmaxima;
+                    b=FRendmaximo*(3.*pow2(FRcmaxima)*pow2(FRcoptima)-2*pow3(FRcmaxima)*FRcoptima)/dd;
+                    c=FRendmaximo*(pow3(FRcmaxima)-3.*FRcmaxima*pow2(FRcoptima))/dd;
+                    d=FRendmaximo*(2.*FRcmaxima*FRcoptima-pow2(FRcmaxima))/dd;
 
-                    FRendTurbina[i]=b*FRelacionCinematica[i]+c*pow(FRelacionCinematica[i],2.)+d*pow(FRelacionCinematica[i],3.);
+                    FRendTurbina[i]=b*FRelacionCinematica[i]+c*pow2(FRelacionCinematica[i])+d*pow3(FRelacionCinematica[i]);
               }
           }else if(FCalRendTurbina==nmCalcExtRD){
                // Todavia no esta hecha la asignacion de FNumeroTurbinaTGV
@@ -373,8 +373,8 @@ for(int i=0;i<2;i++){
      if(DeltaT!=0){
          FPotencia=FTrabajoFluido/DeltaT;
      }else FPotencia=0.;
-     FGastoCorregido[i]=FGastoEntrada[i]*pow(FTemp0Entrada[i],0.5)/FPresion0Entrada[i]/0.1;
-     FRegimenCorregido[i]=FRegimen/pow(FTemp0Entrada[i],0.5);
+     FGastoCorregido[i]=FGastoEntrada[i]*sqrt(FTemp0Entrada[i])/FPresion0Entrada[i]/0.1;
+     FRegimenCorregido[i]=FRegimen/sqrt(FTemp0Entrada[i]);
      FRelacionExpansion[i]=FPresion0Entrada[i]/FPresionSalida;
 }
 FDeltaPaso+=DeltaT;

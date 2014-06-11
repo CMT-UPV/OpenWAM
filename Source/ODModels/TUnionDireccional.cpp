@@ -256,7 +256,7 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 				Converge = true;
 			}
 		}
-		FTemperature = pow(FAsonido * ARef, 2.) / (FGamma * FRMezcla) - 273.;
+		FTemperature = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
 		FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen * FMasa * 1e-5;
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTime = TimeCalculo;
@@ -299,7 +299,8 @@ void TUnionDireccional::CalculoUnionDireccional() {
 			 dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(0);
 		}
 		else {
-		dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCoefA[0] + FCoefB[0] * FVelocity [1]);
+		dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCoefA[0] + FCoefB[0] * FVelocity [1]);
+
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 1 */
@@ -310,7 +311,8 @@ dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCDSalidaInicial[1]);
 dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(0);
 		}
 		else {
-dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * FVelocity [0]);
+dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * FVelocity [0]);
+
 		}
 
 	}

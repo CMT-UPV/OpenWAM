@@ -192,9 +192,9 @@ if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FMasaEspecie[FNumeroEspeci
 
 Energia=pow(FVolumen0*FMasa/FMasa0/FVolumen*exp(H),Gamma1(FGamma));
 FAsonido*=sqrt(Energia);
-FPressure=pow(ARef*FAsonido,2)*FMasa*1e-5/(FGamma*FVolumen);
+FPressure=pow2(ARef*FAsonido)*FMasa*1e-5/(FGamma*FVolumen);
 FPresionIsen=pow(FPressure/FPresRef,Gamma5(FGamma));
-FTemperature=pow(FAsonido*ARef,2.)/(FGamma*FRMezcla)-273.;
+FTemperature=pow2(FAsonido*ARef)/(FGamma*FRMezcla)-273.;
 FTime=TimeCalculo;
 if(FAngulo>360.){
      FAngulo-=360.;
@@ -222,11 +222,11 @@ try
 {
 
 c = CrankAngle * Pi / 180.;
-tt = pow(lbiela,2.);
-tt -= pow(carrera * sin(c) / 2.,2);
+tt = pow2(lbiela);
+tt -= pow2(carrera * sin(c) / 2.);
 tt = sqrt(tt);
 ttt = lbiela + carrera * (1.-cos(c))/ 2. - tt;
-ret_val = ttt * Pi * pow(diametro,2)/ 4.;
+ret_val = ttt * Pi * pow2(diametro)/ 4.;
 ret_val += vol_muerto;
 return ret_val;
 
@@ -248,7 +248,7 @@ try
 {
 FAngulo=Theta-FDesfase;
 FVolumen=CalculaVolumen(FAngulo,FCarrera,FLBiela,FDiametro,FVolumenMuerto);
-FMasa=FVolumen*FGamma*FPressure*1e5/pow(FAsonido*ARef,2.);
+FMasa=FVolumen*FGamma*FPressure*1e5/pow2(FAsonido*ARef);
 FVolumen0=FVolumen;
 }
 catch(Exception &N)

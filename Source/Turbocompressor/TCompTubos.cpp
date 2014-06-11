@@ -155,7 +155,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			FAreaIn = FAreaRotor;
 			FAreaOut = FAreaStator;
 			FPrimerCiclo = false;
-			FCoefPresiones = pow(*FAaOut / *FAaIn, 2.) * pow
+			FCoefPresiones = pow2(*FAaOut / *FAaIn) * pow
 				(FRelacionCompresion, FGamma1 / FGamma) - 1;
 		}
 
@@ -364,9 +364,9 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 
 			*AIn = ARef * CarIn - (double)sig * 0.5 * FGamma1 * *VelIn;
 			FPresionIn = 1e5 * pow(AaIn / *AIn, -FGamma4);
-			FTempIn = pow(*AIn, 2.) / FGamma / FRMezcla;
+			FTempIn = pow2(*AIn) / FGamma / FRMezcla;
 			FDensidadIn = FPresionIn / (FRMezcla * FTempIn);
-			FTempTotalIn = FTempIn + pow(*VelIn, 2.) / 2. / FCpMezcla;
+			FTempTotalIn = FTempIn + pow2(*VelIn) / 2. / FCpMezcla;
 			FPreTotalIn = FPresionIn * pow(FTempTotalIn / FTempIn,
 				FGamma / FGamma1);
 			FGasto1 = FSentidoFlujo * FAreaIn * FDensidadIn * *VelIn;
@@ -405,7 +405,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 				*VelOut = (FVelOutMin + FVelOutMax) / 2.;
 				++FCuentaVelOut;
 				FDensidadOut = fabs(FGasto1 / (FAreaOut * *VelOut));
-				FTempOut = FTempTotalOut - pow(*VelOut, 2) / 2. / FCpMezcla;
+				FTempOut = FTempTotalOut - pow2(*VelOut) / 2. / FCpMezcla;
 				FPresionOut = FDensidadOut * FTempOut * FRMezcla;
 				FErrorVelOut = FPreTotalOut - FPresionOut * pow
 					(FTempTotalOut / FTempOut, FGamma / FGamma1);
@@ -502,7 +502,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FSignoRotor = -1;
 			FNodoFinRotor = 0;
 			// FIndExtRotor=0;
-			FAreaRotor = pow(FTuboRot->GetDiametro(0), 2.) * Pi / 4.;
+			FAreaRotor = pow2(FTuboRot->GetDiametro(0)) * Pi / 4.;
 			FIndiceCCRotor = 0;
 
 		}
@@ -511,7 +511,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FNodoFinRotor = FTuboRot->getNin() - 1;
 			FSignoRotor = 1;
 			// FIndExtRotor=1;
-			FAreaRotor = pow(FTuboRot->GetDiametro(FTuboRot->getNin() - 1), 2.)
+			FAreaRotor = pow2(FTuboRot->GetDiametro(FTuboRot->getNin() - 1))
 				* Pi / 4.;
 			FIndiceCCRotor = 1;
 		}
@@ -524,7 +524,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FNodoFinStator = 0;
 			FSignoStator = -1;
 			// FIndExtStator=0;
-			FAreaStator = pow(FTuboEst->GetDiametro(0), 2.) * Pi / 4.;
+			FAreaStator = pow2(FTuboEst->GetDiametro(0)) * Pi / 4.;
 			FIndiceCCStator = 0;
 		}
 		else if (FTuboEst->getNodoDer() == NumeroCC) {
@@ -532,7 +532,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FNodoFinStator = FTuboEst->getNin() - 1;
 			FSignoStator = 1;
 			// FIndExtStator=1;
-			FAreaStator = pow(FTuboEst->GetDiametro(FTuboEst->getNin() - 1), 2.)
+			FAreaStator = pow2(FTuboEst->GetDiametro(FTuboEst->getNin() - 1))
 				* Pi / 4.;
 			FIndiceCCStator = 1;
 		}
@@ -550,7 +550,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 				(FTuboRot->GetGamma(FTuboRot->getNin() - 1) - 1);
 
 		FTemperatura10 = FTuboRot->getTemperaturaInicial() + 273. +
-			pow(FTuboRot->getVelocidadMedia(), 2.) / 2. / Cp;
+			pow2(FTuboRot->getVelocidadMedia()) / 2. / Cp;
 
 		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
@@ -641,8 +641,8 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 				if (fabs(*u2) > *a2)
 					* u2 = *a2 * *u2 / fabs(*u2);
 
-				Error = sqrt(pow(da1 / (*a1 + da1), 2.) +
-					pow(da2 / (*a2 + da2), 2.));
+				Error = sqrt(pow2(da1 / (*a1 + da1)) +
+					pow2(da2 / (*a2 + da2)));
 
 				cont++;
 			}
@@ -654,7 +654,7 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 			else {
 				// FPresionOut=1e5*pow(aa2new/ *a2,-FGamma4);
 				FTempIn = *a1 * *a1 / FGamma / FRMezcla;
-				FTempTotalIn = FTempIn + pow(*u1, 2.) / 2. / FCpMezcla;
+				FTempTotalIn = FTempIn + pow2(*u1) / 2. / FCpMezcla;
 				FPresionIn = 1e5 * pow(aa1 / *a1, -FGamma4);
 				FPreTotalIn = FPresionIn * pow(FTempTotalIn / FTempIn,
 					FGamma / FGamma1);
@@ -931,7 +931,7 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 		FSignoRotor = -1;
 		FNodoFinRotor = 0;
 		// FIndExtRotor=0;
-		FAreaRotor = pow(FTuboRot->GetDiametro(0), 2.) * Pi / 4.;
+		FAreaRotor = pow2(FTuboRot->GetDiametro(0)) * Pi / 4.;
 		FIndiceCCRotor = 0;
 
 	}
@@ -940,7 +940,7 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 		FNodoFinRotor = FTuboRot->getNin() - 1;
 		FSignoRotor = 1;
 		// FIndExtRotor=1;
-		FAreaRotor = pow(FTuboRot->GetDiametro(FTuboRot->getNin() - 1), 2.)
+		FAreaRotor = pow2(FTuboRot->GetDiametro(FTuboRot->getNin() - 1))
 			* Pi / 4.;
 		FIndiceCCRotor = 1;
 	}
@@ -953,7 +953,7 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 		FNodoFinStator = 0;
 		FSignoStator = -1;
 		// FIndExtStator=0;
-		FAreaStator = pow(FTuboEst->GetDiametro(0), 2.) * Pi / 4.;
+		FAreaStator = pow2(FTuboEst->GetDiametro(0)) * Pi / 4.;
 		FIndiceCCStator = 0;
 	}
 	else if (FTuboEst->getNodoDer() == NumeroCC) {
@@ -986,7 +986,7 @@ void TCompTubos::Initialize() {
 			(FTuboRot->GetGamma(FTuboRot->getNin() - 1) - 1);
 
 	FTemperatura10 = FTuboRot->getTemperaturaInicial() + 273. +
-		pow(FTuboRot->getVelocidadMedia(), 2.) / 2. / Cp;
+		pow2(FTuboRot->getVelocidadMedia()) / 2. / Cp;
 
 	// Inicializacion del transporte de especies quimicas.
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
