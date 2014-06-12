@@ -46,11 +46,11 @@ TTurbineMap::~TTurbineMap() {
 void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
                                  double Diam3, double Diam4, double CriticalAngle) {
 
-    int rows, Adiab;
-    double pos, ang;
-    double Area = pow(Diam4, 2) * Pi / 4;
-    double n_limit = 1.165;
-    bool CalculaGR = false;
+	int rows, Adiab;
+	double pos, ang;
+	double Area = pow2(Diam4) * Pi / 4;
+	double n_limit = 1.165;
+	bool CalculaGR = false;
 
 #ifdef tchtm
     fscanf(Input, "%d ", &Adiab);

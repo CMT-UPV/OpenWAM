@@ -28,6 +28,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @file Math_wam.h
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
+ * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
  * 
  * @section LICENSE
  *
@@ -57,10 +58,9 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #define Math_wamH
 // ---------------------------------------------------------------------------
 
-// #include "nr3.h"
 #include <cstdlib>
 #include <vector>
-//#include <cmath>
+#include <cmath>
 #include <limits>
 #include <iostream>
 #include "Globales.h"
@@ -77,21 +77,88 @@ typedef std::vector<std::vector<bool> >bMatrix; ///< 2-dimensional boolean matri
 
 double Interpola(double vizq, double vder, double axid, double xif);
 
+
+/**
+ * @brief Returns x to the power of 2.
+ * 
+ * Computes @f$ x ^ 2 @f$
+ * 
+ * @param x The value.
+ * @return @f$ x ^ 2 @f$
+ */
 template<class T>
 inline T pow2(T x) {
 	return x*x;
 }
 
 
+/**
+ * @brief Returns x to the power of 3.
+ * 
+ * Computes @f$ x ^ 3 @f$
+ * 
+ * @param x The value.
+ * @return @f$ x ^ 3 @f$
+ */
 template<class T>
 inline T pow3(T x) {
 	return x*x*x;
 }
 
 
+/**
+ * @brief Returns x to the power of 4.
+ * 
+ * Computes @f$ x ^ 4 @f$
+ * 
+ * @param x The value.
+ * @return @f$ x ^ 4 @f$
+ */
 template<class T>
 inline T pow4(T x) {
 	return x*x*x*x;
+}
+
+
+/**
+ * @brief Returns x to the power of 0.25.
+ * 
+ * Computes @f$ x ^ {0.25} @f$
+ * 
+ * @param x The value.
+ * @return @f$ x ^ {0.25} @f$
+ */
+template<class T>
+inline T pow025(T x) {
+	return sqrt(sqrt(x));
+}
+
+
+/**
+ * @brief Returns x to the power of 1.5.
+ * 
+ * Computes @f$ x ^ {1.5} @f$
+ * 
+ * @param x The value.
+ * @return @f$ x ^ {1.5} @f$
+ */
+template<class T>
+inline T pow150(T x) {
+	return sqrt(pow3(x));
+}
+
+
+/**
+ * @brief Returns x to the power of 0.75.
+ * 
+ * Computes @f$ x ^ {0.75} @f$
+ * 
+ * @param x The value.
+ * @return @f$ x ^ {0.75} @f$
+ */
+template<class T>
+inline T pow075(T x) {
+	return sqrt(pow150(x));
 }
 
 

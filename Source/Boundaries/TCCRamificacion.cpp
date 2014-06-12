@@ -235,8 +235,8 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			suma1 = 0.;
 			suma2 = 0.;
 			for (int i = 0; i < FNumeroTubosCC; i++) {
-				suma1 = suma1 + (*FCC[i]) * FSeccionTubo[i] / pow(FEntropia[i], 2);
-				suma2 = suma2 + FTuboExtremo[i].Entropia * FSeccionTubo[i] / pow(FEntropia[i], 2);
+				suma1 = suma1 + (*FCC[i]) * FSeccionTubo[i] / pow2(FEntropia[i]);
+				suma2 = suma2 + FTuboExtremo[i].Entropia * FSeccionTubo[i] / pow2(FEntropia[i]);
 			}
 			sonido_ant_ad = sonido_supuesta_ad;
 			sonido_supuesta_ad = suma1 / suma2; // Velocity del sonido adimensionalizada (si las variables fuesen dimensionales).
@@ -317,10 +317,10 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 				if (Machx > 1) {
 					printf("Sonic condition in boundary: %d\n", FNumeroCC);
 					double Machy = Machx / fabs(Machx) * sqrt
-						((pow(Machx, 2) + 2. / FGamma1) / (FGamma4 * pow(Machx, 2) - 1.));
+						((pow2(Machx) + 2. / FGamma1) / (FGamma4 * pow2(Machx) - 1.));
 					double asonido = (*FCC[i] + *FCD[i]) / 2;
 					double Sonidoy = asonido * sqrt
-						((FGamma3 * pow(Machx, 2) + 1.) / (FGamma3 * pow(Machy, 2) + 1.));
+						((FGamma3 * pow2(Machx) + 1.) / (FGamma3 * pow2(Machy) + 1.));
 
 					double Velocidady = Sonidoy * Machy;
 					*FCC[i] = Sonidoy + FGamma3 * Velocidady;

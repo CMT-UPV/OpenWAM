@@ -135,7 +135,7 @@ Base_interp::Base_interp() : n(0), mm(0), jsav(0), cor(0), xx(), yy() {}
 Base_interp::Base_interp(dVector &x, const double *y, int m):
 	n(x.size()), mm(m), jsav(0), cor(0), xx(&x[0]), yy(y)
 {
-	dj = Max(1, (int)pow((double)n, 0.25));
+	dj = Max(1, (int)pow025((double)n));
 }
 
 
@@ -242,7 +242,7 @@ void Linear_interp::operator()(dVector & xv, dVector & yv)
 	mm = 2;
 	jsav = 0;
 	cor = 0;
-	dj = Max(1, (int)pow((double)n, 0.25));
+	dj = Max(1, (int)pow025((double)n));
 }
 
 
@@ -278,7 +278,7 @@ void Hermite_interp::operator()(dVector & xv, dVector & yv)
 	jsav = 0;
 	cor = 0;
 	y2.resize(n);
-	dj = Max(1, (int)pow((double)n, 0.25));
+	dj = Max(1, (int)pow025((double)n));
 	sety2(&xv[0], &yv[0]);
 }
 
@@ -353,7 +353,7 @@ void Step_interp::operator()(dVector & xv, dVector & yv)
 	mm = 2;
 	jsav = 0;
 	cor = 0;
-	dj = Max(1, (int)pow((double)n, 0.25));
+	dj = Max(1, (int)pow025((double)n));
 }
 
 

@@ -195,14 +195,3 @@ void TCondicionContorno::CalculaCaracteristicas(double Time)
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
-
-
-
-
-
-
-
-
-
-
-

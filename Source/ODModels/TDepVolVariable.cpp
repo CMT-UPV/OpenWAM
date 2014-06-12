@@ -154,180 +154,156 @@ void TDepVolVariable::LeeDatosDepVolVariableXML(xml_node node_plenum,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
+void TDepVolVariable::ActualizaPropiedades(double TimeCalculo)
+{
 
-	double H; //Entalpia de entrada
-	double Energia;
-	double MasaEntrante, FraccionMasicaAcum = 0.;
-	double DeltaT, DeltaAngulo;
-	double g, v, a, m;
-	int SignoFlujo = 1, SignoFlujoED = 1;
+double H; //Entalpia de entrada
+double Energia;
+double MasaEntrante,FraccionMasicaAcum=0.;
+double DeltaT,DeltaAngulo;
+double g,v,a,m;
+int SignoFlujo=1,SignoFlujoED=1;
 
-	try {
-		FMasa0 = FMasa;
-		MasaEntrante = 0.;
-		H = 0.;
-		DeltaT = TimeCalculo - FTime;
-		DeltaAngulo = 360 * FRegimen / 60. * DeltaT;
-		FAngulo += DeltaAngulo;
-		FVolumen0 = FVolumen;
-		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro,
-				FVolumenMuerto);
+try
+{
+FMasa0=FMasa;
+MasaEntrante=0.;
+H=0.;
+DeltaT=TimeCalculo-FTime;
+DeltaAngulo=360*FRegimen/60.*DeltaT;
+FAngulo+=DeltaAngulo;
+FVolumen0=FVolumen;
+FVolumen=CalculaVolumen(FAngulo,FCarrera,FLBiela,FDiametro,FVolumenMuerto);
 
-		if (FCalculoEspecies == nmCalculoCompleto) {
+if(FCalculoEspecies==nmCalculoCompleto){
 
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FCalculoGamma);
-			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FTemperature + 273., FCalculoGamma);
-			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
+   FRMezcla=CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+                                   FFraccionMasicaEspecie[2],FCalculoGamma);
+   FCpMezcla=CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+                                   FFraccionMasicaEspecie[2],FTemperature+273.,FCalculoGamma);
+   FGamma=CalculoCompletoGamma(FRMezcla,FCpMezcla,FCalculoGamma);
 
-		} else if (FCalculoEspecies == nmCalculoSimple) {
+}else if(FCalculoEspecies==nmCalculoSimple){
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
-					FCalculoGamma);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
-					FFraccionMasicaEspecie[0], FCalculoGamma);
-			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
+   FRMezcla=CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FCalculoGamma);
+   FCvMezcla=CalculoSimpleCvMezcla(FTemperature+273.,FFraccionMasicaEspecie[0],FCalculoGamma);
+   FGamma=CalculoSimpleGamma(FRMezcla,FCvMezcla,FCalculoGamma);
 
-		}
+}
 
-		for (int i = 0; i < FNumeroUniones; i++) {
-			if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo()
-					== nmEntrante) {
-				SignoFlujo = 1;
-			} else if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo()
-					== nmSaliente) {
-				SignoFlujo = -1;
-			}
-			g =
-					(double) -dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getMassflow();
-			m =
-					g * DeltaT
-							* FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
-			v =
-					(double) SignoFlujo
-							* dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getVelocity();
-			a = dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSpeedSound();
-			MasaEntrante += m;
-			if (v > 0) {
-				H += EntalpiaEntrada(a, v, m, FAsonido, FMasa0,
-						FCCDeposito[i]->getGamma());
-			}
-			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j)
-						* m;
-			}
-		}
-		for (int i = 0; i < FNumeroUnionesED; i++) {
+for(int i=0;i<FNumeroUniones;i++){
+     if(dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo()==nmEntrante) {
+        SignoFlujo=1;
+     }else if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo()==nmSaliente){
+        SignoFlujo=-1;
+     }
+     g=(double)-dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getMassflow();
+     m=g*DeltaT*FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
+     v=(double)SignoFlujo*dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getVelocity();
+     a=dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSpeedSound();
+     MasaEntrante+=m;
+     if(v>0){
+          H+=EntalpiaEntrada(a,v,m,FAsonido,FMasa0,FCCDeposito[i]->getGamma());
+     }
+     for(int j=0;j<FNumeroEspecies-FIntEGR;j++){
+          FMasaEspecie[j]+=FCCDeposito[i]->GetFraccionMasicaEspecie(j)*m;
+     }
+}
+for(int i=0;i<FNumeroUnionesED;i++){
 
-			if (FNumeroDeposito
-					== dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
-				SignoFlujoED =
-						dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
-			} else if (FNumeroDeposito
-					== dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
-				SignoFlujoED =
-						dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
-			} else
-				printf(
-						"ERROR:TDepVolVariable::ActualizaPropiedades en el deposito %d, union entre depositos %d\n",
-						FNumeroDeposito, i);
+     if(FNumeroDeposito==dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito1()){
+        SignoFlujoED=dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
+     }else if(FNumeroDeposito==dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito2()){
+        SignoFlujoED=dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
+     }else printf("ERROR:TDepVolVariable::ActualizaPropiedades en el deposito %d, union entre depositos %d\n",FNumeroDeposito,i);
 
-			g =
-					(double) SignoFlujoED
-							* dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getMassflow();
-			m = g * DeltaT;
-			a =
-					(double) dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSpeedSound();
-			MasaEntrante += m;
-			if (g > 0) {
-				H += EntalpiaEntrada(a, 0, m, FAsonido, FMasa0,
-						FCCUnionEntreDep[i]->getGamma());
-			}
-			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FMasaEspecie[j] +=
-						FCCUnionEntreDep[i]->GetFraccionMasicaEspecie(j) * m;
-			}
-		}
-		FMasa = FMasa0 + MasaEntrante;
-		for (int j = 0; j < FNumeroEspecies - 2; j++) {
-			FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
-			FraccionMasicaAcum += FFraccionMasicaEspecie[j];
-		}
-		FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-		if (FHayEGR)
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-					FMasaEspecie[FNumeroEspecies - 1] / FMasa;
+     g=(double)SignoFlujoED*dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getMassflow();
+     m=g*DeltaT;
+     a=(double)dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSpeedSound();
+     MasaEntrante+=m;
+     if(g>0){
+          H+=EntalpiaEntrada(a,0,m,FAsonido,FMasa0,FCCUnionEntreDep[i]->getGamma());
+     }
+     for(int j=0;j<FNumeroEspecies-FIntEGR;j++){
+           FMasaEspecie[j]+=FCCUnionEntreDep[i]->GetFraccionMasicaEspecie(j)*m;
+     }
+}
+FMasa=FMasa0+MasaEntrante;
+for(int j=0;j<FNumeroEspecies-2;j++){
+    FFraccionMasicaEspecie[j]=FMasaEspecie[j]/FMasa;
+    FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
+}
+FFraccionMasicaEspecie[FNumeroEspecies-2]=1.-FraccionMasicaAcum;
+if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FMasaEspecie[FNumeroEspecies-1]/FMasa;
 
-		Energia = pow(FVolumen0 * FMasa / FMasa0 / FVolumen * exp(H),
-				Gamma1(FGamma));
-		FAsonido *= sqrt(Energia);
-		FPressure = pow(ARef * FAsonido, 2) * FMasa * 1e-5
-				/ (FGamma * FVolumen);
-		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-		FTemperature = pow(FAsonido * ARef, 2.) / (FGamma * FRMezcla) - 273.;
-		FTime = TimeCalculo;
-		if (FAngulo > 360.) {
-			FAngulo -= 360.;
-		}
 
-	} catch (Exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumetrico: "
-				<< FNumeroCompresorVol << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
-	}
+Energia=pow(FVolumen0*FMasa/FMasa0/FVolumen*exp(H),Gamma1(FGamma));
+FAsonido*=sqrt(Energia);
+FPressure=pow2(ARef*FAsonido)*FMasa*1e-5/(FGamma*FVolumen);
+FPresionIsen=pow(FPressure/FPresRef,Gamma5(FGamma));
+FTemperature=pow2(FAsonido*ARef)/(FGamma*FRMezcla)-273.;
+FTime=TimeCalculo;
+if(FAngulo>360.){
+     FAngulo-=360.;
+}
+
+}
+catch(Exception &N)
+{
+std::cout << "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumetrico: " << FNumeroCompresorVol << std::endl;
+std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+throw Exception(N.Message);
+}
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
-		double lbiela, double diametro, double vol_muerto) {
-	double c, tt, ttt;
-	double ret_val;
+double TDepVolVariable::CalculaVolumen(double CrankAngle,double carrera,double lbiela,
+                double diametro,double vol_muerto)
+{
+double c,tt,ttt;
+double ret_val;
 
-	try {
+try
+{
 
-		c = CrankAngle * Pi / 180.;
-		tt = pow(lbiela, 2.);
-		tt -= pow(carrera * sin(c) / 2., 2);
-		tt = sqrt(tt);
-		ttt = lbiela + carrera * (1. - cos(c)) / 2. - tt;
-		ret_val = ttt * Pi * pow(diametro, 2) / 4.;
-		ret_val += vol_muerto;
-		return ret_val;
+c = CrankAngle * Pi / 180.;
+tt = pow2(lbiela);
+tt -= pow2(carrera * sin(c) / 2.);
+tt = sqrt(tt);
+ttt = lbiela + carrera * (1.-cos(c))/ 2. - tt;
+ret_val = ttt * Pi * pow2(diametro)/ 4.;
+ret_val += vol_muerto;
+return ret_val;
 
-	} catch (Exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumetrico: "
-				<< FNumeroCompresorVol << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
-	}
+}
+catch(Exception &N)
+{
+std::cout << "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumetrico: " << FNumeroCompresorVol << std::endl;
+std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+throw Exception(N.Message);
+}
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDepVolVariable::IniciaVolumen(double Theta) {
-	try {
-		FAngulo = Theta - FDesfase;
-		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro,
-				FVolumenMuerto);
-		FMasa = FVolumen * FGamma * FPressure * 1e5 / pow(FAsonido * ARef, 2.);
-		FVolumen0 = FVolumen;
-	} catch (Exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumetrico: "
-				<< FNumeroCompresorVol << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
-	}
+void TDepVolVariable::IniciaVolumen(double Theta)
+{
+try
+{
+FAngulo=Theta-FDesfase;
+FVolumen=CalculaVolumen(FAngulo,FCarrera,FLBiela,FDiametro,FVolumenMuerto);
+FMasa=FVolumen*FGamma*FPressure*1e5/pow2(FAsonido*ARef);
+FVolumen0=FVolumen;
+}
+catch(Exception &N)
+{
+std::cout << "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumetrico: " << FNumeroCompresorVol << std::endl;
+std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+throw Exception(N.Message);
+}
 }
 
 void TDepVolVariable::UpdateProperties0DModel(double TimeCalculo) {

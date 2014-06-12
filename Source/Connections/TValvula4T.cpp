@@ -94,13 +94,13 @@ TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) : TTipoValvula(nmValvula
 	FDatosTorbellino.resize(Origen->FDatosTorbellino.size());
 	FLiftCD.resize(Origen->FLiftCD.size());
 
-	for (int i = 0; i < Origen->FAngle.size(); i++) {
+	for (dVector::size_type i = 0; i < Origen->FAngle.size(); i++) {
 		FAngle[i] = Origen->FAngle[i];
 		FLevantamiento[i] = Origen->FLevantamiento[i];
 	}
 	fun_FLift = new Hermite_interp(FAngle, FLevantamiento);
 
-	for (int i = 0; i < Origen->FLiftCD.size(); i++) {
+	for (dVector::size_type i = 0; i < Origen->FLiftCD.size(); i++) {
 		FLiftCD[i] = Origen->FLiftCD[i];
 		FDatosCDEntrada[i] = Origen->FDatosCDEntrada[i];
 		FDatosCDSalida[i] = Origen->FDatosCDSalida[i];

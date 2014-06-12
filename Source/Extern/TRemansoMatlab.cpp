@@ -66,7 +66,7 @@ else if(TiempoActual>3.52){
    FTemperature=55.;
 }
 else{
-   FPressure=1.-0.045*(TiempoActual-1.92)+1.74*pow(TiempoActual-1.92,2.)-0.705*pow(TiempoActual-1.92,3.);
+   FPressure=1.-0.045*(TiempoActual-1.92)+1.74*pow2(TiempoActual-1.92)-0.705*pow3(TiempoActual-1.92);
    FTemperature=45.;
 }
 }

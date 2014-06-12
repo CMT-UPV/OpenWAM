@@ -208,92 +208,79 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 #if tchtm
             FHeatPower = FHTM->Turb_Heat_Flow();
 #endif
-            double Heat = FHeatPower * DeltaT;
+			double Heat = FHeatPower * DeltaT;
 
-            while (!Converge) {
-                H = 0.;
-                for (int i = 0; i < FNumeroUniones; i++) {
-                    if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
-                            == nmEntrante) {
-                        SignoFlujo = 1;
-                    } else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
-                               == nmSaliente) {
-                        SignoFlujo = -1;
-                    }
-                    g =
-                        (double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
-                    v =
-                        (double) SignoFlujo
-                        * dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
-                    a =
-                        dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
-                    m =
-                        g * DeltaT
-                        * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
-                    if (FirstStep) {
-                        MasaEntrante += m;
-                        for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-                            FMasaEspecie[j] +=
-                                FCCDeposito[i]->GetFraccionMasicaEspecie(j)
-                                * m;
-                        }
-                    }
-                    if (v > 0) {
-                        H += EntalpiaEntrada(a, v, m, Ason1, FMasa,
-                                             FCCDeposito[i]->getGamma());
-                    }
+			while (!Converge) {
+				H = 0.;
+				for (int i = 0; i < FNumeroUniones; i++) {
+					if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
+						== nmEntrante) {
+						SignoFlujo = 1;
+					}
+					else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
+						== nmSaliente) {
+						SignoFlujo = -1;
+					}
+					g = (double)-dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
+					v = (double)SignoFlujo*dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity
+						();
+					a = dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
+					m = g * DeltaT * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
+					if (FirstStep) {
+						MasaEntrante += m;
+						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+							FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
+						}
+					}
+					if (v > 0) {
+						H += EntalpiaEntrada(a, v, m, Ason1, FMasa, FCCDeposito[i]->getGamma());
+					}
 
-                }
-                MTemp1 = FGamma / (pow2(Ason1 * ARef) * FMasa);
+				}
+				MTemp1 = FGamma / (pow2(Ason1 * ARef) * FMasa);
 
-                if (FirstStep) {
-                    FMasa = FMasa0 + MasaEntrante;
-                    for (int j = 0; j < FNumeroEspecies - 2; j++) {
-                        FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
-                        FraccionMasicaAcum += FFraccionMasicaEspecie[j];
-                    }
-                    FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-                            - FraccionMasicaAcum;
-                    if (FHayEGR)
-                        FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-                            FMasaEspecie[FNumeroEspecies - 1] / FMasa;
-                    H0 = H;
-                    FirstStep = false;
-                }
+				if (FirstStep) {
+					FMasa = FMasa0 + MasaEntrante;
+					for (int j = 0; j < FNumeroEspecies - 2; j++) {
+						FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
+						FraccionMasicaAcum += FFraccionMasicaEspecie[j];
+					}
+					FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
+					if (FHayEGR)
+						FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie
+							[FNumeroEspecies - 1] / FMasa;
+					H0 = H;
+					FirstStep = false;
+				}
 
-                MTemp = (MTemp0 + MTemp1) / 2.;
+				MTemp = (MTemp0 + MTemp1) / 2.;
 
-                Energia = pow(
-                              FMasa / FMasa0
-                              * exp(
-                                  (H + H0) / 2
-                                  - (FTrabajoFluido + Heat)
-                                  * MTemp),
-                              Gamma1(FGamma));
-                Ason1 = FAsonido * sqrt(Energia);
-                Error = (Diff = Ason1 - Ason0, fabs(Diff)) / Ason1;
-                if (Error > 1e-6) {
-                    Ason0 = Ason1;
-                } else {
-                    Converge = true;
-                }
+				Energia = pow(FMasa / FMasa0 * exp((H + H0) / 2 - (FTrabajoFluido + Heat) * MTemp),
+					Gamma1(FGamma));
+				Ason1 = FAsonido * sqrt(Energia);
+				Error = (Diff = Ason1 - Ason0, fabs(Diff)) / Ason1;
+				if (Error > 1e-6) {
+					Ason0 = Ason1;
+				}
+				else {
+					Converge = true;
+				}
 
-            }
+			}
 
-            FAsonido = Ason1;
-            // FTemperature = pow(FAsonido, 2) / (FGamma * FRMezcla) * pow(ARef, 2);
-            FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen
-                        * FMasa * 1e-5;
-            FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-            FTemperature = pow(FAsonido * ARef, 2.) / FGamma / FRMezcla - 273.;
-        }
-        FTime = TimeCalculo;
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::ActualizaPropiedades en la turbina "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+			FAsonido = Ason1;
+			// FTemperature = pow(FAsonido, 2) / (FGamma * FRMezcla) * pow(ARef, 2);
+			FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen * FMasa * 1e-5;
+			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
+			FTemperature = pow2(FAsonido * ARef) / FGamma / FRMezcla - 273.;
+		}
+		FTime = TimeCalculo;
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::ActualizaPropiedades en la turbina " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------

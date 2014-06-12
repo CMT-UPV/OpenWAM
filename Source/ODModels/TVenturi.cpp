@@ -316,46 +316,48 @@ void TVenturi::CalculaVenturi() {
                 dynamic_cast<TCCDeposito*>(FCCSalida)->putMachVenturi( Velocity / Speedsound);
 // dynamic_cast<TCCDeposito *>(FCCEntrada)->getValvula()->getCRecuperacion() = 0.;
 // if(Speedsound > 0) dynamic_cast<TCCDeposito *>(FCCSalida)->getValvula()->getCRecuperacion() = Velocity / Speedsound;
-        }
+		}
 
-        Mach0 = Velocity / FAsonido;
-        Mach1 = Mach0 * FRelacionSecciones;
+		Mach0 = Velocity / FAsonido;
+		Mach1 = Mach0 * FRelacionSecciones;
 
-        FCpMezcla = FGamma * FRMezcla / FGamma1;
+		FCpMezcla = FGamma * FRMezcla / FGamma1;
 
-        TempGarganta = TempEntrada - pow2((FRelacionSecciones - 1.) * Velocity * ARef) /
-                       (2. * FCpMezcla);
+		TempGarganta = TempEntrada - pow((FRelacionSecciones - 1.) * Velocity * ARef, 2.) /
+			(2. * FCpMezcla);
 
-        Converge = 0.;
-        VelGarganta0 = Velocity;
-        VelGarganta1 = Velocity;
+		Converge = 0.;
+		VelGarganta0 = Velocity;
+		VelGarganta1 = Velocity;
 
-        if (Velocity > 0. && FRelacionSecciones > 0.) {
-            while (Converge < 0.99999 || Converge > 1.00001) {
-                if (Mach1 > 0.99999999) {
-                    Mach1 = 1.;
-                    printf("N. de Mach en el venturi situado en el deposito %d = 1. ",
-                           FNumeroDeposito);
-                    printf("Velocity = %g (m/s) \t", VelGarganta1 * ARef);
-                    printf("Temperature = %g (degC)\n", TempGarganta);
-                }
-                else if (Mach1 == 1.) {
-                    VelGarganta1 = sqrt((1. + FGamma1 / 2. * pow2(Mach0)) / (FGamma2 * pow2(Mach0)
-                                        / 2.) * pow2(Velocity));
-                }
-                else {
-                    VelGarganta1 = FRelacionSecciones * Velocity * pow(TempEntrada / TempGarganta,
-                                   FGamma6);
-                }
+		if (Velocity > 0. && FRelacionSecciones > 0.) {
+			while (Converge < 0.99999 || Converge > 1.00001) {
+				if (Mach1 > 0.99999999) {
+					Mach1 = 1.;
+					printf("N. de Mach en el venturi situado en el deposito %d = 1. ",
+						FNumeroDeposito);
+					printf("Velocity = %g (m/s) \t", VelGarganta1 * ARef);
+					printf("Temperature = %g (degC)\n", TempGarganta);
+				}
+				else if (Mach1 == 1.) {
+					VelGarganta1 = sqrt
+						(((1. + FGamma1 / 2. * pow2(Mach0))
+							/ (FGamma2 * pow2(Mach0) / 2.)
+							* pow2(Velocity)));
+				}
+				else {
+					VelGarganta1 = FRelacionSecciones * Velocity * pow(TempEntrada / TempGarganta,
+						FGamma6);
+				}
 
-                TempGarganta = TempEntrada - (pow2(VelGarganta1 * ARef) - pow2(Velocity * ARef))
-                               / (2. * FCpMezcla);
+				TempGarganta = TempEntrada - (pow2(VelGarganta1 * ARef)
+					- pow2(Velocity * ARef)) / (2. * FCpMezcla);
 
-                Mach1 = VelGarganta1 * ARef / sqrt(FGamma * FRMezcla * TempGarganta);
-                Converge = VelGarganta1 / VelGarganta0;
-                VelGarganta0 = VelGarganta1;
-            }
-            VelGarganta0 = sqrt(FRendimientoVenturi * pow2(VelGarganta0) - FPerdidasCalor * 2.);
+				Mach1 = VelGarganta1 * ARef / sqrt(FGamma * FRMezcla * TempGarganta);
+				Converge = VelGarganta1 / VelGarganta0;
+				VelGarganta0 = VelGarganta1;
+			}
+			VelGarganta0 = sqrt((FRendimientoVenturi * pow2(VelGarganta0) - FPerdidasCalor * 2.));
 // dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = (VelGarganta0  * ARef)/pow(FGamma*FRMezcla*TempGarganta,0.5);
             dynamic_cast<TCCDeposito*>(FCCLateral)->putMachVenturi((VelGarganta0 * ARef) /
                     sqrt(FGamma * FRMezcla * TempGarganta));
@@ -539,85 +541,85 @@ void TVenturi::ImprimeResultadosInstantVenturi(stringstream& insoutput) {
 // ---------------------------------------------------------------------------
 
 void TVenturi::CalculaResultadosVenturi() {
-    try {
-        int SentidoEntrada, SentidoLateral, SentidoSalida;
-        if (FResInstantVenturi.PresionEntrada) {
-            FResInstantVenturi.PresionEntradaINS = FPressure;
-        }
-        if (FResInstantVenturi.PresionGarganta) {
-            FResInstantVenturi.PresionGargantaINS = FPressure / pow
-                                                    (1 + FGamma1 / 2 * pow(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi(), 2),
-                                                            FGamma / FGamma1);
-        }
-        if (FResInstantVenturi.MachEntrada) {
-            if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
-                FResInstantVenturi.MachEntradaINS = fabs
-                                                    (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi());
-            }
-            else {
-                FResInstantVenturi.MachEntradaINS = -fabs
-                                                    (dynamic_cast<TCCDeposito*>(FCCSalida)->getMachVenturi());
-            }
-        }
-        if (FResInstantVenturi.MachGarganta) {
-            FResInstantVenturi.MachGargantaINS = fabs
-                                                 (dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi());
-        }
-        if (FResInstantVenturi.VelEntrada) {
-            if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
-                if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmEntrante) {
-                    SentidoEntrada = 1;
-                }
-                else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmSaliente) {
-                    SentidoEntrada = -1;
-                }
-                FResInstantVenturi.VelEntradaINS = SentidoEntrada * ARef*dynamic_cast<TCCDeposito*>
-                                                   (FCCEntrada)->getVelocity();
-            }
-            else {
-                if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmEntrante) {
-                    SentidoSalida = 1;
-                }
-                else if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmSaliente) {
-                    SentidoSalida = -1;
-                }
-                FResInstantVenturi.VelEntradaINS = SentidoSalida * ARef*dynamic_cast<TCCDeposito*>
-                                                   (FCCSalida)->getVelocity();
-            }
-        }
+	try {
+		int SentidoEntrada, SentidoLateral, SentidoSalida;
+		if (FResInstantVenturi.PresionEntrada) {
+			FResInstantVenturi.PresionEntradaINS = FPressure;
+		}
+		if (FResInstantVenturi.PresionGarganta) {
+			FResInstantVenturi.PresionGargantaINS = FPressure / pow
+				(1 + FGamma1 / 2 * pow2(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi()),
+				FGamma / FGamma1);
+		}
+		if (FResInstantVenturi.MachEntrada) {
+			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
+				FResInstantVenturi.MachEntradaINS = fabs
+					(dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi());
+			}
+			else {
+				FResInstantVenturi.MachEntradaINS = -fabs
+					(dynamic_cast<TCCDeposito*>(FCCSalida)->getMachVenturi());
+			}
+		}
+		if (FResInstantVenturi.MachGarganta) {
+			FResInstantVenturi.MachGargantaINS = fabs
+				(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi());
+		}
+		if (FResInstantVenturi.VelEntrada) {
+			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
+				if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmEntrante) {
+					SentidoEntrada = 1;
+				}
+				else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmSaliente) {
+					SentidoEntrada = -1;
+				}
+				FResInstantVenturi.VelEntradaINS = SentidoEntrada * ARef*dynamic_cast<TCCDeposito*>
+					(FCCEntrada)->getVelocity();
+			}
+			else {
+				if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmEntrante) {
+					SentidoSalida = 1;
+				}
+				else if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmSaliente) {
+					SentidoSalida = -1;
+				}
+				FResInstantVenturi.VelEntradaINS = SentidoSalida * ARef*dynamic_cast<TCCDeposito*>
+					(FCCSalida)->getVelocity();
+			}
+		}
 
-        if (FResInstantVenturi.VelLateral) {
-            if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmEntrante) {
-                SentidoLateral = 1;
-            }
-            else if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmSaliente) {
-                SentidoLateral = -1;
-            }
-            FResInstantVenturi.VelLateralINS = SentidoLateral * ARef*dynamic_cast<TCCDeposito*>
-                                               (FCCLateral)->getVelocity();
-        }
-        if (FResInstantVenturi.GastoEntrada) {
-            if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
-                FResInstantVenturi.GastoEntradaINS = -dynamic_cast<TCCDeposito*>(FCCEntrada)
-                                                     ->getMassflow();
-            }
-            else {
-                FResInstantVenturi.GastoEntradaINS = -dynamic_cast<TCCDeposito*>(FCCSalida)
-                                                     ->getMassflow();
-            }
-        }
-        if (FResInstantVenturi.GastoLateral) {
-            FResInstantVenturi.GastoLateralINS = -dynamic_cast<TCCDeposito*>(FCCLateral)
-                                                 ->getMassflow();
-        }
+		if (FResInstantVenturi.VelLateral) {
+			if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmEntrante) {
+				SentidoLateral = 1;
+			}
+			else if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmSaliente) {
+				SentidoLateral = -1;
+			}
+			FResInstantVenturi.VelLateralINS = SentidoLateral * ARef*dynamic_cast<TCCDeposito*>
+				(FCCLateral)->getVelocity();
+		}
+		if (FResInstantVenturi.GastoEntrada) {
+			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
+				FResInstantVenturi.GastoEntradaINS = -dynamic_cast<TCCDeposito*>(FCCEntrada)
+					->getMassflow();
+			}
+			else {
+				FResInstantVenturi.GastoEntradaINS = -dynamic_cast<TCCDeposito*>(FCCSalida)
+					->getMassflow();
+			}
+		}
+		if (FResInstantVenturi.GastoLateral) {
+			FResInstantVenturi.GastoLateralINS = -dynamic_cast<TCCDeposito*>(FCCLateral)
+				->getMassflow();
+		}
 
-    }
-    catch(Exception & N) {
-        std::cout << "ERROR: TVenturi::CalculaResultadosVenturi en el venturi: " << FNumeroVenturi <<
-                  std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TVenturi::CalculaResultadosVenturi en el venturi: " << FNumeroVenturi <<
+			std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------

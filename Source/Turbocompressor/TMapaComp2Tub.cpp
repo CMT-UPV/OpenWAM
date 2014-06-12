@@ -660,8 +660,8 @@ double h=x[k+1]-x[k];
 double h2=h*h;
 double dx1=x[k+1]-punto;
 double dx2=punto-x[k];
-double dx13=pow(dx1,3.);
-double dx23=pow(dx2,3.);
+double dx13=pow3(dx1);
+double dx23=pow3(dx2);
 
 double ret_val=(sol[k]*dx13+sol[k+1]*dx23+(6*y[k+1]-h2*sol[k+1])*dx2+(6*y[k]-h2*sol[k])*dx1)/(6*h);
 
@@ -800,8 +800,8 @@ double h=x[k+1]-x[k];
 double h2=h*h;
 double dx1=x[k+1]-punto;
 double dx2=punto-x[k];
-double dx13=pow(dx1,3.);
-double dx23=pow(dx2,3.);
+double dx13=pow3(dx1);
+double dx23=pow3(dx2);
 
 double ret_val=(sol[k]*dx13+sol[k+1]*dx23+(6*y[k+1]-h2*sol[k+1])*dx2+(6*y[k]-h2*sol[k])*dx1)/(6*h);
 
@@ -845,8 +845,8 @@ if(Massflow<FGastoInt[0]){
 	 double h2=h*h;
 	 double dx1=FGastoInt[k+1]-Massflow;
      double dx2=Massflow-FGastoInt[k];
-	 double dx13=pow(dx1,3.);
-     double dx23=pow(dx2,3.);
+	 double dx13=pow3(dx1);
+     double dx23=pow3(dx2);
 
 	 ret_val=(FCoefSplRC[k]*dx13+FCoefSplRC[k+1]*dx23+(6*FRelCompInt[k+1]-
 		  h2*FCoefSplRC[k+1])*dx2+(6*FRelCompInt[k]-h2*FCoefSplRC[k])*dx1)/(6*h);
@@ -1361,7 +1361,7 @@ while((double)n*FIncGasto<0.07){
 }
 FGastoMin=-n*FIncGasto;
 
-r1=sqrt((pow(radhub,2)+pow(radtip,2))/2);
+r1=sqrt((pow2(radhub)+pow2(radtip))/2);
 //FGastoMin=-0.07;
 FNumPuntosGastoNuevo = floor(((FGastoMax - FGastoMin) / FIncGasto)+0.5) + 1;
 
@@ -1387,8 +1387,8 @@ for (int i=0; i<FNumCurvasReg; ++i) {
      Fnegmas[3]=FGastoBombeo[i]-0.0001;
      Fnegmas[4]=FGastoBombeo[i];
      Fnegrc[0]=FRelCompBombeo[i];
-	 Fnegrc[1]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow((FRegMin+i*FIncReg)*Pi/30,2)*(pow(radrodete,2)-pow(r1,2)),Gamma/(Gamma-1));
-	 Fnegrc[2]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow((FRegMin+i*FIncReg)*Pi/30,2)*(pow(radrodete,2)-pow(r1,2)),Gamma/(Gamma-1));
+	 Fnegrc[1]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow2((FRegMin+i*FIncReg)*Pi/30)*(pow2(radrodete)-pow2(r1)),Gamma/(Gamma-1));
+	 Fnegrc[2]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow2((FRegMin+i*FIncReg)*Pi/30)*(pow2(radrodete)-pow2(r1)),Gamma/(Gamma-1));
      Fnegrc[3]=FRelCompBombeo[i];
      Fnegrc[4]=FRelCompBombeo[i];
 	 Hermite(5, Fnegmas , Fnegrc, Fsolneg);
@@ -1616,7 +1616,9 @@ void TMapaComp2Tub::RearrangeGTPowerMap(double rtip,double rhub,double rwheel)
 			}
 			            	printf("\n"); */
 			//SplineVector(k,FGTMass[i],FGTPres[i],FGTMass[i]);
-			if(FGTEff[i].size()>FNumCurvasRendMax) FNumCurvasRendMax=FGTEff[i].size();
+			if (FGTEff[i].size() > (dMatrix::size_type)FNumCurvasRendMax){
+                FNumCurvasRendMax = FGTEff[i].size();
+            }
 		}
 
 		FGastoRelComp1=new double[FNumCurvasReg];

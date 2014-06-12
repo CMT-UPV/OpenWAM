@@ -142,7 +142,7 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 
 		FPresion10 = FDepositoRot->getPressure();
 		FPresion20 = FDepositoEst->getPressure();
-		FTemperatura10 = pow(FDepositoRot->getSpeedsound() * ARef, 2) / FRMezcla / FGamma;
+		FTemperatura10 = pow2(FDepositoRot->getSpeedsound() * ARef) / FRMezcla / FGamma;
 		FRelacionCompresion = FPresion20 / FPresion10;
 		FDeltaTiempo = TiempoActual - FTiempo0;
 		FTiempo0 = TiempoActual;

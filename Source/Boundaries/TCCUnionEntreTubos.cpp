@@ -261,8 +261,8 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 		flujo = (*FCC[1] / FTuboExtremo[1].Entropia) / (*FCC[0] / FTuboExtremo[0].Entropia);
 		if (flujo < 0.999995) { /* Sentido del flujo: de 0(saliente (out)) a 1(entrante (in)) */
 			rel_entropia = FTuboExtremo[0].Entropia / FTuboExtremo[1].Entropia;
-			rel_area = pow(FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1])
-				/ FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0]), 2);
+			rel_area = pow2(FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1])
+				/ FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0]));
 
 			int cont = 0;
 			/* Intervalo de acotacion de A1 */
@@ -314,8 +314,8 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 		else if (flujo > 1.000005) { /* Sentido del flujo: de 1(saliente) a 0(entrante) */
 
 			rel_entropia = FTuboExtremo[0].Entropia / FTuboExtremo[1].Entropia;
-			rel_area = pow(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0])
-				/ FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1]), 2);
+			rel_area = pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0])
+				/ FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1]));
 
 			/* LLAMADA A LA ESTRUCTURA-estrechamiento */
 

@@ -92,7 +92,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FIndiceCC=0;
            FCC=&(FTuboExtremo[FNumeroTubosCC].Beta);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Landa);
-		   FSeccionTubo=Pi*pow(Pipe[i]->GetDiametro(FNodoFin),2)/4;
+		   FSeccionTubo=Pi*pow2(Pipe[i]->GetDiametro(FNodoFin))/4;
            FNumeroTubosCC++;
         }
         if(Pipe[i]->getNodoDer()==FNumeroCC){
@@ -102,7 +102,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
            FIndiceCC=1;
 		   FCC=&(FTuboExtremo[FNumeroTubosCC].Landa);
            FCD=&(FTuboExtremo[FNumeroTubosCC].Beta);
-           FSeccionTubo=Pi*pow(Pipe[i]->GetDiametro(FNodoFin),2)/4;
+           FSeccionTubo=Pi*pow2(Pipe[i]->GetDiametro(FNodoFin))/4;
            FNumeroTubosCC++;
         }
         i++;
@@ -215,13 +215,13 @@ FDensidad=FPresionCV*1e5/(FRMezcla*(FTemperaturaCV+273.));
 FGasto=massflow*FDensidad/1000.;
 
 /* Temperature del gas entrante en grados centigrados */
-FTemperature=FC1Temperatura*pow(FPressure,2.)+FC2Temperatura*FPressure+FC3Temperatura;
+FTemperature=FC1Temperatura*pow2(FPressure)+FC2Temperatura*FPressure+FC3Temperatura;
 
 /* Velocity del sonido en el tubo */
 FSonido=sqrt(FGamma*(FTemperature+273.)*FRMezcla)/ARef;
 
 /* Potencia */
-FPotencia=FC1Potencia*pow(FPressure,3.)+FC2Potencia*pow(FPressure,2.)+FC3Potencia*FPressure+
+FPotencia=FC1Potencia*pow3(FPressure)+FC2Potencia*pow2(FPressure)+FC3Potencia*FPressure+
 		  FC4Potencia+FC5Potencia*exp(FC6Potencia*FRelacionVelocidadesCV*FRegimen);
 
 /*!Acotacion del intervalo donde esta U*/
