@@ -42,7 +42,7 @@ class TTGV
 {
 private:
 
-//Variables para la determinaci�n de la correlaci�n utilizada en la turbina.
+//Variables para la determinacion de la correlacion utilizada en la turbina.
 FILE *FichTGV;
 int FNumeroDatos_Regimen;
 int FNumeroDatos_Mf;
@@ -57,8 +57,8 @@ double FPresionAdmisionConsigna;
 double FDistanciaVastago;
 double *FDistanciasVastago;
 
-double FError;     // Error en la presi�n de admisi�n en el instante current
-double FError_ant; // Error en la presi�n de admisi�n en el instante anterior
+double FError;     // Error en la presion de admision en el instante current
+double FError_ant; // Error en la presion de admision en el instante anterior
 double FErrorI;    // Integral del error para el control con el PID
 double FErrorIAnt;
 double FP;
@@ -80,8 +80,8 @@ double FCorr8;
 double FCorr10;
 double FCorr12;
 
-double FAEstator; // �rea de referencia del estator en cm2
-double FARotor;  //  �rea de referencia del rotor en cm2
+double FAEstator; // area de referencia del estator en cm2
+double FARotor;  //  area de referencia del rotor en cm2
 double FCDStator;
 double FCDRotor;
 double FRendimiento;

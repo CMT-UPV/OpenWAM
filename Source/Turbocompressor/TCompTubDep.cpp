@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -409,11 +409,11 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		} */
 		// }
 
-		// Transporte de especies qu�micas.
+		// Transporte de especies quimicas.
 		if (FGasto1 > 0.) {
 			switch(FEntradaCompresor) {
 			case nmPipe:
-				// Transporte de especies qu�micas.
+				// Transporte de especies quimicas.
 				for (int i = 0; i < FNumeroEspecies - 2; i++) {
 					FFraccionMasicaEspecie[i] = FTuboRotor->GetFraccionMasicaCC
 						(FIndiceCC, i);
@@ -427,7 +427,7 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 					FNumeroEspecies - 1); // EGR
 				break;
 			case nmPlenum:
-				// Transporte de especies qu�micas.
+				// Transporte de especies quimicas.
 				for (int i = 0; i < FNumeroEspecies - 2; i++) {
 					FFraccionMasicaEspecie[i]
 						= FDeposito->GetFraccionMasicaEspecie(i);
@@ -441,7 +441,7 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 						(FNumeroEspecies - 1); // EGR
 				break;
 
-				// Cuando la entrada sea la atm�sfera, la composici�n se mantendr� siempre constante.
+				// Cuando la entrada sea la atmasfera, la composicion se mantendra siempre constante.
 			}
 		}
 
@@ -487,7 +487,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 
 		case nmAtmosphere:
 			FTemperatura10 = AmbientTemperature + 273.;
-			// Inicializaci�n del transporte de especies qu�micas.
+			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				FFraccionMasicaEspecie[i] = AtmosphericComposition[i];
@@ -558,7 +558,7 @@ void TCompTubDep::Initialize() {
 		FTemperatura10 = FTuboRotor->getTemperaturaInicial() + 273. + pow
 			(FTuboRotor->getVelocidadMedia(), 2.) / 2. / Cp;
 
-		// Inicializaci�n del transporte de especies qu�micas.
+		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FTuboRotor->GetFraccionMasicaInicial(i);
@@ -568,7 +568,7 @@ void TCompTubDep::Initialize() {
 	case nmPlenum:
 		FTemperatura10 = FDeposito->getTemperature() + 273.;
 
-		// Inicializaci�n del transporte de especies qu�micas.
+		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FDeposito->GetFraccionMasicaEspecie(i);

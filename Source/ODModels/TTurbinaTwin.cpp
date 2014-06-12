@@ -207,9 +207,9 @@ for(int i=0;i<2;i++){
      FGastoEntrada[i]=FRhoEntrada[i]*FVelocidadEntrada[i]*dynamic_cast<TCCDeposito *>(FCCEntrada[i])->getSeccionTubo();
 
      //------------------------------------------------------------------------------
-     // C�lculo de la temperatura isentropica del gas a la salida de la turbina,
+     // Calculo de la temperatura isentropica del gas a la salida de la turbina,
      // a partir del transporte de especies.
-     // Documentaci�n: Tesis de Carmen Cervell� cap�tulo 3
+     // Documentacion: Tesis de Carmen Cervello capitulo 3
      //------------------------------------------------------------------------------
      /*if(FCalculoEspecies==nmCalculoCompleto){
 
@@ -335,7 +335,7 @@ if((FGastoEntrada[0]>0.||FGastoEntrada[1]>0.)&&((FEntalpia0Entrada[0]-FEntalpiaI
                     FRendTurbina[i]=b*FRelacionCinematica[i]+c*pow2(FRelacionCinematica[i])+d*pow3(FRelacionCinematica[i]);
               }
           }else if(FCalRendTurbina==nmCalcExtRD){
-               // Todav�a no esta hecha la asignaci�n de FNumeroTurbinaTGV
+               // Todavia no esta hecha la asignacion de FNumeroTurbinaTGV
 			   if(FDatosTGV[FNumeroTurbinaTGV].Rendimiento[i]<0){
                     FRendTurbina[i]=0.;
                }else{
@@ -361,7 +361,7 @@ for(int i=0;i<2;i++){
      FTrabajoIsenInstTotal+=FTrabajoIsen;
      FTrabajoFluido+=FTrabajoIsen*FRendTurbina[i];
      FTrabajoReal+=FTrabajoIsen*FRendTurbina[i];      // Lo usa para calcular el rendimiento medio.
-     FTrabajoRealPaso+=FTrabajoIsen*FRendTurbina[i];  // Para el c�lculo de la potencia del paso.
+     FTrabajoRealPaso+=FTrabajoIsen*FRendTurbina[i];  // Para el calculo de la potencia del paso.
      //FRendInstantaneo+=FRendTurbina[i]*FGastoEntrada[i];
      //FGastoEntradaTotal+=FGastoEntrada[i];
      incrRelCin=FRendTurbina[i]*FRelacionCinematica[i]*FTrabajoIsen;
@@ -666,7 +666,7 @@ for(int i=0;i<nvars;i++){
           case 3: FResInstantTurbina.GastoCorregido=true; break;
           case 4: FResInstantTurbina.RegimenCorregido=true; break;
           case 5: FResInstantTurbina.RelacionExpansion=true; break;
-          default : std::cout << "Resultados instant�neos en turbina " << FNumeroTurbina << " no implementados " << std::endl;
+          default : std::cout << "Resultados instantaneos en turbina " << FNumeroTurbina << " no implementados " << std::endl;
      }
 }
 fgetpos(fich, &filepos);

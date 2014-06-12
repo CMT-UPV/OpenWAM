@@ -31,8 +31,8 @@ private:
 	double FT_BoundarySum;
 	double FU_BoundarySum;
 
-	double *FCC; // Característica conocida del tubo.
-	double *FCD; // Característica desconocida del tubo.
+	double *FCC; // Caracteristica conocida del tubo.
+	double *FCD; // Caracteristica desconocida del tubo.
 
 	int FNodoFin;
 	int FIndiceCC;

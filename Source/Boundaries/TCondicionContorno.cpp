@@ -129,7 +129,7 @@ return FFraccionMasicaEspecie[i];
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCondicionContorno::GetConcentracionEspecie en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCondicionContorno::GetConcentracionEspecie en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }

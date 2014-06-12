@@ -51,11 +51,11 @@ protected:
 	TCondicionContorno **FCCDeposito;
 	TCondicionContorno **FCCUnionEntreDep;
 
-	// Constantes termodin�micas
+	// Constantes termodinamicas
 
 	double FPresRef;
 
-	// Variables geom�tricas
+	// Variables geometricas
 
 	int FNumeroDeposito;
 	double FVolumen0;
@@ -75,7 +75,7 @@ protected:
 	int FNUnionesED;
 	int FNumeroUnionesED;
 
-	// La crea pedro. la otra desaparecer�
+	// La crea pedro. la otra desaparecera
 	std::vector<int>FUnionED;
 	std::vector<int>FSentidoUED;
 
@@ -83,7 +83,7 @@ protected:
 	int FNumeroCompresor;
 	int FCompresorSentido;
 
-	// Variables termodin�micas
+	// Variables termodinamicas
 
 	double FTemperature;
 	double FPressure;
@@ -100,7 +100,7 @@ protected:
 	double FTime;
 	// bool FUpdated;
 
-	// Salida gr�fica
+	// Salida grafica
 
 	int FNumResMed;
 
@@ -164,7 +164,7 @@ public:
 		return FNumeroUniones;
 	}
 
-	// Numero de uniones total del dep�sito.
+	// Numero de uniones total del deposito.
 	int getNumeroDeposito() {
 		return FNumeroDeposito;
 	};
@@ -212,11 +212,11 @@ public:
 		return FTime;
 	};
 
-	void PutUnion(int indice, int valor); // Asigna los numeros de las uniones a depositos del dep�sito
+	void PutUnion(int indice, int valor); // Asigna los numeros de las uniones a depositos del deposito
 
-	void PutNumConductos(int indice, int valor); // Asigna los numeros de los tubos que descargan al dep�sito
+	void PutNumConductos(int indice, int valor); // Asigna los numeros de los tubos que descargan al deposito
 
-	void PutNumNodos(int indice, int valor); // Asigna los numeros de los nodos que descargan al dep�sito
+	void PutNumNodos(int indice, int valor); // Asigna los numeros de los nodos que descargan al deposito
 
 	void PutSentidoFlujo(int indice, int valor); // Asigna el sentido del flujo de cada union
 

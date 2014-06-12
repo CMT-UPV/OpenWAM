@@ -113,7 +113,7 @@ fclose(fich);
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condici�n de contorno: " << FNumeroCC <<std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: " << FNumeroCC <<std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -130,7 +130,7 @@ try
 FDeposito1=Plenum[FNumeroDeposito1-1];
 FDeposito2=Plenum[FNumeroDeposito2-1];
 
-// Inicializaci�n del transporte de especies qu�micas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
     FFraccionMasicaEspecie[i]=FDeposito1->GetFraccionMasicaEspecie(i);  // Se inicializa con el Deposito1 de modo arbitrario.
@@ -139,7 +139,7 @@ for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::AsignaDepositos en la condici�n de contorno: " << FNumeroCC <<std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::AsignaDepositos en la condicion de contorno: " << FNumeroCC <<std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -180,7 +180,7 @@ FValvula->AsignaCRecuperacion(FCDEntrada-1.);
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::AsignaTipoValvula en la condici�n de contorno: "  << FNumeroCC <<std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::AsignaTipoValvula en la condicion de contorno: "  << FNumeroCC <<std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -315,18 +315,18 @@ FCDSalida=FValvula->getCDVolTub();
 FCTorbellino=FValvula->getCTorb();
 
 if (FCDEntrada > 2.0 || FCDEntrada < 0.0) {
-     printf("ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga entrante: %lf, en %lf grados,en la condici�n de contorno: %d\n",FCDEntrada,FAnguloActual,FNumeroCC);
+     printf("ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga entrante: %lf, en %lf grados,en la condicion de contorno: %d\n",FCDEntrada,FAnguloActual,FNumeroCC);
      throw Exception("ERROR:TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: "+AnsiString(FCDEntrada)+", en "+AnsiString(FAnguloActual)+" grados ");
 
 }
 if (FCDSalida > 1.0 || FCDSalida < 0.0) {
-     printf("ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condici�n de contorno: %d\n",FCDSalida,FAnguloActual,FNumeroCC);
+     printf("ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDSalida,FAnguloActual,FNumeroCC);
      throw Exception("ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: "+AnsiString(FCDSalida)+", en "+AnsiString(FAnguloActual)+" grados ");
 }
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -353,7 +353,7 @@ return ret_val;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::InterpolaDeposito en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::InterpolaDeposito en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -419,22 +419,22 @@ if(FIndependiente){
    paso4=sqrt(paso2-paso3);
    gasto_isen=paso1*paso4;
 
-     /* FGasto es el valor del massflow en modulo. As� lo necesitan recibir los dep�sitos, que adem�s conocen el signo por
+     /* FGasto es el valor del massflow en modulo. Asi lo necesitan recibir los depositos, que ademas conocen el signo por
         el que han de multiplicar este valor. */
      /* FGastoImpreso es el valor del massflow con el signo de acuerdo al convenio de WAMer. Es decir, massflow positivo en el
-        sentido del deposito con la union (dep�sito 1) al dep�sito al que llega el hilo (dep�sito 2). Este massflow es el que
+        sentido del deposito con la union (deposito 1) al deposito al que llega el hilo (deposito 2). Este massflow es el que
         se imprime como resultado y el que se pasa a los sensores. */
 
-   if(FDeposito1->getPressure() > FDeposito2->getPressure()){ /* Flujo del dep�sito 1 al dep�sito 2 */
+   if(FDeposito1->getPressure() > FDeposito2->getPressure()){ /* Flujo del deposito 1 al deposito 2 */
       Massflow=FCDSalida*gasto_isen;
       FGasto=0.9*FGasto+0.1*Massflow;
       FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=-1; /* Saliente -1*/
       FSentidoFlujoED2=1;  /* Entrante */
-      FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del dep�sito
-                               del que sale el hilo hacia el que tiene la uni�n */
+      FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del deposito
+                               del que sale el hilo hacia el que tiene la union */
 
-      //Transporte de especies qu�micas.
+      //Transporte de especies quimicas.
       for(int j=0;j<FNumeroEspecies-2;j++){
          FFraccionMasicaEspecie[j]=FDeposito1->GetFraccionMasicaEspecie(j);
          FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -442,7 +442,7 @@ if(FIndependiente){
       FFraccionMasicaEspecie[FNumeroEspecies-2]=1.-FraccionMasicaAcum;
       if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FDeposito1->GetFraccionMasicaEspecie(FNumeroEspecies-1);
 
-   }else{                                  /* Flujo del dep�sito 2 al dep�sito 1 */
+   }else{                                  /* Flujo del deposito 2 al deposito 1 */
       Massflow=FCDEntrada*gasto_isen;
       FGasto=0.9*FGasto-0.1*Massflow;
       FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
@@ -450,7 +450,7 @@ if(FIndependiente){
       FSentidoFlujoED2=1;   /* Saliente -1*/
       FGastoImpreso=FGasto;
 
-      //Transporte de especies qu�micas.
+      //Transporte de especies quimicas.
       for(int j=0;j<FNumeroEspecies-2;j++){
         FFraccionMasicaEspecie[j]=FDeposito2->GetFraccionMasicaEspecie(j);
         FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -496,21 +496,21 @@ if(FIndependiente){
    paso4=sqrt(paso2-paso3);
    gasto_isen=paso1*paso4;
 
-     /* FGasto es el valor del massflow en modulo. As� lo necesitan recibir los dep�sitos, que adem�s conocen el signo por
+     /* FGasto es el valor del massflow en modulo. Asi lo necesitan recibir los depositos, que ademas conocen el signo por
         el que han de multiplicar este valor. */
      /* FGastoImpreso es el valor del massflow con el signo de acuerdo al convenio de WAMer. Es decir, massflow positivo en el
-        sentido del deposito con la union (dep�sito 1) al dep�sito al que llega el hilo (dep�sito 2). Este massflow es el que
+        sentido del deposito con la union (deposito 1) al deposito al que llega el hilo (deposito 2). Este massflow es el que
         se imprime como resultado y el que se pasa a los sensores. */
 
-   if(FDeposito1->getPressure() > FDeposito2->getPressure()){ /* Flujo del dep�sito 1 al dep�sito 2 */
+   if(FDeposito1->getPressure() > FDeposito2->getPressure()){ /* Flujo del deposito 1 al deposito 2 */
       FGasto=FCDSalida*gasto_isen;
       FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=-1; /* Saliente */
       FSentidoFlujoED2=1;  /* Entrante */
-      FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del dep�sito
-                               del que sale el hilo hacia el que tiene la uni�n */
+      FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del deposito
+                               del que sale el hilo hacia el que tiene la union */
 
-      //Transporte de especies qu�micas.
+      //Transporte de especies quimicas.
       for(int j=0;j<FNumeroEspecies-2;j++){
         FFraccionMasicaEspecie[j]=FDeposito1->GetFraccionMasicaEspecie(j);
         FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -518,14 +518,14 @@ if(FIndependiente){
       FFraccionMasicaEspecie[FNumeroEspecies-2]=1.-FraccionMasicaAcum;
       if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FDeposito1->GetFraccionMasicaEspecie(FNumeroEspecies-1);
 
-   }else{                                  /* Flujo del dep�sito 2 al dep�sito 1 */
+   }else{                                  /* Flujo del deposito 2 al deposito 1 */
       FGasto=FCDEntrada*gasto_isen;
       FVelocity=FGasto/(Pi*pow2(FValvula->getDiametro())/4)/(p0/(FRMezcla*T0));
       FSentidoFlujoED1=1;   /* Entrante */
       FSentidoFlujoED2=-1;  /* Saliente */
       FGastoImpreso=FGasto;
 
-      //Transporte de especies qu�micas.
+      //Transporte de especies quimicas.
       for(int j=0;j<FNumeroEspecies-2;j++){
         FFraccionMasicaEspecie[j]=FDeposito2->GetFraccionMasicaEspecie(j);
         FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -538,7 +538,7 @@ if(FIndependiente){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -596,20 +596,20 @@ if(FPresionDep1 > FPresionDep2){
 }
 
 
-     /* FGasto es el valor del massflow en modulo. As� lo necesitan recibir los dep�sitos, que adem�s conocen el signo por
+     /* FGasto es el valor del massflow en modulo. Asi lo necesitan recibir los depositos, que ademas conocen el signo por
         el que han de multiplicar este valor. */
      /* FGastoImpreso es el valor del massflow con el signo de acuerdo al convenio de WAMer. Es decir, massflow positivo en el
-        sentido del deposito con la union (dep�sito 1) al dep�sito al que llega el hilo (dep�sito 2). Este massflow es el que
+        sentido del deposito con la union (deposito 1) al deposito al que llega el hilo (deposito 2). Este massflow es el que
         se imprime como resultado y el que se pasa a los sensores. */
 
-if(FPresionDep1 > FPresionDep2){ /* Flujo del dep�sito 1 al dep�sito 2 */
+if(FPresionDep1 > FPresionDep2){ /* Flujo del deposito 1 al deposito 2 */
      FGasto=FCDEntrada*gasto_isen;
      FSentidoFlujoED1=-1; /* Saliente */
      FSentidoFlujoED2=1;  /* Entrante */
-     FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del dep�sito
-                                del que sale el hilo hacia el que tiene la uni�n */
+     FGastoImpreso=FGasto;  /* Al imprimir resultados se considera negativo si va del deposito
+                                del que sale el hilo hacia el que tiene la union */
 
-     //Transporte de especies qu�micas.
+     //Transporte de especies quimicas.
      for(int j=0;j<FNumeroEspecies-2;j++){
         FFraccionMasicaEspecie[j]=FDeposito1->GetFraccionMasicaEspecie(j);
         FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -617,13 +617,13 @@ if(FPresionDep1 > FPresionDep2){ /* Flujo del dep�sito 1 al dep�sito 2 */
      FFraccionMasicaEspecie[FNumeroEspecies-2]=1.-FraccionMasicaAcum;
      if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FDeposito1->GetFraccionMasicaEspecie(FNumeroEspecies-1);
 
-}else if(FPresionDep2 > FPresionDep1){                                  /* Flujo del dep�sito 2 al dep�sito 1 */
+}else if(FPresionDep2 > FPresionDep1){                                  /* Flujo del deposito 2 al deposito 1 */
      FGasto=FCDSalida*gasto_isen;
      FSentidoFlujoED1=1;   /* Entrante */
      FSentidoFlujoED2=-1;  /* Saliente */
      FGastoImpreso=-FGasto;
 
-     //Transporte de especies qu�micas.
+     //Transporte de especies quimicas.
      for(int j=0;j<FNumeroEspecies-2;j++){
         FFraccionMasicaEspecie[j]=FDeposito2->GetFraccionMasicaEspecie(j);
         FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -646,7 +646,7 @@ FTiempoDep2SUM=0.;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreDepositos::CalculaUED en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCUnionEntreDepositos::CalculaUED en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -668,7 +668,7 @@ for(int i=0;i<nvars;i++){
      fscanf(fich,"%d ",&var);
      switch(var){
           case 0: FResInstantUED.Massflow=true; break;
-          default : std::cout << "Resultados instant�neos en UED(BC) " << FNumeroCC << " no implementados " << std::endl;
+          default : std::cout << "Resultados instantaneos en UED(BC) " << FNumeroCC << " no implementados " << std::endl;
      }
 }
 fgetpos(fich, &filepos);

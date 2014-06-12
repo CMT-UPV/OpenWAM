@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
  |==========================|
  |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  | \\ |  X  | //  W ave     |
@@ -275,7 +275,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		FGastoCorregido = FGasto1 * sqrt(FTempTotalIn / Mapa2T->getTempRef()) /
 			(FPreTotalIn / Mapa2T->getPresionRef());
 
-		// Búsqueda de relacion de compresión en el compresor dado por el mapa
+		// Busqueda de relacion de compresion en el compresor dado por el mapa
 		if (FGastoCorregido < -0.07) {
 			RC = Mapa2T->EvaluaRCHermite(Mapa2T->getGastoBombeo());
 		}
@@ -297,7 +297,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			(RC - FRelacionCompresion) * 0.5 * fabs
 			(FVelocidadIn + FVelocidadOut) * FDeltaTiempo;
 
-		// Búsqueda del rendimiento en el compresor dado por el mapa
+		// Busqueda del rendimiento en el compresor dado por el mapa
 		if (FGastoCorregido < -0.07) {
 			RD = Mapa2T->EvaluaRendSplines(Mapa2T->getGastoBombeo());
 		}
@@ -552,7 +552,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 		FTemperatura10 = FTuboRot->getTemperaturaInicial() + 273. +
 			pow2(FTuboRot->getVelocidadMedia()) / 2. / Cp;
 
-		// Inicialización del transporte de especies químicas.
+		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FTuboRot->GetFraccionMasicaInicial(i);
@@ -807,17 +807,17 @@ void TCompTubos::SolveOutletBoundary(double &A, double &U) {
 	double Ad = pow(FPresionDep / Pref, 1. / FGamma4);
 	double rel_CCon_Entropia = *FCarCOut / *FAaOut;
 
-	if (rel_CCon_Entropia / Ad > 1 + 1e-10) { // Flujo entrante al depósito
+	if (rel_CCon_Entropia / Ad > 1 + 1e-10) { // Flujo entrante al deposito
 		InFlow(Ad, A, U);
 
 		double xaa2 = pow(*FAaOut, FGamma4);
 		FFlowOut = -FGamma * FAreaOut * pow(A, 1 / FGamma3) * U * 1e5 /
 			(ARef * xaa2);
-		// Massflow entrante al depósito negativo
+		// Massflow entrante al deposito negativo
 
 	}
 	else if (rel_CCon_Entropia / Ad < 1 - 1e-10)
-	{ // Flujo saliente del depósito
+	{ // Flujo saliente del deposito
 		OutFlow(Ad, A, U);
 
 		FFlowOut = -FAreaOut * FGamma * pow(Ad * ARef / FAsonidoDep, FGamma4)
@@ -885,7 +885,7 @@ void TCompTubos::OutFlow(double Ad, double &A, double &U) {
 
 	double error = FSA2(A2cr / ARef);
 
-	if (error < 0.) { // Salto de presiones supercrítico.
+	if (error < 0.) { // Salto de presiones supercritico.
 	}
 	else {
 		A = FindRoot(FSA2, A2cr / ARef, FAsonidoDep / ARef);
@@ -988,7 +988,7 @@ void TCompTubos::Initialize() {
 	FTemperatura10 = FTuboRot->getTemperaturaInicial() + 273. +
 		pow2(FTuboRot->getVelocidadMedia()) / 2. / Cp;
 
-	// Inicialización del transporte de especies químicas.
+	// Inicializacion del transporte de especies quimicas.
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 		FFraccionMasicaEspecie[i] = FTuboRot->GetFraccionMasicaInicial(i);

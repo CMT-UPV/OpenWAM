@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -32,7 +32,7 @@
 
 /**
  * @file TTC_HTMH.h
- * @author Francisco Jos� Arnau Mart�nez <farnau@mot.upv.es>
+ * @author Francisco Jose Arnau Martanez <farnau@mot.upv.es>
  * @version 0.1
  *
  * @section LICENSE
@@ -85,7 +85,7 @@ struct stTurbomachinery {
 	double AF; // Air fuel ratio
 	double Humidity; // Humidity
 	double MassFlow; // Mass flow (kg/s)
-	double IT_C; // Inlet temperature (�C)
+	double IT_C; // Inlet temperature (degC)
 	double IT_K; // Inlet temperature (K)
 	double IP; // Inlet pressure (bar)
 	double PR; // Pressure ratio (-)
@@ -282,7 +282,7 @@ private:
 
 	// Input oil data
 	double FO_MassFlow; // Oil mass flow (kg/s)
-	double FO_IT_C; // Oil inlet temperature (�C)
+	double FO_IT_C; // Oil inlet temperature (degC)
 	double FO_IT_K; // Oil inlet temperature (K)
 	double FO_OT_K; // Oil outlet temperature (K)
 	double FO_NT_K; // Oil mech. losses temperature (K)

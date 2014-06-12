@@ -41,14 +41,14 @@ private:
 TCondicionContorno **FCCEntrada;
 TCondicionContorno *FCCSalida;
 
-int FNumUnionDireccional; // Número de Unión Direccional.
+int FNumUnionDireccional; // Numero de Union Direccional.
 int *FNodoEntrada;        // Nodo de entrada(en cada una de las dos entradas.
 int FNodoSalida;          // Nodo de salida.
-int *FSentidoEntrada;     // Sentido del flujo en los nodos de entrada a la unión direccional.
+int *FSentidoEntrada;     // Sentido del flujo en los nodos de entrada a la union direccional.
 double *FCDSalidaInicial; // Valor del coeficiente de descarga de salida hasta la velocidad en que aparece el efecto direccional.
 double *FVelocidadCorte;  // Valor de la velocidad en el tubo i para la que aparece el efecto direccional sobre el tubo j.
 double *FVelocidadFin;    // Valor de la velocidad en el tubo i para la que se anula el coeficiente de descarga de salida en el tubo j.
-double *FVelocity;       // Velocity en los nodos de entrada a la unión direccional.
+double *FVelocity;       // Velocity en los nodos de entrada a la union direccional.
 double *FCoefA;
 double *FCoefB;
 

@@ -90,7 +90,7 @@ while(FNumeroTubosCC<1 && i<NumberOfPipes){
         i++;
 }
 
-// Inicialización del transporte de especies químicas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
     FFraccionMasicaEspecie[i]=FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
@@ -99,7 +99,7 @@ for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCExtremoAnecoico::AsignaTubos en la condición de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCExtremoAnecoico::AsignaTubos en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -116,7 +116,7 @@ double FraccionMasicaAcum=0.;
 
 *FCD=FTuboExtremo[0].Entropia;
 
-//Transporte de especies químicas.
+//Transporte de especies quimicas.
 for(int j=0;j<FNumeroEspecies-2;j++){
     FFraccionMasicaEspecie[j]=FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,j);
     FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -127,7 +127,7 @@ if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies-1]=FTuboExtremo[0].Pipe->GetF
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCExtremoAnecoico::CalculaCondicionesContorno en la condición de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCExtremoAnecoico::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }

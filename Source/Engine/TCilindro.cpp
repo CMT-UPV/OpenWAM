@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |===========================|
 | \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 |  \\ |  X  | //  W ave     |
@@ -399,7 +399,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 	try {
 		bool UnionAsignada;
 
-		/* Uni�n Cylinder-Pipe */
+		/* Union Cylinder-Pipe */
 
 		FNumeroUnionesAdm = 0;
 		FNumeroUnionesEsc = 0;
@@ -674,7 +674,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 			}
 		}
 
-		// Solo se usa el NIT de las v�lvulas de escape, pero como antes estaba como resultados por pantalla,
+		// Solo se usa el NIT de las valvulas de escape, pero como antes estaba como resultados por pantalla,
 		// lo dejo por lo que pueda pasar, y al menos la estructura ya existe.
 		FValvAdm = new stValvulasCilindro[FNumeroUnionesAdm];
 		for (int i = 0; i < FNumeroUnionesAdm; i++) {
@@ -2299,7 +2299,7 @@ void TCilindro::IniciaVariables() {
 		FMomentoAngular = 0.;
 		FAFR = 15.;
 
-		// Transporte de Especies Qu�micas
+		// Transporte de Especies Quimicas
 		FComposicionSaliente.resize(FMotor->getSpeciesNumber() - FIntEGR, 0.);
 		FFraccionMasicaEspecie.resize(FMotor->getSpeciesNumber() - FIntEGR, 0.);
 		FFraccionComienzoCicloCerrado.resize
@@ -2566,10 +2566,10 @@ void TCilindro::InicioFinCombustion() {
 
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
 				if (FMotor->getLeyQuemadoBD()[i].Wiebes.size() == 4) {
-					k = 1; // Cuando hay 4 wiebes(piloto,premezcla,difusi�n y cola)
+					k = 1; // Cuando hay 4 wiebes(piloto,premezcla,difusion y cola)
 				}
 				else {
-					k = 0; // Cuando hay 3 wiebes(premezcla,difusi�n y cola)
+					k = 0; // Cuando hay 3 wiebes(premezcla,difusion y cola)
 				}
 				distReg = pow2((FRegInt - FMotor->getLeyQuemadoBD()[i].n)
 					/ FMotor->getLQRegMax());
@@ -2611,7 +2611,7 @@ void TCilindro::InicioFinCombustion() {
 			// Media ponderada
 			Ang01 = Numerador / Denominador;
 
-			// Inicializacion de los par�metros.
+			// Inicializacion de los parametros.
 			FIniComb = Ang01;
 			FFinComb = Ang01;
 
@@ -2621,10 +2621,10 @@ void TCilindro::InicioFinCombustion() {
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
 
 				if (FMotor->getLeyQuemadoBD()[i].Wiebes.size() == 4) {
-					k = 1; // Cuando hay 4 wiebes(piloto,premezcla,difusi�n y cola)
+					k = 1; // Cuando hay 4 wiebes(piloto,premezcla,difusion y cola)
 				}
 				else {
-					k = 0; // Cuando hay 3 wiebes(premezcla,difusi�n y cola)
+					k = 0; // Cuando hay 3 wiebes(premezcla,difusion y cola)
 				}
 				FAngDesplazado[i] = Ang01 - FMotor->getLeyQuemadoBD()
 					[i].Wiebes[k].Alpha0;
@@ -2869,7 +2869,7 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
 			std::cout <<
-				"WARNING: Condiciones de c�lculo inestables para la trans. de calor en el cilindro: " << FNumeroCilindro << std::endl;
+				"WARNING: Condiciones de calculo inestables para la trans. de calor en el cilindro: " << FNumeroCilindro << std::endl;
 		}
 
 		if (FMotor->getCalculoPared() == nmConInercia && FMotor->getTheta()
@@ -2942,7 +2942,7 @@ void TCilindro::CalculaTemperaturasPared() {
 		// PISTON                                           //
 		// ---------------------------------------------------//
 
-		// SE HAN COMENTADO LOS CALCULOS IDENTICOS AL CILINDRO PARA AHORRAR TIEMPO DE C�LCULO
+		// SE HAN COMENTADO LOS CALCULOS IDENTICOS AL CILINDRO PARA AHORRAR TIEMPO DE CALCULO
 		// ViscGas=3.27e-7;
 		// ViscPared=1.8e-7;
 		// Vel=5.64268e-7*FMotor->PutRegimen(5.64268e-7*FMotor->getRegimen()/60.*FMotor->getParPotMax()/FMotor->getGeometria().NCilin/pow(FMotor->getGeometria().Carrera,2.));
@@ -2965,7 +2965,7 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
 			std::cout <<
-				"WARNING: Condiciones de c�lculo inestables para la trans. de calor del piston en el cilindro: " << FNumeroCilindro << std::endl;
+				"WARNING: Condiciones de calculo inestables para la trans. de calor del piston en el cilindro: " << FNumeroCilindro << std::endl;
 		}
 
 		if (FMotor->getCalculoPared() == nmConInercia && FMotor->getTheta()
@@ -3036,7 +3036,7 @@ void TCilindro::CalculaTemperaturasPared() {
 		// CULATA                                           //
 		// ---------------------------------------------------//
 
-		// SE HAN COMENTADO LOS CALCULOS IDENTICOS AL CILINDRO PARA AHORRAR TIEMPO DE C�LCULO
+		// SE HAN COMENTADO LOS CALCULOS IDENTICOS AL CILINDRO PARA AHORRAR TIEMPO DE CALCULO
 		// ViscGas=3.27e-7;
 		// ViscPared=1.8e-7;
 		// Cond=0.67;
@@ -3062,7 +3062,7 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
 			std::cout <<
-				"WARNING: Condiciones de c�lculo inestables para la trans. de calor de la culata en el cilindro: " << FNumeroCilindro << std::endl;
+				"WARNING: Condiciones de calculo inestables para la trans. de calor de la culata en el cilindro: " << FNumeroCilindro << std::endl;
 		}
 
 		if (FMotor->getCalculoPared() == nmConInercia && FMotor->getTheta()
@@ -3275,9 +3275,9 @@ void TCilindro::DefineCombustion() {
 			FCalcComb = nmACT;
 			if (FModComb) {
 				std::cout <<
-					"WARNING: Se pretende calcular la combuti�n mediante ACT y mediante" << std::endl;
+					"WARNING: Se pretende calcular la combution mediante ACT y mediante" << std::endl;
 				std::cout <<
-					"         c�lculo externo. Se calcular� �nicamente con ACT."
+					"         calculo externo. Se calculara unicamente con ACT."
 					<< std::endl << std::endl;
 			}
 		}
@@ -3395,7 +3395,7 @@ void TCilindro::CalculoNIT() {
 			FValvEsc[j].NIT = FNIT*dynamic_cast<TCCCilindro*>(FCCValvulaEsc[j])
 				->getMassflow();
 			FValvEsc[j].NITSUM += FValvEsc[j].NIT * FDeltaT;
-			// NIT medio en cada v�lvula
+			// NIT medio en cada valvula
 		}
 		FNIT = FNIT * massflow;
 
@@ -3612,7 +3612,7 @@ double TCilindro::GetAireFresco() {
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TCilindro::GetAireFresco en la condici�n de contorno: " <<
+			"ERROR: TCilindro::GetAireFresco en la condicion de contorno: " <<
 			FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -3627,7 +3627,7 @@ double TCilindro::GetComposicionSaliente(int i) {
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TCilindro::GetComposicionSaliente en la condici�n de contorno: "
+			"ERROR: TCilindro::GetComposicionSaliente en la condicion de contorno: "
 			<< FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());

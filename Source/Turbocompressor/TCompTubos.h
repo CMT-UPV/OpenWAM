@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -81,10 +81,10 @@ private:
 	TTubo *FTuboRot;
 	TTubo *FTuboEst;
 
-	int FPosicionRotor; // Posici�n en el vector estructura TuboExtremo del tubo del rotor
-	int FPosicionEstator; // Posici�n en el vector estructura TuboExtremo del tubo del estator
-	int FIndiceCCRotor; // Posici�n del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-	int FIndiceCCStator; // Posici�n del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+	int FPosicionRotor; // Posicion en el vector estructura TuboExtremo del tubo del rotor
+	int FPosicionEstator; // Posicion en el vector estructura TuboExtremo del tubo del estator
+	int FIndiceCCRotor; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+	int FIndiceCCStator; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
 
 	double FPresionIn; // Pressure a la entrada del compresor (p_in)
 	double FAsonidoIn; // Velocity del sonido a la entrada del compresor (a_in)
@@ -124,8 +124,8 @@ private:
 	int FSentidoFlujo; // Indicador del sentido del flujo (svc)
 	bool FPrimerCiclo;
 	bool FCheckSentido;
-	int FContadorCheckSentido; // Cuenta el n�mero de cambios de sentido en el mismo instante.
-	// Si vale 2 se pasa a calcular las caracter�sticas como extremo cerrado.
+	int FContadorCheckSentido; // Cuenta el numero de cambios de sentido en el mismo instante.
+	// Si vale 2 se pasa a calcular las caracteristicas como extremo cerrado.
 
 	double *FCarCIn;
 	double *FCarDIn;

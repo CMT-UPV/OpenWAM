@@ -47,7 +47,7 @@ private:
 	int FNumeroCompresor; // Numero del compresor al que pertenece el mapa.
 	double FPresionRef; // Pressure de referencia
 	double FTempRef; // Temperature de referencia
-	double FRegMin; // Curva de m�nimo regimen
+	double FRegMin; // Curva de minimo regimen
 	double FRegMax; // Curva de maximo regimen
 	double FRegComp; // Regimen current
 	double FIncReg; // Incremento de regimen entre curvas
@@ -83,7 +83,7 @@ private:
 	double *FCoefcX;
 	double *FCoefdX;
 
-	double FRendCurvaBombeo; // Varialbes para la creaci�n de las curvas de rendimiento con el massflow adimensionalizado
+	double FRendCurvaBombeo; // Varialbes para la creacion de las curvas de rendimiento con el massflow adimensionalizado
 	double FRendGastoMaximo;
 	double **FGastoAdim;
 	double **FRendAdim;

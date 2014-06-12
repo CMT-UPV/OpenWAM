@@ -38,15 +38,15 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 class TCCExtremoInyeccion : public TCondicionContorno {
 private:
 
-	int FNodoFin; // Nodo en el extremo del tubo que está en la condición de contorno.
-	int FIndiceCC; // Posición del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-	double *FCC; // Característica conocida del tubo.
-	double *FCD; // Característica desconocida del tubo.
-	double FSeccion; // Diámetro del tubo en la condición de contorno.
+	int FNodoFin; // Nodo en el extremo del tubo que esta en la condicion de contorno.
+	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+	double *FCC; // Caracteristica conocida del tubo.
+	double *FCD; // Caracteristica desconocida del tubo.
+	double FSeccion; // Diametro del tubo en la condicion de contorno.
 
 	double FAngap;
 
-	double FTheta; // Ángulo del ciclo.
+	double FTheta; // Angulo del ciclo.
 	double FVelocity;
 	double FSonido;
 	double FPressure;

@@ -110,8 +110,8 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			i++;
 		}
 
-		/* Ahora al tubo de mayor di�metro se le asignar� la posici�n 1 de los vectores
-		y al de menor di�metro la posici�n 0 */
+		/* Ahora al tubo de mayor diametro se le asignara la posicion 1 de los vectores
+		y al de menor diametro la posicion 0 */
 		if (Pipe[FTubo[0]]->GetDiametro(FNodoFin[0]) >= Pipe[FTubo[1]]->GetDiametro(FNodoFin[1])) {
 			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
@@ -190,10 +190,10 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 			}
 		}
 
-		// Inicializaci�n del transporte de especies qu�micas.
+		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-			// Se elige como composici�n inicial la del tubo 0. Es arbitrario.
+			// Se elige como composicion inicial la del tubo 0. Es arbitrario.
 			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
@@ -201,14 +201,14 @@ void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int Nu
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%lf %lf", &FEspesor, &FConductividad);
-		/* Coeficiente de p�rdidas con signo positivo */
+		/* Coeficiente de perdidas con signo positivo */
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -223,7 +223,7 @@ void TCCUnionEntreTubos::TuboCalculandose(int TuboActual) {
 		FTuboActual = TuboActual;
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -298,8 +298,8 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 				*FCD[0] = vel_sonido_Out - FGamma3 * vel_Out;
 			}
 
-			// Transporte de Especies Qu�micas
-			// Se actualiza todos los instantes de c�lculo.
+			// Transporte de Especies Quimicas
+			// Se actualiza todos los instantes de calculo.
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC[0],
 					j);
@@ -346,8 +346,8 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 				*FCD[1] = vel_sonido_Out - FGamma3 * vel_Out;
 			}
 
-			// Transporte de Especies Qu�micas
-			// Se actualiza todos los instantes de c�lculo (al igual que la temperatura en la BC).
+			// Transporte de Especies Quimicas
+			// Se actualiza todos los instantes de calculo (al igual que la temperatura en la BC).
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[1].Pipe->GetFraccionMasicaCC(FIndiceCC[1],
 					j);
@@ -371,13 +371,13 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 				*FCD[0] = *FCC[0];
 				*FCD[1] = *FCC[1];
 			}
-			// La composici�n se mantiene, al estar el flujo parado.
+			// La composicion se mantiene, al estar el flujo parado.
 
 		}
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TCCUnionEntreTubos::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC << std::endl;
+			"ERROR: TCCUnionEntreTubos::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
@@ -398,7 +398,7 @@ double xx, xx1, xx2, xx3, exd, exi,ex1,ex2,xxx, xu1p, ytty, xxxx;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreTubos::Estrechamiento en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCUnionEntreTubos::Estrechamiento en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -417,7 +417,7 @@ try
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCUnionEntreTubos::Ensanchamiento en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCUnionEntreTubos::Ensanchamiento en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }

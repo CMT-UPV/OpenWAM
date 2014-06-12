@@ -107,7 +107,7 @@ fsetpos(fich, &filepos);
 fscanf(fich,"%lf %lf %lf ",&FGastoIny,&FTemperaturaIny,&FInicioIny);
 fscanf(fich,"%lf ",&FDuracionIny);
 
-// Inicializaci�n del transporte de especies qu�micas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 FComposicion=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-1;i++){
@@ -125,7 +125,7 @@ if(FHayEGR){
       else FComposicion[FNumeroEspecies-1]=0.;}
     }
 if(fracciontotal!=1.){
-   std::cout << "ERROR: La fracci�n m�sica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC <<std::endl;
+   std::cout << "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC <<std::endl;
    throw Exception(" ");
 }
 
@@ -136,7 +136,7 @@ fclose(fich);
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCExtremoInyeccion::LeeExtremoInyeccion en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCExtremoInyeccion::LeeExtremoInyeccion en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -159,7 +159,7 @@ FAngap=ang0-floor(ang0/360.)*360.;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCExtremoInyeccion::ObtencionValoresInstantaneos en la condici�n de contorno: " << FNumeroCC  << std::endl;
+std::cout << "ERROR: TCCExtremoInyeccion::ObtencionValoresInstantaneos en la condicion de contorno: " << FNumeroCC  << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -183,25 +183,25 @@ FGamma5=Gamma5(FGamma);
 if(FAngap<FDuracionIny && FTheta>720.){
         FSonido=sqrt(FGamma*FRMezcla*(FTemperaturaIny+273.))/ARef;
         FVelocity=(FSonido-*FCC)/FGamma3;
-        FPressure=FGastoIny*FRMezcla*(FTemperaturaIny+273.)/(FVelocity*ARef*FSeccion*1e5);  // Cociente entre presi�n y la presi�n de referencia(1e5);
+        FPressure=FGastoIny*FRMezcla*(FTemperaturaIny+273.)/(FVelocity*ARef*FSeccion*1e5);  // Cociente entre presion y la presion de referencia(1e5);
         if(FPressure<0.0){
-           printf("ERROR: TCCExtremoInyeccion::CalculaCondicionContorno Velocity negativa en inyector %lf,Theta= %lf\n en la condici�n de contorno: %d",FVelocity*ARef,FTheta,FNumeroCC);
-           printf("       TCCExtremoInyeccion::CalculaCondicionContorno Presi�n negativa en inyector %lf\n",FPressure);
+           printf("ERROR: TCCExtremoInyeccion::CalculaCondicionContorno Velocity negativa en inyector %lf,Theta= %lf\n en la condicion de contorno: %d",FVelocity*ARef,FTheta,FNumeroCC);
+           printf("       TCCExtremoInyeccion::CalculaCondicionContorno Presion negativa en inyector %lf\n",FPressure);
            throw Exception("");
         }
         *FCD=FSonido+FGamma3*FVelocity;
         FTuboExtremo[0].Entropia=FSonido/pow(FPressure,FGamma5);
 
-        //Transporte de especies qu�micas.
+        //Transporte de especies quimicas.
         for(int j=0;j<FNumeroEspecies-FIntEGR;j++){
            FFraccionMasicaEspecie[j]=FComposicion[j];
         }
 
 }else{
-   // No hay inyecci�n,se comporta como un extremo cerrado.
+   // No hay inyeccion,se comporta como un extremo cerrado.
    *FCD=*FCC;
 
-   //Transporte de especies qu�micas.
+   //Transporte de especies quimicas.
    for(int j=0;j<FNumeroEspecies-2;j++){
       FFraccionMasicaEspecie[j]=FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,j);
       FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -213,7 +213,7 @@ if(FAngap<FDuracionIny && FTheta>720.){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCExtremoInyeccion::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCExtremoInyeccion::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -232,7 +232,7 @@ throw Exception(N.Message.c_str());
 //}
 //catch(Exception &N)
 //{
-//std::cout << "ERROR: TCCExtremoInyeccion::PutIniIny en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+//std::cout << "ERROR: TCCExtremoInyeccion::PutIniIny en la condicion de contorno: " << FNumeroCC <<  std::endl;
 //std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 //throw Exception(N.Message.c_str());
 //}
@@ -251,7 +251,7 @@ throw Exception(N.Message.c_str());
 //}
 //catch(Exception &N)
 //{
-//std::cout << "ERROR: TCCExtremoInyeccion::PutDuracionIny en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+//std::cout << "ERROR: TCCExtremoInyeccion::PutDuracionIny en la condicion de contorno: " << FNumeroCC <<  std::endl;
 //std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 //throw Exception(N.Message.c_str());
 //}
