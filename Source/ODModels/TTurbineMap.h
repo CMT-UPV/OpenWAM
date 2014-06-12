@@ -35,58 +35,60 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 class TTurbineMap {
 private:
 
-	double FDiamIN;
-	double FDiamOUT;
-	int FNumPositions;
+    double FDiamIN;
+    double FDiamOUT;
+    int FNumPositions;
 
-	std::vector<TTurbPosition>FTurbPosition;
+    std::vector<TTurbPosition>FTurbPosition;
 
-	bool FFixedTurbine;
+    bool FFixedTurbine;
 
-	bool FIsAdiabatic;
-	double FTempMeasure;
+    bool FIsAdiabatic;
+    double FTempMeasure;
 
-	double FStatorES;
-	double FRotorES;
-	double FEffTurb;
+    double FStatorES;
+    double FRotorES;
+    double FEffTurb;
 
-	dVector FPowerMin;
-	dVector FPowerMax;
+    dVector FPowerMin;
+    dVector FPowerMax;
 
 public:
-	TTurbineMap();
+    TTurbineMap();
 
-	~TTurbineMap();
+    ~TTurbineMap();
 
-	void LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double Diam3,
-		double Diam4, double CriticalAngle);
+    void LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double Diam3,
+                        double Diam4, double CriticalAngle);
 
-	void CurrentEffectiveSection(double n, double er, double rack,
-		double T10T00);
+    void LoadTurbineMapXML(xml_node node_turb);
 
-	double StatorEF() {
-		return FStatorES;
-	};
+    void CurrentEffectiveSection(double n, double er, double rack,
+                                 double T10T00);
 
-	double RotorEF() {
-		return FRotorES;
-	};
+    double StatorEF() {
+        return FStatorES;
+    };
 
-	double EffTurb() {
-		return FEffTurb;
-	};
+    double RotorEF() {
+        return FRotorES;
+    };
 
-	double getTempMeasure() {
-		return FTempMeasure;
-	};
+    double EffTurb() {
+        return FEffTurb;
+    };
 
-	void PrintFinalMap(FILE *fich);
+    double getTempMeasure() {
+        return FTempMeasure;
+    };
 
-	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinC);
+    void PrintFinalMap(FILE *fich);
 
-	double TempMeasure() {
-		return FTempMeasure;
-	};
+    void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinC);
+
+    double TempMeasure() {
+        return FTempMeasure;
+    };
 
 };
 // ---------------------------------------------------------------------------

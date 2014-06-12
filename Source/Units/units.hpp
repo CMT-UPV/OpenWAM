@@ -82,6 +82,18 @@ double to_degrees(const double& x, const std::string& unit);
 double to_kg_s(const double& x, const std::string& unit);
 
 /**
+ * @brief Converts a given reduced mass flow from some unit to kg / s sqrt(K)/MPa.
+ *
+ * Converts a given reduced mass flow rate from some unit to kg / s sqrt(K)/MPa.
+ *
+ * @param x reduced mass flow rate to convert.
+ * @param unit Original unit.
+ * @return The mass flow in kilograms per second square root of kelvin per Megapascals. [kg / s sqrt(K)/MPa]
+ */
+double to_kg_s_sqrt_K_MPa(const double & x, const std::string& unit);
+
+
+/**
  * @brief Converts a given massfrom some unit to kg.
  *
  * Converts a given mass flow from some unit to kg.
@@ -167,6 +179,18 @@ double to_rpm(const double& x, const std::string& unit);
 
 
 /**
+ * @brief Converts a given reduced speed from some unit to rps / sqrt(K).
+ * 
+ * Converts a given reduced speed from some unit to revolutions
+ * per minute per second per square root of kelvin.
+ * 
+ * @param x Rotational speed to convert.
+ * @param unit Original unit.
+ * @return The rotational speed in revolutions per second per square root of kelvin. [rps / sqrt(K)]
+ */
+double to_rps_sqrt_K(const double& x, const std::string& unit);
+
+/**
  * @brief Converts a given time from some unit to seconds.
  * 
  * Converts a given time from some unit to seconds.
@@ -188,6 +212,17 @@ double to_seconds(const double& x, const std::string& unit);
  * @return The area in square metres. [m ** 2]
  */
 double to_square_metres(const double& x, const std::string& unit);
+
+/**
+ * @brief Converts a given area from some unit to square metres.
+ *
+ * Converts a given area from some unit to square metres.
+ *
+ * @param x Area to convert.
+ * @param unit Original unit.
+ * @return The area in square metres. [m ** 3]
+ */
+double to_cubic_metres(const double& x, const std::string& unit);
 
 
 /**

@@ -38,68 +38,65 @@ class TTurbPosition
 {
 private:
 
-	double FPosition;
-	double FAngle;
+    double FPosition;
+    double FAngle;
 
-	double FStatorSec;
-	double FRotorSec;
+    double FStatorSec;
+    double FRotorSec;
 
-	double FEfficiency;
+    double FEfficiency;
 
-	double FSpeedMin;
-	double FSpeedMax;
+    double FSpeedMin;
+    double FSpeedMax;
 
-	double FPowerMin;
-	double FPowerMax;
+    double FPowerMin;
+    double FPowerMax;
 
-	int FLines;
-	
-	std::vector<TIsoSpeedLine> FSpeedLine;
-	std::vector<double> FERMax;
-	std::vector<double> h_FERMax;
-	std::vector<double> FERMin;
-	std::vector<double> h_FERMin;
-	std::vector<double> FSpeed;
+    int FLines;
 
-
-
-
-
+    std::vector<TIsoSpeedLine> FSpeedLine;
+    std::vector<double> FERMax;
+    std::vector<double> h_FERMax;
+    std::vector<double> FERMin;
+    std::vector<double> h_FERMin;
+    std::vector<double> FSpeed;
 
 public:
-	
 
-	TTurbPosition();
-	~TTurbPosition();
 
-	void ReadTurbinPosition(FILE *Input,int rows,double pos, double ang);
+    TTurbPosition();
+    ~TTurbPosition();
 
-	void EffectiveArea(double Area,bool CalculaGR,double Diam1,double
-		Diam2,double Diam3,double n_limit);
+    void ReadTurbinPosition(FILE *Input,int rows,double pos, double ang);
 
-	void CalculatePower(double Tin);
+    void ReadTurbinPositionXML(xml_node node_map);
 
-	void PutPosition(double Pos);
+    void EffectiveArea(double Area,bool CalculaGR,double Diam1,double
+                       Diam2,double Diam3,double n_limit);
 
-	void InterpolaPosicion(double n,double er);
+    void CalculatePower(double Tin);
 
-	void SearchMapLimits();
+    void PutPosition(double Pos);
 
-	double StatorSec()/*{return FStatorSec;}*/;
+    void InterpolaPosicion(double n,double er);
 
-	double RotorSec()/*{return FRotorSec;}*/;
+    void SearchMapLimits();
 
-	double Rack()/*{return FPosition;}*/;
+    double StatorSec()/*{return FStatorSec;}*/;
 
-	double Efficiency()/*{return FEfficiency;}*/;
+    double RotorSec()/*{return FRotorSec;}*/;
 
-	void PrintTurbinePosition(FILE *Fich);
+    double Rack()/*{return FPosition;}*/;
 
-	double MinPowerLimit(double rtc);
+    double Efficiency()/*{return FEfficiency;}*/;
 
-	double MaxPowerLimit(double rtc);
+    void PrintTurbinePosition(FILE *Fich);
 
-	void AdiabaticEfficiency(TTC_HTM *HTM, double TinT, double TinC);
+    double MinPowerLimit(double rtc);
+
+    double MaxPowerLimit(double rtc);
+
+    void AdiabaticEfficiency(TTC_HTM *HTM, double TinT, double TinC);
 
 };
 

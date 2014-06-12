@@ -300,18 +300,18 @@ void TValvula4T::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayM
 
 		const char_t* Parameter;
 
-		for (xml_node node_ctrl = GetNodeChild(node_4svalve, "V4s:Controller"); node_ctrl;
-			node_ctrl = node_ctrl.next_sibling("V4s:Controller")) {
+		for (xml_node node_ctrl = GetNodeChild(node_4svalve, "Actuator"); node_ctrl;
+			node_ctrl = node_ctrl.next_sibling("Actuator")) {
 
 			Parameter = node_ctrl.attribute("Parameter").value();
 			if (Parameter == "Lift") {
-				FVVTLiftCtrlID = GetAttributeAsInt(node_ctrl, "Ctrl_ID");
+				FVVTLiftCtrlID = GetAttributeAsInt(node_ctrl, "CtrlID");
 			}
 			else if (Parameter == "Timing") {
-				FVVTTimingCtrlID = GetAttributeAsInt(node_ctrl, "Ctrl_ID");
+				FVVTTimingCtrlID = GetAttributeAsInt(node_ctrl, "CtrlID");
 			}
 			else if (Parameter == "Duration") {
-				FVVTDurationCtrlID = GetAttributeAsInt(node_ctrl, "Ctrl_ID");
+				FVVTDurationCtrlID = GetAttributeAsInt(node_ctrl, "CtrlID");
 			}
 
 		}

@@ -102,9 +102,9 @@ void TEstatorTurbina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FNumeroOrden = norden;
 
 		xml_node node_st = GetNodeChild(node_valve, "Val:Stator");
-		FCDEInicial = GetAttributeAsDouble(node_st, "CDin");
-		FCDSInicial = GetAttributeAsDouble(node_st, "CDout");
-		FDiametroRef = GetXMLLenght(node_st, "RefDiameter");
+		FCDEInicial = GetAttributeAsDouble(node_st, "DCin");
+		FCDSInicial = GetAttributeAsDouble(node_st, "DCout");
+		FDiametroRef = GetXMLLength(node_st, "RefDiameter");
 
 	} catch (Exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales StatorTurbine" << std::endl;

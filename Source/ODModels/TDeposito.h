@@ -1,37 +1,36 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ | \\ |  X  | //  W ave     |
+ |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ |   \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TDepositoH
 #define TDepositoH
 #include <iostream>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 //#include <cmath>
 #include <vector>
@@ -76,8 +75,8 @@ protected:
 	int FNumeroUnionesED;
 
 	// La crea pedro. la otra desaparecera
-	std::vector<int>FUnionED;
-	std::vector<int>FSentidoUED;
+	std::vector<int> FUnionED;
+	std::vector<int> FSentidoUED;
 
 	bool FHayCompresor;
 	int FNumeroCompresor;
@@ -100,7 +99,7 @@ protected:
 	double FTime;
 	// bool FUpdated;
 
-	// Salida gr?fica
+	// Salida grafica
 
 	int FNumResMed;
 
@@ -146,8 +145,8 @@ protected:
 
 	// void PutNUniones(int value);
 
-	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD,
-		double MasaD, double Gamma);
+	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE,
+			double ASonidoD, double MasaD, double Gamma);
 
 	// void PutCalculadoPaso(bool valor);
 
@@ -156,7 +155,7 @@ public:
 	// VARIABLES PUBLICAS
 	// ---------------------------------------------------------------------------
 
- 	int FNumeroUniones;
+	int FNumeroUniones;
 
 	void PutNUniones(int value);
 
@@ -167,31 +166,38 @@ public:
 	// Numero de uniones total del deposito.
 	int getNumeroDeposito() {
 		return FNumeroDeposito;
-	};
+	}
+	;
 
 	int getNUnionesED() {
 		return FNumeroUnionesED;
-	};
+	}
+	;
 
 	double getMasa() {
 		return FMasa;
-	};
+	}
+	;
 
 	double getPressure() {
 		return FPressure;
-	};
+	}
+	;
 
 	double getPresionIs() {
 		return FPresionIsen;
-	};
+	}
+	;
 
 	double getSpeedsound() {
 		return FAsonido;
-	};
+	}
+	;
 
 	double getTemperature() {
 		return FTemperature;
-	};
+	}
+	;
 
 	TCondicionContorno* GetCCUnionEntreDep(int i);
 
@@ -202,15 +208,18 @@ public:
 	// ---------------------------------------------------------------------------
 	double getR() {
 		return FRMezcla;
-	};
+	}
+	;
 
 	double getGamma() {
 		return FGamma;
-	};
+	}
+	;
 
 	double getTiempo() {
 		return FTime;
-	};
+	}
+	;
 
 	void PutUnion(int indice, int valor); // Asigna los numeros de las uniones a depositos del deposito
 
@@ -222,7 +231,8 @@ public:
 
 	nmTipoDeposito getTipoDeposito() {
 		return FTipoDeposito;
-	};
+	}
+	;
 
 	bool FUpdated;
 
@@ -258,8 +268,9 @@ public:
 	// FUNCIONES PUBLICAS
 	// ---------------------------------------------------------------------------
 
-	TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel,
-		int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TDeposito(int i, nmTipoDeposito TipoDeposito,
+			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TDeposito() = 0;
 
@@ -267,7 +278,8 @@ public:
 
 	void ReadInstantaneousResultsDep(char *FileWAM, fpos_t &filepos);
 
-	void HeaderInstantaneousResultsDep(std::stringstream& insoutput, stEspecies *DatosEspecies);
+	void HeaderInstantaneousResultsDep(std::stringstream& insoutput,
+			stEspecies *DatosEspecies);
 
 	void ImprimeResultadosInstantaneosDep(std::stringstream& insoutput);
 
@@ -275,7 +287,8 @@ public:
 
 	void ReadAverageResultsDep(char *FileWAM, fpos_t &filepos);
 
-	void HeaderAverageResultsDep(std::stringstream& medoutput, stEspecies *DatosEspecies);
+	void HeaderAverageResultsDep(std::stringstream& medoutput,
+			stEspecies *DatosEspecies);
 
 	void ImprimeResultadosMediosDep(std::stringstream& medoutput);
 
@@ -295,15 +308,18 @@ public:
 
 	void LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos);
 
+	void LeeDatosGeneralesDepositosXML(xml_node node_plenum);
+
 	void ActualizaTiempo(double TiempoActual);
 
 	virtual void UpdateProperties0DModel(double Time) {
-	};
+	}
+	;
 
 	void PutHeatPower(double Power) {
 		FHeatPower = Power;
-	};
-
+	}
+	;
 
 };
 

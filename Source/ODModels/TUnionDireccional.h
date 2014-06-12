@@ -38,42 +38,44 @@ private:
 
 // Variable privadas
 
-TCondicionContorno **FCCEntrada;
-TCondicionContorno *FCCSalida;
+    TCondicionContorno **FCCEntrada;
+    TCondicionContorno *FCCSalida;
 
-int FNumUnionDireccional; // Numero de Union Direccional.
-int *FNodoEntrada;        // Nodo de entrada(en cada una de las dos entradas.
-int FNodoSalida;          // Nodo de salida.
-int *FSentidoEntrada;     // Sentido del flujo en los nodos de entrada a la union direccional.
-double *FCDSalidaInicial; // Valor del coeficiente de descarga de salida hasta la velocidad en que aparece el efecto direccional.
-double *FVelocidadCorte;  // Valor de la velocidad en el tubo i para la que aparece el efecto direccional sobre el tubo j.
-double *FVelocidadFin;    // Valor de la velocidad en el tubo i para la que se anula el coeficiente de descarga de salida en el tubo j.
-double *FVelocity;       // Velocity en los nodos de entrada a la union direccional.
-double *FCoefA;
-double *FCoefB;
+    int FNumUnionDireccional; // Numero de Union Direccional.
+    int *FNodoEntrada;        // Nodo de entrada(en cada una de las dos entradas.
+    int FNodoSalida;          // Nodo de salida.
+    int *FSentidoEntrada;     // Sentido del flujo en los nodos de entrada a la union direccional.
+    double *FCDSalidaInicial; // Valor del coeficiente de descarga de salida hasta la velocidad en que aparece el efecto direccional.
+    double *FVelocidadCorte;  // Valor de la velocidad en el tubo i para la que aparece el efecto direccional sobre el tubo j.
+    double *FVelocidadFin;    // Valor de la velocidad en el tubo i para la que se anula el coeficiente de descarga de salida en el tubo j.
+    double *FVelocity;       // Velocity en los nodos de entrada a la union direccional.
+    double *FCoefA;
+    double *FCoefB;
 
 protected:
 
 public:
 
-     //---------------------------------------------------------------------------
-     // FUNCIONES PUBLICAS
-     //---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
+    // FUNCIONES PUBLICAS
+    //---------------------------------------------------------------------------
 
-     TUnionDireccional(int i,int NUnionDireccional,nmTipoCalculoEspecies SpeciesModel,
-                                  int numeroespecies,nmCalculoGamma GammaCalculation,bool ThereIsEGR);
+    TUnionDireccional(int i,int NUnionDireccional,nmTipoCalculoEspecies SpeciesModel,
+                      int numeroespecies,nmCalculoGamma GammaCalculation,bool ThereIsEGR);
 
-     ~TUnionDireccional();
+    ~TUnionDireccional();
 
-     void ActualizaPropiedades(double TimeCalculo);
+    void ActualizaPropiedades(double TimeCalculo);
 
-     void AsignaCCUnionDireccional();
+    void AsignaCCUnionDireccional();
 
-     void LeeDatosUnionDireccional(char *FileWAM,fpos_t &filepos);
+    void LeeDatosUnionDireccional(char *FileWAM,fpos_t &filepos);
 
-	 void CalculoUnionDireccional();
+    void LeeDatosUnionDireccionalXML(xml_node node);
 
-	 void UpdateProperties0DModel(double TimeCalculo);
+    void CalculoUnionDireccional();
+
+    void UpdateProperties0DModel(double TimeCalculo);
 
 
 };

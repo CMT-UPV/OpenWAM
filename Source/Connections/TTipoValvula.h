@@ -33,7 +33,7 @@ License
 
 #include <cstdio>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 #include <iostream>
 
@@ -43,8 +43,9 @@ License
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-enum nmTipoValvula{nmCDFijo=0,nmValvula4T=1,nmLamina=2,nmDiscoRotativo=3,nmLumbrera2T=4,
-	 nmValvulaContr=5,nmWasteGate=6,nmStator=7,nmRotor=8,nmCalcExtern=9,nmMariposa=10};
+enum nmTipoValvula {nmCDFijo=0,nmValvula4T=1,nmLamina=2,nmDiscoRotativo=3,nmLumbrera2T=4,
+                    nmValvulaContr=5,nmWasteGate=6,nmStator=7,nmRotor=8,nmCalcExtern=9,nmMariposa=10
+                   };
 
 class TTubo;
 class TCilindro;
@@ -58,56 +59,56 @@ private:
 
 protected:
 
-bool FToCylinder;
+    bool FToCylinder;
 
-nmTipoValvula FTipoValvula;
+    nmTipoValvula FTipoValvula;
 
-int FNumeroOrden;
+    int FNumeroOrden;
 
-double FCDTubVol;
+    double FCDTubVol;
 //double FCDVolTub;
-double FCTorb;
+    double FCTorb;
 //double FCRecuperacion;
 
-int FTubo;
-int FNodo;
-int FTipo;
-int FValvula;
-int FSentido;
+    int FTubo;
+    int FNodo;
+    int FTipo;
+    int FValvula;
+    int FSentido;
 
-double FDiamTubo;
-double FDiamRef;
-double FSectionRatio;
+    double FDiamTubo;
+    double FDiamRef;
+    double FSectionRatio;
 
-bool FGraficasINS;
-bool FGraficaCDEINS;
-bool FGraficaCDSINS;
+    bool FGraficasINS;
+    bool FGraficaCDEINS;
+    bool FGraficaCDSINS;
 
-bool FGraficasMED;
-bool FGraficaCDEMED;
-bool FGraficaCDSMED;
+    bool FGraficasMED;
+    bool FGraficaCDEMED;
+    bool FGraficaCDSMED;
 
-double FSumCDE;
-double FSumCDS;
-double FCDEMedio;
-double FCDSMedio;
-double FSumTime;
+    double FSumCDE;
+    double FSumCDS;
+    double FCDEMedio;
+    double FCDSMedio;
+    double FSumTime;
 
-double FTiempoAnt;
+    double FTiempoAnt;
 
-nmRegimenValv FControlRegimen;
-double FRegimen;
-double FRelacionVelocidades;
+    nmRegimenValv FControlRegimen;
+    double FRegimen;
+    double FRelacionVelocidades;
 
-TCilindro *FCylinder;
-TTubo *FPipe;
-TDeposito *FPlenum;
-TBloqueMotor *FEngine;
-int FPipeNode;
+    TCilindro *FCylinder;
+    TTubo *FPipe;
+    TDeposito *FPlenum;
+    TBloqueMotor *FEngine;
+    int FPipeNode;
 
-double FTime0;
+    double FTime0;
 
-double LeeDiametro();
+    double LeeDiametro();
 
 //void PutDiametroTubo(double valor);
 
@@ -117,68 +118,101 @@ double LeeDiametro();
 
 public:
 
-  TTipoValvula(nmTipoValvula TipVal);
+    TTipoValvula(nmTipoValvula TipVal);
 
-  virtual ~TTipoValvula()=0;
+    virtual ~TTipoValvula()=0;
 
-	nmTipoValvula getTypeOfValve(){return FTipoValvula;};
+    nmTipoValvula getTypeOfValve() {
+        return FTipoValvula;
+    };
 
-	double getRegimen(){return FRegimen;};
-	double getRelacionVelocidades(){return FRelacionVelocidades;};
-	nmRegimenValv getControlRegimen(){return FControlRegimen;};
+    double getRegimen() {
+        return FRegimen;
+    };
+    double getRelacionVelocidades() {
+        return FRelacionVelocidades;
+    };
+    nmRegimenValv getControlRegimen() {
+        return FControlRegimen;
+    };
 
-	double getCDTubVol(){return FCDTubVol;};
-double FCDVolTub;
-double getCDVolTub(){return FCDVolTub;}
-void AsignaCDVolTub(double Valor);
+    double getCDTubVol() {
+        return FCDTubVol;
+    };
+    double FCDVolTub;
+    double getCDVolTub() {
+        return FCDVolTub;
+    }
+    void AsignaCDVolTub(double Valor);
 
-	double getCTorb(){return FCTorb;};
+    double getCTorb() {
+        return FCTorb;
+    };
 
-	int getNodo(){return FNodo;};
-	int getTipo(){return FTipo;};
-	int getSentido(){return FSentido;};
-	int getNumOrden(){return FNumeroOrden;};
-	int getValvula(){return FValvula;};
-	int getPipe(){return FTubo;};
+    int getNodo() {
+        return FNodo;
+    };
+    int getTipo() {
+        return FTipo;
+    };
+    int getSentido() {
+        return FSentido;
+    };
+    int getNumOrden() {
+        return FNumeroOrden;
+    };
+    int getValvula() {
+        return FValvula;
+    };
+    int getPipe() {
+        return FTubo;
+    };
 
-	double getDiametro(){return LeeDiametro();};
-void PutDiametroTubo(double Valor)
-{
-FDiamTubo=Valor;
-}
+    double getDiametro() {
+        return LeeDiametro();
+    };
+    void PutDiametroTubo(double Valor)
+    {
+        FDiamTubo=Valor;
+    }
 
-double FCRecuperacion;
-double getCRecuperacion(){return FCRecuperacion;}
-void AsignaCRecuperacion(double Valor);
+    double FCRecuperacion;
+    double getCRecuperacion() {
+        return FCRecuperacion;
+    }
+    void AsignaCRecuperacion(double Valor);
 
-  virtual void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
-  	bool HayMotor,TBloqueMotor *Engine)=0;
+    virtual void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
+                                   bool HayMotor,TBloqueMotor *Engine)=0;
 
-  void AsignaParametros(int Pipe,int Nodo,int Tipo,int valvula,double dTubo,int sentido);
+    virtual void LeeDatosInicialesXML(xml_node node_valve,int norden,
+                                   bool HayMotor,TBloqueMotor *Engine)=0;
 
-  void LeeDatosGraficasINS(char *FileWAM,fpos_t &filepos);
+    void AsignaParametros(int Pipe,int Nodo,int Tipo,int valvula,double dTubo,int sentido);
 
-  void CabeceraGraficaINS(stringstream& insoutput,int nodo);
+    void LeeDatosGraficasINS(char *FileWAM,fpos_t &filepos);
 
-  void ImprimeGraficaINS(stringstream& insoutput);
+    void CabeceraGraficaINS(stringstream& insoutput,int nodo);
 
-  void AcumulaCDMedio(double TiempoActual);
+    void ImprimeGraficaINS(stringstream& insoutput);
 
-  void LeeDatosGraficasMED(char *FileWAM,fpos_t &filepos);
+    void AcumulaCDMedio(double TiempoActual);
 
-  void CabeceraGraficaMED(stringstream& medoutput,int nodo);
+    void LeeDatosGraficasMED(char *FileWAM,fpos_t &filepos);
 
-  void ImprimeGraficaMED(stringstream& medoutput);
+    void CabeceraGraficaMED(stringstream& medoutput,int nodo);
 
-  void PutPipe(TTubo *Pipe,int node);
+    void ImprimeGraficaMED(stringstream& medoutput);
 
-  void PutCylider(TCilindro *Cylinder);
+    void PutPipe(TTubo *Pipe,int node);
 
-  void PutPlenum(TDeposito *Plenum);
+    void PutCylider(TCilindro *Cylinder);
 
-  virtual void GetCDin(double Time){};
+    void PutPlenum(TDeposito *Plenum);
 
-  virtual void GetCDout(double Time){};
+    virtual void GetCDin(double Time) {};
+
+    virtual void GetCDout(double Time) {};
 };
 
 
@@ -188,4 +222,4 @@ void AsignaCRecuperacion(double Valor);
 //---------------------------------------------------------------------------
 
 #endif
- 
+

@@ -561,7 +561,7 @@ void TOpenWAM::ReadInputDataXML(char* FileName) {
 	// ReadConcentric();
 	// #endif
 	//
-	// ReadValves();
+	ReadValvesXML();
 	//
 	// ReadPlenums();
 	//
@@ -1482,28 +1482,28 @@ void TOpenWAM::ReadValvesXML() {
 				val = NumTEstatorTurbina;
 				NumTEstatorTurbina++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "Rotor") {
 				TypeOfValve[id] = new TRotorTurbina();
 				val = NumTRotorTurbina;
 				NumTRotorTurbina++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "ExternalDC") {
 				controlvalv = 1;
 				TypeOfValve[id] = new TCDExterno();
 				val = NumTCDExterno;
 				NumTCDExterno++;
 			}
-			else if (ValveType == "4SValve") {
+			else if (ValveType == "Throttle") {
 				TypeOfValve[id] = new TMariposa();
 				val = NumberOfButerflyValves;
 				NumberOfButerflyValves++;
 			}
 
 			if (!EngineBlock) {
-				// TypeOfValve[i]->LeeDatosIniciales(fileinput, filepos, val, EngineBlock, NULL);
+				TypeOfValve[id]->LeeDatosInicialesXML(node_valve, val, EngineBlock, NULL);
 			}
 			else {
-				// TypeOfValve[i]->LeeDatosIniciales(fileinput, filepos, val, EngineBlock, Engine[0]);
+				TypeOfValve[id]->LeeDatosInicialesXML(node_valve, val, EngineBlock, Engine[0]);
 			}
 
 		}
@@ -1616,6 +1616,118 @@ void TOpenWAM::ReadPlenums() {
 		}
 		FileInput = fopen(fileinput, "r");
 		fsetpos(FileInput, &filepos);
+
+		if (NumberOfTurbines > 0)
+			Turbine = new TTurbina*[NumberOfTurbines];
+		for (int i = 0; i < NumberOfTurbines; i++) {
+			for (int j = 0; j < NumberOfPlenums; j++) {
+				if (Plenum[j]->getTipoDeposito() == nmTurbinaSimple || Plenum[j]->getTipoDeposito()
+					== nmTurbinaTwin) {
+					if (i + 1 == dynamic_cast<TTurbina*>(Plenum[j])->getNumeroTurbina()) {
+						Turbine[i] = dynamic_cast<TTurbina*>(Plenum[j]);
+					}
+				}
+			}
+		}
+		if (NumberOfVenturis > 0)
+			Venturi = new TVenturi*[NumberOfVenturis];
+		for (int i = 0; i < NumberOfVenturis; i++) {
+			for (int j = 0; j < NumberOfPlenums; j++) {
+				if (Plenum[j]->getTipoDeposito() == nmVenturi) {
+					if (dynamic_cast<TVenturi*>(Plenum[j])->getNumeroVenturi() == i + 1) {
+						Venturi[i] = dynamic_cast<TVenturi*>(Plenum[j]);
+					}
+				}
+			}
+		}
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: ReadPlenums " << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TOpenWAM::ReadPlenumsXML() {
+
+	try {
+
+	        int numeroturbina,numeroventuri;
+		
+		xml_node node_openwam = FileInputXML.child("OpenWAM");
+		xml_node node_plenumblock = GetNodeChild(node_openwam, "BlockOfPlenums");
+
+		NumberOfPlenums = CountNodes(node_plenumblock,"Bod:Plenum");
+
+		int NumberOfVariableVol = 0;
+		NumberOfTurbines = 0;
+		NumberOfVenturis = 0;
+		NumberOfDirectionalJunctions = 0;
+		if (NumberOfPlenums != 0) {
+			Plenum = new TDeposito*[NumberOfPlenums];
+		}
+		if (NumberOfPlenums != 0) {
+			const char_t* PlenumType;
+			int id;
+			for (xml_node node_plenum = GetNodeChild(node_plenumblock, "Bod:Plenum"); node_plenum;
+					node_plenum = node_plenum.next_sibling("Bod:Plenum")) {
+
+				PlenumType = node_plenum.attribute("Type").value();
+				id = GetAttributeAsInt(node_plenum, "Plenum_ID");
+
+				if(PlenumType == "ConstantVolume"){
+
+					Plenum[id] = new TDepVolCte(id, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					Plenum[id]->LeeDatosGeneralesDepositosXML(node_plenum);
+				}else if(PlenumType == "VariableVolume"){
+					Plenum[id] = new TDepVolVariable(id, NumberOfVariableVol, SpeciesModel, SpeciesNumber,
+						GammaCalculation, ThereIsEGR);
+					Plenum[id]->LeeDatosGeneralesDepositosXML(node_plenum);
+					dynamic_cast<TDepVolVariable*>(Plenum[id])->LeeDatosDepVolVariableXML(node_plenum,
+						EngineBlock);
+					NumberOfVariableVol++;
+				}else if(PlenumType == "Turbine"){
+					xml_node node_turb = GetNodeChild(node_turb,"Plm:Turbine");
+					numeroturbina = GetAttributeAsInt(node_turb,"Turbine_ID");
+					Plenum[id] = new TTurbinaSimple(id, SpeciesModel, SpeciesNumber,
+						GammaCalculation, ThereIsEGR);
+					dynamic_cast<TTurbina*>(Plenum[id])->PutNumeroTurbina(numeroturbina);
+					Plenum[id]->LeeDatosGeneralesDepositosXML(node_plenum);
+					dynamic_cast<TTurbina*>(Plenum[id])->LeeTurbinaXML(node_turb);
+					dynamic_cast<TTurbina*>(Plenum[id])->IniciaMedias();
+					NumberOfTurbines = NumberOfTurbines + 1;
+				}else if(PlenumType == "TwinTurbine"){
+					xml_node node_turb = GetNodeChild(node_plenum,"Plm:Turbine");
+					numeroturbina = GetAttributeAsInt(node_turb,"Turbine_ID");
+					Plenum[id] = new TTurbinaTwin(id, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					dynamic_cast<TTurbina*>(Plenum[id])->PutNumeroTurbina(numeroturbina);
+					Plenum[id]->LeeDatosGeneralesDepositosXML(node_plenum);
+					dynamic_cast<TTurbina*>(Plenum[id])->LeeTurbinaXML(node_turb);
+					dynamic_cast<TTurbina*>(Plenum[id])->IniciaMedias();
+					NumberOfTurbines = NumberOfTurbines + 1;
+				}else if(PlenumType == "Venturi"){
+				        xml_node node_venturi = GetNodeChild(node_plenum,"Plm:Venturi");
+					numeroventuri = GetAttributeAsInt(node_venturi,"Venturi_ID");
+					Plenum[id] = new TVenturi(id, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					dynamic_cast<TVenturi*>(Plenum[id])->PutNumeroVenturi(numeroventuri);
+					NumberOfVenturis = NumberOfVenturis + 1;
+					Plenum[id]->LeeDatosGeneralesDepositosXML(node_plenum);
+					dynamic_cast<TVenturi*>(Plenum[id])->LeeDatosVenturiXML(node_venturi);
+				}else if(PlenumType == "DirectionalJuction"){
+				        xml_node node_junction = GetNodeChild(node_plenum,"Plm:Junction");
+					NumberOfDirectionalJunctions = NumberOfDirectionalJunctions + 1;
+					Plenum[id] = new TUnionDireccional(id, NumberOfDirectionalJunctions,
+						SpeciesModel, SpeciesNumber, GammaCalculation, ThereIsEGR);
+					Plenum[id]->LeeDatosGeneralesDepositosXML(node_plenum);
+					dynamic_cast<TUnionDireccional*>(Plenum[id])->LeeDatosUnionDireccionalXML
+						(node_junction);
+				}
+
+			}
+		}
 
 		if (NumberOfTurbines > 0)
 			Turbine = new TTurbina*[NumberOfTurbines];

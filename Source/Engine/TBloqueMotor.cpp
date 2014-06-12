@@ -894,17 +894,17 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam, nmTipoModelado& Simulation
 				FCilindro[0] = new TCilindro4T(this, 1, FHayEGR);
 			}
 		}
-		for (xml_node node_ctrl = node_engine.child("Eng:Controller"); node_ctrl;
-			node_ctrl = node_ctrl.next_sibling("Eng:Controller")) {
+		for (xml_node node_ctrl = node_engine.child("Actuator"); node_ctrl;
+			node_ctrl = node_ctrl.next_sibling("Actuator")) {
 
 			const char_t* CtrlParam = node_ctrl.attribute("Parameter").value();
 			if (CtrlParam == "RPM") {
-				FRPMControllerID = GetAttributeAsInt(node_ctrl, "EngCtr_ID");
+				FRPMControllerID = GetAttributeAsInt(node_ctrl, "CtrlID");
 				FRPMControlled = true;
 				SimulationType = nmTransitorioRegimen;
 			}
 			else if (CtrlParam == "InjPres") {
-				FInjectionSys.InjectPCtrID = GetAttributeAsInt(node_ctrl, "EngCtr_ID");
+				FInjectionSys.InjectPCtrID = GetAttributeAsInt(node_ctrl, "CtrlID");
 				FInjectionSys.InjectPCtrd = true;
 
 			}
@@ -915,12 +915,12 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam, nmTipoModelado& Simulation
 
 			int i = GetAttributeAsInt(node_cyl, "Cyl_ID") - 1;
 
-			for (xml_node node_ctrl = node_cyl.child("Cyl:Controller"); node_ctrl;
-				node_ctrl = node_ctrl.next_sibling("Eng:Cylinder")) {
+			for (xml_node node_ctrl = node_cyl.child("Actuator"); node_ctrl;
+				node_ctrl = node_ctrl.next_sibling("Actuator")) {
 
 				const char_t* CtrlParam = node_ctrl.attribute("Parameter").value();
 				if (CtrlParam == "Fuel") {
-					int MfControllerID = GetAttributeAsInt(node_ctrl, "CylCtr_ID");
+					int MfControllerID = GetAttributeAsInt(node_ctrl, "CtrlID");
 					FCilindro[i]->PutMfControllerID(MfControllerID);
 				}
 			}

@@ -7,7 +7,6 @@
 #include "pugixml.hpp"
 #include "units.hpp"
 
-
 /**
  * @file CheckXML.h
  * @author Francisco Jose Arnau Martinez <farnau@mot.upv.es>
@@ -37,9 +36,7 @@
  * This file contains the interfaces to such functions.
  */
 
-
 using namespace pugi;
-
 
 /**
  * @brief Gets the child of a node.
@@ -52,7 +49,6 @@ using namespace pugi;
  */
 xml_node GetNodeChild(xml_node node, const char* name);
 
-
 /**
  * @brief Gets an attribute as a double.
  * 
@@ -63,7 +59,6 @@ xml_node GetNodeChild(xml_node node, const char* name);
  * @return Attribute value, as a double.
  */
 double GetAttributeAsDouble(xml_node node, const char* name);
-
 
 /**
  * @brief Gets an attribute as an integer.
@@ -76,7 +71,6 @@ double GetAttributeAsDouble(xml_node node, const char* name);
  */
 int GetAttributeAsInt(xml_node node, const char* name);
 
-
 /**
  * @brief Gets an attribute as a boolean value.
  * 
@@ -88,7 +82,6 @@ int GetAttributeAsInt(xml_node node, const char* name);
  */
 int GetAttributeAsBool(xml_node node, const char* name);
 
-
 /**
  * @brief Gets an attribute as a double.
  * 
@@ -98,7 +91,6 @@ int GetAttributeAsBool(xml_node node, const char* name);
  * @return Attribute value, as a double.
  */
 double GetAttributeAsDouble(xml_attribute attrib);
-
 
 /**
  * @brief Gets an attribute as an integer.
@@ -110,7 +102,6 @@ double GetAttributeAsDouble(xml_attribute attrib);
  */
 int GetAttributeAsInt(xml_attribute attrib);
 
-
 /**
  * @brief Gets an attribute as a boolean value.
  * 
@@ -120,7 +111,6 @@ int GetAttributeAsInt(xml_attribute attrib);
  * @return Attribute value, as a boolean.
  */
 int GetAttributeAsBool(xml_attribute attrib);
-
 
 /**
  * @brief Counts the number of children with a given name.
@@ -134,7 +124,6 @@ int GetAttributeAsBool(xml_attribute attrib);
  */
 int CountNodes(xml_node node, const char* label);
 
-
 /**
  * @brief Gets an attribute as an angle.
  * 
@@ -145,7 +134,6 @@ int CountNodes(xml_node node, const char* label);
  * @return Angle. [rad]
  */
 double GetXMLAngle(const xml_node& node, const std::string& name);
-
 
 /**
  * @brief Gets an attribute as an area.
@@ -158,7 +146,6 @@ double GetXMLAngle(const xml_node& node, const std::string& name);
  */
 double GetXMLArea(const xml_node& node, const std::string& name);
 
-
 /**
  * @brief Gets an attribute as a damping coefficient.
  * 
@@ -169,7 +156,6 @@ double GetXMLArea(const xml_node& node, const std::string& name);
  * @return Damping coefficient. [N * s / m]
  */
 double GetXMLDamping(const xml_node& node, const std::string& name);
-
 
 /**
  * @brief Gets an attribute as a length.
@@ -182,6 +168,18 @@ double GetXMLDamping(const xml_node& node, const std::string& name);
  */
 double GetXMLLength(const xml_node& node, const std::string& name);
 
+/**
+ * @brief Gets an attribute as a length.
+ *
+ * Gets an attribute as a length.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node.
+ * @return Length. [m]
+ */
+double GetXMLLength(const xml_node& node, const std::string& name,
+		const std::string& unit);
 
 /**
  * @brief Gets an attribute as a force.
@@ -194,7 +192,6 @@ double GetXMLLength(const xml_node& node, const std::string& name);
  */
 double GetXMLForce(const xml_node& node, const std::string& name);
 
-
 /**
  * @brief Gets an attribute as a mass flow rate.
  *
@@ -205,7 +202,6 @@ double GetXMLForce(const xml_node& node, const std::string& name);
  * @return Mass flow rate. [kg / s]
  */
 double GetXMLMassFlow(const xml_node& node, const std::string& name);
-
 
 /**
  * @brief Gets an attribute as a mass flow rate.
@@ -218,7 +214,36 @@ double GetXMLMassFlow(const xml_node& node, const std::string& name);
  * @return Mass flow rate. [kg / s]
  */
 double GetXMLMassFlow(const xml_node& node, const std::string& name,
-	const std::string& unit);
+		const std::string& unit);
+
+double GetXMLReducedMassFlow(const xml_node& node, const std::string& name);
+
+double GetXMLReducedMassFlow(const xml_node& node, const std::string& name, 
+			     const std::string& unit);
+
+/**
+ * @brief Gets an attribute as a reduced speed.
+ *
+ * Gets an attribute as a reduced speed.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Reduced speed. [rps / sqrt(K)]
+ */
+double GetXMLReducedSpeed(const xml_node& node, const std::string& name);
+
+/**
+ * @brief Gets an attribute as a reduced speed.
+ *
+ * Gets an attribute as a reduced speed.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node
+ * @return Reduced speed. [rps / sqrt(K)]
+ */
+double GetXMLReducedSpeed(const xml_node& node, const std::string& name,
+		const std::string& unit);
 
 /**
  * @brief Gets an attribute as a mass.
@@ -242,7 +267,7 @@ double GetXMLMass(const xml_node& node, const std::string& name);
  * @return Mass. [kg]
  */
 double GetXMLMass(const xml_node& node, const std::string& name,
-	const std::string& unit);
+		const std::string& unit);
 
 /**
  * @brief Gets an attribute as a pressure.
@@ -255,7 +280,6 @@ double GetXMLMass(const xml_node& node, const std::string& name,
  */
 double GetXMLPressure(const xml_node& node, const std::string& name);
 
-
 /**
  * @brief Gets an attribute as a power.
  * 
@@ -266,7 +290,6 @@ double GetXMLPressure(const xml_node& node, const std::string& name);
  * @return Power. [W]
  */
 double GetXMLPower(const xml_node& node, const std::string& name);
-
 
 /**
  * @brief Gets an attribute as a rotational speed.
@@ -279,7 +302,6 @@ double GetXMLPower(const xml_node& node, const std::string& name);
  */
 double GetXMLRotationalSpeed(const xml_node& node, const std::string& name);
 
-
 /**
  * @brief Gets an attribute as a speed.
  * 
@@ -290,7 +312,6 @@ double GetXMLRotationalSpeed(const xml_node& node, const std::string& name);
  * @return Speed. [m / s]
  */
 double GetXMLSpeed(const xml_node& node, const std::string& name);
-
 
 /**
  * @brief Gets an attribute as a stiffness.
@@ -303,7 +324,6 @@ double GetXMLSpeed(const xml_node& node, const std::string& name);
  */
 double GetXMLStiffness(const xml_node& node, const std::string& name);
 
-
 /**
  * @brief Gets an attribute as a temperature.
  * 
@@ -315,7 +335,6 @@ double GetXMLStiffness(const xml_node& node, const std::string& name);
  */
 double GetXMLTemperature(const xml_node& node, const std::string& name);
 
-
 /**
  * @brief Gets an attribute as a time.
  * 
@@ -326,5 +345,28 @@ double GetXMLTemperature(const xml_node& node, const std::string& name);
  * @return Time. [s]
  */
 double GetXMLTime(const xml_node& node, const std::string& name);
+
+/**
+ * @brief Gets an attribute as a Volume
+ *
+ * Gets an attribute as a volume
+ *
+ * @param node XML node.
+ * @param name Attribute name
+ * @return Volume [m3]
+ */
+double GetXMLVolume(const xml_node& node,const std::string& name);
+
+/**
+ * @brief Gets an attribute as a Volume
+ *
+ * Gets an attribute as a volume
+ *
+ * @param node XML node.
+ * @param name Attribute name
+ * @param unit Unit used in the node
+ * @return Volume [m3]
+ */
+double GetXMLVolume(const xml_node& node,const std::string& name,const std::string& unit);
 
 #endif

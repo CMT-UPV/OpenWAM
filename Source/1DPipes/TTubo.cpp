@@ -693,7 +693,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe, TBloqueMotor **Engine) 
 
 		FNodoDer = GetAttributeAsInt(node_pipe, "ParallelPipes");
 
-		xml_node node_prop = GetNodeChild(node_pipe, "Pip:GasProperties");
+		xml_node node_prop = GetNodeChild(node_pipe, "GasProperties");
 		FPini = GetAttributeAsDouble(node_prop, "Pressure");
 		FTini = GetAttributeAsDouble(node_prop, "Temperature");
 		FVelMedia = GetAttributeAsDouble(node_prop, "FVelMedia");

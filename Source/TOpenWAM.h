@@ -371,6 +371,8 @@ private:
 
 	void ReadPlenums();
 
+	void ReadPlenumsXML();
+
 	void ReadCompressors();
 
 	void ReadConnections();
