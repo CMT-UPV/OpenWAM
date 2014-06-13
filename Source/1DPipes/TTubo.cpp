@@ -5341,7 +5341,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
+double TTubo::Interpola_Caracteristica2(double entropia, int signo, int extremo,
 	double DeltaTiempo) {
 #ifdef usetry
 	try {
@@ -5359,20 +5359,15 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 
 		if (DeltaTiempo < 1e-15) {
 			ind = extremo;
-			if (signo == 1) {
 				Calculo_Caracteristica(caracteristica, velocidadp, asonidop,
 					ind, 0., signo, entropia, DeltaTiempo);
-			}
-			if (signo == -1) {
-				Calculo_Caracteristica(caracteristica, velocidadp, asonidop,
-					ind, 1., signo, entropia, DeltaTiempo);
-			}
 		}
 		else {
 
 
 			dtdx = DeltaTiempo / FXref;
 			ind = extremo;
+			ind1 = ind + signo;
 
 			axant = dtdx * (FVelocidadDim[ind] - signo * FAsonidoDim[ind]);
 //			if(fabs(dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim[ind + signo]))>1.0001){
@@ -5465,6 +5460,8 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 					dp = distp1 / 2.;
 				}
 			}
+			if(signo < 0) dist = 1-dist;
+
 			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
 				dist, signo, entropia, DeltaTiempo);
 		}
@@ -5480,10 +5477,58 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 #endif
 }
 
+
+double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
+	double DeltaTiempo) {
+#if usetry
+	try {
+#endif
+
+
+		double dtdx = DeltaTiempo / FXref;
+		int ind = extremo;
+		double caracteristica;
+		double velocidadp;
+		double asonidop;
+
+
+		if (DeltaTiempo < 1e-15) {
+				Calculo_Caracteristica(caracteristica, velocidadp, asonidop,
+					ind, 0., signo, entropia, DeltaTiempo);
+		}
+		else {
+
+
+			dtdx = DeltaTiempo / FXref;
+
+			int ind1 = ind + signo;
+
+			stCharOrigin CharOrigin(FU0[0][ind], FU0[1][ind], FU0[2][ind], FU0[0][ind1], FU0[1][ind1],
+					FU0[2][ind1],FGamma[ind], FGamma[ind1], dtdx, signo);
+
+			double dist = zbrent(CharOrigin,0.,1.,1e-5);
+			printf("%d\n",CharOrigin.i);
+
+			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
+				dist, signo, entropia, DeltaTiempo);
+		}
+		return caracteristica / ARef;
+#if usetry
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTubo::Interpola_Caracteristica " <<
+			FNumeroTubo << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+#endif
+}
+
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
+void TTubo::Calculo_Caracteristica2(double& caracteristica, double& velocidadp,
 	double& asonidop, int ind, double dist, int signo, double entropia,
 	double DeltaTiempo) {
 #ifdef usetry
@@ -5623,6 +5668,127 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 
 		caracteristica = daen + dacal + daar + dafric + caracteristicap;
 #ifdef usetry
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo <<
+			std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+#endif
+}
+
+void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
+	double& asonidop, int ind, double dist, int signo, double entropia,
+	double DeltaTiempo) {
+#if usetry
+	try {
+#endif
+
+	  
+		int ind1 = ind + signo;
+
+		double w0=FU0[0][ind];
+		double w1=FU0[1][ind];
+		double w2=FU0[2][ind];
+		double gammap = FGamma[ind];
+		double Rmezclap = FRMezcla[ind];
+		double diamep = FDiametroTubo[ind];
+		
+		double tptubop = FTPTubo[0][ind];
+		double hip = Fhi[ind];
+		double rhop = Frho[ind];
+		double Rep = FRe[ind];
+
+		if(dist < 1. && dist > 0) {
+
+				w0 = Interpola(FU0[0][ind],FU0[0][ind1],1.,dist);
+				w1 = Interpola(FU0[1][ind],FU0[1][ind1],1.,dist);
+				w2 = Interpola(FU0[2][ind],FU0[2][ind1],1.,dist);				
+				gammap = Interpola(FGamma[ind], FGamma[ind1], 1., dist);
+				Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1., dist);
+				diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
+ 					dist);
+				if (FCoefAjusTC != 0 || FCoefAjusFric != 0) {
+					tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
+						dist);
+					hip = Interpola(Fhi[ind], Fhi[ind1], 1., dist);
+					rhop = Interpola(Frho[ind], Frho[ind1], 1., dist);
+					Rep = Interpola(FRe[ind], FRe[ind1], 1., dist);  
+				}
+
+		}
+		double gamma1p = Gamma1(gammap);
+		double gamma3p = Gamma3(gammap);
+		double gamma5p = Gamma5(gammap);
+		velocidadp = w1/ w0;
+		asonidop = sqrt(gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2 ));
+		caracteristica = asonidop - signo * gamma3p * velocidadp;
+		
+
+		// Las siguientes expresiones se pueden encontrar en la Tesis de Corberán
+		// Página 22
+		/* variacion debida a la transmision del calor */
+		/* ------------------------------------------ */
+		if (FCoefAjusTC != 0) {
+		  
+			double q = 0;
+
+			double tgasp = pow2(asonidop) / (gammap * Rmezclap);
+
+			TransmisionCalor(tgasp, diamep, q, hip, rhop, tptubop);
+
+			double dacal = gamma3p * gamma1p * DeltaTiempo * q * FCoefAjusTC /
+				asonidop;
+				
+			caracteristica += dacal;
+
+		}
+		/* variacion debida a la variacion entropia */
+		/* ---------------------------------------- */
+		
+		double presionp = (w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep) * unPaToBar;
+		double entropiap = asonidop / pow(presionp, gamma5p);
+		double increentropia = entropia * ARef - entropiap;
+		double daen = asonidop * increentropia / entropiap;
+		caracteristica += daen;
+
+		/* variacion debida al cambio de seccion */
+		/* ------------------------------------- */
+		if(FDiametroTubo[ind1] != FDiametroTubo[ind]){
+		  double daar = 0.;
+		  if (signo == 1) {
+			  daar = -gamma3p * asonidop * velocidadp * 2 *
+				  (FDiametroTubo[ind1] - FDiametroTubo[ind]) * DeltaTiempo /
+				  (diamep * FXref);
+		  }
+		  else if (signo == -1) {
+			  daar = -gamma3p * asonidop * velocidadp * 2 *
+				  (FDiametroTubo[ind] - FDiametroTubo[ind1]) * DeltaTiempo /
+				  (diamep * FXref);
+		  }
+		  caracteristica += daar;
+		}
+
+		/* variacion debida al termino de friccion */
+		/* --------------------------------------- */		
+
+		if (velocidadp != 0. && FCoefAjusFric != 0.) {
+		  
+		        double velabs = fabs(velocidadp);
+			double f = 0;
+
+			Colebrook(FFriccion, diamep, f, Rep);
+
+			double dafric = signo * gamma1p *
+				(1. + signo * gamma1p * velocidadp / asonidop)
+				* f * FCoefAjusFric * pow3(velocidadp) * DeltaTiempo /
+				(diamep * velabs);
+				
+			caracteristica += dafric;
+		}
+
+#if usetry
 	}
 	catch(Exception & N) {
 		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo <<
