@@ -533,18 +533,6 @@ private:
 			double 	DeltaTiempo		//!< Comment
 			);
 
-			/*! Comment */
-        void 	Calculo_Caracteristica2(
-			double&	caracteristica,	//!< Comment
-			double&	velocidadp,		//!< Comment
-			double&	asonidop,		//!< Comment
-			int 	ind,			//!< Comment
-			double 	dist,			//!< Comment
-			int 	signo,			//!< Comment
-			double 	entropia,		//!< Comment
-			double 	DeltaTiempo		//!< Comment
-			);
-
 		/*! Comment */
 		void 	CalculaB();
 
@@ -937,17 +925,9 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 			  double        DeltaTiempo         //!< Comment
 			);
 
-	/*!Comment  */
-	double  Interpola_Caracteristica
-			(
-			  double  entropia,                 //!< Comment
-			  int     signo,                    //!< Comment
-			  int     extremo,                  //!< Comment
-			  double  DeltaTiempo               //!< Comment
-			);
 
 	/*!Comment  */
-	double  Interpola_Caracteristica2
+	double  Interpola_Caracteristica
 			(
 			  double  entropia,                 //!< Comment
 			  int     signo,                    //!< Comment
