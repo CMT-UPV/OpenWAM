@@ -4115,7 +4115,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 								.Pipe->GetTPTuboAnt(1, nodo) + 273.;
 						}
 					}
-#if ParticulateFilter
+#ifdef ParticulateFilter
 					else if (BC[FNodoIzq - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 						if (FHayDPFNodoIzq) {
 							Tpantant = FDPFEntradaTubo->GetTSuperficie
@@ -4564,7 +4564,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 								.Pipe->GetTPTuboAnt(1, nodo) + 273.;
 						}
 					}
-#if ParticulateFilter
+#ifdef ParticulateFilter
 					else if (BC[FNodoIzq - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 						if (FHayDPFNodoIzq) {
 							Tpantant = FDPFEntradaTubo->GetTSuperficie
@@ -4606,7 +4606,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 								.Pipe->GetTPTuboAnt(1, nodo) + 273.;
 						}
 					}
-#if ParticulateFilter
+#ifdef ParticulateFilter
 					else if (BC[FNodoDer - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 						if (FHayDPFNodoDer) {
 							Tpantpos = FDPFSalidaTubo->GetTSuperficie
@@ -5195,7 +5195,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 				* DeltaTiempo / (diamep * pow2(asonidop));
 			entropia += dafric;
 		}
-#if usetry
+#ifdef usetry
 	}
 
 	catch(Exception & N) {
@@ -5210,10 +5210,58 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
+	double DeltaTiempo) {
+#if usetry
+	try {
+#endif
+
+
+		double dtdx = DeltaTiempo / FXref;
+		int ind = extremo;
+		double caracteristica;
+		double velocidadp;
+		double asonidop;
+
+
+		if (DeltaTiempo < 1e-15) {
+			Calculo_Caracteristica(caracteristica, velocidadp, asonidop,
+				ind, 0., signo, entropia, DeltaTiempo);
+		}
+		else {
+
+
+			dtdx = DeltaTiempo / FXref;
+
+			int ind1 = ind + signo;
+
+			stCharOrigin CharOrigin(FU0[0][ind], FU0[1][ind], FU0[2][ind], FU0[0][ind1], FU0[1][ind1],
+				FU0[2][ind1], FGamma[ind], FGamma[ind1], dtdx, signo);
+
+			double dist = zbrent(CharOrigin, 0., 1., 1e-5);
+
+			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
+				dist, signo, entropia, DeltaTiempo);
+		}
+		return caracteristica / ARef;
+#if usetry
+	}
+	catch (Exception & N) {
+		std::cout << "ERROR: TTubo::Interpola_Caracteristica " <<
+			FNumeroTubo << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
 void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 	double& asonidop, int ind, double dist, int signo, double entropia,
 	double DeltaTiempo) {
-#if usetry
+#ifdef usetry
 	try {
 #endif
 
@@ -5320,7 +5368,7 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 			caracteristica += dafric;
 		}
 
-#if usetry
+#ifdef usetry
 	}
 	catch(Exception & N) {
 		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo <<

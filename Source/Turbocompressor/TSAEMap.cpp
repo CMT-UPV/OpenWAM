@@ -234,7 +234,7 @@ void TSAEMap::LeeMapa(FILE *fich) {
 	FTempRef += 273.;
 	FPresionRef *= 1e5;
 
-#if tchtm
+#ifdef tchtm
 	fscanf(fich, "%d ", &Adiab);
 	if (Adiab == 0) {
 		FIsAdiabatic = false;
@@ -294,7 +294,7 @@ void TSAEMap::PutReference(double pref, double tref) {
 }
 
 void TSAEMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
-#if tchtm
+#ifdef tchtm
 	double m, eff, Rtc;
 
 	if (!FIsAdiabatic) {

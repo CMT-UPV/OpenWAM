@@ -203,7 +203,7 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 			double MTemp;
 			double H0 = 0;
 			double Diff;
-#if tchtm
+#ifdef tchtm
 			FHeatPower = FHTM->Turb_Heat_Flow();
 #endif
 			double Heat = FHeatPower * DeltaT;
@@ -383,7 +383,7 @@ void TTurbina::LeeTurbina(char *FileWAM, fpos_t &filepos) {
 				fscanf(fich, "%lf ", &FRack);
 			FCalRendTurbina = nmRendMapa;
 
-#if tchtm
+#ifdef tchtm
 
 			fscanf(fich, "%d ", &ac);
 			if (ac == 1) {
@@ -434,7 +434,7 @@ void TTurbina::LeeTurbina(char *FileWAM, fpos_t &filepos) {
 // asgNumeroTurbina = true;
 // }
 // else {
-// std::cout << "ERROR: Esta turbina ya tiene número asignada" << std::endl;
+// std::cout << "ERROR: Esta turbina ya tiene nï¿½mero asignada" << std::endl;
 // throw Exception("");
 // }
 // }
@@ -573,7 +573,7 @@ double TTurbina::CpTurbineComplete(double YO2, double YCO2, double YH2O, double 
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 
 	double RaizdeT = sqrt(Temperature);
-	// Temperature en Kelvin. Calculado según la correlación de JANAF.
+	// Temperature en Kelvin. Calculado segï¿½n la correlaciï¿½n de JANAF.
 	double CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
 		/ Temperature) * RN2;
 	double CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
