@@ -30,7 +30,12 @@
 
 #include <map>
 #include <string>
+#ifndef __BORLANDC__
 #include "StringManagement.hpp"
+#endif
+#ifdef __BORLANDC__
+#include "vcl.h"
+#endif
 
 
 /**

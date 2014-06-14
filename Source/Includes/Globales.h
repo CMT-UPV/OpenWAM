@@ -67,8 +67,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <cmath>
 #include "Math_wam.h"
-#ifndef __BORLANDC__
 #include "labels.hpp"
+#ifndef __BORLANDC__
 #include "StringManagement.hpp"
 #include "Exception.hpp"
 #define ffGeneral 3
