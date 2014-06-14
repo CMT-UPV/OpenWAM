@@ -105,14 +105,14 @@
 #include "TEjeTurbogrupo.h"
 
 // DIESEL PARTICULATE FILTER
-#if ParticulateFilter
+#ifdef ParticulateFilter
 #include "TDPF.h"
 #include "TCanalDPF.h"
 #endif
 
 
 // CONCENTRIC 1D ELEMENTS
-#if ConcentricElement
+#ifdef ConcentricElement
 #include "TConcentricoTubos.h"
 #include "TConcentricoDPF.h"
 #endif
@@ -141,12 +141,12 @@ Allow the communication with WAMer
   #define gestorcom true
   #define graphicalout true
 #else
-  #define gestorcom 0
-  #define graphicalout 0
+  //#define gestorcom 0
+  //#define graphicalout 0
 #endif
 #endif
 
-#if gestorcom==1
+#ifdef gestorcom==1
 #include "TCGestorWAM.h"
 #endif
 
@@ -155,7 +155,7 @@ Allow the communication with WAMer
 class TOpenWAM {
 private:
 
-#if gestorcom
+#ifdef gestorcom
 
 	TCGestorWAM *GestorWAM;
 #endif
@@ -198,12 +198,12 @@ private:
 
 
 	// ! ARRAY OF CONCENTRIC ELEMENTS
-	#if ConcentricElement
+	#ifdef ConcentricElement
 	   TConcentrico** Concentric;
 	#endif
 
 	// ! ARRAY OF DPFs
-	#if ParticulateFilter
+	#ifdef ParticulateFilter
 	  TDPF** DPF;
 	#endif
 
