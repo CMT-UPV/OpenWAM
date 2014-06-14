@@ -506,5 +506,36 @@ struct stNewCompressorConditions {
 	}
 };
 
+struct stCharOrigin{
+	double W00;
+	double W10;
+	double W20;
+	double W01;
+	double W11;
+	double W21;
+	double G0;
+	double G1;
+	double dtdx;
+	int signo;
+	int i;
+
+	stCharOrigin(const double iW00,const double iW10,const double iW20,const double iW01,const double iW11,
+			const double iW21, const double iG0, const double iG1, const double idtdx, int isigno) : W00(iW00), W10(iW10),
+					W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(iG0), G1(iG1), dtdx(idtdx), signo(isigno){
+		i = 0;
+	}
+
+	double operator()(const double x){
+		double W0p = Interpola(W00, W01, 1., x);
+		double W1p = Interpola(W10, W11, 1., x);
+		double W2p = Interpola(W20, W21, 1., x);
+		double Gp = Interpola(G0, G1, 1., x);
+		double Up = W1p / W0p;
+		double Ap = sqrt(Gp * (Gp - 1) * (W2p / W0p - pow2(Up)/2.));
+		i++;
+		return x + signo * (Up - signo * Ap) * dtdx;
+	}
+};
+
 #endif
 
