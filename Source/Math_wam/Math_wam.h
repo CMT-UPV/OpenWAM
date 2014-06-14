@@ -173,6 +173,13 @@ inline T sqrtw(T x) {
 	return abs(x) > std::numeric_limits<T>::epsilon() ? sqrt(x) : 0;
 }
 
+#ifdef __BORLANDC__
+template<class T>
+inline T cbrt(T x) {
+	return pow(x,1/3) > std::numeric_limits<T>::epsilon() ? pow(x,1/3) : 0;
+}
+#endif
+
 
 template<class T>
 inline bool DoubEqZero(T x) {
