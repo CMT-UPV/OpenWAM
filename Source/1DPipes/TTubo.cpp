@@ -2490,35 +2490,20 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 
 void TTubo::Colebrook(double rug, double dia, double& f, double Re) {
 	double temp;
-#ifdef usetry
-	try {
-#endif
-		if (Re < 2000.0 && Re > 1.0) {
-			f = 32 / Re;
-		}
-		else {
-			if (Re < 1.0) {
-				Re = 1.0;
-				f = 32. / Re;
-			}
-			else {
-				if (Re < 4000.0) {
-					Re = 4000;
-				}
-				temp = (rug / (3700.0 * dia) + 5.74 / pow(Re, 0.9));
-				temp = pow2(log10(temp));
-				f = 0.0625 / temp;
-			}
-		}
-#ifdef usetry
+
+	if (Re > 4000){
+		temp = (rug / (3700.0 * dia) + 5.74 / pow(Re, 0.9));
+		temp = pow2(log10(temp));
+		f = 0.0625 / temp;
+	}else if(Re > 2000){
+		temp = (rug / (3700.0 * dia) + 0.00328895476345);
+		temp = pow2(log10(temp));
+		f = 0.0625 / temp;
+	}else if(Re > 1){
+		f = 32. / Re;
+	}else{
+		f = 32.;
 	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTubo::Colebrook en el tubo: " << FNumeroTubo <<
-			std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
-	}
-#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -5313,113 +5298,39 @@ double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 	try {
 #endif
 
-		int ind = 0, ind1 = 0, extremo, signo, indiceCC;
-		double ax = 0., axant = 0., distt = 0., distp = 0., dist = 0.;
-		bool valido;
-		double dp = 0., distp1 = 0., ax1 = 0., entropia, velocidadp = 0.;
-		double massflow, gasto1, gastop, diamep;
+		int signo = 1;
+		int extremo = 0;
+		int indiceCC = 0;
 
-		double dtdx = DeltaTiempo / FXref;
-
-		if (TipoExtremoTubo == nmLeft) { // PipeEnd Izquierdo
-			signo = 1;
-			extremo = 0;
-			indiceCC = 0;
-		}
 		if (TipoExtremoTubo == nmRight) { // PipeEnd Derecho
 			signo = -1;
 			extremo = FNin - 1;
 			indiceCC = 1;
 		}
+		double dtdx = DeltaTiempo / FXref;
+		int ind = extremo;
+		double entropia;
+		double velocidadp;
+		double asonidop;
 
 		if (DeltaTiempo < 1e-15 || DoubEqZero(FVelocidadDim[extremo])) {
-			if (signo == 1) {
-				Calculo_Entropia(entropia, velocidadp, extremo, 0., signo,
-					DeltaTiempo, indiceCC);
-			}
-			if (signo == -1) {
-				Calculo_Entropia(entropia, velocidadp, extremo, 1., signo,
-					DeltaTiempo, indiceCC);
-			}
+
+			Calculo_Entropia(entropia, velocidadp, extremo, 0., signo,
+				DeltaTiempo, indiceCC);
+
 		}
 		else {
-			if (signo * FVelocidad0[extremo] < 0.0) {
+			int ind1 = ind + signo;
 
-				ind = extremo;
-				axant = dtdx * FVelocidadDim[ind];
-				ax = dtdx * FVelocidadDim[ind + signo];
+			stPathOrigin PathOrigin(FU0[0][ind], FU0[1][ind], FU0[0][ind1], FU0[1][ind1],
+					dtdx, signo);
 
-				if (ax > 1. || ax < -1.) {
-					ax = (double) - signo;
-				}
-				while ((double)signo * (ind + signo + ax) < signo * extremo) {
-					ind = ind + signo;
-					axant = ax;
-					ax = dtdx * FVelocidadDim[ind + signo];
-				}
-				distt = 1 + signo * (ax - axant);
-				if (signo == 1) {
-					distp = fabs(extremo + signo * (ind + axant));
-				}
-				else if (signo == -1) {
-					distp = fabs(extremo + signo * (ind + signo + ax));
-				}
+			double dist = zbrent(PathOrigin,0.,1.,1e-5);
 
-				dp = 0.;
-				valido = false;
-				ind1 = ind + signo;
-				massflow = FVelocidadDim[ind] * FArea[ind];
-				gasto1 = FVelocidadDim[ind1] * FArea[ind1];
-				// int n=0;
-				while (!valido) {
-					// distp=distp+dp*signo;
-					// n=n+1;
-					distp = distp + dp;
-					if (distp > distt) {
-						printf("WARNING: Entropy interpolation pipe %d boundary %d\n",FNumeroTubo,extremo);
-						distp = distt;
-						//throw Exception("ERROR:  error distancias");
-					}
-					dist = distp / distt;
 
-					if (dist < -1e-15) {
-						printf("WARNING: dist=%g disp=%lf distt=%lf\n", dist,
-							distp, distt);
-						dist = 0;
-					}
-					/* Calculo de la velocidad en p */
+			Calculo_Entropia(entropia, velocidadp, ind, dist, signo,
+				DeltaTiempo, indiceCC);
 
-					if (signo == 1) {
-						gastop = Interpola(massflow, gasto1, 1., dist);
-						diamep = Interpola(FDiametroTubo[ind],
-							FDiametroTubo[ind1], 1., dist);
-					}
-					else if (signo == -1) {
-						gastop = Interpola(massflow, gasto1, 1., 1. - dist);
-						diamep = Interpola(FDiametroTubo[ind],
-							FDiametroTubo[ind1], 1., 1. - dist);
-					}
-					velocidadp = gastop / Seccion(diamep);
-					/* Fin del calculo de la velocidad en el punto considerado */
-
-					ax1 = dtdx * velocidadp;
-					if (signo == 1) {
-						distp1 = extremo - (ind + ax1 + dist);
-					}
-					else if (signo == -1) {
-						distp1 = extremo - (ind + signo + ax1 + dist);
-					}
-					if (fabs(distp1) < 1.e-5) {
-						valido = true;
-					}
-					else {
-						dp = distp1 / 2.;
-					}
-				}
-
-				Calculo_Entropia(entropia, velocidadp, ind, dist, signo,
-					DeltaTiempo, indiceCC);
-			}
 
 		}
 
@@ -5434,6 +5345,7 @@ double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 #endif
 }
 
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -5443,134 +5355,91 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 	try {
 #endif
 
-		double massflow = 0., gasto1 = 0., gastop = 0., entropia0 = 0.,
-		entropia1 = 0., diamep = 0., presionp = 0., asonidop = 0., tgasp = 0.,
-		q = 0., f = 0., entropiap = 0., velabs = 0., dacal = 0., dafric = 0.,
-		tptubop = 0., hip = 0., rhop = 0., Rep = 0., gamma5p = 0.,
-		gamma3p = 0., gamma1p = 0., gammap = 0., Rmezclap = 0.;
-		int ind1 = 0;
+		int ind1 = ind + signo;
 
-		ind1 = ind + signo;
-		if (dist == 0. || dist == 1.) {
-			gastop = FFlowMass[ind];
-			diamep = FDiametroTubo[ind];
-			velocidadp = FVelocidadDim[ind];
-			presionp = FPresion0[ind];
-			entropiap = FAsonidoDim[ind] / pow(FPresion0[ind], FGamma5[ind]);
-			asonidop = FAsonidoDim[ind];
-			velabs = fabs(velocidadp);
-			tptubop = FTPTubo[0][ind];
-			hip = Fhi[ind];
-			rhop = Frho[ind];
-			Rep = FRe[ind];
-			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FFraccionMasicaCC[indiceCC][j] = FFraccionMasicaEspecie[ind][j];
-			}
-			FAreaCC[indiceCC] = FArea[ind];
-			FDensidadCC[indiceCC] = rhop;
-			FVelocidadCC[indiceCC] = velocidadp; // Se que no hace falta hacerlo asi,pero me queda mas ordenado.
-			gammap = FGamma[ind];
-			Rmezclap = FRMezcla[ind];
-			gamma5p = FGamma5[ind];
-			gamma3p = FGamma3[ind];
-			gamma1p = FGamma1[ind];
+		double w0=FU0[0][ind];
+		double w1=FU0[1][ind];
+		double w2=FU0[2][ind];
+		double gammap = FGamma[ind];
+		double Rmezclap = FRMezcla[ind];
+		double diamep = FDiametroTubo[ind];
+
+		double tptubop = FTPTubo[0][ind];
+		double hip = Fhi[ind];
+		double rhop = Frho[ind];
+		double Rep = FRe[ind];
+
+		for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+			FFraccionMasicaCC[indiceCC][j] = FFraccionMasicaEspecie[ind][j];
 		}
-		else {
-			massflow = FVelocidadDim[ind] * FArea[ind];
-			gasto1 = FVelocidadDim[ind1] * FArea[ind1];
-			entropia0 = FAsonidoDim[ind] / pow(FPresion0[ind], FGamma5[ind]);
-			entropia1 = FAsonidoDim[ind1] / pow(FPresion0[ind1], FGamma5[ind1]);
-			if (signo == 1) {
-				gastop = Interpola(massflow, gasto1, 1., dist);
-				diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
+
+
+		if (dist > 0. || dist < 1.)  {
+			w0 = Interpola(FU0[0][ind],FU0[0][ind1],1.,dist);
+			w1 = Interpola(FU0[1][ind],FU0[1][ind1],1.,dist);
+			w2 = Interpola(FU0[2][ind],FU0[2][ind1],1.,dist);
+			gammap = Interpola(FGamma[ind], FGamma[ind1], 1., dist);
+			Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1., dist);
+			diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
 					dist);
-				presionp = Interpola(FPresion0[ind], FPresion0[ind1], 1., dist);
-				entropiap = Interpola(entropia0, entropia1, 1., dist);
-				rhop = Interpola(Frho[ind], Frho[ind1], 1., dist);
-				gammap = Interpola(FGamma[ind], FGamma[ind1], 1., dist);
-				Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1., dist);
-				gamma5p = Interpola(FGamma5[ind], FGamma5[ind1], 1., dist);
-				gamma3p = Interpola(FGamma3[ind], FGamma3[ind1], 1., dist);
-				gamma1p = Interpola(FGamma1[ind], FGamma1[ind1], 1., dist);
-				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					FFraccionMasicaCC[indiceCC][j] = Interpola
-						(FFraccionMasicaEspecie[ind][j],
-						FFraccionMasicaEspecie[ind1][j],
-						1., dist);
-				}
-			}
-			else if (signo == -1) {
-				gastop = Interpola(massflow, gasto1, 1., 1. - dist);
-				diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
-					1. - dist);
-				presionp = Interpola(FPresion0[ind], FPresion0[ind1], 1.,
-					1. - dist);
-				entropiap = Interpola(entropia0, entropia1, 1., 1. - dist);
-				rhop = Interpola(Frho[ind], Frho[ind1], 1., 1. - dist);
-				gammap = Interpola(FGamma[ind], FGamma[ind1], 1., 1. - dist);
-				Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1.,
-					1. - dist);
-				gamma5p = Interpola(FGamma5[ind], FGamma5[ind1], 1., 1. - dist);
-				gamma3p = Interpola(FGamma3[ind], FGamma3[ind1], 1., 1. - dist);
-				gamma1p = Interpola(FGamma1[ind], FGamma1[ind1], 1., 1. - dist);
-				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					FFraccionMasicaCC[indiceCC][j] = Interpola
-						(FFraccionMasicaEspecie[ind][j],
-						FFraccionMasicaEspecie[ind1][j],
-						1., 1. - dist);
-				}
-			}
-			velocidadp = gastop / Seccion(diamep);
-			asonidop = pow(presionp, gamma5p) * entropiap;
-			velabs = fabs(velocidadp);
 			if (FCoefAjusTC != 0 || FCoefAjusFric != 0) {
-				if (signo == 1) {
-					tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
-						dist);
-					hip = Interpola(Fhi[ind], Fhi[ind1], 1., dist);
-					Rep = Interpola(FRe[ind], FRe[ind1], 1., dist);
-				}
-				else if (signo == -1) {
-					tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
-						1. - dist);
-					hip = Interpola(Fhi[ind], Fhi[ind1], 1., 1. - dist);
-					Rep = Interpola(FRe[ind], FRe[ind1], 1., 1. - dist);
-				}
+				tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
+					dist);
+				hip = Interpola(Fhi[ind], Fhi[ind1], 1., dist);
+				Rep = Interpola(FRe[ind], FRe[ind1], 1., dist);
 			}
-			FAreaCC[indiceCC] = Seccion(diamep);
-			FDensidadCC[indiceCC] = rhop;
-			FVelocidadCC[indiceCC] = velocidadp; // Se que no hace falta hacerlo asi,pero me queda mas ordenado.
+
+			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+				FFraccionMasicaCC[indiceCC][j] = Interpola
+					(FFraccionMasicaEspecie[ind][j],
+					FFraccionMasicaEspecie[ind1][j],
+					1., dist);
+			}
 		}
+
+
+		double gamma1p = Gamma1(gammap);
+		double gamma3p = Gamma3(gammap);
+		double gamma5p = Gamma5(gammap);
+		velocidadp = w1/ w0;
+		rhop = w0 / Seccion(diamep);
+		double asonidop = sqrt(gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2 ));
+		double presionp = (w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep) * unPaToBar;
+		double entropiap = asonidop / pow(presionp, gamma5p);
+		entropia = entropiap;
+
+		FAreaCC[indiceCC] = FArea[ind];
+		FDensidadCC[indiceCC] = rhop;
+		FVelocidadCC[indiceCC] = velocidadp; // Se que no hace falta hacerlo asi,pero me queda más ordenado.
 
 		/* variacion de la entropia debida a la transmision del calor */
 		/* ------------------------------------------ */
-		if (DoubEqZero(FCoefAjusTC)) {
-			dacal = 0.;
-		}
-		else {
-			tgasp = pow2(asonidop) / (gammap * Rmezclap);
+		if (!DoubEqZero(FCoefAjusTC)) {
+
+			double q = 0;
+			double tgasp = pow2(asonidop) / (gammap * Rmezclap);
 
 			TransmisionCalor(tgasp, diamep, q, hip, rhop, tptubop);
 
-			// Las siguientes expresiones estan en la Tesis de Corberan. Pagina 23
-			dacal = gamma3p * entropiap * q * FCoefAjusTC * DeltaTiempo / pow2
+			// Las siguientes expresiones están en la Tesis de Corberán. Página 23
+			double dacal = gamma3p * entropiap * q * FCoefAjusTC * DeltaTiempo / pow2
 				(asonidop);
+
+			entropia += dacal;
 		}
 
 		/* variacion de la entropia debida al termino de friccion */
 		/* --------------------------------------- */
-		if (velabs == 0. || FCoefAjusFric == 0) {
-			dafric = 0.;
-		}
-		else {
-			Colebrook(FFriccion, diamep, f, Rep);
-			// if(velabs<1e-50) velabs=0.;
-			dafric = gamma1p * FCoefAjusFric * f * entropiap * pow3(velabs)
-				* DeltaTiempo / (diamep * pow2(asonidop));
-		}
+		if (!DoubEqZero(velocidadp) && !DoubEqZero(FCoefAjusFric)) {
 
-		entropia = dacal + dafric + entropiap;
-#ifdef usetry
+			double f;
+			double velabs = fabs(velocidadp);
+			Colebrook(FFriccion, diamep, f, Rep);
+			double dafric = gamma1p * FCoefAjusFric * f * entropiap * pow3(velabs)
+				* DeltaTiempo / (diamep * pow2(asonidop));
+			entropia += dafric;
+		}
+#if usetry
 	}
 
 	catch(Exception & N) {
@@ -5584,343 +5453,6 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-double TTubo::Interpola_Caracteristica2(double entropia, int signo, int extremo,
-	double DeltaTiempo) {
-#ifdef usetry
-	try {
-#endif
-
-		int ind = 0, ind1 = 0;
-		double ax = 0., axant = 0., distt = 0., distp = 0., dist = 0.;
-		bool valido;
-		double dp = 0., distp1 = 0., ax1 = 0., caracteristica = 0.,
-		velocidadp = 0., asonidop = 0.;
-		double diamep, massflow, gasto1, gastop, presionp, entropia0,
-		entropia1, entropiap, gamma5p;
-		// double Ardtdx;
-		double dtdx;
-
-		if (DeltaTiempo < 1e-15) {
-			ind = extremo;
-				Calculo_Caracteristica(caracteristica, velocidadp, asonidop,
-					ind, 0., signo, entropia, DeltaTiempo);
-		}
-		else {
-
-
-			dtdx = DeltaTiempo / FXref;
-			ind = extremo;
-			ind1 = ind + signo;
-
-			axant = dtdx * (FVelocidadDim[ind] - signo * FAsonidoDim[ind]);
-//			if(fabs(dtdx * (FVelocidadDim[ind + signo] - signo * FAsonidoDim[ind + signo]))>1.0001){
-//				printf("Esto es un desastre\n");
-//			}
-			if (ax > 1. || ax < -1.) {
-				ax = (double) - signo;
-			}
-			if (signo * axant <= 0.)
-				while ((double)signo * (ind + signo + ax) < signo * extremo) {
-					ind = ind + signo;
-					axant = ax;
-					ax = dtdx *
-						(FVelocidadDim[ind + signo] - signo * FAsonidoDim
-						[ind + signo]);
-				}
-
-			distt = 1 + signo * (ax - axant);
-			if (signo == 1) {
-				distp = fabs(extremo + signo * (ind + axant));
-			}
-			else if (signo == -1) {
-				distp = fabs(extremo + signo * (ind + signo + ax));
-			}
-
-			dp = 0.;
-			valido = false;
-			ind1 = ind + signo;
-			massflow = FVelocidadDim[ind] * FArea[ind];
-			gasto1 = FVelocidadDim[ind1] * FArea[ind1];
-			entropia0 = FAsonidoDim[ind] / pow(FPresion0[ind], FGamma5[ind]);
-			entropia1 = FAsonidoDim[ind1] / pow(FPresion0[ind1], FGamma5[ind1]);
-			int n = 0;
-			while (!valido) {
-				n = n + 1;
-				distp = distp + dp;
-				if (distp > distt) {
-					printf("WARNING: Characteristics interpolation pipe %d boundary %d\n",FNumeroTubo,extremo);
-					distp = distt;
-					//throw Exception("ERROR:  error distancias");
-				}
-				dist = distp / distt;
-
-				if (dist < 0.){
-					printf("WARNING: dist=%g disp=%lf distt=%lf\n", dist, distp,
-					distt);
-					dist = 0.;
-				}
-
-				// Calculo de la velocidad en p
-
-				if (signo == 1) {
-					gastop = Interpola(massflow, gasto1, 1., dist);
-					diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1],
-						1., dist);
-					presionp = Interpola(FPresion0[ind], FPresion0[ind1], 1.,
-						dist);
-				}
-				else if (signo == -1) {
-					gastop = Interpola(massflow, gasto1, 1., 1. - dist);
-					diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1],
-						1., 1. - dist);
-					presionp = Interpola(FPresion0[ind], FPresion0[ind1], 1.,
-						1. - dist);
-				}
-				velocidadp = gastop / Seccion(diamep);
-
-				if (signo == 1) {
-					entropiap = Interpola(entropia0, entropia1, 1., dist);
-					gamma5p = Interpola(FGamma5[ind], FGamma5[ind1], 1., dist);
-				}
-				else if (signo == -1) {
-					entropiap = Interpola(entropia0, entropia1, 1., 1. - dist);
-					gamma5p = Interpola(FGamma5[ind], FGamma5[ind1], 1.,
-						1. - dist);
-				}
-				asonidop = pow(presionp, gamma5p) * entropiap;
-				// Fin del calculo de la velocidad en el punto considerado ;
-
-				ax1 = dtdx * (velocidadp - signo * asonidop);
-				if (signo == 1) {
-					distp1 = extremo - (ind + ax1 + dist);
-				}
-				else if (signo == -1) {
-					distp1 = extremo - (ind + signo + ax1 + dist);
-				}
-				if (fabs(distp1) < 1.e-05)
-					valido = true;
-				else {
-					dp = distp1 / 2.;
-				}
-			}
-			if(signo < 0) dist = 1-dist;
-
-			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
-				dist, signo, entropia, DeltaTiempo);
-		}
-		return caracteristica / ARef;
-#ifdef usetry
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTubo::Interpola_Caracteristica " <<
-			FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
-	}
-#endif
-}
-
-
-double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
-	double DeltaTiempo) {
-#if usetry
-	try {
-#endif
-
-
-		double dtdx = DeltaTiempo / FXref;
-		int ind = extremo;
-		double caracteristica;
-		double velocidadp;
-		double asonidop;
-
-
-		if (DeltaTiempo < 1e-15) {
-				Calculo_Caracteristica(caracteristica, velocidadp, asonidop,
-					ind, 0., signo, entropia, DeltaTiempo);
-		}
-		else {
-
-
-			dtdx = DeltaTiempo / FXref;
-
-			int ind1 = ind + signo;
-
-			stCharOrigin CharOrigin(FU0[0][ind], FU0[1][ind], FU0[2][ind], FU0[0][ind1], FU0[1][ind1],
-					FU0[2][ind1],FGamma[ind], FGamma[ind1], dtdx, signo);
-
-			double dist = zbrent(CharOrigin,0.,1.,1e-5);
-			printf("%d\n",CharOrigin.i);
-
-			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
-				dist, signo, entropia, DeltaTiempo);
-		}
-		return caracteristica / ARef;
-#if usetry
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTubo::Interpola_Caracteristica " <<
-			FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
-	}
-#endif
-}
-
-
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-
-void TTubo::Calculo_Caracteristica2(double& caracteristica, double& velocidadp,
-	double& asonidop, int ind, double dist, int signo, double entropia,
-	double DeltaTiempo) {
-#ifdef usetry
-	try {
-#endif
-		double massflow = 0., gasto1 = 0., gastop = 0., entropia0 = 0.,
-		entropia1 = 0., diamep = 0., presionp = 0., tgasp = 0., q = 0., f = 0.,
-		entropiap = 0.;
-		double daen = 0., daar = 0., dacal = 0., dafric = 0., velabs = 0.;
-		int ind1 = 0;
-		double increentropia = 0., caracteristicap = 0.;
-		double tptubop = 0., hip = 0., Rep = 0., rhop = 0., gammap, gamma1p,
-		gamma5p, gamma3p, Rmezclap;
-
-		ind1 = ind + signo;
-		if (dist == 0. || dist == 1.) {
-			gastop = FFlowMass[ind];
-			diamep = FDiametroTubo[ind];
-			velocidadp = FVelocidadDim[ind];
-			presionp = FPresion0[ind];
-			entropiap = FAsonidoDim[ind] / pow(FPresion0[ind], FGamma5[ind]);
-			asonidop = FAsonidoDim[ind];
-			caracteristicap = asonidop - signo * FGamma3[ind] * velocidadp;
-			tptubop = FTPTubo[0][ind];
-			hip = Fhi[ind];
-			rhop = Frho[ind];
-			Rep = FRe[ind];
-			gammap = FGamma[ind];
-			Rmezclap = FRMezcla[ind];
-			gamma5p = FGamma5[ind];
-			gamma3p = FGamma3[ind];
-			gamma1p = FGamma1[ind];
-		}
-		else {
-			massflow = FVelocidadDim[ind] * FArea[ind];
-			gasto1 = FVelocidadDim[ind1] * FArea[ind1];
-			entropia0 = FAsonidoDim[ind] / pow(FPresion0[ind], FGamma5[ind]);
-			entropia1 = FAsonidoDim[ind1] / pow(FPresion0[ind1], FGamma5[ind1]);
-			if (signo == 1) {
-				gastop = Interpola(massflow, gasto1, 1., dist);
-				diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
-					dist);
-				presionp = Interpola(FPresion0[ind], FPresion0[ind1], 1., dist);
-				entropiap = Interpola(entropia0, entropia1, 1., dist);
-				gammap = Interpola(FGamma[ind], FGamma[ind1], 1., dist);
-				Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1., dist);
-				gamma5p = Interpola(FGamma5[ind], FGamma5[ind1], 1., dist);
-				gamma3p = Interpola(FGamma3[ind], FGamma3[ind1], 1., dist);
-				gamma1p = Interpola(FGamma1[ind], FGamma1[ind1], 1., dist);
-			}
-			else if (signo == -1) {
-				gastop = Interpola(massflow, gasto1, 1., 1. - dist);
-				diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
-					1. - dist);
-				presionp = Interpola(FPresion0[ind], FPresion0[ind1], 1.,
-					1. - dist);
-				entropiap = Interpola(entropia0, entropia1, 1., 1. - dist);
-				gammap = Interpola(FGamma[ind], FGamma[ind1], 1., 1. - dist);
-				Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1.,
-					1. - dist);
-				gamma5p = Interpola(FGamma5[ind], FGamma5[ind1], 1., 1. - dist);
-				gamma3p = Interpola(FGamma3[ind], FGamma3[ind1], 1., 1. - dist);
-				gamma1p = Interpola(FGamma1[ind], FGamma1[ind1], 1., 1. - dist);
-			}
-			velocidadp = gastop / Seccion(diamep);
-
-			asonidop = pow(presionp, gamma5p) * entropiap;
-			caracteristicap = asonidop - signo * gamma3p * velocidadp;
-			if (FCoefAjusTC != 0 || FCoefAjusFric != 0) {
-				if (signo == 1) {
-					tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
-						dist);
-					hip = Interpola(Fhi[ind], Fhi[ind1], 1., dist);
-					rhop = Interpola(Frho[ind], Frho[ind1], 1., dist);
-					Rep = Interpola(FRe[ind], FRe[ind1], 1., dist);
-				}
-				else if (signo == -1) {
-					tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
-						1. - dist);
-					hip = Interpola(Fhi[ind], Fhi[ind1], 1., 1. - dist);
-					rhop = Interpola(Frho[ind], Frho[ind1], 1., 1. - dist);
-					Rep = Interpola(FRe[ind], FRe[ind1], 1., 1. - dist);
-				}
-			}
-		}
-
-		// Las siguientes expresiones se pueden encontrar en la Tesis de Corberan
-		// Pagina 22
-		/* variacion debida a la transmision del calor */
-		/* ------------------------------------------ */
-		if (FCoefAjusTC == 0) {
-			dacal = 0.;
-		}
-		else {
-			tgasp = pow2(asonidop) / (gammap * Rmezclap);
-
-			TransmisionCalor(tgasp, diamep, q, hip, rhop, tptubop);
-
-			dacal = gamma3p * gamma1p * DeltaTiempo * q * FCoefAjusTC /
-				asonidop;
-
-		}
-		/* variacion debida a la variacion entropia */
-		/* ---------------------------------------- */
-		increentropia = entropia * ARef - entropiap;
-		daen = asonidop * increentropia / entropiap;
-
-		/* variacion debida al cambio de seccion */
-		/* ------------------------------------- */
-		if (signo == 1) {
-			daar = -gamma3p * asonidop * velocidadp * 2 *
-				(FDiametroTubo[ind1] - FDiametroTubo[ind]) * DeltaTiempo /
-				(diamep * FXref);
-		}
-		else if (signo == -1) {
-			daar = -gamma3p * asonidop * velocidadp * 2 *
-				(FDiametroTubo[ind] - FDiametroTubo[ind1]) * DeltaTiempo /
-				(diamep * FXref);
-		}
-
-		/* variacion debida al termino de friccion */
-		/* --------------------------------------- */
-
-		velabs = fabs(velocidadp);
-
-		if (velocidadp == 0. || FCoefAjusFric == 0.) {
-			dafric = 0.;
-		}
-		else {
-			Colebrook(FFriccion, diamep, f, Rep);
-
-			dafric = signo * gamma1p *
-				(1. + signo * gamma1p * velocidadp / asonidop)
-				* f * FCoefAjusFric * pow3(velocidadp) * DeltaTiempo /
-				(diamep * velabs);
-		}
-
-		caracteristica = daen + dacal + daar + dafric + caracteristicap;
-#ifdef usetry
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo <<
-			std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
-	}
-#endif
-}
 
 void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 	double& asonidop, int ind, double dist, int signo, double entropia,
