@@ -1,31 +1,32 @@
 /* --------------------------------------------------------------------------------*\
 |==========================|
- |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
- | \\ |  X  | //  W ave     |
- |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
- |   \\/   \//    M odel    |
- ----------------------------------------------------------------------------------
- License
+|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+| \\ |  X  | //  W ave     |
+|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+|   \\/   \//    M odel    |
+----------------------------------------------------------------------------------
+License
 
- This file is part of OpenWAM.
+This file is part of OpenWAM.
 
- OpenWAM is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+OpenWAM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- OpenWAM is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+OpenWAM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
- \*-------------------------------------------------------------------------------- */
+\*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
+
 #pragma hdrstop
 
 #include "TTurbina.h"
@@ -37,63 +38,62 @@
 // ---------------------------------------------------------------------------
 
 TTurbina::TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas,
-                   nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-                   nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-    TDepVolCteBase(i, TipoDeposito, SpeciesModel, numeroespecies,
-                   GammaCalculation, ThereIsEGR) {
-    asgNumeroTurbina = false;
+	nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+	bool ThereIsEGR) : TDepVolCteBase(i, TipoDeposito, SpeciesModel, numeroespecies,
+	GammaCalculation, ThereIsEGR) {
+	asgNumeroTurbina = false;
 
-    FTimeTurbina = 0.;
-    FNumeroEntradas = nentradas;
-    FNodoEntrada = new int[nentradas];
-    FTuboEntrada = new int[nentradas];
-    FExtremoEntrada = new int[nentradas];
-    FSentidoEntrada = new int[nentradas];
-    FPresionEntrada = new double[nentradas];
-    FVelocidadEntrada = new double[nentradas];
-    FGastoEntrada = new double[nentradas];
-    FTempEntrada = new double[nentradas];
-    FAsonidoEntrada = new double[nentradas];
-    FRhoEntrada = new double[nentradas];
-    FTemp0Entrada = new double[nentradas];
-    FEntalpia0Entrada = new double[nentradas];
-    FPresion0Entrada = new double[nentradas];
-    FEntalpiaIsenSalida = new double[nentradas];
-    FRelacionCinematica = new double[nentradas];
-    FRendTurbina = new double[nentradas];
-    FDeltaPaso = 0.;
-    FTrabajoReal = 0.;
-    FTrabajoRealPaso = 0.;
-    FRendInstantaneo = 0.;
-    FTrabajoIsenInstTotal = 0.;
-    FTrabajoFluido = 0.;
-    FRelacionCinGlobalAcum = 0.;
-    FRelacionCinAcum = new double[nentradas];
-    for (int j = 0; j < nentradas; j++) {
-        FRelacionCinAcum[j] = 0.;
-    }
-    FPonderacionRelacionCinematica = new double[nentradas];
+	FTimeTurbina = 0.;
+	FNumeroEntradas = nentradas;
+	FNodoEntrada = new int[nentradas];
+	FTuboEntrada = new int[nentradas];
+	FExtremoEntrada = new int[nentradas];
+	FSentidoEntrada = new int[nentradas];
+	FPresionEntrada = new double[nentradas];
+	FVelocidadEntrada = new double[nentradas];
+	FGastoEntrada = new double[nentradas];
+	FTempEntrada = new double[nentradas];
+	FAsonidoEntrada = new double[nentradas];
+	FRhoEntrada = new double[nentradas];
+	FTemp0Entrada = new double[nentradas];
+	FEntalpia0Entrada = new double[nentradas];
+	FPresion0Entrada = new double[nentradas];
+	FEntalpiaIsenSalida = new double[nentradas];
+	FRelacionCinematica = new double[nentradas];
+	FRendTurbina = new double[nentradas];
+	FDeltaPaso = 0.;
+	FTrabajoReal = 0.;
+	FTrabajoRealPaso = 0.;
+	FRendInstantaneo = 0.;
+	FTrabajoIsenInstTotal = 0.;
+	FTrabajoFluido = 0.;
+	FRelacionCinGlobalAcum = 0.;
+	FRelacionCinAcum = new double[nentradas];
+	for (int j = 0; j < nentradas; j++) {
+		FRelacionCinAcum[j] = 0.;
+	}
+	FPonderacionRelacionCinematica = new double[nentradas];
 
-    FCCSalida = NULL;
-    FCCSalida = NULL;
-    FResMediosTurbina.RelaCinematica = NULL;
-    FResMediosTurbina.RelaCinematicaMED = NULL;
-    FResInstantTurbina.RelaCinematicaINS = NULL;
-    FResInstantTurbina.RelaCinematica = NULL;
+	FCCSalida = NULL;
+	FCCSalida = NULL;
+	FResMediosTurbina.RelaCinematica = NULL;
+	FResMediosTurbina.RelaCinematicaMED = NULL;
+	FResInstantTurbina.RelaCinematicaINS = NULL;
+	FResInstantTurbina.RelaCinematica = NULL;
 
-    FGastoCorregido = NULL;
-    FRegimenCorregido = NULL;
-    FRelacionExpansion = NULL;
-    FGastoCorregido = new double[nentradas];
-    FRegimenCorregido = new double[nentradas];
-    FRelacionExpansion = new double[nentradas];
+	FGastoCorregido = NULL;
+	FRegimenCorregido = NULL;
+	FRelacionExpansion = NULL;
+	FGastoCorregido = new double[nentradas];
+	FRegimenCorregido = new double[nentradas];
+	FRelacionExpansion = new double[nentradas];
 
-    FMapa = NULL;
+	FMapa = NULL;
 
-    // FHTM=NULL;
+	// FHTM=NULL;
 
-    FRackIsControlled = false;
-    FIsAcoustic = false;
+	FRackIsControlled = false;
+	FIsAcoustic = false;
 
 }
 
@@ -101,58 +101,58 @@ TTurbina::TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas,
 // ---------------------------------------------------------------------------
 
 TTurbina::~TTurbina() {
-    delete[] FRelacionCinAcum;
-    delete[] FTuboEntrada;
-    delete[] FNodoEntrada;
-    delete[] FExtremoEntrada;
-    delete[] FSentidoEntrada;
-    delete[] FPresionEntrada;
-    delete[] FVelocidadEntrada;
-    delete[] FGastoEntrada;
-    delete[] FTempEntrada;
-    delete[] FAsonidoEntrada;
-    delete[] FRhoEntrada;
-    delete[] FTemp0Entrada;
-    delete[] FEntalpia0Entrada;
-    delete[] FPresion0Entrada;
-    delete[] FEntalpiaIsenSalida;
-    delete[] FRelacionCinematica;
-    delete[] FRendTurbina;
-    delete[] FGastoCorregido;
-    delete[] FRegimenCorregido;
-    delete[] FRelacionExpansion;
-    delete[] FPonderacionRelacionCinematica;
+	delete[]FRelacionCinAcum;
+	delete[]FTuboEntrada;
+	delete[]FNodoEntrada;
+	delete[]FExtremoEntrada;
+	delete[]FSentidoEntrada;
+	delete[]FPresionEntrada;
+	delete[]FVelocidadEntrada;
+	delete[]FGastoEntrada;
+	delete[]FTempEntrada;
+	delete[]FAsonidoEntrada;
+	delete[]FRhoEntrada;
+	delete[]FTemp0Entrada;
+	delete[]FEntalpia0Entrada;
+	delete[]FPresion0Entrada;
+	delete[]FEntalpiaIsenSalida;
+	delete[]FRelacionCinematica;
+	delete[]FRendTurbina;
+	delete[]FGastoCorregido;
+	delete[]FRegimenCorregido;
+	delete[]FRelacionExpansion;
+	delete[]FPonderacionRelacionCinematica;
 
-    if (FCCEntrada != NULL)
-        delete[] FCCEntrada;
-    if (FCCSalida != NULL)
-        delete[] FCCSalida;
-    if (FResMediosTurbina.RelaCinematicaMED != NULL)
-        delete[] FResMediosTurbina.RelaCinematicaMED;
-    if (FResMediosTurbina.GastoCorregidoMED != NULL)
-        delete[] FResMediosTurbina.GastoCorregidoMED;
-    if (FResMediosTurbina.GastoCorregidoSUM != NULL)
-        delete[] FResMediosTurbina.GastoCorregidoSUM;
-    if (FResMediosTurbina.RegimenCorregidoMED != NULL)
-        delete[] FResMediosTurbina.RegimenCorregidoMED;
-    if (FResMediosTurbina.RegimenCorregidoSUM != NULL)
-        delete[] FResMediosTurbina.RegimenCorregidoSUM;
-    if (FResMediosTurbina.RelacionExpansionMED != NULL)
-        delete[] FResMediosTurbina.RelacionExpansionMED;
-    if (FResMediosTurbina.RelacionExpansionSUM != NULL)
-        delete[] FResMediosTurbina.RelacionExpansionSUM;
-    if (FResInstantTurbina.RelaCinematicaINS != NULL)
-        delete[] FResInstantTurbina.RelaCinematicaINS;
-    if (FResInstantTurbina.GastoCorregidoINS != NULL)
-        delete[] FResInstantTurbina.GastoCorregidoINS;
-    if (FResInstantTurbina.RegimenCorregidoINS != NULL)
-        delete[] FResInstantTurbina.RegimenCorregidoINS;
-    if (FResInstantTurbina.RelacionExpansionINS != NULL)
-        delete[] FResInstantTurbina.RelacionExpansionINS;
+	if (FCCEntrada != NULL)
+		delete[]FCCEntrada;
+	if (FCCSalida != NULL)
+		delete[]FCCSalida;
+	if (FResMediosTurbina.RelaCinematicaMED != NULL)
+		delete[]FResMediosTurbina.RelaCinematicaMED;
+	if (FResMediosTurbina.GastoCorregidoMED != NULL)
+		delete[]FResMediosTurbina.GastoCorregidoMED;
+	if (FResMediosTurbina.GastoCorregidoSUM != NULL)
+		delete[]FResMediosTurbina.GastoCorregidoSUM;
+	if (FResMediosTurbina.RegimenCorregidoMED != NULL)
+		delete[]FResMediosTurbina.RegimenCorregidoMED;
+	if (FResMediosTurbina.RegimenCorregidoSUM != NULL)
+		delete[]FResMediosTurbina.RegimenCorregidoSUM;
+	if (FResMediosTurbina.RelacionExpansionMED != NULL)
+		delete[]FResMediosTurbina.RelacionExpansionMED;
+	if (FResMediosTurbina.RelacionExpansionSUM != NULL)
+		delete[]FResMediosTurbina.RelacionExpansionSUM;
+	if (FResInstantTurbina.RelaCinematicaINS != NULL)
+		delete[]FResInstantTurbina.RelaCinematicaINS;
+	if (FResInstantTurbina.GastoCorregidoINS != NULL)
+		delete[]FResInstantTurbina.GastoCorregidoINS;
+	if (FResInstantTurbina.RegimenCorregidoINS != NULL)
+		delete[]FResInstantTurbina.RegimenCorregidoINS;
+	if (FResInstantTurbina.RelacionExpansionINS != NULL)
+		delete[]FResInstantTurbina.RelacionExpansionINS;
 
-    if (FMapa != NULL) {
-        delete FMapa;
-    }
+	if (FMapa != NULL) {
+		delete FMapa;
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -285,148 +285,143 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 // ---------------------------------------------------------------------------
 
 void TTurbina::CalculoPotenciaPaso() {
-    try {
+	try {
 
-        if (FDeltaPaso != 0 & FTrabajoRealPaso != 0) {
-            FPotenciaPaso = FTrabajoRealPaso / FDeltaPaso;
-            FTrabajoRealPaso = 0.;
-            FDeltaPaso = 0.;
-        } else {
-            FPotenciaPaso = 0.;
-            FTrabajoRealPaso = 0.;
-            FDeltaPaso = 0.;
-        }
+		if (FDeltaPaso != 0 & FTrabajoRealPaso != 0) {
+			FPotenciaPaso = FTrabajoRealPaso / FDeltaPaso;
+			FTrabajoRealPaso = 0.;
+			FDeltaPaso = 0.;
+		}
+		else {
+			FPotenciaPaso = 0.;
+			FTrabajoRealPaso = 0.;
+			FDeltaPaso = 0.;
+		}
 
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::CalculoPotenciaPaso en el compresor: "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(
-            "ERROR: TTurbina::CalculoPotenciaPaso en la turbina: "
-            + AnsiString(FNumeroTurbina) + N.Message.c_str());
-    }
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::CalculoPotenciaPaso en el compresor: " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception("ERROR: TTurbina::CalculoPotenciaPaso en la turbina: " + AnsiString
+			(FNumeroTurbina) + N.Message.c_str());
+	}
 }
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbina::TransformaContorno(double *L, double *B, double *E, double *a,
-                                  double *v, double *p, int modo, double Gamma) {
-    try {
-        if (modo == 0) {
-            *L = (*a + (Gamma / 2) * *v);
-            *B = (*a - (Gamma / 2) * *v);
-            *E = *a / pow(*p, Gamma5(Gamma));
-        } else {
-            *a = (*L + *B) / 2.;
-            *v = (*L - *B) / Gamma1(Gamma);
-            *p = pow(*a / *E, Gamma4(Gamma));
-        }
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::TransformaContorno en la turbina "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+void TTurbina::TransformaContorno(double *L, double *B, double *E, double *a, double *v, double *p,
+	int modo, double Gamma) {
+	try {
+		if (modo == 0) {
+			*L = (*a + (Gamma / 2) * *v);
+			*B = (*a - (Gamma / 2) * *v);
+			*E = *a / pow(*p, Gamma5(Gamma));
+		}
+		else {
+			*a = (*L + *B) / 2.;
+			*v = (*L - *B) / Gamma1(Gamma);
+			*p = pow(*a / *E, Gamma4(Gamma));
+		}
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::TransformaContorno en la turbina " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 void TTurbina::LeeTurbina(char *FileWAM, fpos_t &filepos) {
-    try {
-        int rdturb, tipoturb, ctrl, numctrl, ac, InID, OutID, VolID;
-        double AngCritico;
+	try {
+		int rdturb, tipoturb, ctrl, numctrl, ac, InID, OutID, VolID;
+		double AngCritico;
 
-        FILE *fich = fopen(FileWAM, "r");
-        fsetpos(fich, &filepos);
+		FILE *fich = fopen(FileWAM, "r");
+		fsetpos(fich, &filepos);
 
-        fscanf(fich, "%d ", &tipoturb);
-        switch (tipoturb) {
-        case 0:
-            FTipoTurbina = nmFixedTurbine;
-            break;
-        case 1:
-            FTipoTurbina = nmVariableGeometry;
-            break;
-        case 2:
-            FTipoTurbina = nmTurbineMap;
-            break;
-        default:
-            std::cout << "ERROR: Unknown turbine type " << std::endl;
-            break;
-        }
-        fscanf(fich, "%lf ", &FDiametroRodete);
-        if (FTipoTurbina == nmTurbineMap) {
+		fscanf(fich, "%d ", &tipoturb);
+		switch(tipoturb) {
+		case 0:
+			FTipoTurbina = nmFixedTurbine;
+			break;
+		case 1:
+			FTipoTurbina = nmVariableGeometry;
+			break;
+		case 2:
+			FTipoTurbina = nmTurbineMap;
+			break;
+		default:
+			std::cout << "ERROR: Unknown turbine type " << std::endl;
+		}
+		fscanf(fich, "%lf ", &FDiametroRodete);
+		if (FTipoTurbina == nmTurbineMap) {
 
-            fscanf(fich, "%lf %lf %lf ", &FDiametroRodeteOut, &FDiametroTuerca,
-                   &FDiametroTurbinaIn);
-            fscanf(fich, "%lf ", &AngCritico);
-            FMapa = new TTurbineMap();
-            FMapa->LoadTurbineMap(fich, FDiametroRodete, FDiametroRodeteOut,
-                                  FDiametroTuerca, FDiametroTurbinaIn, AngCritico);
+			fscanf(fich, "%lf %lf %lf ", &FDiametroRodeteOut, &FDiametroTuerca,
+				&FDiametroTurbinaIn);
+			fscanf(fich, "%lf ", &AngCritico);
+			FMapa = new TTurbineMap();
+			FMapa->LoadTurbineMap(fich, FDiametroRodete, FDiametroRodeteOut, FDiametroTuerca,
+				FDiametroTurbinaIn, AngCritico);
 
-            fscanf(fich, "%d ", &numctrl);
-            for (int i = 0; i < numctrl; ++i) {
-                fscanf(fich, "%d ", &ctrl);
-                switch (ctrl) {
-                case 0:
-                    FRackIsControlled = true;
-                    break;
+			fscanf(fich, "%d ", &numctrl);
+			for (int i = 0; i < numctrl; ++i) {
+				fscanf(fich, "%d ", &ctrl);
+				switch(ctrl) {
+				case 0:
+					FRackIsControlled = true;
+					break;
 
-                default:
-                    std::cout << "ERROR: Unknown controller for the turbine "
-                              << std::endl;
-                    break;
-                }
-                fscanf(fich, "%d ", &FNumControlObject);
-            }
+				default:
+					std::cout << "ERROR: Unknown controller for the turbine " << std::endl;
+				}
+				fscanf(fich, "%d ", &FNumControlObject);
+			}
 
-            if (!FRackIsControlled)
-                fscanf(fich, "%lf ", &FRack);
-            FCalRendTurbina = nmRendMapa;
+			if (!FRackIsControlled)
+				fscanf(fich, "%lf ", &FRack);
+			FCalRendTurbina = nmRendMapa;
 
 #ifdef tchtm
 
-            fscanf(fich, "%d ", &ac);
-            if (ac == 1) {
-                FIsAcoustic = true;
-                fscanf(fich, "%d %d %d", &InID, &VolID, &OutID);
-                FAcTurb = new TAcousticTurbine(InID, VolID, OutID);
-            }
+			fscanf(fich, "%d ", &ac);
+			if (ac == 1) {
+				FIsAcoustic = true;
+				fscanf(fich, "%d %d %d", &InID, &VolID, &OutID);
+				FAcTurb = new TAcousticTurbine(InID, VolID, OutID);
+			}
 
 #endif
-        } else {
-            fscanf(fich, "%d ", &rdturb);
-            switch (rdturb) {
-            case 0:
-                FCalRendTurbina = nmWatson;
-                break;
-            case 1:
-                FCalRendTurbina = nmPolinomio;
-                fscanf(fich, "%lf %lf %lf ", &FRcoptima, &FRcmaxima,
-                       &FRendmaximo);
-                break;
-            case 2:
-                FCalRendTurbina = nmCalcExtRD;
-                break;
-            default:
-                std::cout
-                        << "ERROR: Unknown method to calculate turbine efficiency "
-                        << std::endl;
-                break;
-            }
-        }
+		}
+		else {
+			fscanf(fich, "%d ", &rdturb);
+			switch(rdturb) {
+			case 0:
+				FCalRendTurbina = nmWatson;
+				break;
+			case 1:
+				FCalRendTurbina = nmPolinomio;
+				fscanf(fich, "%lf %lf %lf ", &FRcoptima, &FRcmaxima, &FRendmaximo);
+				break;
+			case 2:
+				FCalRendTurbina = nmCalcExtRD;
+				break;
+			default:
+				std::cout << "ERROR: Unknown method to calculate turbine efficiency " << std::endl;
+			}
+		}
 
-        fscanf(fich, "%lf ", &FAjustRendTurb);
+		fscanf(fich, "%lf ", &FAjustRendTurb);
 
-        fgetpos(fich, &filepos);
-        fclose(fich);
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::LeeRendimientoTurbina en la turbina "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+		fgetpos(fich, &filepos);
+		fclose(fich);
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::LeeRendimientoTurbina en la turbina " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -546,125 +541,116 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbina::AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo,
-                                 int sentido) {
-    try {
-        FNodoSalida = nodsaltur;
-        FTuboSalida = tubsaltur;
-        FExtremoSalida = extremo;
-        FSentidoSalida = sentido;
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::AsignaDatosSalida en la turbina "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+void TTurbina::AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo, int sentido) {
+	try {
+		FNodoSalida = nodsaltur;
+		FTuboSalida = tubsaltur;
+		FExtremoSalida = extremo;
+		FSentidoSalida = sentido;
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::AsignaDatosSalida en la turbina " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 double TTurbina::GetRelacionCinematica(int i) {
-    try {
-        if (FRelacionCinematica != NULL && i < FNumeroEntradas) {
-            return FRelacionCinematica[i];
-        } else {
-            std::cout << "ERROR: TTurbina::GetRelacionCinematica: "
-                      << FNumeroTurbina << std::endl;
-            std::cout << "ERROR: La entrada de la turbina indicada no existe "
-                      << std::endl;
-            return 0.;
-        }
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::GetRelacionCinematica en la turbina "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+	try {
+		if (FRelacionCinematica != NULL && i < FNumeroEntradas) {
+			return FRelacionCinematica[i];
+		}
+		else {
+			std::cout << "ERROR: TTurbina::GetRelacionCinematica: " << FNumeroTurbina << std::endl;
+			std::cout << "ERROR: La entrada de la turbina indicada no existe " << std::endl;
+			return 0.;
+		}
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::GetRelacionCinematica en la turbina " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbina::AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo,
-                                  int sentido, int n) {
-    try {
-        FNodoEntrada[n] = nodentur;
-        FTuboEntrada[n] = tubsaltur;
-        FExtremoEntrada[n] = extremo;
-        FSentidoEntrada[n] = sentido;
-    } catch (Exception & N) {
-        std::cout << "ERROR: TTurbina::AsignaDatosEntrada en la turbina "
-                  << FNumeroTurbina << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+void TTurbina::AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo, int sentido, int n) {
+	try {
+		FNodoEntrada[n] = nodentur;
+		FTuboEntrada[n] = tubsaltur;
+		FExtremoEntrada[n] = extremo;
+		FSentidoEntrada[n] = sentido;
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TTurbina::AsignaDatosEntrada en la turbina " << FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 TCondicionContorno* TTurbina::GetCCEntrada(int i) {
-    if (FCCEntrada != NULL && i < FNumeroEntradas) {
-        return FCCEntrada[i];
-    } else {
-        std::cout << "ERROR: TTurbina::Peticion CCEntrada: " << FNumeroTurbina
-                  << std::endl;
-    }
+	if (FCCEntrada != NULL && i < FNumeroEntradas) {
+		return FCCEntrada[i];
+	}
+	else {
+		std::cout << "ERROR: TTurbina::Peticion CCEntrada: " << FNumeroTurbina << std::endl;
+	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 TCondicionContorno* TTurbina::GetCCSalida(int i) {
-    if (FCCSalida != NULL && i < 1) {
-        return FCCSalida[i];
-    } else {
-        std::cout << "ERROR: TTurbina::Peticion CCSalida: " << FNumeroTurbina
-                  << std::endl;
-    }
+	if (FCCSalida != NULL && i < 1) {
+		return FCCSalida[i];
+	}
+	else {
+		std::cout << "ERROR: TTurbina::Peticion CCSalida: " << FNumeroTurbina << std::endl;
+	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 void TTurbina::AsignaRackController(TController **Controller) {
-    if (FRackIsControlled)
-        FRackController = Controller[FNumControlObject - 1];
+	if (FRackIsControlled)
+		FRackController = Controller[FNumControlObject - 1];
 }
 
 void TTurbina::AllocateDatosTGV(stDatosTGV *DatosTGV) {
-    FDatosTGV = DatosTGV;
+	FDatosTGV = DatosTGV;
 }
 
 double TTurbina::CpTurbineSimple(double Temperature, double YBurnt) {
 
-    double R = RBurnt * YBurnt + (RAir * (1 - YBurnt - 0.0164) + 0.0164 * RH2O);
-    double RaizdeT = sqrt(Temperature);
+	double R = RBurnt * YBurnt + (RAir * (1 - YBurnt - 0.0164) + 0.0164 * RH2O);
+	double RaizdeT = sqrt(Temperature);
 
-    double CvAir = -10.4199 * RaizdeT + 2522.88
-                   + (-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
-                   / Temperature;
-    double CvBurnt = 641.154
-                     + Temperature
-                     * (0.43045
-                        + Temperature
-                        * (-0.0001125 + Temperature * 8.979e-9));
-    double CvH2O = (22.605 - 0.09067 * RaizdeT
-                    + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT) / Temperature)
-                   * RH2O - RH2O;
+	double CvAir = -10.4199 * RaizdeT + 2522.88 +
+		(-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT) / Temperature;
+	double CvBurnt = 641.154 + Temperature *
+		(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
+	double CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+		/ Temperature) * RH2O - RH2O;
 
-    double CpMezcla = CvBurnt * YBurnt
-                      + (CvAir * (1 - YBurnt - 0.0164) + 0.0164 * CvH2O) + R;
+	double CpMezcla = CvBurnt * YBurnt + (CvAir * (1 - YBurnt - 0.0164) + 0.0164 * CvH2O) + R;
 
-    return CpMezcla;
+	return CpMezcla;
 }
 
 double TTurbina::CpTurbineComplete(double YO2, double YCO2, double YH2O, double Temperature) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 
 	double RaizdeT = sqrt(Temperature);
-	// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
+	// Temperature en Kelvin. Calculado segun la correlacion de JANAF.
 	double CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
 		/ Temperature) * RN2;
 	double CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
@@ -681,15 +667,15 @@ double TTurbina::CpTurbineComplete(double YO2, double YCO2, double YH2O, double 
 }
 
 void TTurbina::CalculateAdiabaticMap(double TinC) {
-    FMapa->CalculateAdiabaticEfficiency(FHTM, TinC);
+	FMapa->CalculateAdiabaticEfficiency(FHTM, TinC);
 }
 
 void TTurbina::AsignAcousticElements(TTubo **Pipe) {
 
-    if (FIsAcoustic) {
-        FAcTurb->AsignInPipe(Pipe);
-        FAcTurb->AsignOutPipe(Pipe);
-    }
+	if (FIsAcoustic) {
+		FAcTurb->AsignInPipe(Pipe);
+		FAcTurb->AsignOutPipe(Pipe);
+	}
 }
 
 #pragma package(smart_init)

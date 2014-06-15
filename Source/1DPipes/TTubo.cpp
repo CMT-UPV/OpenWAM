@@ -3288,7 +3288,7 @@ void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TTubo::HeaderInstantaneousResults en el tubo n.: " << FNumeroTubo << std::endl;
+			"ERROR: TTubo::HeaderInstantaneousResults en el tubo nº: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
@@ -3347,7 +3347,7 @@ void TTubo::ImprimeResultadosInstantaneos(stringstream& insoutput)const {
 #ifdef usetry
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TTubo::ResultadosInstantaneos en el tubo n.: " <<
+		std::cout << "ERROR: TTubo::ResultadosInstantaneos en el tubo nº: " <<
 			FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -5210,7 +5210,7 @@ void TTubo::SalidaGeneralTubos(stEspecies *DatosEspecies)const {
 #ifdef usetry
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TTubo::SalidaGeneralTubos en el tubo n.: " <<
+		std::cout << "ERROR: TTubo::SalidaGeneralTubos en el tubo nº: " <<
 			FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -5421,7 +5421,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 
 			TransmisionCalor(tgasp, diamep, q, hip, rhop, tptubop);
 
-			// Las siguientes expresiones están en la Tesis de Corberán. Página 23
+			// Las siguientes expresiones estan en la Tesis de Corberan. Pagina 23
 			double dacal = gamma3p * entropiap * q * FCoefAjusTC * DeltaTiempo / pow2
 				(asonidop);
 
@@ -5456,7 +5456,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 
 double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 	double DeltaTiempo) {
-#if usetry
+#ifdef usetry
 	try {
 #endif
 
@@ -5488,7 +5488,7 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 				dist, signo, entropia, DeltaTiempo);
 		}
 		return caracteristica / ARef;
-#if usetry
+#ifdef usetry
 	}
 	catch (Exception & N) {
 		std::cout << "ERROR: TTubo::Interpola_Caracteristica " <<
@@ -5550,8 +5550,8 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 		caracteristica = asonidop - signo * gamma3p * velocidadp;
 		
 
-		// Las siguientes expresiones se pueden encontrar en la Tesis de Corberán
-		// Página 22
+		// Las siguientes expresiones se pueden encontrar en la Tesis de Corberan
+		// Pagina 22
 		/* variacion debida a la transmision del calor */
 		/* ------------------------------------------ */
 		if (FCoefAjusTC != 0) {

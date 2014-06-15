@@ -48,17 +48,17 @@ private:
 //          VARIABLES PRIVADAS
 //---------------------------------------------------------------------------
 
-        int FTuboCCNodoIzq;    // Guarda la posici�n en la estructura de TuboExtremo del tubo para el NodoIzquierdo
-        int FTuboCCNodoDer;    // Guarda la posici�n en la estructura de TuboExtremo del tubo para el NodoIzquierdo
+        int FTuboCCNodoIzq;    // Guarda la posicion en la estructura de TuboExtremo del tubo para el NodoIzquierdo
+        int FTuboCCNodoDer;    // Guarda la posicion en la estructura de TuboExtremo del tubo para el NodoIzquierdo
 
-        // Datos Geom�tricos
+        // Datos Geometricos
 
         int FContador;
         int FNumDPF;
-        int FNumeroHaz;                  // Numero de Haz (discretizaci�n radial de la DPF"
+        int FNumeroHaz;                  // Numero de Haz (discretizacion radial de la DPF"
         int FNodoIzq;                     // Nodo Izquierdo
         int FNodoDer;                     // Nodo Derecho
-        int FNin;                         // N�mero de nodos
+        int FNin;                         // Numero de nodos
         double FXref;                     // Incremento espacial del mallado
         double FLongitudTotal;            // Longitud total del conducto
         double FMallado;                  // Mallado inicial
@@ -77,19 +77,19 @@ private:
         double *FDerLinArea12;
         bool FIntercooler;
 
-        // Propiedades t�rmicas y fricci�n
+        // Propiedades termicas y friccion
 
-        //double FFriccion;                 // Fricci�n del conducto
-        nmTipoTransCal FTipoTransCal;     // Tipo de transmisi�n de calor PIPA = 3, ESC = 2, ADM = 1
-        double FCoefAjusFric;             // Coeficiente Ajuste valor de fricci�n
+        //double FFriccion;                 // Friccion del conducto
+        nmTipoTransCal FTipoTransCal;     // Tipo de transmision de calor PIPA = 3, ESC = 2, ADM = 1
+        double FCoefAjusFric;             // Coeficiente Ajuste valor de friccion
         double FTIniParedTub;             // Temperatura inicial pared tubo
         double *FCoefTurbulencia;         // Coeficiente de turbulencia tubos de escape
         double *FTPared;                 // Temperatura de pared por nodo de tubo y nodo de pared
         double **FTPTubo;                 // Sumatorio temperaturas de pared de los tubos
         double FTExt;
         double FCoefExt;
-        double *Fhi;                      // Coeficiente de pel�cula interior en cada nodo.
-        double *Fhe;                      // Coeficiente de pel�cula exterior en cada nodo.
+        double *Fhi;                      // Coeficiente de pelicula interior en cada nodo.
+        double *Fhe;                      // Coeficiente de pelicula exterior en cada nodo.
         double *Frho;                     // Densidad del gas en cada nodo.
         double *FRe;                      // Reynolds del gas en cada nodo.
         double *FVelPro;
@@ -98,10 +98,10 @@ private:
 
         double FVelMedia;                 // Velocidad media a lo largo del conducto
         double FTini;                     // Temperatura inicial gas
-        double FPini;                     // Presi�n inicial del gas
+        double FPini;                     // Presion inicial del gas
         double *FPresion0;                // Presion instante de calculo
-        double *FAsonido0;                // Velocidad del sonido instante de c�lculo
-        double *FVelocidad0;              // Velocidad instante de c�lculo
+        double *FAsonido0;                // Velocidad del sonido instante de calculo
+        double *FVelocidad0;              // Velocidad instante de calculo
         double *FPresion1;                // Presion instante anterior
         double *FAsonido1;                // Velocidad del sonido instante anterior
         double *FVelocidad1;              // Velocidad instente anterior
@@ -112,7 +112,7 @@ private:
         double **FU0;                     // Vector solucion instante de calculo
         double **FU1;                     // Vector solucion instante posterior
         double **FUt;                     // Variacion del vector solucion con respecto al tiempo (solo CE-SE)
-        double **FU12;                    // Vector soluci�n instante de calculo intermedio
+        double **FU12;                    // Vector solucion instante de calculo intermedio
         double **FW;                      // Vector de flujo
         double **FV1;                     // Termino fuente dependiente de la variacion de seccion
         double **FV2;                     // Termino fuente (Friccion - Trans. Calor)
@@ -151,13 +151,13 @@ private:
         // Calculo Especies
 
         int FNumeroEspecies;               // Numero de Especies
-        nmTipoCalculoEspecies FCalculoEspecies;  // Calculo con 9 o 3 especies qu�micas
+        nmTipoCalculoEspecies FCalculoEspecies;  // Calculo con 9 o 3 especies quimicas
         nmCalculoGamma FCalculoGamma;
-        double *FComposicionInicial;       // Composici�n inicial en el tubo
-        double **FFraccionMasicaEspecie;   // Fracci�n M�sica de cada especie por nodo.
-        double **FFraccionMasicaEspecie1;   // Fracci�n M�sica de cada especie por nodo en el instante anterior.
-        double **FFraccionMasicaCC;         // Fracci�n M�sica de cada especie en el punto de partida
-                                           // de la l�nea de corriente que llega a la CC.
+        double *FComposicionInicial;       // Composicion inicial en el tubo
+        double **FFraccionMasicaEspecie;   // Fraccion Masica de cada especie por nodo.
+        double **FFraccionMasicaEspecie1;   // Fraccion Masica de cada especie por nodo en el instante anterior.
+        double **FFraccionMasicaCC;         // Fraccion Masica de cada especie en el punto de partida
+                                           // de la linea de corriente que llega a la CC.
         bool FHayEGR;
         int FIntEGR;
 
@@ -179,7 +179,7 @@ private:
 
         // Tiempos
 
-        double FTime0;                     // Tiempo para el instante de c�lculo
+        double FTime0;                     // Tiempo para el instante de calculo
         double FTime1;                     // Tiempo para el instante posterior
         double FDeltaTime;                 // Incremento de tiempo.
         double *FCourantLocal;
@@ -199,7 +199,7 @@ private:
         double FAnguloTotalCiclo;
         double FRegimenFicticio;
 
-        int FCicloTubo; // Controla el c�lculo de la Temp de pared una vez por ciclo.
+        int FCicloTubo; // Controla el calculo de la Temp de pared una vez por ciclo.
 
         //Variables propias de la DPF
 
@@ -218,7 +218,7 @@ private:
         double *FLadoCanalD12;
         double *FLadoCanalS12;
         double *FH0Pared;
-        double FF;                // Constante de la p�rdida de carga por fricci�n en canales cuadrados F=28.454
+        double FF;                // Constante de la perdida de carga por friccion en canales cuadrados F=28.454
 
         double *FVelocidadPared;
         double *FViscosidadDinamica;
@@ -229,13 +229,13 @@ private:
         int FNodoInicialFuenteCE;
         double FDistanciaInterpolacion;
 
-        double *Fqreg;             // Calor liberado durante la regeneraci�n en el volumen de control del nodo i.
-        double *Fq_reac1;          // Calor liberado durante la combusti�n de CO en el volumen de control del nodo i.
-        double *Fq_reac2;          // Calor liberado durante la combusti�n de HC en el volumen de control del nodo i.
-        double **FTasaFraccionMasicaEspecie;   // Tasa de variaci�n de la Fracci�n M�sica de cada especie por nodo.
-        double **FFraccionMasicaSalida;  // Fracci�n m�sica de cada especie a la salida de la pared porosa.
-        double *FRreg1;          // Tasa de regeneraci�n t�rmica en el nodo i del canal de salida
-        double *FRreg2;          // Tasa de regeneraci�n catal�tica en el nodo i del canal de salida
+        double *Fqreg;             // Calor liberado durante la regeneracion en el volumen de control del nodo i.
+        double *Fq_reac1;          // Calor liberado durante la combustion de CO en el volumen de control del nodo i.
+        double *Fq_reac2;          // Calor liberado durante la combustion de HC en el volumen de control del nodo i.
+        double **FTasaFraccionMasicaEspecie;   // Tasa de variacion de la Fraccion Masica de cada especie por nodo.
+        double **FFraccionMasicaSalida;  // Fraccion masica de cada especie a la salida de la pared porosa.
+        double *FRreg1;          // Tasa de regeneracion termica en el nodo i del canal de salida
+        double *FRreg2;          // Tasa de regeneracion catalitica en el nodo i del canal de salida
         double *FEficiencia;     // Eficiencia del medio poroso en el nodo i del canal de salida
         double *FSupEspecifica;  // Superficia especifica de la trampa
         double *FLongitudVC;

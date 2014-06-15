@@ -1,36 +1,37 @@
 /* --------------------------------------------------------------------------------*\
 |==========================|
- |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
- | \\ |  X  | //  W ave     |
- |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
- |   \\/   \//    M odel    |
- ----------------------------------------------------------------------------------
- License
+|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+| \\ |  X  | //  W ave     |
+|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+|   \\/   \//    M odel    |
+----------------------------------------------------------------------------------
+License
 
- This file is part of OpenWAM.
+This file is part of OpenWAM.
 
- OpenWAM is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+OpenWAM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- OpenWAM is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+OpenWAM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
- \*-------------------------------------------------------------------------------- */
+\*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
+
 #ifndef TTurbinaH
 #define TTurbinaH
 #include <iostream>
 #ifdef __BORLANDC__
-#include <vcl.h>
+    #include <vcl.h>
 #endif
 #include "TDepVolCteBase.h"
 #include "TTurbineMap.h"
@@ -38,7 +39,7 @@
 #include "TTC_HTM.h"
 #include "TAcousticTurbine.h"
 
-class TTurbina: public TDepVolCteBase {
+class TTurbina : public TDepVolCteBase {
 protected:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
@@ -136,8 +137,8 @@ protected:
 	// FUNCIONES PRIVADAS
 	// ---------------------------------------------------------------------------
 
-	void TransformaContorno(double *L, double *B, double *E, double *a,
-			double *v, double *p, int modo, double Gamma);
+	void TransformaContorno(double *L, double *B, double *E, double *a, double *v, double *p,
+		int modo, double Gamma);
 
 	// void PutNumeroTurbina(int NumeroTurbina);
 
@@ -145,8 +146,7 @@ protected:
 
 	double CpTurbineSimple(double Temperature, double YBurnt);
 
-	double CpTurbineComplete(double YO2, double YCO2, double YH2O,
-			double Temperature);
+	double CpTurbineComplete(double YO2, double YCO2, double YH2O, double Temperature);
 
 public:
 	// ---------------------------------------------------------------------------
@@ -157,17 +157,14 @@ public:
 		if (!asgNumeroTurbina) {
 			FNumeroTurbina = NumeroTurbina;
 			asgNumeroTurbina = true;
-		} else {
-			std::cout << "ERROR: Esta turbina ya tiene numero asignada"
-					<< std::endl;
+		}
+		else {
+			std::cout << "ERROR: Esta turbina ya tiene numero asignada" << std::endl;
 			throw Exception("");
 		}
 	}
 
-	TTurbineMap* getMap() {
-		return FMapa;
-	}
-	;
+	TTurbineMap* getMap(){return FMapa;};
 
 	int FNumeroTurbina;
 
@@ -177,8 +174,7 @@ public:
 
 	int getNumeroEntradas() {
 		return FNumeroEntradas;
-	}
-	;
+	};
 
 	void PutRegimen(double valor) {
 		FRegimen = valor;
@@ -190,8 +186,7 @@ public:
 
 	double getPotenciaPaso() {
 		return FPotenciaPaso;
-	}
-	;
+	};
 
 	double GetRelacionCinematica(int i);
 
@@ -202,8 +197,8 @@ public:
 	// ---------------------------------------------------------------------------
 
 	TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TTurbina() = 0;
 
@@ -213,8 +208,7 @@ public:
 
 	void LeeTurbinaXML(xml_node node_turb);
 
-	void AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo,
-			int sentido);
+	void AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo, int sentido);
 
 	virtual void ReadAverageResultsTurb(char *FileWAM, fpos_t &filepos) = 0;
 
@@ -236,8 +230,7 @@ public:
 
 	virtual void CalculaResultadosMediosTurb() = 0;
 
-	void AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo,
-			int sentido, int n);
+	void AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo, int sentido, int n);
 
 	virtual void CalculaCondicionTurbina(double TimeCalculo) = 0;
 
@@ -251,24 +244,15 @@ public:
 
 	void AllocateDatosTGV(stDatosTGV *DatosTGV);
 
-	void AsignTCHTM(TTC_HTM *HTM) {
-		FHTM = HTM;
-	}
-	;
+	void AsignTCHTM(TTC_HTM *HTM){FHTM = HTM;};
 
 	void CalculateAdiabaticMap(double TinC);
 
-	double TempMeasure() {
-		return FMapa->TempMeasure();
-	}
-	;
+	double TempMeasure(){return FMapa->TempMeasure();};
 
 	void AsignAcousticElements(TTubo **Pipe);
 
-	TAcousticTurbine* AcousticT() {
-		return FAcTurb;
-	}
-	;
+	TAcousticTurbine* AcousticT(){return FAcTurb;};
 
 };
 // ---------------------------------------------------------------------------

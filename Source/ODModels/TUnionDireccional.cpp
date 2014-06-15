@@ -40,21 +40,21 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 
 TUnionDireccional::TUnionDireccional(int i, int NUnionDireccional,
-                                     nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-                                     nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TDepVolCteBase(i,
-                                                 nmUnionDireccional, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+	nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+	nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TDepVolCteBase(i,
+	nmUnionDireccional, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
-    FNumUnionDireccional = NUnionDireccional;
-    FCCEntrada = NULL;
+	FNumUnionDireccional = NUnionDireccional;
+	FCCEntrada = NULL;
 
-    FNodoEntrada = NULL;
-    FSentidoEntrada = NULL;
-    FCDSalidaInicial = NULL;
-    FVelocidadCorte = NULL;
-    FVelocidadFin = NULL;
-    FVelocity = NULL;
-    FCoefA = NULL;
-    FCoefB = NULL;
+	FNodoEntrada = NULL;
+	FSentidoEntrada = NULL;
+	FCDSalidaInicial = NULL;
+	FVelocidadCorte = NULL;
+	FVelocidadFin = NULL;
+	FVelocity = NULL;
+	FCoefA = NULL;
+	FCoefB = NULL;
 
 }
 
@@ -63,25 +63,25 @@ TUnionDireccional::TUnionDireccional(int i, int NUnionDireccional,
 
 TUnionDireccional::~TUnionDireccional() {
 
-    if (FNodoEntrada != NULL)
-        delete[]FNodoEntrada;
-    if (FSentidoEntrada != NULL)
-        delete[]FSentidoEntrada;
-    if (FCDSalidaInicial != NULL)
-        delete[]FCDSalidaInicial;
-    if (FVelocidadCorte != NULL)
-        delete[]FVelocidadCorte;
-    if (FVelocidadFin != NULL)
-        delete[]FVelocidadFin;
-    if (FVelocity != NULL)
-        delete[]FVelocity;
-    if (FCoefA != NULL)
-        delete[]FCoefA;
-    if (FCoefB != NULL)
-        delete[]FCoefB;
+	if (FNodoEntrada != NULL)
+		delete[]FNodoEntrada;
+	if (FSentidoEntrada != NULL)
+		delete[]FSentidoEntrada;
+	if (FCDSalidaInicial != NULL)
+		delete[]FCDSalidaInicial;
+	if (FVelocidadCorte != NULL)
+		delete[]FVelocidadCorte;
+	if (FVelocidadFin != NULL)
+		delete[]FVelocidadFin;
+	if (FVelocity != NULL)
+		delete[]FVelocity;
+	if (FCoefA != NULL)
+		delete[]FCoefA;
+	if (FCoefB != NULL)
+		delete[]FCoefB;
 
-    if (FCCEntrada != NULL)
-        delete[]FCCEntrada;
+	if (FCCEntrada != NULL)
+		delete[]FCCEntrada;
 
 }
 
@@ -89,47 +89,47 @@ TUnionDireccional::~TUnionDireccional() {
 // ---------------------------------------------------------------------------
 
 void TUnionDireccional::LeeDatosUnionDireccional(char *FileWAM, fpos_t &filepos) {
-    try {
-        int numid; // Dato para Wamer
+	try {
+		int numid; // Dato para Wamer
 
-        FNodoEntrada = new int[2];
-        FSentidoEntrada = new int[2];
-        FCDSalidaInicial = new double[2];
-        FVelocidadCorte = new double[2];
-        FVelocidadFin = new double[2];
-        FVelocity = new double[2];
-        FCoefA = new double[2];
-        FCoefB = new double[2];
+		FNodoEntrada = new int[2];
+		FSentidoEntrada = new int[2];
+		FCDSalidaInicial = new double[2];
+		FVelocidadCorte = new double[2];
+		FVelocidadFin = new double[2];
+		FVelocity = new double[2];
+		FCoefA = new double[2];
+		FCoefB = new double[2];
 
-        FCCEntrada = new TCondicionContorno*[2];
+		FCCEntrada = new TCondicionContorno*[2];
 
-        FILE *fich = fopen(FileWAM, "r");
-        fsetpos(fich, &filepos);
+		FILE *fich = fopen(FileWAM, "r");
+		fsetpos(fich, &filepos);
 
-        fscanf(fich, "%d ", &numid); /* DATO PARA WAMER */
-        fscanf(fich, "%d %d %d ", &FNodoEntrada[0], &FNodoEntrada[1], &FNodoSalida);
-        /* Lectura de informacion para el calculo del coeficiente de descarga de salida
-        para las uniones de entrada al deposito de union direccional */
-        fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[0], &FVelocidadCorte[0], &FVelocidadFin[0]);
-        fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[1], &FVelocidadCorte[1], &FVelocidadFin[1]);
+		fscanf(fich, "%d ", &numid); /* DATO PARA WAMER */
+		fscanf(fich, "%d %d %d ", &FNodoEntrada[0], &FNodoEntrada[1], &FNodoSalida);
+		/* Lectura de informacion para el calculo del coeficiente de descarga de salida
+		para las uniones de entrada al deposito de union direccional */
+		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[0], &FVelocidadCorte[0], &FVelocidadFin[0]);
+		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[1], &FVelocidadCorte[1], &FVelocidadFin[1]);
 
-        fgetpos(fich, &filepos);
-        fclose(fich);
+		fgetpos(fich, &filepos);
+		fclose(fich);
 
-        FCoefA[0] = -FCDSalidaInicial[0] * FVelocidadFin[0] /
-                    (FVelocidadCorte[0] - FVelocidadFin[0]);
-        FCoefB[0] = FCDSalidaInicial[0] / (FVelocidadCorte[0] - FVelocidadFin[0]);
-        FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1] /
-                    (FVelocidadCorte[1] - FVelocidadFin[1]);
-        FCoefB[1] = FCDSalidaInicial[1] / (FVelocidadCorte[1] - FVelocidadFin[1]);
+		FCoefA[0] = -FCDSalidaInicial[0] * FVelocidadFin[0] /
+			(FVelocidadCorte[0] - FVelocidadFin[0]);
+		FCoefB[0] = FCDSalidaInicial[0] / (FVelocidadCorte[0] - FVelocidadFin[0]);
+		FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1] /
+			(FVelocidadCorte[1] - FVelocidadFin[1]);
+		FCoefB[1] = FCDSalidaInicial[1] / (FVelocidadCorte[1] - FVelocidadFin[1]);
 
-    }
-    catch(Exception & N) {
-        std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " <<
-                  FNumeroDeposito << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " <<
+			FNumeroDeposito << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 
@@ -181,29 +181,29 @@ void TUnionDireccional::LeeDatosUnionDireccionalXML(xml_node node_junction) {
 // ---------------------------------------------------------------------------
 
 void TUnionDireccional::AsignaCCUnionDireccional() {
-    try {
+	try {
 
-        if (FTipoDeposito == nmUnionDireccional) {
-            for (int i = 0; i < FNumeroUniones; i++) {
-                if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[0]) {
-                    FCCEntrada[0] = FCCDeposito[i];
-                }
-                else if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[1]) {
-                    FCCEntrada[1] = FCCDeposito[i];
-                }
-                else if (FCCDeposito[i]->getNumeroCC() == FNodoSalida) {
-                    FCCSalida = FCCDeposito[i];
-                }
-            }
-        }
+		if (FTipoDeposito == nmUnionDireccional) {
+			for (int i = 0; i < FNumeroUniones; i++) {
+				if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[0]) {
+					FCCEntrada[0] = FCCDeposito[i];
+				}
+				else if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[1]) {
+					FCCEntrada[1] = FCCDeposito[i];
+				}
+				else if (FCCDeposito[i]->getNumeroCC() == FNodoSalida) {
+					FCCSalida = FCCDeposito[i];
+				}
+			}
+		}
 
-    }
-    catch(Exception & N) {
-        std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional " <<
-                  FNumUnionDireccional << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional " <<
+			FNumUnionDireccional << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -370,11 +370,11 @@ dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * F
 }
 
 void TUnionDireccional::UpdateProperties0DModel(double TimeCalculo) {
-    ActualizaPropiedades(TimeCalculo);
+	ActualizaPropiedades(TimeCalculo);
 
-    CalculoUnionDireccional();
+	CalculoUnionDireccional();
 
-    AcumulaResultadosMedios(TimeCalculo);
+	AcumulaResultadosMedios(TimeCalculo);
 
 }
 

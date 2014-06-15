@@ -371,7 +371,7 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			b = Gamma1(FGamma) * *FCC * pow2(xyx) * FPerdidaExtremo;
 			a2 = pow2(FGamma3 * xyx * FPerdidaExtremo) + FGamma3;
 			c = pow2(xyx * *FCC) - pow2(FVelocidadSonidoDep);
-			u_isen = (-b + sqrt(pow2(b) - a2 * 4. * c)) / (2. * a2);;
+			u_isen = (-b + sqrt(pow2(b) - a2 * 4. * c)) / (2. * a2);
 			// Resolucion ecuacion de segundo grado
 			a_isen = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_isen));
 			u_real = u_isen * FPerdidaExtremo; // Con esta relacion obtenemos la velocidad real.

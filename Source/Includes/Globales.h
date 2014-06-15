@@ -61,8 +61,9 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <sstream>
 #include <cstring>
-#include <string>
+// #include <system.hpp>
 #include <ctime>
+// #include <sys\timeb.h>
 #include "Constantes.h"
 #include <limits>
 #include <cmath>
@@ -86,15 +87,16 @@ using namespace std;
 #define vers 1102 /*n. de version de WAM*/
 
 #define usetry 1
-// #define WriteINS 1
-// #define ConcentricElement 1
-// #define ParticulateFilter 1
-// #define tchtm 1
+//#define WriteINS 1
+//#define ConcentricElement 1
+//#define ParticulateFilter 1
+//#define tchtm 1
+
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-inline int matherr(struct exception *a) {
+inline int matherr(struct exception *a){
 
 	return 0;
 }
@@ -296,17 +298,17 @@ enum nmTipoInterpolacion {
 	nmLineal = 0, nmHermite = 1, nmSteps = 2
 };
 
-enum nmCompressorMapFormat {
+enum nmCompressorMapFormat{
 	nmOldWAMmap = 0, nmSAMmap = 1
 };
 
 // DPF
-enum nmSeccionCanal {
-	nmCuadrada = 0, nmCircular = 1, nmRectangular = 2, nmTriangular = 3
+enum nmSeccionCanal{
+        nmCuadrada=0,nmCircular=1,nmRectangular=2,nmTriangular=3
 };
 
-enum nmTipoCanal {
-	nmCanalEntrada = 0, nmCanalSalida = 1
+enum nmTipoCanal{
+        nmCanalEntrada=0,nmCanalSalida=1
 };
 
 // template<class T>
@@ -1410,7 +1412,8 @@ struct stResInstantCilindro {
 	bool HeatCyl;
 	double HeatCylINS;
 	bool HeatPis;
-	double HeatPisINS;
+    double HeatPisINS;
+
 
 };
 
@@ -1448,133 +1451,134 @@ struct stCapa { // Capas de los tubos
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-struct stResMediosDPF {
-	double Distancia;
-	bool VelocidadParedCanalEntrada;
-	double VelocidadParedCanalEntradaSUM;
-	double VelocidadParedCanalEntradaMED;
-	bool VelocidadParedCanalSalida;
-	double VelocidadParedCanalSalidaSUM;
-	double VelocidadParedCanalSalidaMED;
-	bool MasaSoot;
-	double MasaSootSUM;
-	double MasaSootMED;
-	bool EspesorSoot;
-	double EspesorSootSUM;
-	double EspesorSootMED;
-	bool TemperaturaParedCS;
-	double TemperaturaParedCSSUM;
-	double TemperaturaParedCSMED;
-	bool TemperaturaIntermediaPared;
-	double TemperaturaIntermediaParedSUM;
-	double TemperaturaIntermediaParedMED;
-	bool TemperaturaParedCE;
-	double TemperaturaParedCESUM;
-	double TemperaturaParedCEMED;
-	bool Kwall;
-	double KwallSUM;
-	double KwallMED;
-	bool Ksoot;
-	double KsootSUM;
-	double KsootMED;
-	bool Eficiencia;
-	double EficienciaSUM;
-	double EficienciaMED;
-	bool Porosidad;
-	double PorosidadSUM;
-	double PorosidadMED;
-	bool CoeficienteParticion;
-	double CoeficienteParticionSUM;
-	double CoeficienteParticionMED;
-	bool DiametroUC;
-	double DiametroUCSUM;
-	double DiametroUCMED;
-	bool Kreg1;
-	double Kreg1SUM;
-	double Kreg1MED;
-	bool Kreg2;
-	double Kreg2SUM;
-	double Kreg2MED;
-	bool Qreg;
-	double QregSUM;
-	double QregMED;
-	bool Q1;
-	double Q1SUM;
-	double Q1MED;
-	bool Q2;
-	double Q2SUM;
-	double Q2MED;
-	bool TasaFraccionMasicaEspecies;
-	double *TasaFraccionSUM;
-	double *TasaFraccionMED;
-	bool FraccionMasicaEspeciesSalida;
-	double *FraccionSalidaSUM;
-	double *FraccionSalidaMED;
-	double PonderacionSUM;
-	double GastoPonderacionSUM;
-	bool TemperaturaExternaSuperficie;
-	double TemperaturaExternaSuperficieSUM;
-	double TemperaturaExternaSuperficieMED;
-	bool TemperaturaMediaSuperficie;
-	double TemperaturaMediaSuperficieSUM;
-	double TemperaturaMediaSuperficieMED;
-	bool TemperaturaInternaSuperficie;
-	double TemperaturaInternaSuperficieSUM;
-	double TemperaturaInternaSuperficieMED;
+struct stResMediosDPF{
+    double Distancia;
+    bool VelocidadParedCanalEntrada;
+    double VelocidadParedCanalEntradaSUM;
+    double VelocidadParedCanalEntradaMED;
+    bool VelocidadParedCanalSalida;
+    double VelocidadParedCanalSalidaSUM;
+    double VelocidadParedCanalSalidaMED;
+    bool MasaSoot;
+    double MasaSootSUM;
+    double MasaSootMED;
+    bool EspesorSoot;
+    double EspesorSootSUM;
+    double EspesorSootMED;
+    bool TemperaturaParedCS;
+    double TemperaturaParedCSSUM;
+    double TemperaturaParedCSMED;
+    bool TemperaturaIntermediaPared;
+    double TemperaturaIntermediaParedSUM;
+    double TemperaturaIntermediaParedMED;
+    bool TemperaturaParedCE;
+    double TemperaturaParedCESUM;
+    double TemperaturaParedCEMED;
+    bool Kwall;
+    double KwallSUM;
+    double KwallMED;
+    bool Ksoot;
+    double KsootSUM;
+    double KsootMED;
+    bool Eficiencia;
+    double EficienciaSUM;
+    double EficienciaMED;
+    bool Porosidad;
+    double PorosidadSUM;
+    double PorosidadMED;
+    bool CoeficienteParticion;
+    double CoeficienteParticionSUM;
+    double CoeficienteParticionMED;
+    bool DiametroUC;
+    double DiametroUCSUM;
+    double DiametroUCMED;
+    bool Kreg1;
+    double Kreg1SUM;
+    double Kreg1MED;
+    bool Kreg2;
+    double Kreg2SUM;
+    double Kreg2MED;
+    bool Qreg;
+    double QregSUM;
+    double QregMED;
+    bool Q1;
+    double Q1SUM;
+    double Q1MED;
+    bool Q2;
+    double Q2SUM;
+    double Q2MED;
+    bool TasaFraccionMasicaEspecies;
+    double *TasaFraccionSUM;
+    double *TasaFraccionMED;
+    bool FraccionMasicaEspeciesSalida;
+    double *FraccionSalidaSUM;
+    double *FraccionSalidaMED;
+    double PonderacionSUM;
+    double GastoPonderacionSUM;
+    bool TemperaturaExternaSuperficie;
+    double TemperaturaExternaSuperficieSUM;
+    double TemperaturaExternaSuperficieMED;
+    bool TemperaturaMediaSuperficie;
+    double TemperaturaMediaSuperficieSUM;
+    double TemperaturaMediaSuperficieMED;
+    bool TemperaturaInternaSuperficie;
+    double TemperaturaInternaSuperficieSUM;
+    double TemperaturaInternaSuperficieMED;
 };
 
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
-struct stResInstantDPF {
-	double Distancia;
-	bool VelocidadParedCanalEntrada;
-	double VelocidadParedCanalEntradaINS;
-	bool VelocidadParedCanalSalida;
-	double VelocidadParedCanalSalidaINS;
-	bool MasaSoot;
-	double MasaSootINS;
-	bool EspesorSoot;
-	double EspesorSootINS;
-	bool TemperaturaParedCS;
-	double TemperaturaParedCSINS;
-	bool TemperaturaIntermediaPared;
-	double TemperaturaIntermediaParedINS;
-	bool TemperaturaParedCE;
-	double TemperaturaParedCEINS;
-	bool Kwall;
-	double KwallINS;
-	bool Ksoot;
-	double KsootINS;
-	bool Eficiencia;
-	double EficienciaINS;
-	bool Porosidad;
-	double PorosidadINS;
-	bool CoeficienteParticion;
-	double CoeficienteParticionINS;
-	bool DiametroUC;
-	double DiametroUCINS;
-	bool Kreg1;
-	double Kreg1INS;
-	bool Kreg2;
-	double Kreg2INS;
-	bool Qreg;
-	double QregINS;
-	bool Q1;
-	double Q1INS;
-	bool Q2;
-	double Q2INS;
-	bool TasaFraccionMasicaEspecies;
-	double *TasaFraccionINS;
-	bool FraccionMasicaEspeciesSalida;
-	double *FraccionSalidaINS;
-	bool TemperaturaExternaSuperficie;
-	double TemperaturaExternaSuperficieINS;
-	bool TemperaturaMediaSuperficie;
-	double TemperaturaMediaSuperficieINS;
-	bool TemperaturaInternaSuperficie;
-	double TemperaturaInternaSuperficieINS;
+struct stResInstantDPF{
+    double Distancia;
+    bool VelocidadParedCanalEntrada;
+    double VelocidadParedCanalEntradaINS;
+    bool VelocidadParedCanalSalida;
+    double VelocidadParedCanalSalidaINS;
+    bool MasaSoot;
+    double MasaSootINS;
+    bool EspesorSoot;
+    double EspesorSootINS;
+    bool TemperaturaParedCS;
+    double TemperaturaParedCSINS;
+    bool TemperaturaIntermediaPared;
+    double TemperaturaIntermediaParedINS;
+    bool TemperaturaParedCE;
+    double TemperaturaParedCEINS;
+    bool Kwall;
+    double KwallINS;
+    bool Ksoot;
+    double KsootINS;
+    bool Eficiencia;
+    double EficienciaINS;
+    bool Porosidad;
+    double PorosidadINS;
+    bool CoeficienteParticion;
+    double CoeficienteParticionINS;
+    bool DiametroUC;
+    double DiametroUCINS;
+    bool Kreg1;
+    double Kreg1INS;
+    bool Kreg2;
+    double Kreg2INS;
+    bool Qreg;
+    double QregINS;
+    bool Q1;
+    double Q1INS;
+    bool Q2;
+    double Q2INS;
+    bool TasaFraccionMasicaEspecies;
+    double *TasaFraccionINS;
+    bool FraccionMasicaEspeciesSalida;
+    double *FraccionSalidaINS;
+    bool TemperaturaExternaSuperficie;
+    double TemperaturaExternaSuperficieINS;
+    bool TemperaturaMediaSuperficie;
+    double TemperaturaMediaSuperficieINS;
+    bool TemperaturaInternaSuperficie;
+    double TemperaturaInternaSuperficieINS;
 };
+
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -1931,8 +1935,8 @@ inline double StepFunction(double x, std::vector<double>x1, std::vector<double>x
 	return ret_val;
 };
 
-inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa_fila,
-	double *Mapa_col, double **Mapa, int dimension_x, int dimension_y) {
+inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa_fila, double *Mapa_col,
+	double **Mapa, int dimension_x, int dimension_y) {
 	int y1, y2, x1, x2;
 	double Valor_mapa_fila_yref_columna_x1, Valor_mapa_fila_yref_columna_x2,
 	Valor_mapa_fila_yref_columna_xref;
@@ -2158,12 +2162,12 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 };
 
 // int _matherr(struct _exception *a) {
-// // throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
+//	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
 //
-// if (a->arg2 != 0) {
-// MessageBeep(2);
-// }
-// return 0;
+//	if (a->arg2 != 0) {
+//		MessageBeep(2);
+//	}
+//	return 0;
 // }
 
 inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, bool Fuel,
@@ -2276,9 +2280,7 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, boo
 
 
 #ifndef __BORLANDC__
-
-class TObject {
-};
+class TObject {};
 #endif
 
 #endif

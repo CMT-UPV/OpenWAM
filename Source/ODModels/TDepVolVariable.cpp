@@ -1,31 +1,34 @@
 /*--------------------------------------------------------------------------------*\
 ==========================|
- \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
- \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
- \\/   \//    M odel    |
- ----------------------------------------------------------------------------------
- License
+  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+   \\/   \//    M odel    |
+----------------------------------------------------------------------------------
+License
 
- This file is part of OpenWAM.
+	This file is part of OpenWAM.
 
- OpenWAM is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+	OpenWAM is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
- OpenWAM is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+	OpenWAM is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
- \*--------------------------------------------------------------------------------*/
+\*--------------------------------------------------------------------------------*/
+
 
 //---------------------------------------------------------------------------
+
+
 #pragma hdrstop
 
 #include "TDepVolVariable.h"
@@ -37,73 +40,72 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TDepVolVariable::TDepVolVariable(int i, int ncv,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TDeposito(i, nmDepVolVble, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TDepVolVariable::TDepVolVariable(int i,int ncv,nmTipoCalculoEspecies SpeciesModel,
+                            int numeroespecies,nmCalculoGamma GammaCalculation,bool ThereIsEGR):
+                            TDeposito(i,nmDepVolVble,SpeciesModel,numeroespecies,GammaCalculation,ThereIsEGR)
+{
 
-	FNumeroCompresorVol = ncv + 1;
+FNumeroCompresorVol=ncv+1;
 
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TDepVolVariable::~TDepVolVariable() {
+TDepVolVariable::~TDepVolVariable()
+{
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDepVolVariable::LeeDatosDepVolVariable(char *FileWAM, fpos_t &filepos,
-		bool HayMotor) {
-	try {
+void TDepVolVariable::LeeDatosDepVolVariable(char *FileWAM,fpos_t &filepos,bool HayMotor)
+{
+try
+{
 
-		int ControlRegimen;
+int ControlRegimen;
 
-		FILE *fich = fopen(FileWAM, "r");
-		fsetpos(fich, &filepos);
+FILE *fich=fopen(FileWAM,"r");
+fsetpos(fich, &filepos);
 
-		fscanf(fich, "%lf %lf %lf ", &FLBiela, &FCarrera, &FDiametro);
-		fscanf(fich, "%lf %lf %lf ", &FRelCompre, &FDesfase, &FDescentramiento);
+fscanf(fich,"%lf %lf %lf ",&FLBiela,&FCarrera,&FDiametro);
+fscanf(fich,"%lf %lf %lf ",&FRelCompre,&FDesfase,&FDescentramiento);
 
-		fscanf(fich, "%d ", &ControlRegimen);
+fscanf(fich,"%d ",&ControlRegimen);
 
-		switch (ControlRegimen) {
-		case 0:
-			FControlRegimen == nmPropio;
-			break;
-		case 1:
-			FControlRegimen = nmMotor;
-			break;
-		}
-		if (FControlRegimen == nmPropio) {
-			fscanf(fich, "%lf ", &FRegimen);
-			FRelacionVelocidades = 1.;
-		} else if (FControlRegimen == nmMotor && HayMotor) {
-			fscanf(fich, "%lf ", &FRelacionVelocidades);
-		} else {
-			std::cout
-					<< "ERROR: TDepVolVariable::LeeDatosIniciales Lectura del Control del Regimen erronea "
-					<< std::endl;
-			throw Exception(" ");
-		}
+switch(ControlRegimen){
+       case 0: FControlRegimen==nmPropio;
+               break;
+       case 1: FControlRegimen=nmMotor;
+               break;
+}
+if(FControlRegimen==nmPropio){
+   fscanf(fich,"%lf ",&FRegimen);
+   FRelacionVelocidades=1.;
+}else if(FControlRegimen==nmMotor && HayMotor){
+   fscanf(fich,"%lf ",&FRelacionVelocidades);
+}else{
+   std::cout << "ERROR: TDepVolVariable::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
+   throw Exception(" ");
+}
 
-		fgetpos(fich, &filepos);
-		fclose(fich);
+fgetpos(fich, &filepos);
+fclose(fich);
 
-		FVolumenMuerto = (Pi * FDiametro * FDiametro * FCarrera / 4.)
-				/ (FRelCompre - 1.);
+FVolumenMuerto=(Pi*FDiametro*FDiametro*FCarrera/4.)/(FRelCompre-1.);
 
-	} catch (Exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: "
-				<< FNumeroCompresor << std::endl;
+}
+catch(Exception &N)
+{
+std::cout << "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: " << FNumeroCompresor <<std::endl;
 //std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
-	}
+throw Exception(N.Message);
 }
+}
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void TDepVolVariable::LeeDatosDepVolVariableXML(xml_node node_plenum,
 		bool HayMotor) {
@@ -306,7 +308,7 @@ throw Exception(N.Message);
 }
 }
 
-void TDepVolVariable::UpdateProperties0DModel(double TimeCalculo) {
+void TDepVolVariable::UpdateProperties0DModel(double TimeCalculo){
 
 	ActualizaPropiedades(TimeCalculo);
 
@@ -314,8 +316,9 @@ void TDepVolVariable::UpdateProperties0DModel(double TimeCalculo) {
 
 }
 
-void TDepVolVariable::UpdateSpeed(double NewSpeed) {
-	FRegimen = NewSpeed * FRelacionVelocidades;
+void TDepVolVariable::UpdateSpeed(double NewSpeed)
+{
+    FRegimen=NewSpeed*FRelacionVelocidades;
 }
 
 //---------------------------------------------------------------------------

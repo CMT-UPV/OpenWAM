@@ -2458,7 +2458,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *acu_Mbb; /* Accumulated blow-by mass (Kg) */
 	double *U; /* Internal energy (J) */
 	double *CV; /* At constant volume heat (J/Kg) */
-	double *H_cooler; /* Heat hung over to the cooler (J/?) */
+	double *H_cooler; /* Heat hung over to the cooler (J/deg) */
 	double *Qcylhead;
 	double *Qcyl;
 	double *Qpis;
@@ -2680,7 +2680,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	 ******************************************************************************* */
 
 	double Ang_Grab;
-	Ang_Grab = -180.0; // Angulo en el que se grabaran los datos
+	Ang_Grab = -180.0; // angulo en el que se grabaran los datos
 
 	if (RadCalc == 1 && Ang_Grab > -179.) {
 		foculto = fopen("elementos.csv", "w");
@@ -3558,7 +3558,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							if ((element[m][aux].RID >= 1) && (SOC_IM[m] == EVO)
 								) {
 								SOC_IM[m] = time_vector[counter] * 6 * speed;
-								// Se activa el caculo de la radiacion para ese pulso:
+								// Se activa el calculo de la radiacion para ese pulso:
 								CalcRad[m] = 1;
 							}
 
@@ -4231,7 +4231,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							Radiation[m][i - iini].T[0] = Teje;
 							Radiation[m][i - iini].Xsoot[0] = Xeje;
 						}
-						Radiation[m][i - iini].Itot = 0.; // Se inicializa a cero la integral de la radiacion monocromatica.
+						Radiation[m][i - iini].Itot = 0.; // Se inicializa a cero la integral de la radiacion monocrometica.
 
 					} // End for i
 
@@ -4353,7 +4353,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 								// Acumulo la atenuacion
 							}
 
-							// Calculamos la radiacion monocromotica:
+							// Calculamos la radiacion monocrometica:
 							Radiation[m][i - iini].Ilambda = 0.;
 							for (k = 0; k < Radiation[m][i - iini].np; k++) {
 								if (Radiation[m][i - iini].T[k] > cero) {
@@ -4370,7 +4370,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 										* Radiation[m][i - iini].PTau[k];
 									Radiation[m][i - iini]
 										.Ilambda += aux1 * 1.e6;
-									// Expresada en W/st?m^3
+									// Expresada en W/stdeg m^3
 								}
 							}
 							Radiation[m][i - iini].Itot += Radiation[m]
@@ -4409,7 +4409,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						// Anadimos el tramo final (suponemos que en 10 um ya vale 0).
 						Radiation[m][i - iini].Itot += Radiation[m][i - iini]
 							.Ilambda / 2. * (10. - lambda) * 1.e-6;
-						// Intensidad en W/st?m^2
+						// Intensidad en W/stdeg m^2
 					}
 
 					if ((time_vector[counter] <= (Ang_Grab / (6 * speed))) &&
@@ -4448,7 +4448,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						}
 					}
 					Itot[m] *= PI;
-					// Corregimos el valor segun la correlacion empirica obtenida.
+					// Corregimos el valor segun la correlacion emperica obtenida.
 					// Tengo en cuenta dos acortamientos de la llama: por YO2 < 0.23 y por chorro no estacionario.
 					aux1 = 1. /
 						(1. - pow(pow(Radiation[m][1].x / Radiation[m][0].x,
@@ -4645,7 +4645,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	// Pasamos el valor a FSN
 	mean_var_exit[9] = YSoot_to_FSN(SOOT_EVO_C);
-	// Anadimos la correccion empirica:
+	// Anadimos la correccion emperica:
 	mean_var_exit[9] = 0.0930816 * pow(mean_var_exit[9], 2.68);
 	// Limitamos el valor a 10
 	if (mean_var_exit[9] > 10.)
@@ -4737,7 +4737,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){

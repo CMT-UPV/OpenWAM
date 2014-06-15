@@ -52,7 +52,7 @@ private:
 int FNumeroDPF;
 int FNumeroHacesCanales;
 int *FNumeroCanalesHaz;
-int FNumeroCanalesTotales; // N�mero de canales de entrada
+int FNumeroCanalesTotales; // Numero de canales de entrada
 int FNumeroEspecies;
 int FIntEGR;
 
@@ -107,9 +107,9 @@ double FKwallLimpia;
 double **FKwall;
 double **FKsoot;
 double **FPorosidad;
-double FDiametroUnidadCelular;            // Di�metro de la unidad celular del modelo de filtrado
-double **FDiametroUnidadColectora;        // Di�metro de la unidad colectora. Se supone constante para todas las unidades colectoras en el volumen de control de cada nodo.
-double FDiametroUnidadColectoraLimpia;    // Di�metro de la unidad colectora cuando la trampa esta limpia.
+double FDiametroUnidadCelular;            // Diametro de la unidad celular del modelo de filtrado
+double **FDiametroUnidadColectora;        // Diametro de la unidad colectora. Se supone constante para todas las unidades colectoras en el volumen de control de cada nodo.
+double FDiametroUnidadColectoraLimpia;    // Diametro de la unidad colectora cuando la trampa esta limpia.
 double **FParametroIntercepcion;
 double Ffuncion_f_Limpia;                 // Valor de la funcion f de Kubawara considerando la trampa limpia.
 double **FEficiencia;
@@ -119,29 +119,29 @@ double *FMasaSootSaturacionHaz;          // Masa de soot que satura las unidades
 double FMasaSootSaturacionTotal;     // Masa de soot de saturacion total de la trampa.
 double FVolumenTotalDPF;                // Volumen total de pared porosa en la DPF
 double *FVolumenTotal;                // Volumen total de pared porosa en cada haz
-long long int FNumeroUnidadesCelularesFiltro;  // N�mero total de unidades celulares en la DPF
-long long int *FNumeroUnidadesCelularesHaz;  // N�mero total de unidades celulares en cada haz
-long long int **FNumeroUnidadesCelulares;   // N�mero de unidades celulares en el volumen de control de cada nodo de los canales de entrada
+long long int FNumeroUnidadesCelularesFiltro;  // Numero total de unidades celulares en la DPF
+long long int *FNumeroUnidadesCelularesHaz;  // Numero total de unidades celulares en cada haz
+long long int **FNumeroUnidadesCelulares;   // Numero de unidades celulares en el volumen de control de cada nodo de los canales de entrada
 double **FLongitudVC;                // Longitud del volumen de control en cada nodo.
 double **FMasaSootUC;                // Masa de soot en cada unidad colectora.
 
-double **FKreg1;              // Tasa de reacci�n por regeneraci�n t�rmica (O2)
-double **FKreg2;              // Tasa de reacci�n por regeneraci�n con NO2
-double FIndiceCompletitud1;   // Indice de completitud de la regeneraci�n t�rmica (O2)
-double FIndiceCompletitud2;   // Indice de completitud de la regeneraci�n con NO2
-double **FR1;                 // Tasa de reacci�n de la combusti�n de CO
-double **FR2;                 // Tasa de reacci�n de la combusti�n de HC
-double **FR3;                 // Tasa de reacci�n de la oxidaci�n de NO
-double **FR4;                 // Tasa de reacci�n de la reducci�n del NO2
-double **FR5;                 // Tasa de reacci�n de la combusti�n de combustible sin quemar.
+double **FKreg1;              // Tasa de reaccion por regeneracion termica (O2)
+double **FKreg2;              // Tasa de reaccion por regeneracion con NO2
+double FIndiceCompletitud1;   // Indice de completitud de la regeneracion termica (O2)
+double FIndiceCompletitud2;   // Indice de completitud de la regeneracion con NO2
+double **FR1;                 // Tasa de reaccion de la combustion de CO
+double **FR2;                 // Tasa de reaccion de la combustion de HC
+double **FR3;                 // Tasa de reaccion de la oxidacion de NO
+double **FR4;                 // Tasa de reaccion de la reduccion del NO2
+double **FR5;                 // Tasa de reaccion de la combustion de combustible sin quemar.
 double FRatioNO2_NOx;         // Tanto por uno de NO2 en los NOx totales
 double ***FTasaFraccionMasicaEspecie;
 double ***FFraccionMasicaEspecieSalida;
 double **FFraccionMasicaNO2Salida;
 double **FFraccionMasicaNO2Entrada;
-double **FQreg;                // Calor liberado en el proceso de regeneraci�n
-double **FQ1;                  // Calor liberado en la reacci�n de combusti�n del CO
-double **FQ2;                  // Calor liberado en la reacci�n de combusti�n de los HC
+double **FQreg;                // Calor liberado en el proceso de regeneracion
+double **FQ1;                  // Calor liberado en la reaccion de combustion del CO
+double **FQ2;                  // Calor liberado en la reaccion de combustion de los HC
 double FIncrH_reg1;
 double FIncrH_reg2;
 double FIncrH_R1;
@@ -154,7 +154,7 @@ TCanalDPF ***FCanal;
 int *FNodoIzq;
 int *FNodoDer;
 
-// Variables transmisi�n de calor
+// Variables transmision de calor
 double FCoefAjusTC;
 double FTExt;
 int FTctpt;    // Tipo calculo temperatura pared tubo.
@@ -240,7 +240,7 @@ double FFactorFrecuenciaNO2;
 double FEnergiaActO2;
 double FEnergiaActNO2;
 
-// Mapa para determinar proporci�n de NO2
+// Mapa para determinar proporcion de NO2
 int FNumeroDatos_FraccionesNOx;
 int FNumeroDatos_Temperaturas;
 double *FFraccionNOxTabla;
@@ -248,7 +248,7 @@ double *FTemperaturasTabla;
 double **FMapa_ProporcionNO2;
 
 
-// Resistencias con los conductos aleda�os
+// Resistencias con los conductos aledanos
 TTubo *FTuboEntradaDPF;
 TTubo *FTuboSalidaDPF;
 int FNodoTuboEntrada;

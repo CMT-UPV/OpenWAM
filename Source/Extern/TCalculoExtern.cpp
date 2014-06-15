@@ -270,7 +270,7 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
      //FOutputs[2]=FTGV[0]->getRendimiento();
      // Hay 3 salidas mas, por si fuese una turbina twin. Indices 10,11,12
 
-     //**** CALCULO DE LOS COEFICIENTES DE TRANSMISI?N DE CALOR EN ADMISI?N Y ESCAPE****//
+     //**** CALCULO DE LOS COEFICIENTES DE TRANSMISION DE CALOR EN ADMISION Y ESCAPE****//
 /*FOutputs[13]=FAjusteTransCalorCil->CAdmision;
 FOutputs[14]=FAjusteTransCalorCil->CEscape;*/
 
