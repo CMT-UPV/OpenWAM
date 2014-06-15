@@ -68,8 +68,8 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 	FResInstantCilindro.NITINS = NULL;
 	FResMediosCilindro.NITMED = NULL;
 
-	FCCValvulaAdm == NULL;
-	FCCValvulaEsc == NULL;
+	FCCValvulaAdm = NULL;
+	FCCValvulaEsc = NULL;
 
 	FValvEsc = NULL;
 	FValvAdm = NULL;

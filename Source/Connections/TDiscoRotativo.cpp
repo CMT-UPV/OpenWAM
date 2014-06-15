@@ -137,7 +137,7 @@ if(FControlRegimen==nmPropio){
 }else if(FControlRegimen==nmMotor && HayMotor){
    fscanf(fich,"%lf ",&FRelacionVelocidades);
 }else{
-   std::cout << "ERROR: TDiscoRotativo::LeeDatosIniciales Lectura del Control del Régimen errónea " << std::endl;
+   std::cout << "ERROR: TDiscoRotativo::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
    throw Exception(" ");
 }
 

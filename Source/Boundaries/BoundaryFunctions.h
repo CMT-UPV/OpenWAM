@@ -197,7 +197,7 @@ EL METODO DE BRENT:
 /* Wider in cross section */
 struct stExpansion {
 
-	/* !Definicion de las VARIABLES LOCALES/
+	/* !Definicion de las VARIABLES LOCALES */
 	/*Variables locales que almacenaran la inforamcion pasada por funcion */
 
 	double CCS; // Variable local asociada a la caracteristica conocida en 1 (salida del tubo) y que se pasa por funcion//
