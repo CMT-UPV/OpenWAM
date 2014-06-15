@@ -132,10 +132,6 @@ Allow the communication with WAMer
 
 #include <sys/timeb.h>
 
-#ifdef __unix__
-  #define gestorcom false
-  #define graphicalout false
-#else
 #ifdef __BORLANDC__
   #define gestorcom true
   #define graphicalout true
@@ -143,9 +139,8 @@ Allow the communication with WAMer
   //#define gestorcom 0
   //#define graphicalout 0
 #endif
-#endif
 
-#ifdef gestorcom==1
+#ifdef gestorcom
 #include "TCGestorWAM.h"
 #endif
 
