@@ -30,7 +30,11 @@ add_subdirectory(Wrappers)
 add_executable(OpenWAM
   OpenWAM.cpp
   TOpenWAM.cpp
-  TTimeControl.cpp)
+  TTimeControl.cpp
+  OpenWAM.rc
+#  icon.rc
+#  version.rc
+)
 target_link_libraries(
   OpenWAM
   1DPipes
