@@ -383,16 +383,16 @@ inline double zbrent(T& func, const double& x1,
 
         if ((fa > 0.0 && fb > 0.0) || (fa < 0.0 && fb < 0.0))
         {
-            if (abs(fa) < abs(fb))
+            if (fabs(fa) < fabs(fb))
             {
                 fa = func(a);
                 return a;
-            } /* Condicion original if((abs(fa) < abs(fb)) && abs(fa) < tol) */
-            else if (abs(fa) > abs(fb))
+            } /* Condicion original if((fabs(fa) < fabs(fb)) && fabs(fa) < tol) */
+            else if (fabs(fa) > fabs(fb))
             {
                 fb = func(b);
                 return b;
-            } /* Original if((abs(fa) > abs(fb)) && abs(fb) < tol) */
+            } /* Original if((fabs(fa) > fabs(fb)) && fabs(fb) < tol) */
                 // return 0;
                 /* throw("Root must be bracketed in zbrent"); */
         }
@@ -406,7 +406,7 @@ inline double zbrent(T& func, const double& x1,
                 fc = fa;
                 e = d = b - a;
             }
-            if (abs(fc) < abs(fb))
+            if (fabs(fc) < fabs(fb))
             {
                 a = b;
                 b = c;
@@ -415,14 +415,14 @@ inline double zbrent(T& func, const double& x1,
                 fb = fc;
                 fc = fa;
             }
-            tol1 = 2.0 * EPS * abs(b) + 0.5 * tol;
+            tol1 = 2.0 * EPS * fabs(b) + 0.5 * tol;
             xm = 0.5 * (c - b);
-            if (abs(xm) <= tol1 || fb == 0.0)
+            if (fabs(xm) <= tol1 || fb == 0.0)
             {
                 /* std::cout << iter << std::endl; */
                 return b;
             }
-            if (abs(e) >= tol1 && abs(fa) > abs(fb))
+            if (fabs(e) >= tol1 && fabs(fa) > fabs(fb))
             {
                 s = fb / fa;
                 if (a == c)
@@ -438,9 +438,9 @@ inline double zbrent(T& func, const double& x1,
                     q = (q - 1.0) * (r - 1.0) * (s - 1.0);
                 }
                 if (p > 0.0) q = -q;
-                p = abs(p);
-                double min1 = 3.0 * xm * q - abs(tol1 * q);
-                double min2 = abs(e * q);
+                p = fabs(p);
+                double min1 = 3.0 * xm * q - fabs(tol1 * q);
+                double min2 = fabs(e * q);
                 if (2.0 * p < (min1 < min2 ? min1 : min2))
                 {
                     e = d;
@@ -460,7 +460,7 @@ inline double zbrent(T& func, const double& x1,
             }
             a = b;
             fa = fb;
-            if (abs(d) > tol1) b += d;
+            if (fabs(d) > tol1) b += d;
             else  b += Sign(tol1, xm);
             fb = func(b);
         }
@@ -501,7 +501,7 @@ inline bool zbrac(T & func, double & x1, double & x2) {
 	for (int j = 0; j < NTRY; j++) {
 		if (f1 * f2 < 0.0)
 			return true;
-		if (abs(f1) < abs(f2))
+		if (fabs(f1) < fabs(f2))
 			f1 = func(x1 += FACTOR * (x1 - x2));
 		else
 			f2 = func(x2 += FACTOR * (x2 - x1));
@@ -526,7 +526,7 @@ inline bool zbrac2(T & func, double & x1, double & x2, const double & min,
 	for (int j = 0; j < NTRY; j++) {
 		if (f1 * f2 < 0.0)
 			return true;
-		if (abs(f1) < abs(f2))
+		if (fabs(f1) < fabs(f2))
 			f1 = func(x1 = (0.9 * x1 + 0.1 * x1lim));
 		else
 			f2 = func(x2 = (0.9 * x2 + 0.1 * x2lim));
@@ -579,10 +579,10 @@ inline double rtbis(T & func, const double x1, const double x2, const double xac
 	double f = func(x1);
 	double fmid = func(x2);
 	if (f * fmid >= 0.0) {
-		if ((abs(f) < abs(fmid)) && abs(f) < xacc) {
+		if ((fabs(f) < fabs(fmid)) && fabs(f) < xacc) {
 			return x1;
 		}
-		else if ((abs(f) > abs(fmid)) && abs(fmid) < xacc)
+		else if ((fabs(f) > fabs(fmid)) && fabs(fmid) < xacc)
 			return x2;
 		throw("Root must be bracketed for bisection in rtbis");
 	}
@@ -591,7 +591,7 @@ inline double rtbis(T & func, const double x1, const double x2, const double xac
 		fmid = func(xmid = rtb + (dx *= 0.5));
 		if (fmid <= 0.0)
 			rtb = xmid;
-		if (abs(dx) < xacc || fmid == 0.0) {
+		if (fabs(dx) < xacc || fmid == 0.0) {
 			/* std::cout << j << std::endl; */ return rtb;
 		}
 	}
@@ -632,7 +632,7 @@ inline double rtflsp(T & func, const double x1, const double x2, const double xa
 			fh = f;
 		}
 		dx = xh - xl;
-		if (abs(del) < xacc || f == 0.0) {
+		if (fabs(del) < xacc || f == 0.0) {
 			/* std::cout << j << std::endl; */ return rtf;
 		}
 	}
@@ -647,7 +647,7 @@ inline double rtsec(T & func, const double x1, const double x2, const double xac
 
 	double fl = func(x1);
 	double f = func(x2);
-	if (abs(fl) < abs(f)) {
+	if (fabs(fl) < fabs(f)) {
 		rts = x1;
 		xl = x2;
 		Swap(fl, f);
@@ -662,7 +662,7 @@ inline double rtsec(T & func, const double x1, const double x2, const double xac
 		fl = f;
 		rts += dx;
 		f = func(rts);
-		if (abs(dx) < xacc || f == 0.0) {
+		if (fabs(dx) < xacc || f == 0.0) {
 			/* std::cout << j << std::endl; */ return rts;
 		}
 	}
@@ -686,7 +686,7 @@ inline double zriddr(T & func, const double x1, const double x2, const double xa
 				/* std::cout << j << std::endl; */ return ans;
 			}
 			double xnew = xm + (xm - xl) * ((fl >= fh ? 1.0 : -1.0) * fm / s);
-			if (abs((double)(xnew - ans <= xacc))) {
+			if (fabs((double)(xnew - ans <= xacc))) {
 				/* std::cout << j << std::endl; */ return ans;
 			}
 			ans = xnew;
@@ -710,7 +710,7 @@ inline double zriddr(T & func, const double x1, const double x2, const double xa
 			}
 			else
 				throw("never get here.");
-			if (abs(xh - xl) <= xacc) {
+			if (fabs(xh - xl) <= xacc) {
 				/* std::cout << j << std::endl; */ return ans;
 			}
 		}
@@ -736,7 +736,7 @@ inline double rtnewt(T & funcd, const double x1, const double x2, const double x
 		rtn -= dx;
 		if ((x1 - rtn) * (rtn - x2) < 0.0)
 			throw("Jumped out of brackets in rtnewt");
-		if (abs(dx) < xacc)
+		if (fabs(dx) < xacc)
 			return rtn;
 	}
 	throw("Maximum number of iterations exceede in rtnewt");
@@ -766,13 +766,13 @@ inline double rtsafe(T & funcd, const double x1, const double x2, const double x
 		xl = x2;
 	}
 	double rts = 0.5 * (x1 + x2);
-	double dxold = abs(x2 - x1);
+	double dxold = fabs(x2 - x1);
 	double dx = dxold;
 	double f = funcd(rts);
 	double df = funcd.df(rts);
 	for (int j = 0; j < MAXIT; j++) {
 		if ((((rts - xh) * df - f) * ((rts - xl) * df - f) > 0.0) ||
-			(abs(2.0 * f) > abs(dxold * df))) {
+			(fabs(2.0 * f) > fabs(dxold * df))) {
 			dxold = dx;
 			dx = 0.5 * (xh - xl);
 			rts = xl + dx;
@@ -787,7 +787,7 @@ inline double rtsafe(T & funcd, const double x1, const double x2, const double x
 			if (temp == rts)
 				return rts;
 		}
-		if (abs(dx) < xacc)
+		if (fabs(dx) < xacc)
 			return rts;
 		double f = funcd(rts);
 		double df = funcd.df(rts);
