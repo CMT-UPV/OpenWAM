@@ -66,8 +66,8 @@ FOutputs=NULL;
 FEntrada=NULL;
 FSalida=NULL;
 
-// ATENCION: Los siguiente valores determinan el n�mero de entradas y salidas a Matlab
-// Debes modificar estos n�meros seg�n tus requerimientos.
+// ATENCION: Los siguiente valores determinan el numero de entradas y salidas a Matlab
+// Debes modificar estos numeros segun tus requerimientos.
 
 FNumeroInMat=0;
 FNumeroOutMat=0;
@@ -194,18 +194,18 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
 
      //ATENCION: Asignar los valores que provienen de los sensores. El orden es muy importante.
 
-    /* FInputs[0]=FSensorTubo[0].valact;   // "Presi�n a la entrada de la turbina"
+    /* FInputs[0]=FSensorTubo[0].valact;   // "Presion a la entrada de la turbina"
      FInputs[1]=FSensorTubo[1].valact;   // "Temperature a la entrada de la turbina"
-     FInputs[2]=FSensorTubo[2].valact;   // "Massflow m�sico de EGR"
+     FInputs[2]=FSensorTubo[2].valact;   // "Massflow masico de EGR"
      FInputs[3]=FSensorTubo[3].valact;   // "Temperature a la salida del intercooler"
-     FInputs[4]=FSensorTubo[4].valact;   // "Massflow m�sico antes del intercooler"
-     FInputs[5]=FSensorTubo[5].valact;   // "Presi�n a la salida del intercooler (antes de la ramificaci�n en el colector"
-     FInputs[6]=FSensorMotor[0].valact;  // "R�gimen de giro del motor"
+     FInputs[4]=FSensorTubo[4].valact;   // "Massflow masico antes del intercooler"
+     FInputs[5]=FSensorTubo[5].valact;   // "Presion a la salida del intercooler (antes de la ramificacion en el colector"
+     FInputs[6]=FSensorMotor[0].valact;  // "Regimen de giro del motor"
      FInputs[7]=FSensorMotor[1].valact;  // "Instante de tiempo del motor"    */
 
 //     if(Fhayecu){
 //
-//		  //ATENCION: A continuaci�n se deben asignar los valores de entrada de MATLAB
+//		  //ATENCION: A continuacion se deben asignar los valores de entrada de MATLAB
 //		  //-----------------------------------------------------------------------------
 //		  //
 //		  //-----------------------------------------------------------------------------
@@ -214,11 +214,11 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
 //			   FTiempo=0.;
 //			   for(int i=0;i<FNumeroInMat;i++)
 //			   {
-//					ECU->Input[i]=FEntrada[i];  /*Al igual que el n�mero de entradas a Matlab (FNumeroInMat), los valores de FEntrada han de ser dados por cada usuario)*/
+//					ECU->Input[i]=FEntrada[i];  /*Al igual que el numero de entradas a Matlab (FNumeroInMat), los valores de FEntrada han de ser dados por cada usuario)*/
 //			   }
 //			   ECU->CalculaECU();
 //
-//			   //ATENCION: A continuaci�n se deben asignar los valores de salida de MATLAB
+//			   //ATENCION: A continuacion se deben asignar los valores de salida de MATLAB
 //			   //-----------------------------------------------------------------------------
 //			   for(int i=0;i<FNumeroOutMat;i++)
 //			   {/* estas son las variable que vienen de Matlab*/
@@ -233,7 +233,7 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
      //*****************************************
 
 
-     //**** C�LCULO DE LA DESCARGA A MATLAB ****//
+     //**** CALCULO DE LA DESCARGA A MATLAB ****//
      //FRemansoMatlab[0]->CalculaRemanso(FInputs[1]);
 
 
@@ -243,7 +243,7 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
         FTGV[0]->CalculaTurbina(FInputs[7],FInputs[5],FInputs[0],FConvergencia);
         FAjusteTransCalorCil->CalculaTCC(FInputs[7],FInputs[4],FInputs[1],FConvergencia);
          */
-        /* CONVERGENCIA DE LA EJECUCI�N */
+        /* CONVERGENCIA DE LA EJECUCION */
       /*  if(FInputs[7]>0.6){
            if(fabs(FTGV[0]->ErrorP2)<0.03 & fabs(FTGV[0]->ErrorP3)<0.03 & fabs(FEGRV->ErrorEGR)<0.01 & fabs(FAjusteTransCalorCil->getErrorGastoAire())<0.03){
               FConvergencia=true;
@@ -251,12 +251,12 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
         }
      }    */
 
-     //**** C�LCULO COEFICIENTE DE DESCARGA EGR ****//
+     //**** CALCULO COEFICIENTE DE DESCARGA EGR ****//
 //FOutputs[0]=FEGRV->PutCDEntrante(FEGRV->CDEntrante);
      //FOutputs[1]=FEGRV->getCDSaliente();
      //FOutputs[2]=FEGRV->getCTorbellino();
 
-     //**** C�LCULO DEL COMBUSTIBLE ACTUAL ****//
+     //**** CALCULO DEL COMBUSTIBLE ACTUAL ****//
     /* for(int i=0;i<Engine[0]->getGeometria().NCilin;i++){
         if(Engine[0]->GetCilindro(i)->getAnguloActual()>Engine[0]->GetCilindro(i)->getDistribucion().CA && Engine[0]->GetCilindro(i)->getAnguloAnterior()<=Engine[0]->GetCilindro(i)->getDistribucion().CA){
           double Fuel=FFuel->CalculaFuel();
@@ -264,13 +264,13 @@ void TCalculoExtern::LlamadaECU(double DeltaT,TBloqueMotor **Engine)
         }
      }   */
 
-     //**** C�LCULO DE LOS Actuators EN TGV ****//
+     //**** CALCULO DE LOS Actuators EN TGV ****//
      //FOutputs[0]=FTGV[0]->getCDStator();
      //FOutputs[1]=FTGV[0]->getCDRotor();
      //FOutputs[2]=FTGV[0]->getRendimiento();
      // Hay 3 salidas mas, por si fuese una turbina twin. Indices 10,11,12
 
-     //**** C�LCULO DE LOS COEFICIENTES DE TRANSMISI�N DE CALOR EN ADMISI�N Y ESCAPE****//
+     //**** CALCULO DE LOS COEFICIENTES DE TRANSMISION DE CALOR EN ADMISION Y ESCAPE****//
 /*FOutputs[13]=FAjusteTransCalorCil->CAdmision;
 FOutputs[14]=FAjusteTransCalorCil->CEscape;*/
 
@@ -512,7 +512,7 @@ try
                 FRemansoMatlab[i]=new TRemansoMatlab();
         }
      }
-     /*Si no hay v�lvula de EGR la siguiente l�nea se debe comentar*/
+     /*Si no hay valvula de EGR la siguiente linea se debe comentar*/
      FEGRV=new TEGRV();
      //FRegimen=new TRegimenMotor();
      FNOutputsdll=Fntact;
@@ -549,8 +549,8 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
      int tipo,tubo,nsensortubo,ndistancias;
      double dist=0.;
      ndistancias=0;
-     fscanf(fich,"%d ",&FNSensTubos);/*n�mero de sensores en tubos*/
-     fscanf(fich,"%d ",&ndistancias);/*n�mero total de distancias*/
+     fscanf(fich,"%d ",&FNSensTubos);/*numero de sensores en tubos*/
+     fscanf(fich,"%d ",&ndistancias);/*numero total de distancias*/
      int cont=0;
      FSensorTubo=new stSensorTubos[FNSensTubos];
      if (FNSensTubos!=0){
@@ -636,7 +636,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                                     FIndiceTuboN2=8;
                                 }else FIndiceTuboN2=7;
                              }else{
-                                printf ("No puede haber sensor de N2 si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de N2 si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboN2);
@@ -648,7 +648,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboO2=0;
                              }else{
-                                printf ("No puede haber sensor de O2 si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de O2 si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboO2);
@@ -660,7 +660,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboCO2=1;
                              }else{
-                                printf ("No puede haber sensor de CO2 si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de CO2 si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboCO2);
@@ -672,7 +672,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboH2O=2;
                              }else{
-                                printf ("No puede haber sensor de H2O si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de H2O si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboH2O);
@@ -684,7 +684,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboHC=3;
                              }else{
-                                printf ("No puede haber sensor de HC si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de HC si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboHC);
@@ -696,7 +696,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboSoot=4;
                              }else{
-                                printf ("No puede haber sensor de Soot si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de Soot si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboSoot);
@@ -708,7 +708,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboNOx=5;
                              }else{
-                                printf ("No puede haber sensor de NOx si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de NOx si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboNOx);
@@ -720,7 +720,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceTuboCO=6;
                              }else{
-                                printf ("No puede haber sensor de CO si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de CO si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboCO);
@@ -734,7 +734,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                                     FIndiceTuboAireFresco=2;
                                 }else FIndiceTuboAireFresco=1;
                              }else{
-                                printf ("No puede haber sensor de Aire Fresco si el c�lculo de especies no es simple. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de Aire Fresco si el calculo de especies no es simple. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboAireFresco);
@@ -746,7 +746,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                              if(SpeciesModel==nmCalculoSimple){
                                  FIndiceTuboGasQuemado=0;
                              }else{
-                                printf ("No puede haber sensor de Gas Quemado si el c�lculo de especies no es simple. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de Gas Quemado si el calculo de especies no es simple. Revisa la lectura.\n");
                                 throw Exception("");
                              }
                              FSensorTubo[cont].valreal=Pipe[t]->GetFraccionMasica(0,FIndiceTuboGasQuemado);
@@ -818,7 +818,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
 
                      cont++;
                    }/*Fin for sensores para cada tubo*/
-                }/*Fin for n�mero de distancias*/
+                }/*Fin for numero de distancias*/
 
      }
 
@@ -846,8 +846,8 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
 
      int tipo,ndep,deposito,nsensdeposito;
      ndep=0;
-     fscanf(fich,"%d ",&FNSensDepositos);/*n�mero de sensores en dep�sitos*/
-     fscanf(fich,"%d ",&ndep);/*n�mero de dep�sitos con sensores*/
+     fscanf(fich,"%d ",&FNSensDepositos);/*numero de sensores en depositos*/
+     fscanf(fich,"%d ",&ndep);/*numero de depositos con sensores*/
      int cont=0;
      FSensorDep=new stSensorDep[FNSensDepositos];
      if (FNSensDepositos!=0){
@@ -908,7 +908,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                                     FIndiceDepN2=8;
                                 }else FIndiceDepN2=7;
                              }else{
-                                printf ("No puede haber sensor de N2 si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de N2 si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepN2);
@@ -920,7 +920,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepO2=0;
                              }else{
-                                printf ("No puede haber sensor de O2 si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de O2 si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepO2);
@@ -932,7 +932,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepCO2=1;
                              }else{
-                                printf ("No puede haber sensor de CO2 si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de CO2 si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepCO2);
@@ -944,7 +944,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepH2O=2;
                              }else{
-                                printf ("No puede haber sensor de H2O si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de H2O si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepH2O);
@@ -956,7 +956,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepHC=3;
                              }else{
-                                printf ("No puede haber sensor de HC si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de HC si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepHC);
@@ -968,7 +968,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepSoot=4;
                              }else{
-                                printf ("No puede haber sensor de Soot si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de Soot si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepSoot);
@@ -980,7 +980,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepNOx=5;
                              }else{
-                                printf ("No puede haber sensor de NOx si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de NOx si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepNOx);
@@ -992,7 +992,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoCompleto){
                                 FIndiceDepCO=6;
                              }else{
-                                printf ("No puede haber sensor de CO si el c�lculo de especies no es completo. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de CO si el calculo de especies no es completo. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepCO);
@@ -1006,7 +1006,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                                     FIndiceDepAireFresco=2;
                                 }else FIndiceDepAireFresco=1;
                              }else{
-                                printf ("No puede haber sensor de Aire Fresco si el c�lculo de especies no es simple. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de Aire Fresco si el calculo de especies no es simple. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepAireFresco);
@@ -1018,7 +1018,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                              if(SpeciesModel==nmCalculoSimple){
                                  FIndiceDepGasQuemado=0;
                              }else{
-                                printf ("No puede haber sensor de Gas Quemado si el c�lculo de especies no es simple. Revisa la lectura.\n");
+                                printf ("No puede haber sensor de Gas Quemado si el calculo de especies no es simple. Revisa la lectura.\n");
                                 throw Exception("");
                              }
 							 FSensorDep[cont].valreal=Plenum[FSensorDep[cont].deposito-1]->GetFraccionMasicaEspecie(FIndiceDepGasQuemado);
@@ -1089,8 +1089,8 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
                     }/*fin del switch*/
 
                      cont++;
-                   }/*Fin n�mero de sensores en deposito*/
-                }/*Fin n�mero de dep�sitos con sensor*/
+                   }/*Fin numero de sensores en deposito*/
+                }/*Fin numero de depositos con sensor*/
       }
        fgetpos(fich, &filepos);
      fclose(fich);
@@ -1115,8 +1115,8 @@ void TCalculoExtern::Lee_Sens_TG(char *FileWAM,fpos_t &filepos,TEjeTurbogrupo **
 
      int tipo,ntg,turbogrupo,nsensturbogrupo;
      ntg=0;
-     fscanf(fich,"%d ",&FNSensTurbogrupo);/*n�mero de sensores en TG*/
-     fscanf(fich,"%d ",&ntg);/*n�mero de turbogrupos con sensor*/
+     fscanf(fich,"%d ",&FNSensTurbogrupo);/*numero de sensores en TG*/
+     fscanf(fich,"%d ",&ntg);/*numero de turbogrupos con sensor*/
      int cont=0;
      FSensorTG=new stSensorTG[FNSensTurbogrupo];
      if (FNSensTurbogrupo!=0){
@@ -1143,8 +1143,8 @@ void TCalculoExtern::Lee_Sens_TG(char *FileWAM,fpos_t &filepos,TEjeTurbogrupo **
                      }/*fin del switch*/
                      
                      cont++;
-                   }/*Fin n�mero de sensores en turbogrupo*/
-                }/*Fin n�mero de turbogrupos con sensores*/
+                   }/*Fin numero de sensores en turbogrupo*/
+                }/*Fin numero de turbogrupos con sensores*/
      }
        fgetpos(fich, &filepos);
      fclose(fich);
@@ -1169,8 +1169,8 @@ void TCalculoExtern::Lee_Sens_Turbina(char *FileWAM,fpos_t &filepos,TTurbina **T
 
      int tipo,nturbinas,turbina,nsensturbina;
      nturbinas=0;
-     fscanf(fich,"%d ",&FNSensTurbina);/* n�mero de sensores en turbina */
-     fscanf(fich,"%d ",&nturbinas);/* n�mero de turbinas con sensor */
+     fscanf(fich,"%d ",&FNSensTurbina);/* numero de sensores en turbina */
+     fscanf(fich,"%d ",&nturbinas);/* numero de turbinas con sensor */
      int cont=0;
      FSensorTurbina=new stSensorTurbina[FNSensTurbina];
      if (FNSensTurbina!=0){
@@ -1204,8 +1204,8 @@ void TCalculoExtern::Lee_Sens_Turbina(char *FileWAM,fpos_t &filepos,TTurbina **T
                      } /*fin del switch*/
                      
                      cont++;
-                   }/*Fin n�mero de sensores en turbina*/
-                }/*Fin n�mero de turbinas con sensores*/
+                   }/*Fin numero de sensores en turbina*/
+                }/*Fin numero de turbinas con sensores*/
      }
      fgetpos(fich, &filepos);
      fclose(fich);
@@ -1230,8 +1230,8 @@ void TCalculoExtern::Lee_Sens_Cil(char *FileWAM,fpos_t &filepos,TBloqueMotor **E
 
      int tipo,ncil,cilindro,nsenscilindro;
      ncil=0;
-     fscanf(fich,"%d ",&FNSensCilindros);/*n�mero de sensores en cilindros*/
-     fscanf(fich,"%d ",&ncil);/*n�mero de cilindros con sensores*/
+     fscanf(fich,"%d ",&FNSensCilindros);/*numero de sensores en cilindros*/
+     fscanf(fich,"%d ",&ncil);/*numero de cilindros con sensores*/
      int cont=0;
      FSensorCil=new stSensorCil[FNSensCilindros];
      if (FNSensCilindros!=0){
@@ -1280,8 +1280,8 @@ void TCalculoExtern::Lee_Sens_Cil(char *FileWAM,fpos_t &filepos,TBloqueMotor **E
                      }/*fin del switch*/
 
                      cont++;
-                   }/*Fin n�mero de sensores en cilindro*/
-                }/*Fin n�mero de cilindros con sensor*/
+                   }/*Fin numero de sensores en cilindro*/
+                }/*Fin numero de cilindros con sensor*/
       }
         fgetpos(fich, &filepos);
      fclose(fich);
@@ -1308,7 +1308,7 @@ void TCalculoExtern::Lee_Sens_Vent(char *FileWAM,fpos_t &filepos,TVenturi **Vent
      double prent,prgar,velent,vellat,gasent,gaslat;
      int tipo,nventuris,venturi,nsensventuri,v;
      nventuris=0;
-     fscanf(fich,"%d ",&FNSensVenturis);/*n�mero de sensores en venturis*/
+     fscanf(fich,"%d ",&FNSensVenturis);/*numero de sensores en venturis*/
      fscanf(fich,"%d ",&nventuris);
      int cont=0;
      FSensorVent=new stSensorVent[FNSensVenturis];
@@ -1370,7 +1370,7 @@ prgar=prent/pow(1+Venturi[v]->getgamma3()*pow(dynamic_cast<TCCDeposito *>(Ventur
                                         FSensorVent[cont].valrealant=FSensorVent[cont].valreal;
                                         break;
                      case nmGastoEntVent: gasent=-dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getMassflow();  /*Massflow entrante positivo.Saliente negativo. Pedro */
-                                          /* gasent lleva el "-" delante porque se usa el convenio de signos de los dep�sitos,que es el contrario al de las BC, de la que se obtiene el massflow */
+                                          /* gasent lleva el "-" delante porque se usa el convenio de signos de los depositos,que es el contrario al de las BC, de la que se obtiene el massflow */
                                           FSensorVent[cont].valreal=gasent;
                                           FSensorVent[cont].valact=FSensorVent[cont].valreal;
                                           FSensorVent[cont].valant=FSensorVent[cont].valreal;
@@ -1386,8 +1386,8 @@ prgar=prent/pow(1+Venturi[v]->getgamma3()*pow(dynamic_cast<TCCDeposito *>(Ventur
                      }/*fin del switch*/
 
                      cont++;
-                   }/*Fin n�mero de sensores en venturi*/
-                }/*Fin n�mero de venturis con sensor*/
+                   }/*Fin numero de sensores en venturi*/
+                }/*Fin numero de venturis con sensor*/
 
       }
           fgetpos(fich, &filepos);
@@ -1413,7 +1413,7 @@ void TCalculoExtern::Lee_Sens_Motor(char *FileWAM,fpos_t &filepos,double CrankAn
      fsetpos(fich, &filepos);
 
      int tipo;
-     fscanf(fich,"%d ",&FNSensMotor);/*n�mero de sensores en motor*/
+     fscanf(fich,"%d ",&FNSensMotor);/*numero de sensores en motor*/
      if(ene<0. && FNSensMotor!=0){
            std::cout << "ERROR: No puede haber sensores en el motor,pues no hay motor.Comprobad la lectura " << std::endl;
            throw Exception("");
@@ -1480,8 +1480,8 @@ void TCalculoExtern::Lee_Sens_UED(char *FileWAM,fpos_t &filepos,TCondicionContor
      fsetpos(fich, &filepos);
      int nUED,CCued,nsensUED;
      int tipo,cont=0;
-     fscanf(fich,"%d ",&FNSensUED); /*n�mero de sensores en UED*/
-     fscanf(fich,"%d ",&nUED); /*n�mero de uniones entre tubos con sensores*/
+     fscanf(fich,"%d ",&FNSensUED); /*numero de sensores en UED*/
+     fscanf(fich,"%d ",&nUED); /*numero de uniones entre tubos con sensores*/
      FSensorUED=new stSensorUED[FNSensUED];
      if(FNSensUED!=0){
          for(int i=0;i<=nUED-1; ++i) {
@@ -1507,8 +1507,8 @@ void TCalculoExtern::Lee_Sens_UED(char *FileWAM,fpos_t &filepos,TCondicionContor
                                break;
                  }/*fin del switch*/
                  cont++;
-             }/*Fin n�mero de sensores en UED*/
-         }/*Fin n�mero de UED con sensor*/
+             }/*Fin numero de sensores en UED*/
+         }/*Fin numero de UED con sensor*/
      }
      fgetpos(fich, &filepos);
      fclose(fich);
@@ -2000,7 +2000,7 @@ prgar=prent/pow(1+Venturi[FSensorVent[i].venturi-1]->getgamma3()*pow(dynamic_cas
                                    FSensorVent[i].valrealant=FSensorVent[i].valreal;
                                    break;
                 case nmGastoEntVent: gasent=-dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi-1]->getCCEntrada())->getMassflow();  /*Massflow entrante positivo.Saliente negativo. Pedro */
-                                     /* gasent lleva el "-" delante porque se usa el convenio de signos de los dep�sitos,que es el contrario al de las BC, de la que se obtiene el massflow */
+                                     /* gasent lleva el "-" delante porque se usa el convenio de signos de los depositos,que es el contrario al de las BC, de la que se obtiene el massflow */
                                      FSensorVent[i].valreal=gasent;
                                      FSensorVent[i].valact=((2*FSensorVent[i].ctetiempo-deltaT) * FSensorVent[i].valant + deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / ( 2*FSensorVent[i].ctetiempo + deltaT );
                                      FSensorVent[i].valant=FSensorVent[i].valact;
@@ -2121,7 +2121,7 @@ void TCalculoExtern::InicializaMedias()
   try
   {
 
-    //Inicializa variables en el primer instante de c�lculo.
+    //Inicializa variables en el primer instante de calculo.
 
 
     printf("Recuerda que debes inicializar las variables que quieres graficar\n");

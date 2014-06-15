@@ -49,22 +49,22 @@ private:
 
 nmTipoPP FTipoPP;
 
-int *FNodoFin;               // Nodo del tubo en la condici�n de contorno.
-int *FIndiceCC;              // Posici�n del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-double **FCC;                // Caracter�stica conocida del tubo.
-double **FCD;                // Caracter�stica desconocida del tubo.
+int *FNodoFin;               // Nodo del tubo en la condicion de contorno.
+int *FIndiceCC;              // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+double **FCC;                // Caracteristica conocida del tubo.
+double **FCD;                // Caracteristica desconocida del tubo.
 int *FNumeroTubo;
 int FTuboActual;
 
-double FGamma3;    // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma funci�n.
+double FGamma3;    // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma funcion.
 double FGamma2;
 double FGamma5;
 double FGamma1;
 
 
-double FK;                 // Coeficiente de resistencia caracter�stico. Negativo.
-                           // Se encuentra dividida por 2 respecto de la definici�n te�rica.
-double FRelacionEntropia;  // Relaci�n entre la entropia del tubo saliente y la del tubo entrante.
+double FK;                 // Coeficiente de resistencia caracteristico. Negativo.
+                           // Se encuentra dividida por 2 respecto de la definicion teorica.
+double FRelacionEntropia;  // Relacion entre la entropia del tubo saliente y la del tubo entrante.
 
 public:
 

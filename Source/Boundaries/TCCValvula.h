@@ -47,7 +47,7 @@ TTipoValvula *FValvula;
 int FNumeroCilindro;
 
 double FPref;            // Pressure de referencia
-double FPresionCil;      // Presi�n en el cilindro
+double FPresionCil;      // Presion en el cilindro
 double FVelSonidoCil;    // Velocity del sonido en el cilindro
 double FMomentoAngular;  // Momento angular en el cilindro
 double FMasaCilindro;    // Masa dentro del cilindro
@@ -56,32 +56,32 @@ double FCDEntrada;       // Coeficiente de descarga a la entrada
 double FCDSalida;        // Coeficiente de descarga a la salida
 double FCTorbellino;    // Coeficiente de torbellino
 
-double FSeccionEficaz;   // Secci�n eficaz de la v�lvula
+double FSeccionEficaz;   // Seccion eficaz de la valvula
 double FGasto;           // Massflow en el extremo del tubo.
 double FMomento;
 double FVelocity;         // Velocity en el extremo del tubo
 double FSonido;            // Velocity del sonido en el extremo del tubo
 double FVelocidadGarganta;  // Velocity en la garganta
-double FMachGarganta;       // N�mero de Mach en la garganta.
+double FMachGarganta;       // Numero de Mach en la garganta.
 double FGastoGarganta;      // Massflow en la garganta.
 double FRelacionPresionGarganta;
 double FAd;
 
-double FSeccionValvula;   // Secci�n en la garganta
-double FSeccionTubo;      // Secci�n en el extremo del tubo
+double FSeccionValvula;   // Seccion en la garganta
+double FSeccionTubo;      // Seccion en el extremo del tubo
 
 double FCarrera;
-double Fk;          // Relaci�n entre la secci�n del tubo en el extremo y la secci�n eficaz de la v�lvula.
-double Fcc;         //Variable auxiliar utilizada para el c�lculo de el caso saliente supercr�tico.
+double Fk;          // Relacion entre la seccion del tubo en el extremo y la seccion eficaz de la valvula.
+double Fcc;         //Variable auxiliar utilizada para el calculo de el caso saliente supercritico.
 
 
 nmTipoValv FTipoValv;
 nmCaso FCaso;
 
 int FNodoFin;               // Nodo del tubo en el extremo del tubo.
-int FSigno;              // No har� falta una vez se valide.
-double *FCC;                // Caracter�stica conocida del tubo.
-double *FCD;                // Caracter�stica desconocida del tubo.
+int FSigno;              // No hara falta una vez se valide.
+double *FCC;                // Caracteristica conocida del tubo.
+double *FCD;                // Caracteristica desconocida del tubo.
 
 // FUNCIONES
 

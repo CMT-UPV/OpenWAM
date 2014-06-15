@@ -39,7 +39,7 @@ License
  TMuelle::TMuelle()
 {
 
-/* Introducción de los valores de rigidez, amortiguamiento y masa del muelle */
+/* Introduccion de los valores de rigidez, amortiguamiento y masa del muelle */
 
 FRigidez=1;
 FAmort=1;
@@ -82,7 +82,7 @@ void TMuelle::CalculaPosicion(double fuerza,double DeltaT)
 
   catch(Exception &N)
   {
-    std::cout << "ERROR: Calculo de la Posición del Muelle(DLL)" << std::endl;
+    std::cout << "ERROR: Calculo de la Posicion del Muelle(DLL)" << std::endl;
     std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
     throw Exception(N.Message.c_str());
   }

@@ -41,14 +41,14 @@ class TCCRamificacion : public TCondicionContorno
 private:
 
 int *FNodoFin;               // Nodo del tubo en el extremo del tubo.
-int *FIndiceCC;              // Posición del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-double *FSeccionTubo;        // Diámetro del tubo en la condición de contorno.
-double **FCC;                // Característica conocida del tubo.
-double **FCD;                // Característica desconocida del tubo.
+int *FIndiceCC;              // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+double *FSeccionTubo;        // Diametro del tubo en la condicion de contorno.
+double **FCC;                // Caracteristica conocida del tubo.
+double **FCD;                // Caracteristica desconocida del tubo.
 double *FEntropia;
 double *FVelocity;          // Velocity en el extremo del tubo.
 double *FDensidad;           // Density en el extremo del tubo.
-int FTuboActual;             // Número de tubo que se está calculando.
+int FTuboActual;             // Numero de tubo que se esta calculando.
 int *FNumeroTubo;
 
 double FTiempoActual;

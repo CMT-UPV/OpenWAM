@@ -1,4 +1,4 @@
-﻿#include"ACT_Sub_DLL.h"
+#include"ACT_Sub_DLL.h"
 
 /** ************     FUNCTION min      ************** */
 
@@ -73,8 +73,8 @@ void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity,
 		for (i = 0; i < inj_num; i++) {
 			if ((time_vector[counter] > (SOI_IM[i] / (speed * 6))) &&
 				((time_vector[counter] - (SOI_IM[i] / (speed * 6))) < 0.001)) {
-				// Correcci�n de inicio de pulso: durante el primer milisegundo.
-				// Comprobado el 6-10-2010 que en 1 ms. la correcci�n ya es despreciable (0.68%).
+				// Correccion de inicio de pulso: durante el primer milisegundo.
+				// Comprobado el 6-10-2010 que en 1 ms. la correccion ya es despreciable (0.68%).
 				virt[counter] = inj_velocity[counter] *
 					(0.5274 * exp
 					(-(time_vector[counter] - (SOI_IM[i] / (speed * 6)))
@@ -505,7 +505,7 @@ void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl,
 	for(counter=1;counter<size-1;counter++){
 	dp_da_cyl[counter]=(dp_da_aux[counter-1]+dp_da_aux[counter]+dp_da_aux[counter+1])/3;
 	}
-	} */  // Quito el filtrado de la funci�n, pues ya no hace falta.
+	} */  // Quito el filtrado de la funcion, pues ya no hace falta.
 
 	for (counter = 0; counter < size - 1; counter++) {
 		if (dp_da_cyl[counter] > *dp_da_max) {
@@ -2266,12 +2266,12 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *Itot;
 	int CalcRad[8] = {
 		0, 0, 0, 0, 0, 0, 0, 0
-	}; // Variable que indica si se ha de calcular o no la radiaci�n (al principio, NO).
-	int RadCalc; // Variable que indica el deseo del usuario de calcular o no la radiaci�n.
+	}; // Variable que indica si se ha de calcular o no la radiacion (al principio, NO).
+	int RadCalc; // Variable que indica el deseo del usuario de calcular o no la radiacion.
 
 	double YO2aire = 0.23019;
-	double YO2i; // Concentraci�n de O2 en el bowl en un instante
-	double Zst, Z1, Z0, TCC, TSC; // Para c�lculo T (relaciones de estado)
+	double YO2i; // Concentracion de O2 en el bowl en un instante
+	double Zst, Z1, Z0, TCC, TSC; // Para calculo T (relaciones de estado)
 	double mmH2O = 18.; // Molecular weight for H2O
 	double mmCO2 = 44.; // Molecular weight for CO2
 
@@ -2308,8 +2308,8 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double WC1B = engine_parameters[20]; /* Constant B to calculate C1 */
 	double C2 = engine_parameters[21];
 	/* Coefficient to the Woschin's calculus */
-	double IVC = engine_parameters[22]; /* Inlet valve closing (�) */
-	double EVO = engine_parameters[23]; /* Exhaust valve opening (�) */
+	double IVC = engine_parameters[22]; /* Inlet valve closing (deg) */
+	double EVO = engine_parameters[23]; /* Exhaust valve opening (deg) */
 
 	double Kmixture1 = engine_parameters[24];
 	/* mixture combustion model constants */
@@ -2429,7 +2429,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double IMP_HP = 0; /* Indicated Mean Pressure of pressure high cicle(bar) */
 	double pmax = 0; /* In-cylinder Maximum pressure(bar) */
 	double Tmax = 0; /* In cylinder Maximum temperature(K) */
-	double dp_da_max = 0; /* Maximum dp/d(alfa) (bar/�) */
+	double dp_da_max = 0; /* Maximum dp/d(alfa) (bar/deg) */
 	double Uo_i; // Virtual velocity at instant i
 	double YO2_bowl_i; // O2 mass fraction in the bowl at instant i
 
@@ -2438,8 +2438,8 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *acu_dmf; /* Accumulated injection rate (-) */
 	double *time_vector; /* Time (s) [IVC - EVO] */
 	double *time_vector_exit; /* Time (s) [-180 - +180] */
-	double *CAD; /* Crank angle degrees (�) [IVC - EVO] */
-	double *complete_CAD; /* Crank angle degrees (�) [-180 - +180] used to calculate
+	double *CAD; /* Crank angle degrees (deg) [IVC - EVO] */
+	double *complete_CAD; /* Crank angle degrees (deg) [-180 - +180] used to calculate
 	the IMP_HP */
 	double *roair; /* In-cylinder air density (kg/m3) */
 	double *virtual_velocity; /* Virtual velocity (m/s) */
@@ -2458,7 +2458,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *acu_Mbb; /* Accumulated blow-by mass (Kg) */
 	double *U; /* Internal energy (J) */
 	double *CV; /* At constant volume heat (J/Kg) */
-	double *H_cooler; /* Heat hung over to the cooler (J/�) */
+	double *H_cooler; /* Heat hung over to the cooler (J/deg) */
 	double *Qcylhead;
 	double *Qcyl;
 	double *Qpis;
@@ -2475,9 +2475,9 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *SOI_IM; /* start of injections of multiple pulse */
 	double *EOI_IM; /* end of injections of multiple pulse */
 	double *aux_vector;
-	double *evol_mSoot; // Evoluci�n de la masa de soot en el chorro.
-	double *mSootCil; // Evoluci�n de la masa de soot remanente en cilindro (viene del EGR).
-	double *evol_Radiacion; // Evoluci�n del par�metro de radiaci�n (m_soot*T^4)
+	double *evol_mSoot; // Evolucion de la masa de soot en el chorro.
+	double *mSootCil; // Evolucion de la masa de soot remanente en cilindro (viene del EGR).
+	double *evol_Radiacion; // Evolucion del parametro de radiacion (m_soot*T^4)
 
 	// ELEMENT AND SUB-ELEMENT VARIABLES DECLARATION
 
@@ -2553,8 +2553,8 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	}**element;
 
 	double *XLO; // Longitud de lift-off
-	double *PEN_min; // Punto m�s retrasado del chorro
-	double *PEN_max; // Punto m�s adelantado del chorro
+	double *PEN_min; // Punto mas retrasado del chorro
+	double *PEN_max; // Punto mas adelantado del chorro
 
 	struct stRealElementComposition {
 		double mtotal; /* element total mass */
@@ -2680,7 +2680,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	 ******************************************************************************* */
 
 	double Ang_Grab;
-	Ang_Grab = -180.0; // �ngulo en el que se grabar�n los datos
+	Ang_Grab = -180.0; // angulo en el que se grabaran los datos
 
 	if (RadCalc == 1 && Ang_Grab > -179.) {
 		foculto = fopen("elementos.csv", "w");
@@ -3288,15 +3288,15 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 				((Gamma - 1.) / Gamma));
 		}
 
-		// TEMPERATURA ADIAB�TICA
+		// TEMPERATURA ADIABATICA
 		// Tadib_cyl[counter]=Tsq_cyl[counter]+7424.7*pow(YO2IVC,0.829961)*pow((p_cyl[counter]*(1e-5)),-0.0236771);
 
 		YO2i = mO2_bowl[counter] / mtotal_bowl[counter];
 
-		// Versi�n 1
+		// Version 1
 		// Tadib_cyl[counter]=T_cyl[counter]+37630.5*YO2i/(YO2i+AFe*YO2aire);
 
-		// Versi�n 2
+		// Version 2
 		Tadib_cyl[counter] = Tsq_cyl[counter] + 37630.5 * YO2IVC /
 			(YO2IVC + AFe * YO2aire);
 
@@ -3309,18 +3309,18 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 				(Tadib_cyl[counter], 3.3596);
 		}
 
-		// Aminoramos esta temperatura adiab�tica (por transf. de calor) seg�n se ha comprobado.
+		// Aminoramos esta temperatura adiabatica (por transf. de calor) segun se ha comprobado.
 		Tadib_cyl[counter] *= 0.9;
 
-		// PAR�METROS PARA C�LCULO DE TEMPERATURA (RELACIONES DE ESTADO)
+		// PARAMETROS PARA CALCULO DE TEMPERATURA (RELACIONES DE ESTADO)
 		Zst = YO2i / (YO2i + AFe * YO2aire);
 		Z0 = -T_cyl[counter] * Zst / (Tadib_cyl[counter] - T_cyl[counter]);
 		Z1 = 1. + inj_fuel_temp * (1. - Zst) /
 			(Tadib_cyl[counter] - inj_fuel_temp);
 
 		// lift off calculation
-		double Rhoa, Ta, d0, EfectoO2, Pres, valor; // valor se usa m�s abajo, en el c�lculo de Fsoot.
-		double x1, x2, t1, t2, t0, K; // Par�metros para calcular con exactitud las condiciones en el LOL.
+		double Rhoa, Ta, d0, EfectoO2, Pres, valor; // valor se usa mas abajo, en el calculo de Fsoot.
+		double x1, x2, t1, t2, t0, K; // Parametros para calcular con exactitud las condiciones en el LOL.
 
 		YO2_bowl_i = YO2IVC; // It considers YO2 at the beginning
 		Uo_i = virtual_velocity[counter];
@@ -3558,7 +3558,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							if ((element[m][aux].RID >= 1) && (SOC_IM[m] == EVO)
 								) {
 								SOC_IM[m] = time_vector[counter] * 6 * speed;
-								// Se activa el c�culo de la radiaci�n para ese pulso:
+								// Se activa el calculo de la radiacion para ese pulso:
 								CalcRad[m] = 1;
 							}
 
@@ -3586,7 +3586,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 								// Limitamos a 1. el valor
 
 								if (element[m][aux].Pcyl_POC < 2.)
-								// En este caso no est� inicializado: lo inicializo ahora por si acaso.
+								// En este caso no esta inicializado: lo inicializo ahora por si acaso.
 									element[m][aux].Pcyl_POC = p_cyl[counter];
 
 							}
@@ -3598,7 +3598,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 								(time_vector[counter] >
 									(SOC_IM[m] / (6 * speed)))) {
 								if (POI_IM[m][i] < SOC_IM[m] / (6 * speed)) {
-									// Determinaci�n del POC (es en el inicio de la combusti�n premezclada)
+									// Determinacion del POC (es en el inicio de la combustion premezclada)
 									POC_IM[m][aux] = time_vector[counter];
 
 									if (element[m][aux].FI > 1.) {
@@ -3676,7 +3676,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 								(time_vector[counter] >
 									(SOC_IM[m] / (6 * speed)))) {
 								if (element[m][aux].FI > 1.) {
-									// Paquete que est� a medio quemar, en condiciones ricas...
+									// Paquete que esta a medio quemar, en condiciones ricas...
 									realelement[m][aux].mO2 = element[m][aux]
 										.mO2 * (1. - element[m][aux].Rpmx);
 									mf_old = realelement[m][aux].mf_reac;
@@ -3688,7 +3688,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 										[m][aux].mf_reac - mf_old;
 								}
 								else {
-									// Paquete que est� a medio quemar, en condiciones pobres...
+									// Paquete que esta a medio quemar, en condiciones pobres...
 									realelement[m][aux].mO2 = element[m][aux]
 										.mO2 - element[m][aux]
 										.mf_reac * Kst1 * element[m][aux].Rpmx;
@@ -3729,7 +3729,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							// Wrong version                     element[m][aux].TSD=(1/(element[m][aux].mtotal-realelement[m][aux].mf_reac+2*realelement[m][aux].mf_reac))*((element[m][aux].mtotal-realelement[m][aux].mf_reac)*(T_cyl[counter]+37630.5*(element[m][aux].mf_reac-realelement[m][aux].mf_reac)/element[m][aux].mtotal)+inj_fuel_temp*(2*realelement[m][aux].mf_reac));
 							// Corrected version                     element[m][aux].TSD=1./element[m][aux].mtotal*((element[m][aux].mtotal-realelement[m][aux].mf_reac)*(T_cyl[counter]+37630.5*(element[m][aux].mf_reac-realelement[m][aux].mf_reac)/element[m][aux].mtotal)+inj_fuel_temp*realelement[m][aux].mf_reac);
 
-							// T con combusti�n, TCC
+							// T con combustion, TCC
 
 							if (element[m][aux].FI >= 1.) {
 								// Dosado rico.
@@ -3742,22 +3742,22 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 									(element[m][aux].C - Z0) / (Zst - Z0);
 							}
 
-							// T sin combusti�n, TSC
+							// T sin combustion, TSC
 
 							TSC = (T_cyl[counter] * (1. - element[m][aux].C)
 								+ inj_fuel_temp * element[m][aux].C);
 
-							// La temperatura real depende de si estamos antes o despu�s del SOC:
+							// La temperatura real depende de si estamos antes o despues del SOC:
 
 							if (time_vector[counter] > (SOC_IM[m] / (6 * speed))
 								)
-							// En este caso ya ha empezado la combusti�n
+							// En este caso ya ha empezado la combustion
 								element[m][aux].Tadib = TCC;
 							else
-							// En este caso NO ha empezado la combusti�n
+							// En este caso NO ha empezado la combustion
 								element[m][aux].Tadib = TSC;
 
-							// Temperatura para el c�lculo de NOX
+							// Temperatura para el calculo de NOX
 							element[m][aux].TNOx = element[m][aux].Tadib;
 
 							// EMISSIONS FORMATION AND OXIDATIONS
@@ -3843,14 +3843,14 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 							// CMT formation-oxidation process (both processes "integrated")
 
-							// Oxidaci�n (debido a la desaparici�n de masa de combustible):
+							// Oxidacion (debido a la desaparicion de masa de combustible):
 							if (realelement[m][aux].dmf_reac < 0.)
 								element[m][aux].mSOOT_C *= realelement[m][aux]
 									.mf_reac /
 									(realelement[m][aux].mf_reac - realelement
 								[m][aux].dmf_reac);
 
-							// Formaci�n:
+							// Formacion:
 							if (element[m][aux].tLOL > -10.) {
 								// Checks if the element has reached the LOL
 								// element[m][aux].mSOOT_C=KSOOTC1*realelement[m][aux].mf_reac*pow(Pres/(14.8*Runiv/MW_air*1000.),2.2)*(-0.80545455/element[m][aux].FRLOL+0.49715984)*pow((time_vector[counter]-element[m][aux].tLOL)*1.e6,0.6)*exp(-2399./Tadib_cyl[counter]);
@@ -3868,8 +3868,8 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 										(-2399. / Tadib_cyl[counter])
 										* delta_t;
 									// KSOOTC1 vale 0.9e-3 para el caso de Exp 1
-									// He a�adido un factor de correcci�n de la presi�n (instant�nea).
-									/* valor=time_vector[counter]-element[m][aux].tLOL-delta_t;  // Valor aqu� es un c�lculo intermedio...
+									// He anadido un factor de correccion de la presion (instantanea).
+									/* valor=time_vector[counter]-element[m][aux].tLOL-delta_t;  // Valor aqui es un calculo intermedio...
 									if(valor<0.)
 									valor=0.;          // KSOOTC1 vale 1.e-2 en el caso de Exp 0.6 para el tiempo de residencia
 									valor=KSOOTC1*realelement[m][aux].mf_reac*pow(Pres/(14.8*Runiv/MW_air*1000.),2.2)*(-1./element[m][aux].FRLOL+0.5)*(pow((time_vector[counter]-element[m][aux].tLOL)*1.e6,0.6)-pow(valor*1.e6,0.6))*exp(-2399./Tadib_cyl[counter]); */
@@ -3892,9 +3892,9 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							// Limitamos a cero.
 								element[m][aux].mSOOT_C = 0.;
 
-							// A�adimos la masa al contador de masa de Soot:
+							// Anadimos la masa al contador de masa de Soot:
 							evol_mSoot[counter] += element[m][aux].mSOOT_C;
-							// La radiaci�n se calcular� m�s adelante...
+							// La radiacion se calculara mas adelante...
 
 							// HC formation by overmixed element
 
@@ -4053,7 +4053,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 			/ mO2_IVC;
 
 		/** **********************************************************************************
-		Inicio c�lculo radiaci�n.
+		Inicio calculo radiacion.
 		 *********************************************************************************** */
 
 		double lambda, dlambda, tgAng, Teje, Tllama, Xeje, radio, aux1, Xmax;
@@ -4086,21 +4086,21 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 			}
 		}
 
-		// Dimensionamos el array seg�n el n�mero de pulsos
+		// Dimensionamos el array segun el numero de pulsos
 		stRadArray **Radiation;
 		Radiation = (struct stRadArray * *)malloc
 			(inj_num*sizeof(struct stRadArray*));
 		Itot = (double*)malloc(inj_num*sizeof(double));
 
-		// Calculamos las cosas comunes. Despu�s ya se har� el barrido de lambda.
+		// Calculamos las cosas comunes. Despues ya se hara el barrido de lambda.
 
-		// Lo primero es saber cu�ntos puntos hay (puntos del paquete 5 con Xsoot distinto de 0):
+		// Lo primero es saber cuantos puntos hay (puntos del paquete 5 con Xsoot distinto de 0):
 		for (m = 0; m < inj_num; m++) {
 			iini = 0;
 			ifin = 0;
 			Itot[m] = 0; // Inicializamos a 0 la intensidad.
 			Xmax = 0.;
-			if (CalcRad[m] == 1 && RadCalc == 1) { // S�lo se calcula si toca y si el usuario quiere
+			if (CalcRad[m] == 1 && RadCalc == 1) { // Solo se calcula si toca y si el usuario quiere
 				j = 4; // Paquete 5
 				i = 0;
 				aux = i * num_j + j;
@@ -4126,17 +4126,17 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 					ifin = i - 1;
 
 				if (iini < ifin) {
-					// S�lo en este caso conviene proseguir con el c�lculo...
-					// Dimensionamos el vector. Tengo en cuenta que a�adir� un punto por delante (el que est� justo en el frente) y otro por detr�s (el que est� justo en el LOL)
+					// Solo en este caso conviene proseguir con el calculo...
+					// Dimensionamos el vector. Tengo en cuenta que anadira un punto por delante (el que esta justo en el frente) y otro por detras (el que esta justo en el LOL)
 					Radiation[m] = (struct stRadArray*)malloc
 						((ifin - iini + 3)*sizeof(struct stRadArray));
 
 					// Inicializaciones
 					tgAng = tan(ANG_CHORRO / 2 * PI / 180.) * Kmixture1 / 0.75;
 
-					// El primer elemento es el del frente de llama. Busco con precisi�n su posici�n.
+					// El primer elemento es el del frente de llama. Busco con precision su posicion.
 					if (iini > 0) {
-						// En este caso el eje del chorro ya ha llegado a estequiom�trico. El punto est� entre iini e iini-1.
+						// En este caso el eje del chorro ya ha llegado a estequiometrico. El punto esta entre iini e iini-1.
 						Radiation[m][0].x =
 							(element[m][iini * num_j + 4].X *
 							(element[m][(iini - 1) * num_j + 4].FI - 1.)
@@ -4148,7 +4148,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							PEN_max[counter] = Radiation[m][0].x;
 					}
 					else {
-						// En este caso tengo que predecir la posici�n de x del frente si se hubiera llegado a esa posici�n:
+						// En este caso tengo que predecir la posicion de x del frente si se hubiera llegado a esa posicion:
 						Radiation[m][0].x = element[m][4].X * Kst1 * element[m]
 							[4].mf_jet / element[m][4].mO2;
 						if (PEN_max[counter] < element[m][4].X)
@@ -4185,11 +4185,11 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 						if (Radiation[m][i - iini].RFlame > cero) {
 							Radiation[m][i - iini].np = NR;
-							// M�xima resoluci�n (seg�n tama�o de vectores)
+							// Maxima resolucion (segun tamano de vectores)
 							Radiation[m][i - iini].dr = Radiation[m][i - iini]
 								.RFlame * 2. / (float)
 								Radiation[m][i - iini].np;
-							// Ahora rellenamos los vectores (en funci�n de r):
+							// Ahora rellenamos los vectores (en funcion de r):
 							Teje = element[m][aux].Tadib;
 							Tllama = Tadib_cyl[counter];
 							Xeje = element[m][aux].mSOOT_C / element[m][aux]
@@ -4231,14 +4231,14 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							Radiation[m][i - iini].T[0] = Teje;
 							Radiation[m][i - iini].Xsoot[0] = Xeje;
 						}
-						Radiation[m][i - iini].Itot = 0.; // Se inicializa a cero la integral de la radiaci�n monocrom�tica.
+						Radiation[m][i - iini].Itot = 0.; // Se inicializa a cero la integral de la radiacion monocrometica.
 
 					} // End for i
 
 					// Colocamos ahora el paquete que se encuentra justo en el lift-off
-					// Compruebo si no es el �ltimo paquete
+					// Compruebo si no es el ultimo paquete
 					if (ifin < (num_i_IM[m] - 1)) {
-						// No es el �ltimo paquete. Entonces coloco uno justo en el lift-off si no hay incoherencias...
+						// No es el ultimo paquete. Entonces coloco uno justo en el lift-off si no hay incoherencias...
 						if (XLO[counter] < Radiation[m][ifin - iini].x) {
 							Radiation[m][ifin + 1 - iini].x = XLO[counter];
 							aux = (ifin + 1) * num_j + 4;
@@ -4254,7 +4254,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 								.X);
 						}
 						else {
-							// Dado que el XLO es mayor, a�ado un paquete en la misma posici�n
+							// Dado que el XLO es mayor, anado un paquete en la misma posicion
 							Radiation[m][ifin + 1 - iini].x = Radiation[m]
 								[ifin - iini].x;
 							Radiation[m][ifin + 1 - iini].T[0] = Radiation[m]
@@ -4263,7 +4263,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						}
 					}
 					else {
-						// Es el �ltimo paquete. Coloco el paquete "extra" en el mismo sitio que el �ltimo
+						// Es el ultimo paquete. Coloco el paquete "extra" en el mismo sitio que el ultimo
 						Radiation[m][ifin + 1 - iini].x = Radiation[m]
 							[ifin - iini].x;
 						PEN_min[counter] = Radiation[m][ifin - iini].x;
@@ -4337,7 +4337,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 					for (lambda = dlambda; lambda < 5.;
 						lambda = lambda + dlambda) {
 						for (i = (iini + 1); i <= ifin; i++) {
-							// Rellenamos los vectores (en funci�n de r):
+							// Rellenamos los vectores (en funcion de r):
 							for (k = 0; k < Radiation[m][i - iini].np; k++) {
 								Radiation[m][i - iini].Tau[k] = exp
 									(-6.3 * Radiation[m][i - iini].Xsoot[k]
@@ -4350,14 +4350,14 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 									Radiation[m][i - iini].PTau[k] = Radiation
 										[m][i - iini].Tau[k] * Radiation[m]
 										[i - iini].PTau[k - 1];
-								// Acumulo la atenuaci�n
+								// Acumulo la atenuacion
 							}
 
-							// Calculamos la radiaci�n monocrom�tica:
+							// Calculamos la radiacion monocrometica:
 							Radiation[m][i - iini].Ilambda = 0.;
 							for (k = 0; k < Radiation[m][i - iini].np; k++) {
 								if (Radiation[m][i - iini].T[k] > cero) {
-									// Es el �nico caso en el que tiene sentido calcularla. Si no, la radiaci�n es nula
+									// Es el unico caso en el que tiene sentido calcularla. Si no, la radiacion es nula
 									aux1 = 3.743e8 /
 										(PI * pow(lambda,
 										5) *
@@ -4370,7 +4370,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 										* Radiation[m][i - iini].PTau[k];
 									Radiation[m][i - iini]
 										.Ilambda += aux1 * 1.e6;
-									// Expresada en W/st�m^3
+									// Expresada en W/stdeg m^3
 								}
 							}
 							Radiation[m][i - iini].Itot += Radiation[m]
@@ -4399,17 +4399,17 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 					} // End for lambda
 
-					// Calculamos la radiaci�n total en cada x:
+					// Calculamos la radiacion total en cada x:
 					for (i = (iini + 1); i <= ifin; i++) {
-						// Descontamos la mitad del �ltimo punto
+						// Descontamos la mitad del ultimo punto
 						Radiation[m][i - iini].Itot -= Radiation[m][i - iini]
 							.Ilambda / 2.;
 						Radiation[m][i - iini].Itot *= dlambda * 1.e-6;
 						// Multiplicamos por dlambda.
-						// A�adimos el tramo final (suponemos que en 10 um ya vale 0).
+						// Anadimos el tramo final (suponemos que en 10 um ya vale 0).
 						Radiation[m][i - iini].Itot += Radiation[m][i - iini]
 							.Ilambda / 2. * (10. - lambda) * 1.e-6;
-						// Intensidad en W/st�m^2
+						// Intensidad en W/stdeg m^2
 					}
 
 					if ((time_vector[counter] <= (Ang_Grab / (6 * speed))) &&
@@ -4423,7 +4423,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 							Radiation[m][i - iini].Itot);
 						fprintf(foculto2, "\n");
 					}
-					// Finalmente calculamos la radiaci�n total:
+					// Finalmente calculamos la radiacion total:
 					if (iini < 0) {
 						// Se ha de quitar el primer paquete (frente), pues se trata de un chorro no estabilizado.
 						for (i = (iini + 2); i <= (ifin + 1); i++) {
@@ -4448,7 +4448,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						}
 					}
 					Itot[m] *= PI;
-					// Corregimos el valor seg�n la correlaci�n emp�rica obtenida.
+					// Corregimos el valor segun la correlacion emperica obtenida.
 					// Tengo en cuenta dos acortamientos de la llama: por YO2 < 0.23 y por chorro no estacionario.
 					aux1 = 1. /
 						(1. - pow(pow(Radiation[m][1].x / Radiation[m][0].x,
@@ -4475,7 +4475,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		evol_Radiacion[counter] = 0.;
 		for (m = 0; m < inj_num; m++)
 			evol_Radiacion[counter] += Itot[m];
-		// Internamente ACT trabaja con un chorro que re�ne a todos los chorros (# orificios). Por tanto no hay que multiplicar por n_holes
+		// Internamente ACT trabaja con un chorro que reune a todos los chorros (# orificios). Por tanto no hay que multiplicar por n_holes
 		// evol_Radiacion[counter]*=n_holes;
 
 		/** ******************************************************************************
@@ -4487,7 +4487,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		free(Itot);
 
 		/** **********************************************************************************
-		Fin c�lculo y escritura de radiaci�n
+		Fin calculo y escritura de radiacion
 		 *********************************************************************************** */
 
 		// Grabamos fichero interno
@@ -4645,7 +4645,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	// Pasamos el valor a FSN
 	mean_var_exit[9] = YSoot_to_FSN(SOOT_EVO_C);
-	// A�adimos la correcci�n emp�rica:
+	// Anadimos la correccion emperica:
 	mean_var_exit[9] = 0.0930816 * pow(mean_var_exit[9], 2.68);
 	// Limitamos el valor a 10
 	if (mean_var_exit[9] > 10.)
@@ -4677,7 +4677,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],mtotal,mfuel,mfuel_real,mO2,mO2_real,TSD,Tadib");
+	strcpy(title,"CAD[deg],time[s],mtotal,mfuel,mfuel_real,mO2,mO2_real,TSD,Tadib");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4691,7 +4691,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],Pcyl[bar],dpdacyl[bar/�],HR[J],ROHR[J/s],Tcyl[K],Vcyl[m3],ro_air[kg/m3],uo*[m/s],mtotal_cyl[g],injection[kg/s],accu_mfuel[kg],mO2bowl[g],mO2Vd[g],YO2[-],Tsq[K],Tadib_cyl[K],mNOx[g],XLO[m]");
+	strcpy(title,"CAD[deg],time[s],Pcyl[bar],dpdacyl[bar/deg],HR[J],ROHR[J/s],Tcyl[K],Vcyl[m3],ro_air[kg/m3],uo*[m/s],mtotal_cyl[g],injection[kg/s],accu_mfuel[kg],mO2bowl[g],mO2Vd[g],YO2[-],Tsq[K],Tadib_cyl[K],mNOx[g],XLO[m]");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4707,7 +4707,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4722,7 +4722,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4737,7 +4737,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4754,7 +4754,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4769,7 +4769,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4784,7 +4784,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4802,7 +4802,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4816,7 +4816,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -4832,7 +4832,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	printf("The element file results could not be opened");
 	exit(1);
 	}
-	strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	fprintf(fich, "%s", title);
 
 	for(counter=0;counter<size;counter++){
@@ -5180,7 +5180,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 double YSoot_to_FSN(double YSoot) {
 	double x1, x2, x, y;
-	// Busca el FSN implentando un m�todo de la bisecci�n.
+	// Busca el FSN implentando un metodo de la biseccion.
 	if (YSoot < 0.)
 		x = 0.;
 	else {

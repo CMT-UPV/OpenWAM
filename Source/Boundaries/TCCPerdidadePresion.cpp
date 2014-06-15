@@ -56,7 +56,7 @@ FNumeroTubo=NULL;
 
 if(TipoCC==nmLinearPressureLoss)  FTipoPP=nmPPLineal;
 else if(TipoCC==nmQuadraticPressureLoss)  FTipoPP=nmPPCuadratica;
-else printf("ERROR en tipo de p�rdida de presi�n TCCPerdidadePresion en la condici�n de contorno: %d\n",FNumeroCC);
+else printf("ERROR en tipo de perdida de presion TCCPerdidadePresion en la condicion de contorno: %d\n",FNumeroCC);
 
 }
 
@@ -119,17 +119,17 @@ while(FNumeroTubosCC<2 && i<NumberOfPipes){
         i++;
 }
 
-// Inicializaci�n del transporte de especies qu�micas.
+// Inicializacion del transporte de especies quimicas.
 FFraccionMasicaEspecie=new double[FNumeroEspecies-FIntEGR];
 for(int i=0;i<FNumeroEspecies-FIntEGR;i++){
-   // Se elige como composici�n inicial la del tubo 0. Es arbitrario.
+   // Se elige como composicion inicial la del tubo 0. Es arbitrario.
    FFraccionMasicaEspecie[i]=FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 }
 
 FILE *fich=fopen(FileWAM,"r");
 fsetpos(fich, &filepos);
 
-fscanf(fich,"%lf ",&FK);    /* Coeficiente de p�rdidas con signo positivo */
+fscanf(fich,"%lf ",&FK);    /* Coeficiente de perdidas con signo positivo */
 
 fgetpos(fich, &filepos);
 fclose(fich);
@@ -137,7 +137,7 @@ fclose(fich);
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCPerdidadePresion::LecturaPerdidaPresion en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCPerdidadePresion::LecturaPerdidaPresion en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -154,7 +154,7 @@ FTuboActual=TuboActual;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCPerdidadePresion::TuboCalculandose en la condici�n de contorno: " << FNumeroCC <<  std::endl;
+std::cout << "ERROR: TCCPerdidadePresion::TuboCalculandose en la condicion de contorno: " << FNumeroCC <<  std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }
@@ -202,7 +202,7 @@ if (flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
 	}
 		ed=*FCC[0];
 
-	if(FTipoPP==nmPPLineal){ /* P�rdida lineal */
+	if(FTipoPP==nmPPLineal){ /* Perdida lineal */
 
 		ei=QuadraticEqP(FGamma1,2*FK,-2*FK* *FCC[0])+1e-6;
 		ed= *FCC[0];
@@ -214,7 +214,7 @@ if (flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
 			   vel_Out=PPAL.U1;
 			   xx3=PPAL.xx3;
 
-	}else  if(FTipoPP==nmPPCuadratica){ /* P�rdida cuadr�tica */
+	}else  if(FTipoPP==nmPPCuadratica){ /* Perdida cuadratica */
 
 		stPerdPresAd PPA(*FCC[0],*FCC[1],FK,FGamma,FRelacionEntropia);
 				vel_sonido_Out= FindRoot(PPA,ei,ed);
@@ -231,7 +231,7 @@ if (flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
 		PPA.U2=0;
 	}
 
-	}else printf("Error en el tipo de p�rdida de presi�n en la condici�n de contorno: %d\n",FNumeroCC);
+	}else printf("Error en el tipo de perdida de presion en la condicion de contorno: %d\n",FNumeroCC);
 
         if(TuboCalculado==1){
            *FCC[1] = vel_sonido_In - FGamma3*vel_In;
@@ -291,7 +291,7 @@ if (flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
 			   vel_Out=PPA.U2;
 			   xx3=PPA.xx3;
 
-		}else printf("Error en el tipo de p�rdida de presi�n en la condici�n de contorno: %d\n",FNumeroCC);
+		}else printf("Error en el tipo de perdida de presion en la condicion de contorno: %d\n",FNumeroCC);
 
 		if(TuboCalculado==0){
            *FCC[0] = vel_sonido_In - FGamma3*vel_In;
@@ -310,8 +310,8 @@ if (flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
            *FCD[1] = vel_sonido_Out - FGamma3*vel_Out;
         }
 
-        // Transporte de Especies Qu�micas
-           // Se actualiza todos los instantes de c�lculo.
+        // Transporte de Especies Quimicas
+           // Se actualiza todos los instantes de calculo.
         for(int j=0;j<FNumeroEspecies-2;j++){
             FFraccionMasicaEspecie[j]=FTuboExtremo[1].Pipe->GetFraccionMasicaCC(FIndiceCC[1],j);
             FraccionMasicaAcum+=FFraccionMasicaEspecie[j];
@@ -329,13 +329,13 @@ if (flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
             *FCD[1] = *FCC[1];
 		}
 
-        // La composici�n se mantiene, al estar el flujo parado.
+        // La composicion se mantiene, al estar el flujo parado.
 	}
 }
 
 catch(Exception &N)
 {
-std::cout << "ERROR: TCCPerdidadePresion::CalculaCondicionContorno en la condici�n de contorno: " << FNumeroCC << std::endl;
+std::cout << "ERROR: TCCPerdidadePresion::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message.c_str());
 }

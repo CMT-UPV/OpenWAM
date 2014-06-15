@@ -106,7 +106,7 @@ void TCompresorDep::Initialize() {
 
 // ---------------------------------------------------------------------------
 // ----------------- CalculaGasto -----------------------------------------//
-// Calculo del flujo que transcurre a trav�s de los 2 dep�sitos del        //
+// Calculo del flujo que transcurre a travas de los 2 depositos del        //
 // compresor                                                               //
 // ---------------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 	double DescorrigeGasto;
 	try {
 
-		// NO EST�N PUESTAS LAS ESPECIES !!!!!!! SOLO ESTA HECHO PARA QUE COMPILE.
+		// NO ESTAN PUESTAS LAS ESPECIES !!!!!!! SOLO ESTA HECHO PARA QUE COMPILE.
 		FGamma = FDepositoRot->getGamma(); // Se ha de hacer una media de entrada y salida
 		FRMezcla = FDepositoRot->getR();
 		FGamma4 = Gamma4(FGamma);

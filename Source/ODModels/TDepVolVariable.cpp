@@ -86,7 +86,7 @@ if(FControlRegimen==nmPropio){
 }else if(FControlRegimen==nmMotor && HayMotor){
    fscanf(fich,"%lf ",&FRelacionVelocidades);
 }else{
-   std::cout << "ERROR: TDepVolVariable::LeeDatosIniciales Lectura del Control del Régimen errónea " << std::endl;
+   std::cout << "ERROR: TDepVolVariable::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
    throw Exception(" ");
 }
 
@@ -98,7 +98,7 @@ FVolumenMuerto=(Pi*FDiametro*FDiametro*FCarrera/4.)/(FRelCompre-1.);
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumétrico: " << FNumeroCompresor <<std::endl;
+std::cout << "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: " << FNumeroCompresor <<std::endl;
 //std::cout << "Tipo de error: " << N.Message << std::endl;
 throw Exception(N.Message);
 }
@@ -168,7 +168,7 @@ for(int i=0;i<FNumeroUnionesED;i++){
         SignoFlujoED=dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
      }else if(FNumeroDeposito==dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito2()){
         SignoFlujoED=dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
-     }else printf("ERROR:TDepVolVariable::ActualizaPropiedades en el depósito %d, unión entre depósitos %d\n",FNumeroDeposito,i);
+     }else printf("ERROR:TDepVolVariable::ActualizaPropiedades en el deposito %d, union entre depositos %d\n",FNumeroDeposito,i);
 
      g=(double)SignoFlujoED*dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getMassflow();
      m=g*DeltaT;
@@ -203,7 +203,7 @@ if(FAngulo>360.){
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumétrico: " << FNumeroCompresorVol << std::endl;
+std::cout << "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumetrico: " << FNumeroCompresorVol << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -233,7 +233,7 @@ return ret_val;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumétrico: " << FNumeroCompresorVol << std::endl;
+std::cout << "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumetrico: " << FNumeroCompresorVol << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }
@@ -253,7 +253,7 @@ FVolumen0=FVolumen;
 }
 catch(Exception &N)
 {
-std::cout << "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumétrico: " << FNumeroCompresorVol << std::endl;
+std::cout << "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumetrico: " << FNumeroCompresorVol << std::endl;
 std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 throw Exception(N.Message);
 }

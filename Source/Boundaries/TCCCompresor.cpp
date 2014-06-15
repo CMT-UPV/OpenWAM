@@ -84,7 +84,7 @@ void TCCCompresor::LeeNumeroCompresor(char *FileWAM, fpos_t &filepos) {
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::LeeCompresor en la condici�n de contorno: " << FNumeroCC <<
+		std::cout << "ERROR: TCCCompresor::LeeCompresor en la condicion de contorno: " << FNumeroCC <<
 			std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -108,7 +108,7 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
-			// Posee un tubo y un dep�sito. Hay que asignarselos a la BC.
+			// Posee un tubo y un deposito. Hay que asignarselos a la BC.
 
 			FTuboExtremo = new stTuboExtremo[1];
 			FTuboExtremo[0].Pipe = NULL;
@@ -217,7 +217,7 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 
 		}
 		else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
-			// Posee dos dep�sitos. Hay que asignarselos a la BC.
+			// Posee dos depositos. Hay que asignarselos a la BC.
 
 			FILE *fich = fopen(FileWAM, "r");
 			fsetpos(fich, &filepos);
@@ -238,7 +238,7 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::AsignaCompresor en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCCompresor::AsignaCompresor en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -257,7 +257,7 @@ void TCCCompresor::ObtencionValoresInstantaneos(double Theta, double tiempoactua
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TCCCompresor::ObtencionValoresInstantaneos en la condici�n de contorno: "
+			"ERROR: TCCCompresor::ObtencionValoresInstantaneos en la condicion de contorno: "
 			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -273,9 +273,9 @@ void TCCCompresor::CalculaCondicionContorno(double Time) {
 		int TuboCalculado;
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
-			TuboCalculado = 0; // Es la posici�n del tubo a calcular en el vector estructura FTuboExtremo.
+			TuboCalculado = 0; // Es la posicion del tubo a calcular en el vector estructura FTuboExtremo.
 			// Para este modelo de compresor no hace falta,pero si en el de 2 tubos. Como comparten
-			// funci�n virtual, la llamada de la misma ha de ser igual. Por eso lo a�ado.
+			// funcion virtual, la llamada de la misma ha de ser igual. Por eso lo anado.
 			dynamic_cast<TCompTubDep*>(FCompresor)->DatosEntradaCompresor(FTamb, FPamb, this);
 			FCompresor->CondicionCompresor(FTheta, FTuboExtremo, FTiempoActual, TuboCalculado);
 			FCompresor->AcumulaMedias(FTiempoActual);
@@ -285,14 +285,14 @@ void TCCCompresor::CalculaCondicionContorno(double Time) {
 			FCompresor->AcumulaMedias(FTiempoActual);
 		}
 		if (FCompresor->getModeloCompresor() == nmCompPipes) {
-			// Identificaci�n del tubo que se est� calculando en el instante current. S�lo han de variar sus propiedades.
+			// Identificacion del tubo que se esta calculando en el instante current. Solo han de variar sus propiedades.
 			if (FTuboActual == 10000) {
 				TuboCalculado = FTuboActual;
 			}
 			else {
 				for (int i = 0; i < FNumeroTubosCC; i++) {
 					if (FNumeroTubo[i] == FTuboActual) {
-						TuboCalculado = i; // Es la posici�n del tubo calculado en el vector estructura FTuboExtremo.
+						TuboCalculado = i; // Es la posicion del tubo calculado en el vector estructura FTuboExtremo.
 					}
 				}
 			}
@@ -300,14 +300,14 @@ void TCCCompresor::CalculaCondicionContorno(double Time) {
 			FCompresor->AcumulaMedias(FTiempoActual);
 		}
 
-		// Transporte de especies qu�micas.  (Paso de informaci�n del objeto Compressor al objeto BC Compressor
+		// Transporte de especies quimicas.  (Paso de informacion del objeto Compressor al objeto BC Compressor
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FCompresor->GetFraccionMasicaEspecie(i);
 		}
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::CalculaCondicionesContorno en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCCompresor::CalculaCondicionesContorno en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -322,7 +322,7 @@ void TCCCompresor::TuboCalculandose(int TuboActual) {
 		FTuboActual = TuboActual;
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
@@ -361,7 +361,7 @@ void TCCCompresor::ReadCompressorData(TCompresor **Compressor, char *FileWAM, fp
 		fclose(fich);
 	}
 	else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
-		// Posee dos dep�sitos. Hay que asignarselos a la BC.
+		// Posee dos depositos. Hay que asignarselos a la BC.
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -381,7 +381,7 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 		bool haytubo = false;
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
-			// Posee un tubo y un dep�sito. Hay que asignarselos a la BC.
+			// Posee un tubo y un deposito. Hay que asignarselos a la BC.
 
 			FTuboExtremo = new stTuboExtremo[1];
 			FTuboExtremo[0].Pipe = NULL;
@@ -474,7 +474,7 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::AsignaCompresor en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCCompresor::AsignaCompresor en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);

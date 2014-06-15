@@ -63,8 +63,8 @@ protected:
 
 	stTuboExtremo *FTuboExtremo;
 
-	int FNumeroCC; // N�mero de la condici�n de contorno (empieza en 1)
-	int FNumeroTubosCC; // N�mero de tubos en la condici�n de contorno.
+	int FNumeroCC; // Numero de la condicion de contorno (empieza en 1)
+	int FNumeroTubosCC; // Numero de tubos en la condicion de contorno.
 
 	double FTime0;
 	double FTime1;
@@ -75,7 +75,7 @@ protected:
 
 //	double FPosicionNodo;
 
-	// C�lculo de Especies
+	// Calculo de Especies
 	int FNumeroEspecies;
 	nmTipoCalculoEspecies FCalculoEspecies;
 	nmCalculoGamma FCalculoGamma;

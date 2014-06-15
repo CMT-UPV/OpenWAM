@@ -53,24 +53,24 @@ void TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro()
 {
 try
 {
-// En esta función u otras que puedas necesitar debes programar las acciones
-// a realizar para imponer la composición del gas de escape a la apertura de
-// las válvulas de escape. Recuerda que:
+// En esta funcion u otras que puedas necesitar debes programar las acciones
+// a realizar para imponer la composicion del gas de escape a la apertura de
+// las valvulas de escape. Recuerda que:
 
 // 1.- Si realizas un calculo de especies simplificado sin transporte de la
-// especie Combustible, el número de especies es 2, siendo el orden del vector de
-// fracción másica el siguiente: [0] Gases quemados, [1] Aire fresco.
+// especie Combustible, el numero de especies es 2, siendo el orden del vector de
+// fraccion masica el siguiente: [0] Gases quemados, [1] Aire fresco.
 // 2.- Si se trata de transporte de especies simplificado, teniendo en cuenta el transporte
-// de combustible, el orden del vector de fracción másica es el siguiente:
+// de combustible, el orden del vector de fraccion masica es el siguiente:
 // [0] Gases quemados, [1] Combustible, [2] Aire fresco.
-// 3.- Si el transporte de especies químicas es completo, sin transporte de combustible,
-// el número de especies transportadas es 8, en el siguiente orden:
+// 3.- Si el transporte de especies quimicas es completo, sin transporte de combustible,
+// el numero de especies transportadas es 8, en el siguiente orden:
 // [0] O2, [1] CO2, [2] H2O, [3] HC, [4] Soot, [5] NOx, [6] CO, [7] N2
-// 4.- Si el transporte de especies químicas es completo con transporte de combustible,
-// el orden del vector fracción másica será el siguiente:
+// 4.- Si el transporte de especies quimicas es completo con transporte de combustible,
+// el orden del vector fraccion masica sera el siguiente:
 // [0] O2, [1] CO2, [2] H2O, [3] HC, [4] Soot, [5] NOx, [6] CO, [7] Combustible, [8] N2
 
-// Recuerda que es la suma de fracción másica total debe ser igual a la unidad.
+// Recuerda que es la suma de fraccion masica total debe ser igual a la unidad.
 
 
 }

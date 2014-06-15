@@ -159,7 +159,7 @@ public:
 			asgNumeroTurbina = true;
 		}
 		else {
-			std::cout << "ERROR: Esta turbina ya tiene n�mero asignada" << std::endl;
+			std::cout << "ERROR: Esta turbina ya tiene numero asignada" << std::endl;
 			throw Exception("");
 		}
 	}
