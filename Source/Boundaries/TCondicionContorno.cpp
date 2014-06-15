@@ -59,6 +59,8 @@ FHayEGR=ThereIsEGR;
 if(FHayEGR) FIntEGR=0;
 else FIntEGR=1;
 
+FUnionDPF=false;
+
 }
 
 //---------------------------------------------------------------------------
