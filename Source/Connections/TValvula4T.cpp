@@ -183,7 +183,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 
 		switch(ControlRegimen) {
 		case 0:
-			FControlRegimen == nmPropio;
+			FControlRegimen = nmPropio;
 			break;
 		case 1:
 			FControlRegimen = nmMotor;
@@ -198,7 +198,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 		}
 		else {
 			std::cout <<
-				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Régimen errónea " << std::endl;
+				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
 			throw Exception(" ");
 		}
 		int controllers;

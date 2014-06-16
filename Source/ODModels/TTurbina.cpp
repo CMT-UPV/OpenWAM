@@ -76,10 +76,10 @@ TTurbina::TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas,
 
 	FCCSalida = NULL;
 	FCCSalida = NULL;
-	FResMediosTurbina.RelaCinematica = NULL;
+	FResMediosTurbina.RelaCinematica = false;
 	FResMediosTurbina.RelaCinematicaMED = NULL;
 	FResInstantTurbina.RelaCinematicaINS = NULL;
-	FResInstantTurbina.RelaCinematica = NULL;
+	FResInstantTurbina.RelaCinematica = false;
 
 	FGastoCorregido = NULL;
 	FRegimenCorregido = NULL;

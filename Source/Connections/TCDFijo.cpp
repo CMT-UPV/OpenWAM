@@ -57,7 +57,7 @@ FActivaDiamRef=Origen->FActivaDiamRef;
 FDiametroRef=Origen->FDiametroRef;
 FNumeroOrden=Origen->FNumeroOrden;
 
-//Se utilizará el diámetro del tubo
+//Se utilizara el diametro del tubo
 if(FActivaDiamRef){
      FDiamRef=FDiametroRef;
 }else{
