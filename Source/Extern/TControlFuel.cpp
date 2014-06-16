@@ -222,24 +222,24 @@ throw Exception(N.Message.c_str());
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-/*
-double TControlFuel::CalculaFuel()
-{
-try
-{
-
-/* Provisional para dW10b */
-/*return FuelAct;
-
-}
-catch(Exception &N)
-{
-std::cout << "ERROR: TControlFuel::CalculaFuel" << std::endl;
-std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-throw Exception(N.Message.c_str());
-}
-}
-*/
+//
+//double TControlFuel::CalculaFuel()
+//{
+//try
+//{
+//
+///* Provisional para dW10b */
+//return FuelAct;
+//
+//}
+//catch(Exception &N)
+//{
+//std::cout << "ERROR: TControlFuel::CalculaFuel" << std::endl;
+//std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+//throw Exception(N.Message.c_str());
+//}
+//}
+//
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 

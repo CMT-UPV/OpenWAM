@@ -183,7 +183,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 
 		switch(ControlRegimen) {
 		case 0:
-			FControlRegimen == nmPropio;
+			FControlRegimen = nmPropio;
 			break;
 		case 1:
 			FControlRegimen = nmMotor;
@@ -198,14 +198,13 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 		}
 		else {
 			std::cout <<
-				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " <<
-				std::endl;
+				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
 			throw Exception(" ");
 		}
 		int controllers;
 		int param;
 		fscanf(fich, "%d ", &controllers);
-		for (int i = 0; i < controllers; i++) {
+		for (int i=0; i < controllers; i++) {
 			fscanf(fich, "%d ", &param);
 			switch(param) {
 			case 0:
@@ -364,8 +363,7 @@ void TValvula4T::GetCDin(double Time) {
 	double X, XLv, XCd, Angulo;
 
 	if (FControlRegimen == nmPropio) {
-		Angulo = 6. * FRegimen * Time;
-		// It's correct if FRegimen is constant.
+		Angulo = 6. * FRegimen * Time; // It's correct if FRegimen is constant.
 	}
 	else {
 		if (FToCylinder) {
@@ -404,8 +402,7 @@ void TValvula4T::GetCDout(double Time) {
 	double X, XLv, XCd, Angulo;
 
 	if (FControlRegimen == nmPropio) {
-		Angulo = 360. * FRegimen / 60. * Time;
-		// It's correct if FRegimen is constant.
+		Angulo = 360. * FRegimen / 60. * Time; // It's correct if FRegimen is constant.
 	}
 	else {
 		if (FToCylinder) {
@@ -457,7 +454,7 @@ void TValvula4T::VVTControl(double Time) {
 	}
 }
 
-void TValvula4T::AsignaLevController(TController * *Controller) {
+void TValvula4T::AsignaLevController(TController **Controller) {
 	if (FVVT) {
 		if (FVVTLift) {
 			FVVTLiftCtrl = Controller[FVVTLiftCtrlID - 1];

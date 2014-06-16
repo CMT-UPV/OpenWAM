@@ -75,7 +75,7 @@ fscanf(fich,"%lf %lf %lf ",&FRelCompre,&FDesfase,&FDescentramiento);
 fscanf(fich,"%d ",&ControlRegimen);
 
 switch(ControlRegimen){
-       case 0: FControlRegimen==nmPropio;
+       case 0: FControlRegimen=nmPropio;
                break;
        case 1: FControlRegimen=nmMotor;
                break;

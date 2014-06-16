@@ -68,8 +68,8 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 	FResInstantCilindro.NITINS = NULL;
 	FResMediosCilindro.NITMED = NULL;
 
-	FCCValvulaAdm == NULL;
-	FCCValvulaEsc == NULL;
+	FCCValvulaAdm = NULL;
+	FCCValvulaEsc = NULL;
 
 	FValvEsc = NULL;
 	FValvAdm = NULL;
@@ -2393,6 +2393,8 @@ void TCilindro::IniciaVariables() {
 
 		}
 
+		FPresionRCA = FMotor->getPresionInicial();
+
 		if (FMotor->GetDesfase(FNumeroCilindro - 1) == 0) {
 
 			FCicloCerrado = false;
@@ -2413,8 +2415,11 @@ void TCilindro::IniciaVariables() {
 			// Ciclo cerrado. Compresion Isoentropica.
 			if (FAnguloActual < 180. || FAnguloActual > 540.) {
 				FCicloCerrado = true;
-				FMasa = FMotor->getMasaInicial();
-				FMasaAtrapada = FMotor->getMasaInicial();
+				FPressure = FMotor->getPresionInicial() * pow
+					((FVolumenCA / FVolumen), FGamma);
+				//FMasa = FMotor->getMasaInicial();
+				FMasa = FMotor->getPresionInicial() * 1e5 * FVolumenCA / (60 + 273) / FRMezcla;
+				FMasaAtrapada = FMasa;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 				}
@@ -2422,8 +2427,7 @@ void TCilindro::IniciaVariables() {
 					FMasaEspecieCicloCerrado[j] = FMasa *
 						FComposicionCicloCerrado[j];
 				}
-				FPressure = FMotor->getPresionInicial() * pow
-					((FVolumenCA / FVolumen), FGamma);
+
 				FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla -
 					273.;
 				// Como cambia la Temperature, cambia Cp o Cv y por tanto cambia el valor de Gamma.
@@ -2507,8 +2511,10 @@ void TCilindro::IniciaVariables() {
 		}
 
 		FMfint = FMasaFuel; // kg/cc
-		FMaint = FMotor->getMasaInicial(); // kg/cc
+		FMaint = FMasa; // kg/cc
 		FRegInt = FMotor->getRegimen();
+
+		FMasaPorAdmision = FMasa;
 
 		FTempPared = new stTemperaturasPared[3];
 		for (int i = 0; i < 3; i++) {

@@ -407,7 +407,7 @@ throw Exception(N.Message.c_str());
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-/*void TCCUnionEntreTubos::Ensanchamiento(double CCS,double CCE,double rel_entropia,
+void TCCUnionEntreTubos::Ensanchamiento(double CCS,double CCE,double rel_entropia,
 double rel_area,double )
 {
 try
