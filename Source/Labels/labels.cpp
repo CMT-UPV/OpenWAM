@@ -27,10 +27,14 @@
 #include "labels.hpp"
 
 
-AnsiString PutLabel(int idx)
-{
+namespace OpenWAM_labels{
 	std::map<int, AnsiString> labels;
+}
 
+using namespace OpenWAM_labels;
+
+void init_labels()
+{
 	labels[10000] = "EN";
 
 	labels[1011] = "Inflow_Discharge_Coef_Node_";
@@ -464,8 +468,14 @@ AnsiString PutLabel(int idx)
 	labels[2830] = "V_hacia_izq_";
 	labels[2831] = "P_hacia_der_";
 	labels[2832] = "P_hacia_izq_";
-	
-	
+}
+
+#include <iostream>
+
+using namespace std;
+
+AnsiString PutLabel(int idx)
+{
 	if (idx < 900) {
 		if (CompareStr(labels[10000], "ES") == 0) {
 			idx += 2000;
