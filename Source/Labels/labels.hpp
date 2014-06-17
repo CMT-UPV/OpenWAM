@@ -38,6 +38,18 @@
 #endif
 
 
+namespace OpenWAM_labels
+{
+	extern std::map<int, AnsiString> labels;
+}
+
+
+/**
+ * @brief Initialises the labels.
+ */
+void init_labels();
+
+
 /**
  * @brief Returns an integer.
  * 
