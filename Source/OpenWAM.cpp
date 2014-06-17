@@ -33,6 +33,7 @@
 #pragma hdrstop
 
 #include "TOpenWAM.h"
+#include "labels.hpp"
 
 // #include <tchar.h>
 // ---------------------------------------------------------------------------
@@ -42,6 +43,8 @@
 TOpenWAM* Aplication = NULL;
 
 int main(int argc, char *argv[]) {
+
+	init_labels();
 
 	Aplication = new TOpenWAM();
 
