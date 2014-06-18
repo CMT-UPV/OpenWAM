@@ -191,6 +191,8 @@ TOpenWAM::TOpenWAM() {
 
 	Steps = 0;
 	TimeEndStep = 0.;
+
+	InitFlowIndependentNumThreads();
 }
 
 TOpenWAM::~TOpenWAM() {
@@ -3454,7 +3456,7 @@ void TOpenWAM::CalculateFlowIndependent() {
 		// ! Search which pipe must be calculated
 		SearchMinimumTimeStep();
 		if (TimeMinPipe) {
-#pragma omp parallel for private(OneDEnd) num_threads(3)
+#pragma omp parallel for private(OneDEnd) num_threads(fi_num_threads)
 			for (int i = -1; i < 2; i++) {
 				if (i == - 1) {
 					// ! Solver for the flow in the pipe
@@ -4727,6 +4729,32 @@ void TOpenWAM::Actuadores()
 	EXTERN->AcumulaMedias(Run.TimeStep);
 
 }
+
+
+void TOpenWAM::InitFlowIndependentNumThreads()
+{
+	fi_num_threads = 1;
+#ifdef WITH_OPENMP
+	std::stringstream ss;
+	int n_threads;
+	char const* env_value = getenv("OMP_NUM_THREADS");
+	if (env_value == NULL) {
+		n_threads = omp_get_num_procs();
+	} else {
+		ss.str(env_value);
+		if (!(ss >> n_threads)) {
+			// OMP_NUM_THREADS isn't a valid integer.
+			n_threads = 1;
+		}
+	}
+	if (n_threads > 2) {
+		fi_num_threads = 3;
+	} else if (n_threads > 1) {
+		fi_num_threads = 2;
+	}
+#endif
+}
+
 
 // ---------------------------------------------------------------------------
 
