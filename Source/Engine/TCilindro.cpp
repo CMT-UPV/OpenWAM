@@ -96,7 +96,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		Fengine_parameters[3] = FMotor->getGeometria().Biela;
 		// Connecting Rod Length
 		Fengine_parameters[4] = FMotor->getGeometria().Excentricidad;
-		// Piston Eccentrity
+		// Piston Eccentricity
 		Fengine_parameters[5] = FMotor->getGeometria().DiametroBulon;
 		// Piston Axis Diameter
 		Fengine_parameters[6] = FMotor->getGeometria().AlturaCoronaPiston;
