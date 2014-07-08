@@ -22,6 +22,8 @@ public:
 
 	virtual void LeeMapa(FILE *fich)=0;
 
+	virtual void LeeMapaXML(xml_node node_compressor)=0;
+
 	virtual void InterpolaMapa(double rtc, double AmbientTemperature)=0;
 
 	virtual double EvaluaRendSplines(double MasaAire)=0;

@@ -73,6 +73,8 @@ public:
 
 	void ReadSAECompressorMap(FILE *fich);
 
+	void ReadSAECompressorMapXML(xml_node node_map);
+
 	void AdimensionalizeMap();
 
 	double GetCurrentRC(double Mass);
@@ -82,6 +84,8 @@ public:
 	void InterpolateMAP(double RTC);
 
 	void LeeMapa(FILE *fich);
+
+	void LeeMapaXML(xml_node node_compressor);
 
 	double EvaluaRCHermite(double mass);
 

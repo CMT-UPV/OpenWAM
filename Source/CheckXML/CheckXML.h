@@ -302,6 +302,19 @@ double GetXMLPower(const xml_node& node, const std::string& name);
  */
 double GetXMLRotationalSpeed(const xml_node& node, const std::string& name);
 
+
+/**
+ * @brief Gets an attribute as a rotational speed.
+ *
+ * Gets an attribute as a rotational speed.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node
+ * @return Rotational speed. [rpm]
+ */
+double GetXMLRotationalSpeed(const xml_node& node, const std::string& name, const std::string& unit);
+
 /**
  * @brief Gets an attribute as a speed.
  * 
