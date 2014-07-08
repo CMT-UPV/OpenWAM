@@ -191,6 +191,8 @@ double GetGastoInt(int i);
 
   void LeeMapa(FILE *fich,double radtip,double radhub,double radrodete);
   
+  void LeeMapaXML(xml_node node_compressor);
+
   void InterpolaMapa(double rtc,double AmbientTemperature);
 
   double EvaluaRendimiento(double MasaAire);

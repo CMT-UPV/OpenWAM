@@ -109,6 +109,52 @@ void TCompTubDep::LeeCompresor(char *FileWAM, fpos_t &filepos) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+void TCompTubDep::LeeCompresorXML(xml_node node_compressor) {
+	try {
+
+		int InID, OutID, VolID, StaID, RotID;
+		xml_node node_comptubdep = GetNodeChild(node_compressor,"CompressorVP");
+
+#ifdef tchtm
+
+		FIsAcoustic = GetAttributeAsBool(node_comptubdep,"IsAcoustic");
+		if (FIsAcoustic) {
+			InID = GetAttributeAsInt(node_comptubdep,"Inlet_ID");
+			OutID = GetAttributeAsInt(node_comptubdep,"Outlet_ID");
+			VolID = GetAttributeAsInt(node_comptubdep,"Volute_ID");
+			RotID = GetAttributeAsInt(node_comptubdep,"Rotor_ID");
+			StaID = GetAttributeAsInt(node_comptubdep,"Stator_ID");
+
+			FAcComp = new TAcousticCompressor(InID, VolID, OutID, RotID, StaID);
+		}
+
+#endif
+		const char_t* Format = node_compressor.attribute("MapFormat").value();
+
+		if(Format == "SAE"){
+			FCompressorMapFormat = nmSAMmap;
+			Mapa = new TSAEMap(FNumeroCompresor);
+
+		}else{
+			FCompressorMapFormat = nmOldWAMmap;
+			Mapa = new TMapaComp(FNumeroCompresor);
+		}
+
+		Mapa->LeeMapaXML(node_compressor);
+
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: TCompTubDep::LeeCompresor en el compresor: " <<
+		FNumeroCompresor << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception("ERROR: LeeCompresor en el compresor: " + AnsiString
+			(FNumeroCompresor) + N.Message.c_str());
+	}
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
 double TCompTubDep::CalGastoNuevo(double MasaAire) {
 	double ret_val, ac, bc, cc, discr;
 	try {

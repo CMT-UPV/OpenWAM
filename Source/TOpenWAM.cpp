@@ -564,10 +564,10 @@ void TOpenWAM::ReadInputDataXML(char* FileName) {
 	// #endif
 	//
 	ReadValvesXML();
-	//
-	// ReadPlenums();
-	//
-	// ReadCompressors();
+
+	ReadPlenumsXML();
+
+	ReadCompressorsXML();
 	//
 	// ReadConnections();
 	//
@@ -1676,7 +1676,7 @@ void TOpenWAM::ReadPlenumsXML() {
 
 	try {
 
-	        int numeroturbina,numeroventuri;
+	    int numeroturbina,numeroventuri;
 		
 		xml_node node_openwam = FileInputXML.child("OpenWAM");
 		xml_node node_plenumblock = GetNodeChild(node_openwam, "BlockOfPlenums");
@@ -1834,6 +1834,52 @@ void TOpenWAM::ReadCompressors() {
 		}
 		FileInput = fopen(fileinput, "r");
 		fsetpos(FileInput, &filepos);
+	}
+	catch(Exception & N) {
+		std::cout << "ERROR: ReadCompressors " << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TOpenWAM::ReadCompressorsXML() {
+	try {
+
+		int TipoCompresor;
+
+		const char_t* CompressorType;
+		int ID;
+
+		xml_node node_openwam = FileInputXML.child("OpenWAM");
+		xml_node node_compblock = GetNodeChild(node_openwam, "BlockOfCompressors");
+
+		NumberOfCompressors = CountNodes(node_compblock,"Boc:Compressor");
+		Compressor = new TCompresor*[NumberOfCompressors];
+
+		for (xml_node node_compressor = GetNodeChild(node_compblock, "Boc:Compressor"); node_compressor;
+				node_compressor = node_compressor.next_sibling("Boc:Compressor")) {
+
+			CompressorType = node_compressor.attribute("Type").value();
+			ID = GetAttributeAsInt(node_compressor,"ID");
+
+			if(CompressorType == "Volume-Pipe"){
+				Compressor[ID] = new TCompTubDep(ID, SpeciesModel, SpeciesNumber,
+					GammaCalculation, ThereIsEGR);
+				(dynamic_cast<TCompTubDep*>(Compressor[ID]))->LeeCompresorXML
+					(node_compressor);
+			}else if(CompressorType == "Volume-Volume"){
+				Compressor[ID] = new TCompresorDep(ID, SpeciesModel,
+					SpeciesNumber, GammaCalculation, ThereIsEGR);
+				(dynamic_cast<TCompresorDep*>(Compressor[ID]))->LeeCompresorXML
+					(node_compressor);
+			}else if(CompressorType == "Pipe-Pipe"){
+				Compressor[ID] = new TCompTubos(ID, SpeciesModel, SpeciesNumber,
+					GammaCalculation, ThereIsEGR);
+				(dynamic_cast<TCompTubos*>(Compressor[ID]))->LeeCompresorXML
+					(node_compressor);
+			}
+		}
+
 	}
 	catch(Exception & N) {
 		std::cout << "ERROR: ReadCompressors " << std::endl;

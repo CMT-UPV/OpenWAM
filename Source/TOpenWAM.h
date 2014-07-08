@@ -370,6 +370,8 @@ private:
 
 	void ReadCompressors();
 
+	void ReadCompressorsXML();
+
 	void ReadConnections();
 
 	void ReadTurbochargerAxis();

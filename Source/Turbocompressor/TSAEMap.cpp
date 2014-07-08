@@ -104,6 +104,95 @@ void TSAEMap::ReadSAECompressorMap(FILE *fich) {
 
 }
 
+void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
+
+	double speed, mass, pres, eff;
+	int i = 0; // Curva de isoregimen
+	int j = 0; // Puntos de la curva
+	int puntos;
+	double speedmax = 0, massmax = 0, presmax = 1, effmax = 0;
+
+	int points = CountNodes(node_map,"Cmp:CompMapPoint");
+	FSpeed.resize(i + 1);
+	FMass.resize(i + 1);
+	FPres.resize(i + 1);
+	FEff.resize(i + 1);
+	xml_node unit_node = node_map.child("Units");
+	std::string unitspeed = unit_node.attribute("RotationalSpeed").value();
+	std::string unitmass = unit_node.attribute("MassFlow").value();
+
+	for (xml_node node_mappoint = GetNodeChild(node_map, "Cmp:CompMapPoint"); node_mappoint;
+		node_mappoint = node_mappoint.next_sibling("Cmp:CompMapPoint")) {
+		speed = GetXMLRotationalSpeed(node_mappoint,"CorSpeed",unitspeed);
+		mass = GetXMLMassFlow(node_mappoint,"CorMassFlow",unitmass);
+		pres = GetAttributeAsDouble(node_mappoint,"CompRatio");
+		eff = GetAttributeAsDouble(node_mappoint,"Efficiency");
+
+		if (j > 0) {
+			if (speed != FSpeed[i][j - 1]) {
+				i++;
+				j = 0;
+				FSpeed.resize(i + 1);
+				FMass.resize(i + 1);
+				FPres.resize(i + 1);
+				FEff.resize(i + 1);
+				if (speed > speedmax)
+					speedmax = speed;
+				FMassMAX.push_back(massmax);
+				FPresMAX.push_back(presmax);
+				FEffMAX.push_back(effmax);
+				massmax = mass;
+				presmax = pres;
+				effmax = eff;
+			}
+			else {
+				if (mass > massmax)
+					massmax = mass;
+				if (pres > presmax)
+					presmax = pres;
+				if (eff > effmax)
+					effmax = eff;
+			}
+		}
+		else {
+			massmax = mass;
+			presmax = pres;
+			effmax = eff;
+		}
+		FSpeed[i].push_back(speed);
+		FMass[i].push_back(mass);
+		FPres[i].push_back(pres);
+		FEff[i].push_back(eff);
+		j++;
+
+	}
+	FMassMAX.push_back(massmax);
+	FPresMAX.push_back(presmax);
+	FEffMAX.push_back(effmax);
+	FSpeedMAX = speedmax;
+
+	FNumLines = FSpeed.size();
+
+	FMassMAXMAX = 0;
+	FPresMAXMAX = 1;
+	FEffMAXMAX = 0;
+
+	for (int i = 0; i < FNumLines; i++) {
+		FSpeedVec.push_back(FSpeed[i][0]);
+
+		if (FMassMAX[i] > FMassMAXMAX)
+			FMassMAXMAX = FMassMAX[i];
+		if (FPresMAX[i] > FPresMAXMAX)
+			FPresMAXMAX = FPresMAX[i];
+		if (FEffMAX[i] > FEffMAXMAX)
+			FEffMAXMAX = FEffMAX[i];
+	}
+
+	AdimensionalizeMap();
+
+}
+
+
 void TSAEMap::AdimensionalizeMap() {
 
 	double tmp;
@@ -231,8 +320,8 @@ void TSAEMap::LeeMapa(FILE *fich) {
 	int Adiab;
 
 	fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
-	FTempRef += 273.;
-	FPresionRef *= 1e5;
+	FTempRef += unCToK;
+	FPresionRef *= unBarToPa;
 
 #ifdef tchtm
 	fscanf(fich, "%d ", &Adiab);
@@ -243,6 +332,25 @@ void TSAEMap::LeeMapa(FILE *fich) {
 #endif
 
 	ReadSAECompressorMap(fich);
+}
+
+void TSAEMap::LeeMapaXML(xml_node node_compressor) {
+
+	xml_node node_map = GetNodeChild(node_compressor,"Com:SAE_Map");
+	FPresionRef = GetXMLPressure(node_map,"PressureRef");
+	FTempRef = GetXMLTemperature(node_map,"TemperatureRef");
+
+	FTempRef += unCToK;
+	FPresionRef *= unBarToPa;
+
+#ifdef tchtm
+	FIsAdiabatic = GetAttributeAsBool(node_map,"IsAdiabatic");
+	if (!FIsAdiabatic) {
+		FTempMeasure = GetXMLTemperature(node_map,"MapTemperature");
+	}
+#endif
+
+	ReadSAECompressorMapXML(node_map);
 }
 
 double TSAEMap::EvaluaRCHermite(double mass) {

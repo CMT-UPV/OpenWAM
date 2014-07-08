@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TMapaCompH
 #define TMapaCompH
 
@@ -38,7 +37,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-class TMapaComp : public TCompressorMap {
+class TMapaComp: public TCompressorMap {
 private:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
@@ -104,8 +103,8 @@ private:
 
 	void Spline(int n, double *x, double *y, double *sol);
 
-	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w, double *b,
-		double *c, double *d);
+	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w,
+			double *b, double *c, double *d);
 
 	double EvaluaSpline(double punto, int n, double *x, double *y, double *sol);
 
@@ -122,15 +121,18 @@ public:
 
 	int getNumPuntos() {
 		return FNumPuntos;
-	};
+	}
+	;
 
 	double getTempRef() {
 		return FTempRef;
-	};
+	}
+	;
 
 	double getPresionRef() {
 		return FPresionRef;
-	};
+	}
+	;
 
 	double GetRelCompInt(int i);
 
@@ -138,21 +140,28 @@ public:
 
 	double getGastoRelComp1() {
 		return FGastoRelComp1X;
-	};
+	}
+	;
 
 	double getGastoBombeo() {
 		return FGastoBombeoX;
-	};
+	}
+	;
 
 	double getRelCompBombeo() {
 		return FRelCompBombeoX;
-	};
+	}
+	;
 
 	double getRegimenCorregido() {
 		return FRegComp;
-	};
+	}
+	;
 
-	double getTempMeasure(){return 300;};
+	double getTempMeasure() {
+		return 300;
+	}
+	;
 
 	// ---------------------------------------------------------------------------
 	// FUNCIONES PUBLICAS
@@ -163,6 +172,8 @@ public:
 	~TMapaComp();
 
 	void LeeMapa(FILE *fich);
+
+	void LeeMapaXML(xml_node node_compressor);
 
 	void InterpolaMapa(double rtc, double AmbientTemperature);
 
@@ -176,7 +187,9 @@ public:
 
 	double BuscaRegimen(double RC, double Massflow, double AmbientTemperature);
 
-	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT){};
+	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
+	}
+	;
 
 };
 

@@ -183,6 +183,10 @@ double GetXMLPressure(const xml_node& node, const std::string& name) {
 double GetXMLRotationalSpeed(const xml_node& node, const std::string& name) {
     xml_node unit_node = node.child("Units");
     std::string unit = unit_node.attribute("RotationalSpeed").value();
+    return GetXMLRotationalSpeed(node, name, unit);
+}
+
+double GetXMLRotationalSpeed(const xml_node& node, const std::string& name, const std::string& unit) {
     double x = GetAttributeAsDouble(node, name.c_str());
     return to_rpm(x, unit);
 }
