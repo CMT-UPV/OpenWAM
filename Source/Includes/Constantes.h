@@ -94,8 +94,8 @@ const double StephanBoltzmann = 5.67e-8; // W/m2 K4
 
 const double unBarToPa = 1e5;
 const double unPaToBar = 1e-5;
-const double unKToC = 273.15;
-const double unCToK = -273.15;
+const double unKToC = -273.15;
+const double unCToK = 273.15;
 
 const double Kb=1.38054e-23; ///< Boltzmann constant. [J / K]
 

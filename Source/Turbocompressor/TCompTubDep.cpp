@@ -196,10 +196,12 @@ double TCompTubDep::RegulaFalsi() {
 				// std::cout << "WARNING: El compresor: " << FNumeroCompresor <<
 				// " intenta trabajar con flujo inverso" << std::endl;
 				GastoNuevo = 0.;
-				FPresion20 = Mapa->getRelCompBombeo();
+				FPresion20 = Mapa->getRelCompBombeo() * FPresion10;
 				FASonidoSalida = *FLanda;
 				FVelocidad2 = 0;
 				FEntropia2 = *FEntro;
+				FRelacionCompresion = Mapa->getRelCompBombeo();
+				FRendimiento = Mapa->EvaluaRendSplines(0);
 				return 0;
 			}
 			else {
@@ -234,27 +236,6 @@ double TCompTubDep::RegulaFalsi() {
 					/ Mapa->getPresionRef() * (FPresion10 * 1e5));
 
 				return GastoNuevo;
-				// GastoNuevo = Mapa->getGastoRelComp1();
-				// FPresion20 = FPresion10;
-				// double U2Diff = 1;
-				// double U2Old;
-				// while (fabs(U2Diff) > 0.05) {
-				// U2Old = FVelocidad2;
-				// FVelocidad2 = fabs(FVelocidad2) / FVelocidad2 * GastoNuevo / FDensidad2 /
-				// FAreaSalComp / ARef;
-				// U2Diff = (FVelocidad2 - U2Old) / FVelocidad2;
-				// FASonidoSalida = (*FLanda - FGamma3 * FVelocidad2) * FEntropia2 / *FEntro;
-				// FDensidad20 = FPresion20 * 1e5 / FRMezcla / FTemperatura20;
-				// FTemperatura2 = pow(FASonidoSalida * ARef, 2.0) / FGamma / FRMezcla;
-				// FDensidad2 = FDensidad20 * pow(FTemperatura2 / FTemperatura20, 1. / FGamma1);
-				// FTemperatura20 = FTemperatura2 * pow(FDensidad2 / FDensidad20, 1. / FGamma1);
-				// FEntropia2 = sqrt(FGamma * FRMezcla * FTemperatura20) / pow
-				// (FPresion20 * 1e5 / 1e5, FGamma5) / ARef;
-				// }
-				//
-				// std::cout << "WARNING: El compresor: " << FNumeroCompresor <<
-				// " esta trabajando en zona de choque" << std::endl;
-				// // FVariacionRegimen=0.95;
 			}
 			// return 0;
 		}
@@ -316,14 +297,19 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 	try {
 
 		temp = pow(*FLanda / *FEntro, FGamma4) * 1e5;
-		double P20Surge = Mapa->getRelCompBombeo() * FPresion10 * 1e5;
+		//double P20Surge = Mapa->getRelCompBombeo() * FPresion10 * 1e5;
+		double P20Max = Mapa->getMaxCompRatio() * FPresion10 * 1e5;
+
+
 #ifdef tchtm
-		P20Surge = P20Surge * FCorrector;
+		P20Max = P20Max * FCorrector;
 #endif
-		if (temp >= P20Surge) {
+		if (temp >= P20Max) {
 			*FBeta = *FLanda;
 			work = 0.;
 			FGastoCorregido = 0.;
+			FRelacionCompresion = Mapa->getRelCompBombeo();
+			FRendimiento = Mapa->EvaluaRendSplines(0);
 			FCambiaReg = false;
 		}
 		else {
@@ -335,15 +321,9 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 			work = (FTemperatura20 - FTemperatura10) * FRMezcla * FGamma4 / 2.;
 			// }
 		}
-		// if(!FCambiaReg){
-		// if (FGastoCorregido < Mapa->getGastoBombeo() && FGasto0Correg >
-		// Mapa->getGastoBombeo()) {
-		// std::cout << "INFO: Inicio Bombeo en " << Theta << std::endl;
-		// }
-		// if (FGastoCorregido > Mapa->getGastoBombeo() && FGasto0Correg <
-		// Mapa->getGastoBombeo()) {
-		// std::cout << "INFO: Fin Bombeo en " << Theta << std::endl;
-		// }
+		if(FRelacionCompresion < 1.05)
+			cout << "rc baja" << endl;
+
 		FGasto1 = FGastoCorregido * FPresion10 * 1e5 / Mapa->getPresionRef()
 			/ sqrt(FTemperatura10 / Mapa->getTempRef());
 		FGasto0 = FGasto1;
@@ -393,21 +373,8 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		FTiempo0 = AcumulatedTime;
 
 		FCambiaReg = true;
-		// while(FCambiaReg){
+
 		CalculaCompresor(Theta);
-		/* if(FCambiaReg){
-		FRegimen*=FVariacionRegimen;
-		if(FRegimen<=200){
-		std::cout << "ERROR: Regimen menor de 200; compresor inadecuado o condiciones inadecuadas en depositos" << std::endl;
-		throw Exception("");
-		}
-		if(FRegimen>=300000){
-		std::cout << "ERROR: Regimen mayor de 300000; compresor inadecuado o condiciones inadecuadas en depositos" << std::endl;
-		throw Exception("");
-		}
-		Mapa->InterpolaMapa(FRegimen,FTemperatura10);
-		} */
-		// }
 
 		// Transporte de especies quimicas.
 		if (FGasto1 > 0.) {
