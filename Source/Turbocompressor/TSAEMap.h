@@ -79,6 +79,8 @@ public:
 
 	double GetCurrentRC(double Mass);
 
+	double getMaxCompRatio(){return FCurrentPresMAX;};
+
 	double GetCurrentEff(double Mass);
 
 	void InterpolateMAP(double RTC);

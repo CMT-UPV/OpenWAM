@@ -89,6 +89,15 @@ private:
 	double FCpAtm;      // Valor de Cp para la composicion atmosferica.
 	double FGammaAtm;   // Valor de Gamma para la composicion atmosferica.
 
+// Damping
+double FMass_filt_ant;
+double FMass_ant;
+double FDelay;
+
+double RC_filt;
+double RC_filt_ant;
+double RC_ant;
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
@@ -150,6 +159,8 @@ public:
 	}
 
 	void Initialize();
+
+double NewDampedSolution(double Mass);
 
 };
 

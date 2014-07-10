@@ -342,6 +342,18 @@ private:
 	// ! NUMBER OF PRESSURE LOSSES
 	int NumTCCPerdidaPresion;
 
+	int fi_num_threads; ///< Available threads for CalculateFlowIndependent.
+
+	/**
+	 * @brief Assigns the number of threads for CalculateFlowIndependent.
+	 * 
+	 * As CalculateFlowFlowIndependent can use up to 3 threads, it counts
+	 * the number of available processors and sets fi_num_threads to 1, 2
+	 * or 3 accordingly.  Also, if OMP_NUM_THREADS is set to 2 or 1, it
+	 * observes it.
+	 */
+	void InitFlowIndependentNumThreads();
+
 	void CleanLabels();
 
 	void ReadGeneralData();

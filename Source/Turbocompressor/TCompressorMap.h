@@ -30,6 +30,8 @@ public:
 
 	virtual double EvaluaRCHermite(double Massflow)=0;
 
+	virtual double getMaxCompRatio()=0;
+
 	virtual double getRelCompBombeo()=0;
 
 	virtual double getTempRef()=0;

@@ -178,6 +178,11 @@ double GetGastoInt(int i);
 
     double getRelCompBombeo(){return FRelCompBombeoX;};
 
+    double getMaxCompRatio() {
+		return FRelCompBombeoX;
+	}
+	;
+
     double getRegimenCorregido(){return FRegComp;};
 
     bool getCorrect(){return FCorrect;};

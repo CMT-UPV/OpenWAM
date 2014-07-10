@@ -74,6 +74,9 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include "Exception.hpp"
 #define ffGeneral 3
 #endif
+#ifdef WITH_OPENMP
+#include <omp.h>
+#endif
 
 #include "pugixml.hpp"
 #include "CheckXML.h"

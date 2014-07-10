@@ -158,6 +158,8 @@ public:
 	}
 	;
 
+	double getMaxCompRatio(){return FCurrentPresMAX;};
+
 	double getTempMeasure() {
 		return 300;
 	}

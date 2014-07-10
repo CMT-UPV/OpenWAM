@@ -105,5 +105,4 @@ const double HFormacion_NO2=33100; ///< Enthalpy of formation of NO2. [J / mol]
 const double HFormacion_NO=90290; ///< Enthalpy of formation of NO. [J / mol]
 const double HFormacion_H2O=-241830; ///< Enthalpy of formation of H2O. [J / mol]
 
-
 #endif

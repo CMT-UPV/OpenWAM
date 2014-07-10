@@ -947,6 +947,11 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 		FGastoInt[FNumPuntos] = FGastoRelComp1X;
 		FRelCompInt[FNumPuntos] = 1.;
 
+		FCurrentPresMAX = FRelCompInt[0];
+		for(int j=1;j<FNumPuntos;++j){
+			if(FRelCompInt[j]>FCurrentPresMAX) FCurrentPresMAX = FRelCompInt[j];
+		}
+
 // Se obtienen los coeficientes que ajusta la spline de la curva interpolada.
 
 		Hermite(FNumPuntos, FGastoInt, FRelCompInt, FCoefSplRC);
