@@ -95,6 +95,15 @@ double FCvAtm;      // Valor de Cv para la composicion atmosferica.
 double FCpAtm;      // Valor de Cp para la composicion atmosferica.
 double FGammaAtm;   // Valor de Gamma para la composicion atmosferica.
 
+// Damping
+double FMass_filt_ant;
+double FMass_ant;
+double FDelay;
+
+double RC_filt;
+double RC_filt_ant;
+double RC_ant;
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
@@ -139,6 +148,8 @@ void BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,double AmbientTemp
 void CalculaGasto(double TrabajoInsTurbina,double TiempoActual){}
 
 void Initialize();
+
+double NewDampedSolution(double Mass);
 
 };
 
