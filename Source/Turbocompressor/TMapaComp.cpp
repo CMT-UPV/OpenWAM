@@ -195,6 +195,8 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
 		FTempRef += 273.;
 		FPresionRef *= 1e5;
+		//	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
+		//			&FEffMultiplier);
 
 		std::cout << "Datos de Referencia:" << std::endl;
 		std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;
@@ -206,6 +208,9 @@ void TMapaComp::LeeMapa(FILE *fich) {
 
 // Rango e incremento de gastos masicos.
 		fscanf(fich, "%lf %lf %lf ", &FGastoMin, &FGastoMax, &FIncGasto);
+		FGastoMin *= FMassMultiplier;
+		FGastoMax *= FMassMultiplier;
+		FIncGasto *= FMassMultiplier;
 		FNumPuntosGasto = floor(((FGastoMax - FGastoMin) / FIncGasto) + 0.5)
 				+ 1;
 
@@ -243,13 +248,21 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		for (int i = 0; i < FNumCurvasReg; i++) {
 			FRegimenCurva[i] = FRegMin + FIncReg * (double) i;
 			fscanf(fich, "%lf ", &FGastoRelComp1[i]);
+			FGastoRelComp1[i] *= FMassMultiplier;
+
 			fscanf(fich, "%lf %lf ", &FGastoBombeo[i], &FRelCompBombeo[i]);
+			FGastoBombeo[i] = FGastoBombeo[i] * FMassMultiplier;
+			FRelCompBombeo[i] = (FRelCompBombeo[i] - 1) * FCRMultiplier + 1;
+
 			for (int j = 0; j < FNumPuntosGasto; j++) {
 				fscanf(fich, "%lf ", &FRelComp[i][j]);
+				FRelComp[i][j] = (FRelComp[i][j] - 1) * FCRMultiplier + 1;
 			}
 			FNumCurvasRen[i] = 0;
 			for (int j = 0; j < FNumCurvasRendMax; j++) {
 				fscanf(fich, "%lf %lf ", &FGastoRend[i][j], &FRend[i][j]);
+				FGastoRend[i][j] = FGastoRend[i][j] * FMassMultiplier;
+				FRend[i][j] = FRend[i][j] * FEffMultiplier;
 				if (FRend[i][j] > 0.) {
 					++FNumCurvasRen[i];
 				}

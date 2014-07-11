@@ -14,6 +14,10 @@ private:
 
 protected:
 
+	double FMassMultiplier;
+	double FCRMultiplier;
+	double FEffMultiplier;
+
 public:
 
 	TCompressorMap();
@@ -48,11 +52,20 @@ public:
 
 	virtual void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT)=0;
 
-	virtual int getNumPuntos(){return 0;};
+	virtual int getNumPuntos() {
+		return 0;
+	}
+	;
 
-	virtual double GetRelCompInt(int i){return 0;};
+	virtual double GetRelCompInt(int i) {
+		return 0;
+	}
+	;
 
-	virtual double GetGastoInt(int i){return 0;};
+	virtual double GetGastoInt(int i) {
+		return 0;
+	}
+	;
 
 };
 

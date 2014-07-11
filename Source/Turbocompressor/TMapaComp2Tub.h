@@ -34,13 +34,13 @@ License
 #include <cstdio>
 #include "Constantes.h"
 #include "Globales.h"
+#include "TCompressorMap.h"
 #include <vector>
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-class TMapaComp2Tub
-{
+class TMapaComp2Tub: public TCompressorMap {
 private:
 //---------------------------------------------------------------------------
 //          VARIABLES PRIVADAS
@@ -107,6 +107,10 @@ double FRelCompBombeoX;
 int FCurvInf;
 
 bool FCorrect;
+
+	double FRadioHub;
+	double FRadioRodete;
+	double FRadioTip;
 
 // Datos para GT-POWER
 
@@ -183,9 +187,20 @@ double GetGastoInt(int i);
 	}
 	;
 
-    double getRegimenCorregido(){return FRegComp;};
+	double getRegimenCorregido() {
+		return FRegComp;
+	}
+	;
 
-    bool getCorrect(){return FCorrect;};
+	bool getCorrect() {
+		return FCorrect;
+	}
+	;
+
+	double getTempMeasure() {
+		return 300;
+	}
+	;
 //---------------------------------------------------------------------------
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
@@ -194,7 +209,7 @@ double GetGastoInt(int i);
 
   ~TMapaComp2Tub();
 
-  void LeeMapa(FILE *fich,double radtip,double radhub,double radrodete);
+	void LeeMapa(FILE *fich);
   
   void LeeMapaXML(xml_node node_compressor);
 
@@ -216,6 +231,24 @@ double GetGastoInt(int i);
 
   void WriteMapForWAM();
 
+	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
+	}
+	;
+
+	void PutRadioHub(double val){
+		FRadioHub=val;
+	}
+	;
+
+	void PutRadioRodete(double val){
+		FRadioRodete = val;
+	}
+	;
+
+	void PutRadioRadioTip(double val){
+		FRadioTip = val;
+	}
+	;
 
 };
 

@@ -38,7 +38,8 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TMapaComp2Tub::TMapaComp2Tub(int i) {
+TMapaComp2Tub::TMapaComp2Tub(int i) :
+		TCompressorMap() {
 	FNumeroCompresor = i;
 
 	FGastoRelComp1 = NULL;
@@ -239,8 +240,7 @@ TMapaComp2Tub::~TMapaComp2Tub() {
 // Calculo de los coeficientes ortogonales que ajustan el rendimiento      //
 //---------------------------------------------------------------------------
 
-void TMapaComp2Tub::LeeMapa(FILE *fich, double radtip, double radhub,
-		double radrodete) {
+void TMapaComp2Tub::LeeMapa(FILE *fich) {
 	double *W = NULL;
 	try {
 // Datos de referencia
@@ -249,6 +249,8 @@ void TMapaComp2Tub::LeeMapa(FILE *fich, double radtip, double radhub,
 		fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
 		FTempRef += 273.;
 		FPresionRef *= 1e5;
+		//	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
+		//			&FEffMultiplier);
 
 		std::cout << "Datos de Referencia:" << std::endl;
 		std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;
@@ -260,6 +262,9 @@ void TMapaComp2Tub::LeeMapa(FILE *fich, double radtip, double radhub,
 
 // Rango e incremento de gastos masicos.
 		fscanf(fich, "%lf %lf %lf ", &FGastoMin, &FGastoMax, &FIncGasto);
+		FGastoMin *= FMassMultiplier;
+		FGastoMax *= FMassMultiplier;
+		FIncGasto *= FMassMultiplier;
 		FNumPuntosGasto = floor(((FGastoMax - FGastoMin) / FIncGasto) + 0.5)
 				+ 1;
 
@@ -293,13 +298,21 @@ void TMapaComp2Tub::LeeMapa(FILE *fich, double radtip, double radhub,
 		for (int i = 0; i < FNumCurvasReg; i++) {
 			FRegimenCurva[i] = FRegMin + FIncReg * (double) i;
 			fscanf(fich, "%lf ", &FGastoRelComp1[i]);
+			FGastoRelComp1[i] *= FMassMultiplier;
+
 			fscanf(fich, "%lf %lf ", &FGastoBombeo[i], &FRelCompBombeo[i]);
+			FGastoBombeo[i] *= FMassMultiplier;
+			FRelCompBombeo[i] = (FRelCompBombeo[i] - 1) * FCRMultiplier + 1;
+
 			for (int j = 0; j < FNumPuntosGasto; j++) {
 				fscanf(fich, "%lf ", &FRelComp[i][j]);
+				FRelComp[i][j] = (FRelComp[i][j] - 1) * FCRMultiplier + 1;
 			}
 			FNumCurvasRen[i] = 0;
 			for (int j = 0; j < FNumCurvasRendMax; j++) {
 				fscanf(fich, "%lf %lf ", &FGastoRend[i][j], &FRend[i][j]);
+				FGastoRend[i][j] = FGastoRend[i][j] * FMassMultiplier;
+				FRend[i][j] = FRend[i][j] * FEffMultiplier;
 				if (FRend[i][j] > 0.) {
 					++FNumCurvasRen[i];
 				}
@@ -325,7 +338,7 @@ void TMapaComp2Tub::LeeMapa(FILE *fich, double radtip, double radhub,
 			}
 		}
 
-		Cambio_Mapa(radtip, radhub, radrodete);
+		Cambio_Mapa(FRadioTip, FRadioHub, FRadioRodete);
 
 // Obtencion de los coeficientes de la spline que ajusta la curva de bombeo.
 

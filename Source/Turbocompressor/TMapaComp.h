@@ -95,6 +95,7 @@ private:
 	double FGastoBombeoX;
 	double FGastoRelComp1X;
 	double FRelCompBombeoX;
+	double FCurrentPresMAX;
 	int FCurvInf;
 
 	// ---------------------------------------------------------------------------
@@ -158,7 +159,10 @@ public:
 	}
 	;
 
-	double getMaxCompRatio(){return FCurrentPresMAX;};
+	double getMaxCompRatio() {
+		return FCurrentPresMAX;
+	}
+	;
 
 	double getTempMeasure() {
 		return 300;
