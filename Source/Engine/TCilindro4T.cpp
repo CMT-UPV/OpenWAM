@@ -142,9 +142,9 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 						if (FAnguloInjeccion[i] < 0) {
 							FAnguloInjeccion[i] = FAnguloInjeccion[i] + 720;
 						}
-						else {
-							FAnguloInjeccion[i] = FAnguloInjeccion[i];
-						}
+//						else {
+//							FAnguloInjeccion[i] = FAnguloInjeccion[i];
+//						}
 					}
 				}
 				else if (FMotor->getFTipoDatosIny() == 2) {
@@ -207,7 +207,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		if (FMotor->getGammaCalculation() == nmGammaConstante) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (!FCicloCerrado) {
-					FRMezcla = CalculoSimpleRMezcla(0.1,0, nmComposicionTemperatura, 0);
+					FRMezcla = CalculoSimpleRMezcla(0.1,0, nmComposicionTemperatura, FMotor->getCombustible());
 					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., 0.1,FFraccionMasicaEspecie[1], nmComposicionTemperatura, FMotor->getCombustible());
 					FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, nmComposicionTemperatura);
 				}
@@ -220,7 +220,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 					}
 					FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-						FFraccionMasicaEspecieFuel, nmComposicionTemperatura, FMotor->getGammaCalculation());
+						FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(),FMotor->getCombustible());
 					FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
 						FFraccionMasicaEspecieFuel, FTemperature + 273.,
@@ -230,7 +230,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			}
 			else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 				FRMezcla = CalculoSimpleRMezcla(FComposicionCicloCerrado[0],
-						FComposicionCicloCerrado[1], nmComposicionTemperatura, FMotor->getGammaCalculation());
+						FComposicionCicloCerrado[1], FMotor->getGammaCalculation(),FMotor->getCombustible());
 				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
 				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FComposicionCicloCerrado[0],
 					FComposicionCicloCerrado[1], nmComposicionTemperatura, FMotor->getCombustible());

@@ -1681,8 +1681,8 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 								}
 			else if (TipoCombustible == nmMEP) {
 			//Gasolina C8.26H15.5
-				CvCombustible = (4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
-					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / Runiversal) - RGasoline;    //cv = cp - R
+				CvCombustible = (4184 * (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168
+					+0.00000006475 * Temperature)) + 580800 * RaizdeT) * RGasoline / Runiversal) - RGasoline;    //cv = cp - R
 			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
@@ -1757,8 +1757,8 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 			}
 			else if (TipoCombustible == nmMEP) {
 			//Gasolina C8.26H15.5
-				CpCombustible = 4184*(-24.078 +0.25663 * Temperature - 0.00020168 * pow2(Temperature)
-					+0.00000006475 * pow3(Temperature) + 580800 * sqrt(Temperature)) * RGasoline / Runiversal;
+				CpCombustible = 4184 * (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168
+					+0.00000006475 * Temperature)) + 580800 * RaizdeT) * RGasoline / Runiversal;    //cv = cp - R
 			}
 
 		}

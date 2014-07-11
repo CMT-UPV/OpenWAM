@@ -1127,10 +1127,10 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
 			RMezclaIni = CalculoCompletoRMezcla(FComposicionInicial[0],
-				FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma, 0);
+				FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma, nmMEP);
 			CpMezclaIni = CalculoCompletoCpMezcla(FComposicionInicial[0],
 				FComposicionInicial[1], FComposicionInicial[2], 0, FTini + 273.,
-				FCalculoGamma, 0);
+				FCalculoGamma, nmMEP);
 			GammaIni = CalculoCompletoGamma(RMezclaIni, CpMezclaIni,
 				FCalculoGamma);
 
@@ -1138,9 +1138,9 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
 			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],FComposicionInicial[1],
-				FCalculoGamma, 0);
+				FCalculoGamma, nmMEP);
 			CvMezclaIni = CalculoSimpleCvMezcla(FTini + 273.,
-				FComposicionInicial[0],FComposicionInicial[1], FCalculoGamma, 0);
+				FComposicionInicial[0],FComposicionInicial[1], FCalculoGamma, nmMEP);
 			GammaIni = CalculoSimpleGamma(RMezclaIni, CvMezclaIni,
 				FCalculoGamma);
 
@@ -1233,9 +1233,9 @@ void TTubo::ActualizaPropiedadesGas() {
 			if (FCalculoEspecies == nmCalculoSimple) {
 
 				FRMezcla[i] = CalculoSimpleRMezcla
-					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma, 0);
+					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma, nmMEP);
 				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i],
-					FFraccionMasicaEspecie[i][0],0, FCalculoGamma, 0);
+					FFraccionMasicaEspecie[i][0],0, FCalculoGamma, nmMEP);
 				FGammaN = CalculoSimpleGamma(FRMezcla[i], CvMezcla, FCalculoGamma);
 					if (abs(FGammaN - FGamma[i]) > 0.025) {
 						FGamma[i];
@@ -1250,11 +1250,11 @@ void TTubo::ActualizaPropiedadesGas() {
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1],
 					FFraccionMasicaEspecie[i][2],
-					0, FCalculoGamma, 0);
+					0, FCalculoGamma, nmMEP);
 				double CpMezcla = CalculoCompletoCpMezcla
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2],
-					0, FTemperature[i], FCalculoGamma, 0);
+					0, FTemperature[i], FCalculoGamma, nmMEP);
 				FGammaN = CalculoCompletoGamma(FRMezcla[i], CpMezcla, FCalculoGamma);
 					if (abs(FGammaN - FGamma[i]) > 0.025) {
 						FGamma[i];

@@ -131,15 +131,15 @@ FVolumen=CalculaVolumen(FAngulo,FCarrera,FLBiela,FDiametro,FVolumenMuerto);
 if(FCalculoEspecies==nmCalculoCompleto){
 
    FRMezcla=CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-								   FFraccionMasicaEspecie[2],0,FCalculoGamma,0);
+								   FFraccionMasicaEspecie[2],0,FCalculoGamma,nmMEP);
    FCpMezcla=CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-								   FFraccionMasicaEspecie[2],0,FTemperature+273.,FCalculoGamma, 0);
+								   FFraccionMasicaEspecie[2],0,FTemperature+273.,FCalculoGamma, nmMEP);
    FGamma=CalculoCompletoGamma(FRMezcla,FCpMezcla,FCalculoGamma);
 
 }else if(FCalculoEspecies==nmCalculoSimple){
 
-   FRMezcla=CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],FCalculoGamma,0);
-   FCvMezcla=CalculoSimpleCvMezcla(FTemperature+273.,FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],FCalculoGamma, 0);
+   FRMezcla=CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],FCalculoGamma,nmMEP);
+   FCvMezcla=CalculoSimpleCvMezcla(FTemperature+273.,FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],FCalculoGamma, nmMEP);
    FGamma=CalculoSimpleGamma(FRMezcla,FCvMezcla,FCalculoGamma);
 
 }
