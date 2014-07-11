@@ -127,7 +127,7 @@ try
 
  Fichfql=fopen(Datosfql,"r");
  if((Fichfql=fopen(Datosfql,"r"))==NULL){
- std::cout << "ERROR: Fichero de leyes de liberaci�n de calor no cargado";
+ std::cout << "ERROR: Fichero de leyes de liberacion de calor no cargado";
  }else{
        fscanf(Fichfql,"%d ",&Fnley);
        fscanf(Fichfql,"%d ",&Fnwiebe);
@@ -327,14 +327,14 @@ for(int j=0;j<Fnley;++j){
      }  */
      
      //c=pow((parametros[1]-Fpar_dist[1][j])/Fmax[1],2.);
-     r=pow((parametros[2]-Fpar_dist[2][j])/Fmax[2],2.);       // Regimen
-     s=pow((parametros[5]-Fpar_dist[5][j])/Fmax[5],2.);       // SOI
-     d=pow((parametros[6]-Fpar_dist[6][j])/Fmax[6],2.);       // Dosado absoluto
-     egr=pow((parametros[7]-Fpar_dist[7][j])/Fmax[7],2.);     // Massflow de EGR
-     densidad=pow((parametros[8]-Fpar_dist[8][j])/Fmax[8],2.);// Density en 2
+     r=pow2((parametros[2]-Fpar_dist[2][j])/Fmax[2]);       // Regimen
+     s=pow2((parametros[5]-Fpar_dist[5][j])/Fmax[5]);       // SOI
+     d=pow2((parametros[6]-Fpar_dist[6][j])/Fmax[6]);       // Dosado absoluto
+     egr=pow2((parametros[7]-Fpar_dist[7][j])/Fmax[7]);     // Massflow de EGR
+     densidad=pow2((parametros[8]-Fpar_dist[8][j])/Fmax[8]);// Density en 2
      b=c+r+s+d+egr+densidad;
 
-     dist = pow( b,0.5);
+     dist = sqrt( b);
      if(dist<1e-15) dist=1e-15;
      e=2+1/dist;
      if(b<0.008){
@@ -357,7 +357,7 @@ for(int j=0;j<Fnley;++j){
 		Flab[n][j][i] = Fla[n][j] + tras;
 	}
 	if(Flab[0][j][i]-720. < Fang0){
-		Fang0 = Flab[0][j][i]-720.;   // ??????????  a�ado -720
+		Fang0 = Flab[0][j][i]-720.;   // ??????????  anado -720
 	}
 	if((Flab[Fnwiebe-1][j][i] + Fli[Fnwiebe-1][j]-720.)>Ffinc){
 		Ffinc = Flab[Fnwiebe - 1][j][i] + Fli[Fnwiebe - 1][j]-720.;
@@ -391,11 +391,11 @@ down = 0.;
 for (j=0;j<Fnley;++j){
      b=0;
      for(int k=0;k<Fnparametros-4;++k){
-          a=pow((parametros[k]-Fpar_dist[k][j])/Fmax[k],2.);
+          a=pow2((parametros[k]-Fpar_dist[k][j])/Fmax[k]);
           b+=a;
      }
 
-     dist = pow( b,0.5);
+     dist = sqrt( b);
      e=2+1/dist;
      dist = pow( b,e);
      ley= fql(x,j,i);

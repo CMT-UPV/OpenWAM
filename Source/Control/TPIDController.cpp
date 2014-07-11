@@ -38,6 +38,7 @@ TPIDController::TPIDController(int i) : TController(nmCtlPID, i) {
 	fError_ant = 0;
 	fTime_ant = 0;
 	fInicio = true;
+	fDwell = 0.5;
 }
 
 TPIDController::~TPIDController() {
@@ -49,7 +50,7 @@ double TPIDController::Output(double Time) {
 
 	dt = Time - fTime_ant;
 
-	if (dt > fPeriod) {
+	if (dt > fPeriod && Time > fDwell) {
 
 		if (fSetPointControlled)
 			fSetPoint = fSetPointController->Output(Time);
@@ -119,10 +120,6 @@ double TPIDController::Output(double Time) {
 		fTime_ant_filt = Time;
 	}
 
-	if (fOutput_filt < 0) {
-		printf("Algo raro pasa");
-	}
-
 	AcumulaResultadosMediosController(Time);
 
 	return fOutput_filt;
@@ -142,7 +139,8 @@ void TPIDController::LeeController(char *FileWAM, fpos_t &filepos) {
 
 	fscanf(fich, "%lf %lf %lf ", &fPeriod, &fDelay, &fGain);
 
-	fI_ant = 0;
+	fI_ant = fOutput;
+	fiact = fOutput;
 	fOutput_ant = fOutput;
 	fOutput_filt = fOutput;
 	fOutput_filt_ant = fOutput;
@@ -462,7 +460,7 @@ void TPIDController::ResultadosMediosController() {
 
 void TPIDController::AcumulaResultadosMediosController(double Actual) {
 	try {
-		/* Lo que se hace en esta funci�n se realiza dentro del calculo del eje, para as� poder
+		/* Lo que se hace en esta funcion se realiza dentro del calculo del eje, para asi poder
 		llevar a cabo la salida de resultados medios por pantalla. */
 		double Delta = Actual - FResMediosCtrl.Tiempo0;
 

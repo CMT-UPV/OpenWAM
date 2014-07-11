@@ -468,7 +468,7 @@ double TCompresor::GetASonidoComp()
 try
 {
 if(FModeloCompresor==nmCompPipes){
-    printf("ERROR:El compresor de tubos no puede estar unido a un dep�sito\n");
+    printf("ERROR:El compresor de tubos no puede estar unido a un deposito\n");
     return 0;
 }else return FASonidoSalida;
 }

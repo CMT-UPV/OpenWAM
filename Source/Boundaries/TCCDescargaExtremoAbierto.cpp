@@ -50,7 +50,7 @@ TCCDescargaExtremoAbierto::TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC,
 	}
 	else
 		printf(
-		"ERROR:TCCDescargaExtremoAbierto:Asignación Tipo BC,en la condición de contorno: %d\n",
+		"ERROR:TCCDescargaExtremoAbierto:Asignacion Tipo BC,en la condicion de contorno: %d\n",
 		FNumeroCC);
 
 	FComposicion = NULL;
@@ -79,7 +79,7 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 
 	FPressure = Pamb;
 	FTemperaturaDep = Tamb;
-	// Inicialización del transporte de especies químicas.
+	// Inicializacion del transporte de especies quimicas.
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 	FComposicion = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
@@ -125,7 +125,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
 			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FNodoFin = 0;
@@ -134,7 +134,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FNodoFin = FTuboExtremo[FNumeroTubosCC].Pipe->getNin() - 1;
@@ -147,18 +147,18 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		if (FTipoDescarga == nmDescargaAtmosfera) { // DESCARGA A LA ATMÓSFERA
+		if (FTipoDescarga == nmDescargaAtmosfera) { // DESCARGA A LA ATMOSFERA
 			fscanf(fich, "%lf ", &FPerdidaExtremo);
 
 		}
-		else if (FTipoDescarga == nmDescargaRemanso) { // DESCARGA A UN DEPÓSITO DE REMANSO
+		else if (FTipoDescarga == nmDescargaRemanso) { // DESCARGA A UN DEPOSITO DE REMANSO
 			fscanf(fich, "%lf %lf %lf ", &FPressure, &FTemperaturaDep, &FPerdidaExtremo);
 
 			// Se determina si este remanso modela el escape del motor.
 			fscanf(fich, "%d ", &modeladoescape);
 			modeladoescape == 0 ? FModeladoEscape = false : FModeladoEscape = true;
 
-			// Inicialización del transporte de especies químicas.
+			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 			FComposicion = new double[FNumeroEspecies - FIntEGR];
 			for (int i = 0; i < FNumeroEspecies - 1; i++) {
@@ -214,7 +214,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			fscanf(fich, "%d ", &modeladoescape);
 			modeladoescape == 0 ? FModeladoEscape = false : FModeladoEscape = true;
 
-			// Inicialización del transporte de especies químicas.
+			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 			FComposicion = new double[FNumeroEspecies - FIntEGR];
 			for (int i = 0; i < FNumeroEspecies - 1; i++) {
@@ -240,7 +240,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			}
 			if (fracciontotal != 1.) {
 				std::cout <<
-					"ERROR: La fracción másica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC << std::endl;
+					"ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC << std::endl;
 				throw Exception(" ");
 			}
 			if (FCalculoEspecies == nmCalculoCompleto) {
@@ -265,7 +265,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 		}
 		else
 			printf
-				("ERROR:TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto.Asignación Tipo BC\n");
+				("ERROR:TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto.Asignacion Tipo BC\n");
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
@@ -273,7 +273,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto en la condición de contorno: "
+			"ERROR: TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto en la condicion de contorno: "
 			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -288,7 +288,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 //		FPressure = valor;
 //	}
 //	catch(Exception & N) {
-//		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutPresion en la condición de contorno: " <<
+//		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutPresion en la condicion de contorno: " <<
 //			FNumeroCC << std::endl;
 //		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 //		throw Exception(N.Message.c_str());
@@ -322,7 +322,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 //		FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / ARef;
 //	}
 //	catch(Exception & N) {
-//		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condición de contorno: " <<
+//		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " <<
 //			FNumeroCC << std::endl;
 //		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 //		throw Exception(N.Message.c_str());
@@ -347,11 +347,11 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			/* caso > 1 */
 			/* ________ */
 			*FCD = FTuboExtremo[0].Entropia * 2. * yyy - *FCC;
-			pplo = Gamma7(FGamma) * *FCC; /* Condición flujo supersónico */
+			pplo = Gamma7(FGamma) * *FCC; /* Condicion flujo supersonico */
 			if (*FCD < pplo) {
 				*FCD = pplo;
 			}
-			// Transporte de especies químicas.
+			// Transporte de especies quimicas.
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
@@ -368,16 +368,16 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			/* ________ */
 			aap = FVelocidadSonidoDep / yyy;
 			xyx = aap / FTuboExtremo[0].Entropia;
-			b = Gamma1(FGamma) * *FCC * pow(xyx, 2) * FPerdidaExtremo;
-			a2 = pow(FGamma3 * xyx * FPerdidaExtremo, 2.) + FGamma3;
-			c = pow(xyx * *FCC, 2.) - pow(FVelocidadSonidoDep, 2);
-			u_isen = (-b + sqrt(pow(b, 2.) - a2 * 4. * c)) / (2. * a2);
-			// Resolución ecuación de segundo grado
-			a_isen = sqrt(pow(FVelocidadSonidoDep, 2.) - FGamma3 * pow(u_isen, 2.));
-			u_real = u_isen * FPerdidaExtremo; // Con esta relación obtenemos la velocidad real.
-			a_real = sqrt(pow(FVelocidadSonidoDep, 2.) - FGamma3 * pow(u_real, 2.));
+			b = Gamma1(FGamma) * *FCC * pow2(xyx) * FPerdidaExtremo;
+			a2 = pow2(FGamma3 * xyx * FPerdidaExtremo) + FGamma3;
+			c = pow2(xyx * *FCC) - pow2(FVelocidadSonidoDep);
+			u_isen = (-b + sqrt(pow2(b) - a2 * 4. * c)) / (2. * a2);
+			// Resolucion ecuacion de segundo grado
+			a_isen = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_isen));
+			u_real = u_isen * FPerdidaExtremo; // Con esta relacion obtenemos la velocidad real.
+			a_real = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_real));
 			aap = a_real / a_isen * aap;
-			if (fabs(u_real) > a_real) { /* Condición flujo supersónico */
+			if (fabs(u_real) > a_real) { /* Condicion flujo supersonico */
 				a_real = sqrt(2 / Gamma2(FGamma)) * FVelocidadSonidoDep;
 				u_real = a_real;
 				aap = FTuboExtremo[0].Entropia * a_real / (*FCC + FGamma3 * u_real);
@@ -398,14 +398,14 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			/* caso = 1 */
 			/* ________ */
 			*FCD = *FCC;
-			// La composición se mantiene, al estar el flujo parado.
+			// La composicion se mantiene, al estar el flujo parado.
 
 		}
 
 	}
 	catch(Exception & N) {
 		std::cout <<
-			"ERROR: TCCDescargaExtremoAbierto::CalculaCondicionesContorno en la condición de contorno: "
+			"ERROR: TCCDescargaExtremoAbierto::CalculaCondicionesContorno en la condicion de contorno: "
 			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());

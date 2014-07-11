@@ -26,7 +26,7 @@ License
 \*--------------------------------------------------------------------------------*/
 
 
-/* Índices de las Variables de entrada escalares "fijas", es decir, que no cambian de ejecución en ejecución */
+/* Indices de las Variables de entrada escalares "fijas", es decir, que no cambian de ejecucion en ejecucion */
 
 #define ACT_PISTON_D                0
 #define ACT_S                       1
@@ -55,7 +55,7 @@ License
 #define ACT_K                       24
 
 
-/* Índices de las Variables de entrada escalares que pueden variar en cada ejecución */
+/* Indices de las Variables de entrada escalares que pueden variar en cada ejecucion */
 
 #define ACT_CBB                     0
 #define ACT_ATMOSPHERE_PRESS        1
@@ -72,7 +72,7 @@ License
 
 
 
-/* Índices de las Variables de Salida escalares */
+/* Indices de las Variables de Salida escalares */
 
 #define ACT_IMP_HP                  0
 #define ACT_PMAX                    1
@@ -82,7 +82,7 @@ License
 #define ACT_DP_DA                   5
 
 
-/* Índices de las Variables de Salida vectoriales */
+/* Indices de las Variables de Salida vectoriales */
 
 #define ACT_P_CYL                   0
 #define ACT_T_CYL                   1

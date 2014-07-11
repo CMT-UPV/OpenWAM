@@ -208,7 +208,7 @@ void TDeposito::LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos) {
 			}
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
-			FMasa = FVolumen * FGamma * FPressure * 1e5 / pow(FAsonido * ARef, 2.);
+			FMasa = FVolumen * FGamma * FPressure * 1e5 / pow2(FAsonido * ARef);
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -260,7 +260,7 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		bool UnionAsignada;
 		bool UnionEDAsignada;
-		/* Uni�n Dep�sito-Pipe */
+		/* Union Deposito-Pipe */
 		for (int i = 0; i < numCC; i++) {
 			if (BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
 				if (FNumeroDeposito == dynamic_cast<TCCDeposito*>(BC[i])->getNumeroDeposito()) {
@@ -278,7 +278,7 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 			}
 		}
 
-		/* Comprobaci�n que los dep�sitos especiales tienen el n�mero de entradas que les corresponden. */
+		/* Comprobacion que los depositos especiales tienen el numero de entradas que les corresponden. */
 		if (FTipoDeposito == nmTurbinaSimple) {
 			if (FNumeroUniones != 2) {
 				std::cout << "ERROR: A single turbine must have 2 connections. Plenum: " <<
@@ -729,7 +729,7 @@ void TDeposito::ResultadosInstantaneosDep() {
 		if (FResInstantDep.Pressure)
 			FResInstantDep.PresionINS = FPressure;
 		if (FResInstantDep.Temperature)
-			FResInstantDep.TemperaturaINS = pow(FAsonido * ARef, 2.) / (FGamma * FRMezcla) - 273.;
+			FResInstantDep.TemperaturaINS = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
 		if (FResInstantDep.Volumen)
 			FResInstantDep.VolumenINS = FVolumen;
 		if (FResInstantDep.Masa)
@@ -761,7 +761,7 @@ void TDeposito::AcumulaResultadosMedios(double Actual) {
 			FResMediosDep.PresionSUM += FPressure * Delta;
 		}
 		if (FResMediosDep.Temperature) {
-			FResMediosDep.TemperaturaSUM += (pow(FAsonido * ARef, 2.) / (FGamma * FRMezcla) - 273.)
+			FResMediosDep.TemperaturaSUM += (pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.)
 				* Delta;
 		}
 		if (FResMediosDep.FraccionMasicaEspecies) {
@@ -1110,7 +1110,7 @@ void TDeposito::SalidaGeneralDep(stEspecies *DatosEspecies) {
 			if (FResMediosDep.Pressure)
 				std::cout << "  Pressure:     " << FResMediosDep.PresionMED << " bares" << std::endl;
 			if (FResMediosDep.Temperature)
-				std::cout << "  Temperature:  " << FResMediosDep.TemperaturaMED << " ºC" << std::endl << std::endl;
+				std::cout << "  Temperature:  " << FResMediosDep.TemperaturaMED << " degC" << std::endl << std::endl;
 			if (FResMediosDep.FraccionMasicaEspecies) {
 				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 					std::cout << "  Average mass fraction of " << DatosEspecies[i]
@@ -1195,7 +1195,7 @@ double TDeposito::GetFraccionMasicaEspecie(int i) {
 		return FFraccionMasicaEspecie[i];
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TDeposito::GetConcentracionEspecie en la condici¿n de contorno: " <<
+		std::cout << "ERROR: TDeposito::GetConcentracionEspecie en la condicion de contorno: " <<
 			FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);

@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TMapaCompH
 #define TMapaCompH
 
@@ -38,7 +37,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-class TMapaComp : public TCompressorMap {
+class TMapaComp: public TCompressorMap {
 private:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
@@ -47,7 +46,7 @@ private:
 	int FNumeroCompresor; // Numero del compresor al que pertenece el mapa.
 	double FPresionRef; // Pressure de referencia
 	double FTempRef; // Temperature de referencia
-	double FRegMin; // Curva de m�nimo regimen
+	double FRegMin; // Curva de minimo regimen
 	double FRegMax; // Curva de maximo regimen
 	double FRegComp; // Regimen current
 	double FIncReg; // Incremento de regimen entre curvas
@@ -83,7 +82,7 @@ private:
 	double *FCoefcX;
 	double *FCoefdX;
 
-	double FRendCurvaBombeo; // Varialbes para la creaci�n de las curvas de rendimiento con el massflow adimensionalizado
+	double FRendCurvaBombeo; // Varialbes para la creacion de las curvas de rendimiento con el massflow adimensionalizado
 	double FRendGastoMaximo;
 	double **FGastoAdim;
 	double **FRendAdim;
@@ -96,6 +95,7 @@ private:
 	double FGastoBombeoX;
 	double FGastoRelComp1X;
 	double FRelCompBombeoX;
+	double FCurrentPresMAX;
 	int FCurvInf;
 
 	// ---------------------------------------------------------------------------
@@ -104,8 +104,8 @@ private:
 
 	void Spline(int n, double *x, double *y, double *sol);
 
-	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w, double *b,
-		double *c, double *d);
+	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w,
+			double *b, double *c, double *d);
 
 	double EvaluaSpline(double punto, int n, double *x, double *y, double *sol);
 
@@ -122,15 +122,18 @@ public:
 
 	int getNumPuntos() {
 		return FNumPuntos;
-	};
+	}
+	;
 
 	double getTempRef() {
 		return FTempRef;
-	};
+	}
+	;
 
 	double getPresionRef() {
 		return FPresionRef;
-	};
+	}
+	;
 
 	double GetRelCompInt(int i);
 
@@ -138,21 +141,33 @@ public:
 
 	double getGastoRelComp1() {
 		return FGastoRelComp1X;
-	};
+	}
+	;
 
 	double getGastoBombeo() {
 		return FGastoBombeoX;
-	};
+	}
+	;
 
 	double getRelCompBombeo() {
 		return FRelCompBombeoX;
-	};
+	}
+	;
 
 	double getRegimenCorregido() {
 		return FRegComp;
-	};
+	}
+	;
 
-	double getTempMeasure(){return 300;};
+	double getMaxCompRatio() {
+		return FCurrentPresMAX;
+	}
+	;
+
+	double getTempMeasure() {
+		return 300;
+	}
+	;
 
 	// ---------------------------------------------------------------------------
 	// FUNCIONES PUBLICAS
@@ -176,7 +191,9 @@ public:
 
 	double BuscaRegimen(double RC, double Massflow, double AmbientTemperature);
 
-	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT){};
+	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
+	}
+	;
 
 };
 

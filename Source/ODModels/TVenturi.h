@@ -52,7 +52,7 @@ private:
 	double FRendimientoVenturi;
 	double FPerdidasCalor;
 	double FCoefEntrada; // Estas tres variables Ya no se usan. Se han sustitiudo por el
-	double FCoefSalida; // coeficiente de recuperación.Borrarlas tras validar. Pedro.
+	double FCoefSalida; // coeficiente de recuperacion.Borrarlas tras validar. Pedro.
 	double FCoefLateral;
 	stResInstantVenturi FResInstantVenturi;
 	stResMediosVenturi FResMediosVenturi;
@@ -81,7 +81,7 @@ public:
 			asgNumeroVenturi = true;
 		}
 		else {
-			std::cout << "ERROR: Este Venturi ya tiene número asignado" << std::endl;
+			std::cout << "ERROR: Este Venturi ya tiene numero asignado" << std::endl;
 			throw Exception("");
 		}
 	}

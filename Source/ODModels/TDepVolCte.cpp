@@ -155,7 +155,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 					}
 					else {
 						printf(
-							"ERROR:TDepVolCte::ActualizaPropiedades en el depósito %d, unión entre depósitos %d\n"
+							"ERROR:TDepVolCte::ActualizaPropiedades en el deposito %d, union entre depositos %d\n"
 							, FNumeroDeposito, i);
 					}
 					g = (double)SignoFlujoED*dynamic_cast<TCCUnionEntreDepositos*>
@@ -227,7 +227,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		FTime = TimeCalculo;
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TDepVolCte::ActualizaPropiedades en el depósito: " << FNumeroDeposito <<
+		std::cout << "ERROR: TDepVolCte::ActualizaPropiedades en el deposito: " << FNumeroDeposito <<
 			std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());

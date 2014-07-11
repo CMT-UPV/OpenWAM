@@ -184,7 +184,7 @@ double TControlFuel::CalculaFuel(double MasaPorAdmision,double Regimen,double Ti
 {
 try
 {
-/* Estrategia de inyecci�n de combustible en transitorio de carga. */
+/* Estrategia de inyeccion de combustible en transitorio de carga. */
 double MasaAire,FuelMin,FuelMax,FuelLimitador;
 
 FuelMin=4.32E-06; // en (kg/cc)
@@ -200,7 +200,7 @@ if(TiempoActual<10.*120./Regimen){
 if(TiempoActual>10.*120./Regimen){
    FuelAct=FuelMax;
    FFuelDeseado=FuelMax;
-   /* C�lculo de combustible dado por el limitador de humos (kg/cc para WAM)*/
+   /* Calculo de combustible dado por el limitador de humos (kg/cc para WAM)*/
    FuelLimitador=Interpolacion_bidimensional(Regimen,MasaPorAdmision,FVector_Ma_mapa,
        FVector_Regimen_mapa,FMapa_Limitador_Humos,FNumeroDatos_Regimen,FNumeroDatos_Ma)/1e6; 
 
@@ -222,24 +222,24 @@ throw Exception(N.Message.c_str());
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-/*
-double TControlFuel::CalculaFuel()
-{
-try
-{
-
-/* Provisional para dW10b */
-/*return FuelAct;
-
-}
-catch(Exception &N)
-{
-std::cout << "ERROR: TControlFuel::CalculaFuel" << std::endl;
-std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-throw Exception(N.Message.c_str());
-}
-}
-*/
+//
+//double TControlFuel::CalculaFuel()
+//{
+//try
+//{
+//
+///* Provisional para dW10b */
+//return FuelAct;
+//
+//}
+//catch(Exception &N)
+//{
+//std::cout << "ERROR: TControlFuel::CalculaFuel" << std::endl;
+//std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+//throw Exception(N.Message.c_str());
+//}
+//}
+//
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 

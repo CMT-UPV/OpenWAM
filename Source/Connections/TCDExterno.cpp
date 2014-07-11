@@ -54,7 +54,7 @@ FCDEInicial=Origen->FCDEInicial;
 FCDSInicial=Origen->FCDSInicial;
 FCTorbInicial=Origen->FCTorbInicial;
 
-//Se utilizará el diametro del tubo.
+//Se utilizara el diametro del tubo.
 FDiamRef=-1;
 
 FNumeroOrden=Origen->FNumeroOrden;

@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -262,7 +262,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 #endif
 
 			// ------------------------------------------------------------------------------
-			// C�lculo de la temperatura isentropica del gas a la salida de la turbina,
+			// Calculo de la temperatura isentropica del gas a la salida de la turbina,
 			// a partir del transporte de especies.
 			// ------------------------------------------------------------------------------
 
@@ -352,7 +352,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 			FRelacionExpansion[0] = FPresion0Entrada[0] / FPresionSalida;
 
-			// Calculo de la posici�n de la turbina
+			// Calculo de la posicion de la turbina
 
 			if (FTipoTurbina == nmTurbineMap) {
 				if (FRackIsControlled) {
@@ -422,7 +422,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 					}
 				}
 				else if (FCalRendTurbina == nmCalcExtRD) {
-					// Todav�a no esta hecha la asignaci�n de FNumeroTurbinaTGV
+					// Todavia no esta hecha la asignacion de FNumeroTurbinaTGV
 					if (FDatosTGV[FNumeroTurbinaTGV].Rendimiento[0] < 0) {
 						FRendTurbina[0] = 0.;
 					}
@@ -457,7 +457,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			FTrabajoFluido = TurbWork - FGastoEntrada[0] *
 				(FEntalpia0Entrada[0] - EntalEntr) * DeltaT;
 			FTrabajoReal += TurbWork; // Lo usa para calcular el rendimiento medio
-			FTrabajoRealPaso += TurbWork; // Para el c�lculo de la potencia del paso.
+			FTrabajoRealPaso += TurbWork; // Para el calculo de la potencia del paso.
 			FRendInstantaneo += FRendTurbina[0] * FGastoEntrada[0];
 			incrRelCin += TurbWork * FRelacionCinematica[0];
 

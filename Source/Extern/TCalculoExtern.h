@@ -209,27 +209,27 @@ private:
 	int FNSensMotor; 		// Numero de sensores en el motor
 	int FNSensVenturis; 	// Numero de sensores en venturis
 	int FNSensCilindros; 	// Numero de sensores en cilindros
-	int FNSensUED; 			// Numero de sensores en uniones entre dep�sitos
+	int FNSensUED; 			// Numero de sensores en uniones entre depositos
 
-	double *FInputs; 		// Vector de comunicaci�n WAM -> DLL
+	double *FInputs; 		// Vector de comunicacion WAM -> DLL
 	double *FOutputs; 		// Vector de comunicacion DLL -> WAM
 	double *FEntrada; 		// Vector de comunicacion DLL -> Matlab
 	double *FSalida; 		// Vector de comunicacion Matlab -> DLL
 	// TMatlab *ECU;        // Objeto TMatlab para la programacion de la ECU
 	TTGV **FTGV; 			// Objeto para el calculo de la TGV
 	TControlFuel *FFuel; 	// Objeto para el calculo del Fuel
-	TEGRV *FEGRV; 			// Objeto para el calculo de la v�lvula de EGR.
-	TRegimenMotor *FRegimen; // Objeto para el c�lculo del R�gimen del motor.
-	Tfql *Ffql; 			// Objeto para el c�lculo de las Leyes de Liberaci�n de Calor.
-	TRemansoMatlab **FRemansoMatlab; 		// Objeto para el c�lculo de la presi�n y temperatura en un dep�sito de remanso.
-	TCoefDescarga **FCoefDescarga; 			// Objeto para el c�lculo del coeficiente de descarga de una uni�n a dep�sito/cilindro
-	TAjusteTransCalorCil *FAjusteTransCalorCil; 		// Objeto para el c�lculo de los coeficientes de ajuste de transmisi�n de calor en admisi�n y escape
-	TFraccionMasicaCilindro *FFraccionMasicaCilindro; 	// Objeto para imponer la fracci�n m�sica a la apertura del cilindro.
-	TControlInyeccion *FControlInyeccion; 				// Objeto para determinar el n�mero de inyecciones, la presi�n de inyecci�n y la duraci�n y masa inyectada en cada inyecci�n.
-	TControlK **FControlK;           					// Objeto para calcular la variaci�n de K con el Re en cada CC de P�rdida de Presi�n
+	TEGRV *FEGRV; 			// Objeto para el calculo de la valvula de EGR.
+	TRegimenMotor *FRegimen; // Objeto para el calculo del Regimen del motor.
+	Tfql *Ffql; 			// Objeto para el calculo de las Leyes de Liberacion de Calor.
+	TRemansoMatlab **FRemansoMatlab; 		// Objeto para el calculo de la presion y temperatura en un deposito de remanso.
+	TCoefDescarga **FCoefDescarga; 			// Objeto para el calculo del coeficiente de descarga de una union a deposito/cilindro
+	TAjusteTransCalorCil *FAjusteTransCalorCil; 		// Objeto para el calculo de los coeficientes de ajuste de transmision de calor en admision y escape
+	TFraccionMasicaCilindro *FFraccionMasicaCilindro; 	// Objeto para imponer la fraccion masica a la apertura del cilindro.
+	TControlInyeccion *FControlInyeccion; 				// Objeto para determinar el numero de inyecciones, la presion de inyeccion y la duracion y masa inyectada en cada inyeccion.
+	TControlK **FControlK;           					// Objeto para calcular la variacion de K con el Re en cada CC de Perdida de Presion
 	char *FRutaTrabajo;
 
-	// Indice que indica la posici�n de cada especie en el vector de fracci�n m�sica.
+	// Indice que indica la posicion de cada especie en el vector de fraccion masica.
 	int FIndiceTuboN2, FIndiceTuboO2, FIndiceTuboCO2, FIndiceTuboH2O, FIndiceTuboHC,
 	FIndiceTuboSoot, FIndiceTuboNOx, FIndiceTuboCO, FIndiceTuboAireFresco,
 	FIndiceTuboGasQuemado, FIndiceTuboEGR, FIndiceTuboComb;
@@ -244,20 +244,20 @@ private:
 
 	int Fntact;
 
-	int Fnematlab; // N� de dep�sitos de remanso matlab
-	int Fnumunion; // N� de uniones controladas
+	int Fnematlab; // N. de depositos de remanso matlab
+	int Fnumunion; // N. de uniones controladas
 
-	// Variables para la determinaci�n de la correlaci�n utilizada en las turbinas.
+	// Variables para la determinacion de la correlacion utilizada en las turbinas.
 	double CoefCorrCd[2], CoefCorrRend[2];
-	// N� de turbinas.
+	// N. de turbinas.
 	int Fcontadortgv;
 	int FNumPerdidasPresion;
 
-	/* An�lisis Convergencia de la Ejecuci�n */
+	/* Analisis Convergencia de la Ejecucion */
 	bool FConvergencia;
 	bool FPrimeraVez;
 
-	double *FParametros; // Par�metros para interpolaci�n dFQL
+	double *FParametros; // Parametros para interpolacion dFQL
 
 	double FMasaFuel;
 	double FMasaFuelDeseado;
@@ -279,7 +279,7 @@ private:
 	stSensorMotor *FSensorMotor;
 	stSensorUED *FSensorUED;
 
-	// Variable para salida de resultados medios/instant�neos
+	// Variable para salida de resultados medios/instantaneos
 
 	double PosicionTurbina;
 	double PosicionTurbinaSUM;
@@ -302,8 +302,8 @@ private:
 
 public:
 	// ---------------------------------------------------------------------------
-	// Recuerda que aqu� se encuentran las llamadas entre wam y la dll, siempre
-	// que cambies algo aqu� deber�s recompilar el wam y modificar las llamadas
+	// Recuerda que aqui se encuentran las llamadas entre wam y la dll, siempre
+	// que cambies algo aqui deberas recompilar el wam y modificar las llamadas
 	// ---------------------------------------------------------------------------
 	// Variables
 	bool getajustbaraba() {
@@ -388,7 +388,7 @@ public:
 
 	void IniciaEntradaDLL();
 
-	// Funciones para el c�lculo de sensores
+	// Funciones para el calculo de sensores
 	void Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT);
 
 	void Calculo_Sensores_Deposito(TDeposito **Plenum, double deltaT);
@@ -405,7 +405,7 @@ public:
 
 	void Calculo_Sensores_UED(double deltaT, TCondicionContorno **BC);
 
-	// Funcion de interpolaci�n
+	// Funcion de interpolacion
 	double xit_(double vizq, double vder, double axid, double xif);
 
 	// Funciones para graficar

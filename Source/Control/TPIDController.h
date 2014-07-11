@@ -76,6 +76,8 @@ private:
 	double fGain;				//!< Output gain
 	double fDelay;				//!< Output time delay constant
 
+	double fDwell;				//!< Dwell time
+
 	bool fInicio;
 
 	bool fSetPointControlled;	//!< Is the set point controlled by another controller?

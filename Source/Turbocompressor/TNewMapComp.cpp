@@ -92,7 +92,7 @@ void TNewMapComp::ReadMap(FILE *fich,int correct)
 	dVector PreExtra;
 	dVector EffExtra;
 
-	double r1=sqrt((pow(FRadHub,2)+pow(FRadTip,2))/2);
+	double r1=sqrt((pow2(FRadHub)+pow2(FRadTip))/2);
 
 	dVector::iterator it;
 
@@ -104,8 +104,8 @@ void TNewMapComp::ReadMap(FILE *fich,int correct)
 		MassExtra[1]=-0.0001;
 		MassExtra[2]=0;
 		PreExtra[0]=locPre[k][0];
-		PreExtra[1]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow((locSpeed[k][0])*Pi/30,2)*(pow(FRadWheel,2)-pow(r1,2)),Gamma/(Gamma-1));
-		PreExtra[2]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow((locSpeed[k][0])*Pi/30,2)*(pow(FRadWheel,2)-pow(r1,2)),Gamma/(Gamma-1));
+		PreExtra[1]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow2((locSpeed[k][0])*Pi/30)*(pow2(FRadWheel)-pow2(r1)),Gamma/(Gamma-1));
+		PreExtra[2]=pow(1+(Gamma-1)/(2*Gamma*R*(FTempRef))*pow2((locSpeed[k][0])*Pi/30)*(pow2(FRadWheel)-pow2(r1)),Gamma/(Gamma-1));
 		EffExtra[0]=locEff[k][0];
 		EffExtra[1]=locEff[k][0];
 		EffExtra[2]=locEff[k][0];

@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -85,7 +85,7 @@ protected:
 	sINtype dataIN;
 	sOUTtype dataOUT;
 
-	// Par�metros de entrada del modelo de Tasa
+	// Parametros de entrada del modelo de Tasa
 	int FIN;
 	double *FSOP;
 	double *FMFI;
@@ -118,7 +118,7 @@ protected:
 	bool FHaydll;
 	bool FModComb;
 
-	// Asignaci�n de V�lvulas.
+	// Asignacion de Valvulas.
 	int FNumeroUnionesAdm;
 	int FNumeroUnionesEsc;
 	TCondicionContorno **FCCValvulaAdm;
@@ -185,9 +185,9 @@ protected:
 	double FIniComb;
 	double FFinComb;
 	double *FAngDesplazado;
-	double FMfint; // kg/cc    Combustible para la interpolaci�n de la leyes.
-	double FMaint; // kg/cc    Masa de aire para la interpolaci�n de la leyes.
-	double FRegInt; // rpm      R�gimen para la interpolaci�n de las leyes.
+	double FMfint; // kg/cc    Combustible para la interpolacion de la leyes.
+	double FMaint; // kg/cc    Masa de aire para la interpolacion de la leyes.
+	double FRegInt; // rpm      Regimen para la interpolacion de las leyes.
 
     double FNumIny;
 	dVector FAnguloInjeccion;
@@ -210,7 +210,7 @@ protected:
 	double FSwirlSUM;
 	double FWoma;
 
-	// Variable de la ecuaci�n de Woschni
+	// Variable de la ecuacion de Woschni
 	double Fequis;
 	double Fc1;
 	double Fc2;
@@ -221,7 +221,7 @@ protected:
 	double FKctm;
 	double FCu;
 
-	double FCalorLiberadoCiclo; // Variable para la impresi�n por pantalla del resultado.
+	double FCalorLiberadoCiclo; // Variable para la impresion por pantalla del resultado.
 
 	stTemperaturasPared *FTempPared;
 	stCalor FCalor;
@@ -237,7 +237,7 @@ protected:
 	stResMediosCilindro FResMediosCilindro;
 	stResInstantCilindro FResInstantCilindro;
 
-	// Variable de control para el c�lculo del cilindro.
+	// Variable de control para el calculo del cilindro.
 	// bool FCalculadoPaso;
 
 	// Modelo de Cortocircuito
@@ -246,7 +246,7 @@ protected:
 	double FMasaCortocircuito;
 	double FGastoCortocircuito;
 
-	// Variables del transporte de especies qu�micas.
+	// Variables del transporte de especies quimicas.
 	double FMfquem;
 	double FMairequem;
 	// double *FFraccionMasicaEspecie;
@@ -268,7 +268,7 @@ protected:
 	double FGamma2;
 	double FGamma4;
 	double FGamma6;
-	double FGammaCil; // Se usa cuando se opta por c�lculo en tubos con gamma constante.
+	double FGammaCil; // Se usa cuando se opta por calculo en tubos con gamma constante.
 	bool FHayEGR;
 	int FIntEGR;
 	dVector FFraccionComienzoCicloCerrado;

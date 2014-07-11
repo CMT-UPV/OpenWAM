@@ -44,21 +44,21 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 class TCCDescargaExtremoAbierto : public TCondicionContorno {
 private:
 
-	int FNodoFin; // Nodo del extremo del tubo que conecta con la condici�n de contorno.
-	int FIndiceCC; // Posici�n del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
-	double *FComposicion; // Composici�n de la atm�sfera,el remanso o el dep�sito matlab(este inicialmente);
-	double FPressure; // Presi�n de descarga.
-	double FPref; // Presi�n de referencia.
-	double FTemperaturaDep; // Temperature en la atm�sfera o remanso.  (�C)
-	double FPerdidaExtremo; // Coeficiente de p�rdidas en el extremo del tubo.
-	double FVelocidadSonidoDep; // Velocity del sonido en el dep�sito adimensional.
+	int FNodoFin; // Nodo del extremo del tubo que conecta con la condicion de contorno.
+	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
+	double *FComposicion; // Composicion de la atmasfera,el remanso o el deposito matlab(este inicialmente);
+	double FPressure; // Presion de descarga.
+	double FPref; // Presion de referencia.
+	double FTemperaturaDep; // Temperature en la atmasfera o remanso.  (degC)
+	double FPerdidaExtremo; // Coeficiente de perdidas en el extremo del tubo.
+	double FVelocidadSonidoDep; // Velocity del sonido en el deposito adimensional.
 	nmTipoDescarga FTipoDescarga;
 
-	double FGamma3; // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma funci�n.
+	double FGamma3; // Son expresiones con Gamma. Se usan estas variables para no calcularlas tantas veces por instante de tiempo en la misma funcion.
 	bool FModeladoEscape;
 
-	double *FCC; // Caracter�stica conocida del tubo.
-	double *FCD; // Caracter�stica desconocida del tubo.
+	double *FCC; // Caracteristica conocida del tubo.
+	double *FCD; // Caracteristica desconocida del tubo.
 
 	// void PutPresion(double valor);
 	// void PutTemperatura(double valor);
@@ -101,7 +101,7 @@ public:
 		}
 		catch(Exception & N) {
 			std::cout <<
-				"ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condici�n de contorno: " << FNumeroCC << std::endl;
+				"ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " << FNumeroCC << std::endl;
 			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 			throw Exception(N.Message.c_str());
 		}

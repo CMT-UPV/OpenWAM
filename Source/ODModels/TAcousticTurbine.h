@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 
-#ifndef TTAcousticTurbineH
+#ifndef TAcousticTurbineH
 #define TAcousticTurbineH
 // ---------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@
 
 /**
  * @file TAcousticTurbine.h
- * @author Francisco José Arnau Martínez <farnau@mot.upv.es>
+ * @author Francisco Jose Arnau Martinez <farnau@mot.upv.es>
  * @version 0.1
  *
  * @section LICENSE

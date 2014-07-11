@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -79,7 +79,7 @@ TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature,
 
 TBloqueMotor::~TBloqueMotor() {
 
-	// Liberaci�n memoria din�mica Cilindros.
+	// Liberacion memoria dinamica Cilindros.
 	if (FGeom.NCilin > 0 && FCilindro != NULL) {
 		for (int i = 0; i < FGeom.NCilin; i++)
 			delete FCilindro[i];
@@ -244,7 +244,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		}
 
 		// ------------------------------
-		// WOSCHNI.TRANSMISI�N DE CALOR
+		// WOSCHNI.TRANSMISION DE CALOR
 		// ------------------------------
 		fscanf(fich, "%lf ", &FWoschni.cw1);
 		fscanf(fich, "%lf ", &FWoschni.cw2);
@@ -273,7 +273,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 
 		FGeom.VCC = (Pi * FGeom.Diametro * FGeom.Diametro / 4. * FGeom.Carrera) /
 			(FGeom.RelaCompresion - 1.);
-		FGeom.CilindradaUnitaria = Pi * pow(FGeom.Diametro, 2.) * FGeom.Carrera / 4.;
+		FGeom.CilindradaUnitaria = Pi * pow2(FGeom.Diametro) * FGeom.Carrera / 4.;
 		FGeom.CilindradaTotal = FGeom.CilindradaUnitaria * (double)FGeom.NCilin;
 
 		// --------------------
@@ -284,7 +284,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			&FPerMec.Coef3);
 
 		// --------------------
-		// MODELO DE VEH�CULO
+		// MODELO DE VEHdegCULO
 		// --------------------
 
 		if (SimulationType == nmTransitorioRegimen) {
@@ -307,13 +307,14 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 			// Lectura del CrankAngle de la carretera
 			fscanf(fich, "%lf ", &FAnguloCarretera);
 
-			FInerciaTotal = pow(FRelCajaCambios * FRelTrasmision, 2.) * Imc + pow(FRelTrasmision,
-				2.) * Ict + Itr + FMasaTotalVehiculo * pow(FRadioRueda, 2.);
+			FInerciaTotal = pow2(FRelCajaCambios * FRelTrasmision) * Imc
+				+ pow2(FRelTrasmision) * Ict + Itr
+				+ FMasaTotalVehiculo * pow2(FRadioRueda);
 
 			FPendiente = FMasaTotalVehiculo * 9.81 * sin(FAnguloCarretera);
 
-			FCoeficienteInercias = FRendCajaCambios * pow(FRelCajaCambios * FRelTrasmision, 2.) /
-				(FInerciaTotal + FMasaTotalVehiculo * pow(FRadioRueda, 2.));
+			FCoeficienteInercias = FRendCajaCambios * pow2(FRelCajaCambios * FRelTrasmision) /
+				(FInerciaTotal + FMasaTotalVehiculo * pow2(FRadioRueda));
 
 			// Lectura de los coeficientes para obtener el Road Load
 			fscanf(fich, "%lf %lf %lf ", &FCoefRoadLoad.A0, &FCoefRoadLoad.B0, &FCoefRoadLoad.C0);
@@ -452,7 +453,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 
 
 		// ------------------------------
-		// CREACI�N OBJETO CILINDRO.
+		// CREACION OBJETO CILINDRO.
 		// ------------------------------
 
 		if (FGeom.NCilin > 1) {
@@ -546,7 +547,7 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 void TBloqueMotor::AsignacionTuboRendVol(TTubo **Pipe) {
 	try {
 
-		// Asignaci�n del tubo al que se refiere el rendimiento volum�trico.
+		// Asignacion del tubo al que se refiere el rendimiento volumetrico.
 
 		FTuboRendVol = Pipe[FNumTuboRendVol - 1];
 
@@ -997,7 +998,7 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 		}
 		if (FResMediosMotor.PMN) {
 			FResMediosMotor.PMNMED = FResMediosMotor.ParNetoMED * 16. /
-				(FGeom.NCilin * pow(FGeom.Diametro, 2.) * FGeom.Carrera) / 100000.;
+				(FGeom.NCilin * pow2(FGeom.Diametro) * FGeom.Carrera) / 100000.;
 		}
 		if (FResMediosMotor.ParEfectivo || FResMediosMotor.PME || FResMediosMotor.Potencia) {
 			FResMediosMotor.ParEfectivoMED = FResMediosMotor.ParEfectivoSUM /
@@ -1006,7 +1007,7 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 		}
 		if (FResMediosMotor.PME) {
 			FResMediosMotor.PMEMED = FResMediosMotor.ParEfectivoMED * 16. /
-				(FGeom.NCilin * pow(FGeom.Diametro, 2.) * FGeom.Carrera) / 100000.;
+				(FGeom.NCilin * pow2(FGeom.Diametro) * FGeom.Carrera) / 100000.;
 		}
 		if (FResMediosMotor.Potencia) {
 			FResMediosMotor.PotenciaMED = FResMediosMotor.ParEfectivoMED * 2. * Pi *
@@ -1370,8 +1371,9 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 				FRoadLoad = FCoefRoadLoad.A0 + (FCoefRoadLoad.B0 * W * FRadioRueda) /
 					(FRelCajaCambios * FRelTrasmision) + FCoefRoadLoad.C0 * pow
 					(W * FRadioRueda / (FRelCajaCambios * FRelTrasmision), FCoefRoadLoad.n) +
-					(FCoefRoadLoad.cd * FCoefRoadLoad.rho * FCoefRoadLoad.A * pow(W * FRadioRueda,
-						2.) / (2 * pow(FRelCajaCambios * FRelTrasmision, 2.)));
+					(FCoefRoadLoad.cd * FCoefRoadLoad.rho * FCoefRoadLoad.A
+						* pow2(W * FRadioRueda)
+						/ (2 * pow2(FRelCajaCambios * FRelTrasmision)));
 
 				// Par resistente total
 				FParResistente = FRadioRueda * (FRoadLoad + FPendiente) /
@@ -1579,7 +1581,8 @@ void TBloqueMotor::AsignMfController(TController **Controller) {
 // ---------------------------------------------------------------------------
 
 void TBloqueMotor::NewInjectionData(double Time) {
-	for (int i = 0; i < FInjecPulse.size(); i++) {
+    vector<stInjecPulse>::size_type i;
+	for (i = 0; i < FInjecPulse.size(); i++) {
 		if (FInjecPulse[i].CtrAngd)
 			FInjecPulse[i].Angulo = FInjecPulse[i].CtrAng->Output(Time);
 		if (FInjecPulse[i].CtrMasd)

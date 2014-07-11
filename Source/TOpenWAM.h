@@ -35,6 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 #pragma hdrstop
 #include "Globales.h"
 
@@ -103,14 +104,14 @@
 #include "TEjeTurbogrupo.h"
 
 // DIESEL PARTICULATE FILTER
-#if ParticulateFilter
+#ifdef ParticulateFilter
 #include "TDPF.h"
 #include "TCanalDPF.h"
 #endif
 
 
 // CONCENTRIC 1D ELEMENTS
-#if ConcentricElement
+#ifdef ConcentricElement
 #include "TConcentricoTubos.h"
 #include "TConcentricoDPF.h"
 #endif
@@ -131,20 +132,15 @@ Allow the communication with WAMer
 
 #include <sys/timeb.h>
 
-#ifdef __unix__
-  #define gestorcom false
-  #define graphicalout false
-#else
 #ifdef __BORLANDC__
   #define gestorcom true
   #define graphicalout true
 #else
-  #define gestorcom 0
-  #define graphicalout 0
-#endif
+  //#define gestorcom 0
+  //#define graphicalout 0
 #endif
 
-#if gestorcom==1
+#ifdef gestorcom
 #include "TCGestorWAM.h"
 #endif
 
@@ -152,12 +148,12 @@ Allow the communication with WAMer
 class TOpenWAM {
 private:
 
-#if gestorcom
+#ifdef gestorcom
 
 	TCGestorWAM *GestorWAM;
 #endif
 
-	char *tzstr;
+	std::string tzstr;
 	struct timeb begining, final, current;
 
 	stRun Run;
@@ -191,12 +187,12 @@ private:
 
 
 	// ! ARRAY OF CONCENTRIC ELEMENTS
-	#if ConcentricElement
+	#ifdef ConcentricElement
 	   TConcentrico** Concentric;
 	#endif
 
 	// ! ARRAY OF DPFs
-	#if ParticulateFilter
+	#ifdef ParticulateFilter
 	  TDPF** DPF;
 	#endif
 
@@ -339,6 +335,18 @@ private:
 
 	// ! NUMBER OF PRESSURE LOSSES
 	int NumTCCPerdidaPresion;
+
+	int fi_num_threads; ///< Available threads for CalculateFlowIndependent.
+
+	/**
+	 * @brief Assigns the number of threads for CalculateFlowIndependent.
+	 * 
+	 * As CalculateFlowFlowIndependent can use up to 3 threads, it counts
+	 * the number of available processors and sets fi_num_threads to 1, 2
+	 * or 3 accordingly.  Also, if OMP_NUM_THREADS is set to 2 or 1, it
+	 * observes it.
+	 */
+	void InitFlowIndependentNumThreads();
 
 	void CleanLabels();
 

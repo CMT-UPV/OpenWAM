@@ -94,8 +94,8 @@ protected:
 
 int FNumeroCompresor;
 int FEje;
-int FDepRotor;                               // Numero del dep�sito conectado al rotor
-int FDepStator;                              // Numero del dep�sito conectado al estator (si tiene)
+int FDepRotor;                               // Numero del deposito conectado al rotor
+int FDepStator;                              // Numero del deposito conectado al estator (si tiene)
 //TMapaComp *Mapa;                             // Puntero al mapa del compresor
 TCompressorMap *Mapa;
 TMapaComp2Tub *Mapa2T;
@@ -133,7 +133,7 @@ double FTrabajoPaso;
 double FDeltaTPaso;
 double FPotencia;
 
-// C�lculo de Especies
+// Calculo de Especies
 double FGamma;
 double FRMezcla;
 double FCpMezcla;

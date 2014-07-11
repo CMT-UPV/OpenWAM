@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -49,7 +49,7 @@ private:
 
 	TTubo *FTuboRendVol;
 	int FNodoMedio;
-	int FNumTuboRendVol; /* Pipe de la admisi�n al que se refiere el rendimiento volum�trico */
+	int FNumTuboRendVol; /* Pipe de la admision al que se refiere el rendimiento volumetrico */
 
 	std::vector<stLeyQuemadoBD>FLeyQuemadoBD;
 
@@ -161,11 +161,11 @@ private:
 
 	double FAFRMedio;
 
-	// int FCiclo; // Controla el n�mero de ciclo de la ejecuci�n. (para salida de resultados)
+	// int FCiclo; // Controla el numero de ciclo de la ejecucion. (para salida de resultados)
 	bool FPrimeravezAcumulaFuel; // Variable para controlar en el 1er ciclo la salida en resultados de MFuel.
-	bool FPrimeravezAcumulaMasaAtrapada; // Variable para controlar en el 1er ciclo la salida en resultados del Rend Volum�trico.
+	bool FPrimeravezAcumulaMasaAtrapada; // Variable para controlar en el 1er ciclo la salida en resultados del Rend Volumetrico.
 
-	// Transporte de Especies Qu�micas
+	// Transporte de Especies Quimicas
 	nmTipoCalculoEspecies FCalculoEspecies;
 	int FNumeroEspecies;
 	bool FImponerComposicionAE;
@@ -284,7 +284,7 @@ public:
 		}
 	}
 
-	int FCiclo; // Controla el n�mero de ciclo de la ejecuci�n. (para salida de resultados)
+	int FCiclo; // Controla el numero de ciclo de la ejecucion. (para salida de resultados)
 
 	int getCiclo() {
 		return FCiclo;

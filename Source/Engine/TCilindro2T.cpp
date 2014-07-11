@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -76,7 +76,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 
 			FPrimerInstanteCicloCerrado = false;
 
-			// C�lculo Inicio y Fin de la Combusti�n.
+			// Calculo Inicio y Fin de la Combustion.
 			FMfint = FMasaFuel; // kg/cc
 			FMaint = FMasaPorAdmision; // kg/cc
 			FRegInt = FMotor->getRegimen();
@@ -124,8 +124,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				FIniComb = FMotor->getInjecPulse(0).Angulo;
 				FFinComb = FDistribucion.AE;
 			}
-			// Queda una �ltima opci�n, que se realice el c�lculo con la dll. En ese caso se el valor a
-			// FIniComb y FFinComb ya se le habr� dado a partir de la DLL con una property write.
+			// Queda una ultima opcion, que se realice el calculo con la dll. En ese caso se el valor a
+			// FIniComb y FFinComb ya se le habra dado a partir de la DLL con una property write.
 
 			std::cout << "INFO: Fuel mass:           " << FMasaFuel * 1e6 <<
 			" (mg)" << std::endl;
@@ -240,7 +240,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			// GASTO POR ADMISION
 			for (int i = 0; i < FNumeroUnionesAdm; i++) {
 				FMasaValvAdm = -dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])
-				->getMassflow() * FDeltaT; // signo - xq el massflow entrante se calcula negativo en la BC. As� en el cilindro ser� positivo si es entrante y viceversa.
+				->getMassflow() * FDeltaT; // signo - xq el massflow entrante se calcula negativo en la BC. Asi en el cilindro sera positivo si es entrante y viceversa.
 				if (FAnguloActual - FDeltaAngulo < FDistribucion.CA &&
 					FAnguloActual > FDistribucion.CA) { // FDistribucion.CA es el CrankAngle de cierre de la admision.
 					FMasaValvAdm = FMasaValvAdm *
@@ -252,7 +252,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				/* SUMATORIO DE LA MASA QUE ATRAVIESA CADA UNA DE LAS VALVULAS DE ADMISION */
 				FAcumMasaPorAdm += FMasaValvAdm;
 
-				/* Transporte de especies qu�micas */
+				/* Transporte de especies quimicas */
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] += FCCValvulaAdm[i]
 					->GetFraccionMasicaEspecie(j) * FMasaValvAdm;
@@ -264,7 +264,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			// GASTO POR ESCAPE
 			for (int i = 0; i < FNumeroUnionesEsc; i++) {
 				masavalesc = -dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])
-					->getMassflow() * FDeltaT; // signo - xq el massflow entrante se calcula negativo en la BC. As� en el cilindro ser� positivo si es entrante y viceversa.
+					->getMassflow() * FDeltaT; // signo - xq el massflow entrante se calcula negativo en la BC. Asi en el cilindro sera positivo si es entrante y viceversa.
 				if (FAnguloActual - FDeltaAngulo < FDistribucion.CE &&
 					FAnguloActual > FDistribucion.CE) {
 					masavalesc = masavalesc *
@@ -275,7 +275,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				FMasa += masavalesc;
 				FAcumMasaPorEsc += masavalesc;
 
-				/* Transporte de especies qu�micas */
+				/* Transporte de especies quimicas */
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] += FCCValvulaEsc[i]
 						->GetFraccionMasicaEspecie(j) * masavalesc;
@@ -309,13 +309,13 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		FMasaBlowBy = FGastoBlowBy * FDeltaT;
 
 		/* ================================= */
-		/* INYECCI�N DE COMBUSTIBLE (MEC) */
+		/* INYECCION DE COMBUSTIBLE (MEC) */
 		/* ================================= */
 
 		if (FAnguloComb > FAnguloInjeccion[0] && FAnguloComb0 <
 			FAnguloInjeccion[0] && FMotor->getCombustible() == nmMEC) {
-			// En el �ngulo de begining de la combusti�n se empieza a introducir el combustible
-			// Se pasa a estado de injecci�n verdadero.
+			// En el angulo de begining de la combusti�n se empieza a introducir el combustible
+			// Se pasa a estado de injeccion verdadero.
 			FInyeccion = true;
 			FFuelTotal = 0.;
 			FTasaFuel = 0.;
@@ -332,14 +332,14 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				}
 			}
 			else {
-				// Se reparte la inyecci�n de combustible durante 1.3 ms
+				// Se reparte la inyeccion de combustible durante 1.3 ms
 				// FFuelInstant representa la cantidad de masa de fuel introducida en un instante de calculo.
 				FTasaFuel = FMasaFuel / 1.3e-3;
 				FFuelInstant = FTasaFuel * FDeltaT;
 				// Se va acumulando la masa de fuel para comprobar que no super el valor de combustible fijado por cilindro y ciclo.
 			}
 			if ((FFuelTotal + FFuelInstant) > FMasaFuel) {
-				// La inyecci�n se corta cuando se alcanza el valor de combustible total.
+				// La inyeccion se corta cuando se alcanza el valor de combustible total.
 				FFuelInstant = FMasaFuel - FFuelTotal;
 				FInyeccion = false;
 				FFuelTotal = FMasaFuel;
@@ -391,7 +391,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				FSpecies_IVC[7] = FFraccionMasicaEspecie[3]; // HC
 			}
 
-			// Transporte de Especies Qu�micas. Se inician las masas de cada especie en el ciclo cerrado.
+			// Transporte de Especies Quimicas. Se inician las masas de cada especie en el ciclo cerrado.
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (FMotor->getSpeciesNumber() == 9) {
 					for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR;
@@ -518,7 +518,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				// MOTOR EN COMBUSTION
 			}
 			else {
-				Fc2 = 0.001; // antes 3.24e-3  (ahora 0.001)MOTOR DE CAMARA ABIERTA ;  6.22e-3  MOTOR DE C�MARA DIVIDIDA
+				Fc2 = 0.001; // antes 3.24e-3  (ahora 0.001)MOTOR DE CAMARA ABIERTA ;  6.22e-3  MOTOR DE CAMARA DIVIDIDA
 			}
 			// COEFICIENTE DE PELICULA DE WOSCHNI
 			double deltaP = (FPressure - FPresionRCA * pow
@@ -681,7 +681,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			}
 		}
 
-		/* Transporte de Especies Qu�micas */
+		/* Transporte de Especies Quimicas */
 		if (FCicloCerrado) {
 			if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 				if (FMotor->getACT()) {
@@ -885,7 +885,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					* FMasa;
 			}
 		}
-		/* FIN Transporte de Especies Qu�micas */
+		/* FIN Transporte de Especies Quimicas */
 
 		if (FAnguloActual > FDistribucion.CA && FAnguloAnterior <=
 			FDistribucion.CA) {
@@ -1043,7 +1043,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		printf(" %lf %lf %lf \n ", FGamma,FRMezcla,FFraccionMasicaEspecie[0]);
 		} */
 
-		// CALCULA EL PAR INSTANT�NEO PRODUCIDO POR EL CILINDRO
+		// CALCULA EL PAR INSTANTANEO PRODUCIDO POR EL CILINDRO
 
 		double a = FAnguloActual * Pi / 180.;
 		double L = FMotor->getGeometria().Biela;
@@ -1088,7 +1088,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		if (FAnguloActual > FDistribucion.AA && FAnguloActual <
 			FDistribucion.CE) {
 			if (MasaAdmInstante > 0. && MasaEscInstante < 0.) {
-				// Cortocircuito con sentido Admisi�n hacia Escape.    (massflow positivo)
+				// Cortocircuito con sentido Admision hacia Escape.    (massflow positivo)
 				MasaCortocircuitoAdm = MasaAdmInstante * FAlphaEscape / Pi;
 				MasaCortocircuitoEsc = MasaEscInstante *
 					(Pi / 2. - FAlphaEscape) / Pi;
@@ -1123,7 +1123,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				- 1];
 			}
 			else if (MasaAdmInstante < 0. && MasaEscInstante > 0.) {
-				// Cortocircuito con sentido Escape hacia Admisi�n.   (massflow negativo)
+				// Cortocircuito con sentido Escape hacia Admision.   (massflow negativo)
 				MasaCortocircuitoAdm = MasaAdmInstante *
 					(Pi / 2. - FAlphaAdmision) / Pi;
 				MasaCortocircuitoEsc = MasaEscInstante * FAlphaAdmision / Pi;
@@ -1144,8 +1144,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						}
 					}
 					FraccionCC = FraccionCC / NumeroUnionesEntrante;
-					// La masa por la v�lvula de admisi�n ser� negativa, por ser saliente del cilindro.
-					// La masa de cortocircuito de escape a admisi�n es negativa.
+					// La masa por la valvula de admision sera negativa, por ser saliente del cilindro.
+					// La masa de cortocircuito de escape a admision es negativa.
 					FComposicionSaliente[j] = FFraccionMasicaEspecie[j] *
 						(MasaAdmInstante - FMasaCortocircuito)
 						/ MasaAdmInstante + FraccionCC * FMasaCortocircuito /
@@ -1159,7 +1159,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				- 1];
 			}
 			else {
-				// No hay cortocircuito, pues en este instante entra o sale massflow por todas las v�lvulas.
+				// No hay cortocircuito, pues en este instante entra o sale massflow por todas las valvulas.
 				FMasaCortocircuito = 0.;
 				FGastoCortocircuito = 0.;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
@@ -1168,7 +1168,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			}
 		}
 		else {
-			// No hay cortocircuito, pues alguna de las v�lvulas no est� abierta.
+			// No hay cortocircuito, pues alguna de las valvulas no esta abierta.
 			FMasaCortocircuito = 0.;
 			FGastoCortocircuito = 0.;
 			for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {

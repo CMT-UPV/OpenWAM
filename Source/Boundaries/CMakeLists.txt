@@ -1,14 +1,3 @@
-include_directories(../1DPipes)
-include_directories(../Act)
-include_directories(../Boundaries)
-include_directories(../Connections)
-include_directories(../Control)
-include_directories(../DPF)
-include_directories(../Engine)
-include_directories(../Includes)
-include_directories(../ODModels)
-include_directories(../Turbocompressor)
-include_directories(../Wrappers)
 add_library(
   Boundaries
   BoundaryFunctions.cpp

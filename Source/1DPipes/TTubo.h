@@ -26,6 +26,31 @@ License
 \*--------------------------------------------------------------------------------*/
 
 
+/**
+ * @file TTubo.h
+ * @author Francisco Jose Arnau <farnau@mot.upv.es>
+ *
+ * @section LICENSE
+ *
+ * This file is part of OpenWAM.
+ *
+ * OpenWAM is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenWAM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @section DESCRIPTION
+ * This file declares a finite differences pipe.
+ */
+
 //---------------------------------------------------------------------------
 #ifndef TTuboH
 #define TTuboH
@@ -83,7 +108,13 @@ struct stFunDisCar{
 	}
 };
 
-/*! This class contain the methods, variables and atributes related with the pipes*/
+
+/**
+ * @brief a Finite differences pipe.
+ * 
+ * This class contains the methods, variables and attributes related with
+ * finite differences pipes.
+ */
 class TTubo
 {
 private:
@@ -94,7 +125,7 @@ private:
         int 						FTuboCCNodoIzq;    		//!< Save the position in the struct TuboExtremo of the pipe connected to the left end
         int 						FTuboCCNodoDer;    		//!< Save the position in the struct TuboExtremo of the pipe connected to the right end
 
-        // Datos Geométricos
+        // Datos Geometricos
 
         int 						FNumeroTubo;          	//!< Number of the pipe
         int 						FNodoIzq;               //!< Number of the connection at the left end
@@ -121,7 +152,7 @@ private:
 		bool 						FConcentrico;           //!< Does the pipe form part of a concentric duct?
 		int 						FNumeroConductos;       //!< Number of similar pipes that form the set
 
-        // Propiedades térmicas y fricción
+        // Propiedades termicas y friccion
 
         double 						FFriccion;              //!< Friction of the pipe
         nmTipoTransCal 				FTipoTransCal;     		//!< Type of heat transfer
@@ -178,7 +209,7 @@ private:
 		double 						*FTemperature;			//!< Gas temperature at the nodes
 		double 						*FFlowMass;				//!< Air mass flow at the nodes
 
-        // Vectores método de cálculo
+        // Vectores metodo de calculo
 
         stModeloCalculoTubos 		FMod;					//!< Struct with the options of the numerical scheme used to solve the duct
         double 						**FU0;					//!< State vector at the current time                     
@@ -569,13 +600,46 @@ public:
 //          VARIABLES PUBLICAS
 //---------------------------------------------------------------------------
 
-	int getNumeroTubo(){return FNumeroTubo;};
-    int getNodoIzq(){return FNodoIzq;};
-	int getNodoDer(){return FNodoDer;};
+	/**
+	 * @brief Gets the pipe id.
+	 * 
+	 * Gets the current pipe id.
+	 * 
+	 * @return Pipe id.
+	 */
+	int getNumeroTubo() const;
+
+	/**
+	 * @brief Gets the left-hand side node.
+	 * 
+	 * Gets the current pipe left-hand side node.
+	 * 
+	 * @return Left-hand side node.
+	 */
+    int getNodoIzq() const;
+
+	/**
+	 * @brief Gets the right-hand side node.
+	 * 
+	 * Gets the current pipe right-hand side node.
+	 * 
+	 * @return Right-hand side node.
+	 */
+	int getNodoDer() const;
+
     int getNin(){return FNin;};
     int getNumeroConductos(){return FNumeroConductos;};
     double getXRef(){return FXref;};
-	double getLongitudTotal(){return FLongitudTotal;};
+
+	/**
+	 * @brief Gets the total length of the pipe.
+	 * 
+	 * Gets the total length of the pipe.
+	 * 
+	 * @return Total length of the pipe.
+	 */
+	double getLongitudTotal() const;
+
 	nmTipoTransCal getTipoTransCal(){return FTipoTransCal;};
     double getCoefAjustTC(){return FCoefAjusTC;};
     double getCoefAjustFric(){return FCoefAjusFric;};
@@ -600,102 +664,245 @@ public:
 	int getNodoDPFEntrada(){return FNodoDPFEntrada;};
 	int getNodoDPFSalida(){return FNodoDPFSalida;};
 
-double						FTime0;					//!< Time at current time step
-double getTime0(){return FTime0;}
-void PutTime0(double valor)
-{
-FTime0 = valor;
-};
-double 						FTime1; 				//!< Time at following time step
-double getTime1(){return FTime1;}
-void PutTime1(double valor)
-{
-FTime1 = valor;
-};
-double 						FDeltaTime; 			//!< Time step
-double getDeltaTime(){return FDeltaTime;}
-void PutDeltaTime(double valor)
-{
-FDeltaTime = valor;
-};
+	double FTime0; //!< Time at current time step
 
-    double getMallado(){return FMallado;};
+	/**
+	 * @brief Gets the current time.
+	 * 
+	 * Gets the current time.
+	 * 
+	 * @return Current time. [s]
+	 */
+	double getTime0() const;
 
-/*! Return the gas density at cell i */
-double 	GetDensidad(
-int i											//!< Cell index
-){return Frho[i];};
+	/**
+	 * @brief Sets the current time.
+	 * 
+	 * Sets the current time.
+	 * 
+	 * @param valor Current time. [s]
+	 */
+	void PutTime0(double valor);
+
+	double FTime1; //!< Time at following time step
+
+	/**
+	 * @brief Gets the time at the following time-step.
+	 * 
+	 * Gets the time at the following time-step.
+	 * 
+	 * @return Time after the following time-step. [s]
+	 */
+	double getTime1() const;
+
+	/**
+	 * @brief Sets the time after the following time-step.
+	 * 
+	 * Sets the time after the following time-step.
+	 * 
+	 * @param valor Time after the following time-step. [s]
+	 */
+	void PutTime1(double valor);
+
+	double FDeltaTime; //!< Time step
+
+	/**
+	 * @brief Gets the time step.
+	 * 
+	 * Gets the current time step.
+	 * 
+	 * @return Time step. [s]
+	 */
+	double getDeltaTime() const;
+
+	/**
+	 * @brief Sets the time step.
+	 * 
+	 * Sets the current time step.
+	 * 
+	 * @param valor Time-step. [s]
+	 */
+	void PutDeltaTime(double valor);
+
+	/**
+	 * @brief Gets the mesh size.
+	 * 
+	 * Gets the mesh size.
+	 * 
+	 * @return Mesh size. [m]
+	 */
+	double getMallado() const;
+
+	/**
+	 * @brief Gets the density.
+	 * 
+	 * Gets the density at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Density. [kg / (m ** 3)]
+	 */
+	double GetDensidad(int i) const;
+
+	/**
+	 * @brief Gets the cross section at a given cell.
+	 * 
+	 * Gets the cross section at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Cross section. [m ** 2]
+	 */
+	double GetArea(int i) const;
+
+	/**
+	 * @brief Gets the cell diameter.
+	 * 
+	 * Gets the diameter at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Diameter. [m]
+	 */
+	double GetDiametro(int i) const;
+
+	/**
+	 * @brief Gets the fluid speed.
+	 * 
+	 * Gets the fluid speed at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Speed. [m / s]
+	 */
+	double GetVelocidad(int i) const;
+
+	/**
+	 * @brief Gets the speed of sound.
+	 * 
+	 * Gets the speed of sound at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Speed of sound. [m / s]
+	 */
+	double GetAsonido(int i) const;
+
+	/**
+	 * @brief Gets the fluid pressure.
+	 * 
+	 * Gets the fluid pressure at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Fluid pressure. [m / s]
+	 */
+	double GetPresion(int i) const;
+
+	/**
+	 * @brief Gets the wall temperature at a given cell and node.
+	 * 
+	 * Gets the wall temperature at a given cell and node.
+	 * 
+	 * @param j Node.
+	 * @param i Cell.
+	 * @return Wall temperature.
+	 */
+	double GetTPTubo(int j, int i) const;
+
+	/**
+	 * @brief Sets the wall temperature at a given cell and node.
+	 * 
+	 * Sets the wall temperature at a given cell and node.
+	 * 
+	 * @param k Node.
+	 * @param i Cell.
+	 * @param valor Wall temperature.
+	 */
+	void PutTPTubo(int k, int i, double valor);
+
+
+	/**
+	 * @brief Gets the previous wall temperature at a given cell and node.
+	 * 
+	 * Gets the previous wall temperature at a given cell and node.
+	 * 
+	 * @param j Node.
+	 * @param i Cell.
+	 * @return Wall temperature.
+	 */
+	double GetTPTuboAnt(int j, int) const;
+
+	/**
+	 * @brief Gets the integrated gas velocity.
+	 * 
+	 * Gets the integrated gas velocity at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Integrated gas velocity. [m / s]
+	 */
+	double GetVelPro(int i) const;
+
+	/**
+	 * @brief Sets the integrated gas velocity.
+	 * 
+	 * Sets the integrated gas velocity at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @param valor Integrated gas velocity. [m / s]
+	 */
+	void PutVelPro(int i, double valor);
+
+	/**
+	 * @brief Gets the turbulence coefficient.
+	 * 
+	 * Gets the turbulence coefficient at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Turbulence coefficient.
+	 */
+	double GetCoefTurbulencia(int i) const;
+
+	/**
+	 * @brief Gets the initial temperature.
+	 * 
+	 * Gets the initial temperature.
+	 * 
+	 * @return Initial temperature.
+	 */
+	double getTemperaturaInicial() const;
+
+	/**
+	 * @brief Gets the initial temperature of the wall.
+	 * 
+	 * Gets the initial temperature of the wall.
+	 * 
+	 * @return Initial temperature of the wall.
+	 */
+	double getTempWallIni() const;
+
+	/**
+	 * @brief Gets the initial pressure.
+	 * 
+	 * Gets the initial pressure.
+	 * 
+	 * @return Initial pressure.
+	 */
+    double getPresionInicial() const;
+
+	/**
+	 * @brief Gets the mean speed.
+	 * 
+	 * Gets the mean speed.
+	 * 
+	 * @return Mean speed. [m / s]
+	 */
+	double getVelocidadMedia() const;
+
  
-/*! Return the cross section at cell i */
-double 	GetArea(
-int i											//!< Cell index
-){return FArea[i];};
-
-/*! Return the pipe diameter at cell i */
-double 	GetDiametro(
-int i											//!< Cell index
-){return FDiametroTubo[i];};
- 
-/*! Return the gas velocity at cell i */
-double 	GetVelocidad(
-int i											//!< Cell index
-){return FVelocidad0[i];};
- 
-/*! Return the speed of sound at cell i */
-double 	GetAsonido(
-int i											//!< Cell index
-){return FAsonido0[i];};
- 
-/*! Return the pressure at cell i */
-double 	GetPresion(
-int i											//!< Cell index
-){return FPresion0[i];};
-
-/*! Return the wall temperature at cell i and node j*/
-double 	GetTPTubo(
-int j,											//!< Heat transfer calculation node
-int i											//!< Cell index
-)const{return FTPTubo[j][i];};
-
-/*! Imposes the wall temperature at cell i and node j*/
-void PutTPTubo(
-int k,
-int i,
-double valor
-)const{FTPTubo[k][i]=valor;};
-
-/*! Return the previous wall temperature at cell i and node j */
-double 	GetTPTuboAnt(
-int j,											//!< Heat transfer calculation node
-int i											//!< Cell index
-)const{return FTParedAnt[j][i];};
-
-/*! Returns the integrated gas velocity at cell i */
-double 	GetVelPro(
-int i											//!< Cell index
-)const{return FVelPro[i];};
-
-/*! Imposes the integrated gas velocity at cell i */
-void PutVelPro(
-int i,
-double valor
-)const{FVelPro[i]=valor;};
-
-/*! Return the turbulence coeficient at cell i */
-double 	GetCoefTurbulencia(
-int i											//!< Cell index
-)const{return FCoefTurbulencia[i];};
- 
-	double getTemperaturaInicial(){return FTini;};
-	double getTempWallIni(){return FTIniParedTub;};
-    double getPresionInicial(){return FPini;};
-	double getVelocidadMedia(){return FVelMedia;};
-
- 
-/*! Return the initial mass fraction of specie i */
-double 	GetFraccionMasicaInicial(
-int i											//!< Specie index
-){return FComposicionInicial[i];};
+	/**
+	 * @brief Gets the initial mass fraction of species i.
+	 * 
+	 * Gets the initial mass fraction of species i.
+	 * 
+	 * @param i Species id.
+	 * @return Mass fraction.
+	 */
+	double 	GetFraccionMasicaInicial(int i) const;
  
 /*! Return the specie i mass fraction at boundary j */
 double 	GetFraccionMasicaCC(
@@ -718,25 +925,40 @@ double 	GetAreaCC(
 int i											//!< Boundary index
 ){return FAreaCC[i];};
  
-/*! Return the specific heat ratio at cell i */
-double 	GetGamma(
-int i											//!< Cell index
-){return FGamma[i];};
- 
-/*! Return the gas constant of the mixture at cell i */
-double 	GetRMezcla(
-int i											//!< Cell index
-){return FRMezcla[i];};
- 
-/*! Return the specific heat at constant pressure of the mixture at cell i */
-double 	GetCpMezcla(
-int i											//!< Cell index
-){return FCpMezcla[i];};
- 
-/*! Return the specific heat at constant volume of the mixture at cell i */
-double 	GetCvMezcla(
-int i											//!< Cell index
-){return FCvMezcla[i];};
+
+	/**
+	 * @brief Gets the specific heat capacities ratio at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Specific heat capacities ratio.
+	 */
+	double GetGamma(int i) const;
+
+	/**
+	 * @brief Gets the gas constant of the mixture at a given cell.
+	 * 
+	 * @param i Cell.
+	 * @return Gas constant. [J / (kg * K)]
+	 */
+	double GetRMezcla(int i) const;
+
+	/**
+	 * @brief Gets the specific heat capacity at constant pressure at a given
+	 * cell.
+	 * 
+	 * @param i Cell.
+	 * @return Specific heat capacity at constant pressure. [J / (kg * K)]
+	 */
+	double GetCpMezcla(int i) const; 
+
+	/**
+	 * @brief Gets the specific heat capacity at constant volume at a given
+	 * cell.
+	 * 
+	 * @param i Cell.
+	 * @return Specific heat capacity at constant volume. [J / (kg * K)]
+	 */
+	double GetCvMezcla(int i) const;
  
     nmFormulacionLeyes getFormulacionLeyes(){return FMod.FormulacionLeyes;};
 /*! Return the valuve of the component i of the state vector at the cell j */
@@ -923,9 +1145,10 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 	/*!Comment  */
 	double  Interpola_Entropia
 			(
-			  nmExtremoTubo TipoExtremoTubo,    //!< Comment
+			  nmPipeEnd TipoExtremoTubo,    //!< Comment
 			  double        DeltaTiempo         //!< Comment
 			);
+
 
 	/*!Comment  */
 	double  Interpola_Caracteristica

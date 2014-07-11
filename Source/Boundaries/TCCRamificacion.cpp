@@ -125,7 +125,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 		while (FNumeroTubosCC < ContadorTubosRamificacion && i < NumberOfPipes) {
 			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmIzquierda;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FNodoFin[FNumeroTubosCC] = 0;
 				FIndiceCC[FNumeroTubosCC] = 0;
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
@@ -137,7 +137,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
-				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmDerecha;
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FNodoFin[FNumeroTubosCC] = Pipe[i]->getNin() - 1;
 				FIndiceCC[FNumeroTubosCC] = 1;
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
@@ -150,7 +150,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 			i++;
 		}
 
-		// Inicializaci�n del transporte de especies qu�micas.
+		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		FMasaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
@@ -160,7 +160,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCRamificacion::AsignaTubos en la condici�n de contorno: " << FNumeroCC <<
+		std::cout << "ERROR: TCCRamificacion::AsignaTubos en la condicion de contorno: " << FNumeroCC <<
 			std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -185,7 +185,7 @@ void TCCRamificacion::TuboCalculandose(int TuboActual) {
 		}
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCRamificacion::TuboCalculandose en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCRamificacion::TuboCalculandose en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -201,7 +201,7 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 		double suma1, suma2, sm1, sm2, sm3;
 		int TuboCalculado;
 		double DeltaT, MasaTotal = 0., g, m, FraccionMasicaAcum = 0.;
-		// Necesarias para el c�lculo de especies en la BC.
+		// Necesarias para el calculo de especies en la BC.
 
 		sonido_supuesta_ad = 0.;
 
@@ -231,27 +231,27 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 		}
 
 		do {
-			/* Determinaci�n de la velocidad del sonido en la ramificaci�n. */
+			/* Determinacion de la velocidad del sonido en la ramificacion. */
 			suma1 = 0.;
 			suma2 = 0.;
 			for (int i = 0; i < FNumeroTubosCC; i++) {
-				suma1 = suma1 + (*FCC[i]) * FSeccionTubo[i] / pow(FEntropia[i], 2);
-				suma2 = suma2 + FTuboExtremo[i].Entropia * FSeccionTubo[i] / pow(FEntropia[i], 2);
+				suma1 = suma1 + (*FCC[i]) * FSeccionTubo[i] / pow2(FEntropia[i]);
+				suma2 = suma2 + FTuboExtremo[i].Entropia * FSeccionTubo[i] / pow2(FEntropia[i]);
 			}
 			sonido_ant_ad = sonido_supuesta_ad;
 			sonido_supuesta_ad = suma1 / suma2; // Velocity del sonido adimensionalizada (si las variables fuesen dimensionales).
-			// Es una especie de promedio respecto de la entrop�a de cada tubo.
+			// Es una especie de promedio respecto de la entropia de cada tubo.
 
-			/* Determinaci�n de la velocidad de cada tubo de la ramificaci�n. Esta
-			velocidad ser� positiva si el flujo sale del tubo (tubo saliente) y
+			/* Determinacion de la velocidad de cada tubo de la ramificacion. Esta
+			velocidad sera positiva si el flujo sale del tubo (tubo saliente) y
 			negativa si el flujo entra en el tubo (tubo entrante). En realidad se trata
-			de la velocidad solo para extremo derecho. Para el extremo izquierdo,est� multiplicada
+			de la velocidad solo para extremo derecho. Para el extremo izquierdo,esta multiplicada
 			por un signo negativo. */
 			for (int i = 0; i < FNumeroTubosCC; i++) {
 				FVelocity[i] = (*FCC[i] - sonido_supuesta_ad * FTuboExtremo[i].Entropia) / FGamma3;
 			}
 
-			/* C�lculo de la entropia de los tubos entrantes (el flujo entra en ellos).
+			/* Calculo de la entropia de los tubos entrantes (el flujo entra en ellos).
 			Esta entropia es igual para todos ellos y se calcula como un balance del
 			flujo que llega de los tubos salientes (de velocidad positiva). */
 			sm1 = 0.;
@@ -268,9 +268,9 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			if (sm2 < 2e-6) {
 				entropia_entrante = sm3 / FNumeroTubosCC;
 			}
-			else { /* Desde el punto de vista te�rico esta es la forma correcta. La
-				f�rmula anterior es para evitar errores de indeterminaci�n si
-				sm2 es muy peque�a,por lo que se acepta como aproximaci�n. */
+			else { /* Desde el punto de vista teorico esta es la forma correcta. La
+				formula anterior es para evitar errores de indeterminacion si
+				sm2 es muy pequena,por lo que se acepta como aproximacion. */
 				entropia_entrante = sm1 / sm2;
 			}
 			for (int i = 0; i < FNumeroTubosCC; i++) {
@@ -282,8 +282,8 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 		}
 		while ((sonido_supuesta_ad - sonido_ant_ad) / (sonido_ant_ad + 0.01) > 1e-4);
 
-		/* C�lculo de las caracter�sticas y la entrop�a en los extremos del tubo que se
-		est� calculando, una vez resuelta la condici�n de contorno */
+		/* Calculo de las caracteristicas y la entropia en los extremos del tubo que se
+		esta calculando, una vez resuelta la condicion de contorno */
 		if (TuboCalculado != 10000) {
 			corr_entropia = FTuboExtremo[TuboCalculado].Entropia / FEntropia[TuboCalculado];
 			*FCC[TuboCalculado] = (*FCC[TuboCalculado] + FGamma3 * FVelocity[TuboCalculado] *
@@ -317,10 +317,10 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 				if (Machx > 1) {
 					printf("Sonic condition in boundary: %d\n", FNumeroCC);
 					double Machy = Machx / fabs(Machx) * sqrt
-						((pow(Machx, 2) + 2. / FGamma1) / (FGamma4 * pow(Machx, 2) - 1.));
+						((pow2(Machx) + 2. / FGamma1) / (FGamma4 * pow2(Machx) - 1.));
 					double asonido = (*FCC[i] + *FCD[i]) / 2;
 					double Sonidoy = asonido * sqrt
-						((FGamma3 * pow(Machx, 2) + 1.) / (FGamma3 * pow(Machy, 2) + 1.));
+						((FGamma3 * pow2(Machx) + 1.) / (FGamma3 * pow2(Machy) + 1.));
 
 					double Velocidady = Sonidoy * Machy;
 					*FCC[i] = Sonidoy + FGamma3 * Velocidady;
@@ -329,7 +329,7 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			}
 		}
 
-		// Transporte de especies qu�micas.
+		// Transporte de especies quimicas.
 		for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 			FMasaEspecie[j] = 0.;
 		}
@@ -359,7 +359,7 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TCCRamificacion::CalculaCondicionContorno en la condici�n de contorno: " <<
+		std::cout << "ERROR: TCCRamificacion::CalculaCondicionContorno en la condicion de contorno: " <<
 			FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());

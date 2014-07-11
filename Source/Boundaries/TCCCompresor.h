@@ -46,7 +46,7 @@ class TCCCompresor : public TCondicionContorno {
 private:
 
 	nmCompressorInlet FEntradaCompresor;
-	nmExtremoTubo FExtremoTuboRotor;
+	nmPipeEnd FExtremoTuboRotor;
 
 	int FNumeroCompresor;
 	int FNumeroDeposito;
@@ -61,7 +61,7 @@ private:
 
 	TTubo *FTuboRotor;
 
-	int FTuboActual; // Identifica el tubo que se est� calculando para el caso de Compressor de 2 tubos.
+	int FTuboActual; // Identifica el tubo que se esta calculando para el caso de Compressor de 2 tubos.
 	int *FNumeroTubo;
 
 	double FPamb;
@@ -88,7 +88,7 @@ public:
 		return FTuboRotor;
 	};
 
-	nmExtremoTubo getExtremoTuboRotor() {
+	nmPipeEnd getExtremoTuboRotor() {
 		return FExtremoTuboRotor;
 	};
 

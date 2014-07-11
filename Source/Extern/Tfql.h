@@ -28,12 +28,12 @@ License
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-// OBJETO PARA LA INTERPOLACI�N DE LEYES DE LIBERACI�N DE CALOR
+// OBJETO PARA LA INTERPOLACION DE LEYES DE LIBERACION DE CALOR
 //
-// Se deben establecer los par�metros que se desean utilizar en el c�lculo de
-// �ngulos de combusti�n y de la FQL.
-// En la funci�n fql se debe establecer el desfase existente entre cada cilindro
-// en funci�n de su n�mero y orden de encendido.
+// Se deben establecer los parametros que se desean utilizar en el calculo de
+// angulos de combustion y de la FQL.
+// En la funcion fql se debe establecer el desfase existente entre cada cilindro
+// en funcion de su numero y orden de encendido.
 //
 // Para validar la base de datos de FQL se dispone del programa CalculaLey.
 //---------------------------------------------------------------------------

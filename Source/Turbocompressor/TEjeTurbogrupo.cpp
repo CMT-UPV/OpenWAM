@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -102,7 +102,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		// Lectura del r�gimen inicial y si se mantiene constante durante el c�lculo.
+		// Lectura del regimen inicial y si se mantiene constante durante el calculo.
 		fscanf(fich, "%lf %d", &FRegimenEje, &variacion);
 		switch(variacion) {
 		case 0:
@@ -124,7 +124,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
 		FCompresor = new TCompresor*[FNumCompresoresAcoplados];
 		FNumeroCompresor = new int[FNumCompresoresAcoplados];
 		for (int i = 0; i < FNumCompresoresAcoplados; ++i) {
-			// Identifica que compresores est�n acoplados a este eje.
+			// Identifica que compresores estan acoplados a este eje.
 			fscanf(fich, "%d ", &FNumeroCompresor[i]);
 			FCompresor[i] = Compressor[FNumeroCompresor[i] - 1];
 			FCompresor[i]->IniciaMedias();
@@ -134,9 +134,9 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
 		FTurbina = new TTurbina*[FNumTurbinasAcopladas];
 		FNumeroTurbina = new int[FNumTurbinasAcopladas];
 		for (int i = 0; i < FNumTurbinasAcopladas; ++i) {
-			// Identifica que turbinas est�n acopladas a este eje.
+			// Identifica que turbinas estan acopladas a este eje.
 			fscanf(fich, "%d ", &FNumeroTurbina[i]);
-			// numidturbina es un n�mero que necesita WAMer y que a nosotros no nos interesa.
+			// numidturbina es un numero que necesita WAMer y que a nosotros no nos interesa.
 			FTurbina[i] = Turbine[FNumeroTurbina[i] - 1];
 			FTurbina[i]->PutRegimen(FRegimenEje);
 		}
@@ -249,7 +249,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 	double CrankAngle) {
 	try {
 
-		// C�lculo del nuevo r�gimen del turbogrupo.
+		// Calculo del nuevo regimen del turbogrupo.
 
 		double MechWork = 0;
 		// OJO HAY QUE PASAR EL VALOR DE TAMB
@@ -327,7 +327,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 
 					FDeltaReg =
 						(FSumTrabajoTurbinas - FSumTrabajoCompresores -
-						MechWork) * pow(30. / Pi, 2.) /
+						MechWork) * pow2(30. / Pi) /
 						(FMomentoInercia * FRegimenEje);
 					FRegimenEje += FDeltaReg;
 
@@ -357,7 +357,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			FTurbina[j]->PutRegimen(FRegimenEje);
 		}
 
-		// Acumulaci�n de valores medios.
+		// Acumulacion de valores medios.
 
 		if (FResMediosEje.Regimen) {
 			FResMediosEje.RegimenSUM += FRegimenEje * DeltaTime;
@@ -531,7 +531,7 @@ void TEjeTurbogrupo::ResultadosMediosEje() {
 
 void TEjeTurbogrupo::AcumulaResultadosMediosEje(double Actual) {
 	try {
-		/* Lo que se hace en esta funci�n se realiza dentro del calculo del eje, para as� poder
+		/* Lo que se hace en esta funcion se realiza dentro del calculo del eje, para asi poder
 		llevar a cabo la salida de resultados medios por pantalla. */
 		double Delta = Actual - FResMediosEje.Tiempo0;
 

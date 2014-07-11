@@ -108,8 +108,8 @@ void TUnionDireccional::LeeDatosUnionDireccional(char *FileWAM, fpos_t &filepos)
 
 		fscanf(fich, "%d ", &numid); /* DATO PARA WAMER */
 		fscanf(fich, "%d %d %d ", &FNodoEntrada[0], &FNodoEntrada[1], &FNodoSalida);
-		/* Lectura de información para el cálculo del coeficiente de descarga de salida
-		para las uniones de entrada al depósito de unión direccional */
+		/* Lectura de informacion para el calculo del coeficiente de descarga de salida
+		para las uniones de entrada al deposito de union direccional */
 		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[0], &FVelocidadCorte[0], &FVelocidadFin[0]);
 		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[1], &FVelocidadCorte[1], &FVelocidadFin[1]);
 
@@ -125,7 +125,7 @@ void TUnionDireccional::LeeDatosUnionDireccional(char *FileWAM, fpos_t &filepos)
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el depósito: " <<
+		std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " <<
 			FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -154,7 +154,7 @@ void TUnionDireccional::AsignaCCUnionDireccional() {
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la unión direccional " <<
+		std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional " <<
 			FNumUnionDireccional << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -257,13 +257,13 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 				Converge = true;
 			}
 		}
-		FTemperature = pow(FAsonido * ARef, 2.) / (FGamma * FRMezcla) - 273.;
+		FTemperature = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
 		FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen * FMasa * 1e-5;
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTime = TimeCalculo;
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::ActualizaPropiedades en la unión direccional: " <<
+		std::cout << "ERROR: TUnionDireccional::ActualizaPropiedades en la union direccional: " <<
 			FNumUnionDireccional << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
@@ -277,7 +277,7 @@ void TUnionDireccional::CalculoUnionDireccional() {
 	try {
 
 		double coefA, coefB;
-		/* Parámetro independiente y pendiente de la recta para el cálculo del Coeficiende de Descarga */
+		/* Parametro independiente y pendiente de la recta para el calculo del Coeficiende de Descarga */
 
 		for (int i = 0; i < 2; i++) {
 			if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmEntrante) {
@@ -292,7 +292,7 @@ void TUnionDireccional::CalculoUnionDireccional() {
 				() * ARef;
 		}
 
-		/* Cálculo del coeficiente de descarga de salida en el Pipe de Entrada 0 */
+		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 0 */
 		if (FVelocity[1] <= FVelocidadCorte[0]) {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCDSalidaInicial[0]);
 		}
@@ -300,10 +300,11 @@ void TUnionDireccional::CalculoUnionDireccional() {
 			 dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(0);
 		}
 		else {
-		dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCoefA[0] + FCoefB[0] * FVelocity [1]);
+		dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCoefA[0] + FCoefB[0] * FVelocity [1]);
+
 		}
 
-		/* Cálculo del coeficiente de descarga de salida en el Pipe de Entrada 1 */
+		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 1 */
 		if (FVelocity[0] <= FVelocidadCorte[1]) {
 dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCDSalidaInicial[1]);
 		}
@@ -311,12 +312,13 @@ dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCDSalidaInicial[1]);
 dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(0);
 		}
 		else {
-dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * FVelocity [0]);
+dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * FVelocity [0]);
+
 		}
 
 	}
 	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::CalculoUnionDireccional en la unión direccional: " <<
+		std::cout << "ERROR: TUnionDireccional::CalculoUnionDireccional en la union direccional: " <<
 			FNumUnionDireccional << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());

@@ -57,7 +57,7 @@ int FIndiceCC;
 double FNodoFinTuboSalida;
 double FNodoFinEntrada;
 nmCompressorInlet FEntradaCompresor;
-nmExtremoTubo FExtremoTuboRotor;
+nmPipeEnd FExtremoTuboRotor;
 nmCompressorMapFormat FCompressorMapFormat;
 
 int FParticionEntrada;    // Se pueden borrar.Pedro
@@ -90,10 +90,19 @@ double FGamma1;
 double FGamma3;
 double FGamma4;
 double FGamma5;
-double FRAtm;       // Valor de R para la composición atmósferica.
-double FCvAtm;      // Valor de Cv para la composición atmósferica.
-double FCpAtm;      // Valor de Cp para la composición atmósferica.
-double FGammaAtm;   // Valor de Gamma para la composición atmósferica.
+double FRAtm;       // Valor de R para la composicion atmosferica.
+double FCvAtm;      // Valor de Cv para la composicion atmosferica.
+double FCpAtm;      // Valor de Cp para la composicion atmosferica.
+double FGammaAtm;   // Valor de Gamma para la composicion atmosferica.
+
+// Damping
+double FMass_filt_ant;
+double FMass_ant;
+double FDelay;
+
+double RC_filt;
+double RC_filt_ant;
+double RC_ant;
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -139,6 +148,8 @@ void BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,double AmbientTemp
 void CalculaGasto(double TrabajoInsTurbina,double TiempoActual){}
 
 void Initialize();
+
+double NewDampedSolution(double Mass);
 
 };
 

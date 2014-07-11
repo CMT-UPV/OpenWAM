@@ -25,6 +25,31 @@ License
 
 \*--------------------------------------------------------------------------------*/
 
+/**
+ * @file Constantes.h
+ * @author Francisco Jose Arnau <farnau@mot.upv.es>
+ * 
+ * @section LICENSE
+ *
+ * This file is part of OpenWAM.
+ *
+ * OpenWAM is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenWAM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @section DESCRIPTION
+ * This file defines several constants used in OpenWAM.
+ */
+
 
 //---------------------------------------------------------------------------
 
@@ -61,20 +86,25 @@ const double RGasoline=72.42;
 
 
 
-
 const double Pi=3.1415927;
 const double Gamma=1.4;
 const double ARef=343.11;
+const double TRef=292.99271; ///< Reference temperature. [K]
 const double ARef2=117724.4721;
-const double PRef=0.997;
+const double PRef=1.0; ///< Reference pressure. [bar]
+const double StephanBoltzmann = 5.67e-8; // W/m2 K4
 
-const double Kb=1.38054e-23;    // Constante de Boltzmann (J/K)
+const double unBarToPa = 1e5;
+const double unPaToBar = 1e-5;
+const double unKToC = -273.15;
+const double unCToK = 273.15;
 
-const double HFormacion_CO2=-393510;  // J/mol
-const double HFormacion_CO=-110530;   // J/mol
-const double HFormacion_NO2=33100;    // J/mol
-const double HFormacion_NO=90290;     // J/mol
-const double HFormacion_H2O=-241830;   // J/mol
+const double Kb=1.38054e-23; ///< Boltzmann constant. [J / K]
 
+const double HFormacion_CO2=-393510; ///< Enthalpy of formation of CO2. [J / mol]
+const double HFormacion_CO=-110530; ///< Enthalpy of formation of CO. [J / mol]
+const double HFormacion_NO2=33100; ///< Enthalpy of formation of NO2. [J / mol]
+const double HFormacion_NO=90290; ///< Enthalpy of formation of NO. [J / mol]
+const double HFormacion_H2O=-241830; ///< Enthalpy of formation of H2O. [J / mol]
 
 #endif

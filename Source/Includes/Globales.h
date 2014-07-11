@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -41,17 +41,14 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <cmath>
 #include "Math_wam.h"
-//#include "TBloqueMotor.h"
-#if versionlabel
-	#include "StringManagement.hpp"
-#else
-	#ifndef __BORLANDC__
-		#include "StringManagement.hpp"
-	#endif
-#endif
+#include "labels.hpp"
 #ifndef __BORLANDC__
-	#include "Exception.hpp"
-    #define ffGeneral 3
+#include "StringManagement.hpp"
+#include "Exception.hpp"
+#define ffGeneral 3
+#endif
+#ifdef WITH_OPENMP
+#include <omp.h>
 #endif
 
 // #include "StringDataBase.h"
@@ -165,9 +162,9 @@ enum nmTipoGas {
 	nmAireFresco = 0, nmGasEscape = 1
 };
 
-enum nmExtremoTubo {
-	nmIzquierda = 0, nmDerecha = 1
-};
+//enum nmExtremoTubo {
+//	nmLeft = 0, nmRight = 1
+//};
 
 enum nmModelo {
 	nmLaxWendroff = 0, nmMacCormak = 1, nmCESE = 2, nmTVD = 3
@@ -309,7 +306,7 @@ class TDPF;
 // ---------------------------------------------------------------------------
 
 struct stEspecies {
-	char *Nombre;
+	AnsiString Nombre;
 	double R;
 };
 
@@ -747,7 +744,7 @@ struct stResInstantSensor {
 
 struct stTuboExtremo {
 	TTubo *Pipe; // Pipe asociado al nodo
-	nmExtremoTubo TipoExtremo; // PipeEnd del tubo: derecho o izquierdo
+	nmPipeEnd TipoExtremo; // PipeEnd del tubo: derecho o izquierdo
 	double Entropia;
 	double Landa;
 	double Beta;
@@ -1605,23 +1602,64 @@ inline double Gamma7(double gamma) {
 	return(3 - gamma) / (gamma + 1);
 };
 
-inline double CalculoSimpleGamma(double RMezcla, double CvMezcla, nmCalculoGamma GammaCalculation) {
-	double Gamma = 1.4;
+
+/**
+ * @brief Heat capacities ratio of air.
+ * 
+ * Computes the heat capacities ratio of air, with some burnt fraction.
+ * 
+ * @f[ \gamma = 1 + \cfrac{R}{c_v} @f]
+ *
+ * If @f$ \gamma @f$ is not a function of temperature, returns 1.4.
+ * 
+ * @param RMezcla Gas constant. [J / (kg / K)]
+ * @param CvMezcla Specific heat capacity at constant volume. [J / (kg / K)]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Heat capacities ratio.
+ */
+inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
+	nmCalculoGamma GammaCalculation) {
+	double g = Gamma;
 
 	if (GammaCalculation != nmGammaConstante) {
-		Gamma = 1 + RMezcla / CvMezcla;
+		g = 1. + RMezcla / CvMezcla;
 	}
 
-	return Gamma;
+	return g;
 };
 
+
+/**
+ * @brief Specific heat capacity at constant volume of air, simplified
+ * version.
+ * 
+ * Computes the specific heat capacity at constant volume of air, with
+ * some burnt fraction.
+ *
+ * @f[
+ * c_v = c_{v_{bf}} \cdot Y_{bf}
+ * + c_{v_{da}} \cdot \left( 1 - Y_{wv} - Y \right)
+ * + c_{v_{wv}} \cdot  Y_{wv}
+ * @f]
+ * 
+ * where @f$ c_v @f$ is the specific heat capacity at constant volume
+ * and @f$ Y @f$ is the mass fraction.  If @f$ \gamma @f$ is not a function
+ * of temperature, returns 717.5
+ * 
+ * @param Temperature Air temperature. [K]
+ * @param YQuemados Burnt gases mass fraction. [-]
+ * @param GammaCalculation Whether gamma is a function of the temperature
+ * or not.
+ * @return Specific heat capacity at constant volume. [J / (kg * K)]
+ */
 inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible,
 	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible)
 {
     if (TipoCombustible == 0) {
 		TipoCombustible == nmMEC;
 	}
-	double CvMezcla = 717.5;
+	double CvMezcla = R / (Gamma - 1.);
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
@@ -1901,7 +1939,7 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 			Valor_mapa_fila_yref_columna_x2 = Mapa[y1][x2] - (Mapa[y1][x2] - Mapa[y2][x2]) *
 				(Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
 
-			/* A continuaci�n se interpola el valor entre las filas del mapa, para obtener el (valor en xref,yref) */
+			/* A continuacion se interpola el valor entre las filas del mapa, para obtener el (valor en xref,yref) */
 			Valor_mapa_fila_yref_columna_xref = Valor_mapa_fila_yref_columna_x1 -
 				(Valor_mapa_fila_yref_columna_x1 - Valor_mapa_fila_yref_columna_x2) *
 				(Mapa_col[x1] - xref) / (Mapa_col[x1] - Mapa_col[x2]);
@@ -1911,65 +1949,6 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 
 	return Valor_mapa_fila_yref_columna_xref;
 };
-
-// char* PutLabel(int str) {
-// 	int lang;
-// 	AnsiString label;
-// 	if (str < 900) {
-// 		if (CompareStr(LoadStr(10000), "ES") == 0) {
-// 			lang = 2000 + str;
-// 		}
-// 		if (CompareStr(LoadStr(10000), "EN") == 0) {
-// 			lang = 1000 + str;
-// 		}
-// 	}
-// 	else {
-// 		lang = str;
-// 	}
-// 	label = AnsiString(LoadStr(lang)).c_str();
-// 	// label=LoadStr(lang).c_str();
-// 	return label;
-// };
-
-#if versionlabel
-	inline AnsiString PutLabel(int str) {
-		int lang;
-		AnsiString label;
-		if (str < 900) {
-			if (CompareStr(AnsiString(LoadStr2(10000).c_str()), "ES") == 0) {
-				lang = 2000 + str;
-			}
-			if (CompareStr(AnsiString(LoadStr2(10000).c_str()), "EN") == 0) {
-				lang = 1000 + str;
-			}
-		}
-		else {
-			lang = str;
-		}
-		label = AnsiString(LoadStr2(lang).c_str());
-		return label;
-	};
-
-#else
-	inline AnsiString PutLabel(int str) {
-		int lang;
-		AnsiString label;
-		if (str < 900) {
-			if (CompareStr(LoadStr(10000), "ES") == 0) {
-				lang = 2000 + str;
-			}
-			if (CompareStr(LoadStr(10000), "EN") == 0) {
-				lang = 1000 + str;
-			}
-		}
-		else {
-			lang = str;
-		}
-		label = LoadStr(lang);
-		return label;
-	};
-#endif
-
 
 
 inline void Hermite(int n, double *x, double *y, double *sol) {
@@ -2105,9 +2084,9 @@ inline void GetName(char *origin, char *destination, const char *add) {
 inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 	double Machx = v / a;
 	double g3 = (g - 1) / 2;
-	double Machy = Machx / fabs(Machx) * sqrt((pow(Machx, 2) + 1 / g3) / (g / g3 * pow(Machx,
+	double Machy = Machx / fabs(Machx) * sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx,
 				2) - 1.));
-	a = a * sqrt((g3 * pow(Machx, 2) + 1.) / (g3 * pow(Machy, 2) + 1.));
+	a = a * sqrt((g3 * Machx * Machx + 1.) / (g3 * Machy * Machy + 1.));
 
 	v = a * Machy;
 };

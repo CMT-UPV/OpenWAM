@@ -94,13 +94,13 @@ TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) : TTipoValvula(nmValvula
 	FDatosTorbellino.resize(Origen->FDatosTorbellino.size());
 	FLiftCD.resize(Origen->FLiftCD.size());
 
-	for (int i = 0; i < Origen->FAngle.size(); i++) {
+	for (dVector::size_type i = 0; i < Origen->FAngle.size(); i++) {
 		FAngle[i] = Origen->FAngle[i];
 		FLevantamiento[i] = Origen->FLevantamiento[i];
 	}
 	fun_FLift = new Hermite_interp(FAngle, FLevantamiento);
 
-	for (int i = 0; i < Origen->FLiftCD.size(); i++) {
+	for (dVector::size_type i = 0; i < Origen->FLiftCD.size(); i++) {
 		FLiftCD[i] = Origen->FLiftCD[i];
 		FDatosCDEntrada[i] = Origen->FDatosCDEntrada[i];
 		FDatosCDSalida[i] = Origen->FDatosCDSalida[i];
@@ -183,7 +183,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 
 		switch(ControlRegimen) {
 		case 0:
-			FControlRegimen == nmPropio;
+			FControlRegimen = nmPropio;
 			break;
 		case 1:
 			FControlRegimen = nmMotor;
@@ -198,7 +198,7 @@ void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, b
 		}
 		else {
 			std::cout <<
-				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Régimen errónea " << std::endl;
+				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
 			throw Exception(" ");
 		}
 		int controllers;
