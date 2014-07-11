@@ -462,8 +462,11 @@ void TCompTubos::LeeCompresor(char *FileWAM, fpos_t &filepos) {
 
 			exit(0);
 		}
+		Mapa2T->PutRadioHub(FRadioHub);
+		Mapa2T->PutRadioRadioTip(FRadioTip);
+		Mapa2T->PutRadioRodete(FRadioRodete);
 
-		Mapa2T->LeeMapa(fich, FRadioTip, FRadioHub, FRadioRodete);
+		Mapa2T->LeeMapa(fich);
 
 		fgetpos(fich, &filepos);
 		fclose(fich);

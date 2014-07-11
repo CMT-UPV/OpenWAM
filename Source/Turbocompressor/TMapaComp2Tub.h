@@ -32,12 +32,13 @@
 #include <cstdio>
 #include "Constantes.h"
 #include "Globales.h"
+#include "TCompressorMap.h"
 #include <vector>
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-class TMapaComp2Tub {
+class TMapaComp2Tub: public TCompressorMap {
 private:
 //---------------------------------------------------------------------------
 //          VARIABLES PRIVADAS
@@ -104,6 +105,10 @@ private:
 	int FCurvInf;
 
 	bool FCorrect;
+
+	double FRadioHub;
+	double FRadioRodete;
+	double FRadioTip;
 
 // Datos para GT-POWER
 
@@ -202,6 +207,11 @@ public:
 		return FCorrect;
 	}
 	;
+
+	double getTempMeasure() {
+		return 300;
+	}
+	;
 //---------------------------------------------------------------------------
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
@@ -210,7 +220,7 @@ public:
 
 	~TMapaComp2Tub();
 
-	void LeeMapa(FILE *fich, double radtip, double radhub, double radrodete);
+	void LeeMapa(FILE *fich);
 
 	void InterpolaMapa(double rtc, double AmbientTemperature);
 
@@ -229,6 +239,25 @@ public:
 	void RearrangeGTPowerMap(double rtip, double rhub, double rwheel);
 
 	void WriteMapForWAM();
+
+	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
+	}
+	;
+
+	void PutRadioHub(double val){
+		FRadioHub=val;
+	}
+	;
+
+	void PutRadioRodete(double val){
+		FRadioRodete = val;
+	}
+	;
+
+	void PutRadioRadioTip(double val){
+		FRadioTip = val;
+	}
+	;
 
 };
 
