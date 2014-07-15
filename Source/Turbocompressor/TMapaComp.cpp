@@ -387,6 +387,10 @@ void TMapaComp::LeeMapaXML(xml_node node_compressor) {
 		FTempRef += 273.;
 		FPresionRef *= 1e5;
 
+		FMassMultiplier = GetAttributeAsDouble(node_map, "MassMultiplier");
+		FCRMultiplier = GetAttributeAsDouble(node_map, "CRMultiplier");
+		FEffMultiplier = GetAttributeAsDouble(node_map, "EffMultiplier");
+
 		std::cout << "Datos de Referencia:" << std::endl;
 		std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;
 		std::cout << "Temperature: " << FTempRef << " K" << std::endl;
@@ -405,9 +409,13 @@ void TMapaComp::LeeMapaXML(xml_node node_compressor) {
 
 // Rango e incremento de gastos masicos.
 
-		FGastoMin = GetXMLRotationalSpeed(node_map, "MinimumMassFlow");
-		FGastoMax = GetXMLRotationalSpeed(node_map, "MaximumMassFlow");
-		FIncGasto = GetXMLRotationalSpeed(node_map, "MassFlowStep");
+		FGastoMin = GetXMLRotationalSpeed(node_map, "MinimumMassFlow")
+				* FMassMultiplier;
+		FGastoMax = GetXMLRotationalSpeed(node_map, "MaximumMassFlow")
+				* FMassMultiplier;
+		FIncGasto = GetXMLRotationalSpeed(node_map, "MassFlowStep")
+				* FMassMultiplier;
+
 		FNumPuntosGasto = floor(((FGastoMax - FGastoMin) / FIncGasto) + 0.5)
 				+ 1;
 
@@ -451,19 +459,19 @@ void TMapaComp::LeeMapaXML(xml_node node_compressor) {
 				node_spline;
 				node_spline = node_spline.next_sibling("Cmp:SpeedLine")) {
 			FRegimenCurva[i] = FRegMin + FIncReg * (double) i;
-			FGastoRelComp1[i] = GetXMLMassFlow(node_spline, "MassCR1",
-					unitmass);
-			FGastoBombeo[i] = GetXMLMassFlow(node_spline, "MassSurge",
-					unitmass);
-			FRelCompBombeo[i] = GetAttributeAsDouble(node_spline,
-					"CompRatioSurge");
+			FGastoRelComp1[i] = (GetXMLMassFlow(node_spline, "MassCR1",
+					unitmass) - 1) * FCRMultiplier + 1;
+			FGastoBombeo[i] = GetXMLMassFlow(node_spline, "MassSurge", unitmass)
+					* FMassMultiplier;
+			FRelCompBombeo[i] = (GetAttributeAsDouble(node_spline,
+					"CompRatioSurge") - 1) * FCRMultiplier + 1;
 
 			j = 0;
 			for (xml_node node_crpoint = GetNodeChild(node_spline,
 					"Spl:CRPoint"); node_crpoint;
 					node_crpoint = node_crpoint.next_sibling("Spl:CRPoint")) {
-				FRelComp[i][j] = GetAttributeAsDouble(node_crpoint,
-						"CompRatio");
+				FRelComp[i][j] = (GetAttributeAsDouble(node_crpoint,
+						"CompRatio") - 1) * FCRMultiplier + 1;
 				j++;
 			}
 			FNumCurvasRen[i] = 0;
@@ -473,8 +481,9 @@ void TMapaComp::LeeMapaXML(xml_node node_compressor) {
 					"Spl:EFFPoint"); node_effpoint; node_effpoint =
 					node_effpoint.next_sibling("Spl:EFFPoint")) {
 				FGastoRend[i][j] = GetXMLMassFlow(node_effpoint, "MassFlow",
-						unitmass);
-				FRend[i][j] = GetAttributeAsDouble(node_effpoint, "Efficiency");
+						unitmass) * FMassMultiplier;
+				FRend[i][j] = GetAttributeAsDouble(node_effpoint, "Efficiency")
+						* FEffMultiplier;
 				if (FRend[i][j] > 0.) {
 					++FNumCurvasRen[i];
 				}
@@ -961,8 +970,9 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 		FRelCompInt[FNumPuntos] = 1.;
 
 		FCurrentPresMAX = FRelCompInt[0];
-		for(int j=1;j<FNumPuntos;++j){
-			if(FRelCompInt[j]>FCurrentPresMAX) FCurrentPresMAX = FRelCompInt[j];
+		for (int j = 1; j < FNumPuntos; ++j) {
+			if (FRelCompInt[j] > FCurrentPresMAX)
+				FCurrentPresMAX = FRelCompInt[j];
 		}
 
 // Se obtienen los coeficientes que ajusta la spline de la curva interpolada.

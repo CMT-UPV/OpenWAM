@@ -186,6 +186,9 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden, bool 
 
 		xml_node node_rotary = GetNodeChild(node_valve, "Val:RotaryValve");
 		FDiametroRef = GetAttributeAsDouble(node_rotary, "RefDiameter");
+		FDCMultiplier = GetAttributeAsDouble(node_rotary, "DCMultiplier");
+		FShift = GetAttributeAsDouble(node_rotary, "Shift");
+		FDuration = GetAttributeAsDouble(node_rotary, "Duration");
 
 		const char_t* SpeedControl = node_rotary.attribute("SpeedControl").value();
 		if (SpeedControl == "ByEngine") {
@@ -224,11 +227,6 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden, bool 
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-
-void TDiscoRotativo::CalculaCD(double AnguloActual){
-
-FCDTubVol=fun_CDin->interp(AnguloActual)*FSectionRatio;
-FCDVolTub=fun_CDout->interp(AnguloActual)*FSectionRatio;
 
 void TDiscoRotativo::GetCDin(double Time) {
 

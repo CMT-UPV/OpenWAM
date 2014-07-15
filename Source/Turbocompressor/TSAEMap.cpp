@@ -114,7 +114,11 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 	int puntos;
 	double speedmax = 0, massmax = 0, presmax = 1, effmax = 0;
 
-	int points = CountNodes(node_map,"Cmp:CompMapPoint");
+	FMassMultiplier = GetAttributeAsDouble(node_map, "MassMultiplier");
+	FCRMultiplier = GetAttributeAsDouble(node_map, "CRMultiplier");
+	FEffMultiplier = GetAttributeAsDouble(node_map, "EffMultiplier");
+
+	int points = CountNodes(node_map, "Cmp:CompMapPoint");
 	FSpeed.resize(i + 1);
 	FMass.resize(i + 1);
 	FPres.resize(i + 1);
@@ -123,12 +127,16 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 	std::string unitspeed = unit_node.attribute("RotationalSpeed").value();
 	std::string unitmass = unit_node.attribute("MassFlow").value();
 
-	for (xml_node node_mappoint = GetNodeChild(node_map, "Cmp:CompMapPoint"); node_mappoint;
-		node_mappoint = node_mappoint.next_sibling("Cmp:CompMapPoint")) {
-		speed = GetXMLRotationalSpeed(node_mappoint,"CorSpeed",unitspeed);
-		mass = GetXMLMassFlow(node_mappoint,"CorMassFlow",unitmass);
-		pres = GetAttributeAsDouble(node_mappoint,"CompRatio");
-		eff = GetAttributeAsDouble(node_mappoint,"Efficiency");
+	for (xml_node node_mappoint = GetNodeChild(node_map, "Cmp:CompMapPoint");
+			node_mappoint;
+			node_mappoint = node_mappoint.next_sibling("Cmp:CompMapPoint")) {
+		speed = GetXMLRotationalSpeed(node_mappoint, "CorSpeed", unitspeed);
+		mass = GetXMLMassFlow(node_mappoint, "CorMassFlow", unitmass)
+				* FMassMultiplier;
+		pres = (GetAttributeAsDouble(node_mappoint, "CompRatio") - 1)
+				* FCRMultiplier + 1;
+		eff = GetAttributeAsDouble(node_mappoint, "Efficiency")
+				* FEffMultiplier;
 
 		if (j > 0) {
 			if (speed != FSpeed[i][j - 1]) {
@@ -146,8 +154,7 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 				massmax = mass;
 				presmax = pres;
 				effmax = eff;
-			}
-			else {
+			} else {
 				if (mass > massmax)
 					massmax = mass;
 				if (pres > presmax)
@@ -155,8 +162,7 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 				if (eff > effmax)
 					effmax = eff;
 			}
-		}
-		else {
+		} else {
 			massmax = mass;
 			presmax = pres;
 			effmax = eff;
@@ -193,7 +199,6 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 	AdimensionalizeMap();
 
 }
-
 
 void TSAEMap::AdimensionalizeMap() {
 
@@ -337,9 +342,9 @@ void TSAEMap::LeeMapa(FILE *fich) {
 
 void TSAEMap::LeeMapaXML(xml_node node_compressor) {
 
-	xml_node node_map = GetNodeChild(node_compressor,"Com:SAE_Map");
-	FPresionRef = GetXMLPressure(node_map,"PressureRef");
-	FTempRef = GetXMLTemperature(node_map,"TemperatureRef");
+	xml_node node_map = GetNodeChild(node_compressor, "Com:SAE_Map");
+	FPresionRef = GetXMLPressure(node_map, "PressureRef");
+	FTempRef = GetXMLTemperature(node_map, "TemperatureRef");
 
 	FTempRef += unCToK;
 	FPresionRef *= unBarToPa;
