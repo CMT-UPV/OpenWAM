@@ -1855,6 +1855,9 @@ void TOpenWAM::ReadControllers() {
 			case 3:
 				Controller[i] = new TDecisor(i);
 				break;
+			case 4:
+				Controller[i] = new TGain(i);
+				break;
 			}
 			fgetpos(FileInput, &filepos);
 			fclose(FileInput);

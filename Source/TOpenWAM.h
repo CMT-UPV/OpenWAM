@@ -121,6 +121,7 @@
 #include "TPIDController.h"
 #include "TTable1D.h"
 #include "TDecisor.h"
+#include "TGain.h"
 
 // OUTPUT RESULTS
 #include "TOutputResults.h"

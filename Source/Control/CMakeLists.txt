@@ -6,4 +6,5 @@ add_library(
   TSensor.cpp
 #   TTable.cpp
   TTable1D.cpp
+  TGain.cpp
 )
