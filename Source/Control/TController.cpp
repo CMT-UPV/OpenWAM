@@ -36,6 +36,10 @@ License
 
 //---------------------------------------------------------------------------
 
+//stGainInput::stGainInput(){}
+
+
+
 TController::TController(nmControlMethod meth,int i)
 {
 FControl=meth;
