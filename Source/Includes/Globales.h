@@ -286,7 +286,11 @@ enum nmTipoControl {
 };
 
 enum nmControlMethod {
-	nmCtlConstant = 0, nmCtlPID = 1, nmCtlTable = 2, nmCtlSwitch = 3
+	nmCtlConstant = 0, nmCtlPID = 1, nmCtlTable = 2, nmCtlSwitch = 3, nmGainCtrl = 4
+};
+
+enum nmInputObjet{
+	nmInController = 0, nmInSensor = 1
 };
 
 enum nmObjectSensed {

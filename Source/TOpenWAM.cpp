@@ -2510,6 +2510,9 @@ void TOpenWAM::ReadControllers() {
 			case 3:
 				Controller[i] = new TDecisor(i);
 				break;
+			case 4:
+				Controller[i] = new TGain(i);
+				break;
 			}
 			fgetpos(FileInput, &filepos);
 			fclose(FileInput);
@@ -2617,6 +2620,7 @@ void TOpenWAM::InitializeParameters() {
 		}
 	}
 
+
 	AllocateVGTData();
 
 	for (int i = 0; i < NumberOfPlenums; i++) {
@@ -2674,6 +2678,12 @@ void TOpenWAM::InitializeParameters() {
 	for (int i = 0; i < NumberOfConnections; i++) {
 		if (BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
 			dynamic_cast<TCCDeposito*>(BC[i])->IniciaGamma();
+		}
+		if (BC[i]->getTipoCC() == nmPipeToPlenumConnection && EngineBlock) {
+			TTipoValvula* val = dynamic_cast<TCCDeposito*>(BC[i])->getValvula();
+			if(val->getTypeOfValve() == nmDiscoRotativo){
+				dynamic_cast<TDiscoRotativo*>(val)->PutAngle0(Engine[0]->getTheta());
+			}
 		}
 	}
 

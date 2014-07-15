@@ -58,6 +58,10 @@ private:
 
 	int FValvula;
 
+	double FDCMultiplier;
+	double FShift;
+	double FDuration;
+
 public:
 
 	TDiscoRotativo(TDiscoRotativo *Origen, int valv);
@@ -76,6 +80,11 @@ public:
 	void GetCDin(double Time);
 
 	void GetCDout(double Time);
+
+	void PutAngle0(double val) {
+		FAngle0 = val - FShift;
+	}
+	;
 
 };
 
