@@ -141,6 +141,17 @@ void TTurbinaTwin::AsignaEntradaSalidaCC() {
 				(dynamic_cast<TCCDeposito *>(FCCSalida[0])->getValvula())
 				->TipodeRotor(nmRotFijo);
 		}
+		else if (FTipoTurbina == nmTurbineMap) {
+			dynamic_cast<TEstatorTurbina*>
+				(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())
+				->TipodeEstator(nmStMapa);
+			dynamic_cast<TEstatorTurbina*>
+				(dynamic_cast<TCCDeposito*>(FCCEntrada[1])->getValvula())
+				->TipodeEstator(nmStMapa);
+			dynamic_cast<TRotorTurbina*>
+				(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())
+				->TipodeRotor(nmRotMapa);
+		}
 		else {
 			dynamic_cast<TEstatorTurbina *>
 				(dynamic_cast<TCCDeposito *>(FCCEntrada[0])->getValvula())
@@ -169,7 +180,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 	double cpte[2],
 		cpts /* ,gammaent[2],gammasal,cvte[2],cvts,Rentrada[2],Rsalida */ ;
 	// double B,Cte_R,A;
-	double TempIsentSal;
+	double TempIsentSal[2];
 	double DeltaT;
 	double incrRelCin;
 	double TrabIsen;
@@ -193,81 +204,66 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 
 			// Calculo de las propiedades del gas a la salida
 
-			if (!FIsAcoustic) {
+			Landa = FCCSalida[0]->GetTuboExtremo(0).Landa;
+			Beta = FCCSalida[0]->GetTuboExtremo(0).Beta;
+			Entropia = FCCSalida[0]->GetTuboExtremo(0).Entropia;
 
-				Landa = FCCSalida[0]->GetTuboExtremo(0).Landa;
-				Beta = FCCSalida[0]->GetTuboExtremo(0).Beta;
-				Entropia = FCCSalida[0]->GetTuboExtremo(0).Entropia;
+			TransformaContorno(&Landa, &Beta, &Entropia, &FAsonidoSalida,
+				&FVelocidadSalida, &FPresionSalida, 1,
+				FCCSalida[0]->getGamma());
 
-				TransformaContorno(&Landa, &Beta, &Entropia, &FAsonidoSalida,
-					&FVelocidadSalida, &FPresionSalida, 1,
-					FCCSalida[0]->getGamma());
+			if (dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo()
+				== nmEntrante) {
+				SentidoSalida = 1;
+			}
+			else if (dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo()
+				== nmSaliente) {
+				SentidoSalida = -1;
+			}
+			else
+				SentidoSalida = 0; /* Flujo parado */
 
-				if (dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo()
+			FTempSalida = pow2(FAsonidoSalida * ARef) /
+				(FCCSalida[0]->getGamma() * FCCSalida[0]->getR());
+			FVelocidadSalida *= ARef * SentidoSalida;
+			FRhoSalida = 1e5 * FPresionSalida / FTempSalida / FCCSalida[0]
+				->getR();
+			FGastoSalida =
+				FRhoSalida * FVelocidadSalida*dynamic_cast<TCCDeposito*>
+				(FCCSalida[0])->getSeccionTubo();
+
+			// Calculo de las propiedades a la entrada
+			for (int i = 0; i < 2; i++) {
+
+				Landa = FCCEntrada[i]->GetTuboExtremo(0).Landa;
+				Beta = FCCEntrada[i]->GetTuboExtremo(0).Beta;
+				Entropia = FCCEntrada[i]->GetTuboExtremo(0).Entropia;
+
+				TransformaContorno(&Landa, &Beta, &Entropia,
+					&FAsonidoEntrada[i], &FVelocidadEntrada[i],
+					&FPresionEntrada[i], 1, FCCEntrada[i]->getGamma());
+
+				if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo()
 					== nmEntrante) {
-					SentidoSalida = 1;
+					SentidoEntrada[i] = 1;
 				}
-				else if (dynamic_cast<TCCDeposito*>(FCCSalida[0])
+				else if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])
 					->getSentidoFlujo() == nmSaliente) {
-					SentidoSalida = -1;
+					SentidoEntrada[i] = -1;
 				}
 				else
-					SentidoSalida = 0; /* Flujo parado */
+					SentidoEntrada[i] = 0; /* Flujo parado */
 
-				FTempSalida = pow2(FAsonidoSalida * ARef) /
-					(FCCSalida[0]->getGamma() * FCCSalida[0]->getR());
-				FVelocidadSalida *= ARef * SentidoSalida;
-				FRhoSalida = 1e5 * FPresionSalida / FTempSalida / FCCSalida[0]
+				FTempEntrada[i] = pow2(FAsonidoEntrada[i] * ARef) /
+					(FCCEntrada[i]->getGamma() * FCCEntrada[i]->getR());
+				FVelocidadEntrada[i] *= ARef * SentidoEntrada[i];
+				FRhoEntrada[i] =
+					1e5 * FPresionEntrada[i] / FTempEntrada[i] / FCCEntrada[i]
 					->getR();
-				FGastoSalida =
-					FRhoSalida * FVelocidadSalida*dynamic_cast<TCCDeposito*>
-					(FCCSalida[0])->getSeccionTubo();
-
-				// Calculo de las propiedades a la entrada
-				for (int i = 0; i < 2; i++) {
-
-					Landa = FCCEntrada[i]->GetTuboExtremo(0).Landa;
-					Beta = FCCEntrada[i]->GetTuboExtremo(0).Beta;
-					Entropia = FCCEntrada[i]->GetTuboExtremo(0).Entropia;
-
-					TransformaContorno(&Landa, &Beta, &Entropia,
-						&FAsonidoEntrada[i], &FVelocidadEntrada[i],
-						&FPresionEntrada[i], 1, FCCEntrada[i]->getGamma());
-
-					if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])
-						->getSentidoFlujo() == nmEntrante) {
-						SentidoEntrada[i] = 1;
-					}
-					else if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])
-						->getSentidoFlujo() == nmSaliente) {
-						SentidoEntrada[i] = -1;
-					}
-					else
-						SentidoEntrada[i] = 0; /* Flujo parado */
-
-					FTempEntrada[i] =
-						pow2(FAsonidoEntrada[i] * ARef) /
-						(FCCEntrada[i]->getGamma() * FCCEntrada[i]->getR());
-					FVelocidadEntrada[i] *= ARef * SentidoEntrada[i];
-					FRhoEntrada[i] =
-						1e5 * FPresionEntrada[i] / FTempEntrada[i] / FCCEntrada
-						[i]->getR();
-					FGastoEntrada[i] =
-						FRhoEntrada[i] * FVelocidadEntrada[i]
-						*dynamic_cast<TCCDeposito*>(FCCEntrada[i])
-						->getSeccionTubo();
-				}
-			}
-			else {
-				for (int i = 0; i < 2; i++) {
-					FTempEntrada[i] = FAcTurb->T3(i);
-					FPresionEntrada[i] = FAcTurb->P3(i);
-
-					FGastoEntrada[i] = FAcTurb->MassIn(i);
-				}
-
-				FTempSalida = FAcTurb->T4();
-				FPresionSalida = FAcTurb->P4();
+				FGastoEntrada[i] =
+					FRhoEntrada[i] * FVelocidadEntrada[i]
+					*dynamic_cast<TCCDeposito*>(FCCEntrada[i])
+					->getSeccionTubo();
 			}
 
 			if (FGastoEntrada[0] <= 0. && FGastoEntrada[1] > 0.) {
@@ -299,119 +295,78 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 
 			FRMezcla = 287;
 
-			if (!FThereIsHTM) {
-				for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 
-					FTemp0Entrada[i] =
-						FTempEntrada[i] + pow2(FVelocidadEntrada[i]) /
-						(2. * cpte[i]);
+				FTemp0Entrada[i] = FTempEntrada[i] + pow2(FVelocidadEntrada[i])
+					/ (2. * cpte[i]);
 
-					gam_te = cpte[i] / (cpte[i] - FRMezcla);
+				gam_te = cpte[i] / (cpte[i] - FRMezcla);
 
-					FPresion0Entrada[i] =
-						FPresionEntrada[i] * pow
-						(FTemp0Entrada[i] / FTempEntrada[i],
-						(gam_te / (gam_te - 1.0)));
+				FPresion0Entrada[i] =
+					FPresionEntrada[i] * pow(FTemp0Entrada[i] / FTempEntrada[i],
+					(gam_te / (gam_te - 1.0)));
+
+				FGastoCorregido[i] = FGastoEntrada[i] * sqrt(FTemp0Entrada[i])
+					/ FPresion0Entrada[0] / 0.1;
+				FRegimenCorregido[i] = FRegimen / sqrt(FTemp0Entrada[i]);
+
+				if (FCalculoEspecies == nmCalculoCompleto) {
+					cp_med[i] = CpTurbineComplete(FFraccionMasicaEspecie[0],
+						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+						(FTempEntrada[i] + FTempSalida) / 2.);
 				}
-			}
-			else {
-				for (int i = 0; i < 2; i++) {
-					FTempEntrada[i] = FTempEntrada[i] - FHTM->Turb_Heat_Flow()
-						/ cpte[i] / AbsoluteMass;
-					// comprobacion para pasos iniciales.
-					if (FTempEntrada[i] < FHTM->NodeTemperature(10))
-						FTempEntrada[i] = FHTM->NodeTemperature(10);
+				else {
+					cp_med[i] =
+						CpTurbineSimple((FTempEntrada[i] + FTempSalida) / 2.,
+						FFraccionMasicaEspecie[0]);
+				}
+				TempIsentSal[i] =
+					FTemp0Entrada[i] * pow(FPresionSalida / FPresion0Entrada[0],
+					(FRMezcla / cp_med[i]));
 
-					FVelocidadEntrada[i] =
-						FGastoEntrada[i] * FRMezcla * FTempEntrada[i] /
-						(FPresionEntrada[i] * 1e5 * FAcTurb->SIn(i));
-
-					FTemp0Entrada[i] =
-						FTempEntrada[i] + pow2(FVelocidadEntrada[i]) /
-						(2. * cpte[i]);
-					FPresion0Entrada[i] =
-						FPresionEntrada[i] * pow
-						(FTemp0Entrada[i] / FTempEntrada[i],
-						(cpte[i] / FRMezcla));
-
-					FGastoCorregido[i] =
-						FGastoEntrada[i] * sqrt(FTemp0Entrada[i])
-						/ FPresion0Entrada[i] / 0.1;
-					FRegimenCorregido[i] = FRegimen / sqrt(FTemp0Entrada[i]);
-
-					if (FCalculoEspecies == nmCalculoCompleto) {
-						cp_med[i] = CpTurbineComplete(FFraccionMasicaEspecie[0],
-							FFraccionMasicaEspecie[1],
-							FFraccionMasicaEspecie[2],
-							(FTempEntrada[i] + FTempSalida) / 2.);
-					}
-					else {
-						cp_med[i] =
-							CpTurbineSimple((FTempEntrada[i] + FTempSalida)
-							/ 2., FFraccionMasicaEspecie[0]);
-					}
-
-					TempIsentSal =
-						FTemp0Entrada[i] * pow
-						(FPresionSalida / FPresion0Entrada[i],
-						(FRMezcla / cp_med[i]));
-
-					if (FCalculoEspecies == nmCalculoCompleto) {
-						cp_med[i] = CpTurbineComplete(FFraccionMasicaEspecie[0],
-							FFraccionMasicaEspecie[1],
-							FFraccionMasicaEspecie[2],
-							(FTempEntrada[i] + TempIsentSal) / 2.);
-					}
-					else {
-						cp_med[i] =
-							CpTurbineSimple((FTempEntrada[i] + TempIsentSal)
-							/ 2., FFraccionMasicaEspecie[0]);
-					}
-
-					FEntalpia0Entrada[i] = cp_med[i] * FTemp0Entrada[i];
-					EntalEntr[i] = cp_med[i] * FTempEntrada[i];
-					FEntalpiaIsenSalida[i] = cp_med[i] * TempIsentSal;
-
-					FRelacionExpansion[i] =
-						FPresion0Entrada[i] / FPresionSalida;
-
-					// Calculo de la posicion de la turbina
-					if ((FEntalpia0Entrada[i] - FEntalpiaIsenSalida[i]) > 0.) {
-						FRelacionCinematica[i] =
-							FRegimen * Pi * FDiametroRodete / 60. / sqrt
-							(2 * (FEntalpia0Entrada[i] -
-							FEntalpiaIsenSalida[i]));
-					}
-					else {
-						FRelacionCinematica[i] = 0.;
-					}
+				if (FCalculoEspecies == nmCalculoCompleto) {
+					cp_med[i] = CpTurbineComplete(FFraccionMasicaEspecie[0],
+						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+						(FTempEntrada[i] + TempIsentSal[i]) / 2.);
+				}
+				else {
+					cp_med[i] =
+						CpTurbineSimple((FTempEntrada[i] + TempIsentSal[i])
+						/ 2., FFraccionMasicaEspecie[0]);
 				}
 
+				FEntalpia0Entrada[i] = cp_med[i] * FTemp0Entrada[i];
+				EntalEntr[i] = cp_med[i] * FTempEntrada[i];
+				FEntalpiaIsenSalida[i] = cp_med[i] * TempIsentSal[i];
+
+				FRelacionExpansion[i] = FPresion0Entrada[i] / FPresionSalida;
 			}
 
 			if (FTipoTurbina == nmTurbineMap) {
 				if (FRackIsControlled) {
 					FRack = FRackController->Output(FTime);
 				}
-				if (FThereIsHTM)
-					FMaxEfficiency = FMapa->MaxEfficiency(FRack);
-				for (int i = 0; i < 2; i++) {
-					if (FMapa->IsExtrapolated()) {
-						FMapa->InterpExtendedMap(FRegimenCorregido[i] / 60.,
-							FRelacionExpansion[i],
-						FRelacionCinematica[i], FRack);
-					}
-					else {
-						FMapa->CurrentEffectiveSection
-							(FRegimenCorregido[i] / 60., FRelacionExpansion[i],
-							FRack, (FTemperature + 273) / FTemp0Entrada[i]);
+				double MassAcum;
+				double RotorEF = 0;
 
-					}
+				for (int i = 0; i < 2; i++) {
+
+					FMapa->CurrentEffectiveSection(FRegimenCorregido[i] / 60.,
+						FRelacionExpansion[i], FRack,
+						(FTemperature + 273) / FTemp0Entrada[i]);
 
 					dynamic_cast<TEstatorTurbina*>
 						(dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getValvula()
-						)->PutAreaEff(FMapa->StatorEF()/2.);
+						)->PutAreaEff(FMapa->StatorEF() / 2.);
+
+					if (FGastoEntrada[i] > 0) {
+						RotorEF += FMapa->RotorEF() * FGastoEntrada[i];
+						MassAcum += FGastoEntrada[i];
+					}
+					FRendTurbina[i] = FMapa->EffTurb();
 				}
+				if (MassAcum > 0)
+					RotorEF /= MassAcum;
 				dynamic_cast<TRotorTurbina*>
 					(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())
 					->PutAreaEff(FMapa->RotorEF());
@@ -425,6 +380,16 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				0. && (FEntalpia0Entrada[1] - FEntalpiaIsenSalida[1]) >= 0.)) {
 
 				for (int i = 0; i < 2; i++) {
+
+					if ((FEntalpia0Entrada[i] - FEntalpiaIsenSalida[i]) > 0.) {
+						FRelacionCinematica[i] =
+							FRegimen * Pi * FDiametroRodete / 60. / sqrt
+							(2 * (FEntalpia0Entrada[i] -
+							FEntalpiaIsenSalida[i]));
+					}
+					else {
+						FRelacionCinematica[0] = 0.;
+					}
 
 					if (FCalRendTurbina == nmWatson) {
 						if (FRelacionCinematica[i] <=
@@ -470,6 +435,9 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 							FRendTurbina[i] =
 								FDatosTGV[FNumeroTurbinaTGV].Rendimiento[i];
 						}
+					}
+					else if (FCalRendTurbina == nmRendMapa) {
+
 					}
 					else {
 						std::cout <<
@@ -928,8 +896,11 @@ void TTurbinaTwin::ResultadosInstantTurb() {
 		if (FResInstantTurbina.Potencia)
 			FResInstantTurbina.PotenciaINS = FPotencia;
 		if (FResInstantTurbina.Rendimiento)
-			FResInstantTurbina.RendimientoINS =
-				FTrabajoFluido / FTrabajoIsenInstTotal;
+			if (FTrabajoIsenInstTotal == 0)
+				FResInstantTurbina.RendimientoINS = 0;
+			else
+				FResInstantTurbina.RendimientoINS =
+					FTrabajoFluido / FTrabajoIsenInstTotal;
 		if (FResInstantTurbina.RelaCinematica) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
 				FResInstantTurbina.RelaCinematicaINS[i] =
@@ -981,17 +952,17 @@ void TTurbinaTwin::ImprimeResultadosInstantTurb(stringstream& insoutput) {
 		}
 		if (FResInstantTurbina.GastoCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				insoutput << "\t" << FResInstantTurbina.GastoCorregidoINS;
+				insoutput << "\t" << FResInstantTurbina.GastoCorregidoINS[i];
 			}
 		}
 		if (FResInstantTurbina.RegimenCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				insoutput << "\t" << FResInstantTurbina.RegimenCorregidoINS;
+				insoutput << "\t" << FResInstantTurbina.RegimenCorregidoINS[i];
 			}
 		}
 		if (FResInstantTurbina.RelacionExpansion) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				insoutput << "\t" << FResInstantTurbina.RelacionExpansionINS;
+				insoutput << "\t" << FResInstantTurbina.RelacionExpansionINS[i];
 			}
 		}
 		// fclose(fich);

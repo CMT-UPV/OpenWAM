@@ -375,13 +375,12 @@ void TTurbina::LeeTurbina(char *FileWAM, fpos_t &filepos) {
 		fscanf(fich, "%lf ", &FDiametroRodete);
 		if (FTipoTurbina == nmTurbineMap) {
 
-			fscanf(fich, "%lf %lf %lf %lf ", &FDiametroRodeteOut,
-				&FDiametroTuerca, &FDiametroTurbinaIn, &FBladeHeight);
+			fscanf(fich, "%lf %lf %lf ", &FDiametroRodeteOut,
+				&FDiametroTuerca, &FDiametroTurbinaIn);
 			fscanf(fich, "%lf ", &AngCritico);
-			fscanf(fich, "%lf ", &Beta);
 			FMapa = new TTurbineMap();
 			FMapa->LoadTurbineMap(fich, FDiametroRodete, FDiametroRodeteOut,
-				FDiametroTuerca, FDiametroTurbinaIn, FBladeHeight, AngCritico);
+				FDiametroTuerca, FDiametroTurbinaIn, AngCritico);
 
 			fscanf(fich, "%d ", &numctrl);
 			for (int i = 0; i < numctrl; ++i) {
@@ -632,10 +631,8 @@ double TTurbina::CpTurbineComplete(double YO2, double YCO2, double YH2O,
 	return CpMezcla;
 }
 
-void TTurbina::PreprocessMap(double TinC) {
+void TTurbina::CalculateAdiabaticMap(double TinC) {
 	FMapa->CalculateAdiabaticEfficiency(FHTM, TinC);
-
-	FMapa->SearchMaximumEfficiency();
 }
 
 void TTurbina::AsignAcousticElements(TTubo **Pipe) {
