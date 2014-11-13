@@ -1176,8 +1176,8 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 					(FVolumen - FVolumen0);
 			}
 
-			if (FResMediosCilindro.CalorCombustion)
-				FResMediosCilindro.CalorCombustionSUM += FCalor.Liberado;
+			if (FResMediosCilindro.CalorCombustion && DeltaT > 0.)
+				//FResMediosCilindro.CalorCombustionSUM += FCalor.Liberado;
 			if (FResMediosCilindro.CalorCilindro)
 				FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro * DeltaT;
 			if (FResMediosCilindro.CalorCulata)

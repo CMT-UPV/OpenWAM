@@ -311,6 +311,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		if (FAnguloActual >= FDistribucion.AE && FAnguloAnterior <
 			FDistribucion.AE) {
 			FCicloCerrado = false;
+			FResMediosCilindro.CalorCombustionSUM = FCalor.LiberadoTotal;
 			FCalor.Liberado = 0.;
 			FCalor.LiberadoTotal = 0.;
 			FCalor.FQL = 0.;
