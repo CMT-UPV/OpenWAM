@@ -273,10 +273,12 @@ void TTable1D::IniciaMedias() {
 void TTable1D::ResultadosMediosController() {
 	try {
 
-		if (FResMediosCtrl.Output) {
+		if (FResMediosCtrl.Output && FResMediosCtrl.TiempoSUM > 0) {
 			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.OutputSUM = 0.;
-		}
+		}else{
+        	FResMediosCtrl.OutputMED = 0.;
+        }
 
 		FResMediosCtrl.TiempoSUM = 0;
 
