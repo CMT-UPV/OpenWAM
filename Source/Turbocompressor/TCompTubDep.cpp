@@ -83,9 +83,10 @@ void TCompTubDep::LeeCompresor(char *FileWAM, fpos_t &filepos) {
 			fscanf(fich, "%d %d %d %d %d", &InID, &OutID, &VolID, &RotID, &StaID);
 			FAcComp = new TAcousticCompressor(InID, VolID, OutID, RotID, StaID);
 		}
-		fscanf(fich, "%lf", &FDelay);
 
 #endif
+
+		fscanf(fich, "%lf", &FDelay);
 
 		fscanf(fich, "%d ", &format);
 		if (format == 0) {

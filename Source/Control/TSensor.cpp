@@ -40,6 +40,7 @@ TSensor::TSensor(int i) {
 	FNumeroSensor = i;
 	FInicia = false;
 	FPeriod = 0.;
+	FTime0 = 0.;
 }
 
 TSensor::~TSensor() {

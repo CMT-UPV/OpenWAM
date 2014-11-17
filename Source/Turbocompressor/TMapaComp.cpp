@@ -195,8 +195,8 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
 		FTempRef += 273.;
 		FPresionRef *= 1e5;
-		//	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
-		//			&FEffMultiplier);
+		fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
+				&FEffMultiplier);
 
 		std::cout << "Datos de Referencia:" << std::endl;
 		std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;

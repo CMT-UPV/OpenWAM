@@ -39,43 +39,63 @@
 class TAcousticTurbine {
 private:
 
-	TTubo *FInletPipe;
-	TTubo *FVolute;
+	std::vector<TTubo*> FInletPipe;
+	std::vector<TTubo*> FVolute;
 	TTubo *FOutletPipe;
 
-	int FInletPipeID;
-	int FVoluteID;
+	iVector FInletPipeID;
+	iVector FVoluteID;
 	int FOutletPipeID;
 
 public:
-	TAcousticTurbine(int InletPipeID, int VoluteID, int OutletPipeID);
+	TAcousticTurbine(iVector InletPipeID, iVector VoluteID, int OutletPipeID);
 
 	TAcousticTurbine();
 
 	~TAcousticTurbine();
 
+	double T3(int i);
+
 	double T3();
+
+	double T30(int i);
+
+	double P3(int i);
 
 	double P3();
 
-	double P30();
+	double P30(int i);
+
+	double ExpRatio(int i);
 
 	double ExpRatio();
+
+	double DiabEfficiency(int i);
 
 	double P4();
 
 	double T4();
 
-	double R(){return FInletPipe->GetRMezcla(0);};
+	double R(int i){return FInletPipe[i]->GetRMezcla(0);};
 
-	double SIn(){return FInletPipe->GetArea(0);};
+	double SIn(int i){return FInletPipe[i]->GetArea(0);};
 
-	double DIn(){return FInletPipe->GetDiametro(0);};
+	double DIn(int i){return FInletPipe[i]->GetDiametro(0);};
+
+	double DIn();
+
+	double DOut(){return FOutletPipe->GetDiametro(FOutletPipe->getNin() - 1);};
+
+	double SOut(){return FOutletPipe->GetArea(FOutletPipe->getNin() - 1);};
+
+	double MassIn(int i);
 
 	double MassIn();
 
-	void AsignInPipe(TTubo **Pipe) {
-		FInletPipe = Pipe[FInletPipeID - 1];
+	double MassOut();
+
+	void AsignInPipe(TTubo **Pipe,int i) {
+		FInletPipe[i] = Pipe[FInletPipeID[i] - 1];
 	};
 
 	void AsignOutPipe(TTubo **Pipe) {
