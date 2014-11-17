@@ -111,7 +111,7 @@ void TDiscoRotativo::LeeDatosIniciales(char *FileWAM, fpos_t &filepos,
 		FEngine = Engine;
 
 		fscanf(fich, "%lf ", &FDiametroRef);
-		//fscanf(fich, "%lf %lf %lf ", &FDCMultiplier, &FShift, &FDuration);
+		fscanf(fich, "%lf %lf %lf ", &FDCMultiplier, &FShift, &FDuration);
 
 		fscanf(fich, "%d ", &FNumeroPuntos);
 
@@ -193,7 +193,7 @@ void TDiscoRotativo::GetCDin(double Time) {
 			Angulo = DeltaA + FAngle0;
 		}
 	}
-	if (Angulo < 360.)
+	if (Angulo < 0.)
 		Angulo += 360.;
 	else
 		Angulo = Angulo - 360 * int(floor(Angulo / 360));
@@ -226,7 +226,7 @@ void TDiscoRotativo::GetCDout(double Time) {
 		}
 	}
 
-	if (Angulo < 360.)
+	if (Angulo < 0.)
 		Angulo += 360.;
 	else
 		Angulo = Angulo - 360 * int(floor(Angulo / 360));

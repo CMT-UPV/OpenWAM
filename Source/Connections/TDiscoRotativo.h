@@ -79,7 +79,7 @@ public:
 	void GetCDout(double Time);
 
 	void PutAngle0(double val) {
-		FAngle0 = val - FShift;
+		FAngle0 = val * FRelacionVelocidades - FShift;
 	}
 	;
 
