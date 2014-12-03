@@ -121,6 +121,8 @@ for (int j = 0; j<FNumCD; ++j) {
      fscanf(fich,"%lf ",&FDatosCDSalida[j]);
 }
 
+CalculateOpeningANDClose();
+
 fgetpos(fich, &filepos);
 fclose(fich);
 
@@ -197,4 +199,30 @@ inline double TLumbrera::CalculaApertura(double x)
 {
 return FAltura+FPosicionPMI-CalculaDistPMI(x);
 }
+
+void TLumbrera::CalculateOpeningANDClose(){
+	bool ang_found = false;
+	double ang0 = 0.;
+	double ang1 = 180.;
+	double apt0 = FAltura+FPosicionPMI-CalculaDistPMI(ang0);
+	double apt1 = FAltura+FPosicionPMI-CalculaDistPMI(ang1);
+	double ang,apt;
+	while(ang1-ang0 > 0.01){
+		ang = (ang1 + ang0) / 2.;
+		apt = FAltura + FPosicionPMI - CalculaDistPMI(ang);
+		if(apt > 0){
+			ang1 = ang;
+			apt1 = apt;
+		}else{
+			ang0 = ang;
+			apt0 = apt;
+		}
+	}
+	FAnguloApertura = ang;
+	FAnguloCierre = 360. - ang;
+
+}
+
+
+
 #pragma package(smart_init)
