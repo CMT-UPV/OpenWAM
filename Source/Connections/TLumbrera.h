@@ -72,6 +72,8 @@ Hermite_interp *fun_CDout;
 int FValvula;
 double FApertActual;
 
+void CalculateOpeningANDClose();
+
 public:
 
 double getAnguloApertura(){return FAnguloApertura;}; // Hector 2T

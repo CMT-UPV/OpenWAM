@@ -113,6 +113,7 @@ void TSensor::ReadSensor(char *FileWAM, fpos_t &filepos) {
 			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj <<
 				"no valido, sensor: " << FNumeroSensor << std::endl;
 		}
+		break;
 	default:
 		std::cout << "ERROR: Objeto " << obj << "no valido, sensor: " << FNumeroSensor << std::endl;
 	}

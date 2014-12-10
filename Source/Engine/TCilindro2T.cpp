@@ -49,6 +49,7 @@ TCilindro2T::TCilindro2T(TBloqueMotor *Engine, int nc, bool ThereIsEGR)
 	FCalor.Liberado = 0;
 
 	FAnguloRetrasoCombustion = 2.;
+	FPrimerInstanteCicloCerrado = false;
 	// FAngle4S2S = 360.;
 }
 

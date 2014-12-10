@@ -299,6 +299,7 @@ void TValvula4T::GetCDin(double Time) {
 	else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
+		if(XLv > 720) XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
@@ -338,6 +339,7 @@ void TValvula4T::GetCDout(double Time) {
 	else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
+		if(XLv > 720) XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
