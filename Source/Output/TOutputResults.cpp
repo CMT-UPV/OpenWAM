@@ -21,7 +21,7 @@ TOutputResults::~TOutputResults() {
 
 }
 
-void TOutputResults::ReadAverageResults(char* FileWAM, fpos_t& filepos, TTubo** Pipe,
+void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos, TTubo** Pipe,
 	bool EngineBlock, TBloqueMotor** Engine, TDeposito **Plenum, TEjeTurbogrupo** Axis,
 	TCompresor** Compressor, TTurbina** Turbine, TCondicionContorno** BC, TDPF** DPF,
 	TCCCompresorVolumetrico** Root, TVenturi** Venturi, TSensor** Sensor,
@@ -528,7 +528,7 @@ void TOutputResults::CopyInstananeousResultsToFile(int mode) {
 	}
 }
 
-void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
+void TOutputResults::ReadInstantaneousResults(const char* FileWAM, fpos_t &filepos,
 	TBloqueMotor** Engine, TDeposito** Plenum, TTubo** Pipe, TVenturi** Venturi,
 	TCondicionContorno** BC, TDPF** DPF, TEjeTurbogrupo** Turbo, TCompresor** Compressor,
 	TTurbina** Turbine, TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
@@ -815,7 +815,7 @@ void TOutputResults::ReadInstantaneousResults(char* FileWAM, fpos_t &filepos,
 
 }
 
-void TOutputResults::ReadSpaceTimeResults(char* FileWAM, fpos_t &filepos, TTubo** Pipe,
+void TOutputResults::ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos, TTubo** Pipe,
 	TBloqueMotor** Engine, TDeposito **Plenum) {
 
 	// Numero de elementos en los que se grafica

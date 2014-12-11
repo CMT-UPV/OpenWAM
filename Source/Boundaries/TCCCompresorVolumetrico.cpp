@@ -73,7 +73,7 @@ if(FComposicion!=NULL) delete[] FComposicion;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::LeeCCCompresorVol(char *FileWAM,fpos_t &filepos,int NumberOfPipes,
+void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,
                               TTubo **Pipe,bool HayMotor)
 {
 try
@@ -294,7 +294,7 @@ throw Exception(N.Message);
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::ReadAverageResultsCV(char *FileWAM,fpos_t &filepos)
+void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,fpos_t &filepos)
 {
 try
 {
@@ -471,7 +471,7 @@ throw Exception(N.Message);
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::LeeResultadosInstantCV(char *FileWAM,fpos_t &filepos)
+void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,fpos_t &filepos)
 {
 int nvars,var;
 

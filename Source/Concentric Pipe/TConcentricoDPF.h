@@ -46,7 +46,7 @@ public:
 
   ~TConcentricoDPF();
 
-  void LeeDatosTuboConcentrico(char *FileWAM,fpos_t &filepos,TTubo **Tubo,TDPF **DPF);
+  void LeeDatosTuboConcentrico(const char *FileWAM,fpos_t &filepos,TTubo **Tubo,TDPF **DPF);
 
   void CalculaTemperaturaPared(TBloqueMotor **Motor,double theta,TCondicionContorno **CC);
 

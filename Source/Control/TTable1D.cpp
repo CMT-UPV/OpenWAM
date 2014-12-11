@@ -58,7 +58,7 @@ double TTable1D::Output(double Time) {
 	return fOutput;
 }
 
-void TTable1D::LeeController(char *FileWAM, fpos_t &filepos) {
+void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 	int xnum, tip, fromfile;
 
@@ -130,7 +130,7 @@ void TTable1D::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 }
 
-void TTable1D::LeeResultadosMedControlador(char *FileWAM, fpos_t &filepos) {
+void TTable1D::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -159,7 +159,7 @@ void TTable1D::LeeResultadosMedControlador(char *FileWAM, fpos_t &filepos) {
 	}
 }
 
-void TTable1D::LeeResultadosInsControlador(char *FileWAM, fpos_t &filepos) {
+void TTable1D::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 

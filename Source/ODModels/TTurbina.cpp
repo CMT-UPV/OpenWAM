@@ -348,7 +348,7 @@ void TTurbina::TransformaContorno(double *L, double *B, double *E, double *a,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbina::LeeTurbina(char *FileWAM, fpos_t &filepos) {
+void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int rdturb, tipoturb, ctrl, numctrl, ac;
 		double AngCritico,Beta;

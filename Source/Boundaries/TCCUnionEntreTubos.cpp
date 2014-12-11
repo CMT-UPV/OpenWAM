@@ -76,7 +76,7 @@ TCCUnionEntreTubos::~TCCUnionEntreTubos() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCUnionEntreTubos::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes,
+void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
 	TTubo **Pipe,int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;

@@ -506,7 +506,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbinaTwin::ReadAverageResultsTurb(char *FileWAM, fpos_t &filepos) {
+void TTurbinaTwin::ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -787,7 +787,7 @@ void TTurbinaTwin::CalculaResultadosMediosTurb() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbinaTwin::LeeResultadosInstantTurb(char *FileWAM, fpos_t &filepos) {
+void TTurbinaTwin::LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filepos) {
 	int nvars, var;
 
 	try {

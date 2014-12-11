@@ -123,13 +123,13 @@ FTiempoActual = valor;
 
   void CalculaCondicionContorno(double Time);
 
-  void LeeUEDepositos(char *FileWAM,fpos_t &filepos,bool Independent);
+  void LeeUEDepositos(const char *FileWAM,fpos_t &filepos,bool Independent);
 
   void AsignaDepositos(TDeposito **Plenum);
 
   void CalculaCoeficientesDescarga(double Angulo,double mfcomb=0.,double RegimenMotor=0.);
 
-  void LeeResultadosInstantUED(char *FileWAM,fpos_t &filepos);
+  void LeeResultadosInstantUED(const char *FileWAM,fpos_t &filepos);
 
   void CabeceraResultadosInstantUED(stringstream& insoutput);
 
@@ -137,7 +137,7 @@ FTiempoActual = valor;
 
   void ResultadosInstantUED();
 
-  void ReadAverageResultsUED(char *FileWAM,fpos_t &filepos);
+  void ReadAverageResultsUED(const char *FileWAM,fpos_t &filepos);
 
   void HeaderAverageResultsUED(stringstream& medoutput);
 

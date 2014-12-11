@@ -133,7 +133,7 @@ TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) : TTipoValvula(nmValvula
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
 	TBloqueMotor *Engine) {
 	try {
 		int ControlRegimen, NumLev = 0, NumCD = 0;

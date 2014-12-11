@@ -66,7 +66,7 @@ if(FComposicion!=NULL) delete[] FComposicion;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCExtremoInyeccion::ReadBoundaryData(char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF)
+void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF)
 {
 try
 {

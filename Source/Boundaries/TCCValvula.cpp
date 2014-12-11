@@ -107,7 +107,7 @@ throw Exception(N.Message);
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCilindro::LeeCCValvula(char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe)
+void TCCCilindro::LeeCCValvula(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe)
 {
 try
 {

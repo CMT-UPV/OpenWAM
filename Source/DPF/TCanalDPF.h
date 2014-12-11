@@ -350,9 +350,9 @@ public:
 
   ~TCanalDPF();
 
-  void LeeDatosGeneralesCanal(char *FileWAM,fpos_t &filepos,int NodoIzquierdo,int NodoDerecho);
+  void LeeDatosGeneralesCanal(const char *FileWAM,fpos_t &filepos,int NodoIzquierdo,int NodoDerecho);
 
-  void LeeDatosGeometricosCanal(char *FileWAM,fpos_t &filepos);
+  void LeeDatosGeometricosCanal(const char *FileWAM,fpos_t &filepos);
 
   void IniciaVariablesFundamentalesCanalDPF();
 

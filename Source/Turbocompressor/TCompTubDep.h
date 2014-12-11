@@ -135,7 +135,7 @@ TCompTubDep(int i,nmTipoCalculoEspecies SpeciesModel,int numeroespecies,
 
 ~TCompTubDep();
 
-void LeeCompresor(char *FileWAM,fpos_t &filepos);
+void LeeCompresor(const char *FileWAM,fpos_t &filepos);
 
 void CondicionCompresor(double Theta,stTuboExtremo *TuboExtremo,double AcumulatedTime,int TuboCalculado);
 

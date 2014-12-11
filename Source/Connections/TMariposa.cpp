@@ -75,7 +75,7 @@ FLevControlled=Origen->FLevControlled;
 }
 
 
-void TMariposa::LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
+void TMariposa::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
 	bool HayMotor,TBloqueMotor *Engine)
 {
 int ctrl,prm;

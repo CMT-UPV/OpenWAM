@@ -114,12 +114,12 @@ TLamina();
 
     double getLevantamiento(){return FLev;};
 
-void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
+void LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
 		TBloqueMotor *Engine);
 
 void CalculaCD(double deltaP,double deltaT);
 
-void LeeDatosGraficas(char *FileWAM,fpos_t &filepos);
+void LeeDatosGraficas(const char *FileWAM,fpos_t &filepos);
 
 void CabeceraGraficaINS(stringstream& insoutput,int lam);
 

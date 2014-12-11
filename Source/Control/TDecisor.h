@@ -77,7 +77,7 @@ public:
 
 	/*! Read the data of the controller */
 	void LeeController(
-		char *FileWAM,					//!< File name of the input data
+		const char *FileWAM,					//!< File name of the input data
 		fpos_t &filepos					//!< Position within the file to read
 		);
 
@@ -89,13 +89,13 @@ public:
 
 	/*! Read the average results selected */
 	void LeeResultadosMedControlador(
-		char *FileWAM,					//!< File name of the input data
+		const char *FileWAM,					//!< File name of the input data
 		fpos_t &filepos					//!< Position within the file to read
 		);
 
 	/*! Read the instantenous results selected */
 	void LeeResultadosInsControlador(
-		char *FileWAM,					//!< File name of the input data
+		const char *FileWAM,					//!< File name of the input data
 		fpos_t &filepos					//!< Position within the file to read
 		);
 

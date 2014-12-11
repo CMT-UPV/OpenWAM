@@ -86,7 +86,7 @@ TLumbrera(double Biela,double Carrera);
 
 ~TLumbrera();
 
-void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,TBloqueMotor *Engine);
+void LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,TBloqueMotor *Engine);
 
 void CalculaCD(double Angulo);
 

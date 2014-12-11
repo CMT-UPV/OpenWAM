@@ -71,7 +71,7 @@ TCCCompresor::~TCCCompresor() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCCompresor::LeeNumeroCompresor(char *FileWAM, fpos_t &filepos) {
+void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 	try {
 
 		FILE *fich = fopen(FileWAM, "r");
@@ -329,7 +329,7 @@ void TCCCompresor::TuboCalculandose(int TuboActual) {
 	}
 }
 
-void TCCCompresor::ReadCompressorData(TCompresor **Compressor, char *FileWAM, fpos_t &filepos,
+void TCCCompresor::ReadCompressorData(TCompresor **Compressor, const char *FileWAM, fpos_t &filepos,
 	double AmbientTemperature, double AmbientPressure) {
 
 	int tipoentrada;

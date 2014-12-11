@@ -346,9 +346,11 @@ void TOpenWAM::CleanLabels() {
 
 	FILE *fetmp;
 
-	strcpy(fileinput, "tmp.wam");
+	//strcpy(fileinput.c_str(), "tmp.wam");
 
-	fetmp = fopen(fileinput, "w");
+	fileinput = AnsiString("tmp.wam");
+
+	fetmp = fopen(fileinput.c_str(), "w");
 
 	int cc, cc2;
 	bool label;
@@ -411,7 +413,7 @@ void TOpenWAM::ReadInputData(char* FileName) {
 
 	CleanLabels();
 
-	FileInput = fopen(fileinput, "r");
+	FileInput = fopen(fileinput.c_str(), "r");
 
 #ifdef gestorcom
 	if (GestorWAM != NULL)
@@ -476,12 +478,12 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	for (int i = 0; i < NumberOfConnections; i++) {
 		if (BC[i]->getTipoCC() == nmCompresor) {
 			dynamic_cast<TCCCompresor*>(BC[i])->ReadCompressorData(Compressor,
-					fileinput, fileposition, AmbientTemperature,
+					fileinput.c_str(), fileposition, AmbientTemperature,
 					AmbientPressure);
 		}
 	}
 
-	FileInput = fopen(fileinput, "r");
+	FileInput = fopen(fileinput.c_str(), "r");
 	fsetpos(FileInput, &fileposition);
 
 	int dll = 0;
@@ -499,7 +501,7 @@ void TOpenWAM::ReadInputData(char* FileName) {
 #endif
 
 	fclose(FileInput);
-	if (remove(fileinput) != 0)
+	if (remove(fileinput.c_str()) != 0)
 		perror("WARNING: Error deleting file\n");
 	else
 		puts("INFO: File successfully deleted\n");
@@ -512,38 +514,38 @@ void TOpenWAM::ReadDataDLL() {
 		fclose(FileInput);
 
 		if (Engine != NULL) {
-			EXTERN->LeeFicherosDLL(fileinput, filepos, controlvalv, nematlab,
+			EXTERN->LeeFicherosDLL(fileinput.c_str(), filepos, controlvalv, nematlab,
 					Engine[0]->getGeometria().NCilin,
 					NumberOfExternalCalculatedValves, CountVGT, SpeciesNumber,
 					NumTCCPerdidaPresion);
 		} else {
-			EXTERN->LeeFicherosDLL(fileinput, filepos, controlvalv, nematlab, 0,
+			EXTERN->LeeFicherosDLL(fileinput.c_str(), filepos, controlvalv, nematlab, 0,
 					NumberOfExternalCalculatedValves, CountVGT, SpeciesNumber,
 					NumTCCPerdidaPresion);
 		}
 		if (Pipe != NULL)
-			EXTERN->Lee_Sens_Tubos(fileinput, filepos, Pipe, SpeciesModel,
+			EXTERN->Lee_Sens_Tubos(fileinput.c_str(), filepos, Pipe, SpeciesModel,
 					ThereIsEGR, ThereIsFuel);
 		if (Plenum != NULL)
-			EXTERN->Lee_Sens_Dep(fileinput, filepos, Plenum, SpeciesModel,
+			EXTERN->Lee_Sens_Dep(fileinput.c_str(), filepos, Plenum, SpeciesModel,
 					ThereIsEGR, ThereIsFuel);
 		if (Axis != NULL)
-			EXTERN->Lee_Sens_TG(fileinput, filepos, Axis);
+			EXTERN->Lee_Sens_TG(fileinput.c_str(), filepos, Axis);
 		if (Turbine != NULL)
-			EXTERN->Lee_Sens_Turbina(fileinput, filepos, Turbine);
+			EXTERN->Lee_Sens_Turbina(fileinput.c_str(), filepos, Turbine);
 		if (Engine != NULL)
-			EXTERN->Lee_Sens_Cil(fileinput, filepos, Engine);
+			EXTERN->Lee_Sens_Cil(fileinput.c_str(), filepos, Engine);
 		if (Venturi != NULL)
-			EXTERN->Lee_Sens_Vent(fileinput, filepos, Venturi);
+			EXTERN->Lee_Sens_Vent(fileinput.c_str(), filepos, Venturi);
 		if (Engine != NULL)
-			EXTERN->Lee_Sens_Motor(fileinput, filepos, Theta,
+			EXTERN->Lee_Sens_Motor(fileinput.c_str(), filepos, Theta,
 					Engine[0]->getRegimen(), AcumulatedTime);
 		if (NumberOfConectionsBetweenPlenums != 0)
-			EXTERN->Lee_Sens_UED(fileinput, filepos, BC);
-		EXTERN->Lectura_Datos_Adicionales(fileinput, filepos);
+			EXTERN->Lee_Sens_UED(fileinput.c_str(), filepos, BC);
+		EXTERN->Lectura_Datos_Adicionales(fileinput.c_str(), filepos);
 		EXTERN->IniciaEntradaDLL();
 
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 
 	} catch (Exception & N) {
@@ -760,6 +762,7 @@ void TOpenWAM::ReadGeneralData() {
 		CompAtmosfera = new double[SpeciesNumber - IntEGR];
 		for (int i = 0; i < SpeciesNumber - 1; i++) {
 			fscanf(FileInput, "%lf ", &CompAtmosfera[i]);
+
 			fracciontotal += CompAtmosfera[i];
 		}
 		if (ThereIsEGR)
@@ -792,10 +795,10 @@ void TOpenWAM::ReadEngine()
 			Engine = new TBloqueMotor*[1];
 			Engine[0] = new TBloqueMotor(AmbientPressure, AmbientTemperature,
 					SpeciesModel, SpeciesNumber, GammaCalculation, ThereIsEGR);
-			Engine[0]->LeeMotor(fileinput, filepos, SimulationType,
+			Engine[0]->LeeMotor(fileinput.c_str(), filepos, SimulationType,
 					CyclesWithoutThemalInertia, EngineType,
 					AtmosphericComposition);
-			FileInput = fopen(fileinput, "r");
+			FileInput = fopen(fileinput.c_str(), "r");
 			fsetpos(FileInput, &filepos);
 		}
 
@@ -822,19 +825,19 @@ void TOpenWAM::ReadPipes() {
 		for (int i = 0; i < NumberOfPipes; i++) {
 			Pipe[i] = new TTubo(SpeciesNumber, i, SimulationDuration, Engine,
 					SpeciesModel, GammaCalculation, ThereIsEGR);
-			Pipe[i]->LeeDatosGeneralesTubo(fileinput, filepos);
+			Pipe[i]->LeeDatosGeneralesTubo(fileinput.c_str(), filepos);
 			if (EngineBlock) {
-				Pipe[i]->LeeDatosGeometricosTubo(fileinput, filepos,
+				Pipe[i]->LeeDatosGeometricosTubo(fileinput.c_str(), filepos,
 						Engine[0]->getRegimen(), tipomallado, Engine);
 			} else {
-				Pipe[i]->LeeDatosGeometricosTubo(fileinput, filepos, -1.,
+				Pipe[i]->LeeDatosGeometricosTubo(fileinput.c_str(), filepos, -1.,
 						tipomallado, Engine);
 			}
 			printf("INFO: Pipe n. %d - N. of cells %d - Mesh size = %g m.\n",
 					i + 1, Pipe[i]->getNin(), Pipe[i]->getMallado());
 		}
 
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 	} catch (Exception & N) {
 		std::cout << "ERROR: ReadPipes" << std::endl;
@@ -857,11 +860,11 @@ void TOpenWAM::ReadDPF() {
 
 		for (int i = 0; i < NumberOfDPF; i++) {
 			DPF[i] = new TDPF(i + 1, Engine, SpeciesNumber);
-			DPF[i]->LeeDatosDPF(fileinput, filepos, SpeciesModel,
+			DPF[i]->LeeDatosDPF(fileinput.c_str(), filepos, SpeciesModel,
 					GammaCalculation, ThereIsEGR, Engine);
 		}
 
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 #endif
 	} catch (Exception & N) {
@@ -888,24 +891,24 @@ void TOpenWAM::ReadConcentric() {
 			if (numducts == 2) {
 				Concentric[i] = new TConcentricoTubos(i);
 #ifdef ParticulateFilter
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput, filepos,
+				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
 						Pipe, DPF);
 #else
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput, filepos,
+				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
 						Pipe, NULL);
 #endif
 			}
 			else if (numducts == 1) {
 				Concentric[i] = new TConcentricoDPF(i);
 #ifdef ParticulateFilter
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput, filepos,
+				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
 						Pipe, DPF);
 #else
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput, filepos,
+				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
 						Pipe, NULL);
 #endif
 			}
-			FileInput = fopen(fileinput, "r");
+			FileInput = fopen(fileinput.c_str(), "r");
 			fsetpos(FileInput, &filepos);
 		}
 #endif
@@ -999,13 +1002,13 @@ void TOpenWAM::ReadValves() {
 			fgetpos(FileInput, &filepos);
 			fclose(FileInput);
 			if (!EngineBlock) {
-				TypeOfValve[i]->LeeDatosIniciales(fileinput, filepos, val,
+				TypeOfValve[i]->LeeDatosIniciales(fileinput.c_str(), filepos, val,
 						EngineBlock, NULL);
 			} else {
-				TypeOfValve[i]->LeeDatosIniciales(fileinput, filepos, val,
+				TypeOfValve[i]->LeeDatosIniciales(fileinput.c_str(), filepos, val,
 						EngineBlock, Engine[0]);
 			}
-			FileInput = fopen(fileinput, "r");
+			FileInput = fopen(fileinput.c_str(), "r");
 			fsetpos(FileInput, &filepos);
 		}
 
@@ -1042,7 +1045,7 @@ void TOpenWAM::ReadPlenums() {
 		}
 		if (NumberOfPlenums != 0) {
 			for (int i = 0; i < NumberOfPlenums; ++i) {
-				FileInput = fopen(fileinput, "r");
+				FileInput = fopen(fileinput.c_str(), "r");
 				fsetpos(FileInput, &filepos);
 				fscanf(FileInput, "%d ", &tipoDep);
 				fgetpos(FileInput, &filepos);
@@ -1051,18 +1054,18 @@ void TOpenWAM::ReadPlenums() {
 				case 0:
 					Plenum[i] = new TDepVolCte(i, SpeciesModel, SpeciesNumber,
 							GammaCalculation, ThereIsEGR);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput, filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
 					break;
 				case 1:
 					Plenum[i] = new TDepVolVariable(i, ncv, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput, filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
 					dynamic_cast<TDepVolVariable*>(Plenum[i])->LeeDatosDepVolVariable(
-							fileinput, filepos, EngineBlock);
+							fileinput.c_str(), filepos, EngineBlock);
 					ncv++;
 					break;
 				case 2:
-					FileInput = fopen(fileinput, "r");
+					FileInput = fopen(fileinput.c_str(), "r");
 					fsetpos(FileInput, &filepos);
 					fscanf(FileInput, "%d ", &numeroturbina);
 					Plenum[i] = new TTurbinaSimple(i, SpeciesModel,
@@ -1071,14 +1074,14 @@ void TOpenWAM::ReadPlenums() {
 							numeroturbina);
 					fgetpos(FileInput, &filepos);
 					fclose(FileInput);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput, filepos);
-					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(fileinput,
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
+					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(fileinput.c_str(),
 							filepos);
 					dynamic_cast<TTurbina*>(Plenum[i])->IniciaMedias();
 					NumberOfTurbines = NumberOfTurbines + 1;
 					break;
 				case 3:
-					FileInput = fopen(fileinput, "r");
+					FileInput = fopen(fileinput.c_str(), "r");
 					fsetpos(FileInput, &filepos);
 					fscanf(FileInput, "%d ", &numeroturbina);
 					Plenum[i] = new TTurbinaTwin(i, SpeciesModel, SpeciesNumber,
@@ -1087,14 +1090,14 @@ void TOpenWAM::ReadPlenums() {
 							numeroturbina);
 					fgetpos(FileInput, &filepos);
 					fclose(FileInput);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput, filepos);
-					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(fileinput,
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
+					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(fileinput.c_str(),
 							filepos);
 					dynamic_cast<TTurbina*>(Plenum[i])->IniciaMedias();
 					NumberOfTurbines = NumberOfTurbines + 1;
 					break;
 				case 4:
-					FileInput = fopen(fileinput, "r");
+					FileInput = fopen(fileinput.c_str(), "r");
 					fsetpos(FileInput, &filepos);
 					fscanf(FileInput, "%d ", &numeroventuri);
 					Plenum[i] = new TVenturi(i, SpeciesModel, SpeciesNumber,
@@ -1104,9 +1107,9 @@ void TOpenWAM::ReadPlenums() {
 					fgetpos(FileInput, &filepos);
 					fclose(FileInput);
 					NumberOfVenturis = NumberOfVenturis + 1;
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput, filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
 					dynamic_cast<TVenturi*>(Plenum[i])->LeeDatosVenturi(
-							fileinput, filepos);
+							fileinput.c_str(), filepos);
 					break;
 				case 5:
 					NumberOfDirectionalJunctions = NumberOfDirectionalJunctions
@@ -1114,15 +1117,15 @@ void TOpenWAM::ReadPlenums() {
 					Plenum[i] = new TUnionDireccional(i,
 							NumberOfDirectionalJunctions, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput, filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
 					dynamic_cast<TUnionDireccional*>(Plenum[i])->LeeDatosUnionDireccional(
-							fileinput, filepos);
+							fileinput.c_str(), filepos);
 					break;
 				}
 
 			}
 		}
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 
 		if (NumberOfTurbines > 0)
@@ -1169,7 +1172,7 @@ void TOpenWAM::ReadCompressors() {
 		fclose(FileInput);
 
 		for (int j = 0; j < NumberOfCompressors; j++) {
-			FileInput = fopen(fileinput, "r");
+			FileInput = fopen(fileinput.c_str(), "r");
 			fsetpos(FileInput, &filepos);
 			fscanf(FileInput, "%d ", &TipoCompresor);
 			if (TipoCompresor == 0) {
@@ -1189,23 +1192,23 @@ void TOpenWAM::ReadCompressors() {
 				Compressor[j] = new TCompTubDep(j, SpeciesModel, SpeciesNumber,
 						GammaCalculation, ThereIsEGR);
 				(dynamic_cast<TCompTubDep*>(Compressor[j]))->LeeCompresor(
-						fileinput, filepos);
+						fileinput.c_str(), filepos);
 				break;
 			case 1: /* Entre Depositos */
 				Compressor[j] = new TCompresorDep(j, SpeciesModel,
 						SpeciesNumber, GammaCalculation, ThereIsEGR);
 				(dynamic_cast<TCompresorDep*>(Compressor[j]))->LeeCompresor(
-						fileinput, filepos);
+						fileinput.c_str(), filepos);
 				break;
 			case 2: /* Entre Tubos */
 				Compressor[j] = new TCompTubos(j, SpeciesModel, SpeciesNumber,
 						GammaCalculation, ThereIsEGR);
 				(dynamic_cast<TCompTubos*>(Compressor[j]))->LeeCompresor(
-						fileinput, filepos);
+						fileinput.c_str(), filepos);
 				break;
 			}
 		}
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 	} catch (Exception & N) {
 		std::cout << "ERROR: ReadCompressors " << std::endl;
@@ -1246,7 +1249,7 @@ void TOpenWAM::ReadConnections() {
 		fclose(FileInput);
 		if (NumberOfConnections != 0) {
 			for (int i = 0; i <= NumberOfConnections - 1; ++i) {
-				FileInput = fopen(fileinput, "r");
+				FileInput = fopen(fileinput.c_str(), "r");
 				fsetpos(FileInput, &filepos);
 				fscanf(FileInput, "%d ", &TipoCC);
 				fgetpos(FileInput, &filepos);
@@ -1258,10 +1261,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCDescargaExtremoAbierto++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					BC[i]->AsignAmbientConditions(AmbientTemperature,
@@ -1273,10 +1276,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCDescargaExtremoAbierto++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1287,10 +1290,10 @@ void TOpenWAM::ReadConnections() {
 					NumTCCDescargaExtremoAbierto++;
 					nematlab++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1312,10 +1315,10 @@ void TOpenWAM::ReadConnections() {
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 					NumTCCPulso++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1325,10 +1328,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCUnionEntreTubos++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1338,10 +1341,10 @@ void TOpenWAM::ReadConnections() {
 					NumTCCCilindro++;
 					NumberOfIntakeValves++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1351,10 +1354,10 @@ void TOpenWAM::ReadConnections() {
 					NumTCCCilindro++;
 					NumberOfExhaustValves++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1364,10 +1367,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCPerdidaPresion++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1377,10 +1380,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCPerdidaPresion++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1390,10 +1393,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCDeposito++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1404,7 +1407,7 @@ void TOpenWAM::ReadConnections() {
 					BC[i]->AsignaTubos(NumberOfPipes, Pipe);
 					break;
 				case 13:
-					FileInput = fopen(fileinput, "r");
+					FileInput = fopen(fileinput.c_str(), "r");
 					fsetpos(FileInput, &filepos);
 					fscanf(FileInput, "%d ", &numerocv);
 					fgetpos(FileInput, &filepos);
@@ -1416,7 +1419,7 @@ void TOpenWAM::ReadConnections() {
 							numerocv);
 					NumberOfVolumetricCompressors++;
 					dynamic_cast<TCCCompresorVolumetrico*>(BC[i])->LeeCCCompresorVol(
-							fileinput, filepos, NumberOfPipes, Pipe,
+							fileinput.c_str(), filepos, NumberOfPipes, Pipe,
 							EngineBlock);
 					dynamic_cast<TCCCompresorVolumetrico*>(BC[i])->IniciaMedias();
 					break;
@@ -1426,10 +1429,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumberOfInjectionEnds++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1439,10 +1442,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCEntradaCompresor++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1452,24 +1455,24 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumberOfConectionsBetweenPlenums++;
 					dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->LeeUEDepositos(
-							fileinput, filepos, Independent);
+							fileinput.c_str(), filepos, Independent);
 					break;
 				case 17:
 					BC[i] = new TCCCompresor(nmCompresor, i, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 					NumberOfCompressorsConnections++;
 					dynamic_cast<TCCCompresor*>(BC[i])->LeeNumeroCompresor(
-							fileinput, filepos);
+							fileinput.c_str(), filepos);
 					break;
 				case 18:
 					BC[i] = new TCCPreVble(nmPresionVble, i, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 					NumTCCPreVble++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1477,10 +1480,10 @@ void TOpenWAM::ReadConnections() {
 					BC[i] = new TCFDConnection(nmCFDConnection, i, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1490,10 +1493,10 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCExternalConnection++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, DPF);
 #else
-					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
 							Pipe, NumberOfDPF, NULL);
 #endif
 					break;
@@ -1502,7 +1505,7 @@ void TOpenWAM::ReadConnections() {
 						|| BC[i]->getTipoCC() == nmExhaustValve
 						|| BC[i]->getTipoCC() == nmPipeToPlenumConnection
 						|| BC[i]->getTipoCC() == nmUnionEntreDepositos) {
-					FileInput = fopen(fileinput, "r");
+					FileInput = fopen(fileinput.c_str(), "r");
 					fsetpos(FileInput, &filepos);
 					fscanf(FileInput, "%d ", &quevalv);
 					fgetpos(FileInput, &filepos);
@@ -1547,7 +1550,7 @@ void TOpenWAM::ReadConnections() {
 
 			}
 		}
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 
 		if (NumberOfIntakeValves > 0) {
@@ -1769,13 +1772,13 @@ void TOpenWAM::ReadTurbochargerAxis() {
 							Engine[0]->getGeometria().NCilin);
 				} else
 					Axis[i] = new TEjeTurbogrupo(i, 0);
-				Axis[i]->ReadTurbochargerAxis(fileinput, filepos, Compressor,
+				Axis[i]->ReadTurbochargerAxis(fileinput.c_str(), filepos, Compressor,
 						Turbine);
 				Axis[i]->IniciaMedias();
 			}
 		}
 
-		FileInput = fopen(fileinput, "r");
+		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 	} catch (Exception & N) {
 		std::cout << " ERROR : ReadTurbochargerAxis " << std::endl;
@@ -1796,11 +1799,11 @@ void TOpenWAM::ReadSensors() {
 		Sensor = new TSensor*[NumberOfSensors];
 		for (int i = 0; i < NumberOfSensors; i++) {
 			Sensor[i] = new TSensor(i);
-			Sensor[i]->ReadSensor(fileinput, filepos);
+			Sensor[i]->ReadSensor(fileinput.c_str(), filepos);
 			Sensor[i]->IniciaMedias();
 		}
 	}
-	FileInput = fopen(fileinput, "r");
+	FileInput = fopen(fileinput.c_str(), "r");
 	fsetpos(FileInput, &filepos);
 }
 
@@ -1829,9 +1832,9 @@ void TOpenWAM::ReadControllers() {
 			}
 			fgetpos(FileInput, &filepos);
 			fclose(FileInput);
-			Controller[i]->LeeController(fileinput, filepos);
+			Controller[i]->LeeController(fileinput.c_str(), filepos);
 			Controller[i]->IniciaMedias();
-			FileInput = fopen(fileinput, "r");
+			FileInput = fopen(fileinput.c_str(), "r");
 			fsetpos(FileInput, &filepos);
 		}
 	}
@@ -1847,26 +1850,26 @@ void TOpenWAM::ReadOutput(char* FileName) {
 
 	// OUTPUT ->
 #ifdef ParticulateFilter
-	Output->ReadAverageResults(fileinput, filepos, Pipe, EngineBlock, Engine,
+	Output->ReadAverageResults(fileinput.c_str(), filepos, Pipe, EngineBlock, Engine,
 			Plenum, Axis, Compressor, Turbine, BC, DPF, VolumetricCompressor,
 			Venturi, Sensor, Controller, SimulationDuration, FileName);
 
-	Output->ReadInstantaneousResults(fileinput, filepos, Engine, Plenum, Pipe,
+	Output->ReadInstantaneousResults(fileinput.c_str(), filepos, Engine, Plenum, Pipe,
 			Venturi, BC, DPF, Axis, Compressor, Turbine, VolumetricCompressor,
 			BCWasteGate, NumberOfWasteGates, BCReedValve, NumberOfReedValves,
 			Sensor, Controller, FileName);
 #else
-	Output->ReadAverageResults(fileinput, filepos, Pipe, EngineBlock, Engine,
+	Output->ReadAverageResults(fileinput.c_str(), filepos, Pipe, EngineBlock, Engine,
 			Plenum, Axis, Compressor, Turbine, BC, NULL, VolumetricCompressor,
 			Venturi, Sensor, Controller, SimulationDuration, FileName);
 
-	Output->ReadInstantaneousResults(fileinput, filepos, Engine, Plenum, Pipe,
+	Output->ReadInstantaneousResults(fileinput.c_str(), filepos, Engine, Plenum, Pipe,
 			Venturi, BC, NULL, Axis, Compressor, Turbine, VolumetricCompressor,
 			BCWasteGate, NumberOfWasteGates, BCReedValve, NumberOfReedValves,
 			Sensor, Controller, FileName);
 #endif
 
-	Output->ReadSpaceTimeResults(fileinput, filepos, Pipe, Engine, Plenum);
+	Output->ReadSpaceTimeResults(fileinput.c_str(), filepos, Pipe, Engine, Plenum);
 
 	FileInput = fopen(FileName, "r");
 	fsetpos(FileInput, &filepos);

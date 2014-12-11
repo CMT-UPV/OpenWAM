@@ -87,7 +87,7 @@ public:
 
 	/*! Read from the input data the sensor information*/
 	void ReadSensor(
-		char *FileWAM,					//!< Filename of the input data
+		const char *FileWAM,					//!< Filename of the input data
 		fpos_t &filepos					//!< Specify a position within the input file.
 		);
 
@@ -112,13 +112,13 @@ public:
 
 	/*! Read the average results selected for the sensor*/
 	void LeeResultadosMedSensor(
-		char *FileWAM,					//!< Filename of the input data
+		const char *FileWAM,					//!< Filename of the input data
 		fpos_t &filepos					//!< Specify a position within the input file.
 		);
 
 	/*! Read de instantaneous results selected for the sensor*/
 	void LeeResultadosInsSensor(
-		char *FileWAM,					//!< Filename of the input data
+		const char *FileWAM,					//!< Filename of the input data
 		fpos_t &filepos					//!< Specify a position within the input file.
 		);
 	

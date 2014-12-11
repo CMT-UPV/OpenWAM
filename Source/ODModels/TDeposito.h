@@ -266,7 +266,7 @@ public:
 
 	virtual void ActualizaPropiedades(double TimeCalculo) = 0;
 
-	void ReadInstantaneousResultsDep(char *FileWAM, fpos_t &filepos);
+	void ReadInstantaneousResultsDep(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderInstantaneousResultsDep(std::stringstream& insoutput, stEspecies *DatosEspecies);
 
@@ -274,7 +274,7 @@ public:
 
 	void ResultadosInstantaneosDep();
 
-	void ReadAverageResultsDep(char *FileWAM, fpos_t &filepos);
+	void ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderAverageResultsDep(std::stringstream& medoutput, stEspecies *DatosEspecies);
 
@@ -294,7 +294,7 @@ public:
 
 	void AsignacionCC(TCondicionContorno **BC, int numCC);
 
-	void LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos);
+	void LeeDatosGeneralesDepositos(const char *FileWAM, fpos_t &filepos);
 
 	void ActualizaTiempo(double TiempoActual);
 

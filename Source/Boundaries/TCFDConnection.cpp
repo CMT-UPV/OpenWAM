@@ -24,7 +24,7 @@ TCFDConnection::~TCFDConnection() {
 
 }
 
-void TCFDConnection::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes,
+void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
 	TTubo **Pipe,int nDPF, TDPF **DPF) {
 
 	FTuboExtremo = new stTuboExtremo[1];

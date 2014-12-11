@@ -111,7 +111,7 @@ void TCCExternalConnectionVol::CalculaCondicionContorno(double Time) {
 
 }
 
-void TCCExternalConnectionVol::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes,
+void TCCExternalConnectionVol::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
 	TTubo **Pipe,int nDPF, TDPF **DPF) {
 
 	int i = 0;

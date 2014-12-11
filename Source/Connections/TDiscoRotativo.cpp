@@ -98,7 +98,7 @@ TDiscoRotativo::TDiscoRotativo(TDiscoRotativo *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDiscoRotativo::LeeDatosIniciales(char *FileWAM, fpos_t &filepos,
+void TDiscoRotativo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
 		int ControlRegimen;

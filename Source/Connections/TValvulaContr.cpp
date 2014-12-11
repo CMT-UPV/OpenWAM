@@ -73,7 +73,7 @@ FNumeroOrden=Origen->FNumeroOrden;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TValvulaContr::LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
+void TValvulaContr::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
 	bool HayMotor,TBloqueMotor *Engine)
 {
 try

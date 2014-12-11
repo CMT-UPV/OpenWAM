@@ -82,7 +82,7 @@ FGraficasWG=false;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TWasteGate::LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
+void TWasteGate::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
 	bool HayMotor,TBloqueMotor *Engine)
 {
 try
@@ -233,7 +233,7 @@ if(FX<0){
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TWasteGate::LeeDatosGraficas(char *FileWAM,fpos_t &filepos)
+void TWasteGate::LeeDatosGraficas(const char *FileWAM,fpos_t &filepos)
 {
 try
 {

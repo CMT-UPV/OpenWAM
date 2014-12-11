@@ -55,17 +55,17 @@ public:
 
 	double Output(double Time);
 
-	void LeeController(char *FileWAM, fpos_t &filepos);
+	void LeeController(const char *FileWAM, fpos_t &filepos);
 
 	void AsignaObjetos(TSensor **Sensor, TController **Controller);
 
 	/*! Read the average results selected*/
-	void LeeResultadosMedControlador(char *FileWAM,		//!< Input data filename
+	void LeeResultadosMedControlador(const char *FileWAM,		//!< Input data filename
 			fpos_t &filepos				//!< Position within the input file
 			);
 
 	/*! Read the instantaneous results selected*/
-	void LeeResultadosInsControlador(char *FileWAM,		//!< Input data filename
+	void LeeResultadosInsControlador(const char *FileWAM,		//!< Input data filename
 			fpos_t &filepos				//!< Position within the input file
 			);
 

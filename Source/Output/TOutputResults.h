@@ -168,7 +168,7 @@ public:
 
 	double GetFControlAngle1(){return FControlAngle1;};
 
-	void ReadAverageResults(char* FileWAM, fpos_t& filepos, TTubo** Pipe, bool EngineBlock,
+	void ReadAverageResults(const char* FileWAM, fpos_t& filepos, TTubo** Pipe, bool EngineBlock,
 		TBloqueMotor** Engine, TDeposito **Plenum, TEjeTurbogrupo** Axis, TCompresor** Compressor,
 		TTurbina** Turbine, TCondicionContorno** BC, TDPF** DPF, TCCCompresorVolumetrico** Root,
 		TVenturi** Venturi, TSensor** Sensor, TController** Controller, int TotalCycles,
@@ -182,14 +182,14 @@ public:
 
 	void CopyInstananeousResultsToFile(int mode);
 
-	void ReadInstantaneousResults(char* FileWAM, fpos_t &filepos, TBloqueMotor** Engine,
+	void ReadInstantaneousResults(const char* FileWAM, fpos_t &filepos, TBloqueMotor** Engine,
 		TDeposito** Plenum, TTubo** Pipe, TVenturi** Venturi, TCondicionContorno** BC,
 		TDPF** DPF, TEjeTurbogrupo** Turbo, TCompresor** Compressor, TTurbina** Turbine,
 		TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
 		int NumberOfWasteGates, TCondicionContorno** BCReedValve, int NumberOfReedValves,
 		TSensor** Sensor, TController** Controller, char* ModelName);
 
-	void ReadSpaceTimeResults(char* FileWAM, fpos_t &filepos, TTubo** Pipe, TBloqueMotor** Engine,
+	void ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos, TTubo** Pipe, TBloqueMotor** Engine,
 		TDeposito **Plenum);
 
 	void DoSpaceTimeFiles(int SpeciesNumber);

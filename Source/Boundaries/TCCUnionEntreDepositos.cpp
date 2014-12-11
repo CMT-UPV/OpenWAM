@@ -92,7 +92,7 @@ FValvula=NULL;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::LeeUEDepositos(char *FileWAM,fpos_t &filepos,bool Independent)
+void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM,fpos_t &filepos,bool Independent)
 {
 try
 {
@@ -655,7 +655,7 @@ throw Exception(N.Message.c_str());
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::LeeResultadosInstantUED(char *FileWAM,fpos_t &filepos)
+void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,fpos_t &filepos)
 {
 int nvars,var;
 try
@@ -751,7 +751,7 @@ throw Exception(N.Message.c_str());
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::ReadAverageResultsUED(char *FileWAM,fpos_t &filepos)
+void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,fpos_t &filepos)
 {
 int nvars,var;
 try

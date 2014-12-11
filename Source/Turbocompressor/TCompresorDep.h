@@ -79,7 +79,7 @@ public:
 
   ~TCompresorDep();
 
-  void LeeCompresor(char *FileWAM,fpos_t &filepos);
+  void LeeCompresor(const char *FileWAM,fpos_t &filepos);
 
   void CalculaGasto(double TrabajoInsTurbina,double TiempoActual);
 

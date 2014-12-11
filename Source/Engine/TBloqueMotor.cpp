@@ -98,7 +98,7 @@ TBloqueMotor::~TBloqueMotor() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
+void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
 	int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition) {
 	try {
 		double daux;
@@ -120,9 +120,10 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		aux == 0 ? FACT = false : FACT = true;
 		if (FACT) {
 			fscanf(fich, "%lf ", &FMixtureProcessCte);
+			cout << FMixtureProcessCte << endl;
 			if (!FHayEGR) {
 				std::cout << "WARNING: If the combustion is calculated by ACT and the engine" << std::endl;
-				std::cout << "         has EGR, you must select the opiton 'To calculate" << std::endl;
+				std::cout << "         has EGR, you must select the option 'To calculate" << std::endl;
 				std::cout << "         EGR transport, in the other case, the results" << std::endl;
 				std::cout << "         provided by ACT won't be correct" << std::endl;
 			}
@@ -586,7 +587,7 @@ void TBloqueMotor::IniciaAnguloCalculo() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TBloqueMotor::ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos) {
+void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, Tipovar;
 
