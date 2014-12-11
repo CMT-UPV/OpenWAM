@@ -143,7 +143,7 @@ FGraficasLam=false;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TLamina::LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool
+void TLamina::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool
 	HayMotor,TBloqueMotor *Engine)
 {
 try
@@ -485,7 +485,7 @@ FCDVolTub*=FSectionRatio;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TLamina::LeeDatosGraficas(char *FileWAM,fpos_t &filepos)
+void TLamina::LeeDatosGraficas(const char *FileWAM,fpos_t &filepos)
 {
 try
 {

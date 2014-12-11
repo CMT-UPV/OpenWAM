@@ -425,12 +425,12 @@ public:
 
 	~TBloqueMotor();
 
-	void LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
+	void LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
 		int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition);
 
 	void IniciaAnguloCalculo();
 
-	void ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos);
+	void ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderAverageResultsBloqueMotor(std::stringstream& medoutput);
 

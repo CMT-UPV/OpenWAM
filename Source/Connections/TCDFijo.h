@@ -60,7 +60,7 @@ TCDFijo();
 
 ~TCDFijo();
 
-void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,TBloqueMotor *Engine);
+void LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,TBloqueMotor *Engine);
 
 void CalculaCD();
 };

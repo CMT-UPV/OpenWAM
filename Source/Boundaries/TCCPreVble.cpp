@@ -67,7 +67,7 @@ TCCPreVble::~TCCPreVble() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCPreVble::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
+void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
 	int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;

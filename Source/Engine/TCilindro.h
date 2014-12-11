@@ -513,7 +513,7 @@ public:
 
 	virtual void ActualizaPropiedades(double TiempoActual) = 0;
 
-	void ReadAverageResultsCilindro(char *FileWAM, fpos_t &filepos);
+	void ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderAverageResultsCilindro(std::stringstream& medoutput, stEspecies *DatosEspecies);
 
@@ -523,7 +523,7 @@ public:
 
 	void CalculaResultadosMediosCilindro();
 
-	void ReadInstantaneousResultsCilindro(char *FileWAM, fpos_t &filepos);
+	void ReadInstantaneousResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput, stEspecies *DatosEspecies);
 

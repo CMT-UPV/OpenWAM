@@ -93,14 +93,14 @@ TWasteGate();
     TTubo* getTuboAdm(){return FTuboAdm;};
     double getDist(){return FDist;};
 
-void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
+void LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
 	TBloqueMotor *Engine);
 
 void CalculoNodoAdm(TTubo **Pipe);
 
 void CalculaCD(double Padm,double PTubo,double PDeposito,double deltaT);
 
-void LeeDatosGraficas(char *FileWAM,fpos_t &filepos);
+void LeeDatosGraficas(const char *FileWAM,fpos_t &filepos);
 
 void CabeceraGraficaINS(stringstream& insoutput,int lam);
 

@@ -66,7 +66,7 @@ TCompTubDep::~TCompTubDep() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCompTubDep::LeeCompresor(char *FileWAM, fpos_t &filepos) {
+void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 	try {
 
 		int format, ac;

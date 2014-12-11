@@ -164,7 +164,8 @@ private:
 	// !< Pointers to input and output files.
 	FILE *fc; // !< Pointers to input and output files.
 
-	char fileinput[8];
+	//char fileinput[8];
+	AnsiString fileinput;
 
 	TBloqueMotor** Engine;
 	TCompresor** Compressor;

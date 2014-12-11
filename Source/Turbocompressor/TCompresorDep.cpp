@@ -55,7 +55,7 @@ TCompresorDep::~TCompresorDep() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCompresorDep::LeeCompresor(char *FileWAM, fpos_t &filepos) {
+void TCompresorDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 	int modelo;
 	try {
 		FILE *fich = fopen(FileWAM, "r");

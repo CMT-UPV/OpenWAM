@@ -359,32 +359,32 @@ public:
 	// void LeeFicherosDLL(FILE *fich,int controlvalv,int nematlab,
 	// int ncilin,int nunmat,int CountVGT);
 
-	void LeeFicherosDLL(char *FileWAM, fpos_t &filepos, int controlvalv, int nematlab, int ncilin,
+	void LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv, int nematlab, int ncilin,
 		int nunmat, int CountVGT, int numespecies,int NumeroPerdidasPresion);
 
 	// Funciones para la lectura de sensores
-	void Lee_Sens_Tubos(char *FileWAM, fpos_t &filepos, TTubo **Pipe,
+	void Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo **Pipe,
 		nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
 		bool HayCombustible);
 
-	void Lee_Sens_Dep(char *FileWAM, fpos_t &filepos, TDeposito **Plenum,
+	void Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposito **Plenum,
 		nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
 		bool HayCombustible);
 
-	void Lee_Sens_TG(char *FileWAM, fpos_t &filepos, TEjeTurbogrupo **Axis);
+	void Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbogrupo **Axis);
 
-	void Lee_Sens_Turbina(char *FileWAM, fpos_t &filepos, TTurbina **Turbine);
+	void Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos, TTurbina **Turbine);
 
-	void Lee_Sens_Cil(char *FileWAM, fpos_t &filepos, TBloqueMotor **Engine);
+	void Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos, TBloqueMotor **Engine);
 
-	void Lee_Sens_Vent(char *FileWAM, fpos_t &filepos, TVenturi **Venturi);
+	void Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVenturi **Venturi);
 
-	void Lee_Sens_Motor(char *FileWAM, fpos_t &filepos, double CrankAngle, double ene,
+	void Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double CrankAngle, double ene,
 		double AcumulatedTime);
 
-	void Lee_Sens_UED(char *FileWAM, fpos_t &filepos, TCondicionContorno **BC);
+	void Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondicionContorno **BC);
 
-	void Lectura_Datos_Adicionales(char *FileWAM, fpos_t &filepos);
+	void Lectura_Datos_Adicionales(const char *FileWAM, fpos_t &filepos);
 
 	void IniciaEntradaDLL();
 
@@ -423,7 +423,7 @@ public:
 
 	void ImprimeGraficosInstantaneas(stringstream& insoutput);
 
-	void ObtenerRutaTrabajo(char *origin);
+	void ObtenerRutaTrabajo(const char *origin);
 
 };
 

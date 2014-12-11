@@ -72,7 +72,7 @@ FCDVbl=FCDEInicial;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TRotorTurbina::LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
+void TRotorTurbina::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
 	bool HayMotor,TBloqueMotor *Engine)
 {
 try

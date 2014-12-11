@@ -59,7 +59,7 @@ public:
 	~TController();
 
 	/*! Read the information of the controller*/
-	virtual void LeeController(char *FileWAM,			//!< Input data filename
+	virtual void LeeController(const char *FileWAM,			//!< Input data filename
 			fpos_t &filepos			//!< Position to read within the input file
 			)=0;
 
@@ -73,12 +73,12 @@ public:
 			)=0;
 
 	/*! Read the average results selected*/
-	virtual void LeeResultadosMedControlador(char *FileWAM,	//!< Input data filename
+	virtual void LeeResultadosMedControlador(const char *FileWAM,	//!< Input data filename
 			fpos_t &filepos			//!< Position to read within the input file
 			)=0;
 
 	/*! Read the instantanous results selected*/
-	virtual void LeeResultadosInsControlador(char *FileWAM,	//!< Input data filename
+	virtual void LeeResultadosInsControlador(const char *FileWAM,	//!< Input data filename
 			fpos_t &filepos			//!< Position to read within the input file
 			)=0;
 

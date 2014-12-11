@@ -59,7 +59,7 @@ TDepVolVariable::~TDepVolVariable()
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDepVolVariable::LeeDatosDepVolVariable(char *FileWAM,fpos_t &filepos,bool HayMotor)
+void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,fpos_t &filepos,bool HayMotor)
 {
 try
 {

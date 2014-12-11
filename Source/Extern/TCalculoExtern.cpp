@@ -412,7 +412,7 @@ TControlFuel* TCalculoExtern::GetFuel()
 //------------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCalculoExtern::LeeFicherosDLL(char *FileWAM,fpos_t &filepos,int controlvalv,int nematlab,
+void TCalculoExtern::LeeFicherosDLL(const char *FileWAM,fpos_t &filepos,int controlvalv,int nematlab,
 		int ncilin,int nunmat,int CountVGT,int numespecies,int NumeroPerdidasPresion)
 {
 try
@@ -536,7 +536,7 @@ catch(Exception &N)
 //---------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
+void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM,fpos_t &filepos,TTubo **Pipe,
                      nmTipoCalculoEspecies SpeciesModel,bool ThereIsEGR,bool HayCombustible)
 {
    try
@@ -836,7 +836,7 @@ void TCalculoExtern::Lee_Sens_Tubos(char *FileWAM,fpos_t &filepos,TTubo **Pipe,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plenum,
+void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM,fpos_t &filepos,TDeposito **Plenum,
                         nmTipoCalculoEspecies SpeciesModel,bool ThereIsEGR,bool HayCombustible)
 {
    try
@@ -1106,7 +1106,7 @@ void TCalculoExtern::Lee_Sens_Dep(char *FileWAM,fpos_t &filepos,TDeposito **Plen
 //----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_TG(char *FileWAM,fpos_t &filepos,TEjeTurbogrupo **Axis)
+void TCalculoExtern::Lee_Sens_TG(const char *FileWAM,fpos_t &filepos,TEjeTurbogrupo **Axis)
 {
    try
    {
@@ -1160,7 +1160,7 @@ void TCalculoExtern::Lee_Sens_TG(char *FileWAM,fpos_t &filepos,TEjeTurbogrupo **
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_Turbina(char *FileWAM,fpos_t &filepos,TTurbina **Turbine)
+void TCalculoExtern::Lee_Sens_Turbina(const char *FileWAM,fpos_t &filepos,TTurbina **Turbine)
 {
    try
    {
@@ -1221,7 +1221,7 @@ void TCalculoExtern::Lee_Sens_Turbina(char *FileWAM,fpos_t &filepos,TTurbina **T
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_Cil(char *FileWAM,fpos_t &filepos,TBloqueMotor **Engine)
+void TCalculoExtern::Lee_Sens_Cil(const char *FileWAM,fpos_t &filepos,TBloqueMotor **Engine)
 {
    try
    {
@@ -1297,7 +1297,7 @@ void TCalculoExtern::Lee_Sens_Cil(char *FileWAM,fpos_t &filepos,TBloqueMotor **E
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_Vent(char *FileWAM,fpos_t &filepos,TVenturi **Venturi)
+void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM,fpos_t &filepos,TVenturi **Venturi)
 {
    try
    {
@@ -1404,7 +1404,7 @@ prgar=prent/pow(1+Venturi[v]->getgamma3()*pow(dynamic_cast<TCCDeposito *>(Ventur
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_Motor(char *FileWAM,fpos_t &filepos,double CrankAngle,
+void TCalculoExtern::Lee_Sens_Motor(const char *FileWAM,fpos_t &filepos,double CrankAngle,
                                     double ene,double AcumulatedTime)
 {
    try
@@ -1472,7 +1472,7 @@ void TCalculoExtern::Lee_Sens_Motor(char *FileWAM,fpos_t &filepos,double CrankAn
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-void TCalculoExtern::Lee_Sens_UED(char *FileWAM,fpos_t &filepos,TCondicionContorno **BC)
+void TCalculoExtern::Lee_Sens_UED(const char *FileWAM,fpos_t &filepos,TCondicionContorno **BC)
 {
    try
    {
@@ -1524,7 +1524,7 @@ void TCalculoExtern::Lee_Sens_UED(char *FileWAM,fpos_t &filepos,TCondicionContor
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-void TCalculoExtern::Lectura_Datos_Adicionales(char *FileWAM,fpos_t &filepos)
+void TCalculoExtern::Lectura_Datos_Adicionales(const char *FileWAM,fpos_t &filepos)
 {
    try
    {
@@ -2301,7 +2301,7 @@ void TCalculoExtern::ImprimeGraficosInstantaneas(stringstream& insoutput)
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-void TCalculoExtern::ObtenerRutaTrabajo(char *origin)
+void TCalculoExtern::ObtenerRutaTrabajo(const char *origin)
 {
 try
 {

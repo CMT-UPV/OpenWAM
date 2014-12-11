@@ -126,7 +126,7 @@ public:
 
   ~TConcentrico();
 
-  virtual void LeeDatosTuboConcentrico(char *FileWAM,fpos_t &filepos,TTubo **Tubo,TDPF **DPF)=0;
+  virtual void LeeDatosTuboConcentrico(const char *FileWAM,fpos_t &filepos,TTubo **Tubo,TDPF **DPF)=0;
 
   virtual void CalculaTemperaturaPared(TBloqueMotor **Motor,double theta,TCondicionContorno **CC)=0;
 

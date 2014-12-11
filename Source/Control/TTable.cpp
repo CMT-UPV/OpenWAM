@@ -54,7 +54,7 @@ double TTable::Output(double Time)
 }
 
 
-void TTable::LeeController(char *FileWAM,fpos_t &filepos)
+void TTable::LeeController(const char *FileWAM,fpos_t &filepos)
 {
 
 int xnum,ynum;
@@ -99,7 +99,7 @@ FSensor.push_back(Sensor[FSensorID[0]-1]);
 
 }
 
-void TTable::LeeResultadosMedControlador(char *FileWAM,fpos_t &filepos)
+void TTable::LeeResultadosMedControlador(const char *FileWAM,fpos_t &filepos)
 {
 try
 {
@@ -134,7 +134,7 @@ throw Exception(N.Message);
 }
 
 
-void TTable::LeeResultadosInsControlador(char *FileWAM,fpos_t &filepos)
+void TTable::LeeResultadosInsControlador(const char *FileWAM,fpos_t &filepos)
 {
 try
 {

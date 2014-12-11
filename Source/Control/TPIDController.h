@@ -102,7 +102,7 @@ public:
 
 	/*! Read the PID data */
 	void LeeController(
-		char *FileWAM,			//!< Input data filename
+		const char *FileWAM,			//!< Input data filename
 		fpos_t &filepos			//!< Position within the input file
 		);
 
@@ -114,13 +114,13 @@ public:
 
 	/*! Read the average results selected*/
 	void LeeResultadosMedControlador(
-		char *FileWAM,				//!< Input data filename
+		const char *FileWAM,				//!< Input data filename
 		fpos_t &filepos				//!< Position within the input file
 		);
 
 	/*! Read the instantaneous results selected*/
 	void LeeResultadosInsControlador(
-		char *FileWAM,				//!< Input data filename
+		const char *FileWAM,				//!< Input data filename
 		fpos_t &filepos				//!< Position within the input file
 		);
 

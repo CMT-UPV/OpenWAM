@@ -153,7 +153,7 @@ public:
 
 	~TCCDeposito();
 
-	void ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes,
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
 			TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void AsignaDeposito(TDeposito **Plenum);

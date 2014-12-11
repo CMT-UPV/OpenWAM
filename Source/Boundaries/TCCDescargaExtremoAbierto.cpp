@@ -109,7 +109,7 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes,
+void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
 	TTubo **Pipe,int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;

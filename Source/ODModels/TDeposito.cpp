@@ -151,7 +151,7 @@ TDeposito::~TDeposito() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TDeposito::LeeDatosGeneralesDepositos(char *FileWAM, fpos_t &filepos) {
+void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM, fpos_t &filepos) {
 	try {
 		double fracciontotal = 0.;
 
@@ -816,7 +816,7 @@ void TDeposito::ResultadosMediosDep() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TDeposito::ReadInstantaneousResultsDep(char *FileWAM, fpos_t &filepos) {
+void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM, fpos_t &filepos) {
 	int nvars, var;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -864,7 +864,7 @@ void TDeposito::ReadInstantaneousResultsDep(char *FileWAM, fpos_t &filepos) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TDeposito::ReadAverageResultsDep(char *FileWAM, fpos_t &filepos) {
+void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
 	int nvars, var;
 	try {
 		FILE *fich = fopen(FileWAM, "r");

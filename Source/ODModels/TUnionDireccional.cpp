@@ -88,7 +88,7 @@ TUnionDireccional::~TUnionDireccional() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TUnionDireccional::LeeDatosUnionDireccional(char *FileWAM, fpos_t &filepos) {
+void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int numid; // Dato para Wamer
 

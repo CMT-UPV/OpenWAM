@@ -77,7 +77,7 @@ if(FNumeroTubo!=NULL) delete[] FNumeroTubo;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCPerdidadePresion::ReadBoundaryData(char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF)
+void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF)
 {
 try
 {

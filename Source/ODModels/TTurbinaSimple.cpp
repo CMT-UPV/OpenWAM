@@ -514,7 +514,7 @@ void TTurbinaSimple::ImprimeResultadosMediosPantalla() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbinaSimple::ReadAverageResultsTurb(char *FileWAM, fpos_t &filepos) {
+void TTurbinaSimple::ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -795,7 +795,7 @@ void TTurbinaSimple::CalculaResultadosMediosTurb() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTurbinaSimple::LeeResultadosInstantTurb(char *FileWAM, fpos_t &filepos) {
+void TTurbinaSimple::LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filepos) {
 	int nvars, var;
 
 	try {

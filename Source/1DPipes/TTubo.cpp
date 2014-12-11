@@ -533,7 +533,7 @@ TTubo::~TTubo() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::LeeDatosGeneralesTubo(char *FileWAM, fpos_t &filepos) {
+void TTubo::LeeDatosGeneralesTubo(const char *FileWAM, fpos_t &filepos) {
 #ifdef usetry
 	try {
 #endif
@@ -686,7 +686,7 @@ void TTubo::LeeDatosGeneralesTubo(char *FileWAM, fpos_t &filepos) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::LeeDatosGeometricosTubo(char *FileWAM, fpos_t &filepos, double ene,
+void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos, double ene,
 	int tipomallado, TBloqueMotor **Engine) {
 	double EspesorPrin;
 	int EsPrincipal, refrigerante, EsFluida;
@@ -2665,7 +2665,7 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::ReadAverageResultsTubo(char *FileWAM, fpos_t &filepos,
+void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 	bool HayMotor) {
 	int NumVars, TipoVar;
 #ifdef usetry
@@ -2918,7 +2918,7 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput)const {
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-void TTubo::ReadInstantaneousResultsTubo(char *FileWAM, fpos_t &filepos,
+void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 	bool HayMotor) {
 	int NumVars, TipoVar;
 #ifdef usetry

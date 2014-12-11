@@ -1016,14 +1016,14 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 	/*!Comment  */
 	void 	LeeDatosGeneralesTubo
 			(
-			char*FileWAM, 						//!< Comment
+			const char*FileWAM, 						//!< Comment
 			fpos_t&filepos 						//!< Comment
 			);
 
 	/*!Comment  */
 	void    LeeDatosGeometricosTubo
 			(
-			  char*           FileWAM,          //!< Comment
+			  const char*           FileWAM,          //!< Comment
 			  fpos_t&         filepos,          //!< Comment
 			  double          ene,              //!< Comment
 			  int             tipomallado,      //!< Comment
@@ -1061,7 +1061,7 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 	/*!Comment  */
 	void    ReadAverageResultsTubo
 			(
-			  char*     FileWAM,                //!< Comment
+			  const char*     FileWAM,                //!< Comment
 			  fpos_t&   filepos,                //!< Comment
 			  bool      HayMotor                //!< Comment
 			);
@@ -1081,7 +1081,7 @@ valor==0 ? FConcentrico=false:FConcentrico=true;
 	/*!Comment  */
 	void    ReadInstantaneousResultsTubo
 			(
-			  char*     FileWAM,                //!< Comment
+			  const char*     FileWAM,                //!< Comment
 			  fpos_t&   filepos,                //!< Comment
 			  bool      HayMotor                //!< Comment
 			);

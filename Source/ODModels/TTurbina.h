@@ -204,11 +204,11 @@ public:
 
 	void ActualizaPropiedades(double TimeCalculo);
 
-	void LeeTurbina(char *FileWAM, fpos_t &filepos);
+	void LeeTurbina(const char *FileWAM, fpos_t &filepos);
 
 	void AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo, int sentido);
 
-	virtual void ReadAverageResultsTurb(char *FileWAM, fpos_t &filepos) = 0;
+	virtual void ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos) = 0;
 
 	virtual void CabeceraResultadosMedTurb(stringstream& medoutput) = 0;
 
@@ -218,7 +218,7 @@ public:
 
 	virtual void AcumulaMedias(double Tiempo) = 0;
 
-	virtual void LeeResultadosInstantTurb(char *FileWAM, fpos_t &filepos) = 0;
+	virtual void LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filepos) = 0;
 
 	virtual void CabeceraResultadosInstantTurb(stringstream& insoutput) = 0;
 

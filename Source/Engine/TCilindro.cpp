@@ -677,7 +677,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::ReadAverageResultsCilindro(char *FileWAM, fpos_t &filepos) {
+void TCilindro::ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int Tipovar;
 
@@ -1392,7 +1392,7 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::ReadInstantaneousResultsCilindro(char *FileWAM,
+void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
 		int nvars, var;

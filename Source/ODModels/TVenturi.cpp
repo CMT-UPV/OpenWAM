@@ -84,7 +84,7 @@ TVenturi::~TVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::LeeDatosVenturi(char *FileWAM, fpos_t &filepos) {
+void TVenturi::LeeDatosVenturi(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int numid; // dato para Wamer
 		FILE *fich = fopen(FileWAM, "r");
@@ -378,7 +378,7 @@ void TVenturi::CalculaVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::LeeResultadosInstantVenturi(char *FileWAM, fpos_t &filepos) {
+void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM, fpos_t &filepos) {
 
 	int nvars, var;
 
@@ -604,7 +604,7 @@ void TVenturi::CalculaResultadosVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::ReadAverageResultsVenturi(char *FileWAM, fpos_t &filepos) {
+void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
 	int nvars, var;
 
 	try {

@@ -85,7 +85,7 @@ public:
 
      void IniciaVolumen(double Theta);
 
-	 void LeeDatosDepVolVariable(char *FileWAM,fpos_t &filepos,bool HayMotor);
+	 void LeeDatosDepVolVariable(const char *FileWAM,fpos_t &filepos,bool HayMotor);
 
 	 void UpdateProperties0DModel(double TimeCalculo);
 

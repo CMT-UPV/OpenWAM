@@ -77,7 +77,7 @@ TCDExterno();
 
 ~TCDExterno();
 
-void LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
+void LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
 	TBloqueMotor *Engine);
 
 void CalculaCD();

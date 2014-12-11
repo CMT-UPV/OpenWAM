@@ -217,7 +217,7 @@ public:
 	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double TiempoActual,
 		int TuboCalculado);
 
-	void LeeCompresor(char *FileWAM, fpos_t &filepos);
+	void LeeCompresor(const char *FileWAM, fpos_t &filepos);
 
 	void RelacionTubos(TCondicionContorno **BC, int NumeroCC);
 

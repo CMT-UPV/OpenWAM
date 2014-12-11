@@ -93,7 +93,7 @@ fun_CDout=new Hermite_interp(FApertura,FDatosCDSalida);
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TLumbrera::LeeDatosIniciales(char *FileWAM,fpos_t &filepos,int norden,
+void TLumbrera::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
 	bool HayMotor,TBloqueMotor *Engine)
 {
 try

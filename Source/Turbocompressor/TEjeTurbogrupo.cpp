@@ -94,7 +94,7 @@ TEjeTurbogrupo::~TEjeTurbogrupo() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ReadTurbochargerAxis(char *FileWAM, fpos_t &filepos,
+void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 	TCompresor **Compressor, TTurbina **Turbine) {
 	try {
 		int variacion, htm;
@@ -409,7 +409,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ReadAverageResultsEje(char*FileWAM, fpos_t & filepos) {
+void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM, fpos_t & filepos) {
 	try {
 		int nvars, var;
 
@@ -554,7 +554,7 @@ void TEjeTurbogrupo::AcumulaResultadosMediosEje(double Actual) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ReadInstantaneousResultsEje(char*FileWAM,
+void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM,
 	fpos_t & filepos) {
 	try {
 		int nvars, var;
