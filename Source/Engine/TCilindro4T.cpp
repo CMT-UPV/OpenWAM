@@ -50,7 +50,8 @@ TCilindro4T::TCilindro4T(TBloqueMotor *Engine, int nc, bool ThereIsEGR)
 	FCalor.Liberado = 0;
 
 	FAnguloRetrasoCombustion = 2.;
-
+    FPrimerInstanteCicloCerrado = false;
+    FNumIny = 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -140,7 +141,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 						FPercentInyeccion[i] = FPercentInyeccion[i] / 100;
 						//Si la inyección empieza en angulo negativo, hay que sumar 720º
 						if (FAnguloInjeccion[i] < 0) {
-							FAnguloInjeccion[i] = FAnguloInjeccion[i] + 720;
+							FAnguloInjeccion[i] = FAnguloInjeccion[i] + FMotor->getAngTotalCiclo();
 						}
 //						else {
 //							FAnguloInjeccion[i] = FAnguloInjeccion[i];
@@ -153,7 +154,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 					FTInyeccion.resize(FNumIny);
 					FPercentInyeccion.resize(FNumIny);
 					if (FMotor->getFAngIniIny() < 0) {
-						FAnguloInjeccion[0] = FMotor->getFAngIniIny() + 720;
+						FAnguloInjeccion[0] = FMotor->getFAngIniIny() + FMotor->getAngTotalCiclo();
 					}
 					else {
 						FAnguloInjeccion[0] = FMotor->getFAngIniIny();
@@ -168,23 +169,24 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 						FAnguloInjeccion.resize(FNumIny);
 						FTInyeccion.resize(FNumIny);
 						FPercentInyeccion.resize(FNumIny);
-						FTInyeccion[0] = 0.2 * 1e-3;
-						FTInyeccion[1] = 1.3 * 1e-3;
+						FTInyeccion[0] = 5 / (FMotor->getRegimen() * 6.);
+						FTInyeccion[1] = (FFinComb - FIniComb) / (FMotor->getRegimen() * 6.) / 4.;
 						FPercentInyeccion[0] = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Beta;
 						FPercentInyeccion[1] = 1. - FPercentInyeccion[0];
 						//Si la combustión principal empieza en angulo negativo, hay que sumar 720º
 						if (FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 < 0) {
-							FAnguloInjeccion[1] = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 + 720;
-							FAnguloInjeccion[0] = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+							FAnguloInjeccion[1] = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0 + FMotor->getAngTotalCiclo();
+							FAnguloInjeccion[0] = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + FMotor->getAngTotalCiclo();
 						}
 						else {
 							FAnguloInjeccion[1] = FMotor->getLeyQuemadoBD()[0].Wiebes[1].Alpha0;
-							FAnguloInjeccion[0] = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + 720;
+							FAnguloInjeccion[0] = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0 + FMotor->getAngTotalCiclo();
 						}
 					}
 					else {
 						FNumIny = 1;
-						FAnguloInjeccion[0] = FIniComb - FAnguloRetrasoCombustion +720;   // Se asume que la inyección empieza cuando empieza la FQL
+						FTInyeccion[0] = (FFinComb - FIniComb) / (FMotor->getRegimen() * 6.) / 4.;
+						FAnguloInjeccion[0] = FIniComb - FAnguloRetrasoCombustion +FMotor->getAngTotalCiclo();   // Se asume que la inyección empieza cuando empieza la FQL
 						FPercentInyeccion[0] = 1;
 					}
 				}
@@ -287,15 +289,15 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		FDeltaAngulo = 360. * FMotor->getRegimen() / 60. * FDeltaT;
 		FAnguloAnterior = FAnguloActual;
 		FAnguloActual = FAnguloAnterior + FDeltaAngulo;
-		if (FAnguloActual > 720.) {
-			FAnguloActual -= 720.;
+		if (FAnguloActual > FMotor->getAngTotalCiclo()) {
+			FAnguloActual -= FMotor->getAngTotalCiclo();
 			FNumeroCiclo++;
 			// std::cout << "INFO: El cilindro " << FNumeroCilindro << " comienza el ciclo " << FNumeroCiclo << std::endl;
 		}
 		// SE CENTRA LA COMBUSTION EN 0
 		if (FAnguloActual > 360.) {
-			FAnguloComb0 = FAnguloActual - 720 - FDeltaAngulo;
-			FAnguloComb = FAnguloActual - 720.;
+			FAnguloComb0 = FAnguloActual - FMotor->getAngTotalCiclo() - FDeltaAngulo;
+			FAnguloComb = FAnguloActual - FMotor->getAngTotalCiclo();
 		}
 		else {
 			FAnguloComb0 = FAnguloComb;
@@ -407,12 +409,12 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		/* INYECCION DE COMBUSTIBLE (MEC) */
 		/* ================================= */
 
-		//Inyección con datos de ángulo y duración
+		//Inyeccion con datos de Angulo y duracion
 		for (int i = 0; i < FNumIny; i++) {
 			if (FAnguloActual > FAnguloInjeccion[i] && FAnguloAnterior <=
 				FAnguloInjeccion[i] && FMotor->getCombustible() == nmMEC) {
-				// En el �ngulo de begining de la combusti�n se empieza a introducir el combustible
-				// Se pasa a estado de injecci�n verdadero.
+				// En el angulo de begining de la combusti�n se empieza a introducir el combustible
+				// Se pasa a estado de injeccion verdadero.
 				// FMasaFuel = FMotor->getMasaFuel();
 				FInyeccion = true;
 				FTasaFuel = 0.;
@@ -448,7 +450,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				// Se va acumulando la masa de fuel para comprobar que no super el valor de combustible fijado por cilindro y ciclo.
 			}
 			if ((FFuelAcum + FFuelInstant) > FMasaFuel * FPercentInyeccion[ind]) {
-				// La inyecci�n se corta cuando se alcanza el valor de combustible total.
+				// La inyeccion se corta cuando se alcanza el valor de combustible total.
 				FFuelInstant = FMasaFuel * FPercentInyeccion[ind] - FFuelAcum;
 				FInyeccion = false;
 				FFuelAcum = 0.;
@@ -686,7 +688,6 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				FComposicionCicloCerrado[2] = FMasaEspecieCicloCerrado[2]
 					/ FMasa;
 
-
 			}
 			else {
 
@@ -706,12 +707,11 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				}
 				if (FCalcComb == nmFQL) {
 					FUfgasoil = CalculoUfgasoil(FTemperature);
-					Fecg = (FHcl - FUfgasoil) * FFuelInstant
-					/ FDeltaAngulo;
+					Fecg = (FHcl - FUfgasoil) * FFuelInstant;
 					//energía del combustible gaseoso (evaporación), hay que integrarla
 					FCalor.FQL = CalculaCalorLiberado(FAnguloComb);
-					FecgInt = (Fecg + Fecg0) / 2 * FDeltaAngulo;
-					FecgTotal += (Fecg + Fecg0) / 2 * FDeltaAngulo;
+					FecgInt = (Fecg + Fecg0) / 2 * FDeltaT;
+					FecgTotal += (Fecg + Fecg0) / 2 * FDeltaT;
 					Fecg0 = Fecg;
 				}
 				else if (FCalcComb == nmACT) {
