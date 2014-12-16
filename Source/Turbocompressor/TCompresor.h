@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------------------------*\
+﻿/*--------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
@@ -144,6 +144,7 @@ bool FHayEGR;
 int FIntEGR;
 nmTipoCalculoEspecies FCalculoEspecies;
 nmCalculoGamma FCalculoGamma;
+double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
 
 public:
 
@@ -223,13 +224,13 @@ public:
 
   void CalculaInstantaneos();
 
-  void LeeDatosGraficasMedias(char *FileWAM,fpos_t &filepos);
+  void LeeDatosGraficasMedias(const char *FileWAM,fpos_t &filepos);
 
   void CabeceraGraficasMedias(stringstream& medoutput);
 
   void ImprimeGraficasMedias(stringstream& medoutput);
 
-  void LeeDatosGraficasInstantaneas(char *FileWAM,fpos_t &filepos);
+  void LeeDatosGraficasInstantaneas(const char *FileWAM,fpos_t &filepos);
 
   void CabeceraGraficasInstantaneas(stringstream& insoutput);
 

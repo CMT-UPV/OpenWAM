@@ -57,6 +57,24 @@ private:
 	double FLQMfMax;
 	double FLQMaMax;
 
+	int FTipoDatosIny;
+	int FNumeroInyecciones;
+	dVector FAngIny;
+	dVector FTIny;
+	dVector FPercentIny;
+	double FAngIniIny;
+	double FTStepIny;
+	double FAStepIny;
+	int xnum;
+	dVector FY_dat;
+	dVector FX_dat;
+	double FFuelTasaInt;
+	int TipoInterp; // Tipo de interpolación: 1. Lineal, 2. Hermite (spinlines), 3. Step
+
+	double fOutput;
+    Base_interp *fDatosTasa;			//!< Struct to interpolate within the table
+	nmTipoInterpolacion fTipo;			//!< Type of interpolation
+
 	double FTime;
 
 	bool FACT;
@@ -420,13 +438,54 @@ public:
 		return FInjecPulse[i];
 	};
 
+	int getFTipoDatosIny() {
+		return FTipoDatosIny;
+	};
+
+	int getFNumeroInyecciones() {
+		return FNumeroInyecciones;
+	};
+
+	dVector getFAngIny() {
+		return FAngIny;
+	};
+
+	dVector getFTIny() {
+		return FTIny;
+	};
+
+	dVector getFPercentIny() {
+		return FPercentIny;
+	};
+
+	double getFAngIniIny() {
+		return FAngIniIny;
+	};
+
+	double getFAStepIny() {
+		return FAStepIny;
+	};
+
+//	dVector getFY_dat() {
+//		return FY_dat;
+//	};
+//
+//	dVector getFX_dat() {
+//		return FX_dat;
+//	};
+//
+//	int getxnum() {
+//		return xnum;
+//	};
+
+
 	TBloqueMotor(double AmbientPressure, double AmbientTemperature,
 		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
 		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TBloqueMotor();
 
-	void LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
+	void LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
 		int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition);
 
 	void LeeMotorXML(xml_node node_openwam, nmTipoModelado& SimulationType,
@@ -434,7 +493,7 @@ public:
 
 	void IniciaAnguloCalculo();
 
-	void ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos);
+	void ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderAverageResultsBloqueMotor(std::stringstream& medoutput);
 
@@ -457,6 +516,8 @@ public:
 	void AsignMfController(TController **Controller);
 
 	void NewInjectionData(double Time);
+
+	double TasaInyInterp(double Angle);
 
 };
 

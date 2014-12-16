@@ -233,10 +233,21 @@ struct stExpansion {
 		double xx1 = pow2(A1) + Ga3 * pow2(U1);
 		double xx2 = rel_area * pow2(A1) + Gam * pow2(U1);
 		if (fabs(U1 - A1) < 1e-15) {
-			U2 = (xx2 / (Ga2 * U1)) * (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
+			if (Ga2 / (Gam + rel_area) >= 1){
+				U2 = (xx2 / (Ga2 * U1));
+			}
+			else {
+				U2 = (xx2 / (Ga2 * U1)) * (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
+			}
 		}
 		else {
-			U2 = xx2 * (1 - sqrt(1. - (xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))))) / Ga2;
+			if ((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1){
+				U2 = xx2 / Ga2;
+			}
+			else {
+				U2 = xx2 * (1 - sqrt(1. - (xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))))) / Ga2;
+			}
+			
 			if (U1 == 0) {
 				U2 = 0;
 			}

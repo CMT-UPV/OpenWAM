@@ -67,7 +67,7 @@ public:
 
 	~TValvulaContr();
 
-	void LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	void LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,bool HayMotor,
 		TBloqueMotor *Engine);
 
 	void LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor, TBloqueMotor *Engine);

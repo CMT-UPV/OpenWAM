@@ -61,7 +61,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <sstream>
 #include <cstring>
-// #include <system.hpp>
+//#include <system.hpp>
 #include <ctime>
 // #include <sys\timeb.h>
 #include "Constantes.h"
@@ -1690,186 +1690,146 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
  * or not.
  * @return Specific heat capacity at constant volume. [J / (kg * K)]
  */
-inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
-	nmCalculoGamma GammaCalculation) {
+inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible)
+{
+    if (TipoCombustible == 0) {
+		TipoCombustible == nmMEC;
+	}
 	double CvMezcla = R / (Gamma - 1.);
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
+		double CvCombustible =  1496.92;
 		double CvH2O = 1420.63;
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
 
 			CvAire = -10.4199 * RaizdeT + 2522.88 +
-				(-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
-				/ Temperature;
+				(-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT) / Temperature;
 			CvQuemados = 641.154 + Temperature *
-				(0.43045 + Temperature
-				* (-0.0001125 + Temperature * 8.979e-9));
-			CvH2O = (22.605 - 0.09067 * RaizdeT
-				+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
+			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O - RH2O;
+			if (TipoCombustible == nmMEC) {
+			//Diesel C10.8H18.7
+				CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
+								}
+			else if (TipoCombustible == nmMEP) {
+			//Gasolina C8.26H15.5
+				CvCombustible = (4184 * (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168
+					+0.00000006475 * Temperature)) + 580800 * RaizdeT) * RGasoline / Runiversal) - RGasoline;    //cv = cp - R
+			}
 		}
-		CvMezcla = CvQuemados * YQuemados + CvAire * (1. - YQuemados - 0.0164)
-			+ 0.0164 * CvH2O;
+		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
+		//Sin Humedad en aire
+		CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados));
 	}
 	return CvMezcla;
 };
 
-
-/**
- * @brief Gas constant of air, simplified version.
- * 
- * Computes the gas constant of air, possibly mixed with burnt gases.
- * 
- * @f[
- * R = R_{bf} \cdot Y_{bf}
- * + R_{da} \cdot \left( 1 - Y_{wv} - Y \right)
- * + R_{wv} \cdot  Y_{wv}
- * @f]
- * 
- * where @f$ R @f$ is the gas constant and @f$ Y @f$ is mass fraction.
- * If @f$ \gamma @f$ is not a function of temperature, returns 287.
- * 
- * @param YQuemados Burnt gases mass fraction. [-]
- * @param GammaCalculation Whether gamma is a function of the temperature
- * or not.
- * @return Gas constant. [J / (kg * K)]
- */
-inline double CalculoSimpleRMezcla(double YQuemados,
-	nmCalculoGamma GammaCalculation) {
-	double R_ = R;
-	if (GammaCalculation != nmGammaConstante) {
-		R_ = RBurnt * YQuemados + (RAir * (1 - YQuemados - 0.0164)
-			+ 0.0164 * RH2O);
+inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+	double R = 287;
+	double RFuel = 0;
+	if (TipoCombustible == nmMEP) {
+		RFuel = RGasoline;
 	}
-	return R_;
+	else {
+		RFuel = RDiesel;
+	}
+	if (GammaCalculation != nmGammaConstante) {
+		//R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * RH2O);
+		//Sin humedad en aire
+		R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible));
+	}
+	return R;
 };
 
-
-/**
- * @brief Heat capacities ratio of air.
- * 
- * Computes the heat capacities ratio of air, with some burnt fraction.
- * 
- * @f[ \gamma = \cfrac{c_p}{c_p - R} @f]
- *
- * If @f$ \gamma @f$ is not a function of temperature, then returns 1.4.
- * 
- * @param RMezcla Gas constant. [J / (kg / K)]
- * @param CpMezcla Specific heat capacity at constant pressure. [J / (kg / K)]
- * @param GammaCalculation Whether gamma is a function of the temperature
- * or not.
- * @return Heat capacities ratio.
- */
-inline double CalculoCompletoGamma(double RMezcla, double CpMezcla,
-	nmCalculoGamma GammaCalculation) {
-	double g = Gamma;
+inline double CalculoCompletoGamma(double RMezcla, double CpMezcla, nmCalculoGamma GammaCalculation) {
+	double Gamma = 1.4;
 
 	if (GammaCalculation != nmGammaConstante) {
-		g = CpMezcla / (CpMezcla - RMezcla);
+		Gamma = CpMezcla / (CpMezcla - RMezcla);
 	}
-	return g;
+	return Gamma;
 };
 
-
-
-/**
- * @brief Specific heat capacity at constant pressure of air with some fuel
- * burnt, precission version.
- * 
- * Computes the specific heat capacity at constant pressure of a mix of O2,
- * CO2, H2O, N2 and traces of other gases.
- *
- * @f[
- * c_p = c_{p_{O_2}} \cdot Y_{O_2}
- * + c_{p_{CO_2}} \cdot Y_{CO_2}
- * + c_{p_{H_2O}} \cdot Y_{H_2O}
- * + c_{p_{N_2}} \cdot Y_{N_2}
- * + c_{p_X} \cdot Y_X
- * * @f]
- * 
- * where @f$ c_p @f$ is the specific heat capacity at constant pressure and
- * @f$ Y @f$ is the mass fraction.  If @f$ \gamma @f$ is not a function of
- * temperature, returns 1004.5.
- * 
- * @param YO2 O2 mass fraction. [-]
- * @param YCO2 CO2 mass fraction. [-]
- * @param YH2O H2O mass fraction. [-]
- * @param Temperature Air temperature. [K]
- * @param GammaCalculation Whether gamma is a function of the temperature
- * or not.
- * @return Specific heat capacity at constant pressure. [J / (kg * K)]
- */
-inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double Temperature,
-	nmCalculoGamma GammaCalculation) {
+inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double YCombustible, double Temperature,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
-	double CpMezcla = R / (Gamma - 1.) * Gamma;
-
+	double CpMezcla = 1004.5;
+	if (TipoCombustible == 0) {
+		TipoCombustible == nmMEC;
+	}
 	if (GammaCalculation != nmGammaConstante) {
 		double CpN2 = 1039.82;
 		double CpO2 = 912.54;
 		double CpCO2 = 843.13;
 		double CpH2O = 1856.93;
+		double CpCombustible = 0;
+		if (TipoCombustible == nmMEC) {
+			CpCombustible = RDiesel + 1496.92;
+		}
+		else {
+			CpCombustible = RGasoline + 1496.92;
+        }
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
-			// Temperatures in K.
-			// Computed accordint to JANAF correlations.
-			CpN2 = (12.531 - 0.05932 * RaizdeT
-				+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
+			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
+			CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
 				/ Temperature) * RN2;
-			CpO2 = (-0.112 + 0.0479 * RaizdeT
-				+ (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
+			CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
 				/ Temperature) * RO2;
-			CpCO2 = (12.019 - 0.03566 * RaizdeT
-				+ (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
+			CpCO2 = (12.019 - 0.03566 * RaizdeT + (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
 				/ Temperature) * RCO2;
-			CpH2O = (22.605 - 0.09067 * RaizdeT
-				+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
 				/ Temperature) * RH2O;
+			if (TipoCombustible == nmMEC) {
+            //Diesel C10.8H18.7
+				CpCombustible = RDiesel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
+					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
+			}
+			else if (TipoCombustible == nmMEP) {
+			//Gasolina C8.26H15.5
+				CpCombustible = 4184 * (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168
+					+0.00000006475 * Temperature)) + 580800 * RaizdeT) * RGasoline / Runiversal;    //cv = cp - R
+			}
+
 		}
-		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O
-			+ CpN2 * (YN2 - 0.01292) + 520.32 * 0.01292;
+		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
+			+ 520.32 * 0.01292 + CpCombustible * YCombustible;
 	}
 
 	return CpMezcla;
 };
 
-
-/**
- * @brief Gas constant of air with some fuel burnt, precission version.
- * 
- * Computes the gas constant of a mix of O2, CO2, H2O, N2 and traces
- * of other gases (mainly Ar).
- *
- * @f[
- * R = R_{O_2} \cdot Y_{O_2}
- * + R_{CO_2} \cdot Y_{CO_2}
- * + R_{H_2O} \cdot Y_{H_2O}
- * + R_{N_2} \cdot Y_{N_2}
- * + R_X \cdot Y_X
- * @f]
- * 
- * where @f$ R @f$ is the gas constant and Y is the mass fraction.
- * If @f$ \gamma @f$ is not a function of temperature, returns 287.
- * 
- * @param YO2 O2 mass fraction. [-]
- * @param YCO2 CO2 mass fraction. [-]
- * @param YH2O H2O mass fraction. [-]
- * @param GammaCalculation Whether gamma is a function of the temperature
- * or not.
- * @return Specific heat capacity at constant pressure. [J / (kg * K)]
- */
-inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
-	nmCalculoGamma GammaCalculation) {
-	double R_ = R;
-	if (GammaCalculation != nmGammaConstante) {
-		R_ = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O
-			+ RN2 * (1 - YO2 - YCO2 - YH2O - 0.01292)
-			+ 208.13 * 0.01292; // El ultimo termino es el Argon
+inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+	double R = 287;
+	double RFuel = 0;
+	if (TipoCombustible == nmMEP) {
+		RFuel = RGasoline;
 	}
-	return R_;
+	else {
+		RFuel = RDiesel;
+	}
+	if (GammaCalculation != nmGammaConstante) {
+		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RFuel * YCombustible
+		+ RN2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
+			+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
+	}
+	return R;
+};
+
+inline double CalculoUfgasoil(double Temperature){
+	double Ufgasoil = 0.;
+		Ufgasoil = -1234157.8 - 256.4 * (Temperature + 273) + 3.47686 *
+			pow(Temperature + 273, 2) - 0.00134905 * pow(Temperature + 273, 3) +
+			0.000000227565 * pow(Temperature + 273, 4) - 1458487. / (Temperature + 273);
+	return Ufgasoil;
 };
 
 inline double Seccion(double d) {

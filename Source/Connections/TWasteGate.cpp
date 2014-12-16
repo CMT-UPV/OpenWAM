@@ -80,7 +80,7 @@ TWasteGate::TWasteGate(TWasteGate *Origen, int Valvula) : TTipoValvula(nmWasteGa
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TWasteGate::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
 	TBloqueMotor *Engine) {
 	try {
 		int modo;
@@ -276,7 +276,7 @@ void TWasteGate::GetCDout(double Time) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TWasteGate::LeeDatosGraficas(char *FileWAM, fpos_t &filepos) {
+void TWasteGate::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int ndv, var;
 		FILE *fich = fopen(FileWAM, "r");

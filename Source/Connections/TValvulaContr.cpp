@@ -71,10 +71,12 @@ TValvulaContr::TValvulaContr(TValvulaContr *Origen, int Valvula) : TTipoValvula(
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TValvulaContr::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
-	try {
-		int Ctrl;
+void TValvulaContr::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
+	bool HayMotor,TBloqueMotor *Engine)
+{
+try
+{
+int Ctrl;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

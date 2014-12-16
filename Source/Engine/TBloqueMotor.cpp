@@ -102,7 +102,7 @@ TBloqueMotor::~TBloqueMotor() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
+void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
 	int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition) {
 	try {
 		double daux;
@@ -124,9 +124,10 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 		aux == 0 ? FACT = false : FACT = true;
 		if (FACT) {
 			fscanf(fich, "%lf ", &FMixtureProcessCte);
+			cout << FMixtureProcessCte << endl;
 			if (!FHayEGR) {
 				std::cout << "WARNING: If the combustion is calculated by ACT and the engine" << std::endl;
-				std::cout << "         has EGR, you must select the opiton 'To calculate" << std::endl;
+				std::cout << "         has EGR, you must select the option 'To calculate" << std::endl;
 				std::cout << "         EGR transport, in the other case, the results" << std::endl;
 				std::cout << "         provided by ACT won't be correct" << std::endl;
 			}
@@ -395,6 +396,66 @@ void TBloqueMotor::LeeMotor(char *FileWAM, fpos_t &filepos, nmTipoModelado& Simu
 				LeyQuemadoSimple.Wiebes.clear();
 			}
 		}
+
+		// ------------------------------
+		// INYECCIÓN DE COMBUSTIBLE.
+		// ------------------------------
+
+		fscanf(fich, "%d ", &FTipoDatosIny);
+		switch(FTipoDatosIny) {
+		case 0:  // No hay datos de inyección
+			break;
+		case 1:  // Datos de ángulo y tiempo de inyecciones
+			fscanf(fich, "%d ", &FNumeroInyecciones);  // Número de inyecciones
+			if (FNumeroInyecciones == 0) {
+				FTipoDatosIny = 0;
+				break;
+			}
+			FAngIny.resize(FNumeroInyecciones);
+			FTIny.resize(FNumeroInyecciones);
+			FPercentIny.resize(FNumeroInyecciones);
+			for (int i = 0; i < FNumeroInyecciones; i++) {
+				fscanf(fich, "%lf %lf %lf ", &FAngIny[i], &FTIny[i], &FPercentIny[i]); // Ángulo de la inyección con pms como referencia, duración en ms y porcentaje del total
+			}
+			break;
+		case 2:  // Datos de tabla de tasa de inyección
+			fscanf(fich, "%lf %lf", &FAngIniIny, &FTStepIny); // Ángulo de inicio de inyección y paso en ms entre datos de la tabla
+			fscanf(fich, "%d ", &xnum);
+			FY_dat.resize(xnum);
+			for (int i = 0; i < xnum; i++) {
+				fscanf(fich, "%lf ", &FY_dat[i]);
+			}
+			FX_dat.resize(xnum);
+			FX_dat[0] = FAngIniIny;
+			FAStepIny = FTStepIny * FRegimen / 60. * 360. / 1000.;
+			for (int i = 1; i < xnum; i++) {
+				FX_dat[i] = FX_dat[i-1] + FAStepIny;
+			}
+//			Se comprueba que la integral de la tasa corresponde al combustible total inyectado, si no, se reescala
+			for (int i = 0; i < xnum; i++) {
+				FFuelTasaInt += FY_dat[i] * FTStepIny / 1000.;
+			}
+			for (int i = 0; i < xnum; i++) {
+				FY_dat[i] = FY_dat[i] * FMasaFuel / FFuelTasaInt;
+			}
+			fscanf(fich, "%d ", &TipoInterp);
+			switch(TipoInterp) {
+			case 0:
+				fTipo = nmLineal;
+				fDatosTasa = new Linear_interp(FX_dat, FY_dat);
+				break;
+			case 1:
+				fTipo = nmHermite;
+				fDatosTasa = new Hermite_interp(FX_dat, FY_dat);
+				break;
+			case 2:
+				fTipo = nmSteps;
+				fDatosTasa = new Step_interp(FX_dat, FY_dat);
+				break;
+			}
+			break;
+		}
+
 
 		// ------------------------------
 		// CREACION OBJETO CILINDRO.
@@ -979,7 +1040,7 @@ void TBloqueMotor::IniciaAnguloCalculo() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TBloqueMotor::ReadAverageResultsBloqueMotor(char *FileWAM, fpos_t &filepos) {
+void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, Tipovar;
 
@@ -1984,5 +2045,13 @@ void TBloqueMotor::NewInjectionData(double Time) {
 	if (FInjectionSys.InjectPCtrd)
 		FInjectionSys.InjectPressure = FInjectionSys.InjectPCtr->Output(Time);
 }
+
+double TBloqueMotor::TasaInyInterp(double Angle) {
+
+	fOutput = fDatosTasa->interp(Angle);
+
+	return fOutput;
+}
+
 
 #pragma package(smart_init)

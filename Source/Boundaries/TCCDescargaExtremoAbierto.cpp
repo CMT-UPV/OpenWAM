@@ -89,16 +89,16 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 	if (FCalculoEspecies == nmCalculoCompleto) {
 
 		RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
-			FCalculoGamma);
+			0, FCalculoGamma, nmMEP);
 		CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
-			FTemperaturaDep + 273., FCalculoGamma);
+			0, FTemperaturaDep + 273., FCalculoGamma, nmMEP);
 		GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 	}
 	else if (FCalculoEspecies == nmCalculoSimple) {
 
-		RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], FCalculoGamma);
-		CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0], FCalculoGamma);
+		RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
+		CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],0, FCalculoGamma, nmMEP);
 		GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 	}
@@ -109,7 +109,7 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes,
+void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
 	TTubo **Pipe,int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;
@@ -190,17 +190,17 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma, nmMEP);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FTemperaturaDep + 273., FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma, nmMEP);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}
 			else if (FCalculoEspecies == nmCalculoSimple) {
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], FCalculoGamma);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],
-					FCalculoGamma);
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],0,
+					FCalculoGamma, nmMEP);
 				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 			}
@@ -246,17 +246,17 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma, nmMEP);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FTemperaturaDep + 273., FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma, nmMEP);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}
 			else if (FCalculoEspecies == nmCalculoSimple) {
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], FCalculoGamma);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],
-					FCalculoGamma);
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],0,
+					FCalculoGamma, nmMEP);
 				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 			}
@@ -308,14 +308,14 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(char *FileWAM, fpos_t &filepos,
 //			RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
 //				FCalculoGamma);
 //			CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-//				FComposicion[2], FTemperaturaDep, FCalculoGamma);
-//			GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
+//				FComposicion[2], FTemperaturaDep, FCalculoGamma, 0);
+//			GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma, 0);
 //
 //		}
 //		else if (FCalculoEspecies == nmCalculoSimple) {
 //
-//			RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], FCalculoGamma);
-//			CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0], FCalculoGamma);
+//			RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], FCalculoGamma, 0);
+//			CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0], FCalculoGamma, 0);
 //			GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 //
 //		}

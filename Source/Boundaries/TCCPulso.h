@@ -63,7 +63,7 @@ public:
 
   ~TCCPulso();
 
-  void ReadBoundaryData(char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF);
+  void ReadBoundaryData(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF);
 
   void CalculaCondicionContorno(double Time);
 

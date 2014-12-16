@@ -140,7 +140,7 @@ public:
 
 	~TCompTubDep();
 
-	void LeeCompresor(char *FileWAM, fpos_t &filepos);
+	void LeeCompresor(const char *FileWAM, fpos_t &filepos);
 
 	void LeeCompresorXML(xml_node node_compressor);
 

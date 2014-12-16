@@ -70,6 +70,8 @@ private:
 	int FValvula;
 	double FApertActual;
 
+void CalculateOpeningANDClose();
+
 public:
 
 	double getAnguloApertura() {
@@ -86,7 +88,7 @@ public:
 
 	~TLumbrera();
 
-	void LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	void LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
 		TBloqueMotor *Engine);
 
 	void LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor, TBloqueMotor *Engine);

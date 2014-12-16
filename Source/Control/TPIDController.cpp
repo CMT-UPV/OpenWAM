@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -59,6 +59,7 @@ double TPIDController::Output(double Time) {
 
 		if (fInicio) {
 			fError_ant = fError;
+			fiact = 0;
 			fInicio = false;
 		}
 
@@ -124,7 +125,7 @@ double TPIDController::Output(double Time) {
 	return fOutput_filt;
 }
 
-void TPIDController::LeeController(char *FileWAM, fpos_t &filepos) {
+void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 	int ctrl;
 
@@ -172,7 +173,7 @@ void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 }
 
-void TPIDController::LeeResultadosMedControlador(char *FileWAM, fpos_t &filepos) {
+void TPIDController::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -216,7 +217,7 @@ void TPIDController::LeeResultadosMedControlador(char *FileWAM, fpos_t &filepos)
 	}
 }
 
-void TPIDController::LeeResultadosInsControlador(char *FileWAM, fpos_t &filepos) {
+void TPIDController::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 

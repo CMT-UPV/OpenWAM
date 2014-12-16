@@ -64,7 +64,7 @@ double TDecisor::Output(double Time)
 	return fOutput;
 }
 
-void TDecisor::LeeController(char *FileWAM,fpos_t &filepos)
+void TDecisor::LeeController(const char *FileWAM,fpos_t &filepos)
 {
 	FILE *fich=fopen(FileWAM,"r");
 	fsetpos(fich, &filepos);
@@ -100,7 +100,7 @@ void TDecisor::AsignaObjetos(TSensor **Sensor,TController **Controller)
 	if(fTargedControlled) fControllerTarget=Controller[fControllerTargetID-1];
 }
 
-void TDecisor::LeeResultadosMedControlador(char *FileWAM,fpos_t &filepos)
+void TDecisor::LeeResultadosMedControlador(const char *FileWAM,fpos_t &filepos)
 {
 	int nvars,var;
 
@@ -120,7 +120,7 @@ void TDecisor::LeeResultadosMedControlador(char *FileWAM,fpos_t &filepos)
 	fclose(fich);
 }
 
-void TDecisor::LeeResultadosInsControlador(char *FileWAM,fpos_t &filepos)
+void TDecisor::LeeResultadosInsControlador(const char *FileWAM,fpos_t &filepos)
 {
 	int nvars,var;
 

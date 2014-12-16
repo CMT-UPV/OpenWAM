@@ -119,7 +119,7 @@ public:
 
   ~TCCCilindro();
 
-  void LeeCCValvula(char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe);
+  void LeeCCValvula(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe);
 
   void CalculaCondicionContorno();
 

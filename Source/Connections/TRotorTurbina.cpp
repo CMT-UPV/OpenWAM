@@ -72,10 +72,12 @@ TRotorTurbina::TRotorTurbina(TRotorTurbina *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TRotorTurbina::LeeDatosIniciales(char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
-	try {
-		int tprotor;
+void TRotorTurbina::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
+	bool HayMotor,TBloqueMotor *Engine)
+{
+try
+{
+int tprotor;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

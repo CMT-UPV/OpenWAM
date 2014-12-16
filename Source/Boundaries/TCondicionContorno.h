@@ -153,7 +153,7 @@ double getPosicionNodo(){return FPosicionNodo;}
 
 	virtual void TuboCalculandose(int i){};
 
-	virtual void ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF){};
+	virtual void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF){};
 
 	virtual void AsignAmbientConditions(double Tamb, double Pamb, double *AtmosphericComposition){};
 

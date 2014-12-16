@@ -47,7 +47,7 @@ TSensor::~TSensor() {
 
 }
 
-void TSensor::ReadSensor(char *FileWAM, fpos_t &filepos) {
+void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 	int obj, prm;
 
 	FILE *fich = fopen(FileWAM, "r");
@@ -234,7 +234,7 @@ void TSensor::ActualizaMedida(double Time) {
 	// return out;
 }
 
-void TSensor::LeeResultadosMedSensor(char *FileWAM, fpos_t &filepos) {
+void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -268,7 +268,7 @@ void TSensor::LeeResultadosMedSensor(char *FileWAM, fpos_t &filepos) {
 	}
 }
 
-void TSensor::LeeResultadosInsSensor(char *FileWAM, fpos_t &filepos) {
+void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
 

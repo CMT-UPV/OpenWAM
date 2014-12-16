@@ -165,6 +165,10 @@ protected:
 	double FAcumMasaEGR;
 	double FMasaEGR;
 	double FPresionRCA;
+	double Fecg0;
+	double Fecg;
+	double FecgTotal;
+	double FecgInt;
 
 	double FParInstantaneo;
 	double FTrabajoNeto;
@@ -185,11 +189,18 @@ protected:
 	double FMaint; // kg/cc    Masa de aire para la interpolacion de la leyes.
 	double FRegInt; // rpm      Regimen para la interpolacion de las leyes.
 
-	double FAnguloInjeccion;
+    double FNumIny;
+	dVector FAnguloInjeccion;
+	dVector FTInyeccion;
+	dVector FPercentInyeccion;
+	double FFuelAcum;
+	int ind;
 
 	bool FInyeccion;
+	bool FInyeccionPil;
 	double FFuelTotal;
 	double FFuelInstant;
+	double FFuelInstantPil;
 	double FMasaBlowBy;
 	double FGastoBlowBy;
 
@@ -244,6 +255,7 @@ protected:
 	dVector FComposicionCicloCerrado; // 0 -> Quemados, 1 -> Combustible, 2 -> Aire Fresco
 	dVector FMasaEspecieCicloCerrado;
 	dVector FMasaEspecie;
+	double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
 
 	// double GetFraccionMasicaEspecie(int i);
 	double GetAireFresco();
@@ -260,6 +272,8 @@ protected:
 	bool FHayEGR;
 	int FIntEGR;
 	dVector FFraccionComienzoCicloCerrado;
+	double FUfgasoil;
+	double FHcl;
 
 	double FRelacionMolarH2O_O2;
 	double FRelacionMolarN2_O2;
@@ -513,7 +527,7 @@ public:
 
 	virtual void ActualizaPropiedades(double TiempoActual) = 0;
 
-	void ReadAverageResultsCilindro(char *FileWAM, fpos_t &filepos);
+	void ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderAverageResultsCilindro(std::stringstream& medoutput, stEspecies *DatosEspecies);
 
@@ -523,7 +537,7 @@ public:
 
 	void CalculaResultadosMediosCilindro();
 
-	void ReadInstantaneousResultsCilindro(char *FileWAM, fpos_t &filepos);
+	void ReadInstantaneousResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
 	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput, stEspecies *DatosEspecies);
 

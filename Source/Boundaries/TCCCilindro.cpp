@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -133,7 +133,7 @@ void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCCilindro::ReadBoundaryData(char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF)
+void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF)
 {
 	try {
 		int i = 0;

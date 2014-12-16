@@ -70,12 +70,14 @@ TMariposa::TMariposa(TMariposa *Origen, int valv) :
 	FLevControlled = Origen->FLevControlled;
 }
 
-void TMariposa::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden,
-		bool HayMotor, TBloqueMotor *Engine) {
-	int ctrl, prm;
 
-	FILE *fich = fopen(FileWAM, "r");
-	fsetpos(fich, &filepos);
+void TMariposa::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
+	bool HayMotor,TBloqueMotor *Engine)
+{
+int ctrl,prm;
+
+FILE *fich=fopen(FileWAM,"r");
+fsetpos(fich, &filepos);
 
 	FNumeroOrden = norden;
 

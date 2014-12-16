@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------------------------*\
+﻿/*--------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
@@ -243,7 +243,7 @@ throw Exception("ERROR: CalculaInstantaneos en el compresor: " +AnsiString(FNume
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCompresor::LeeDatosGraficasMedias(char *FileWAM,fpos_t &filepos)
+void TCompresor::LeeDatosGraficasMedias(const char *FileWAM,fpos_t &filepos)
 {
 int NMagnitudes,Magnitud;
 try
@@ -350,7 +350,7 @@ throw Exception("ERROR: ImprimeGraficasMedias en el compresor: " +AnsiString(FNu
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCompresor::LeeDatosGraficasInstantaneas(char *FileWAM,fpos_t &filepos)
+void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM,fpos_t &filepos)
 {
 int NMagnitudes,Magnitud;
 try

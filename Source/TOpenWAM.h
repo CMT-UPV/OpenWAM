@@ -171,7 +171,8 @@ private:
 	xml_document FileInputXML;
 
 
-	char fileinput[8];
+	//char fileinput[8];
+	AnsiString fileinput;
 
 	TBloqueMotor** Engine;
 	TCompresor** Compressor;

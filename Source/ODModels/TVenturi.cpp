@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 |==========================|
 |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 | \\ |  X  | //  W ave     |
@@ -84,7 +84,7 @@ TVenturi::~TVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::LeeDatosVenturi(char *FileWAM, fpos_t &filepos) {
+void TVenturi::LeeDatosVenturi(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int numid; // dato para Wamer
 		FILE *fich = fopen(FileWAM, "r");
@@ -147,18 +147,19 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
 			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], FCalculoGamma);
+				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], FTemperature + 273.,
-				FCalculoGamma);
+				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0, FTemperature + 273.,
+				FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		}
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FCalculoGamma);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],
-				FCalculoGamma);
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+				FCalculoGamma, nmMEP);
+			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
+				FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 		}
@@ -399,7 +400,7 @@ void TVenturi::CalculaVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::LeeResultadosInstantVenturi(char *FileWAM, fpos_t &filepos) {
+void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM, fpos_t &filepos) {
 
 	int nvars, var;
 
@@ -625,7 +626,7 @@ void TVenturi::CalculaResultadosVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::ReadAverageResultsVenturi(char *FileWAM, fpos_t &filepos) {
+void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
 	int nvars, var;
 
 	try {

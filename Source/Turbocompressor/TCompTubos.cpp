@@ -432,7 +432,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCompTubos::LeeCompresor(char *FileWAM, fpos_t &filepos) {
+void TCompTubos::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 	int tipo;
 	try {
 

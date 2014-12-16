@@ -290,12 +290,12 @@ TDPF(int numeroDPF,TBloqueMotor **Motor,int NumeroEspecies);
 
 ~TDPF();
 
-void LeeDatosDPF(char *FileWAM,fpos_t &filepos,nmTipoCalculoEspecies CalculoEspecies,
+void LeeDatosDPF(const char *FileWAM,fpos_t &filepos,nmTipoCalculoEspecies CalculoEspecies,
 				 nmCalculoGamma CalculoGamma,bool HayEGR,TBloqueMotor **Motor);
 
 void CalculoTransmisionCalor(TBloqueMotor **Motor,double theta,TTubo **Tubo,TConcentrico **Concentrico);
 
-void LeeResultadosMediosDPF(char *FileWAM,fpos_t &filepos);
+void LeeResultadosMediosDPF(const char *FileWAM,fpos_t &filepos);
 
 void ImprimeResultadosMedios(std::stringstream& medoutput)const;
 
@@ -303,7 +303,7 @@ void CabeceraResultadosMedios(std::stringstream& medoutput,stEspecies *DatosEspe
 
 void CalculaResultadosMedios(double theta);
 
-void LeeResultadosInstantaneosDPF(char *FileWAM,fpos_t &filepos);
+void LeeResultadosInstantaneosDPF(const char *FileWAM,fpos_t &filepos);
 
 void CabeceraResultadosInstantaneos(std::stringstream& insoutput, stEspecies *DatosEspecies)const;
 

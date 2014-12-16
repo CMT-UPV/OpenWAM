@@ -1,6 +1,6 @@
 1 VERSIONINFO
-FILEVERSION     2,0,3,8
-PRODUCTVERSION  2,0,3,8
+FILEVERSION     2,1,0,2
+PRODUCTVERSION  2,1,0,2
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -8,12 +8,12 @@ BEGIN
     BEGIN
       VALUE "CompanyName", "CMT - Motores Termicos"
       VALUE "FileDescription", "OpenWAM -  the free, open source 1-dimensional gas-dynamic code produced by CMT- Motores Termicos of the Universitat Politecnica de Valencia"
-      VALUE "FileVersion", "2.0.3"
+      VALUE "FileVersion", "2.1.0"
       VALUE "InternalName", "OpenWAM"
       VALUE "LegalCopyright", "(C) 2014 CMT - Motores Termicos.  Universitat Politecnica de Valencia"
       VALUE "OriginalFilename", "OpenWAM.exe"
       VALUE "ProductName", "OpenWAM"
-      VALUE "ProductVersion", "2.0.3"
+      VALUE "ProductVersion", "2.1.0"
     END
   END
 

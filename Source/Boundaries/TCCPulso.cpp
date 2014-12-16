@@ -69,7 +69,7 @@ if(FComposicion!=NULL) delete[] FComposicion;
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCPulso::ReadBoundaryData(char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF)
+void TCCPulso::ReadBoundaryData(const char *FileWAM,fpos_t &filepos,int NumberOfPipes,TTubo **Pipe,int nDPF, TDPF **DPF)
 {
 try
 {

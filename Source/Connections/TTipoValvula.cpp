@@ -140,7 +140,7 @@ FCDVolTub=Valor;
 //---------------------------------------------------------------------------
 
 
-void TTipoValvula::LeeDatosGraficasINS(char *FileWAM,fpos_t &filepos)
+void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM,fpos_t &filepos)
 {
 try
 {
@@ -252,7 +252,7 @@ catch(Exception &N)
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TTipoValvula::LeeDatosGraficasMED(char *FileWAM,fpos_t &filepos)
+void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM,fpos_t &filepos)
 {
 try
 {

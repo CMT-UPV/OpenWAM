@@ -133,7 +133,7 @@ TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) : TTipoValvula(nmValvula
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TValvula4T::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
 	TBloqueMotor *Engine) {
 	try {
 		int ControlRegimen, NumLev = 0, NumCD = 0;
@@ -387,6 +387,7 @@ void TValvula4T::GetCDin(double Time) {
 	else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
+		if(XLv > 720) XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
@@ -426,6 +427,7 @@ void TValvula4T::GetCDout(double Time) {
 	else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
+		if(XLv > 720) XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 

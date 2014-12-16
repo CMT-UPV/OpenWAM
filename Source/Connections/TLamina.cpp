@@ -145,7 +145,7 @@ TLamina::TLamina(TLamina *Origen, int Valvula) : TTipoValvula(nmLamina) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TLamina::LeeDatosIniciales(char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
 	TBloqueMotor *Engine) {
 	try {
 		int tipo, sentido;

@@ -69,7 +69,7 @@ public:
 
      void AsignaCCUnionDireccional();
 
-     void LeeDatosUnionDireccional(char *FileWAM,fpos_t &filepos);
+     void LeeDatosUnionDireccional(const char *FileWAM,fpos_t &filepos);
 
     void LeeDatosUnionDireccionalXML(xml_node node);
 

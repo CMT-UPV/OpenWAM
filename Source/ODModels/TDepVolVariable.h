@@ -87,7 +87,7 @@ public:
 
 	void IniciaVolumen(double Theta);
 
-	void LeeDatosDepVolVariable(char *FileWAM, fpos_t &filepos, bool HayMotor);
+	 void LeeDatosDepVolVariable(const char *FileWAM,fpos_t &filepos,bool HayMotor);
 
 	void LeeDatosDepVolVariableXML(xml_node node_plenum, bool HayMotor);
 
