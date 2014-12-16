@@ -422,9 +422,9 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	// -----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------
 
-	std::cout << "=====================" << std::endl;
-	std::cout << " OpenWAM Beta v1.1.0 " << std::endl;
-	std::cout << "=====================" << std::endl << std::endl;
+	std::cout << "=======================" << std::endl;
+	std::cout << " OpenWAM v2.1.0 Build 2" << std::endl;
+	std::cout << "=======================" << std::endl << std::endl;
 
 	std::cout << "THE MODEL IS READING THE INPUT DATA" << std::endl
 			<< std::endl;

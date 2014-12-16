@@ -145,6 +145,7 @@ Allow the communication with WAMer
 #include "TCGestorWAM.h"
 #endif
 
+
 class TOpenWAM {
 private:
 

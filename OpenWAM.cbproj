@@ -6,8 +6,8 @@
         <Base>True</Base>
         <AppType>Console</AppType>
         <FrameworkType>None</FrameworkType>
-        <TargetedPlatforms>1</TargetedPlatforms>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -52,15 +52,15 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <SanitizedProjectName>OpenWAM</SanitizedProjectName>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
-        <VerInfo_Build>8</VerInfo_Build>
-        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.0.2.9;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>3082</VerInfo_Locale>
-        <VerInfo_Release>3</VerInfo_Release>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.0.3.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Build>9</VerInfo_Build>
+        <VerInfo_Release>2</VerInfo_Release>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <BCC_DataAlignment>Paragraph</BCC_DataAlignment>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
@@ -70,21 +70,21 @@
         <BCC_InstructionSet>6</BCC_InstructionSet>
         <ProjectType>CppConsoleApplication</ProjectType>
         <PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave77VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_140.bpi;Intraweb_100_140.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdb.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DataSnapIndy10ServerTransport.bpi;DataSnapProviderClient.bpi;DbxClientDriver.bpi;DataSnapServer.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DBXFirebirdDriver.bpi;DBXSybaseASEDriver.bpi;DBXSybaseASADriver.bpi;DBXOracleDriver.bpi;DBXMSSQLDriver.bpi;DBXInformixDriver.bpi;DBXDb2Driver.bpi;$(PackageImports)</PackageImports>
+        <OutputExt>exe</OutputExt>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-        <IncludePath>Source\Labels\;Source\Math_wam\;Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\Includes;Source\;$(BDS)\include;c:\Program Files\Embarcadero\RAD Studio\7.0\;$(BDS)\include\vcl;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>Source\Labels\;Source\Math_wam\;Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>Source\Wrappers\;Source\Labels\;Source\Math_wam\;Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\Includes;Source\;$(BDS)\include;c:\Program Files\Embarcadero\RAD Studio\7.0\;$(BDS)\include\vcl;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>Source\Wrappers\;Source\Labels\;Source\Math_wam\;Source\Concentric Pipe\;Source\DPF\;Source\Includes\;Source\Turbocompressor\;Source\Output\;Source\ODModels\;Source\Extern\;Source\Engine\;Source\Control\;Source\Connections\;Source\Boundaries\;Source\Act\;Source\1DPipes\;Source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
         <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <Debugger_UseLauncher>true</Debugger_UseLauncher>
-        <Debugger_RunParams>sistema_distribucion_modificado_mejorado.WAM</Debugger_RunParams>
+        <Debugger_RunParams>DW10B_2500_90.WAM</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <OutputExt>.exe</OutputExt>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <Debugger_UseLauncher>true</Debugger_UseLauncher>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
@@ -106,11 +106,8 @@
         <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\debug;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>Twin_Turb.WAM</Debugger_RunParams>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <Defines>_DEBUG;$(Defines)</Defines>
-        <OutputExt>exe</OutputExt>
-        <Manifest_File>None</Manifest_File>
+        <Debugger_RunParams>mDW10C_1750_90_inyCompleto2.WAM</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <Defines>_DEBUG;$(Defines)</Defines>
@@ -129,8 +126,9 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
+        <None Include="OpenWAM.otares"/>
         <ResFiles Include="OpenWAM.res">
-            <BuildOrder>92</BuildOrder>
+            <BuildOrder>91</BuildOrder>
         </ResFiles>
         <CppCompile Include="Source\1DPipes\TTubo.cpp">
             <VirtualFolder>{AE685930-8CAF-4065-9A5F-C73ECDCDCDA1}</VirtualFolder>
@@ -317,7 +315,7 @@
         </CppCompile>
         <CppCompile Include="Source\Control\TGain.cpp">
             <VirtualFolder>{143DF534-3A14-4F07-9F2A-896B2CA51120}</VirtualFolder>
-            <BuildOrder>91</BuildOrder>
+            <BuildOrder>94</BuildOrder>
         </CppCompile>
         <CppCompile Include="Source\Control\TPIDController.cpp">
             <VirtualFolder>{143DF534-3A14-4F07-9F2A-896B2CA51120}</VirtualFolder>
@@ -425,11 +423,11 @@
             <BuildOrder>0</BuildOrder>
         </ResourceCompile>
         <CppCompile Include="Source\Labels\labels.cpp">
-            <BuildOrder>91</BuildOrder>
+            <BuildOrder>95</BuildOrder>
         </CppCompile>
         <CppCompile Include="Source\Math_wam\Math_wam.cpp">
             <DependentOn>Source\Math_wam\Math_wam.h</DependentOn>
-            <BuildOrder>90</BuildOrder>
+            <BuildOrder>94</BuildOrder>
         </CppCompile>
         <CppCompile Include="Source\ODModels\TAcousticTurbine.cpp">
             <VirtualFolder>{111A6EB1-CF8B-440F-B59F-19D54608F7E7}</VirtualFolder>
@@ -581,6 +579,9 @@
             <DependentOn>Source\Turbocompressor\TSAEMap.h</DependentOn>
             <BuildOrder>83</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Source\Wrappers\StringManagement.cpp">
+            <BuildOrder>96</BuildOrder>
+        </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -604,8 +605,8 @@
                     <VersionInfo Name="AutoIncBuild">True</VersionInfo>
                     <VersionInfo Name="MajorVer">2</VersionInfo>
                     <VersionInfo Name="MinorVer">0</VersionInfo>
-                    <VersionInfo Name="Release">3</VersionInfo>
-                    <VersionInfo Name="Build">8</VersionInfo>
+                    <VersionInfo Name="Release">2</VersionInfo>
+                    <VersionInfo Name="Build">11</VersionInfo>
                     <VersionInfo Name="Debug">False</VersionInfo>
                     <VersionInfo Name="PreRelease">False</VersionInfo>
                     <VersionInfo Name="Special">False</VersionInfo>
@@ -617,7 +618,7 @@
                 <VersionInfoKeys>
                     <VersionInfoKeys Name="CompanyName"/>
                     <VersionInfoKeys Name="FileDescription"/>
-                    <VersionInfoKeys Name="FileVersion">2.0.3.8</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">2.0.2.11</VersionInfoKeys>
                     <VersionInfoKeys Name="InternalName"/>
                     <VersionInfoKeys Name="LegalCopyright"/>
                     <VersionInfoKeys Name="LegalTrademarks"/>
@@ -625,12 +626,20 @@
                     <VersionInfoKeys Name="ProductName"/>
                     <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
                     <VersionInfoKeys Name="Comments"/>
+                    <VersionInfoKeys Name="CFBundleName"/>
+                    <VersionInfoKeys Name="CFBundleDisplayName"/>
+                    <VersionInfoKeys Name="CFBundleIdentifier"/>
+                    <VersionInfoKeys Name="CFBundleVersion"/>
+                    <VersionInfoKeys Name="CFBundlePackageType"/>
+                    <VersionInfoKeys Name="CFBundleSignature"/>
+                    <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
+                    <VersionInfoKeys Name="CFBundleExecutable"/>
                 </VersionInfoKeys>
                 <Debugging>
                     <Debugging Name="DebugSourceDirs"/>
                 </Debugging>
                 <Parameters>
-                    <Parameters Name="RunParams">sistema_distribucion_modificado_mejorado.WAM</Parameters>
+                    <Parameters Name="RunParams">DW10B_2500_90.WAM</Parameters>
                     <Parameters Name="UseLauncher">True</Parameters>
                     <Parameters Name="RemoteHost"/>
                     <Parameters Name="RemotePath"/>
@@ -653,8 +662,8 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k200.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp200.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k140.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp140.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
                 <Folders/>
                 <VFOLDERS>
@@ -672,8 +681,6 @@
             </CPlusPlusBuilder.Personality>
             <ModelSupport>False</ModelSupport>
             <Platforms>
-                <Platform value="iOSDevice">False</Platform>
-                <Platform value="OSX32">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>

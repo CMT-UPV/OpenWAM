@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------------------------*\
+﻿/*--------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
@@ -144,6 +144,7 @@ bool FHayEGR;
 int FIntEGR;
 nmTipoCalculoEspecies FCalculoEspecies;
 nmCalculoGamma FCalculoGamma;
+double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
 
 public:
 

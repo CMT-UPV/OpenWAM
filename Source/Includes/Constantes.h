@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------------------------*\
+﻿/*--------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
@@ -55,38 +55,40 @@ License
 
 #ifndef ConstantesH
 #define ConstantesH
+//#include "TBloqueMotor.h"
 #ifdef __BORLANDC__
     #include <vcl.h>
 #endif
 //---------------------------------------------------------------------------
-const double Runiversal=8314.4; ///< Universal gas constant. [J / (mol * K)]
-const double R=287.; ///< Gas constant of air. [J / (kg * K)]
-const double RFuel=55.95; ///< Gas constant of vaporized fuel. [J / (kg * K)]
-const double RBurnt=285.4; ///< Gas constant of the burnt fraction. [J / (kg * K)]
-const double RAir=287.; ///< Gas constant of air. [J / (kg * K)]
-const double RO2=259.825; ///< Gas constant of O2. [J / (kg * K)]
-const double RCO2=188.9207; ///< Gas constant of CO2. [J / (kg * K)]
-const double RH2O=461.398; ///< Gas constant of water vapour. [J / (kg * K)]
-const double RN2=296.837; ///< Gas constant of N2. [J / (kg * K)]
-const double RArgon=208.12; ///< Gas constant of Ar. [J / (kg * K)]
-const double PMO2=32; ///< Molar mass of O2. [g]
-const double PMCO2=44.01; ///< Molar mass of CO2. [g]
-const double PMH2O=18.02; ///< Molar mass of H2O. [g]
-const double PMN2=28.01; ///< Molar mass of N2. [g]
-const double PMArgon=39.95; ///< Molar mass of Ar. [g]
-const double PMCarbono=12.01; ///< Molar mass of C. [g]
-const double PMNO2=46; ///< Molar mass of NO2. [g]
-const double PMNO=30; ///< Molar mass of NO. [g]
-const double PMCO=28.01; ///< Molar mass of CO. [g]
-const double PMDiesel=148.4; ///< Molar mass of diesel fuel. [g]
-// Diesel C10.8H18.7 , los HC mantienen la misma relacion C/H y le damos
-// la composicion C4H6.93
-const double PMHC=55.04; ///< Molar mass of HC. [g]
+const double Runiversal=8314.4;
+const double R=287.;
+const double RBurnt=285.4;
+const double RAir=287.;
+const double RO2=259.825;
+const double RCO2=188.9207;
+const double RH2O=461.398;
+const double RN2=296.837;
+const double RArgon=208.12;
+const double PMO2=32;
+const double PMCO2=44.01;
+const double PMH2O=18.02;
+const double PMN2=28.01;
+const double PMArgon=39.95;
+const double PMCarbono=12.01;
+const double PMNO2=46;
+const double PMNO=30;
+const double PMCO=28.01;
+const double PMDiesel=148.4; // Diesel C10.8H18.7 , los HC mantienen la misma relacion C/H y le damos
+const double PMHC=55.04;     // la composici�n C4H6.93
+const double RDiesel=55.95;
+const double PMGasoline=114.8;    // Gasoline molar mass
+const double RGasoline=72.42;
 
 
-const double Pi=3.1415927; ///< The value of @f$ \pi @f$
-const double Gamma=1.4; ///< Air specific heat capacities ratio.
-const double ARef=343.11; ///< Reference speed of sound. [m / s]
+
+const double Pi=3.1415927;
+const double Gamma=1.4;
+const double ARef=343.11;
 const double TRef=292.99271; ///< Reference temperature. [K]
 const double ARef2=117724.4721;
 const double PRef=1.0; ///< Reference pressure. [bar]

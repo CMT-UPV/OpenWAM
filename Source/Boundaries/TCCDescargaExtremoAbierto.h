@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -83,17 +83,17 @@ public:
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
 				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FCalculoGamma);
+					FComposicion[2], 0, FCalculoGamma, nmMEP);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], FTemperaturaDep, FCalculoGamma);
+					FComposicion[2], 0, FTemperaturaDep, FCalculoGamma, nmMEP);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			}
 			else if (FCalculoEspecies == nmCalculoSimple) {
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], FCalculoGamma);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0],
-					FCalculoGamma);
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0],0,
+					FCalculoGamma, nmMEP);
 				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 			}

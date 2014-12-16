@@ -54,6 +54,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #pragma hdrstop
 
 #include "TTubo.h"
+#include "TBloqueMotor.h"
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -793,7 +794,7 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos, double
 			// }
 			FEspesorExtPrin = EspesorPrin;
 		}
-		else if (FTipoTransCal == nmPipaEscape) {
+		else if (FTipoTransCal == nmPipaEscape || FTipoTransCal == nmPipaAdmision) {
 			fscanf(fich, "%d", &datoWAMer);
 		}
 
@@ -1126,20 +1127,20 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
 			RMezclaIni = CalculoCompletoRMezcla(FComposicionInicial[0],
-				FComposicionInicial[1], FComposicionInicial[2], FCalculoGamma);
+				FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma, nmMEP);
 			CpMezclaIni = CalculoCompletoCpMezcla(FComposicionInicial[0],
-				FComposicionInicial[1], FComposicionInicial[2], FTini + 273.,
-				FCalculoGamma);
+				FComposicionInicial[1], FComposicionInicial[2], 0, FTini + 273.,
+				FCalculoGamma, nmMEP);
 			GammaIni = CalculoCompletoGamma(RMezclaIni, CpMezclaIni,
 				FCalculoGamma);
 
 		}
 		else if (FCalculoEspecies == nmCalculoSimple) {
 
-			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],
-				FCalculoGamma);
+			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],FComposicionInicial[1],
+				FCalculoGamma, nmMEP);
 			CvMezclaIni = CalculoSimpleCvMezcla(FTini + 273.,
-				FComposicionInicial[0], FCalculoGamma);
+				FComposicionInicial[0],FComposicionInicial[1], FCalculoGamma, nmMEP);
 			GammaIni = CalculoSimpleGamma(RMezclaIni, CvMezclaIni,
 				FCalculoGamma);
 
@@ -1232,24 +1233,35 @@ void TTubo::ActualizaPropiedadesGas() {
 			if (FCalculoEspecies == nmCalculoSimple) {
 
 				FRMezcla[i] = CalculoSimpleRMezcla
-					(FFraccionMasicaEspecie[i][0], FCalculoGamma);
+					(FFraccionMasicaEspecie[i][0],0, FCalculoGamma, nmMEP);
 				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i],
-					FFraccionMasicaEspecie[i][0], FCalculoGamma);
-				FGamma[i] = CalculoSimpleGamma(FRMezcla[i], CvMezcla,
-					FCalculoGamma);
+					FFraccionMasicaEspecie[i][0],0, FCalculoGamma, nmMEP);
+				FGammaN = CalculoSimpleGamma(FRMezcla[i], CvMezcla, FCalculoGamma);
+					if (abs(FGammaN - FGamma[i]) > 0.025) {
+						FGamma[i];
+					}
+					else {
+						FGamma[i] =  0.9995*FGamma[i] + 0.0005*FGammaN;
+                    }
 			}
 			else {
 
 				FRMezcla[i] = CalculoCompletoRMezcla
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1],
-					FFraccionMasicaEspecie[i][2], FCalculoGamma);
+					FFraccionMasicaEspecie[i][2],
+					0, FCalculoGamma, nmMEP);
 				double CpMezcla = CalculoCompletoCpMezcla
 					(FFraccionMasicaEspecie[i][0],
 					FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2],
-					FTemperature[i], FCalculoGamma);
-				FGamma[i] = CalculoCompletoGamma(FRMezcla[i], CpMezcla,
-					FCalculoGamma);
+					0, FTemperature[i], FCalculoGamma, nmMEP);
+				FGammaN = CalculoCompletoGamma(FRMezcla[i], CpMezcla, FCalculoGamma);
+					if (abs(FGammaN - FGamma[i]) > 0.025) {
+						FGamma[i];
+					}
+					else {
+						FGamma[i] = 0.9995*FGamma[i] + 0.0005*FGammaN;
+					}
 
 			}
 

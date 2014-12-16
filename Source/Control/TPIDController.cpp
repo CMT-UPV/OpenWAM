@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------------------*\
+﻿/* --------------------------------------------------------------------------------*\
 ==========================|
 \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
 \\ |  X  | //  W ave     |
@@ -59,6 +59,7 @@ double TPIDController::Output(double Time) {
 
 		if (fInicio) {
 			fError_ant = fError;
+			fiact = 0;
 			fInicio = false;
 		}
 
