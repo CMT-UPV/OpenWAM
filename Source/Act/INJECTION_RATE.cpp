@@ -12,9 +12,10 @@ using namespace std;
 
 /** ************     FUNCTIONS DECLARATION       ************** */
 
-extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI, double*SOI,
-	double*EOI, double speed, int CAI, double PCR, double*A, double*B, double*C, double*D,
-	double*injection_rate, double*CAD_injection_rate);
+extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI,
+		double*SOI, double*EOI, double speed, int CAI, double PCR, double*A,
+		double*B, double*C, double*D, double*injection_rate,
+		double*CAD_injection_rate);
 
 /** ************     MAIN FUNCTION       ************* */
 
@@ -225,11 +226,12 @@ extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI, 
 //
 // }
 
-inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, double *SOI, double *EOI,
-	double speed, int CAI, double PCR, double *A, double *B, double *C, double *D,
-	double *injection_rate, double *CAD_injection_rate)
+inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI,
+		double *SOI, double *EOI, double speed, int CAI, double PCR, double *A,
+		double *B, double *C, double *D, double *injection_rate,
+		double *CAD_injection_rate)
 
-{
+		{
 
 	int k;
 	// initialize injection rate
@@ -268,8 +270,7 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, do
 			}
 			// calculates end of injection
 			EOI[j] = SOI[j] + (b / a + DLM + b / -c) * 6 * speed;
-		}
-		else {
+		} else {
 			double levmaxi = sqrt((2. * MFI[j]) / (1. / a + 1. / -c));
 			double DTL = levmaxi / a;
 			double DTB = levmaxi / -c;

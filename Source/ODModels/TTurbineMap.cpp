@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TTurbineMap.h"
@@ -44,7 +43,7 @@ TTurbineMap::~TTurbineMap() {
 }
 
 void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
-	double Diam3, double Diam4, double CriticalAngle) {
+		double Diam3, double Diam4, double CriticalAngle) {
 
 	int rows, Adiab;
 	double pos, ang;
@@ -53,10 +52,10 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
 	bool CalculaGR = false;
 
 #ifdef tchtm
-	fscanf(Input, "%d ", &Adiab);
-	if (Adiab == 0) {
+	fscanf ( Input, "%d ", &Adiab );
+	if ( Adiab == 0 ) {
 		FIsAdiabatic = false;
-		fscanf(Input, "%lf ", &FTempMeasure);
+		fscanf ( Input, "%lf ", &FTempMeasure );
 	}
 #endif
 
@@ -70,7 +69,7 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
 		else
 			CalculaGR = true;
 		FTurbPosition[i].EffectiveArea(Area, CalculaGR, Diam1, Diam2, Diam3,
-			n_limit);
+				n_limit);
 		// FTurbPosition[i].CalculatePower(923);
 		FTurbPosition[i].SearchMapLimits();
 
@@ -84,14 +83,13 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
 }
 
 void TTurbineMap::CurrentEffectiveSection(double n, double er, double rack,
-	double T10T00) {
+		double T10T00) {
 	if (FFixedTurbine) {
 		FTurbPosition[0].InterpolaPosicion(n, er);
 		FStatorES = FTurbPosition[0].StatorSec();
 		FRotorES = FTurbPosition[0].RotorSec() * sqrt(T10T00);
 		FEffTurb = FTurbPosition[0].Efficiency();
-	}
-	else {
+	} else {
 		int i = 0;
 		while (rack > FTurbPosition[i].Rack() && i < FNumPositions) {
 			++i;
@@ -101,18 +99,17 @@ void TTurbineMap::CurrentEffectiveSection(double n, double er, double rack,
 			FStatorES = FTurbPosition[i].StatorSec();
 			FRotorES = FTurbPosition[i].RotorSec();
 			FEffTurb = FTurbPosition[i].Efficiency();
-		}
-		else {
+		} else {
 			FTurbPosition[i].InterpolaPosicion(n, er);
 			FTurbPosition[i - 1].InterpolaPosicion(n, er);
-			double DeltaRack = (rack - FTurbPosition[i - 1].Rack()) /
-				(FTurbPosition[i].Rack() - FTurbPosition[i - 1].Rack());
+			double DeltaRack = (rack - FTurbPosition[i - 1].Rack())
+					/ (FTurbPosition[i].Rack() - FTurbPosition[i - 1].Rack());
 			FStatorES = FTurbPosition[i - 1].StatorSec() * (1 - DeltaRack)
-				+ FTurbPosition[i].StatorSec() * DeltaRack;
+					+ FTurbPosition[i].StatorSec() * DeltaRack;
 			FRotorES = (FTurbPosition[i - 1].RotorSec() * (1 - DeltaRack)
-				+ FTurbPosition[i].RotorSec() * DeltaRack)  * sqrt(T10T00);
+					+ FTurbPosition[i].RotorSec() * DeltaRack) * sqrt(T10T00);
 			FEffTurb = FTurbPosition[i - 1].Efficiency() * (1 - DeltaRack)
-				+ FTurbPosition[i].Efficiency() * DeltaRack;
+					+ FTurbPosition[i].Efficiency() * DeltaRack;
 		}
 	}
 }

@@ -1,33 +1,31 @@
 /*--------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
-  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-	This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-	OpenWAM is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-	OpenWAM is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*--------------------------------------------------------------------------------*/
-
+ \*--------------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-
 
 #pragma hdrstop
 
@@ -36,178 +34,167 @@ License
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TRotorTurbina::TRotorTurbina():TTipoValvula(nmRotor){
+TRotorTurbina::TRotorTurbina() :
+		TTipoValvula(nmRotor) {
 
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TRotorTurbina::~TRotorTurbina(){
+TRotorTurbina::~TRotorTurbina() {
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TRotorTurbina::TRotorTurbina(TRotorTurbina *Origen,int Valvula):TTipoValvula(nmRotor){
+TRotorTurbina::TRotorTurbina(TRotorTurbina *Origen, int Valvula) :
+		TTipoValvula(nmRotor) {
 
-FValvula=Valvula;
+	FValvula = Valvula;
 
-FTipoRotor=Origen->FTipoRotor;
-FCDEInicial=Origen->FCDEInicial;
-FCDSInicial=Origen->FCDSInicial;
-FDiametroRef=Origen->FDiametroRef;
+	FTipoRotor = Origen->FTipoRotor;
+	FCDEInicial = Origen->FCDEInicial;
+	FCDSInicial = Origen->FCDSInicial;
+	FDiametroRef = Origen->FDiametroRef;
 
-FNumeroOrden=Origen->FNumeroOrden;
+	FNumeroOrden = Origen->FNumeroOrden;
 
-FDiamRef=FDiametroRef;
+	FDiamRef = FDiametroRef;
 
-FCDTubVol=FCDEInicial;
-FCDVolTub=FCDSInicial;
+	FCDTubVol = FCDEInicial;
+	FCDVolTub = FCDSInicial;
 
-FCDVbl=FCDEInicial;
+	FCDVbl = FCDEInicial;
 
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TRotorTurbina::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
-	bool HayMotor,TBloqueMotor *Engine)
-{
-try
-{
-int tprotor;
+void TRotorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
+		int norden, bool HayMotor, TBloqueMotor *Engine) {
+	try {
+		int tprotor;
 
-FILE *fich=fopen(FileWAM,"r");
-fsetpos(fich, &filepos);
+		FILE *fich = fopen(FileWAM, "r");
+		fsetpos(fich, &filepos);
 
-FNumeroOrden=norden;
+		FNumeroOrden = norden;
 
-fscanf(fich,"%lf %lf %lf ",&FCDEInicial,&FCDSInicial,&FDiametroRef);
+		fscanf(fich, "%lf %lf %lf ", &FCDEInicial, &FCDSInicial, &FDiametroRef);
 
-fgetpos(fich, &filepos);
-fclose(fich);
+		fgetpos(fich, &filepos);
+		fclose(fich);
 
-}
-catch(Exception &N)
-{
-     std::cout << "ERROR: LeeDatosIniciales CDFijo" << std::endl;
-     //std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-     throw Exception(N.Message);
+	} catch (Exception &N) {
+		std::cout << "ERROR: LeeDatosIniciales CDFijo" << std::endl;
+		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		throw Exception(N.Message);
 
-}
+	}
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TRotorTurbina::TipodeRotor(nmTipoRotor TipoRotor)
-{
-try
-{
+void TRotorTurbina::TipodeRotor(nmTipoRotor TipoRotor) {
+	try {
 
-FTipoRotor=TipoRotor;
+		FTipoRotor = TipoRotor;
 
-}
-catch(Exception &N)
-{
-std::cout << "ERROR: TRotorTurbina::TipodeRotor " <<  std::endl;
+	} catch (Exception &N) {
+		std::cout << "ERROR: TRotorTurbina::TipodeRotor " << std::endl;
 //std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-throw Exception(N.Message);
-}
-}
-
-//---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-
-void TRotorTurbina::CalculaCD()
-{
-try
-{
-switch(FTipoRotor){
-     case nmRotFijo:
-		  FCDTubVol=FCDEInicial*FSectionRatio;
-		  FCDVolTub=FCDSInicial*FSectionRatio;
-	 break;
-	 case nmRotMapa:
-		  FCDTubVol=FAreaEff/(pow2(FDiamTubo)*3.14159/4);
-		  FCDVolTub=FAreaEff/(pow2(FDiamTubo)*3.14159/4);
-	 break;
-	 case nmRotVariable:
-		  FCDTubVol=FCDVbl*FSectionRatio;
-		  FCDVolTub=FCDVbl*FSectionRatio;
-	 break;
-}
-if(FCDTubVol>1){
-	 FCDTubVol=1.;
-}else if(FCDTubVol<0){
-	 FCDTubVol=0.001;
-}
-if(FCDVolTub>1){
-	 FCDVolTub=1.;
-}else if(FCDVolTub<0){
-	 FCDVolTub=0.001;
-}
-}
-catch(Exception &N)
-{
-     std::cout << "ERROR: CalculaCD RotorTurbine" << std::endl;
-     //std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-     throw Exception(N.Message);
-
-}
-}
-
-void TRotorTurbina::GetCDin(double Time){
-
-switch(FTipoRotor){
-     case nmRotFijo:
-		  FCDTubVol=FCDEInicial*FSectionRatio;
-	 break;
-	 case nmRotMapa:
-		  FCDTubVol=FAreaEff/(pow2(FDiamTubo)*3.14159/4);
-	 break;
-	 case nmRotVariable:
-		  FCDTubVol=FCDVbl*FSectionRatio;
-	 break;
-}
-if(FCDTubVol>1){
-	 FCDTubVol=1.;
-}else if(FCDTubVol<0){
-	 FCDTubVol=0.001;
-}
-}
-
-void TRotorTurbina::GetCDout(double Time){
-
-switch(FTipoRotor){
-	 case nmRotFijo:
-		  FCDVolTub=FCDSInicial*FSectionRatio;
-	 break;
-	 case nmRotMapa:
-		  FCDVolTub=FAreaEff/(pow2(FDiamTubo)*3.14159/4);
-	 break;
-	 case nmRotVariable:
-		  FCDVolTub=FCDVbl*FSectionRatio;
-	 break;
-}
-if(FCDVolTub>1){
-	 FCDVolTub=1.;
-}else if(FCDVolTub<0){
-	 FCDVolTub=0.001;
-}
+		throw Exception(N.Message);
+	}
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TRotorTurbina::AsignaTurbina(int NTurb)
-{
-FNumeroTurbina=NTurb;
+void TRotorTurbina::CalculaCD() {
+	try {
+		switch (FTipoRotor) {
+		case nmRotFijo:
+			FCDTubVol = FCDEInicial * FSectionRatio;
+			FCDVolTub = FCDSInicial * FSectionRatio;
+			break;
+		case nmRotMapa:
+			FCDTubVol = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+			FCDVolTub = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+			break;
+		case nmRotVariable:
+			FCDTubVol = FCDVbl * FSectionRatio;
+			FCDVolTub = FCDVbl * FSectionRatio;
+			break;
+		}
+		if (FCDTubVol > 1) {
+			FCDTubVol = 1.;
+		} else if (FCDTubVol < 0) {
+			FCDTubVol = 0.001;
+		}
+		if (FCDVolTub > 1) {
+			FCDVolTub = 1.;
+		} else if (FCDVolTub < 0) {
+			FCDVolTub = 0.001;
+		}
+	} catch (Exception &N) {
+		std::cout << "ERROR: CalculaCD RotorTurbine" << std::endl;
+		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		throw Exception(N.Message);
+
+	}
+}
+
+void TRotorTurbina::GetCDin(double Time) {
+
+	switch (FTipoRotor) {
+	case nmRotFijo:
+		FCDTubVol = FCDEInicial * FSectionRatio;
+		break;
+	case nmRotMapa:
+		FCDTubVol = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+		break;
+	case nmRotVariable:
+		FCDTubVol = FCDVbl * FSectionRatio;
+		break;
+	}
+	if (FCDTubVol > 1) {
+		FCDTubVol = 1.;
+	} else if (FCDTubVol < 0) {
+		FCDTubVol = 0.001;
+	}
+}
+
+void TRotorTurbina::GetCDout(double Time) {
+
+	switch (FTipoRotor) {
+	case nmRotFijo:
+		FCDVolTub = FCDSInicial * FSectionRatio;
+		break;
+	case nmRotMapa:
+		FCDVolTub = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+		break;
+	case nmRotVariable:
+		FCDVolTub = FCDVbl * FSectionRatio;
+		break;
+	}
+	if (FCDVolTub > 1) {
+		FCDVolTub = 1.;
+	} else if (FCDVolTub < 0) {
+		FCDVolTub = 0.001;
+	}
+}
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+void TRotorTurbina::AsignaTurbina(int NTurb) {
+	FNumeroTurbina = NTurb;
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
- 
+

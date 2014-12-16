@@ -21,12 +21,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * TGain.cpp
  *
  * Created on: 14/07/2014
  *     Author: farnau
- * 
+ *
  \*--------------------------------------------------------------------------------*/
 
 #include "TGain.h"
@@ -76,8 +76,7 @@ void TGain::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 	}
 }
 
-void TGain::LeeResultadosMedControlador(const char *FileWAM,
-		fpos_t &filepos) {
+void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 
 	int nvars, var;
 
@@ -103,8 +102,7 @@ void TGain::LeeResultadosMedControlador(const char *FileWAM,
 
 }
 
-void TGain::LeeResultadosInsControlador(const char *FileWAM,
-		fpos_t &filepos) {
+void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 
 	int nvars, var;
 

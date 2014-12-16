@@ -1,39 +1,39 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TPIDController.h"
 
 // ---------------------------------------------------------------------------
 
-TPIDController::TPIDController(int i) : TController(nmCtlPID, i) {
+TPIDController::TPIDController(int i) :
+		TController(nmCtlPID, i) {
 	fID = i + 1;
 	fError_ant = 0;
 	fTime_ant = 0;
@@ -71,8 +71,7 @@ double TPIDController::Output(double Time) {
 //			  fiact=0.;
 //			}
 
-		}
-		else {
+		} else {
 			Kp = fKP_neg;
 			Ki = fKI_neg;
 			Kd = fKD_neg;
@@ -95,8 +94,7 @@ double TPIDController::Output(double Time) {
 			fiact = fI_ant;
 //			if (fError < 0)
 //				fI_ant = fI_ant + Ki * fError * dt;
-		}
-		else if (fOutput < fMin_out) {
+		} else if (fOutput < fMin_out) {
 			fOutput = fMin_out;
 			fiact = fI_ant;
 //			if (fError > 0)
@@ -106,15 +104,16 @@ double TPIDController::Output(double Time) {
 //			fI_ant = fI_ant + Ki * fError * dt;
 //		}
 
-        fI_ant = fiact;
+		fI_ant = fiact;
 		fError_ant = fError;
 
 		fTime_ant = Time;
 	}
 	deltaT = Time - fTime_ant_filt;
 	if (deltaT > 0) {
-		fOutput_filt = ((2 * fDelay - deltaT) * fOutput_filt_ant + deltaT * fGain *
-			(fOutput + fOutput_ant)) / (2 * fDelay + deltaT);
+		fOutput_filt = ((2 * fDelay - deltaT) * fOutput_filt_ant
+				+ deltaT * fGain * (fOutput + fOutput_ant))
+				/ (2 * fDelay + deltaT);
 		fOutput_filt_ant = fOutput_filt;
 		fOutput_ant = fOutput;
 		fTime_ant_filt = Time;
@@ -173,7 +172,8 @@ void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 }
 
-void TPIDController::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
+void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
+		fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -183,7 +183,7 @@ void TPIDController::LeeResultadosMedControlador(const char *FileWAM, fpos_t &fi
 		fscanf(fich, "%d ", &nvars);
 		for (int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch(var) {
+			switch (var) {
 			case 0:
 				FResMediosCtrl.Output = true;
 				break;
@@ -203,21 +203,24 @@ void TPIDController::LeeResultadosMedControlador(const char *FileWAM, fpos_t &fi
 				FResMediosCtrl.Output_filt = true;
 				break;
 			default:
-				std::cout << "Resultados medios en Controlador " << fID << " no implementados " << std::endl;
+				std::cout << "Resultados medios en Controlador " << fID
+						<< " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::LeeResultadosControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::LeeResultadosControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
 
-void TPIDController::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
+void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
+		fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -227,7 +230,7 @@ void TPIDController::LeeResultadosInsControlador(const char *FileWAM, fpos_t &fi
 		fscanf(fich, "%d ", &nvars);
 		for (int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch(var) {
+			switch (var) {
 			case 0:
 				FResInstantCtrl.Output = true;
 				break;
@@ -247,17 +250,17 @@ void TPIDController::LeeResultadosInsControlador(const char *FileWAM, fpos_t &fi
 				FResInstantCtrl.Output_filt = true;
 				break;
 			default:
-				std::cout << "Resultados instantaneos en Controlador " << fID << " no implementados " <<
-					std::endl;
+				std::cout << "Resultados instantaneos en Controlador " << fID
+						<< " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::LeeResultadosInsControlador en el controlador " << fID <<
-			std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::LeeResultadosInsControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -292,10 +295,10 @@ void TPIDController::CabeceraResultadosMedControlador(stringstream& medoutput) {
 			medoutput << Label.c_str();
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::CabeceraResultadosMedControlador en el controlador " <<
-			fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::CabeceraResultadosMedControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -329,10 +332,10 @@ void TPIDController::CabeceraResultadosInsControlador(stringstream& insoutput) {
 			Label = "\t" + PutLabel(712) + IntToStr(fID) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador " <<
-			fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -360,10 +363,10 @@ void TPIDController::ImprimeResultadosMedControlador(stringstream& medoutput) {
 		if (FResMediosCtrl.Output_filt) {
 			medoutput << "\t" << FResMediosCtrl.Output_filtMED;
 		}
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::ImprimeResultadosMedControlador en el controlador " <<
-			fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::ImprimeResultadosMedControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -391,10 +394,10 @@ void TPIDController::ImprimeResultadosInsControlador(stringstream& insoutput) {
 		if (FResInstantCtrl.Output_filt) {
 			insoutput << "\t" << FResInstantCtrl.Output_filtINS;
 		}
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador " <<
-			fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -412,9 +415,9 @@ void TPIDController::IniciaMedias() {
 		FResMediosCtrl.TiempoSUM = 0.;
 		FResMediosCtrl.Tiempo0 = 0.;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::IniciaMedias en el controlador: " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TPIDController::IniciaMedias en el controlador: "
+				<< fID << std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -424,35 +427,41 @@ void TPIDController::ResultadosMediosController() {
 	try {
 
 		if (FResMediosCtrl.Output) {
-			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.OutputSUM = 0.;
 		}
 		if (FResMediosCtrl.Error) {
-			FResMediosCtrl.ErrorMED = FResMediosCtrl.ErrorSUM / FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.ErrorMED = FResMediosCtrl.ErrorSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.ErrorSUM = 0.;
 		}
 		if (FResMediosCtrl.POutput) {
-			FResMediosCtrl.POutputMED = FResMediosCtrl.POutputSUM / FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.POutputMED = FResMediosCtrl.POutputSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.POutputSUM = 0.;
 		}
 		if (FResMediosCtrl.IOutput) {
-			FResMediosCtrl.IOutputMED = FResMediosCtrl.IOutputSUM / FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.IOutputMED = FResMediosCtrl.IOutputSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.IOutputSUM = 0.;
 		}
 		if (FResMediosCtrl.DOutput) {
-			FResMediosCtrl.DOutputMED = FResMediosCtrl.DOutputSUM / FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.DOutputMED = FResMediosCtrl.DOutputSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.DOutputSUM = 0.;
 		}
 		if (FResMediosCtrl.Output_filt) {
-			FResMediosCtrl.Output_filtMED = FResMediosCtrl.Output_filtSUM /
-				FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.Output_filtMED = FResMediosCtrl.Output_filtSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.Output_filtSUM = 0.;
 		}
 		FResMediosCtrl.TiempoSUM = 0;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::ResultadosMediosController en el eje: " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::ResultadosMediosController en el eje: "
+				<< fID << std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -461,7 +470,7 @@ void TPIDController::ResultadosMediosController() {
 void TPIDController::AcumulaResultadosMediosController(double Actual) {
 	try {
 		/* Lo que se hace en esta funcion se realiza dentro del calculo del eje, para asi poder
-		llevar a cabo la salida de resultados medios por pantalla. */
+		 llevar a cabo la salida de resultados medios por pantalla. */
 		double Delta = Actual - FResMediosCtrl.Tiempo0;
 
 		if (FResMediosCtrl.Output) {
@@ -485,10 +494,10 @@ void TPIDController::AcumulaResultadosMediosController(double Actual) {
 		FResMediosCtrl.TiempoSUM += Delta;
 		FResMediosCtrl.Tiempo0 = Actual;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::AcumulaResultadosMediosController en el eje: " << fID <<
-			std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::AcumulaResultadosMediosController en el eje: "
+				<< fID << std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -509,9 +518,10 @@ void TPIDController::ResultadosInstantController() {
 		if (FResInstantCtrl.Output_filt)
 			FResInstantCtrl.Output_filtINS = fOutput_filt;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TPIDController::ResultadosInstantController en el eje " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::ResultadosInstantController en el eje "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}

@@ -244,17 +244,17 @@ public:
 	}
 	;
 
-	void PutRadioHub(double val){
-		FRadioHub=val;
+	void PutRadioHub(double val) {
+		FRadioHub = val;
 	}
 	;
 
-	void PutRadioRodete(double val){
+	void PutRadioRodete(double val) {
 		FRadioRodete = val;
 	}
 	;
 
-	void PutRadioRadioTip(double val){
+	void PutRadioRadioTip(double val) {
 		FRadioTip = val;
 	}
 	;

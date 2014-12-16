@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TCalculoExternH
 #define TCalculoExternH
 #define maxnd 80 /*n. maximo de nodos que llegan a depositos*/
@@ -39,7 +38,7 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdio>
 #include <iostream>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 //#include <cmath>
 #include <fstream>
@@ -66,15 +65,39 @@ class TControlInyeccion;
 class TControlK;
 
 enum nmTipoSenTubo {
-	nmPrTubo = 0, nmVelTubo = 1, nmTempTubo = 2, nmGastoTubo = 3, nmN2Tubo = 4, nmO2Tubo = 5,
-	nmCO2Tubo = 6, nmH2OTubo = 7, nmHCTubo = 8, nmSootTubo = 9, nmNOxTubo = 10, nmCOTubo = 11,
-	nmAireFrTubo = 12, nmGasQuemadoTubo = 13, nmEGRTubo = 14, nmCombustibleTubo = 15
+	nmPrTubo = 0,
+	nmVelTubo = 1,
+	nmTempTubo = 2,
+	nmGastoTubo = 3,
+	nmN2Tubo = 4,
+	nmO2Tubo = 5,
+	nmCO2Tubo = 6,
+	nmH2OTubo = 7,
+	nmHCTubo = 8,
+	nmSootTubo = 9,
+	nmNOxTubo = 10,
+	nmCOTubo = 11,
+	nmAireFrTubo = 12,
+	nmGasQuemadoTubo = 13,
+	nmEGRTubo = 14,
+	nmCombustibleTubo = 15
 };
 
 enum nmTipoSenDep {
-	nmPrDep = 0, nmTempDep = 1, nmN2Dep = 2, nmO2Dep = 3, nmCO2Dep = 4, nmH2ODep = 5, nmHCDep = 6,
-	nmSootDep = 7, nmNOxDep = 8, nmCODep = 9, nmAireFrDep = 10, nmGasQuemadoDep = 11,
-	nmEGRDep = 12, nmCombustibleDep = 13
+	nmPrDep = 0,
+	nmTempDep = 1,
+	nmN2Dep = 2,
+	nmO2Dep = 3,
+	nmCO2Dep = 4,
+	nmH2ODep = 5,
+	nmHCDep = 6,
+	nmSootDep = 7,
+	nmNOxDep = 8,
+	nmCODep = 9,
+	nmAireFrDep = 10,
+	nmGasQuemadoDep = 11,
+	nmEGRDep = 12,
+	nmCombustibleDep = 13
 };
 
 enum nmTipoSenTG {
@@ -90,7 +113,11 @@ enum nmTipoSenCil {
 };
 
 enum nmTipoSenVent {
-	nmPrEntVent = 0, nmPrGarVent = 1, nmVelEntVent = 2, nmVelLatVent = 3, nmGastoEntVent = 4,
+	nmPrEntVent = 0,
+	nmPrGarVent = 1,
+	nmVelEntVent = 2,
+	nmVelLatVent = 3,
+	nmGastoEntVent = 4,
 	nmGastoLatVent = 5
 };
 
@@ -220,24 +247,26 @@ private:
 	TControlFuel *FFuel; 	// Objeto para el calculo del Fuel
 	TEGRV *FEGRV; 			// Objeto para el calculo de la valvula de EGR.
 	TRegimenMotor *FRegimen; // Objeto para el calculo del Regimen del motor.
-	Tfql *Ffql; 			// Objeto para el calculo de las Leyes de Liberacion de Calor.
-	TRemansoMatlab **FRemansoMatlab; 		// Objeto para el calculo de la presion y temperatura en un deposito de remanso.
-	TCoefDescarga **FCoefDescarga; 			// Objeto para el calculo del coeficiente de descarga de una union a deposito/cilindro
-	TAjusteTransCalorCil *FAjusteTransCalorCil; 		// Objeto para el calculo de los coeficientes de ajuste de transmision de calor en admision y escape
-	TFraccionMasicaCilindro *FFraccionMasicaCilindro; 	// Objeto para imponer la fraccion masica a la apertura del cilindro.
-	TControlInyeccion *FControlInyeccion; 				// Objeto para determinar el numero de inyecciones, la presion de inyeccion y la duracion y masa inyectada en cada inyeccion.
-	TControlK **FControlK;           					// Objeto para calcular la variacion de K con el Re en cada CC de Perdida de Presion
+	Tfql *Ffql; // Objeto para el calculo de las Leyes de Liberacion de Calor.
+	TRemansoMatlab **FRemansoMatlab; // Objeto para el calculo de la presion y temperatura en un deposito de remanso.
+	TCoefDescarga **FCoefDescarga; // Objeto para el calculo del coeficiente de descarga de una union a deposito/cilindro
+	TAjusteTransCalorCil *FAjusteTransCalorCil; // Objeto para el calculo de los coeficientes de ajuste de transmision de calor en admision y escape
+	TFraccionMasicaCilindro *FFraccionMasicaCilindro; // Objeto para imponer la fraccion masica a la apertura del cilindro.
+	TControlInyeccion *FControlInyeccion; // Objeto para determinar el numero de inyecciones, la presion de inyeccion y la duracion y masa inyectada en cada inyeccion.
+	TControlK **FControlK; // Objeto para calcular la variacion de K con el Re en cada CC de Perdida de Presion
 	char *FRutaTrabajo;
 
 	// Indice que indica la posicion de cada especie en el vector de fraccion masica.
-	int FIndiceTuboN2, FIndiceTuboO2, FIndiceTuboCO2, FIndiceTuboH2O, FIndiceTuboHC,
-	FIndiceTuboSoot, FIndiceTuboNOx, FIndiceTuboCO, FIndiceTuboAireFresco,
-	FIndiceTuboGasQuemado, FIndiceTuboEGR, FIndiceTuboComb;
-	int FIndiceDepN2, FIndiceDepO2, FIndiceDepCO2, FIndiceDepH2O, FIndiceDepHC, FIndiceDepSoot,
-	FIndiceDepNOx, FIndiceDepCO, FIndiceDepAireFresco, FIndiceDepGasQuemado, FIndiceDepEGR,
-	FIndiceDepComb;
+	int FIndiceTuboN2, FIndiceTuboO2, FIndiceTuboCO2, FIndiceTuboH2O,
+			FIndiceTuboHC, FIndiceTuboSoot, FIndiceTuboNOx, FIndiceTuboCO,
+			FIndiceTuboAireFresco, FIndiceTuboGasQuemado, FIndiceTuboEGR,
+			FIndiceTuboComb;
+	int FIndiceDepN2, FIndiceDepO2, FIndiceDepCO2, FIndiceDepH2O, FIndiceDepHC,
+			FIndiceDepSoot, FIndiceDepNOx, FIndiceDepCO, FIndiceDepAireFresco,
+			FIndiceDepGasQuemado, FIndiceDepEGR, FIndiceDepComb;
 
-	bool Fhayecu, Fcontroliny, Fcontrolmfcomb, Fmodcomb, Fajustbaraba, FFraccionMasicaEspeciesCil;
+	bool Fhayecu, Fcontroliny, Fcontrolmfcomb, Fmodcomb, Fajustbaraba,
+			FFraccionMasicaEspeciesCil;
 	bool FCalculoK;
 	int Fngrafmat;
 	double Ftmuestreoecu, FTiempo, FTiempomuestreo, FTiempoSum;
@@ -308,32 +337,41 @@ public:
 	// Variables
 	bool getajustbaraba() {
 		return Fajustbaraba;
-	};
+	}
+	;
 
 	// Funciones
 	double GetOutput_dll(int i);
 
 	bool getcontrolmfcomb() {
 		return Fcontrolmfcomb;
-	};
+	}
+	;
 
 	int getngrafmat() {
 		return Fngrafmat;
-	};
+	}
+	;
 
 	bool getmodcomb() {
 		return Fmodcomb;
-	};
+	}
+	;
 
 	bool getcontroliny() {
 		return Fcontroliny;
-	};
+	}
+	;
 
 	bool getFraccionMasicaEspeciesCil() {
 		return FFraccionMasicaEspeciesCil;
-	};
+	}
+	;
 
-	bool getControlK() {return FCalculoK;};
+	bool getControlK() {
+		return FCalculoK;
+	}
+	;
 
 	TRemansoMatlab* GetTRemansoMatlab(int i);
 
@@ -341,11 +379,13 @@ public:
 
 	TControlFuel* getFuel() {
 		return GetFuel();
-	};
+	}
+	;
 
 	bool getConvergencia() {
 		return FConvergencia;
-	};
+	}
+	;
 
 	// Funciones
 	TCalculoExtern();
@@ -359,30 +399,36 @@ public:
 	// void LeeFicherosDLL(FILE *fich,int controlvalv,int nematlab,
 	// int ncilin,int nunmat,int CountVGT);
 
-	void LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv, int nematlab, int ncilin,
-		int nunmat, int CountVGT, int numespecies,int NumeroPerdidasPresion);
+	void LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv,
+			int nematlab, int ncilin, int nunmat, int CountVGT, int numespecies,
+			int NumeroPerdidasPresion);
 
 	// Funciones para la lectura de sensores
 	void Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo **Pipe,
-		nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
-		bool HayCombustible);
+			nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
+			bool HayCombustible);
 
 	void Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposito **Plenum,
-		nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
-		bool HayCombustible);
+			nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
+			bool HayCombustible);
 
-	void Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbogrupo **Axis);
+	void Lee_Sens_TG(const char *FileWAM, fpos_t &filepos,
+			TEjeTurbogrupo **Axis);
 
-	void Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos, TTurbina **Turbine);
+	void Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos,
+			TTurbina **Turbine);
 
-	void Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos, TBloqueMotor **Engine);
+	void Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos,
+			TBloqueMotor **Engine);
 
-	void Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVenturi **Venturi);
+	void Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos,
+			TVenturi **Venturi);
 
-	void Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double CrankAngle, double ene,
-		double AcumulatedTime);
+	void Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double CrankAngle,
+			double ene, double AcumulatedTime);
 
-	void Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondicionContorno **BC);
+	void Lee_Sens_UED(const char *FileWAM, fpos_t &filepos,
+			TCondicionContorno **BC);
 
 	void Lectura_Datos_Adicionales(const char *FileWAM, fpos_t &filepos);
 
@@ -401,7 +447,8 @@ public:
 
 	void Calculo_Sensores_Venturi(double deltaT, TVenturi **Venturi);
 
-	void Calculo_Sensores_Motor(double deltaT, TBloqueMotor **Engine, double AcumulatedTime);
+	void Calculo_Sensores_Motor(double deltaT, TBloqueMotor **Engine,
+			double AcumulatedTime);
 
 	void Calculo_Sensores_UED(double deltaT, TCondicionContorno **BC);
 

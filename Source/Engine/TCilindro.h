@@ -1,38 +1,37 @@
 /* --------------------------------------------------------------------------------*\
 |==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-|----------------------------------------------------------------------------------
-License
+ |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ | \\ |  X  | //  W ave     |
+ |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ |   \\/   \//    M odel    |
+ |----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TCilindroH
 #define TCilindroH
 
 #include <iostream>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 
 #include "Constantes.h"
@@ -189,7 +188,7 @@ protected:
 	double FMaint; // kg/cc    Masa de aire para la interpolacion de la leyes.
 	double FRegInt; // rpm      Regimen para la interpolacion de las leyes.
 
-    double FNumIny;
+	double FNumIny;
 	dVector FAnguloInjeccion;
 	dVector FTInyeccion;
 	dVector FPercentInyeccion;
@@ -349,43 +348,53 @@ public:
 
 	void PutFraccionMasicaEspecie(int i, double valor) {
 		FFraccionMasicaEspecie[i] = valor;
-	};
+	}
+	;
 
 	double GetFraccionMasicaEspecie(int i) {
 		return FFraccionMasicaEspecie[i];
-	};
+	}
+	;
 
 	double getParInstantaneo() {
 		return FParInstantaneo;
-	};
+	}
+	;
 
 	double getTrabajoNeto() {
 		return FTrabajoNeto;
-	};
+	}
+	;
 
 	double getTrabajoBombeo() {
 		return FTrabajoBombeo;
-	};
+	}
+	;
 
 	double getPressure() {
 		return FPressure;
-	};
+	}
+	;
 
 	double getMasa() {
 		return FMasa;
-	};
+	}
+	;
 
 	double getSpeedsound() {
 		return FAsonido;
-	};
+	}
+	;
 
 	double getMomentoAngular() {
 		return FMomentoAngular;
-	};
+	}
+	;
 
 	double getMasaValvAdm() {
 		return FMasaValvAdm;
-	};
+	}
+	;
 
 	void PutMasaFuel(double valor) {
 		FMasaFuel = valor;
@@ -399,39 +408,48 @@ public:
 
 	double getMasaPorAdmision() {
 		return FMasaPorAdmision;
-	};
+	}
+	;
 
 	double getMasaAtrapada() {
 		return FMasaAtrapada;
-	};
+	}
+	;
 
 	stDistribucion getDistribucion() {
 		return FDistribucion;
-	};
+	}
+	;
 
 	double getAnguloActual() {
 		return FAnguloActual;
-	};
+	}
+	;
 
 	double getAnguloAnterior() {
 		return FAnguloAnterior;
-	};
+	}
+	;
 
 	double getSwirlSUM() {
 		return FSwirlSUM;
-	};
+	}
+	;
 
 	int getNumeroUnionesAdm() {
 		return FNumeroUnionesAdm;
-	};
+	}
+	;
 
 	int getNumeroUnionesEsc() {
 		return FNumeroUnionesEsc;
-	};
+	}
+	;
 
 	int getNumeroCilindro() {
 		return FNumeroCilindro;
-    };
+	}
+	;
 
 	TCondicionContorno* GetCCValvulaAdm(int i);
 
@@ -439,15 +457,18 @@ public:
 
 	double getAFR() {
 		return FAFR;
-	};
+	}
+	;
 
 	double getTiempoActual() {
 		return FTime1;
-	};
+	}
+	;
 
 	double getTemperature() {
 		return FTemperature;
-	};
+	}
+	;
 
 	void PutInicioComb(double valor) {
 		FIniComb = valor;
@@ -463,19 +484,23 @@ public:
 
 	double getPreMed() {
 		return FPreMed;
-	};
+	}
+	;
 
 	double getVolumen() {
 		return FVolumen;
-	};
+	}
+	;
 
 	double getVolumen0() {
 		return FVolumen0;
-	};
+	}
+	;
 
 	double getGamma() {
 		return FGamma;
-	};
+	}
+	;
 
 	void PutHayDLL(bool valor) {
 		FHaydll = valor;
@@ -501,25 +526,30 @@ public:
 
 	double getFraccionAireFresco() {
 		return GetAireFresco();
-	};
+	}
+	;
 
 	void PutNumeroInyecciones(int valor) {
 		FIN = valor;
-	};
+	}
+	;
 	void PutPresionInyeccion(double valor);
 
 	void PutSOP(int i, double valor) {
 		FSOP[i] = valor;
-	};
+	}
+	;
 
 	void PutMasaFuelPorInyeccion(int i, double valor) {
 		FMFI[i] = valor;
-	};
+	}
+	;
 
-	void PutMfControllerID(int ControllerID){
-		FMfControllerID=ControllerID;
-		FMfControlled=true;
-	};
+	void PutMfControllerID(int ControllerID) {
+		FMfControllerID = ControllerID;
+		FMfControlled = true;
+	}
+	;
 
 	TCilindro(TBloqueMotor *Engine, bool ThereIsEGR);
 
@@ -529,7 +559,8 @@ public:
 
 	void ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
-	void HeaderAverageResultsCilindro(std::stringstream& medoutput, stEspecies *DatosEspecies);
+	void HeaderAverageResultsCilindro(std::stringstream& medoutput,
+			stEspecies *DatosEspecies);
 
 	void ImprimeResultadosMediosCilindro(std::stringstream& medoutput);
 
@@ -539,7 +570,8 @@ public:
 
 	void ReadInstantaneousResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
-	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput, stEspecies *DatosEspecies);
+	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput,
+			stEspecies *DatosEspecies);
 
 	void ImprimeResultadosInstantaneosCilindro(std::stringstream& insoutput);
 

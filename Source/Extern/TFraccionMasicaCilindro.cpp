@@ -1,58 +1,52 @@
 /*--------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
-  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-	This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-	OpenWAM is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-	OpenWAM is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*--------------------------------------------------------------------------------*/
-
+ \*--------------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-
 #include "TFraccionMasicaCilindro.h"
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TFraccionMasicaCilindro::TFraccionMasicaCilindro()
-{
+TFraccionMasicaCilindro::TFraccionMasicaCilindro() {
 
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TFraccionMasicaCilindro::~TFraccionMasicaCilindro()
-{
+TFraccionMasicaCilindro::~TFraccionMasicaCilindro() {
 
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro()
-{
-try
-{
+void TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro() {
+	try {
 // En esta funcion u otras que puedas necesitar debes programar las acciones
 // a realizar para imponer la composicion del gas de escape a la apertura de
 // las valvulas de escape. Recuerda que:
@@ -72,14 +66,13 @@ try
 
 // Recuerda que es la suma de fraccion masica total debe ser igual a la unidad.
 
-
-}
-catch(Exception &N)
-{
-std::cout << "ERROR: TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro " << std::endl;
-std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-throw Exception(N.Message.c_str());
-}
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro "
+				<< std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
 
 //---------------------------------------------------------------------------

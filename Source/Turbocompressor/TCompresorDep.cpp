@@ -1,35 +1,35 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
 #pragma hdrstop
 #include <iostream>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 //#include <cmath>
 #include "TCompresorDep.h"
@@ -39,8 +39,9 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 
 TCompresorDep::TCompresorDep(int i, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TCompresor(i,
-	SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+		int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TCompresor(i, SpeciesModel, numeroespecies, GammaCalculation,
+				ThereIsEGR) {
 
 	FModeloCompresor = nmCompPlenums;
 	Mapa = new TMapaComp(FNumeroCompresor);
@@ -65,19 +66,21 @@ void TCompresorDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCompresorDep::LeeCompresor en el compresor: " << FNumeroCompresor << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TCompresorDep::LeeCompresor en el compresor: "
+				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception("ERROR: LeeCompresor en el compresor: " + AnsiString(FNumeroCompresor)
-			+ N.Message.c_str());
+		throw Exception(
+				"ERROR: LeeCompresor en el compresor: "
+						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot, TDeposito *DepositoEst) {
+void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot,
+		TDeposito *DepositoEst) {
 	try {
 
 		FDepositoRot = DepositoRot;
@@ -86,12 +89,13 @@ void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot, TDeposito 
 		FDepositoRot->AsignaCompresor(this, -1);
 		FDepositoEst->AsignaCompresor(this, 1);
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCompTubos::RelacionTubos en el compresor: " << FNumeroCompresor << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TCompTubos::RelacionTubos en el compresor: "
+				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception("ERROR: LeeCompresor en el compresor: " + AnsiString(FNumeroCompresor)
-			+ N.Message.c_str());
+		throw Exception(
+				"ERROR: LeeCompresor en el compresor: "
+						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -110,7 +114,8 @@ void TCompresorDep::Initialize() {
 // compresor                                                               //
 // ---------------------------------------------------------------------------
 
-void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) {
+void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
+		double TiempoActual) {
 	int NumGastos;
 	double Aux0;
 	double Aux1;
@@ -142,24 +147,25 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 
 		FPresion10 = FDepositoRot->getPressure();
 		FPresion20 = FDepositoEst->getPressure();
-		FTemperatura10 = pow2(FDepositoRot->getSpeedsound() * ARef) / FRMezcla / FGamma;
+		FTemperatura10 = pow2(FDepositoRot->getSpeedsound() * ARef) / FRMezcla
+				/ FGamma;
 		FRelacionCompresion = FPresion20 / FPresion10;
 		FDeltaTiempo = TiempoActual - FTiempo0;
 		FTiempo0 = TiempoActual;
-		DescorrigeGasto = FPresion10 * 1e5 / Mapa->getPresionRef() / sqrt
-		(FTemperatura10 / Mapa->getTempRef());
+		DescorrigeGasto = FPresion10 * 1e5 / Mapa->getPresionRef()
+				/ sqrt(FTemperatura10 / Mapa->getTempRef());
 
 		if (FRelacionCompresion <= 1.) {
 			FGastoCorregido = Mapa->getGastoRelComp1();
 			FGastoCompresor = Mapa->getGastoRelComp1() * DescorrigeGasto;
 			FRendimiento = Mapa->EvaluaRendSplines(Mapa->getGastoRelComp1());
-			FTrabajo = FGastoCompresor * FRMezcla * FGamma4 / 2 * FTemperatura10 *
-			(pow(FRelacionCompresion, 2. * FGamma5) - 1.) / FRendimiento;
+			FTrabajo = FGastoCompresor * FRMezcla * FGamma4 / 2 * FTemperatura10
+					* (pow(FRelacionCompresion, 2. * FGamma5) - 1.)
+					/ FRendimiento;
 			FTempGasto =
-			FTemperatura10
-			/* +(pow(FRelacionCompresion,Gamma5*2)-1)*FTemperatura10/FRendimiento */ ;
-		}
-		else {
+					FTemperatura10
+					/* +(pow(FRelacionCompresion,Gamma5*2)-1)*FTemperatura10/FRendimiento */;
+		} else {
 			PuntosDeCruce = new int[Mapa->getNumPuntos()];
 			Aux0 = Mapa->GetRelCompInt(0) - FRelacionCompresion;
 			NumGastos = 0;
@@ -173,13 +179,15 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 			}
 			if (NumGastos == 0) {
 				FRendimiento = Mapa->EvaluaRendSplines(Mapa->getGastoBombeo());
-				FTrabajo = Mapa->getGastoBombeo() * DescorrigeGasto * FRMezcla * FGamma4 / 2 *
-				FTemperatura10 * (pow(Mapa->getRelCompBombeo(), 2. * FGamma5) - 1.) / FRendimiento;
-				FTempGasto = FTemperatura10 + (pow(FRelacionCompresion, FGamma5 * 2) - 1)
-				* FTemperatura10 / FRendimiento;
+				FTrabajo = Mapa->getGastoBombeo() * DescorrigeGasto * FRMezcla
+						* FGamma4 / 2 * FTemperatura10
+						* (pow(Mapa->getRelCompBombeo(), 2. * FGamma5) - 1.)
+						/ FRendimiento;
+				FTempGasto = FTemperatura10
+						+ (pow(FRelacionCompresion, FGamma5 * 2) - 1)
+								* FTemperatura10 / FRendimiento;
 				FGastoCompresor = 0.;
-			}
-			else {
+			} else {
 				RelComp = new double[NumGastos];
 				Gastos = new double[NumGastos];
 				Trab = new double[NumGastos];
@@ -195,12 +203,12 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 					while (ErrorMasa > 1e-5 && ErrorRC > 1e-5 && Contador < 100) {
 						MasaX = (Masa0 + Masa1) / 2.;
 						RCX = Mapa->EvaluaRCHermite(MasaX);
-						if ((RC0 - FRelacionCompresion) * (RCX - FRelacionCompresion) < 0) {
+						if ((RC0 - FRelacionCompresion)
+								* (RCX - FRelacionCompresion) < 0) {
 							Masa1 = MasaX;
 							// RC1=RCX;
 							ErrorMasa = fabs(Masa0 - MasaX);
-						}
-						else {
+						} else {
 							ErrorMasa = fabs(Masa0 - MasaX);
 							Masa0 = MasaX;
 							RC0 = RCX;
@@ -211,8 +219,9 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 					RelComp[i] = RCX;
 					Gastos[i] = MasaX;
 					Rnd[i] = Mapa->EvaluaRendSplines(Gastos[i]);
-					Trab[i] = Gastos[i] * DescorrigeGasto * FRMezcla * FGamma4 / 2. *
-					FTemperatura10 * (pow(RelComp[i], FGamma5 * 2.) - 1.) / Rnd[i];
+					Trab[i] = Gastos[i] * DescorrigeGasto * FRMezcla * FGamma4
+							/ 2. * FTemperatura10
+							* (pow(RelComp[i], FGamma5 * 2.) - 1.) / Rnd[i];
 				}
 				if (NumGastos > 1) {
 					DeltaWork = new double[NumGastos];
@@ -230,16 +239,17 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 					FGastoCorregido = Gastos[PuntoMin];
 					FGastoCompresor = Gastos[PuntoMin] * DescorrigeGasto;
 					FTrabajo = Trab[PuntoMin];
-					FTempGasto = FTemperatura10 + (pow(RelComp[PuntoMin], FGamma5 * 2) - 1)
-					* FTemperatura10 / Rnd[PuntoMin];
+					FTempGasto = FTemperatura10
+							+ (pow(RelComp[PuntoMin], FGamma5 * 2) - 1)
+									* FTemperatura10 / Rnd[PuntoMin];
 					FRendimiento = Rnd[PuntoMin];
-				}
-				else {
+				} else {
 					FGastoCorregido = Gastos[0];
 					FGastoCompresor = Gastos[0] * DescorrigeGasto;
 					FTrabajo = Trab[0];
-					FTempGasto = FTemperatura10 + (pow(RelComp[0], FGamma5 * 2) - 1)
-					* FTemperatura10 / Rnd[0];
+					FTempGasto = FTemperatura10
+							+ (pow(RelComp[0], FGamma5 * 2) - 1)
+									* FTemperatura10 / Rnd[0];
 					FRendimiento = Rnd[0];
 				}
 			}
@@ -251,12 +261,13 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina, double TiempoActual) 
 		FDeltaTPaso += FDeltaTiempo;
 		FRegimenCorregido = Mapa->getRegimenCorregido();
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCompresorDep::CalculaGasto en el compresor: " << FNumeroCompresor << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TCompresorDep::CalculaGasto en el compresor: "
+				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception("ERROR: CalculaGasto en el compresor: " + AnsiString(FNumeroCompresor)
-			+ N.Message.c_str());
+		throw Exception(
+				"ERROR: CalculaGasto en el compresor: "
+						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 

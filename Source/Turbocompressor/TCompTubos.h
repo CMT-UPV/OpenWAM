@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TCompTubosH
 #define TCompTubosH
 
@@ -57,25 +56,27 @@ struct stCompOut {
 	double M1;
 	double A1outA;
 
-	stCompOut(double iA1in, double iU1in, double iRc, double iCpre, double iGam) : A1in(iA1in),
-	U1in(iU1in), Rc(iRc), Cpre(iCpre), Gam(iGam) {
+	stCompOut(double iA1in, double iU1in, double iRc, double iCpre, double iGam) :
+			A1in(iA1in), U1in(iU1in), Rc(iRc), Cpre(iCpre), Gam(iGam) {
 
 		Ga1 = Gam - 1;
 		Ga3 = Ga1 / 2;
 		Ga8 = Gam / Ga1;
 		E1 = (pow2(A1in) + Ga3 * pow2(U1in)) * (1 + Cpre);
 		M1 = pow(A1in, 1 / Ga3) * U1in / Rc * pow(1 + Cpre, Ga8);
-	};
+	}
+	;
 	double operator()(const double U1out) {
 
 		A1outA = pow(E1 - Ga3 * pow2(U1out), 1 / Ga1);
 		double A1outB = M1 / U1out;
 		return A1outA - A1outB;
-	};
+	}
+	;
 
 };
 
-class TCompTubos : public TCompresor {
+class TCompTubos: public TCompresor {
 private:
 
 	TTubo *FTuboRot;
@@ -191,31 +192,33 @@ private:
 	double FFlowIn;
 	double FFlowOut;
 
-	void Biseccion(double *VelIn, double *VelOut, double *AIn, double *AOut, double CarIn,
-		double AaIn, double CarOut, int sig);
+	void Biseccion(double *VelIn, double *VelOut, double *AIn, double *AOut,
+			double CarIn, double AaIn, double CarOut, int sig);
 
-	void MetodoNewton2D(double *a1, double *a2, double *u1, double *u2, double aa1, double aa2,
-		double cc1, double cc2, double s1, double s2, double k, int sig);
+	void MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
+			double aa1, double aa2, double cc1, double cc2, double s1,
+			double s2, double k, int sig);
 
-	void Solver(double *a1, double *a2, double *u1, double *u2, double aa1, double aa2, double cc1,
-		double cc2, double s1, double s2, double k, int sig);
+	void Solver(double *a1, double *a2, double *u1, double *u2, double aa1,
+			double aa2, double cc1, double cc2, double s1, double s2, double k,
+			int sig);
 
 	void ExtremoCerrado();
 
-	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD,
-		double MasaD, double Gamma);
+	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE,
+			double ASonidoD, double MasaD, double Gamma);
 
 protected:
 
 public:
 
 	TCompTubos(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCompTubos();
 
-	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double TiempoActual,
-		int TuboCalculado);
+	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
+			double TiempoActual, int TuboCalculado);
 
 	void LeeCompresor(const char *FileWAM, fpos_t &filepos);
 

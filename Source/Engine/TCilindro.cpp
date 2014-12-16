@@ -677,7 +677,8 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos) {
+void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
+		fpos_t &filepos) {
 	try {
 		int Tipovar;
 
@@ -2343,34 +2344,35 @@ void TCilindro::IniciaVariables() {
 		}
 
 		if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
-            if (FMotor->getSpeciesNumber() == 9) {
-					FFraccionMasicaEspecieFuel = 0; // No se tiene en cuenta el combustible
-			}
-			else if (FMotor->getSpeciesNumber() == 10) {
-					FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
+			if (FMotor->getSpeciesNumber() == 9) {
+				FFraccionMasicaEspecieFuel = 0; // No se tiene en cuenta el combustible
+			} else if (FMotor->getSpeciesNumber() == 10) {
+				FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
 			}
 			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-				FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(), FMotor->getCombustible());
-			TemperaturaInicial = FMotor->getPresionInicial()
-				* 1e5 * FVolumen / FMotor->getMasaInicial() / FRMezcla - 273.;
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+					FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(),
+					FMotor->getCombustible());
+			TemperaturaInicial = FMotor->getPresionInicial() * 1e5 * FVolumen
+					/ FMotor->getMasaInicial() / FRMezcla - 273.;
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-				FFraccionMasicaEspecieFuel, TemperaturaInicial + 273.,
-				FMotor->getGammaCalculation(), FMotor->getCombustible());
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+					FFraccionMasicaEspecieFuel, TemperaturaInicial + 273.,
+					FMotor->getGammaCalculation(), FMotor->getCombustible());
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 					FMotor->getGammaCalculation());
 
 		} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],0,
-				FMotor->getGammaCalculation(), FMotor->getCombustible());
-			TemperaturaInicial = FMotor->getPresionInicial()
-				* 1e5 * FVolumen / FMotor->getMasaInicial() / FRMezcla - 273.;
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], 0,
+					FMotor->getGammaCalculation(), FMotor->getCombustible());
+			TemperaturaInicial = FMotor->getPresionInicial() * 1e5 * FVolumen
+					/ FMotor->getMasaInicial() / FRMezcla - 273.;
 			FCvMezcla = CalculoSimpleCvMezcla(TemperaturaInicial + 273.,
-				FFraccionMasicaEspecie[0],0, FMotor->getGammaCalculation(), FMotor->getCombustible());
+					FFraccionMasicaEspecie[0], 0, FMotor->getGammaCalculation(),
+					FMotor->getCombustible());
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
-				FMotor->getGammaCalculation());
+					FMotor->getGammaCalculation());
 			FHcl = -1852564 + 2195 * (30 + 273 + 125); //Temperatura del combustible en K +125, que es el incremento de la temperatura de combustible hasta la tobera del inyector
 
 		}
@@ -2417,23 +2419,26 @@ void TCilindro::IniciaVariables() {
 				// Como cambia la Temperature, cambia Cp o Cv y por tanto cambia el valor de Gamma.
 				if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 					if (FMotor->getSpeciesNumber() == 9) {
-							FFraccionMasicaEspecieFuel = 0; // No se tiene en cuenta el combustible
+						FFraccionMasicaEspecieFuel = 0; // No se tiene en cuenta el combustible
+					} else if (FMotor->getSpeciesNumber() == 10) {
+						FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
 					}
-					else if (FMotor->getSpeciesNumber() == 10) {
-							FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
-					}
-					FCpMezcla = CalculoCompletoCpMezcla
-						(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-						FFraccionMasicaEspecie[2], FFraccionMasicaEspecieFuel,
-						FTemperature + 273., FMotor->getGammaCalculation(), FMotor->getCombustible());
+					FCpMezcla = CalculoCompletoCpMezcla(
+							FFraccionMasicaEspecie[0],
+							FFraccionMasicaEspecie[1],
+							FFraccionMasicaEspecie[2],
+							FFraccionMasicaEspecieFuel, FTemperature + 273.,
+							FMotor->getGammaCalculation(),
+							FMotor->getCombustible());
 					FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 							FMotor->getGammaCalculation());
 
 				} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
 					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
-						FFraccionMasicaEspecie[0],0,
-						FMotor->getGammaCalculation(), FMotor->getCombustible());
+							FFraccionMasicaEspecie[0], 0,
+							FMotor->getGammaCalculation(),
+							FMotor->getCombustible());
 					FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
 							FMotor->getGammaCalculation());
 

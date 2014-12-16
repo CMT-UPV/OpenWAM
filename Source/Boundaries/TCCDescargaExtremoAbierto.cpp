@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TCCDescargaExtremoAbierto.h"
@@ -36,22 +35,20 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 
 TCCDescargaExtremoAbierto::TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC,
-	nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-	bool ThereIsEGR) : TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-	GammaCalculation, ThereIsEGR) {
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
+				GammaCalculation, ThereIsEGR) {
 	if (TipoCC == nmOpenEndAtmosphere) {
 		FTipoDescarga = nmDescargaAtmosfera;
-	}
-	else if (TipoCC == nmOpenEndReservoir) {
+	} else if (TipoCC == nmOpenEndReservoir) {
 		FTipoDescarga = nmDescargaRemanso;
-	}
-	else if (TipoCC == nmOpenEndCalcExtern) {
+	} else if (TipoCC == nmOpenEndCalcExtern) {
 		FTipoDescarga = nmDescargaRemansoMatlab;
-	}
-	else
+	} else
 		printf(
-		"ERROR:TCCDescargaExtremoAbierto:Asignacion Tipo BC,en la condicion de contorno: %d\n",
-		FNumeroCC);
+				"ERROR:TCCDescargaExtremoAbierto:Asignacion Tipo BC,en la condicion de contorno: %d\n",
+				FNumeroCC);
 
 	FComposicion = NULL;
 	FTuboExtremo = NULL;
@@ -63,16 +60,16 @@ TCCDescargaExtremoAbierto::TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC,
 // ---------------------------------------------------------------------------
 
 TCCDescargaExtremoAbierto::~TCCDescargaExtremoAbierto() {
-	delete[]FTuboExtremo;
+	delete[] FTuboExtremo;
 	if (FComposicion != NULL)
-		delete[]FComposicion;
+		delete[] FComposicion;
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
-	double *AtmosphericComposition) {
+		double *AtmosphericComposition) {
 
 	double RMezclaDep, CvMezclaDep, CpMezclaDep, GammaDep;
 	int modeladoescape;
@@ -84,33 +81,38 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 	FComposicion = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 		FComposicion[i] = AtmosphericComposition[i];
-		FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		FFraccionMasicaEspecie[i] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 	}
 	if (FCalculoEspecies == nmCalculoCompleto) {
 
-		RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
-			0, FCalculoGamma, nmMEP);
-		CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1], FComposicion[2],
-			0, FTemperaturaDep + 273., FCalculoGamma, nmMEP);
+		RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
+				FComposicion[2], 0, FCalculoGamma, nmMEP);
+		CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
+				FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma,
+				nmMEP);
 		GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
-	}
-	else if (FCalculoEspecies == nmCalculoSimple) {
+	} else if (FCalculoEspecies == nmCalculoSimple) {
 
-		RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
-		CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],0, FCalculoGamma, nmMEP);
+		RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0, FCalculoGamma,
+				nmMEP);
+		CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273.,
+				FComposicion[0], 0, FCalculoGamma, nmMEP);
 		GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 	}
-	FVelocidadSonidoDep = sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
+	FVelocidadSonidoDep = sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep)
+			/ ARef;
 
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
-	TTubo **Pipe,int nDPF, TDPF **DPF) {
+void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
+		fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
+		TDPF **DPF) {
 	try {
 		int i = 0;
 		double fracciontotal = 0.;
@@ -150,88 +152,98 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM, fpos_t &fi
 		if (FTipoDescarga == nmDescargaAtmosfera) { // DESCARGA A LA ATMOSFERA
 			fscanf(fich, "%lf ", &FPerdidaExtremo);
 
-		}
-		else if (FTipoDescarga == nmDescargaRemanso) { // DESCARGA A UN DEPOSITO DE REMANSO
-			fscanf(fich, "%lf %lf %lf ", &FPressure, &FTemperaturaDep, &FPerdidaExtremo);
+		} else if (FTipoDescarga == nmDescargaRemanso) { // DESCARGA A UN DEPOSITO DE REMANSO
+			fscanf(fich, "%lf %lf %lf ", &FPressure, &FTemperaturaDep,
+					&FPerdidaExtremo);
 
 			// Se determina si este remanso modela el escape del motor.
 			fscanf(fich, "%d ", &modeladoescape);
-			modeladoescape == 0 ? FModeladoEscape = false : FModeladoEscape = true;
+			modeladoescape == 0 ? FModeladoEscape = false : FModeladoEscape =
+											true;
 
 			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 			FComposicion = new double[FNumeroEspecies - FIntEGR];
 			for (int i = 0; i < FNumeroEspecies - 1; i++) {
 				fscanf(fich, "%lf ", &FComposicion[i]);
-				FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+				FFraccionMasicaEspecie[i] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 				fracciontotal += FComposicion[i];
 			}
 			if (FHayEGR) {
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0]
-					.Pipe->GetFraccionMasicaInicial(FNumeroEspecies - 1);
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+								FNumeroEspecies - 1);
 				if (FCalculoEspecies == nmCalculoCompleto) {
 					if (FComposicion[0] > 0.20)
 						FComposicion[FNumeroEspecies - 1] = 0.;
 					else
 						FComposicion[FNumeroEspecies - 1] = 1.;
-				}
-				else {
+				} else {
 					if (FComposicion[0] > 0.50)
 						FComposicion[FNumeroEspecies - 1] = 1.;
 					else
 						FComposicion[FNumeroEspecies - 1] = 0.;
 				}
 			}
-			if (fracciontotal < 1.-1e-10 || fracciontotal > 1.+1e-10) {
-				std::cout <<
-					"ERROR: Total mass fraction must be equal to 1. Check the input data for boundary condition  " << FNumeroCC << std::endl;
+			if (fracciontotal < 1. - 1e-10 || fracciontotal > 1. + 1e-10) {
+				std::cout
+						<< "ERROR: Total mass fraction must be equal to 1. Check the input data for boundary condition  "
+						<< FNumeroCC << std::endl;
 				throw Exception(" ");
 			}
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
-				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FCalculoGamma, nmMEP);
-				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma, nmMEP);
-				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
+				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0],
+						FComposicion[1], FComposicion[2], 0, FCalculoGamma,
+						nmMEP);
+				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0],
+						FComposicion[1], FComposicion[2], 0,
+						FTemperaturaDep + 273., FCalculoGamma, nmMEP);
+				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep,
+						FCalculoGamma);
+
+			} else if (FCalculoEspecies == nmCalculoSimple) {
+
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0,
+						FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273.,
+						FComposicion[0], 0, FCalculoGamma, nmMEP);
+				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep,
+						FCalculoGamma);
 
 			}
-			else if (FCalculoEspecies == nmCalculoSimple) {
+			FVelocidadSonidoDep = sqrt(
+					(FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],0,
-					FCalculoGamma, nmMEP);
-				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
-
-			}
-			FVelocidadSonidoDep = sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
-
-		}
-		else if (FTipoDescarga == nmDescargaRemansoMatlab) {
-			fscanf(fich, "%lf %lf %lf ", &FPressure, &FTemperaturaDep, &FPerdidaExtremo);
+		} else if (FTipoDescarga == nmDescargaRemansoMatlab) {
+			fscanf(fich, "%lf %lf %lf ", &FPressure, &FTemperaturaDep,
+					&FPerdidaExtremo);
 
 			// Se determina si este remanso modela el escape del motor.
 			fscanf(fich, "%d ", &modeladoescape);
-			modeladoescape == 0 ? FModeladoEscape = false : FModeladoEscape = true;
+			modeladoescape == 0 ? FModeladoEscape = false : FModeladoEscape =
+											true;
 
 			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 			FComposicion = new double[FNumeroEspecies - FIntEGR];
 			for (int i = 0; i < FNumeroEspecies - 1; i++) {
 				fscanf(fich, "%lf ", &FComposicion[i]);
-				FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+				FFraccionMasicaEspecie[i] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 				fracciontotal += FComposicion[i];
 			}
 			if (FHayEGR) {
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0]
-					.Pipe->GetFraccionMasicaInicial(FNumeroEspecies - 1);
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+								FNumeroEspecies - 1);
 				if (FCalculoEspecies == nmCalculoCompleto) {
 					if (FComposicion[0] > 0.2)
 						FComposicion[FNumeroEspecies - 1] = 0.;
 					else
 						FComposicion[FNumeroEspecies - 1] = 1.;
-				}
-				else {
+				} else {
 					if (FComposicion[0] > 0.5)
 						FComposicion[FNumeroEspecies - 1] = 1.;
 					else
@@ -239,42 +251,46 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM, fpos_t &fi
 				}
 			}
 			if (fracciontotal != 1.) {
-				std::cout <<
-					"ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC << std::endl;
+				std::cout
+						<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
+						<< FNumeroCC << std::endl;
 				throw Exception(" ");
 			}
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
-				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FCalculoGamma, nmMEP);
-				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma, nmMEP);
-				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
+				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0],
+						FComposicion[1], FComposicion[2], 0, FCalculoGamma,
+						nmMEP);
+				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0],
+						FComposicion[1], FComposicion[2], 0,
+						FTemperaturaDep + 273., FCalculoGamma, nmMEP);
+				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep,
+						FCalculoGamma);
+
+			} else if (FCalculoEspecies == nmCalculoSimple) {
+
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0,
+						FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273.,
+						FComposicion[0], 0, FCalculoGamma, nmMEP);
+				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep,
+						FCalculoGamma);
 
 			}
-			else if (FCalculoEspecies == nmCalculoSimple) {
+			FVelocidadSonidoDep = sqrt(
+					(FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273., FComposicion[0],0,
-					FCalculoGamma, nmMEP);
-				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
-
-			}
-			FVelocidadSonidoDep = sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
-
-		}
-		else
-			printf
-				("ERROR:TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto.Asignacion Tipo BC\n");
+		} else
+			printf(
+					"ERROR:TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto.Asignacion Tipo BC\n");
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	}
-	catch(Exception & N) {
-		std::cout <<
-			"ERROR: TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto en la condicion de contorno: "
-			<< FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
@@ -334,7 +350,8 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM, fpos_t &fi
 
 void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 	try {
-		double rel_CCon_entropia, yyy, pplo, aap, xyx, b, a2, c, u_isen, a_isen, a_real, u_real;
+		double rel_CCon_entropia, yyy, pplo, aap, xyx, b, a2, c, u_isen, a_isen,
+				a_real, u_real;
 		double FraccionMasicaAcum = 0.;
 
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
@@ -353,16 +370,18 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			}
 			// Transporte de especies quimicas.
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
-				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
+				FFraccionMasicaEspecie[j] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
-			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
+			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
+					- FraccionMasicaAcum;
 			if (FHayEGR)
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0]
-					.Pipe->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
+								FNumeroEspecies - 1);
 
-		}
-		else if (rel_CCon_entropia / yyy < .999995) { // Flujo Entrante al conducto.
+		} else if (rel_CCon_entropia / yyy < .999995) { // Flujo Entrante al conducto.
 			/* ________ */
 			/* caso < 1 */
 			/* ________ */
@@ -380,7 +399,8 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			if (fabs(u_real) > a_real) { /* Condicion flujo supersonico */
 				a_real = sqrt(2 / Gamma2(FGamma)) * FVelocidadSonidoDep;
 				u_real = a_real;
-				aap = FTuboExtremo[0].Entropia * a_real / (*FCC + FGamma3 * u_real);
+				aap = FTuboExtremo[0].Entropia * a_real
+						/ (*FCC + FGamma3 * u_real);
 			}
 			*FCC = a_real - FGamma3 * u_real;
 			*FCD = a_real + FGamma3 * u_real;
@@ -392,8 +412,7 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 				}
 			}
 
-		}
-		else { // Flujo Parado
+		} else { // Flujo Parado
 			/* ________ */
 			/* caso = 1 */
 			/* ________ */
@@ -402,11 +421,10 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout <<
-			"ERROR: TCCDescargaExtremoAbierto::CalculaCondicionesContorno en la condicion de contorno: "
-			<< FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCDescargaExtremoAbierto::CalculaCondicionesContorno en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}

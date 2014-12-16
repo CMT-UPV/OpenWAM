@@ -22,11 +22,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @section DESCRIPTION
  * The function declared here is used to get labels using an index.
  */
-
 
 #include <map>
 #include <string>
@@ -37,24 +36,20 @@
 #include "vcl.h"
 #endif
 
-
-namespace OpenWAM_labels
-{
-	extern std::map<int, AnsiString> labels;
+namespace OpenWAM_labels {
+extern std::map<int, AnsiString> labels;
 }
-
 
 /**
  * @brief Initialises the labels.
  */
 void init_labels();
 
-
 /**
  * @brief Returns an integer.
- * 
+ *
  * Given an integer, it returns a label.
- * 
+ *
  * @param idx Label index.
  * @return Label.
  */

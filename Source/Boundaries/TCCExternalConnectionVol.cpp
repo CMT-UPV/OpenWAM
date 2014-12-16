@@ -8,9 +8,10 @@
 // ---------------------------------------------------------------------------
 
 TCCExternalConnectionVol::TCCExternalConnectionVol(nmTypeBC TipoCC, int numCC,
-	nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-	bool ThereIsEGR) : TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-	GammaCalculation, ThereIsEGR) {
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
+				GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FTime0 = 0;
@@ -28,8 +29,8 @@ TCCExternalConnectionVol::TCCExternalConnectionVol(nmTypeBC TipoCC, int numCC,
 TCCExternalConnectionVol::~TCCExternalConnectionVol() {
 }
 
-void TCCExternalConnectionVol::UpdateCurrentExternalProperties(double U0, double T0, double P0,
-	double t) {
+void TCCExternalConnectionVol::UpdateCurrentExternalProperties(double U0,
+		double T0, double P0, double t) {
 
 	FUExt = U0;
 	FTExt = T0;
@@ -73,16 +74,16 @@ void TCCExternalConnectionVol::CalculaCondicionContorno(double Time) {
 
 	if (flujo < 0.999995) {
 
-		double A = FTuboExtremo[0].Entropia / (FTuboExtremo[0].Entropia + FA_AExt) *
-		(*FCC + FK_CExt);
+		double A = FTuboExtremo[0].Entropia
+				/ (FTuboExtremo[0].Entropia + FA_AExt) * (*FCC + FK_CExt);
 		FT_Boundary = pow2(A * ARef) / R / Gamma;
 		FU_Boundary = (A - *FCC) / Gamma3(Gamma);
 		*FCD = A + Gamma3(Gamma) * FU_Boundary;
 		FU_Boundary *= ARef;
 		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, Gamma4(Gamma));
-	}
-	else if (flujo > 1.000005) {
-		double A = FA_AExt / (FTuboExtremo[0].Entropia + FA_AExt) * (*FCC + FK_CExt);
+	} else if (flujo > 1.000005) {
+		double A = FA_AExt / (FTuboExtremo[0].Entropia + FA_AExt)
+				* (*FCC + FK_CExt);
 		FT_Boundary = pow2(A * ARef) / R / Gamma;
 		FU_Boundary = (FK_CExt - A) / Gamma3(Gamma);
 		*FCD = A + Gamma3(Gamma) * FU_Boundary;
@@ -91,8 +92,7 @@ void TCCExternalConnectionVol::CalculaCondicionContorno(double Time) {
 		FU_Boundary *= ARef;
 		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, Gamma4(Gamma));
 
-	}
-	else {
+	} else {
 		double A = *FCC;
 		FT_Boundary = pow2(A * ARef) / R / Gamma;
 		FU_Boundary = 0;
@@ -111,8 +111,9 @@ void TCCExternalConnectionVol::CalculaCondicionContorno(double Time) {
 
 }
 
-void TCCExternalConnectionVol::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
-	TTubo **Pipe,int nDPF, TDPF **DPF) {
+void TCCExternalConnectionVol::ReadBoundaryData(const char *FileWAM,
+		fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
+		TDPF **DPF) {
 
 	int i = 0;
 
@@ -144,7 +145,8 @@ void TCCExternalConnectionVol::ReadBoundaryData(const char *FileWAM, fpos_t &fil
 	// Inicializacion del transporte de especies quimicas.
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-		FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		FFraccionMasicaEspecie[i] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 	}
 
 	FILE *fich = fopen(FileWAM, "r");
@@ -163,8 +165,7 @@ void TCCExternalConnectionVol::LoadNewData(double* p, double* T, double* u) {
 		*p = FP_BoundarySum / FTimeSum;
 		*T = FT_BoundarySum / FTimeSum;
 		*u = FU_BoundarySum / FTimeSum;
-	}
-	else {
+	} else {
 		*p = FP_Boundary;
 		*T = FT_Boundary;
 		*u = FU_Boundary;

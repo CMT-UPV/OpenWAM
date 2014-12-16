@@ -7,14 +7,14 @@
 // ---------------------------------------------------------------------------
 
 TAcousticTurbine::TAcousticTurbine(iVector InletPipeID, iVector VoluteID,
-	int OutletPipeID) {
+		int OutletPipeID) {
 
 	FInletPipeID.resize(InletPipeID.size());
 	FVoluteID.resize(InletPipeID.size());
 	FInletPipe.resize(InletPipeID.size());
 	FVolute.resize(InletPipeID.size());
 
-	for(int i =0;i<InletPipeID.size();i++){
+	for (int i = 0; i < InletPipeID.size(); i++) {
 		FInletPipeID[i] = InletPipeID[i];
 		FVoluteID[i] = VoluteID[i];
 	}
@@ -38,19 +38,19 @@ double TAcousticTurbine::T3(int i) {
 
 double TAcousticTurbine::T3() {
 
-	double T3Sum=0;
-	double MasSum=0;
-	double ret_val=0;
-	for(int i=0;i<FInletPipe.size();i++){
+	double T3Sum = 0;
+	double MasSum = 0;
+	double ret_val = 0;
+	for (int i = 0; i < FInletPipe.size(); i++) {
 		MasSum += MassIn(i);
 	}
-	if(MasSum == 0){
-		for(int i=0;i<FInletPipe.size();i++){
+	if (MasSum == 0) {
+		for (int i = 0; i < FInletPipe.size(); i++) {
 			T3Sum += T3(i);
 		}
 		T3Sum /= FInletPipe.size();
-	}else{
-		for(int i=0;i<FInletPipe.size();i++){
+	} else {
+		for (int i = 0; i < FInletPipe.size(); i++) {
 			T3Sum += T3(i) * MassIn(i);
 		}
 		T3Sum /= MasSum;
@@ -66,7 +66,7 @@ double TAcousticTurbine::P3(int i) {
 double TAcousticTurbine::P3() {
 
 	double P3Sum;
-	for(int i=0;i<FInletPipe.size();i++){
+	for (int i = 0; i < FInletPipe.size(); i++) {
 		P3Sum += P3(i);
 	}
 	P3Sum /= FInletPipe.size();
@@ -100,8 +100,8 @@ double TAcousticTurbine::T30(int i) {
 
 double TAcousticTurbine::DiabEfficiency(int i) {
 	double g = FInletPipe[i]->GetGamma(0);
-	double eff = (T30(i) - T4()) / (T30(i) * (1 - pow(1 / ExpRatio(i),
-				(g - 1) / g)));
+	double eff = (T30(i) - T4())
+			/ (T30(i) * (1 - pow(1 / ExpRatio(i), (g - 1) / g)));
 
 	return eff;
 }
@@ -115,7 +115,7 @@ double TAcousticTurbine::ExpRatio(int i) {
 double TAcousticTurbine::ExpRatio() {
 
 	double ERSum;
-	for(int i=0;i<FInletPipe.size();i++){
+	for (int i = 0; i < FInletPipe.size(); i++) {
 		ERSum += ExpRatio(i);
 	}
 	ERSum /= FInletPipe.size();
@@ -137,20 +137,20 @@ double TAcousticTurbine::T4() {
 	int n = FOutletPipe->getNin() - 1;
 
 	return pow2(FOutletPipe->GetAsonido(n) * ARef) / FOutletPipe->GetGamma(n)
-	/ FOutletPipe->GetRMezcla(0);
+			/ FOutletPipe->GetRMezcla(0);
 
 }
 
 double TAcousticTurbine::MassIn(int i) {
 
-	return FInletPipe[i]->GetDensidad(0) * FInletPipe[i]->GetVelocidad(0) * ARef * SIn
-	(i);
+	return FInletPipe[i]->GetDensidad(0) * FInletPipe[i]->GetVelocidad(0) * ARef
+			* SIn(i);
 }
 
 double TAcousticTurbine::MassIn() {
 
 	double MasSum;
-	for(int i=0;i<FInletPipe.size();i++){
+	for (int i = 0; i < FInletPipe.size(); i++) {
 		MasSum += MassIn(i);
 	}
 
@@ -161,14 +161,14 @@ double TAcousticTurbine::MassOut() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	return FOutletPipe->GetDensidad(n) * FOutletPipe->GetVelocidad(n)
-	* ARef * SOut();
+	return FOutletPipe->GetDensidad(n) * FOutletPipe->GetVelocidad(n) * ARef
+			* SOut();
 }
 
 double TAcousticTurbine::DIn() {
 
 	double DInSum;
-	for(int i=0;i<FInletPipe.size();i++){
+	for (int i = 0; i < FInletPipe.size(); i++) {
 		DInSum += pow2(DIn(i));
 	}
 

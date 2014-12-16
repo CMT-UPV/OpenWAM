@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TCCPreVble.h"
@@ -39,9 +38,11 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TCCPreVble::TCCPreVble(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TCondicionContorno
-(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+TCCPreVble::TCCPreVble(nmTypeBC TipoCC, int numCC,
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
+				GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FPulso = NULL;
@@ -54,21 +55,21 @@ TCCPreVble::TCCPreVble(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies Species
 
 TCCPreVble::~TCCPreVble() {
 
-	delete[]FTuboExtremo;
+	delete[] FTuboExtremo;
 
 	if (FPulso != NULL)
 		delete FPulso;
 
 	if (FComposicion != NULL)
-		delete[]FComposicion;
+		delete[] FComposicion;
 
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
-	int nDPF, TDPF **DPF) {
+void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;
 		double fracciontotal = 0.;
@@ -112,19 +113,20 @@ void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Numb
 		FComposicion = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - 1; i++) {
 			fscanf(fich, "%lf ", &FComposicion[i]);
-			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 			fracciontotal += FComposicion[i];
 		}
 		if (FHayEGR) {
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0]
-				.Pipe->GetFraccionMasicaInicial(FNumeroEspecies - 1);
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+							FNumeroEspecies - 1);
 			if (FCalculoEspecies == nmCalculoCompleto) {
 				if (FComposicion[0] > 0.2)
 					FComposicion[FNumeroEspecies - 1] = 0.;
 				else
 					FComposicion[FNumeroEspecies - 1] = 1.;
-			}
-			else {
+			} else {
 				if (FComposicion[0] > 0.5)
 					FComposicion[FNumeroEspecies - 1] = 1.;
 				else
@@ -133,8 +135,9 @@ void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Numb
 		}
 
 		if (fracciontotal != 1.) {
-			std::cout <<
-				"ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " << FNumeroCC << std::endl;
+			std::cout
+					<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
+					<< FNumeroCC << std::endl;
 			throw Exception(" ");
 		}
 
@@ -143,9 +146,10 @@ void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Numb
 
 	}
 
-	catch(Exception & N) {
-		std::cout << "ERROR: TCCPreVble::LecturaPulso en la condicion de contorno: " <<
-			FNumeroCC << std::endl;
+	catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCPreVble::LecturaPulso en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
@@ -179,8 +183,7 @@ void TCCPreVble::CalculaCondicionContorno(double Time) {
 			*FCC = Ason + Gamma3 * U;
 			*FCD = Ason - Gamma3 * U;
 			FTuboExtremo[0].Entropia = Ason / pow(Pressure, Gamma5(FGamma));
-		}
-		else {
+		} else {
 			Ason = FTuboExtremo[0].Entropia * pow(Pressure, Gamma5(FGamma));
 			*FCD = 2 * Ason - *FCC;
 		}
@@ -192,26 +195,28 @@ void TCCPreVble::CalculaCondicionContorno(double Time) {
 		// Transporte de Especies Quimicas
 		if (*FCC > *FCD) { // Flujo saliente del tubo
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
-				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
+				FFraccionMasicaEspecie[j] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
-			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
+			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
+					- FraccionMasicaAcum;
 			if (FHayEGR)
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0]
-					.Pipe->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
-		}
-		else if (*FCD > *FCC) { // Flujo entrante al tubo
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
+								FNumeroEspecies - 1);
+		} else if (*FCD > *FCC) { // Flujo entrante al tubo
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FFraccionMasicaEspecie[j] = FComposicion[j];
 			}
 		}
 		/* La ultima opcion es que *FCC=*FCD. En este caso el flujo esta parado y la fraccion masica
-		de las especies permanece constante en dicho instante */
+		 de las especies permanece constante en dicho instante */
 
-	}
-	catch(Exception & N) {
-		std::cout <<
-			"ERROR: TCCPreVble::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCPreVble::CalculaCondicionesContorno en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}

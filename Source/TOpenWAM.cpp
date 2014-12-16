@@ -1,4 +1,4 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
  |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  | \\ |  X  | //  W ave     |
@@ -204,8 +204,8 @@ TOpenWAM::~TOpenWAM() {
 	printf("INFO: *** CMT : SIMULATION FINISHED CORRECTLY ***\n");
 
 #ifdef gestorcom
-	if (GestorWAM != NULL)
-	GestorWAM->ProcesoTranscurrido(100);
+	if ( GestorWAM != NULL )
+	GestorWAM->ProcesoTranscurrido ( 100 );
 #endif
 
 	if (EXTERN != NULL)
@@ -240,8 +240,8 @@ TOpenWAM::~TOpenWAM() {
 
 	// Liberacion memoria dinamica Concentricos.
 #ifdef ConcentricElement
-	if (NumberOfConcentrics > 0 && Concentric != NULL) {
-		for (int i = 0; i < NumberOfConcentrics; i++)
+	if ( NumberOfConcentrics > 0 && Concentric != NULL ) {
+		for ( int i = 0; i < NumberOfConcentrics; i++ )
 		delete Concentric[i];
 		delete[]Concentric;
 	}
@@ -249,8 +249,8 @@ TOpenWAM::~TOpenWAM() {
 
 	// Liberacion memoria dinamica DPFs.
 #ifdef ParticulateFilter
-	if (NumberOfDPF > 0 && DPF != NULL) {
-		for (int i = 0; i < NumberOfDPF; i++)
+	if ( NumberOfDPF > 0 && DPF != NULL ) {
+		for ( int i = 0; i < NumberOfDPF; i++ )
 		delete DPF[i];
 		delete[]DPF;
 	}
@@ -333,8 +333,8 @@ TOpenWAM::~TOpenWAM() {
 		delete[] BCButerflyValve;
 
 #ifdef gestorcom
-	if (GestorWAM != NULL) {
-		GestorWAM->NuevoMensaje("Simulation finished correctly.");
+	if ( GestorWAM != NULL ) {
+		GestorWAM->NuevoMensaje ( "Simulation finished correctly." );
 		GestorWAM->Terminar();
 		delete GestorWAM;
 	}
@@ -402,13 +402,13 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	if (FileInput == NULL) {
 		printf("ERROR: The input file do not exist.\n");
 #ifdef gestorcom
-		if (GestorWAM != NULL) {
-			GestorWAM->NuevoMensaje("The input file do not exist.");
+		if ( GestorWAM != NULL ) {
+			GestorWAM->NuevoMensaje ( "The input file do not exist." );
 			GestorWAM->Terminar();
 			delete GestorWAM;
 		}
 #endif
-		exit(EXIT_FAILURE);
+		exit( EXIT_FAILURE);
 	}
 
 	CleanLabels();
@@ -416,8 +416,8 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	FileInput = fopen(fileinput.c_str(), "r");
 
 #ifdef gestorcom
-	if (GestorWAM != NULL)
-	GestorWAM->NuevoMensaje("Reading input data.");
+	if ( GestorWAM != NULL )
+	GestorWAM->NuevoMensaje ( "Reading input data." );
 #endif
 	// -----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------
@@ -496,8 +496,8 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	}
 	printf("INFO: The input file data has been readed correctly\n\n");
 #ifdef gestorcom
-	if (GestorWAM != NULL)
-	GestorWAM->NuevoMensaje("Performing preliminar calculations...");
+	if ( GestorWAM != NULL )
+	GestorWAM->NuevoMensaje ( "Performing preliminar calculations..." );
 #endif
 
 	fclose(FileInput);
@@ -514,21 +514,21 @@ void TOpenWAM::ReadDataDLL() {
 		fclose(FileInput);
 
 		if (Engine != NULL) {
-			EXTERN->LeeFicherosDLL(fileinput.c_str(), filepos, controlvalv, nematlab,
-					Engine[0]->getGeometria().NCilin,
+			EXTERN->LeeFicherosDLL(fileinput.c_str(), filepos, controlvalv,
+					nematlab, Engine[0]->getGeometria().NCilin,
 					NumberOfExternalCalculatedValves, CountVGT, SpeciesNumber,
 					NumTCCPerdidaPresion);
 		} else {
-			EXTERN->LeeFicherosDLL(fileinput.c_str(), filepos, controlvalv, nematlab, 0,
-					NumberOfExternalCalculatedValves, CountVGT, SpeciesNumber,
-					NumTCCPerdidaPresion);
+			EXTERN->LeeFicherosDLL(fileinput.c_str(), filepos, controlvalv,
+					nematlab, 0, NumberOfExternalCalculatedValves, CountVGT,
+					SpeciesNumber, NumTCCPerdidaPresion);
 		}
 		if (Pipe != NULL)
-			EXTERN->Lee_Sens_Tubos(fileinput.c_str(), filepos, Pipe, SpeciesModel,
-					ThereIsEGR, ThereIsFuel);
+			EXTERN->Lee_Sens_Tubos(fileinput.c_str(), filepos, Pipe,
+					SpeciesModel, ThereIsEGR, ThereIsFuel);
 		if (Plenum != NULL)
-			EXTERN->Lee_Sens_Dep(fileinput.c_str(), filepos, Plenum, SpeciesModel,
-					ThereIsEGR, ThereIsFuel);
+			EXTERN->Lee_Sens_Dep(fileinput.c_str(), filepos, Plenum,
+					SpeciesModel, ThereIsEGR, ThereIsFuel);
 		if (Axis != NULL)
 			EXTERN->Lee_Sens_TG(fileinput.c_str(), filepos, Axis);
 		if (Turbine != NULL)
@@ -830,8 +830,8 @@ void TOpenWAM::ReadPipes() {
 				Pipe[i]->LeeDatosGeometricosTubo(fileinput.c_str(), filepos,
 						Engine[0]->getRegimen(), tipomallado, Engine);
 			} else {
-				Pipe[i]->LeeDatosGeometricosTubo(fileinput.c_str(), filepos, -1.,
-						tipomallado, Engine);
+				Pipe[i]->LeeDatosGeometricosTubo(fileinput.c_str(), filepos,
+						-1., tipomallado, Engine);
 			}
 			printf("INFO: Pipe n. %d - N. of cells %d - Mesh size = %g m.\n",
 					i + 1, Pipe[i]->getNin(), Pipe[i]->getMallado());
@@ -851,21 +851,21 @@ void TOpenWAM::ReadDPF() {
 #ifdef ParticulateFilter
 		fpos_t filepos;
 
-		fscanf(FileInput, "%d ", &NumberOfDPF);
+		fscanf ( FileInput, "%d ", &NumberOfDPF );
 		DPF = new TDPF*[NumberOfDPF];
-		printf("Number of DPF: %d\n", NumberOfDPF);
+		printf ( "Number of DPF: %d\n", NumberOfDPF );
 
-		fgetpos(FileInput, &filepos);
-		fclose(FileInput);
+		fgetpos ( FileInput, &filepos );
+		fclose ( FileInput );
 
-		for (int i = 0; i < NumberOfDPF; i++) {
-			DPF[i] = new TDPF(i + 1, Engine, SpeciesNumber);
-			DPF[i]->LeeDatosDPF(fileinput.c_str(), filepos, SpeciesModel,
-					GammaCalculation, ThereIsEGR, Engine);
+		for ( int i = 0; i < NumberOfDPF; i++ ) {
+			DPF[i] = new TDPF ( i + 1, Engine, SpeciesNumber );
+			DPF[i]->LeeDatosDPF ( fileinput.c_str(), filepos, SpeciesModel,
+					GammaCalculation, ThereIsEGR, Engine );
 		}
 
-		FileInput = fopen(fileinput.c_str(), "r");
-		fsetpos(FileInput, &filepos);
+		FileInput = fopen ( fileinput.c_str(), "r" );
+		fsetpos ( FileInput, &filepos );
 #endif
 	} catch (Exception & N) {
 		std::cout << "ERROR: ReadDPF" << std::endl;
@@ -880,36 +880,35 @@ void TOpenWAM::ReadConcentric() {
 		fpos_t filepos;
 		int numducts;
 
-		fscanf(FileInput, "%d ", &NumberOfConcentrics);
+		fscanf ( FileInput, "%d ", &NumberOfConcentrics );
 		Concentric = new TConcentrico*[NumberOfConcentrics];
-		printf("Number of concentrics: %d\n", NumberOfConcentrics);
+		printf ( "Number of concentrics: %d\n", NumberOfConcentrics );
 
-		for (int i = 0; i < NumberOfConcentrics; i++) {
-			fscanf(FileInput, "%d ", &numducts);
-			fgetpos(FileInput, &filepos);
-			fclose(FileInput);
-			if (numducts == 2) {
-				Concentric[i] = new TConcentricoTubos(i);
+		for ( int i = 0; i < NumberOfConcentrics; i++ ) {
+			fscanf ( FileInput, "%d ", &numducts );
+			fgetpos ( FileInput, &filepos );
+			fclose ( FileInput );
+			if ( numducts == 2 ) {
+				Concentric[i] = new TConcentricoTubos ( i );
 #ifdef ParticulateFilter
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
-						Pipe, DPF);
+				Concentric[i]->LeeDatosTuboConcentrico ( fileinput.c_str(), filepos,
+						Pipe, DPF );
 #else
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
-						Pipe, NULL);
+				Concentric[i]->LeeDatosTuboConcentrico ( fileinput.c_str(), filepos,
+						Pipe, NULL );
+#endif
+			} else if ( numducts == 1 ) {
+				Concentric[i] = new TConcentricoDPF ( i );
+#ifdef ParticulateFilter
+				Concentric[i]->LeeDatosTuboConcentrico ( fileinput.c_str(), filepos,
+						Pipe, DPF );
+#else
+				Concentric[i]->LeeDatosTuboConcentrico ( fileinput.c_str(), filepos,
+						Pipe, NULL );
 #endif
 			}
-			else if (numducts == 1) {
-				Concentric[i] = new TConcentricoDPF(i);
-#ifdef ParticulateFilter
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
-						Pipe, DPF);
-#else
-				Concentric[i]->LeeDatosTuboConcentrico(fileinput.c_str(), filepos,
-						Pipe, NULL);
-#endif
-			}
-			FileInput = fopen(fileinput.c_str(), "r");
-			fsetpos(FileInput, &filepos);
+			FileInput = fopen ( fileinput.c_str(), "r" );
+			fsetpos ( FileInput, &filepos );
 		}
 #endif
 	} catch (Exception & N) {
@@ -1002,11 +1001,11 @@ void TOpenWAM::ReadValves() {
 			fgetpos(FileInput, &filepos);
 			fclose(FileInput);
 			if (!EngineBlock) {
-				TypeOfValve[i]->LeeDatosIniciales(fileinput.c_str(), filepos, val,
-						EngineBlock, NULL);
+				TypeOfValve[i]->LeeDatosIniciales(fileinput.c_str(), filepos,
+						val, EngineBlock, NULL);
 			} else {
-				TypeOfValve[i]->LeeDatosIniciales(fileinput.c_str(), filepos, val,
-						EngineBlock, Engine[0]);
+				TypeOfValve[i]->LeeDatosIniciales(fileinput.c_str(), filepos,
+						val, EngineBlock, Engine[0]);
 			}
 			FileInput = fopen(fileinput.c_str(), "r");
 			fsetpos(FileInput, &filepos);
@@ -1054,12 +1053,14 @@ void TOpenWAM::ReadPlenums() {
 				case 0:
 					Plenum[i] = new TDepVolCte(i, SpeciesModel, SpeciesNumber,
 							GammaCalculation, ThereIsEGR);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(),
+							filepos);
 					break;
 				case 1:
 					Plenum[i] = new TDepVolVariable(i, ncv, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(),
+							filepos);
 					dynamic_cast<TDepVolVariable*>(Plenum[i])->LeeDatosDepVolVariable(
 							fileinput.c_str(), filepos, EngineBlock);
 					ncv++;
@@ -1074,9 +1075,10 @@ void TOpenWAM::ReadPlenums() {
 							numeroturbina);
 					fgetpos(FileInput, &filepos);
 					fclose(FileInput);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
-					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(fileinput.c_str(),
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(),
 							filepos);
+					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(
+							fileinput.c_str(), filepos);
 					dynamic_cast<TTurbina*>(Plenum[i])->IniciaMedias();
 					NumberOfTurbines = NumberOfTurbines + 1;
 					break;
@@ -1090,9 +1092,10 @@ void TOpenWAM::ReadPlenums() {
 							numeroturbina);
 					fgetpos(FileInput, &filepos);
 					fclose(FileInput);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
-					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(fileinput.c_str(),
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(),
 							filepos);
+					dynamic_cast<TTurbina*>(Plenum[i])->LeeTurbina(
+							fileinput.c_str(), filepos);
 					dynamic_cast<TTurbina*>(Plenum[i])->IniciaMedias();
 					NumberOfTurbines = NumberOfTurbines + 1;
 					break;
@@ -1107,7 +1110,8 @@ void TOpenWAM::ReadPlenums() {
 					fgetpos(FileInput, &filepos);
 					fclose(FileInput);
 					NumberOfVenturis = NumberOfVenturis + 1;
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(),
+							filepos);
 					dynamic_cast<TVenturi*>(Plenum[i])->LeeDatosVenturi(
 							fileinput.c_str(), filepos);
 					break;
@@ -1117,7 +1121,8 @@ void TOpenWAM::ReadPlenums() {
 					Plenum[i] = new TUnionDireccional(i,
 							NumberOfDirectionalJunctions, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
-					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(), filepos);
+					Plenum[i]->LeeDatosGeneralesDepositos(fileinput.c_str(),
+							filepos);
 					dynamic_cast<TUnionDireccional*>(Plenum[i])->LeeDatosUnionDireccional(
 							fileinput.c_str(), filepos);
 					break;
@@ -1261,11 +1266,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCDescargaExtremoAbierto++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					BC[i]->AsignAmbientConditions(AmbientTemperature,
 							AmbientPressure, AtmosphericComposition);
@@ -1276,11 +1281,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCDescargaExtremoAbierto++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 2:
@@ -1290,11 +1295,11 @@ void TOpenWAM::ReadConnections() {
 					NumTCCDescargaExtremoAbierto++;
 					nematlab++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 3:
@@ -1315,11 +1320,11 @@ void TOpenWAM::ReadConnections() {
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 					NumTCCPulso++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 6:
@@ -1328,11 +1333,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCUnionEntreTubos++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 7:
@@ -1341,11 +1346,11 @@ void TOpenWAM::ReadConnections() {
 					NumTCCCilindro++;
 					NumberOfIntakeValves++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 8:
@@ -1354,11 +1359,11 @@ void TOpenWAM::ReadConnections() {
 					NumTCCCilindro++;
 					NumberOfExhaustValves++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 9:
@@ -1367,11 +1372,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCPerdidaPresion++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 10:
@@ -1380,11 +1385,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCPerdidaPresion++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 11:
@@ -1393,11 +1398,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCDeposito++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 12:
@@ -1429,11 +1434,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumberOfInjectionEnds++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 15:
@@ -1442,11 +1447,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCEntradaCompresor++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 16:
@@ -1469,22 +1474,22 @@ void TOpenWAM::ReadConnections() {
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 					NumTCCPreVble++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 19:
 					BC[i] = new TCFDConnection(nmCFDConnection, i, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				case 20:
@@ -1493,11 +1498,11 @@ void TOpenWAM::ReadConnections() {
 							ThereIsEGR);
 					NumTCCExternalConnection++;
 #ifdef ParticulateFilter
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, DPF);
+					BC[i]->ReadBoundaryData ( fileinput.c_str(), filepos, NumberOfPipes,
+							Pipe, NumberOfDPF, DPF );
 #else
-					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos, NumberOfPipes,
-							Pipe, NumberOfDPF, NULL);
+					BC[i]->ReadBoundaryData(fileinput.c_str(), filepos,
+							NumberOfPipes, Pipe, NumberOfDPF, NULL);
 #endif
 					break;
 				}
@@ -1772,8 +1777,8 @@ void TOpenWAM::ReadTurbochargerAxis() {
 							Engine[0]->getGeometria().NCilin);
 				} else
 					Axis[i] = new TEjeTurbogrupo(i, 0);
-				Axis[i]->ReadTurbochargerAxis(fileinput.c_str(), filepos, Compressor,
-						Turbine);
+				Axis[i]->ReadTurbochargerAxis(fileinput.c_str(), filepos,
+						Compressor, Turbine);
 				Axis[i]->IniciaMedias();
 			}
 		}
@@ -1850,26 +1855,28 @@ void TOpenWAM::ReadOutput(char* FileName) {
 
 	// OUTPUT ->
 #ifdef ParticulateFilter
-	Output->ReadAverageResults(fileinput.c_str(), filepos, Pipe, EngineBlock, Engine,
+	Output->ReadAverageResults ( fileinput.c_str(), filepos, Pipe, EngineBlock, Engine,
 			Plenum, Axis, Compressor, Turbine, BC, DPF, VolumetricCompressor,
-			Venturi, Sensor, Controller, SimulationDuration, FileName);
+			Venturi, Sensor, Controller, SimulationDuration, FileName );
 
-	Output->ReadInstantaneousResults(fileinput.c_str(), filepos, Engine, Plenum, Pipe,
+	Output->ReadInstantaneousResults ( fileinput.c_str(), filepos, Engine, Plenum, Pipe,
 			Venturi, BC, DPF, Axis, Compressor, Turbine, VolumetricCompressor,
 			BCWasteGate, NumberOfWasteGates, BCReedValve, NumberOfReedValves,
-			Sensor, Controller, FileName);
+			Sensor, Controller, FileName );
 #else
-	Output->ReadAverageResults(fileinput.c_str(), filepos, Pipe, EngineBlock, Engine,
-			Plenum, Axis, Compressor, Turbine, BC, NULL, VolumetricCompressor,
-			Venturi, Sensor, Controller, SimulationDuration, FileName);
+	Output->ReadAverageResults(fileinput.c_str(), filepos, Pipe, EngineBlock,
+			Engine, Plenum, Axis, Compressor, Turbine, BC, NULL,
+			VolumetricCompressor, Venturi, Sensor, Controller,
+			SimulationDuration, FileName);
 
-	Output->ReadInstantaneousResults(fileinput.c_str(), filepos, Engine, Plenum, Pipe,
-			Venturi, BC, NULL, Axis, Compressor, Turbine, VolumetricCompressor,
-			BCWasteGate, NumberOfWasteGates, BCReedValve, NumberOfReedValves,
-			Sensor, Controller, FileName);
+	Output->ReadInstantaneousResults(fileinput.c_str(), filepos, Engine, Plenum,
+			Pipe, Venturi, BC, NULL, Axis, Compressor, Turbine,
+			VolumetricCompressor, BCWasteGate, NumberOfWasteGates, BCReedValve,
+			NumberOfReedValves, Sensor, Controller, FileName);
 #endif
 
-	Output->ReadSpaceTimeResults(fileinput.c_str(), filepos, Pipe, Engine, Plenum);
+	Output->ReadSpaceTimeResults(fileinput.c_str(), filepos, Pipe, Engine,
+			Plenum);
 
 	FileInput = fopen(FileName, "r");
 	fsetpos(FileInput, &filepos);
@@ -1892,31 +1899,31 @@ void TOpenWAM::InitializeParameters() {
 		Pipe[j]->EstabilidadMetodoCalculo();
 	}
 #ifdef ParticulateFilter
-	for (int i = 0; i < NumberOfDPF; i++) {
-		DPF[i]->IniciaVariablesTransmisionCalor(AmbientTemperature);
-		for (int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++) {
-			(DPF[i]->GetCanal(j, 0))->IniciaVariablesFundamentalesCanalDPF();
-			(DPF[i]->GetCanal(j, 0))->InicializaCaracteristicas(BC);
-			(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaInterior();
-			(DPF[i]->GetCanal(j, 1))->IniciaVariablesFundamentalesCanalDPF();
-			(DPF[i]->GetCanal(j, 1))->InicializaCaracteristicas(BC);
-			(DPF[i]->GetCanal(j, 1))->CalculaCoeficientePeliculaInterior();
-			if (j == DPF[i]->getNumeroHacesCanales() - 1) {
-				(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaExterior
-				(AmbientPressure);
-				(DPF[i]->GetCanal(j, 1))->CalculaCoeficientePeliculaExterior
-				(AmbientPressure);
+	for ( int i = 0; i < NumberOfDPF; i++ ) {
+		DPF[i]->IniciaVariablesTransmisionCalor ( AmbientTemperature );
+		for ( int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++ ) {
+			( DPF[i]->GetCanal ( j, 0 ) )->IniciaVariablesFundamentalesCanalDPF();
+			( DPF[i]->GetCanal ( j, 0 ) )->InicializaCaracteristicas ( BC );
+			( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaInterior();
+			( DPF[i]->GetCanal ( j, 1 ) )->IniciaVariablesFundamentalesCanalDPF();
+			( DPF[i]->GetCanal ( j, 1 ) )->InicializaCaracteristicas ( BC );
+			( DPF[i]->GetCanal ( j, 1 ) )->CalculaCoeficientePeliculaInterior();
+			if ( j == DPF[i]->getNumeroHacesCanales() - 1 ) {
+				( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaExterior
+				( AmbientPressure );
+				( DPF[i]->GetCanal ( j, 1 ) )->CalculaCoeficientePeliculaExterior
+				( AmbientPressure );
 			}
 #ifdef ConcentricElement
-			DPF[i]->CalculoResistenciaTC_First_Time(j, Pipe, Concentric);
+			DPF[i]->CalculoResistenciaTC_First_Time ( j, Pipe, Concentric );
 #else
-			DPF[i]->CalculoResistenciaTC_First_Time(j, Pipe, NULL);
+			DPF[i]->CalculoResistenciaTC_First_Time ( j, Pipe, NULL );
 #endif
 		}
 #ifdef ConcentricElement
-		DPF[i]->InicializaDPF(NumberOfConcentrics, Concentric);
+		DPF[i]->InicializaDPF ( NumberOfConcentrics, Concentric );
 #else
-		DPF[i]->InicializaDPF(NumberOfConcentrics, NULL);
+		DPF[i]->InicializaDPF ( NumberOfConcentrics, NULL );
 #endif
 		DPF[i]->CalculoEstabilidadDPF();
 	}
@@ -1925,8 +1932,8 @@ void TOpenWAM::InitializeParameters() {
 	FirstIteration = true;
 
 #ifdef ConcentricElement
-	for (int i = 0; i < NumberOfConcentrics; i++) {
-		Concentric[i]->CalculaResistenciasdePared(BC);
+	for ( int i = 0; i < NumberOfConcentrics; i++ ) {
+		Concentric[i]->CalculaResistenciasdePared ( BC );
 	}
 #endif
 
@@ -2194,12 +2201,12 @@ void TOpenWAM::ConnectFlowElements() {
 	}
 
 #ifdef ParticulateFilter
-	for (int i = 0; i < NumberOfDPF; i++) {
-		for (int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++) {
-			DPF[i]->GetCanal(j, 0)->ComunicacionCanal_CC(BC);
-			DPF[i]->GetCanal(j, 1)->ComunicacionCanal_CC(BC);
+	for ( int i = 0; i < NumberOfDPF; i++ ) {
+		for ( int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++ ) {
+			DPF[i]->GetCanal ( j, 0 )->ComunicacionCanal_CC ( BC );
+			DPF[i]->GetCanal ( j, 1 )->ComunicacionCanal_CC ( BC );
 		}
-		DPF[i]->ComunicacionTubos(BC, NumberOfConnections);
+		DPF[i]->ComunicacionTubos ( BC, NumberOfConnections );
 	}
 #endif
 }
@@ -2272,21 +2279,21 @@ void TOpenWAM::InitialHeatTransferParameters() {
 		Pipe[i]->CalculaCoeficientePeliculaInterior(BC);
 	}
 #ifdef ParticulateFilter
-	for (int i = 0; i < NumberOfDPF; i++) {
-		DPF[i]->IniciaVariablesTransmisionCalor(AmbientTemperature);
-		for (int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++) {
-			(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaInterior();
-			(DPF[i]->GetCanal(j, 1))->CalculaCoeficientePeliculaInterior();
-			if (j == DPF[i]->getNumeroHacesCanales() - 1) {
-				(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaExterior
-				(AmbientPressure);
-				(DPF[i]->GetCanal(j, 1))->CalculaCoeficientePeliculaExterior
-				(AmbientPressure);
+	for ( int i = 0; i < NumberOfDPF; i++ ) {
+		DPF[i]->IniciaVariablesTransmisionCalor ( AmbientTemperature );
+		for ( int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++ ) {
+			( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaInterior();
+			( DPF[i]->GetCanal ( j, 1 ) )->CalculaCoeficientePeliculaInterior();
+			if ( j == DPF[i]->getNumeroHacesCanales() - 1 ) {
+				( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaExterior
+				( AmbientPressure );
+				( DPF[i]->GetCanal ( j, 1 ) )->CalculaCoeficientePeliculaExterior
+				( AmbientPressure );
 			}
 #ifdef ConcentricElement
-			DPF[i]->CalculoResistenciaTC_First_Time(j, Pipe, Concentric);
+			DPF[i]->CalculoResistenciaTC_First_Time ( j, Pipe, Concentric );
 #else
-			DPF[i]->CalculoResistenciaTC_First_Time(j, Pipe, NULL);
+			DPF[i]->CalculoResistenciaTC_First_Time ( j, Pipe, NULL );
 #endif
 		}
 
@@ -2605,8 +2612,8 @@ void TOpenWAM::Progress() {
 		std::cout << "-----------------------------------" << std::endl;
 
 #ifdef gestorcom
-		if (GestorWAM != NULL)
-		GestorWAM->ProcesoTranscurrido(Percentage);
+		if ( GestorWAM != NULL )
+		GestorWAM->ProcesoTranscurrido ( Percentage );
 #endif
 		++Steps;
 		ftime(&current);
@@ -2659,8 +2666,8 @@ void TOpenWAM::DetermineTimeStepCommon() {
 		Pipe[j]->AjustaPaso(TimeEndStep);
 	}
 #ifdef ParticulateFilter
-	for (int j = 0; j < NumberOfDPF; j++) {
-		DPF[j]->AjustaPaso(TimeEndStep);
+	for ( int j = 0; j < NumberOfDPF; j++ ) {
+		DPF[j]->AjustaPaso ( TimeEndStep );
 	}
 #endif
 	StudyInflowOutflowMass();
@@ -2705,8 +2712,8 @@ void TOpenWAM::MethodStability() {
 	}
 
 #ifdef ParticulateFilter
-	for (int j = 0; j < NumberOfDPF; j++) {
-		if (DPF[j]->getTime1DPF() >= TimeEndStep) {
+	for ( int j = 0; j < NumberOfDPF; j++ ) {
+		if ( DPF[j]->getTime1DPF() >= TimeEndStep ) {
 			TimeEndStep = DPF[j]->getTime1DPF();
 			JStepMaxDPF = j;
 			DPFStepMax = true;
@@ -2717,21 +2724,18 @@ void TOpenWAM::MethodStability() {
 #endif
 
 #ifdef ConcentricElement
-	for (int j = 0; j < NumberOfConcentrics; j++) {
-		if (Concentric[j]->GetHayDPF()) {
-			if (Concentric[j]->GetTiempoDPF() > Concentric[j]->GetTiempo(0)) {
-				Concentric[j]->PutTiempoDPF(Concentric[j]->GetTiempo(0));
+	for ( int j = 0; j < NumberOfConcentrics; j++ ) {
+		if ( Concentric[j]->GetHayDPF() ) {
+			if ( Concentric[j]->GetTiempoDPF() > Concentric[j]->GetTiempo ( 0 ) ) {
+				Concentric[j]->PutTiempoDPF ( Concentric[j]->GetTiempo ( 0 ) );
+			} else {
+				Concentric[j]->PutTiempo ( 0, Concentric[j]->GetTiempoDPF() );
 			}
-			else {
-				Concentric[j]->PutTiempo(0, Concentric[j]->GetTiempoDPF());
-			}
-		}
-		else {
-			if (Concentric[j]->GetTiempo(0) > Concentric[j]->GetTiempo(1)) {
-				Concentric[j]->PutTiempo(0, Concentric[j]->GetTiempo(1));
-			}
-			else {
-				Concentric[j]->PutTiempo(1, Concentric[j]->GetTiempo(0));
+		} else {
+			if ( Concentric[j]->GetTiempo ( 0 ) > Concentric[j]->GetTiempo ( 1 ) ) {
+				Concentric[j]->PutTiempo ( 0, Concentric[j]->GetTiempo ( 1 ) );
+			} else {
+				Concentric[j]->PutTiempo ( 1, Concentric[j]->GetTiempo ( 0 ) );
 			}
 		}
 	}
@@ -2771,8 +2775,8 @@ void TOpenWAM::SearchMinimumTimeStep() {
 		}
 	}
 #ifdef ParticulateFilter
-	for (int j = 0; j < NumberOfDPF; j++) {
-		if (DPF[j]->getTime1DPF() <= TMinimo && j != JStepMaxDPF) {
+	for ( int j = 0; j < NumberOfDPF; j++ ) {
+		if ( DPF[j]->getTime1DPF() <= TMinimo && j != JStepMaxDPF ) {
 			TMinimo = DPF[j]->getTime1DPF();
 			JCurrent = -2;
 			JCurrentDPF = j;
@@ -2882,11 +2886,11 @@ void TOpenWAM::SearchMinimumTime(int LNumDepInicial, double *LTMinimo,
 						i++) {
 					if (LPlenum[LNumDepInicial - 1]->GetCCDeposito(i)->getUnionDPF()) {
 #ifdef ParticulateFilter
-						if (LPlenum[LNumDepInicial - 1]->GetCCDeposito(i)
-								->GetTuboExtremo(0).DPF->getTime1DPF()
-								< *LTMinimo) {
+						if ( LPlenum[LNumDepInicial - 1]->GetCCDeposito ( i )
+								->GetTuboExtremo ( 0 ).DPF->getTime1DPF()
+								< *LTMinimo ) {
 							*LTMinimo = LPlenum[LNumDepInicial - 1]
-							->GetCCDeposito(i)->GetTuboExtremo(0)
+							->GetCCDeposito ( i )->GetTuboExtremo ( 0 )
 							.DPF->getTime1DPF();
 						}
 #endif
@@ -2956,10 +2960,10 @@ void TOpenWAM::SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito,
 			for (int i = 0; i < Plenum[LNumDeposito - 1]->getNUniones(); i++) {
 				if (Plenum[LNumDeposito - 1]->GetCCDeposito(i)->getUnionDPF()) {
 #ifdef ParticulateFilter
-					if (Plenum[LNumDeposito - 1]->GetCCDeposito(i)
-							->GetTuboExtremo(0).DPF->getTime1DPF() < *LTMinimo) {
-						*LTMinimo = Plenum[LNumDeposito - 1]->GetCCDeposito(i)
-						->GetTuboExtremo(0).DPF->getTime1DPF();
+					if ( Plenum[LNumDeposito - 1]->GetCCDeposito ( i )
+							->GetTuboExtremo ( 0 ).DPF->getTime1DPF() < *LTMinimo ) {
+						*LTMinimo = Plenum[LNumDeposito - 1]->GetCCDeposito ( i )
+						->GetTuboExtremo ( 0 ).DPF->getTime1DPF();
 					}
 #endif
 				} else {
@@ -3035,11 +3039,11 @@ void TOpenWAM::FixTimeStep() {
 			}
 		}
 #ifdef ParticulateFilter
-		for (int j = 0; j < NumberOfDPF; j++) {
-			if (DPF[j]->getTime1DPF() > TimeEndStep) {
-				DPF[j]->AjustaPaso(TimeEndStep);
+		for ( int j = 0; j < NumberOfDPF; j++ ) {
+			if ( DPF[j]->getTime1DPF() > TimeEndStep ) {
+				DPF[j]->AjustaPaso ( TimeEndStep );
 			}
-			if (DPFStepMax) {
+			if ( DPFStepMax ) {
 				JStepMaxDPF = j;
 			}
 		}
@@ -3134,80 +3138,77 @@ void TOpenWAM::RecalculateStability() {
 			Pipe[j]->PutDeltaTime(Pipe[j]->getTime1() - Pipe[j]->getTime0());
 		}
 #ifdef ParticulateFilter
-		for (int j = 0; j < NumberOfDPF; j++) {
-			if ((Pipe[JStepMax]->getTime1() - DPF[j]->getTime0DPF()) <
-					(DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF())) {
-				DPF[j]->putTime1DPF(Pipe[JStepMax]->getTime1());
-			}
-			else {
+		for ( int j = 0; j < NumberOfDPF; j++ ) {
+			if ( ( Pipe[JStepMax]->getTime1() - DPF[j]->getTime0DPF() ) <
+					( DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF() ) ) {
+				DPF[j]->putTime1DPF ( Pipe[JStepMax]->getTime1() );
+			} else {
 				i = 0.;
-				while ((DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF()) <
-						(Pipe[JStepMax]->getTime1() - Pipe[JStepMax]->getTime0())
-						/ pow(2., i)) {
+				while ( ( DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF() ) <
+						( Pipe[JStepMax]->getTime1() - Pipe[JStepMax]->getTime0() )
+						/ pow ( 2., i ) ) {
 					i++;
 				}
 				DPF[j]->putTime1DPF
-				(DPF[j]->getTime0DPF() + (Pipe[JStepMax]->getTime1()
-								- Pipe[JStepMax]->getTime0()) / pow(2., i));
+				( DPF[j]->getTime0DPF() + ( Pipe[JStepMax]->getTime1()
+								- Pipe[JStepMax]->getTime0() ) / pow ( 2., i ) );
 			}
-			DPF[j]->putDeltaTimeDPF(DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF
-					());
-			for (int k = 0; k < DPF[j]->getNumeroHacesCanales(); k++) {
-				(DPF[j]->GetCanal(k, 0))->putTime1(DPF[j]->getTime1DPF());
-				(DPF[j]->GetCanal(k, 0))->putDeltaTime
-				(DPF[j]->getDeltaTimeDPF());
-				(DPF[j]->GetCanal(k, 1))->putTime1(DPF[j]->getTime1DPF());
-				(DPF[j]->GetCanal(k, 1))->putDeltaTime
-				(DPF[j]->getDeltaTimeDPF());
+			DPF[j]->putDeltaTimeDPF ( DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF
+					() );
+			for ( int k = 0; k < DPF[j]->getNumeroHacesCanales(); k++ ) {
+				( DPF[j]->GetCanal ( k, 0 ) )->putTime1 ( DPF[j]->getTime1DPF() );
+				( DPF[j]->GetCanal ( k, 0 ) )->putDeltaTime
+				( DPF[j]->getDeltaTimeDPF() );
+				( DPF[j]->GetCanal ( k, 1 ) )->putTime1 ( DPF[j]->getTime1DPF() );
+				( DPF[j]->GetCanal ( k, 1 ) )->putDeltaTime
+				( DPF[j]->getDeltaTimeDPF() );
 			}
 		}
 #endif
 	} else if (DPFStepMax) {
 #ifdef ParticulateFilter
-		for (int j = 0; j < NumberOfPipes; j++) {
-			if ((DPF[JStepMaxDPF]->getTime1DPF() - Pipe[j]->getTime0()) <
-					(Pipe[j]->getTime1() - Pipe[j]->getTime0())) {
-				Pipe[j]->PutTime1(DPF[JStepMaxDPF]->getTime1DPF());
-			}
-			else {
+		for ( int j = 0; j < NumberOfPipes; j++ ) {
+			if ( ( DPF[JStepMaxDPF]->getTime1DPF() - Pipe[j]->getTime0() ) <
+					( Pipe[j]->getTime1() - Pipe[j]->getTime0() ) ) {
+				Pipe[j]->PutTime1 ( DPF[JStepMaxDPF]->getTime1DPF() );
+			} else {
 				i = 0.;
-				while ((Pipe[j]->getTime1() - Pipe[j]->getTime0()) <
-						(DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i)) {
+				while ( ( Pipe[j]->getTime1() - Pipe[j]->getTime0() ) <
+						( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) ) {
 					i++;
 				}
-				Pipe[j]->PutTime1(Pipe[j]->getTime0() +
-						(DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i));
+				Pipe[j]->PutTime1 ( Pipe[j]->getTime0() +
+						( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) );
 			}
-			Pipe[j]->PutDeltaTime(Pipe[j]->getTime1() - Pipe[j]->getTime0());
+			Pipe[j]->PutDeltaTime ( Pipe[j]->getTime1() - Pipe[j]->getTime0() );
 		}
 
-		for (int j = 0; j < NumberOfDPF; j++) {
-			if ((DPF[JStepMaxDPF]->getTime1DPF() - DPF[j]->getTime0DPF()) <
-					(DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF())) {
-				DPF[j]->putTime1DPF(DPF[JStepMaxDPF]->getTime1DPF());
-			}
-			else {
+		for ( int j = 0; j < NumberOfDPF; j++ ) {
+			if ( ( DPF[JStepMaxDPF]->getTime1DPF() - DPF[j]->getTime0DPF() ) <
+					( DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF() ) ) {
+				DPF[j]->putTime1DPF ( DPF[JStepMaxDPF]->getTime1DPF() );
+			} else {
 				i = 0.;
-				while ((DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF()) <
-						(DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i)) {
+				while ( ( DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF() ) <
+						( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) ) {
 					i++;
 				}
-				DPF[j]->putTime1DPF(DPF[j]->getTime0DPF() +
-						(DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i));
+				DPF[j]->putTime1DPF ( DPF[j]->getTime0DPF() +
+						( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) );
 			}
-			DPF[j]->putDeltaTimeDPF(DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF
-					());
-			for (int k = 0; k < DPF[j]->getNumeroHacesCanales(); k++) {
-				(DPF[j]->GetCanal(k, 0))->putTime1(DPF[j]->getTime1DPF());
-				(DPF[j]->GetCanal(k, 0))->putDeltaTime
-				(DPF[j]->getDeltaTimeDPF());
-				(DPF[j]->GetCanal(k, 1))->putTime1(DPF[j]->getTime1DPF());
-				(DPF[j]->GetCanal(k, 1))->putDeltaTime
-				(DPF[j]->getDeltaTimeDPF());
+			DPF[j]->putDeltaTimeDPF ( DPF[j]->getTime1DPF() - DPF[j]->getTime0DPF
+					() );
+			for ( int k = 0; k < DPF[j]->getNumeroHacesCanales(); k++ ) {
+				( DPF[j]->GetCanal ( k, 0 ) )->putTime1 ( DPF[j]->getTime1DPF() );
+				( DPF[j]->GetCanal ( k, 0 ) )->putDeltaTime
+				( DPF[j]->getDeltaTimeDPF() );
+				( DPF[j]->GetCanal ( k, 1 ) )->putTime1 ( DPF[j]->getTime1DPF() );
+				( DPF[j]->GetCanal ( k, 1 ) )->putDeltaTime
+				( DPF[j]->getDeltaTimeDPF() );
 			}
 		}
 #endif
@@ -3236,91 +3237,85 @@ void TOpenWAM::RecalculateStabilitySolver() {
 					Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0());
 		} else if (TimeMinDPF) {
 #ifdef ParticulateFilter
-			if ((Pipe[JStepMax]->getTime1() - DPF[JCurrentDPF]->getTime0DPF())
-					< (DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
-							->getTime0DPF())) {
-				DPF[JCurrentDPF]->putTime1DPF(Pipe[JStepMax]->getTime1());
-			}
-			else {
+			if ( ( Pipe[JStepMax]->getTime1() - DPF[JCurrentDPF]->getTime0DPF() )
+					< ( DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
+							->getTime0DPF() ) ) {
+				DPF[JCurrentDPF]->putTime1DPF ( Pipe[JStepMax]->getTime1() );
+			} else {
 				i = 0;
-				while ((DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
-								->getTime0DPF()) < (Pipe[JStepMax]->getTime1()
-								- Pipe[JStepMax]->getTime0()) / pow(2., i)) {
+				while ( ( DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
+								->getTime0DPF() ) < ( Pipe[JStepMax]->getTime1()
+								- Pipe[JStepMax]->getTime0() ) / pow ( 2., i ) ) {
 					i++;
 				}
 				DPF[JCurrentDPF]->putTime1DPF
-				(DPF[JCurrentDPF]->getTime0DPF() +
-						(Pipe[JStepMax]->getTime1() - Pipe[JStepMax]->getTime0())
-						/ pow(2., i));
+				( DPF[JCurrentDPF]->getTime0DPF() +
+						( Pipe[JStepMax]->getTime1() - Pipe[JStepMax]->getTime0() )
+						/ pow ( 2., i ) );
 			}
 			DPF[JCurrentDPF]->putDeltaTimeDPF
-			(DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
-					->getTime0DPF());
-			for (int j = 0; j < DPF[JCurrentDPF]->getNumeroHacesCanales(); j++)
-			{
-				(DPF[JCurrentDPF]->GetCanal(j, 0))->putTime1
-				(DPF[JCurrentDPF]->getTime1DPF());
-				(DPF[JCurrentDPF]->GetCanal(j, 0))->putDeltaTime
-				(DPF[JCurrentDPF]->getDeltaTimeDPF());
-				(DPF[JCurrentDPF]->GetCanal(j, 1))->putTime1
-				(DPF[JCurrentDPF]->getTime1DPF());
-				(DPF[JCurrentDPF]->GetCanal(j, 1))->putDeltaTime
-				(DPF[JCurrentDPF]->getDeltaTimeDPF());
+			( DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
+					->getTime0DPF() );
+			for ( int j = 0; j < DPF[JCurrentDPF]->getNumeroHacesCanales(); j++ ) {
+				( DPF[JCurrentDPF]->GetCanal ( j, 0 ) )->putTime1
+				( DPF[JCurrentDPF]->getTime1DPF() );
+				( DPF[JCurrentDPF]->GetCanal ( j, 0 ) )->putDeltaTime
+				( DPF[JCurrentDPF]->getDeltaTimeDPF() );
+				( DPF[JCurrentDPF]->GetCanal ( j, 1 ) )->putTime1
+				( DPF[JCurrentDPF]->getTime1DPF() );
+				( DPF[JCurrentDPF]->GetCanal ( j, 1 ) )->putDeltaTime
+				( DPF[JCurrentDPF]->getDeltaTimeDPF() );
 			}
 #endif
 		}
 	} else if (DPFStepMax) {
 #ifdef ParticulateFilter
-		if (TimeMinPipe) {
-			if ((DPF[JStepMaxDPF]->getTime1DPF() - Pipe[JCurrent]->getTime0())
-					< (Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0())) {
-				Pipe[JCurrent]->PutTime1(DPF[JStepMaxDPF]->getTime1DPF());
-			}
-			else {
+		if ( TimeMinPipe ) {
+			if ( ( DPF[JStepMaxDPF]->getTime1DPF() - Pipe[JCurrent]->getTime0() )
+					< ( Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0() ) ) {
+				Pipe[JCurrent]->PutTime1 ( DPF[JStepMaxDPF]->getTime1DPF() );
+			} else {
 				i = 0;
-				while ((Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0()
-						) < (DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i)) {
+				while ( ( Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0()
+						) < ( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) ) {
 					i++;
 				}
-				Pipe[JCurrent]->PutTime1(Pipe[JCurrent]->getTime0() +
-						(DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i));
+				Pipe[JCurrent]->PutTime1 ( Pipe[JCurrent]->getTime0() +
+						( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) );
 			}
 			Pipe[JCurrent]->PutDeltaTime
-			(Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0());
-		}
-		else if (TimeMinDPF) {
-			if ((DPF[JStepMaxDPF]->getTime1DPF() - DPF[JCurrentDPF]->getTime0DPF
-							()) < (DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
-							->getTime0DPF())) {
-				DPF[JCurrentDPF]->putTime1DPF(DPF[JStepMaxDPF]->getTime1DPF());
-			}
-			else {
+			( Pipe[JCurrent]->getTime1() - Pipe[JCurrent]->getTime0() );
+		} else if ( TimeMinDPF ) {
+			if ( ( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JCurrentDPF]->getTime0DPF
+							() ) < ( DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
+							->getTime0DPF() ) ) {
+				DPF[JCurrentDPF]->putTime1DPF ( DPF[JStepMaxDPF]->getTime1DPF() );
+			} else {
 				i = 0;
-				while ((DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
-								->getTime0DPF()) < (DPF[JStepMaxDPF]->getTime1DPF()
-								- DPF[JStepMaxDPF]->getTime0DPF()) / pow(2., i)) {
+				while ( ( DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
+								->getTime0DPF() ) < ( DPF[JStepMaxDPF]->getTime1DPF()
+								- DPF[JStepMaxDPF]->getTime0DPF() ) / pow ( 2., i ) ) {
 					i++;
 				}
 				DPF[JCurrentDPF]->putTime1DPF
-				(DPF[JCurrentDPF]->getTime0DPF() +
-						(DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
-								->getTime0DPF()) / pow(2., i));
+				( DPF[JCurrentDPF]->getTime0DPF() +
+						( DPF[JStepMaxDPF]->getTime1DPF() - DPF[JStepMaxDPF]
+								->getTime0DPF() ) / pow ( 2., i ) );
 			}
 			DPF[JCurrentDPF]->putDeltaTimeDPF
-			(DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
-					->getTime0DPF());
-			for (int j = 0; j < DPF[JCurrentDPF]->getNumeroHacesCanales(); j++)
-			{
-				(DPF[JCurrentDPF]->GetCanal(j, 0))->putTime1
-				(DPF[JCurrentDPF]->getTime1DPF());
-				(DPF[JCurrentDPF]->GetCanal(j, 0))->putDeltaTime
-				(DPF[JCurrentDPF]->getDeltaTimeDPF());
-				(DPF[JCurrentDPF]->GetCanal(j, 1))->putTime1
-				(DPF[JCurrentDPF]->getTime1DPF());
-				(DPF[JCurrentDPF]->GetCanal(j, 1))->putDeltaTime
-				(DPF[JCurrentDPF]->getDeltaTimeDPF());
+			( DPF[JCurrentDPF]->getTime1DPF() - DPF[JCurrentDPF]
+					->getTime0DPF() );
+			for ( int j = 0; j < DPF[JCurrentDPF]->getNumeroHacesCanales(); j++ ) {
+				( DPF[JCurrentDPF]->GetCanal ( j, 0 ) )->putTime1
+				( DPF[JCurrentDPF]->getTime1DPF() );
+				( DPF[JCurrentDPF]->GetCanal ( j, 0 ) )->putDeltaTime
+				( DPF[JCurrentDPF]->getDeltaTimeDPF() );
+				( DPF[JCurrentDPF]->GetCanal ( j, 1 ) )->putTime1
+				( DPF[JCurrentDPF]->getTime1DPF() );
+				( DPF[JCurrentDPF]->GetCanal ( j, 1 ) )->putDeltaTime
+				( DPF[JCurrentDPF]->getDeltaTimeDPF() );
 			}
 		}
 #endif
@@ -3344,7 +3339,7 @@ void TOpenWAM::InitializeOutput() {
 		EXTERN->InicializaMedias();
 	}
 #ifdef gestorcom
-	if (GestorWAM != NULL)
+	if ( GestorWAM != NULL )
 	GestorWAM->CabeceraResMediosActualizada();
 #endif
 }
@@ -3422,11 +3417,11 @@ void TOpenWAM::CalculateFlowIndependent() {
 				}
 			} else {
 #ifdef ParticulateFilter
-				for (int j = 0; j < NumberOfConcentrics; j++) {
-					if (Pipe[JCurrent]->getNumeroTubo() == Concentric[j]
-							->GetNumTuboExterno()) {
-						Concentric[j]->CalculaTemperaturaPared(Engine, Theta,
-								BC);
+				for ( int j = 0; j < NumberOfConcentrics; j++ ) {
+					if ( Pipe[JCurrent]->getNumeroTubo() == Concentric[j]
+							->GetNumTuboExterno() ) {
+						Concentric[j]->CalculaTemperaturaPared ( Engine, Theta,
+								BC );
 					}
 				}
 #endif
@@ -3438,85 +3433,82 @@ void TOpenWAM::CalculateFlowIndependent() {
 			}
 		} else if (TimeMinDPF) {
 #ifdef ParticulateFilter
-			for (int j = 0; j < DPF[JCurrentDPF]->getNumeroHacesCanales(); j++)
-			{
-				for (int k = 0; k < 2; k++) {
-					(DPF[JCurrentDPF]->GetCanal(j, k))
+			for ( int j = 0; j < DPF[JCurrentDPF]->getNumeroHacesCanales(); j++ ) {
+				for ( int k = 0; k < 2; k++ ) {
+					( DPF[JCurrentDPF]->GetCanal ( j, k ) )
 					->CalculaVariablesFundamentales();
 					// printf("%lf\n",DPF[JActualDPF]->Time1DPF);
 					double IncrementoTiempo = DPF[JCurrentDPF]->getTime1DPF()
 					- DPF[JCurrentDPF]->getTime0DPF();
-					(DPF[JCurrentDPF]->GetCanal(j, k))
-					->CalculaCaracteristicasExtremos(BC,
-							IncrementoTiempo);
+					( DPF[JCurrentDPF]->GetCanal ( j, k ) )
+					->CalculaCaracteristicasExtremos ( BC,
+							IncrementoTiempo );
 
 					/* Calculo de las Condiciones de Contorno en los extremos de los canales */
-					for (int i = 0; i < 2; i++) {
-						if (i == 0)
-						OneDEnd = (DPF[JCurrentDPF]->GetCanal(j, k))
+					for ( int i = 0; i < 2; i++ ) {
+						if ( i == 0 )
+						OneDEnd = ( DPF[JCurrentDPF]->GetCanal ( j, k ) )
 						->getNodoIzq();
-						if (i == 1)
-						OneDEnd = (DPF[JCurrentDPF]->GetCanal(j, k))
+						if ( i == 1 )
+						OneDEnd = ( DPF[JCurrentDPF]->GetCanal ( j, k ) )
 						->getNodoDer();
 
-						if (OneDEnd != 0) {
+						if ( OneDEnd != 0 ) {
 							BC[OneDEnd - 1]->CalculaCondicionContorno
-							(DPF[JCurrentDPF]->getTime1DPF());
+							( DPF[JCurrentDPF]->getTime1DPF() );
 						}
 					}
-					(DPF[JCurrentDPF]->GetCanal(j, k))->ActualizaValoresNuevos
-					(BC);
-					(DPF[JCurrentDPF]->GetCanal(j, k))->ActualizaPropiedadesGas
+					( DPF[JCurrentDPF]->GetCanal ( j, k ) )->ActualizaValoresNuevos
+					( BC );
+					( DPF[JCurrentDPF]->GetCanal ( j, k ) )->ActualizaPropiedadesGas
 					();
 
-					(DPF[JCurrentDPF]->GetCanal(j, k))->ReduccionFlujoSubsonico
+					( DPF[JCurrentDPF]->GetCanal ( j, k ) )->ReduccionFlujoSubsonico
 					();
 
 				}
-				SolveAdjacentElements(OneDEnd, DPF[JCurrentDPF]->getTime1DPF());
+				SolveAdjacentElements ( OneDEnd, DPF[JCurrentDPF]->getTime1DPF() );
 
-				if (!EngineBlock) {
-					if (DPF[JCurrentDPF]->getTime1DPF() < DPF[JCurrentDPF]
-							->getDuracionCiclo()) {
-						if (j == DPF[JCurrentDPF]->getNumeroHacesCanales() - 1)
-						{
-							(DPF[JCurrentDPF]->GetCanal(j, 0))
+				if ( !EngineBlock ) {
+					if ( DPF[JCurrentDPF]->getTime1DPF() < DPF[JCurrentDPF]
+							->getDuracionCiclo() ) {
+						if ( j == DPF[JCurrentDPF]->getNumeroHacesCanales() - 1 ) {
+							( DPF[JCurrentDPF]->GetCanal ( j, 0 ) )
 							->CalculaCoeficientePeliculaExterior
-							(AmbientPressure);
+							( AmbientPressure );
 						}
 #ifdef ConcentricElement
-						DPF[JCurrentDPF]->CalculoResistenciaTC(j, Pipe,
-								Concentric);
+						DPF[JCurrentDPF]->CalculoResistenciaTC ( j, Pipe,
+								Concentric );
 #else
-						DPF[JCurrentDPF]->CalculoResistenciaTC(j, Pipe, NULL);
+						DPF[JCurrentDPF]->CalculoResistenciaTC ( j, Pipe, NULL );
 #endif
 					}
-				}
-				else if (Engine[0]->getCiclo() < 1) {
-					if (j == DPF[JCurrentDPF]->getNumeroHacesCanales() - 1) {
-						(DPF[JCurrentDPF]->GetCanal(j, 0))
+				} else if ( Engine[0]->getCiclo() < 1 ) {
+					if ( j == DPF[JCurrentDPF]->getNumeroHacesCanales() - 1 ) {
+						( DPF[JCurrentDPF]->GetCanal ( j, 0 ) )
 						->CalculaCoeficientePeliculaExterior
-						(AmbientPressure);
+						( AmbientPressure );
 					}
 #ifdef ConcentricElement
-					DPF[JCurrentDPF]->CalculoResistenciaTC(j, Pipe, Concentric);
+					DPF[JCurrentDPF]->CalculoResistenciaTC ( j, Pipe, Concentric );
 #else
-					DPF[JCurrentDPF]->CalculoResistenciaTC(j, Pipe, NULL);
+					DPF[JCurrentDPF]->CalculoResistenciaTC ( j, Pipe, NULL );
 #endif
 				}
 			}
 #ifdef ConcentricElement
-			DPF[JCurrentDPF]->CalculoTransmisionCalor(Engine, Theta, Pipe,
-					Concentric);
+			DPF[JCurrentDPF]->CalculoTransmisionCalor ( Engine, Theta, Pipe,
+					Concentric );
 #else
-			DPF[JCurrentDPF]->CalculoTransmisionCalor(Engine, Theta, Pipe,
-					NULL);
+			DPF[JCurrentDPF]->CalculoTransmisionCalor ( Engine, Theta, Pipe,
+					NULL );
 #endif
 			DPF[JCurrentDPF]->CalculoSubmodelos();
-			DPF[JCurrentDPF]->CalculaResultadosMedios(Theta);
+			DPF[JCurrentDPF]->CalculaResultadosMedios ( Theta );
 
 			DPF[JCurrentDPF]->CalculoEstabilidadDPF();
-			if (DPF[JCurrentDPF]->getTime0DPF() < TimeEndStep) {
+			if ( DPF[JCurrentDPF]->getTime0DPF() < TimeEndStep ) {
 				RecalculateStabilitySolver();
 			}
 #endif
@@ -3545,12 +3537,11 @@ void TOpenWAM::CalculateFlowIndependent() {
 				}
 			} else if (DPFStepMax) {
 #ifdef ParticulateFilter
-				if (Plenum[i]->getTipoDeposito() == nmDepVolVble) {
+				if ( Plenum[i]->getTipoDeposito() == nmDepVolVble ) {
 					Plenum[i]->UpdateProperties0DModel
-					(DPF[JStepMaxDPF]->getTime0DPF());
-				}
-				else {
-					Plenum[i]->ActualizaTiempo(DPF[JStepMaxDPF]->getTime0DPF());
+					( DPF[JStepMaxDPF]->getTime0DPF() );
+				} else {
+					Plenum[i]->ActualizaTiempo ( DPF[JStepMaxDPF]->getTime0DPF() );
 				}
 #endif
 			}
@@ -3963,32 +3954,32 @@ void TOpenWAM::UpdateEngine() {
 				}
 			} else if (DPFStepMax) {
 #ifdef ParticulateFilter
-				if (Engine[0]->GetCilindro(i)->getTiempoActual()
-						< DPF[JStepMaxDPF]->getTime0DPF()) {
-					Engine[0]->GetCilindro(i)->ActualizaPropiedades
-					(DPF[JStepMaxDPF]->getTime0DPF());
-					Engine[0]->GetCilindro(i)->CalculaVariablesResultados();
-					Engine[0]->GetCilindro(i)->AcumulaResultadosMediosCilindro
-					(DPF[JStepMaxDPF]->getTime0DPF());
+				if ( Engine[0]->GetCilindro ( i )->getTiempoActual()
+						< DPF[JStepMaxDPF]->getTime0DPF() ) {
+					Engine[0]->GetCilindro ( i )->ActualizaPropiedades
+					( DPF[JStepMaxDPF]->getTime0DPF() );
+					Engine[0]->GetCilindro ( i )->CalculaVariablesResultados();
+					Engine[0]->GetCilindro ( i )->AcumulaResultadosMediosCilindro
+					( DPF[JStepMaxDPF]->getTime0DPF() );
 					Engine[0]->AcumulaResultadosMediosBloqueMotor
-					(DPF[JStepMaxDPF]->getTime0DPF(), i + 1);
-					for (int j = 0;
-							j < Engine[0]->GetCilindro(i)->getNumeroUnionesAdm();
-							j++) {
+					( DPF[JStepMaxDPF]->getTime0DPF(), i + 1 );
+					for ( int j = 0;
+							j < Engine[0]->GetCilindro ( i )->getNumeroUnionesAdm();
+							j++ ) {
 						dynamic_cast<TCCCilindro*>
-						(Engine[0]->GetCilindro(i)->GetCCValvulaAdm(j))
+						( Engine[0]->GetCilindro ( i )->GetCCValvulaAdm ( j ) )
 						->ActualizaAnguloValvula
-						(DPF[JStepMaxDPF]->getTime0DPF(),
-								Engine[0]->getRegimen());
+						( DPF[JStepMaxDPF]->getTime0DPF(),
+								Engine[0]->getRegimen() );
 					}
-					for (int j = 0;
-							j < Engine[0]->GetCilindro(i)->getNumeroUnionesEsc();
-							j++) {
+					for ( int j = 0;
+							j < Engine[0]->GetCilindro ( i )->getNumeroUnionesEsc();
+							j++ ) {
 						dynamic_cast<TCCCilindro*>
-						(Engine[0]->GetCilindro(i)->GetCCValvulaEsc(j))
+						( Engine[0]->GetCilindro ( i )->GetCCValvulaEsc ( j ) )
 						->ActualizaAnguloValvula
-						(DPF[JStepMaxDPF]->getTime0DPF(),
-								Engine[0]->getRegimen());
+						( DPF[JStepMaxDPF]->getTime0DPF(),
+								Engine[0]->getRegimen() );
 					}
 				}
 #endif
@@ -4032,12 +4023,12 @@ void TOpenWAM::CalculateFlowCommon() {
 		Pipe[j]->CalculaCaracteristicasExtremos(BC, Run.TimeStep);
 	}
 #ifdef ParticulateFilter
-	for (int i = 0; i < NumberOfDPF; i++) {
-		for (int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++) {
-			for (int k = 0; k < 2; k++) {
-				(DPF[i]->GetCanal(j, k))->CalculaVariablesFundamentales();
-				(DPF[i]->GetCanal(j, k))->CalculaCaracteristicasExtremos(BC,
-						Run.TimeStep);
+	for ( int i = 0; i < NumberOfDPF; i++ ) {
+		for ( int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++ ) {
+			for ( int k = 0; k < 2; k++ ) {
+				( DPF[i]->GetCanal ( j, k ) )->CalculaVariablesFundamentales();
+				( DPF[i]->GetCanal ( j, k ) )->CalculaCaracteristicasExtremos ( BC,
+						Run.TimeStep );
 			}
 		}
 	}
@@ -4090,10 +4081,10 @@ void TOpenWAM::CalculateFlowCommon() {
 			}
 		} else {
 #ifdef ConcentricElement
-			for (int j = 0; j < NumberOfConcentrics; j++) {
-				if (Pipe[j]->getNumeroTubo() == Concentric[j]->GetNumTuboExterno
-						()) {
-					Concentric[j]->CalculaTemperaturaPared(Engine, Theta, BC);
+			for ( int j = 0; j < NumberOfConcentrics; j++ ) {
+				if ( Pipe[j]->getNumeroTubo() == Concentric[j]->GetNumTuboExterno
+						() ) {
+					Concentric[j]->CalculaTemperaturaPared ( Engine, Theta, BC );
 				}
 			}
 #endif
@@ -4104,31 +4095,30 @@ void TOpenWAM::CalculateFlowCommon() {
 		Pipe[j]->EstabilidadMetodoCalculo();
 	}
 #ifdef ParticulateFilter
-	for (int i = 0; i < NumberOfDPF; i++) {
-		for (int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++) {
-			for (int k = 0; k < 2; k++) {
-				(DPF[i]->GetCanal(j, k))->ActualizaValoresNuevos(BC);
-				(DPF[i]->GetCanal(j, k))->ActualizaPropiedadesGas();
-				(DPF[i]->GetCanal(j, k))->ReduccionFlujoSubsonico();
+	for ( int i = 0; i < NumberOfDPF; i++ ) {
+		for ( int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++ ) {
+			for ( int k = 0; k < 2; k++ ) {
+				( DPF[i]->GetCanal ( j, k ) )->ActualizaValoresNuevos ( BC );
+				( DPF[i]->GetCanal ( j, k ) )->ActualizaPropiedadesGas();
+				( DPF[i]->GetCanal ( j, k ) )->ReduccionFlujoSubsonico();
 			}
-			if (!EngineBlock) {
-				if (j == DPF[i]->getNumeroHacesCanales() - 1) {
-					(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaExterior
-					(AmbientPressure);
+			if ( !EngineBlock ) {
+				if ( j == DPF[i]->getNumeroHacesCanales() - 1 ) {
+					( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaExterior
+					( AmbientPressure );
 				}
-				DPF[i]->CalculoResistenciaTC(j, Pipe, Concentric);
-			}
-			else if (Engine[0]->getCiclo() < 1) {
-				if (j == DPF[i]->getNumeroHacesCanales() - 1) {
-					(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaExterior
-					(AmbientPressure);
+				DPF[i]->CalculoResistenciaTC ( j, Pipe, Concentric );
+			} else if ( Engine[0]->getCiclo() < 1 ) {
+				if ( j == DPF[i]->getNumeroHacesCanales() - 1 ) {
+					( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaExterior
+					( AmbientPressure );
 				}
-				DPF[i]->CalculoResistenciaTC(j, Pipe, Concentric);
+				DPF[i]->CalculoResistenciaTC ( j, Pipe, Concentric );
 			}
 		}
-		DPF[i]->CalculoTransmisionCalor(Engine, Theta, Pipe, Concentric);
+		DPF[i]->CalculoTransmisionCalor ( Engine, Theta, Pipe, Concentric );
 		DPF[i]->CalculoSubmodelos();
-		DPF[i]->CalculaResultadosMedios(Theta);
+		DPF[i]->CalculaResultadosMedios ( Theta );
 
 		DPF[i]->CalculoEstabilidadDPF();
 	}
@@ -4172,9 +4162,9 @@ void TOpenWAM::ManageOutput() {
 			SpeciesName);
 
 #ifdef gestorcom
-	if (GestorWAM != NULL)
+	if ( GestorWAM != NULL )
 	GestorWAM->CabeceraResInstantActualizada();
-	if (GestorWAM != NULL)
+	if ( GestorWAM != NULL )
 	GestorWAM->FichResInstantActualizado();
 #endif
 	// OUTPUT ->
@@ -4196,7 +4186,7 @@ void TOpenWAM::ManageOutput() {
 			Output->CopyAverageResultsToFile(1);
 
 #ifdef gestorcom
-			if (GestorWAM != NULL)
+			if ( GestorWAM != NULL )
 			GestorWAM->FichResMediosActualizado();
 #endif
 
@@ -4250,8 +4240,8 @@ void TOpenWAM::ProgressBegin() {
 	putenv(tzcharstring);
 
 #ifdef gestorcom
-	if (GestorWAM != NULL)
-	GestorWAM->NuevoMensaje("Calculating main loop...");
+	if ( GestorWAM != NULL )
+	GestorWAM->NuevoMensaje ( "Calculating main loop..." );
 #endif
 	// tzset();
 	ftime(&begining);
@@ -4294,18 +4284,18 @@ void TOpenWAM::NewEngineCycle() {
 	}
 	// Calculo de las propiedades de transmision de calor en el filtro de particulas cada paso de integracion global
 #ifdef ParticulateFilter
-	for (int i = 0; i < NumberOfDPF; i++) {
-		if (DPF[i]->getCicloDPF() > 1) {
-			for (int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++) {
-				(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaInterior();
-				(DPF[i]->GetCanal(j, 1))->CalculaCoeficientePeliculaInterior();
-				if (j == DPF[i]->getNumeroHacesCanales() - 1) {
-					(DPF[i]->GetCanal(j, 0))->CalculaCoeficientePeliculaExterior
-					(AmbientPressure);
-					(DPF[i]->GetCanal(j, 1))->CalculaCoeficientePeliculaExterior
-					(AmbientPressure);
+	for ( int i = 0; i < NumberOfDPF; i++ ) {
+		if ( DPF[i]->getCicloDPF() > 1 ) {
+			for ( int j = 0; j < DPF[i]->getNumeroHacesCanales(); j++ ) {
+				( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaInterior();
+				( DPF[i]->GetCanal ( j, 1 ) )->CalculaCoeficientePeliculaInterior();
+				if ( j == DPF[i]->getNumeroHacesCanales() - 1 ) {
+					( DPF[i]->GetCanal ( j, 0 ) )->CalculaCoeficientePeliculaExterior
+					( AmbientPressure );
+					( DPF[i]->GetCanal ( j, 1 ) )->CalculaCoeficientePeliculaExterior
+					( AmbientPressure );
 				}
-				DPF[i]->CalculoResistenciaTC(j, Pipe, Concentric);
+				DPF[i]->CalculoResistenciaTC ( j, Pipe, Concentric );
 			}
 		}
 	}
@@ -4534,19 +4524,19 @@ void TOpenWAM::InitFlowIndependentNumThreads() {
 #ifdef WITH_OPENMP
 	std::stringstream ss;
 	int n_threads;
-	char const* env_value = getenv("OMP_NUM_THREADS");
-	if (env_value == NULL) {
+	char const* env_value = getenv ( "OMP_NUM_THREADS" );
+	if ( env_value == NULL ) {
 		n_threads = omp_get_num_procs();
 	} else {
-		ss.str(env_value);
-		if (!(ss >> n_threads)) {
+		ss.str ( env_value );
+		if ( ! ( ss >> n_threads ) ) {
 			// OMP_NUM_THREADS isn't a valid integer.
 			n_threads = 1;
 		}
 	}
-	if (n_threads > 2) {
+	if ( n_threads > 2 ) {
 		fi_num_threads = 3;
-	} else if (n_threads > 1) {
+	} else if ( n_threads > 1 ) {
 		fi_num_threads = 2;
 	}
 #endif

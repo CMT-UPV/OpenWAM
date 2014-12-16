@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TTurbPosition.h"
@@ -43,7 +42,8 @@ TTurbPosition::~TTurbPosition() {
 
 }
 
-void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos, double ang) {
+void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos,
+		double ang) {
 	double SP, ER, MF, EF, SP0, ER0;
 
 	FPosition = pos;
@@ -56,17 +56,14 @@ void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos, double
 			FSpeedLine.resize(1);
 			FSpeedLine[0].AsignaValores(ER, MF, EF);
 			FSpeedLine[0].PutSpeed(SP);
-		}
-		else {
+		} else {
 			if (SP == SP0) {
 				if (ER > ER0) {
 					FSpeedLine[FLines - 1].AsignaValores(ER, MF, EF);
-				}
-				else {
+				} else {
 					// error
 				}
-			}
-			else if (SP > SP0) {
+			} else if (SP > SP0) {
 				FLines++;
 				FSpeedLine.resize(FLines);
 				FSpeedLine[FLines - 1].AsignaValores(ER, MF, EF);
@@ -81,10 +78,11 @@ void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos, double
 
 }
 
-void TTurbPosition::EffectiveArea(double Area, bool CalculaGR, double Diam1, double Diam2,
-	double Diam3, double n_limit) {
+void TTurbPosition::EffectiveArea(double Area, bool CalculaGR, double Diam1,
+		double Diam2, double Diam3, double n_limit) {
 	for (int i = 0; i < FLines; i++) {
-		FSpeedLine[i].EffectiveSection(Area, CalculaGR, FAngle, Diam1, Diam2, Diam3, n_limit);
+		FSpeedLine[i].EffectiveSection(Area, CalculaGR, FAngle, Diam1, Diam2,
+				Diam3, n_limit);
 		FSpeedLine[i].Adimensionaliza();
 	}
 }
@@ -114,40 +112,37 @@ void TTurbPosition::SearchMapLimits() {
 }
 
 void TTurbPosition::InterpolaPosicion(double n, double er) {
-	double CDStator0, CDStator1, CDRotor0, CDRotor1, ERAdim, DeltaN, ERMax, ERMin, Eff0, Eff1;
+	double CDStator0, CDStator1, CDRotor0, CDRotor1, ERAdim, DeltaN, ERMax,
+			ERMin, Eff0, Eff1;
 
 	if (n <= FSpeedMin) {
 		if (er < FSpeedLine[0].ERMin()) {
 			ERAdim = 0;
-		}
-		else if (er > FSpeedLine[0].ERMax()) {
+		} else if (er > FSpeedLine[0].ERMax()) {
 			ERAdim = 1;
-		}
-		else {
-			ERAdim = (er - FSpeedLine[0].ERMin()) / (FSpeedLine[0].ERMax() - FSpeedLine[0].ERMin());
+		} else {
+			ERAdim = (er - FSpeedLine[0].ERMin())
+					/ (FSpeedLine[0].ERMax() - FSpeedLine[0].ERMin());
 		}
 
 		FStatorSec = FSpeedLine[0].Stator(ERAdim);
 		FRotorSec = FSpeedLine[0].Rotor(ERAdim);
 		FEfficiency = FSpeedLine[0].Efficiency(ERAdim);
-	}
-	else if (n >= FSpeedMax) {
+	} else if (n >= FSpeedMax) {
 		if (er < FSpeedLine[FLines - 1].ERMin()) {
 			ERAdim = 0;
-		}
-		else if (er > FSpeedLine[FLines - 1].ERMax()) {
+		} else if (er > FSpeedLine[FLines - 1].ERMax()) {
 			ERAdim = 1;
-		}
-		else {
-			ERAdim = (er - FSpeedLine[FLines - 1].ERMin()) /
-			(FSpeedLine[FLines - 1].ERMax() - FSpeedLine[FLines - 1].ERMin());
+		} else {
+			ERAdim = (er - FSpeedLine[FLines - 1].ERMin())
+					/ (FSpeedLine[FLines - 1].ERMax()
+							- FSpeedLine[FLines - 1].ERMin());
 		}
 
 		FStatorSec = FSpeedLine[FLines - 1].Stator(ERAdim);
 		FRotorSec = FSpeedLine[FLines - 1].Rotor(ERAdim);
 		FEfficiency = FSpeedLine[FLines - 1].Efficiency(ERAdim);
-	}
-	else {
+	} else {
 		int i = 0;
 		while (FSpeedLine[i].Speed() < n) {
 			++i;
@@ -217,7 +212,8 @@ double TTurbPosition::MinPowerLimit(double rtc) {
 
 }
 
-void TTurbPosition::AdiabaticEfficiency(TTC_HTM *HTM, double TinT, double TinC) {
+void TTurbPosition::AdiabaticEfficiency(TTC_HTM *HTM, double TinT,
+		double TinC) {
 	for (int i = 0; i < FLines; ++i) {
 		FSpeedLine[i].GetAdiabaticEfficiency(HTM, TinT, TinC);
 	}

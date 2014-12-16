@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TValvula4T.h"
@@ -37,7 +36,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TValvula4T::TValvula4T() : TTipoValvula(nmValvula4T) {
+TValvula4T::TValvula4T() :
+		TTipoValvula(nmValvula4T) {
 
 	fun_FLift = NULL;
 	fun_CDin = NULL;
@@ -66,7 +66,8 @@ TValvula4T::~TValvula4T() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) : TTipoValvula(nmValvula4T) {
+TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) :
+		TTipoValvula(nmValvula4T) {
 
 	FCDEntrada = Origen->FCDEntrada;
 	FCDSalida = Origen->FCDSalida;
@@ -133,8 +134,8 @@ TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) : TTipoValvula(nmValvula
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
+		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
 		int ControlRegimen, NumLev = 0, NumCD = 0;
 
@@ -145,19 +146,19 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 
 		FNumeroOrden = norden;
 
-		fscanf(fich, "%lf %d %lf %lf %lf %lf ", &FDiametro, &NumLev, &FIncrAng, &FAnguloApertura,
-			&FDiametroRef, &FCoefTorbMedio);
+		fscanf(fich, "%lf %d %lf %lf %lf %lf ", &FDiametro, &NumLev, &FIncrAng,
+				&FAnguloApertura, &FDiametroRef, &FCoefTorbMedio);
 
 		FAnguloApertura0 = FAnguloApertura;
 
-		FAnguloCierre = FAnguloApertura + (double)(NumLev - 1) * FIncrAng;
+		FAnguloCierre = FAnguloApertura + (double) (NumLev - 1) * FIncrAng;
 
 		// FLevantamiento=new double[NumLev];
 		FLevantamiento.resize(NumLev);
 		FAngle.resize(NumLev);
 
 		for (int i = 0; i < NumLev; i++) {
-			FAngle[i] = (double)i * FIncrAng;
+			FAngle[i] = (double) i * FIncrAng;
 			fscanf(fich, " %lf", &FLevantamiento[i]);
 		}
 
@@ -169,7 +170,7 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		FDatosTorbellino.resize(NumCD);
 
 		for (int i = 0; i < NumCD; i++) {
-			FLiftCD[i] = (double)i * FIncrLev;
+			FLiftCD[i] = (double) i * FIncrLev;
 			fscanf(fich, " %lf", &FDatosCDEntrada[i]);
 		}
 		for (int i = 0; i < NumCD; i++) {
@@ -181,7 +182,7 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 
 		fscanf(fich, "%d ", &ControlRegimen);
 
-		switch(ControlRegimen) {
+		switch (ControlRegimen) {
 		case 0:
 			FControlRegimen = nmPropio;
 			break;
@@ -192,21 +193,20 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		if (FControlRegimen == nmPropio) {
 			fscanf(fich, "%lf ", &FRegimen);
 			FRelacionVelocidades = 1.;
-		}
-		else if (FControlRegimen == nmMotor && HayMotor) {
+		} else if (FControlRegimen == nmMotor && HayMotor) {
 			fscanf(fich, "%lf ", &FRelacionVelocidades);
-		}
-		else {
-			std::cout <<
-				"ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
+		} else {
+			std::cout
+					<< "ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea "
+					<< std::endl;
 			throw Exception(" ");
 		}
 		int controllers;
 		int param;
 		fscanf(fich, "%d ", &controllers);
-		for (int i=0; i < controllers; i++) {
+		for (int i = 0; i < controllers; i++) {
 			fscanf(fich, "%d ", &param);
-			switch(param) {
+			switch (param) {
 			case 0:
 				fscanf(fich, "%d ", &FVVTTimingCtrlID);
 				FVVTLift = true;
@@ -227,8 +227,7 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -246,8 +245,7 @@ void TValvula4T::CalculaCD(double Angulo) {
 		if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 			FCDTubVol = 0.;
 			FCDVolTub = 0.;
-		}
-		else {
+		} else {
 			X = Angulo - FAnguloApertura;
 			XLv = X / (FIncrAng * FVVTDurationMultiplier);
 
@@ -261,8 +259,7 @@ void TValvula4T::CalculaCD(double Angulo) {
 			FCTorb = fun_Torb->interp(FApertura);
 
 		}
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -276,15 +273,14 @@ void TValvula4T::GetCDin(double Time) {
 
 	if (FControlRegimen == nmPropio) {
 		Angulo = 6. * FRegimen * Time; // It's correct if FRegimen is constant.
-	}
-	else {
+	} else {
 		if (FToCylinder) {
 			Angulo = FCylinder->getAnguloActual();
-		}
-		else {
+		} else {
 			double DeltaT = Time - FTime0;
 			FTime0 = Time;
-			double DeltaA = 6 * FEngine->getRegimen() * DeltaT * FRelacionVelocidades;
+			double DeltaA = 6 * FEngine->getRegimen() * DeltaT
+					* FRelacionVelocidades;
 			Angulo = DeltaA + FAngle0;
 			if (Angulo > 360)
 				Angulo -= 360.;
@@ -295,11 +291,11 @@ void TValvula4T::GetCDin(double Time) {
 	if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 		FCDTubVol = 0.;
 		FCDVolTub = 0.;
-	}
-	else {
+	} else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
-		if(XLv > 720) XLv -= 720.;
+		if (XLv > 720)
+			XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
@@ -316,15 +312,14 @@ void TValvula4T::GetCDout(double Time) {
 
 	if (FControlRegimen == nmPropio) {
 		Angulo = 360. * FRegimen / 60. * Time; // It's correct if FRegimen is constant.
-	}
-	else {
+	} else {
 		if (FToCylinder) {
 			Angulo = FCylinder->getAnguloActual();
-		}
-		else {
+		} else {
 			double DeltaT = Time - FTime0;
 			FTime0 = Time;
-			double DeltaA = 6 * FEngine->getRegimen() * DeltaT * FRelacionVelocidades;
+			double DeltaA = 6 * FEngine->getRegimen() * DeltaT
+					* FRelacionVelocidades;
 			Angulo = DeltaA + FAngle0;
 			if (Angulo > 360)
 				Angulo -= 360.;
@@ -335,11 +330,11 @@ void TValvula4T::GetCDout(double Time) {
 	if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 		FCDTubVol = 0.;
 		FCDVolTub = 0.;
-	}
-	else {
+	} else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
-		if(XLv > 720) XLv -= 720.;
+		if (XLv > 720)
+			XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
@@ -363,8 +358,9 @@ void TValvula4T::VVTControl(double Time) {
 			FVVTDurationMultiplier = FVVTDurationCtrl->Output(Time);
 		}
 		FAnguloApertura = FAnguloApertura0 + FVVTTimigGap;
-		FAnguloCierre = FAnguloApertura + (double)(FAngle.size() - 1)
-			* FIncrAng * FVVTDurationMultiplier;
+		FAnguloCierre = FAnguloApertura
+				+ (double) (FAngle.size() - 1) * FIncrAng
+						* FVVTDurationMultiplier;
 	}
 }
 

@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 |==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ | \\ |  X  | //  W ave     |
+ |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ |   \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TBloqueMotorH
 #define TBloqueMotorH
 #include <iostream>
@@ -51,7 +50,7 @@ private:
 	int FNodoMedio;
 	int FNumTuboRendVol; /* Pipe de la admision al que se refiere el rendimiento volumetrico */
 
-	std::vector<stLeyQuemadoBD>FLeyQuemadoBD;
+	std::vector<stLeyQuemadoBD> FLeyQuemadoBD;
 
 	double FLQRegMax;
 	double FLQMfMax;
@@ -72,7 +71,7 @@ private:
 	int TipoInterp; // Tipo de interpolación: 1. Lineal, 2. Hermite (spinlines), 3. Step
 
 	double fOutput;
-    Base_interp *fDatosTasa;			//!< Struct to interpolate within the table
+	Base_interp *fDatosTasa;		//!< Struct to interpolate within the table
 	nmTipoInterpolacion fTipo;			//!< Type of interpolation
 
 	double FTime;
@@ -90,7 +89,7 @@ private:
 	stRoadLoad FCoefRoadLoad;
 	stInjectionSys FInjectionSys;
 
-	std::vector<stInjecPulse>FInjecPulse;
+	std::vector<stInjecPulse> FInjecPulse;
 
 	stTemperaturasPared FTempInicial;
 	nmCalculoPared FCalculoPared;
@@ -201,28 +200,32 @@ public:
 
 	bool getACT() {
 		return FACT;
-	};
+	}
+	;
 
 	double getMixtureProcessCte() {
 		return FMixtureProcessCte;
-	};
+	}
+	;
 
 	stGeometria getGeometria() {
 		return FGeom;
-	};
+	}
+	;
 
 	stWoschni getWoschni() {
 		return FWoschni;
-	};
+	}
+	;
 
 	void PutRegimen(double valor) {
 		try {
 
 			FRegimen = valor;
 
-		}
-		catch(Exception & N) {
-			std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. " << std::endl;
+		} catch (Exception & N) {
+			std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. "
+					<< std::endl;
 			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 			throw Exception(N.Message);
 		}
@@ -236,30 +239,35 @@ public:
 
 	double getMasaFuel() {
 		return FMasaFuel;
-	};
+	}
+	;
 
 	double getMasaInicial() {
 		return FMasaInicial;
-	};
+	}
+	;
 
 	double getPresionAAE() {
 		return FPresionAAE;
-	};
+	}
+	;
 
 	double getPresionInicial() {
 		return FPresionInicialRCA;
-	};
+	}
+	;
 
 	stTemperaturasPared getTempInicial() {
 		return FTempInicial;
-	};
+	}
+	;
 
 	void PutTheta(double valor) {
 		try {
 			FTheta = valor;
-		}
-		catch(Exception & N) {
-			std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. " << std::endl;
+		} catch (Exception & N) {
+			std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. "
+					<< std::endl;
 			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 			throw Exception(N.Message);
 		}
@@ -276,9 +284,9 @@ public:
 
 			FCiclo = valor;
 
-		}
-		catch(Exception & N) {
-			std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. " << std::endl;
+		} catch (Exception & N) {
+			std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. "
+					<< std::endl;
 			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 			throw Exception(N.Message);
 		}
@@ -292,49 +300,60 @@ public:
 
 	double getAngTotalCiclo() {
 		return FAngTotalCiclo;
-	};
+	}
+	;
 
 	double GetDesfase(int i);
 
 	nmTipoMotor getEngineType() {
 		return FTipoMotor;
-	};
+	}
+	;
 
 	nmTipoCombustion getCombustible() {
 		return FCombustible;
-	};
+	}
+	;
 
 	double getPoderCalorifico() {
 		return FPoderCalorifico;
-	};
+	}
+	;
 
 	double getDensidadCombustible() {
 		return FDensidadCombustible;
-	};
+	}
+	;
 
 	double getRendimientoCombustion() {
 		return FRendimientoCombustion;
-	};
+	}
+	;
 
 	double getDosadoInicial() {
 		return FDosadoInicial;
-	};
+	}
+	;
 
 	stPropTermicas getParedPiston() {
 		return FParedPiston;
-	};
+	}
+	;
 
 	stPropTermicas getParedCulata() {
 		return FParedCulata;
-	};
+	}
+	;
 
 	stPropTermicas getParedCilindro() {
 		return FParedCilindro;
-	};
+	}
+	;
 
 	nmCalculoPared getCalculoPared() {
 		return FCalculoPared;
-	};
+	}
+	;
 
 	double FAjusteTranCalAdm;
 
@@ -353,73 +372,90 @@ public:
 
 	double getParPotMax() {
 		return FParPotMax;
-	};
+	}
+	;
 
-	const std::vector<stLeyQuemadoBD>getLeyQuemadoBD() {
+	const std::vector<stLeyQuemadoBD> getLeyQuemadoBD() {
 		return FLeyQuemadoBD;
-	};
+	}
+	;
 
 	double getLQRegMax() {
 		return FLQRegMax;
-	};
+	}
+	;
 
 	double getLQMfMax() {
 		return FLQMfMax;
-	};
+	}
+	;
 
 	double getLQMaMax() {
 		return FLQMaMax;
-	};
+	}
+	;
 
 	double getPresionAmb() {
 		return FPresionAmbiente;
-	};
+	}
+	;
 
 	double getTemperaturaAmb() {
 		return FTemperaturaAmbiente;
-	};
+	}
+	;
 
 	double getTempRefrigerante() {
 		return FTempRefrigerante;
-	};
+	}
+	;
 
 	int getNumCiclosSinInerciaTermica() {
 		return FNumeroCiclosSinInerciaTermica;
-	};
+	}
+	;
 
 	int getNumTuboRendVol() {
 		return FNumTuboRendVol;
-	};
+	}
+	;
 
 	TCilindro* GetCilindro(int i);
 
 	TTubo* getTuboRendVol() {
 		return FTuboRendVol;
-	};
+	}
+	;
 
 	int getNodoMedio() {
 		return FNodoMedio;
-	};
+	}
+	;
 
 	double getAFRMedio() {
 		return FAFRMedio;
-	};
+	}
+	;
 
 	nmCalculoPAAE getCalculoDePAAE() {
 		return FCalculoDePAAE;
-	};
+	}
+	;
 
 	nmTipoCalculoEspecies getSpeciesModel() {
 		return FCalculoEspecies;
-	};
+	}
+	;
 
 	int getSpeciesNumber() {
 		return FNumeroEspecies;
-	};
+	}
+	;
 
 	bool getImponerComposicionAE() {
 		return FImponerComposicionAE;
-	};
+	}
+	;
 
 	double GetComposicionInicial(int i);
 
@@ -427,43 +463,53 @@ public:
 
 	nmCalculoGamma getGammaCalculation() {
 		return FCalculoGamma;
-	};
+	}
+	;
 
 	stInjectionSys getInjectionSys() {
 		return FInjectionSys;
-	};
+	}
+	;
 
 	stInjecPulse getInjecPulse(int i) {
 		return FInjecPulse[i];
-	};
+	}
+	;
 
 	int getFTipoDatosIny() {
 		return FTipoDatosIny;
-	};
+	}
+	;
 
 	int getFNumeroInyecciones() {
 		return FNumeroInyecciones;
-	};
+	}
+	;
 
 	dVector getFAngIny() {
 		return FAngIny;
-	};
+	}
+	;
 
 	dVector getFTIny() {
 		return FTIny;
-	};
+	}
+	;
 
 	dVector getFPercentIny() {
 		return FPercentIny;
-	};
+	}
+	;
 
 	double getFAngIniIny() {
 		return FAngIniIny;
-	};
+	}
+	;
 
 	double getFAStepIny() {
 		return FAStepIny;
-	};
+	}
+	;
 
 //	dVector getFY_dat() {
 //		return FY_dat;
@@ -477,15 +523,15 @@ public:
 //		return xnum;
 //	};
 
-
 	TBloqueMotor(double AmbientPressure, double AmbientTemperature,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TBloqueMotor();
 
-	void LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
-		int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition);
+	void LeeMotor(const char *FileWAM, fpos_t &filepos,
+			nmTipoModelado& SimulationType, int CiclosSinInerciaTermica,
+			nmTipoMotor EngineType, double *AtmosphericComposition);
 
 	void IniciaAnguloCalculo();
 

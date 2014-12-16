@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef BoundaryFunctionsH
 #define BoundaryFunctionsH
 
@@ -48,12 +47,14 @@ struct stFESub {
 	double AdAA;
 	double invAdAA;
 
-	stFESub(const double iAA, const double iAd, const double ig, const double iK, const double iCC) : AA
-	(iAA), Ad(iAd), Gam(ig), K(iK), BC(iCC) {
+	stFESub(const double iAA, const double iAd, const double ig,
+			const double iK, const double iCC) :
+			AA(iAA), Ad(iAd), Gam(ig), K(iK), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		AdAA = Ad * AA;
 		invAdAA = 1 / AdAA;
-	};
+	}
+	;
 
 	double operator()(const double A2) {
 		double xx = A2 * invAdAA;
@@ -74,11 +75,13 @@ struct stFESup {
 	double Ga8;
 	double Ga9;
 
-	stFESup(const double ig, const double iK) : Gam(ig), K(iK) {
+	stFESup(const double ig, const double iK) :
+			Gam(ig), K(iK) {
 		Ga3 = (Gam - 1) / 2;
 		Ga8 = (Gam + 1) / 2;
 		Ga9 = (Gam - 1) / Ga8;
-	};
+	}
+	;
 
 	double operator()(const double M) {
 
@@ -101,12 +104,14 @@ struct stFSSub {
 	double invAdAA;
 	double pow2Ac;
 
-	stFSSub(const double iAA, const double iAd, const double ig, const double iK, const double iCC,
-		const double iAc) : AA(iAA), Ad(iAd), Ac(iAc), Gam(ig), K(iK), BC(iCC) {
+	stFSSub(const double iAA, const double iAd, const double ig,
+			const double iK, const double iCC, const double iAc) :
+			AA(iAA), Ad(iAd), Ac(iAc), Gam(ig), K(iK), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		invAdAA = 1 / (AA * Ad);
 		pow2Ac = pow2(Ac);
-	};
+	}
+	;
 
 	double operator()(const double A2) {
 		U2 = 0;
@@ -132,24 +137,27 @@ struct stFSSup {
 	double invAA;
 	double invFcc;
 
-	stFSSup(const double iAA, const double iFcc, const double ig, const double iK, const double iCC,
-		const double iAc) : AA(iAA), Ac(iAc), Gam(ig), K(iK), BC(iCC), Fcc(iFcc) {
+	stFSSup(const double iAA, const double iFcc, const double ig,
+			const double iK, const double iCC, const double iAc) :
+			AA(iAA), Ac(iAc), Gam(ig), K(iK), BC(iCC), Fcc(iFcc) {
 		Ga3 = (Gam - 1) / 2;
 		invAA = 1 / AA;
 		invFcc = 1 / Fcc;
 
-	};
+	}
+	;
 
 	double operator()(const double U2) {
 
 		double dif = pow2(Ac) - Ga3 * pow2(U2);
 		if (dif > 0) {
 			A2 = sqrt(dif);
-		}else{
+		} else {
 			A2 = 0;
-        }
+		}
 		//A2 = sqrt(pow2(Ac) - Ga3 * pow2(U2));
-		double A2_2 = sqrt(U2 * pow((BC + Ga3 * U2) * invAA, Gam / Ga3) * invFcc);
+		double A2_2 = sqrt(
+				U2 * pow((BC + Ga3 * U2) * invAA, Gam / Ga3) * invFcc);
 
 		return A2 - A2_2;
 	}
@@ -170,11 +178,13 @@ struct stRecover {
 	double A1;
 	double invAdAA;
 
-	stRecover(const double iAA, const double iAd, const double ig, const double iCR, const double iCC) : AA
-		(iAA), Ad(iAd), Gam(ig), CR(iCR), BC(iCC) {
+	stRecover(const double iAA, const double iAd, const double ig,
+			const double iCR, const double iCC) :
+			AA(iAA), Ad(iAd), Gam(ig), CR(iCR), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		invAdAA = 1 / (Ad * AA);
-	};
+	}
+	;
 
 	double operator()(double A2) {
 		U2 = (BC - A2) / Ga3;
@@ -188,10 +198,10 @@ struct stRecover {
 	}
 };
 /* NUEVO- PROGRAMACION DE LAS EXPRESIONES NECESARIAS PARA
-EL METODO DE BRENT:
-- Union Tubos: Ensanchamiento -	Estrechamiento
-- Compressor Volumetrico
-- Perdida de presion adiabatica
+ EL METODO DE BRENT:
+ - Union Tubos: Ensanchamiento -	Estrechamiento
+ - Compressor Volumetrico
+ - Perdida de presion adiabatica
  */
 
 /* Wider in cross section */
@@ -207,8 +217,8 @@ struct stExpansion {
 	double rel_entropia; // Variable l.a. a la relacion de entropia pasada por funcion//
 
 	/* Variables locales internas, si no se quiere acceder despues a la
-	informacion que contienen, es preferible definirlas directamente dentro del
-	operador */
+	 informacion que contienen, es preferible definirlas directamente dentro del
+	 operador */
 
 	double U1; // V.L para la velocidad del fluido en 1 (SALIENTE del tubo//
 	double U2; // V.L para la velocidad del fluido en 2 (ENTRANTE al deposito//
@@ -218,10 +228,11 @@ struct stExpansion {
 	double Ga3; // idem que Ga2//
 
 	/* CONSTRUCTOR de la funcion, aqui se recibe por orden la informacion pasada por
-	funcion y se almacena en las variables locales */
+	 funcion y se almacena en las variables locales */
 
-	stExpansion(const double iCCS, const double iCCE, const double R_E, const double R_A, const double iGam)
-		: CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
+	stExpansion(const double iCCS, const double iCCE, const double R_E,
+			const double R_A, const double iGam) :
+			CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
 		/* Definicion de aquellas variables internas que se usaran en el operador, pero que no se requiere su acceso, aqui o dentro del operador */
 		Ga2 = Gam + 1;
@@ -233,33 +244,39 @@ struct stExpansion {
 		double xx1 = pow2(A1) + Ga3 * pow2(U1);
 		double xx2 = rel_area * pow2(A1) + Gam * pow2(U1);
 		if (fabs(U1 - A1) < 1e-15) {
-			if (Ga2 / (Gam + rel_area) >= 1){
+			if (Ga2 / (Gam + rel_area) >= 1) {
 				U2 = (xx2 / (Ga2 * U1));
+			} else {
+				U2 = (xx2 / (Ga2 * U1))
+						* (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
 			}
-			else {
-				U2 = (xx2 / (Ga2 * U1)) * (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
-			}
-		}
-		else {
-			if ((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1){
+		} else {
+			if ((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1) {
 				U2 = xx2 / Ga2;
+			} else {
+				U2 =
+						xx2
+								* (1
+										- sqrt(
+												1.
+														- (xx1 * 2. * Ga2
+																* (pow2(U1)
+																		/ pow2(
+																				xx2)))))
+								/ Ga2;
 			}
-			else {
-				U2 = xx2 * (1 - sqrt(1. - (xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))))) / Ga2;
-			}
-			
+
 			if (U1 == 0) {
 				U2 = 0;
-			}
-			else {
+			} else {
 				U2 = U2 / U1;
 			}
 		}
 		A2 = sqrt(xx1 - Ga3 * pow2(U2));
 		xx3 = CCE + Ga3 * U2; // Velocity del sonido corregida, hara falta en el calculo de las caracteristicas//
 		double xx = pow(rel_entropia * xx3, Gam);
-		double xtx = (pow2(A2) + Gam * pow2(U2)) /
-			(((Gam * pow2(U1)) / rel_area + pow2(A1)) * pow2(A2));
+		double xtx = (pow2(A2) + Gam * pow2(U2))
+				/ (((Gam * pow2(U1)) / rel_area + pow2(A1)) * pow2(A2));
 		xtx = pow(xtx, Ga3);
 		double A1p = xx * xtx;
 
@@ -280,7 +297,7 @@ struct stContraction {
 	double Gam; // Variable l.a a gamma, pasado por funcion//
 
 	/* Variables locales internas, que permitiran el acceso. Si no se requiere acceso
-	es mejor definirlas directamente dentro del operador */
+	 es mejor definirlas directamente dentro del operador */
 
 	double A1; // Variable local para la velocidad del sonido en 1//
 	double A2; // Variable local para la velocidad del sonido en 2//
@@ -289,10 +306,11 @@ struct stContraction {
 	double Ga3;
 
 	/* CONSTRUCTOR: Se recibe la informacion por funcion en variables ficticias y se
-	almacena en las variables locales */
+	 almacena en las variables locales */
 
-	stContraction(const double iCCS, const double iCCE, const double R_E, const double R_A,
-		const double iGam) : CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
+	stContraction(const double iCCS, const double iCCE, const double R_E,
+			const double R_A, const double iGam) :
+			CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
 		Ga1 = (Gam - 1);
 	}
@@ -307,14 +325,13 @@ struct stContraction {
 		double b = pow2(xx1) - xx2 * 4. * xx3;
 		if (b < 0) { /* Adaptacion del metodo para este caso problematico */
 			A2 = xx1 / (2 * xx2);
-		}
-		else {
+		} else {
 			A2 = (xx1 + sqrt(b)) / (2. * xx2); // Calculo de A2 segun la ec. 4.316, si el //
 		}
 		/* Si el flujo es supersonico en la seccion 1 (diametro mayor) peta el metodo de Brent peta al calcular el valor en el extremo
-		derecho, debido a que sale una raiz negativa. Probar entonces una condicion que bloquee en este caso el calculo de la raiz
-		(pero solo para el calculo de la funcion en el extremo). Por ejemplo A2=xx1/2*xx2. YA VEREMOS QUE PASA, SI CONVERGE O SIGUE PETANDO
-		ENTONCES SERIA FLUJO SUPERSONICO */
+		 derecho, debido a que sale una raiz negativa. Probar entonces una condicion que bloquee en este caso el calculo de la raiz
+		 (pero solo para el calculo de la funcion en el extremo). Por ejemplo A2=xx1/2*xx2. YA VEREMOS QUE PASA, SI CONVERGE O SIGUE PETANDO
+		 ENTONCES SERIA FLUJO SUPERSONICO */
 
 		U2 = (A2 * rel_entropia - CCE) / Ga3; // Calculo de U2 segun ec.4.317//
 		double U1p = A1 / A2; // Variable auxiliar para el calculo de U1p//
@@ -330,8 +347,8 @@ struct stContraction {
 struct stPerdPresAd {
 
 	/* Definir las variables locales donde se almacenara la informacion que se pase
-	desde el programa y que son necesarias para el calculo de la condicion de contorno.
-	Son variables de tipo double */
+	 desde el programa y que son necesarias para el calculo de la condicion de contorno.
+	 Son variables de tipo double */
 
 	// VARIABLES ALMACENAMIENTO DE VARIABLES QUE SE PASARAN//
 	double CC1; // Variable local asociada a la caracteristica incidente del extremo 1 pasada por funcion//
@@ -350,12 +367,13 @@ struct stPerdPresAd {
 	double Ga5;
 
 	/* Constructor de la funcion. Aqui se RECIBEN las variables necesarias para el calculo
-	y que han sido enviadas desde el programa, el nombre de cabecera es ficticio, la
-	informacion se almacena por posicion. En el lado derecho se asocia a cada variable
-	local el valor de la variable pasada por funcion */
+	 y que han sido enviadas desde el programa, el nombre de cabecera es ficticio, la
+	 informacion se almacena por posicion. En el lado derecho se asocia a cada variable
+	 local el valor de la variable pasada por funcion */
 
-	stPerdPresAd(const double iCC1, const double iCC2, const double iFK, const double iGam,
-		const double iFRE) : CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE) {
+	stPerdPresAd(const double iCC1, const double iCC2, const double iFK,
+			const double iGam, const double iFRE) :
+			CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE) {
 		Ga3 = (Gam - 1) / 2;
 		Ga5 = (Gam - 1) / 2 / Gam;
 	}
@@ -370,8 +388,7 @@ struct stPerdPresAd {
 		double u2u1 = (sqrt(pow2(b) - 4. * a * c) - b) / (2. * a); // ec. 252//
 		if (U1 == 0.) {
 			U2 = 0.; // ec.253//
-		}
-		else { // ec.254//
+		} else { // ec.254//
 			U2 = u2u1 / U1;
 		}
 
@@ -403,9 +420,9 @@ struct stPerdPresAdL {
 	double Ga3;
 	double Ga5;
 
-	stPerdPresAdL(const double iCC1, const double iCC2, const double iFK, const double iGam,
-		const double iFRE, const double iARef) : CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam),
-	FRE(iFRE), ARef(iARef) {
+	stPerdPresAdL(const double iCC1, const double iCC2, const double iFK,
+			const double iGam, const double iFRE, const double iARef) :
+			CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE), ARef(iARef) {
 		Ga3 = (Gam - 1) / 2;
 		Ga5 = (Gam - 1) / 2 / Gam;
 	}
@@ -422,8 +439,7 @@ struct stPerdPresAdL {
 		double u2u1 = QuadraticEqP(a, b, c);
 		if (U1 == 0.) {
 			U2 = 0.;
-		}
-		else {
+		} else {
 			U2 = u2u1 / U1;
 		}
 		A2 = sqrt(pow2(A1) + Ga3 * (pow2(U1) - pow2(U2)));
@@ -442,9 +458,9 @@ struct stPerdPresAdL {
 struct stComprVol {
 
 	/* Definicion de las variables locales (pueden tomar cualquier nombre)
-	y que almacenaran la informacion de las variables pasadas a la funcion
-	desde el programa, LA INFORMACION SE ASOCIARA EN EL CONSTRUCTOR. AQUI
-	SOLO SE ESTAN DEFINIENDO */
+	 y que almacenaran la informacion de las variables pasadas a la funcion
+	 desde el programa, LA INFORMACION SE ASOCIARA EN EL CONSTRUCTOR. AQUI
+	 SOLO SE ESTAN DEFINIENDO */
 
 	/* PASO POR EL CONSTRUCTOR ARef y PRef para evitar incluir la libreria globales */
 
@@ -465,23 +481,26 @@ struct stComprVol {
 	double U;
 
 	/* CONSTRUCTOR: Aqui se RECIBEN las VARIABLES PASADAS con un nombre ficticio
-	parecido al de la definicio de las variables locales (por ejemplo precedido de i)
-	EN EL LADO IZQUIERDO (variables recibidas) : EN EL LADO DERECHO (informacion almacenada)
-	y que son necesarias para el calculo del operador (tipo de variable y nombre ficticio) y a continuacion
-	SE ASOCIAN a las variables locales que almacenaran la informacion pasada */
+	 parecido al de la definicio de las variables locales (por ejemplo precedido de i)
+	 EN EL LADO IZQUIERDO (variables recibidas) : EN EL LADO DERECHO (informacion almacenada)
+	 y que son necesarias para el calculo del operador (tipo de variable y nombre ficticio) y a continuacion
+	 SE ASOCIAN a las variables locales que almacenaran la informacion pasada */
 
-	stComprVol(const double iAA, const double iCC, const double iGam, const double iA, const double iGS,
-		const double iF, const double iPRef, const double iARef) : AA(iAA), BC(iCC), Gam(iGam),
-	A(iA), Gasto_calculado(iGS), F(iF), PRef(iPRef), ARef(iARef) {
+	stComprVol(const double iAA, const double iCC, const double iGam,
+			const double iA, const double iGS, const double iF,
+			const double iPRef, const double iARef) :
+			AA(iAA), BC(iCC), Gam(iGam), A(iA), Gasto_calculado(iGS), F(iF), PRef(
+					iPRef), ARef(iARef) {
 		Ga3 = (Gam - 1) / 2;
 		Ga4 = 2 * Gam / (Gam - 1);
 		CD = 1;
-	};
+	}
+	;
 
 	double operator()(const double Vel) {
 		double entropia = A * AA / (BC + Ga3 * Vel);
-		U = Gasto_calculado * pow(entropia, Ga4) / (CD * Gam * F * 1e5 * (PRef / ARef) * pow(A,
-				1 / Ga3));
+		U = Gasto_calculado * pow(entropia, Ga4)
+				/ (CD * Gam * F * 1e5 * (PRef / ARef) * pow(A, 1 / Ga3));
 
 		return U - Vel;
 	}
@@ -498,9 +517,10 @@ struct stNewCompressorConditions {
 	double Ga3;
 	double Eff;
 
-	stNewCompressorConditions(const double iMass, const double iCC, const double T01, const double P01,
-		const double iEff, const double iGam, const double R, const double Sec) : Mass(iMass), Lambda(iCC),
-	Gam(iGam), Section(Sec),Eff(iEff) {
+	stNewCompressorConditions(const double iMass, const double iCC,
+			const double T01, const double P01, const double iEff,
+			const double iGam, const double R, const double Sec) :
+			Mass(iMass), Lambda(iCC), Gam(iGam), Section(Sec), Eff(iEff) {
 		A01 = sqrt(Gam * R * T01);
 		AA1 = A01 * pow(P01, (1 - Gam) / 2 / Gam);
 		Ga3 = (Gam - 1) / 2;
@@ -511,13 +531,14 @@ struct stNewCompressorConditions {
 		double A2 = Lambda / (1 - Ga3 * Match);
 		double k = pow2(A2) * (1 + Ga3 * Match * Match) / (A01 * A01) - 1;
 		double AA2 = AA1 * sqrt(1 + k) / (k * Eff + 1);
-		double Match2 = Mass / (Gam * pow(A2 / pow(AA2, Gam), 1 / Ga3) * A2 * Section);
+		double Match2 = Mass
+				/ (Gam * pow(A2 / pow(AA2, Gam), 1 / Ga3) * A2 * Section);
 		return Match - Match2;
 
 	}
 };
 
-struct stCharOrigin{
+struct stCharOrigin {
 	double W00;
 	double W10;
 	double W20;
@@ -529,23 +550,25 @@ struct stCharOrigin{
 	double dtdx;
 	int signo;
 
-	stCharOrigin(const double iW00,const double iW10,const double iW20,const double iW01,const double iW11,
-			const double iW21, const double iG0, const double iG1, const double idtdx, int isigno) : W00(iW00), W10(iW10),
-					W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(iG0), G1(iG1), dtdx(idtdx), signo(isigno){
+	stCharOrigin(const double iW00, const double iW10, const double iW20,
+			const double iW01, const double iW11, const double iW21,
+			const double iG0, const double iG1, const double idtdx, int isigno) :
+			W00(iW00), W10(iW10), W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(
+					iG0), G1(iG1), dtdx(idtdx), signo(isigno) {
 	}
 
-	double operator()(const double x){
+	double operator()(const double x) {
 		double W0p = Interpola(W00, W01, 1., x);
 		double W1p = Interpola(W10, W11, 1., x);
 		double W2p = Interpola(W20, W21, 1., x);
 		double Gp = Interpola(G0, G1, 1., x);
 		double Up = W1p / W0p;
-		double Ap = sqrt(Gp * (Gp - 1) * (W2p / W0p - pow2(Up)/2.));
+		double Ap = sqrt(Gp * (Gp - 1) * (W2p / W0p - pow2(Up) / 2.));
 		return x + signo * (Up - signo * Ap) * dtdx;
 	}
 };
 
-struct stPathOrigin{
+struct stPathOrigin {
 	double W00;
 	double W10;
 	double W01;
@@ -553,12 +576,13 @@ struct stPathOrigin{
 	double dtdx;
 	int signo;
 
-	stPathOrigin(const double iW00,const double iW10,const double iW01,const double iW11,
-			const double idtdx, int isigno) : W00(iW00), W10(iW10),
-					W01(iW01), W11(iW11), dtdx(idtdx), signo(isigno){
+	stPathOrigin(const double iW00, const double iW10, const double iW01,
+			const double iW11, const double idtdx, int isigno) :
+			W00(iW00), W10(iW10), W01(iW01), W11(iW11), dtdx(idtdx), signo(
+					isigno) {
 	}
 
-	double operator()(const double x){
+	double operator()(const double x) {
 		double W0p = Interpola(W00, W01, 1., x);
 		double W1p = Interpola(W10, W11, 1., x);
 		double Up = W1p / W0p;

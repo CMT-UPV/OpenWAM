@@ -1,37 +1,36 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 //#include <cmath>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 
 #include "TCCCompresor.h"
@@ -47,9 +46,10 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 TCCCompresor::TCCCompresor(nmTypeBC TipoCC, int numCC,
-	nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TCondicionContorno(TipoCC,
-	numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
+				GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FTiempoActual = 0;
@@ -62,9 +62,9 @@ TCCCompresor::TCCCompresor(nmTypeBC TipoCC, int numCC,
 TCCCompresor::~TCCCompresor() {
 
 	if (FNumeroTubo != NULL)
-		delete[]FNumeroTubo;
+		delete[] FNumeroTubo;
 	if (FTuboExtremo != NULL)
-		delete[]FTuboExtremo;
+		delete[] FTuboExtremo;
 
 }
 
@@ -82,10 +82,10 @@ void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::LeeCompresor en la condicion de contorno: " << FNumeroCC <<
-			std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCompresor::LeeCompresor en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -94,9 +94,10 @@ void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, char *FileWAM,
-	fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, TCondicionContorno **BC, int numCC,
-	double AmbientTemperature, double AmbientPressure, double *AtmosphericComposition) {
+void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum,
+		char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
+		TCondicionContorno **BC, int numCC, double AmbientTemperature,
+		double AmbientPressure, double *AtmosphericComposition) {
 	try {
 		int i = 0;
 		bool haytubo = false;
@@ -134,7 +135,7 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 			fgetpos(fich, &filepos);
 			fclose(fich);
 
-			switch(tipoentrada) {
+			switch (tipoentrada) {
 			case 0:
 				FEntradaCompresor = nmAtmosphere;
 				break;
@@ -157,39 +158,38 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 				fclose(fich);
 
 				FDeposito = Plenum[FNumeroDeposito - 1];
-				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(FEntradaCompresor,
-					FTamb, FNumeroCC, BC, AtmosphericComposition);
+				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(
+						FEntradaCompresor, FTamb, FNumeroCC, BC,
+						AtmosphericComposition);
 
-			}
-			else if (FEntradaCompresor == nmPipe) {
+			} else if (FEntradaCompresor == nmPipe) {
 				for (int i = 0; i < numCC; i++) {
 					if (BC[i]->getTipoCC() == nmEntradaCompre) {
 						if (dynamic_cast<TCCEntradaCompresor*>(BC[i])->getNumeroCompresor()
-							== FNumeroCompresor) {
+								== FNumeroCompresor) {
 							haytubo = true;
 							FTuboRotor = BC[i]->GetTuboExtremo(0).Pipe;
-							FExtremoTuboRotor = BC[i]->GetTuboExtremo(0).TipoExtremo;
+							FExtremoTuboRotor =
+									BC[i]->GetTuboExtremo(0).TipoExtremo;
 						}
 					}
 				}
 				if (haytubo) {
-					dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida
-						(FEntradaCompresor, AmbientTemperature, FNumeroCC, BC,
-						AtmosphericComposition);
-				}
-				else {
+					dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(
+							FEntradaCompresor, AmbientTemperature, FNumeroCC,
+							BC, AtmosphericComposition);
+				} else {
 					printf(
-						"ERROR: El compresor %d no tiene una BC tipo EntradaCompresor a su entrada.\n "
-						, FNumeroCompresor);
+							"ERROR: El compresor %d no tiene una BC tipo EntradaCompresor a su entrada.\n ",
+							FNumeroCompresor);
 				}
-			}
-			else if (FEntradaCompresor == nmAtmosphere) {
-				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(FEntradaCompresor,
-					AmbientTemperature, FNumeroCC, BC, AtmosphericComposition);
+			} else if (FEntradaCompresor == nmAtmosphere) {
+				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(
+						FEntradaCompresor, AmbientTemperature, FNumeroCC, BC,
+						AtmosphericComposition);
 			}
 
-		}
-		else if (FCompresor->getModeloCompresor() == nmCompPipes) {
+		} else if (FCompresor->getModeloCompresor() == nmCompPipes) {
 			// Posee dos tubos. Hay que asignarselos a la BC.
 
 			FTuboExtremo = new stTuboExtremo[2];
@@ -215,8 +215,7 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 			}
 			dynamic_cast<TCompTubos*>(FCompresor)->RelacionTubos(BC, FNumeroCC);
 
-		}
-		else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
+		} else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
 			// Posee dos depositos. Hay que asignarselos a la BC.
 
 			FILE *fich = fopen(FileWAM, "r");
@@ -231,15 +230,15 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 			FDepositoRot = Plenum[FNumeroDepositoRot - 1];
 			FDepositoEst = Plenum[FNumeroDepositoEst - 1];
 
-			dynamic_cast<TCompresorDep*>(FCompresor)->RelacionDepositoCompresor(FDepositoRot,
-				FDepositoEst);
+			dynamic_cast<TCompresorDep*>(FCompresor)->RelacionDepositoCompresor(
+					FDepositoRot, FDepositoEst);
 
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::AsignaCompresor en la condicion de contorno: " <<
-			FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCompresor::AsignaCompresor en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -248,17 +247,17 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCCCompresor::ObtencionValoresInstantaneos(double Theta, double tiempoactual) {
+void TCCCompresor::ObtencionValoresInstantaneos(double Theta,
+		double tiempoactual) {
 	try {
 
 		FTheta = Theta;
 		FTiempoActual = tiempoactual;
 
-	}
-	catch(Exception & N) {
-		std::cout <<
-			"ERROR: TCCCompresor::ObtencionValoresInstantaneos en la condicion de contorno: "
-			<< FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCompresor::ObtencionValoresInstantaneos en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -269,15 +268,17 @@ void TCCCompresor::ObtencionValoresInstantaneos(double Theta, double tiempoactua
 
 void TCCCompresor::CalculaCondicionContorno(double Time) {
 	try {
-		double TrabajoInsTurbina=0.; /* para que compile.inacabado. */
+		double TrabajoInsTurbina = 0.; /* para que compile.inacabado. */
 		int TuboCalculado;
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
 			TuboCalculado = 0; // Es la posicion del tubo a calcular en el vector estructura FTuboExtremo.
 			// Para este modelo de compresor no hace falta,pero si en el de 2 tubos. Como comparten
 			// funcion virtual, la llamada de la misma ha de ser igual. Por eso lo anado.
-			dynamic_cast<TCompTubDep*>(FCompresor)->DatosEntradaCompresor(FTamb, FPamb, this);
-			FCompresor->CondicionCompresor(FTheta, FTuboExtremo, FTiempoActual, TuboCalculado);
+			dynamic_cast<TCompTubDep*>(FCompresor)->DatosEntradaCompresor(FTamb,
+					FPamb, this);
+			FCompresor->CondicionCompresor(FTheta, FTuboExtremo, FTiempoActual,
+					TuboCalculado);
 			FCompresor->AcumulaMedias(FTiempoActual);
 		}
 		if (FCompresor->getModeloCompresor() == nmCompPlenums) {
@@ -288,15 +289,15 @@ void TCCCompresor::CalculaCondicionContorno(double Time) {
 			// Identificacion del tubo que se esta calculando en el instante current. Solo han de variar sus propiedades.
 			if (FTuboActual == 10000) {
 				TuboCalculado = FTuboActual;
-			}
-			else {
+			} else {
 				for (int i = 0; i < FNumeroTubosCC; i++) {
 					if (FNumeroTubo[i] == FTuboActual) {
 						TuboCalculado = i; // Es la posicion del tubo calculado en el vector estructura FTuboExtremo.
 					}
 				}
 			}
-			FCompresor->CondicionCompresor(FTheta, FTuboExtremo, FTiempoActual, TuboCalculado);
+			FCompresor->CondicionCompresor(FTheta, FTuboExtremo, FTiempoActual,
+					TuboCalculado);
 			FCompresor->AcumulaMedias(FTiempoActual);
 		}
 
@@ -305,10 +306,10 @@ void TCCCompresor::CalculaCondicionContorno(double Time) {
 			FFraccionMasicaEspecie[i] = FCompresor->GetFraccionMasicaEspecie(i);
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::CalculaCondicionesContorno en la condicion de contorno: " <<
-			FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCompresor::CalculaCondicionesContorno en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -320,17 +321,18 @@ void TCCCompresor::CalculaCondicionContorno(double Time) {
 void TCCCompresor::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: " <<
-			FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
 
-void TCCCompresor::ReadCompressorData(TCompresor **Compressor, const char *FileWAM, fpos_t &filepos,
-	double AmbientTemperature, double AmbientPressure) {
+void TCCCompresor::ReadCompressorData(TCompresor **Compressor,
+		const char *FileWAM, fpos_t &filepos, double AmbientTemperature,
+		double AmbientPressure) {
 
 	int tipoentrada;
 
@@ -345,7 +347,7 @@ void TCCCompresor::ReadCompressorData(TCompresor **Compressor, const char *FileW
 
 		fscanf(fich, "%d ", &tipoentrada);
 
-		switch(tipoentrada) {
+		switch (tipoentrada) {
 		case 0:
 			FEntradaCompresor = nmAtmosphere;
 			break;
@@ -359,8 +361,7 @@ void TCCCompresor::ReadCompressorData(TCompresor **Compressor, const char *FileW
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
+	} else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
 		// Posee dos depositos. Hay que asignarselos a la BC.
 
 		FILE *fich = fopen(FileWAM, "r");
@@ -374,8 +375,9 @@ void TCCCompresor::ReadCompressorData(TCompresor **Compressor, const char *FileW
 	}
 }
 
-void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe,
-	TCondicionContorno **BC, int numCC, double *AtmosphericComposition) {
+void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes,
+		TTubo **Pipe, TCondicionContorno **BC, int numCC,
+		double *AtmosphericComposition) {
 	try {
 		int i = 0;
 		bool haytubo = false;
@@ -403,38 +405,38 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 			if (FEntradaCompresor == nmPlenum) {
 
 				FDeposito = Plenum[FNumeroDeposito - 1];
-				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(FEntradaCompresor,
-					FTamb, FNumeroCC, BC, AtmosphericComposition);
+				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(
+						FEntradaCompresor, FTamb, FNumeroCC, BC,
+						AtmosphericComposition);
 
-			}
-			else if (FEntradaCompresor == nmPipe) {
+			} else if (FEntradaCompresor == nmPipe) {
 				for (int i = 0; i < numCC; i++) {
 					if (BC[i]->getTipoCC() == nmEntradaCompre) {
 						if (dynamic_cast<TCCEntradaCompresor*>(BC[i])->getNumeroCompresor()
-							== FNumeroCompresor) {
+								== FNumeroCompresor) {
 							haytubo = true;
 							FTuboRotor = BC[i]->GetTuboExtremo(0).Pipe;
-							FExtremoTuboRotor = BC[i]->GetTuboExtremo(0).TipoExtremo;
+							FExtremoTuboRotor =
+									BC[i]->GetTuboExtremo(0).TipoExtremo;
 						}
 					}
 				}
 				if (haytubo) {
-					dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida
-						(FEntradaCompresor, FTamb, FNumeroCC, BC, AtmosphericComposition);
-				}
-				else {
+					dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(
+							FEntradaCompresor, FTamb, FNumeroCC, BC,
+							AtmosphericComposition);
+				} else {
 					printf(
-						"ERROR: El compresor %d no tiene una BC tipo EntradaCompresor a su entrada.\n "
-						, FNumeroCompresor);
+							"ERROR: El compresor %d no tiene una BC tipo EntradaCompresor a su entrada.\n ",
+							FNumeroCompresor);
 				}
-			}
-			else if (FEntradaCompresor == nmAtmosphere) {
-				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(FEntradaCompresor,
-					FTamb, FNumeroCC, BC, AtmosphericComposition);
+			} else if (FEntradaCompresor == nmAtmosphere) {
+				dynamic_cast<TCompTubDep*>(FCompresor)->BusquedaEntradaSalida(
+						FEntradaCompresor, FTamb, FNumeroCC, BC,
+						AtmosphericComposition);
 			}
 
-		}
-		else if (FCompresor->getModeloCompresor() == nmCompPipes) {
+		} else if (FCompresor->getModeloCompresor() == nmCompPipes) {
 			// Posee dos tubos. Hay que asignarselos a la BC.
 
 			FTuboExtremo = new stTuboExtremo[2];
@@ -461,21 +463,20 @@ void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe
 			// dynamic_cast<TCompTubos*>(FCompresor)->RelacionTubos(BC, FNumeroCC);
 			dynamic_cast<TCompTubos*>(FCompresor)->AsignPipes(BC, FNumeroCC);
 
-		}
-		else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
+		} else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
 
 			FDepositoRot = Plenum[FNumeroDepositoRot - 1];
 			FDepositoEst = Plenum[FNumeroDepositoEst - 1];
 
-			dynamic_cast<TCompresorDep*>(FCompresor)->RelacionDepositoCompresor(FDepositoRot,
-				FDepositoEst);
+			dynamic_cast<TCompresorDep*>(FCompresor)->RelacionDepositoCompresor(
+					FDepositoRot, FDepositoEst);
 
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TCCCompresor::AsignaCompresor en la condicion de contorno: " <<
-			FNumeroCC << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCompresor::AsignaCompresor en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
