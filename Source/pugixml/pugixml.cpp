@@ -160,7 +160,7 @@ PUGI__NS_END
 // String utilities
 PUGI__NS_BEGIN
 // Get string length
-PUGI__FNsize_t strlength ( const char_t* s ) {
+PUGI__FNsize_tstrlength ( const char_t* s ) {
 	assert ( s );
 
 #ifdef PUGIXML_WCHAR_MODE
@@ -223,7 +223,7 @@ PUGI__NS_END
 #endif
 
 PUGI__NS_BEGIN
-staticconst size_t xml_memory_page_size =
+staticconstsize_t xml_memory_page_size =
 #ifdef PUGIXML_MEMORY_PAGE_SIZE
 PUGIXML_MEMORY_PAGE_SIZE
 #else
@@ -593,7 +593,7 @@ PUGI__NS_END
 
 // Unicode utilities
 PUGI__NS_BEGIN
-inlineuint16_t endian_swap ( uint16_t value ) {
+inlineuint16_tendian_swap ( uint16_t value ) {
 	return static_cast<uint16_t> ( ( ( value & 0xff ) << 8 ) | ( value >> 8 ) );
 }
 
@@ -5453,7 +5453,7 @@ PUGI__FN xpath_string xpath_string_const ( const char_t* str ) {
 PUGI__NS_END
 
 PUGI__NS_BEGIN
-PUGI__FNbool starts_with ( const char_t* string, const char_t* pattern ) {
+PUGI__FNboolstarts_with ( const char_t* string, const char_t* pattern ) {
 	while ( *pattern && *string == *pattern ) {
 		string++;
 		pattern++;
@@ -6630,19 +6630,19 @@ enum ast_type_t {
 	ast_func_normalize_space_0,// normalize-space()
 	ast_func_normalize_space_1,// normalize-space(left)
 	ast_func_translate,// translate(left, right, third)
-	ast_func_boolean,// boolean(left)
-	ast_func_not,// not(left)
-	ast_func_true,// true()
-	ast_func_false,// false()
-	ast_func_lang,// lang(left)
-	ast_func_number_0,// number()
-	ast_func_number_1,// number(left)
-	ast_func_sum,// sum(left)
-	ast_func_floor,// floor(left)
-	ast_func_ceiling,// ceiling(left)
-	ast_func_round,// round(left)
-	ast_step,// process set left with step
-	ast_step_root// select root node
+	ast_func_boolean,  // boolean(left)
+	ast_func_not,	   // not(left)
+	ast_func_true,	   // true()
+	ast_func_false,	   // false()
+	ast_func_lang,	   // lang(left)
+	ast_func_number_0, // number()
+	ast_func_number_1, // number(left)
+	ast_func_sum,	   // sum(left)
+	ast_func_floor,	   // floor(left)
+	ast_func_ceiling,  // ceiling(left)
+	ast_func_round,	   // round(left)
+	ast_step,		   // process set left with step
+	ast_step_root	   // select root node
 };
 
 enum axis_t {
