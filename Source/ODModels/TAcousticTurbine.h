@@ -76,17 +76,32 @@ public:
 
 	double T4();
 
-	double R(int i){return FInletPipe[i]->GetRMezcla(0);};
+	double R(int i) {
+		return FInletPipe[i]->GetRMezcla(0);
+	}
+	;
 
-	double SIn(int i){return FInletPipe[i]->GetArea(0);};
+	double SIn(int i) {
+		return FInletPipe[i]->GetArea(0);
+	}
+	;
 
-	double DIn(int i){return FInletPipe[i]->GetDiametro(0);};
+	double DIn(int i) {
+		return FInletPipe[i]->GetDiametro(0);
+	}
+	;
 
 	double DIn();
 
-	double DOut(){return FOutletPipe->GetDiametro(FOutletPipe->getNin() - 1);};
+	double DOut() {
+		return FOutletPipe->GetDiametro(FOutletPipe->getNin() - 1);
+	}
+	;
 
-	double SOut(){return FOutletPipe->GetArea(FOutletPipe->getNin() - 1);};
+	double SOut() {
+		return FOutletPipe->GetArea(FOutletPipe->getNin() - 1);
+	}
+	;
 
 	double MassIn(int i);
 
@@ -94,13 +109,15 @@ public:
 
 	double MassOut();
 
-	void AsignInPipe(TTubo **Pipe,int i) {
+	void AsignInPipe(TTubo **Pipe, int i) {
 		FInletPipe[i] = Pipe[FInletPipeID[i] - 1];
-	};
+	}
+	;
 
 	void AsignOutPipe(TTubo **Pipe) {
 		FOutletPipe = Pipe[FOutletPipeID - 1];
-	};
+	}
+	;
 
 };
 

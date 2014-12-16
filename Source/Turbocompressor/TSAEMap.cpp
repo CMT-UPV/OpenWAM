@@ -330,10 +330,10 @@ void TSAEMap::LeeMapa(FILE *fich) {
 //	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
 //			&FEffMultiplier);
 #ifdef tchtm
-	fscanf(fich, "%d ", &Adiab);
-	if (Adiab == 0) {
+	fscanf ( fich, "%d ", &Adiab );
+	if ( Adiab == 0 ) {
 		FIsAdiabatic = false;
-		fscanf(fich, "%lf ", &FTempMeasure);
+		fscanf ( fich, "%lf ", &FTempMeasure );
 	}
 #endif
 
@@ -350,9 +350,9 @@ void TSAEMap::LeeMapaXML(xml_node node_compressor) {
 	FPresionRef *= unBarToPa;
 
 #ifdef tchtm
-	FIsAdiabatic = GetAttributeAsBool(node_map,"IsAdiabatic");
-	if (!FIsAdiabatic) {
-		FTempMeasure = GetXMLTemperature(node_map,"MapTemperature");
+	FIsAdiabatic = GetAttributeAsBool ( node_map,"IsAdiabatic" );
+	if ( !FIsAdiabatic ) {
+		FTempMeasure = GetXMLTemperature ( node_map,"MapTemperature" );
 	}
 #endif
 
@@ -411,39 +411,39 @@ void TSAEMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
 #ifdef tchtm
 	double m, eff, Rtc;
 
-	if (!FIsAdiabatic) {
-		for (int i = 0; i < FNumLines; i++) {
-			for (unsigned int j = 0; j < FSpeed[i].size(); j++) {
+	if ( !FIsAdiabatic ) {
+		for ( int i = 0; i < FNumLines; i++ ) {
+			for ( unsigned int j = 0; j < FSpeed[i].size(); j++ ) {
 				m = FMass[i][j] * 1e5 / FPresionRef / sqrt
-				(FTempMeasure / FTempRef);
-				Rtc = FSpeed[i][j] / sqrt(FTempRef / FTempMeasure);
-				if (FPres[i][j] > 1)
-				FEff[i][j] = HTM->CorrectCompressorMap(m, FPres[i][j],
-						FEff[i][j], FTempMeasure, TinT, Rtc);
-				if (j == 0)
+				( FTempMeasure / FTempRef );
+				Rtc = FSpeed[i][j] / sqrt ( FTempRef / FTempMeasure );
+				if ( FPres[i][j] > 1 )
+				FEff[i][j] = HTM->CorrectCompressorMap ( m, FPres[i][j],
+						FEff[i][j], FTempMeasure, TinT, Rtc );
+				if ( j == 0 )
 				FEffMAX[i] = FEff[i][j];
-				else if (FEff[i][j] > FEffMAX[i])
+				else if ( FEff[i][j] > FEffMAX[i] )
 				FEffMAX[i] = FEff[i][j];
 			}
-			for (unsigned int j = 0; j < FSpeed[i].size(); j++) {
+			for ( unsigned int j = 0; j < FSpeed[i].size(); j++ ) {
 				FEffAdim[i][j] = FEff[i][j] / FEffMAX[i];
 			}
 
-			if (FEff_MassCurve[i] != NULL)
+			if ( FEff_MassCurve[i] != NULL )
 			delete FEff_MassCurve[i];
 
-			FEff_MassCurve[i] = new Hermite_interp(FMassAdim[i], FEffAdim[i]);
-			if (i == 0)
+			FEff_MassCurve[i] = new Hermite_interp ( FMassAdim[i], FEffAdim[i] );
+			if ( i == 0 )
 			FEffMAXMAX = FEffMAX[i];
-			else if (FEffMAX[i] > FEffMAXMAX)
+			else if ( FEffMAX[i] > FEffMAXMAX )
 			FEffMAXMAX = FEffMAX[i];
 		}
-		for (int i = 0; i < FNumLines; i++) {
+		for ( int i = 0; i < FNumLines; i++ ) {
 			FEffMAXAdim[i] = FEffMAX[i] / FEffMAXMAX;
 		}
-		if (FEffMAX_int != NULL)
+		if ( FEffMAX_int != NULL )
 		delete FEffMAX_int;
-		FEffMAX_int = new Hermite_interp(FSpeedAdim, FEffMAXAdim);
+		FEffMAX_int = new Hermite_interp ( FSpeedAdim, FEffMAXAdim );
 
 	}
 

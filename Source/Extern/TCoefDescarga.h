@@ -1,33 +1,31 @@
 /*--------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
-  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-	This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-	OpenWAM is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-	OpenWAM is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*--------------------------------------------------------------------------------*/
-
+ \*--------------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-
 #ifndef TCoefDescargaH
 #define TCoefDescargaH
 
@@ -35,32 +33,38 @@ License
 #include <cstdio>
 #include <iostream>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 #include "Globales.h"
 
 //---------------------------------------------------------------------------
 
-
-class TCoefDescarga
-{
+class TCoefDescarga {
 private:
 
-double FCDEntrada;
-double FCDSalida;
-double FCTorb;
-
+	double FCDEntrada;
+	double FCDSalida;
+	double FCTorb;
 
 public:
-  TCoefDescarga();
+	TCoefDescarga();
 
-  ~TCoefDescarga();
+	~TCoefDescarga();
 
-    double getCDEntrada(){return FCDEntrada;};
-    double getCDSalida(){return FCDSalida;};
-    double getCTorb(){return FCTorb;};
+	double getCDEntrada() {
+		return FCDEntrada;
+	}
+	;
+	double getCDSalida() {
+		return FCDSalida;
+	}
+	;
+	double getCTorb() {
+		return FCTorb;
+	}
+	;
 
-  void CalculaCD(int tipo);
+	void CalculaCD(int tipo);
 
 };
 

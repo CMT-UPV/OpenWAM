@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 |==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ | \\ |  X  | //  W ave     |
+ |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ |   \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TUnionDireccional.h"
@@ -40,9 +39,10 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 
 TUnionDireccional::TUnionDireccional(int i, int NUnionDireccional,
-	nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TDepVolCteBase(i,
-	nmUnionDireccional, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TDepVolCteBase(i, nmUnionDireccional, SpeciesModel, numeroespecies,
+				GammaCalculation, ThereIsEGR) {
 
 	FNumUnionDireccional = NUnionDireccional;
 	FCCEntrada = NULL;
@@ -64,31 +64,32 @@ TUnionDireccional::TUnionDireccional(int i, int NUnionDireccional,
 TUnionDireccional::~TUnionDireccional() {
 
 	if (FNodoEntrada != NULL)
-		delete[]FNodoEntrada;
+		delete[] FNodoEntrada;
 	if (FSentidoEntrada != NULL)
-		delete[]FSentidoEntrada;
+		delete[] FSentidoEntrada;
 	if (FCDSalidaInicial != NULL)
-		delete[]FCDSalidaInicial;
+		delete[] FCDSalidaInicial;
 	if (FVelocidadCorte != NULL)
-		delete[]FVelocidadCorte;
+		delete[] FVelocidadCorte;
 	if (FVelocidadFin != NULL)
-		delete[]FVelocidadFin;
+		delete[] FVelocidadFin;
 	if (FVelocity != NULL)
-		delete[]FVelocity;
+		delete[] FVelocity;
 	if (FCoefA != NULL)
-		delete[]FCoefA;
+		delete[] FCoefA;
 	if (FCoefB != NULL)
-		delete[]FCoefB;
+		delete[] FCoefB;
 
 	if (FCCEntrada != NULL)
-		delete[]FCCEntrada;
+		delete[] FCCEntrada;
 
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM, fpos_t &filepos) {
+void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM,
+		fpos_t &filepos) {
 	try {
 		int numid; // Dato para Wamer
 
@@ -107,75 +108,80 @@ void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM, fpos_t &fi
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &numid); /* DATO PARA WAMER */
-		fscanf(fich, "%d %d %d ", &FNodoEntrada[0], &FNodoEntrada[1], &FNodoSalida);
+		fscanf(fich, "%d %d %d ", &FNodoEntrada[0], &FNodoEntrada[1],
+				&FNodoSalida);
 		/* Lectura de informacion para el calculo del coeficiente de descarga de salida
-		para las uniones de entrada al deposito de union direccional */
-		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[0], &FVelocidadCorte[0], &FVelocidadFin[0]);
-		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[1], &FVelocidadCorte[1], &FVelocidadFin[1]);
+		 para las uniones de entrada al deposito de union direccional */
+		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[0], &FVelocidadCorte[0],
+				&FVelocidadFin[0]);
+		fscanf(fich, "%lf %lf %lf ", &FCDSalidaInicial[1], &FVelocidadCorte[1],
+				&FVelocidadFin[1]);
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-		FCoefA[0] = -FCDSalidaInicial[0] * FVelocidadFin[0] /
-			(FVelocidadCorte[0] - FVelocidadFin[0]);
-		FCoefB[0] = FCDSalidaInicial[0] / (FVelocidadCorte[0] - FVelocidadFin[0]);
-		FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1] /
-			(FVelocidadCorte[1] - FVelocidadFin[1]);
-		FCoefB[1] = FCDSalidaInicial[1] / (FVelocidadCorte[1] - FVelocidadFin[1]);
+		FCoefA[0] = -FCDSalidaInicial[0] * FVelocidadFin[0]
+				/ (FVelocidadCorte[0] - FVelocidadFin[0]);
+		FCoefB[0] = FCDSalidaInicial[0]
+				/ (FVelocidadCorte[0] - FVelocidadFin[0]);
+		FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1]
+				/ (FVelocidadCorte[1] - FVelocidadFin[1]);
+		FCoefB[1] = FCDSalidaInicial[1]
+				/ (FVelocidadCorte[1] - FVelocidadFin[1]);
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " <<
-			FNumeroDeposito << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: "
+				<< FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
 }
 
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
 void TUnionDireccional::LeeDatosUnionDireccionalXML(xml_node node_junction) {
-    try {
+	try {
 
-        FNodoEntrada = new int[2];
-        FSentidoEntrada = new int[2];
-        FCDSalidaInicial = new double[2];
-        FVelocidadCorte = new double[2];
-        FVelocidadFin = new double[2];
-        FVelocity = new double[2];
-        FCoefA = new double[2];
-        FCoefB = new double[2];
+		FNodoEntrada = new int[2];
+		FSentidoEntrada = new int[2];
+		FCDSalidaInicial = new double[2];
+		FVelocidadCorte = new double[2];
+		FVelocidadFin = new double[2];
+		FVelocity = new double[2];
+		FCoefA = new double[2];
+		FCoefB = new double[2];
 
-        FCCEntrada = new TCondicionContorno*[2];
+		FCCEntrada = new TCondicionContorno*[2];
 
-        FNodoEntrada[0] =GetAttributeAsInt(node_junction,"Input1");
-        FNodoEntrada[1] =GetAttributeAsInt(node_junction,"Input2");
-        FNodoSalida =GetAttributeAsInt(node_junction,"Output");
-        FCDSalidaInicial[0]=GetAttributeAsDouble(node_junction,"DCOutIni1");
-        FVelocidadCorte[0]=GetXMLSpeed(node_junction,"MinVelocity1");
-        FVelocidadFin[0]=GetXMLSpeed(node_junction,"MaxVelocity1");
-        FCDSalidaInicial[1]=GetAttributeAsDouble(node_junction,"DCOutIni2");
-        FVelocidadCorte[1]=GetXMLSpeed(node_junction,"MinVelocity2");
-        FVelocidadFin[1]=GetXMLSpeed(node_junction,"MaxVelocity2");
+		FNodoEntrada[0] = GetAttributeAsInt(node_junction, "Input1");
+		FNodoEntrada[1] = GetAttributeAsInt(node_junction, "Input2");
+		FNodoSalida = GetAttributeAsInt(node_junction, "Output");
+		FCDSalidaInicial[0] = GetAttributeAsDouble(node_junction, "DCOutIni1");
+		FVelocidadCorte[0] = GetXMLSpeed(node_junction, "MinVelocity1");
+		FVelocidadFin[0] = GetXMLSpeed(node_junction, "MaxVelocity1");
+		FCDSalidaInicial[1] = GetAttributeAsDouble(node_junction, "DCOutIni2");
+		FVelocidadCorte[1] = GetXMLSpeed(node_junction, "MinVelocity2");
+		FVelocidadFin[1] = GetXMLSpeed(node_junction, "MaxVelocity2");
 
-        FCoefA[0] = -FCDSalidaInicial[0] * FVelocidadFin[0] /
-                    (FVelocidadCorte[0] - FVelocidadFin[0]);
-        FCoefB[0] = FCDSalidaInicial[0] / (FVelocidadCorte[0] - FVelocidadFin[0]);
-        FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1] /
-                    (FVelocidadCorte[1] - FVelocidadFin[1]);
-        FCoefB[1] = FCDSalidaInicial[1] / (FVelocidadCorte[1] - FVelocidadFin[1]);
+		FCoefA[0] = -FCDSalidaInicial[0] * FVelocidadFin[0]
+				/ (FVelocidadCorte[0] - FVelocidadFin[0]);
+		FCoefB[0] = FCDSalidaInicial[0]
+				/ (FVelocidadCorte[0] - FVelocidadFin[0]);
+		FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1]
+				/ (FVelocidadCorte[1] - FVelocidadFin[1]);
+		FCoefB[1] = FCDSalidaInicial[1]
+				/ (FVelocidadCorte[1] - FVelocidadFin[1]);
 
-    }
-    catch(Exception & N) {
-        std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " <<
-                  FNumeroDeposito << std::endl;
-        std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-        throw Exception(N.Message.c_str());
-    }
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: "
+				<< FNumeroDeposito << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
 }
-
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -187,20 +193,18 @@ void TUnionDireccional::AsignaCCUnionDireccional() {
 			for (int i = 0; i < FNumeroUniones; i++) {
 				if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[0]) {
 					FCCEntrada[0] = FCCDeposito[i];
-				}
-				else if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[1]) {
+				} else if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[1]) {
 					FCCEntrada[1] = FCCDeposito[i];
-				}
-				else if (FCCDeposito[i]->getNumeroCC() == FNodoSalida) {
+				} else if (FCCDeposito[i]->getNumeroCC() == FNodoSalida) {
 					FCCSalida = FCCDeposito[i];
 				}
 			}
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional " <<
-			FNumUnionDireccional << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional "
+				<< FNumUnionDireccional << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
@@ -225,26 +229,26 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
+			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+					FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-				FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0, FTemperature + 273.,
-				FCalculoGamma, nmMEP);
+					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+					FTemperature + 273., FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
-		}
-		else if (FCalculoEspecies == nmCalculoSimple) {
+		} else if (FCalculoEspecies == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-				FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273., FFraccionMasicaEspecie[0],FFraccionMasicaEspecie[1],
-				FCalculoGamma, nmMEP);
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
+					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+					FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 		}
 
-
- 		bool Converge = false;
+		bool Converge = false;
 		bool FirstStep = true;
 		double H0 = 0.;
 		double Asonido0 = FAsonido;
@@ -254,62 +258,70 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 
 		while (!Converge) {
 			H = 0.;
-		for (int i = 0; i < FNumeroUniones; i++) {
-			if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
-				SignoFlujo = 1;
-			}
-			else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
-				SignoFlujo = -1;
-			}
-			g = (double)-dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
-			v = (double)SignoFlujo*dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
-			a = dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
-			m = g * DeltaT * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
-					if (FirstStep) {
-			MasaEntrante += m;
-						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
-			}
-						}
-			if (v > 0) {
-				H += EntalpiaEntrada(a, v, m, FAsonido, FMasa,
-					FCCDeposito[i]->getGamma());
-			}
+			for (int i = 0; i < FNumeroUniones; i++) {
+				if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
+						== nmEntrante) {
+					SignoFlujo = 1;
+				} else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
+						== nmSaliente) {
+					SignoFlujo = -1;
+				}
+				g =
+						(double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
+				v =
+						(double) SignoFlujo
+								* dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
+				a = dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
+				m =
+						g * DeltaT
+								* FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
+				if (FirstStep) {
+					MasaEntrante += m;
+					for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+						FMasaEspecie[j] +=
+								FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
+					}
+				}
+				if (v > 0) {
+					H += EntalpiaEntrada(a, v, m, FAsonido, FMasa,
+							FCCDeposito[i]->getGamma());
+				}
 
-		}
-					if (FirstStep) {
-		FMasa = FMasa0 + MasaEntrante;
-		for (int j = 0; j < FNumeroEspecies - 2; j++) {
-			FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
-			FraccionMasicaAcum += FFraccionMasicaEspecie[j];
-		}
-		FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-		if (FHayEGR)
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie[FNumeroEspecies - 1] / FMasa;
-  				FirstStep = false;
+			}
+			if (FirstStep) {
+				FMasa = FMasa0 + MasaEntrante;
+				for (int j = 0; j < FNumeroEspecies - 2; j++) {
+					FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
+					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
+				}
+				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
+						- FraccionMasicaAcum;
+				if (FHayEGR)
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+							FMasaEspecie[FNumeroEspecies - 1] / FMasa;
+				FirstStep = false;
 				H0 = H;
-		}
+			}
 
-
-		Energia = pow(FMasa / FMasa0 * exp((H+H0)/2), Gamma1(FGamma));
+			Energia = pow(FMasa / FMasa0 * exp((H + H0) / 2), Gamma1(FGamma));
 			Asonido1 = FAsonido * sqrt(Energia);
 			Error = (Diff = Asonido1 - Asonido0, fabs(Diff)) / Asonido1;
 			if (Error > 1e-6) {
 				Asonido0 = Asonido1;
-			}
-			else {
-				FAsonido=Asonido1;
+			} else {
+				FAsonido = Asonido1;
 				Converge = true;
 			}
 		}
 		FTemperature = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
-		FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen * FMasa * 1e-5;
+		FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen
+				* FMasa * 1e-5;
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTime = TimeCalculo;
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::ActualizaPropiedades en la union direccional: " <<
-			FNumUnionDireccional << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TUnionDireccional::ActualizaPropiedades en la union direccional: "
+				<< FNumUnionDireccional << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}
@@ -325,46 +337,47 @@ void TUnionDireccional::CalculoUnionDireccional() {
 		/* Parametro independiente y pendiente de la recta para el calculo del Coeficiende de Descarga */
 
 		for (int i = 0; i < 2; i++) {
-			if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmEntrante) {
+			if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo()
+					== nmEntrante) {
 				FSentidoEntrada[i] = 1;
-			}
-			else if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmSaliente) {
+			} else if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo()
+					== nmSaliente) {
 				FSentidoEntrada[i] = -1;
-			}
-			else
+			} else
 				FSentidoEntrada[i] = 0; // Flujo parado
-			FVelocity[i] = FSentidoEntrada[i]*dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getVelocity
-				() * ARef;
+			FVelocity[i] = FSentidoEntrada[i]
+					* dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getVelocity()
+					* ARef;
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 0 */
 		if (FVelocity[1] <= FVelocidadCorte[0]) {
-			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCDSalidaInicial[0]);
-		}
-		else if (FVelocity[1] >= FVelocidadFin[0]) {
-			 dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(0);
-		}
-		else {
-		dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCoefA[0] + FCoefB[0] * FVelocity [1]);
+			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(
+					FCDSalidaInicial[0]);
+		} else if (FVelocity[1] >= FVelocidadFin[0]) {
+			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(0);
+		} else {
+			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(
+					FCoefA[0] + FCoefB[0] * FVelocity[1]);
 
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 1 */
 		if (FVelocity[0] <= FVelocidadCorte[1]) {
-dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCDSalidaInicial[1]);
-		}
-		else if (FVelocity[0] >= FVelocidadFin[0]) {
-dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(0);
-		}
-		else {
-dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * FVelocity [0]);
+			dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(
+					FCDSalidaInicial[1]);
+		} else if (FVelocity[0] >= FVelocidadFin[0]) {
+			dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(0);
+		} else {
+			dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(
+					FCoefA[1] + FCoefB[1] * FVelocity[0]);
 
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TUnionDireccional::CalculoUnionDireccional en la union direccional: " <<
-			FNumUnionDireccional << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TUnionDireccional::CalculoUnionDireccional en la union direccional: "
+				<< FNumUnionDireccional << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message.c_str());
 	}

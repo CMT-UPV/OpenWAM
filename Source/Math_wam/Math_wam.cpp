@@ -1,34 +1,34 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 /**
  * @file Math_wam.cpp
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
- * 
+ *
  * @section LICENSE
  *
  * This file is part of OpenWAM.
@@ -45,63 +45,52 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @section DESCRIPTION
  * This file defines several auxiliary math functions.
  */
 
 // ---------------------------------------------------------------------------
-
 #include "Math_wam.h"
-
 
 double Interpola(double vizq, double vder, double axid, double xif) {
 	return vizq + ((vder - vizq) / axid) * xif;
 }
 
-
 double QuadraticEqP(double A, double B, double C) {
-	return(-B + sqrt(B * B - 4 * A * C)) / 2 / A;
+	return (-B + sqrt(B * B - 4 * A * C)) / 2 / A;
 }
-
 
 double QuadraticEqN(double A, double B, double C) {
-	return(-B - sqrt(B * B - 4 * A * C)) / 2 / A;
+	return (-B - sqrt(B * B - 4 * A * C)) / 2 / A;
 }
-
 
 float Max(const double &a, const float &b) {
 	return b > a ? (b) : float(a);
 }
 
-
 float Max(const float &a, const double &b) {
 	return b > a ? float(b) : (a);
 }
-
 
 float Min(const double &a, const float &b) {
 	return b < a ? (b) : float(a);
 }
 
-
 float Min(const float &a, const double &b) {
 	return b < a ? float(b) : (a);
 }
-
 
 float Sign(const float &a, const double &b) {
 	return b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a);
 }
 
-
 float Sign(const double &a, const float &b) {
-	return(float)(b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
+	return (float) (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
 }
 
-
-stPolar::stPolar() {}
-
+stPolar::stPolar() {
+}
 
 stPolar::stPolar(double X, double Y) {
 	Mod = sqrt(X * X + Y * Y);
@@ -113,41 +102,34 @@ void stPolar::operator()(double X, double Y) {
 	Ang = atan(Y / X);
 }
 
-
-stRectan::stRectan() {}
-
+stRectan::stRectan() {
+}
 
 stRectan::stRectan(double Ang, double Mod) {
 	X = Mod * cos(Ang);
 	Y = Mod * sin(Ang);
 }
 
-
 void stRectan::operator()(double Ang, double Mod) {
 	X = Mod * cos(Ang);
 	Y = Mod * sin(Ang);
 }
 
-
-Base_interp::Base_interp() : n(0), mm(0), jsav(0), cor(0), xx(), yy() {}
-
-
-Base_interp::Base_interp(dVector &x, const double *y, int m):
-	n(x.size()), mm(m), jsav(0), cor(0), xx(&x[0]), yy(y)
-{
-	dj = Max(1, (int)pow025((double)n));
+Base_interp::Base_interp() :
+		n(0), mm(0), jsav(0), cor(0), xx(), yy() {
 }
 
+Base_interp::Base_interp(dVector &x, const double *y, int m) :
+		n(x.size()), mm(m), jsav(0), cor(0), xx(&x[0]), yy(y) {
+	dj = Max(1, (int) pow025((double) n));
+}
 
-double Base_interp::interp(double x)
-{
+double Base_interp::interp(double x) {
 	int jlo = cor ? hunt(x) : locate(x);
 	return rawinterp(jlo, x);
 }
 
-
-int Base_interp::locate(const double x)
-{
+int Base_interp::locate(const double x) {
 	int ju, jm, jl;
 	if (n < 2 || mm < 2 || mm > n)
 		throw("locate size error");
@@ -158,8 +140,7 @@ int Base_interp::locate(const double x)
 		jm = (ju + jl) >> 1;
 		if ((x >= xx[jm]) == ascnd) {
 			jl = jm;
-		}
-		else {
+		} else {
 			ju = jm;
 		}
 	}
@@ -169,9 +150,7 @@ int Base_interp::locate(const double x)
 
 }
 
-
-int Base_interp::hunt(const double x)
-{
+int Base_interp::hunt(const double x) {
 	int jl = jsav, jm, ju, inc = 1;
 	if (n < 2 || mm < 2 || mm > n)
 		throw("locate size error");
@@ -179,32 +158,28 @@ int Base_interp::hunt(const double x)
 	if (jl < 0 || jl > n - 1) {
 		jl = 0;
 		ju = n - 1;
-	}
-	else {
+	} else {
 		if ((x >= xx[jl]) == ascnd) {
-			for (; ; ) {
+			for (;;) {
 				ju = jl + inc;
 				if (ju >= n) {
 					ju = n - 1;
 					break;
-				}
-				else if ((x < xx[ju]) == ascnd)
+				} else if ((x < xx[ju]) == ascnd)
 					break;
 				else {
 					jl = ju;
 					inc += inc;
 				}
 			}
-		}
-		else {
+		} else {
 			ju = jl;
-			for (; ; ) {
+			for (;;) {
 				jl = jl - inc;
 				if (jl <= 0) {
 					jl = 0;
 					break;
-				}
-				else if ((x >= xx[jl]) == ascnd)
+				} else if ((x >= xx[jl]) == ascnd)
 					break;
 				else {
 					ju = jl;
@@ -217,8 +192,7 @@ int Base_interp::hunt(const double x)
 		jm = (ju + jl) >> 1;
 		if ((x >= xx[jm]) == ascnd) {
 			jl = jm;
-		}
-		else {
+		} else {
 			ju = jm;
 		}
 	}
@@ -227,50 +201,43 @@ int Base_interp::hunt(const double x)
 	return Max(0, Min(n - mm, jl - ((mm - 2) >> 1)));
 }
 
+Linear_interp::Linear_interp() :
+		Base_interp() {
+}
 
-Linear_interp::Linear_interp(): Base_interp() {}
+Linear_interp::Linear_interp(dVector &xv, dVector &yv) :
+		Base_interp(xv, &yv[0], 2) {
+}
 
-
-Linear_interp::Linear_interp(dVector &xv, dVector &yv): Base_interp(xv, &yv[0], 2) {}
-
-
-void Linear_interp::operator()(dVector & xv, dVector & yv)
-{
+void Linear_interp::operator()(dVector & xv, dVector & yv) {
 	xx = &xv[0];
 	yy = &yv[0];
 	n = xv.size();
 	mm = 2;
 	jsav = 0;
 	cor = 0;
-	dj = Max(1, (int)pow025((double)n));
+	dj = Max(1, (int) pow025((double) n));
 }
 
-
-double Linear_interp::rawinterp(int j, double x)
-{
-	if (xx[j] == xx[j + 1])
-	{
+double Linear_interp::rawinterp(int j, double x) {
+	if (xx[j] == xx[j + 1]) {
 		return yy[j];
-	}
-	else
-	{
+	} else {
 		return yy[j] + ((x - xx[j]) / (xx[j + 1] - xx[j])) * (yy[j + 1] - yy[j]);
 	}
 }
 
+Hermite_interp::Hermite_interp() :
+		Base_interp(), y2() {
+}
+;
 
-Hermite_interp::Hermite_interp(): Base_interp(), y2() {};
-
-
-Hermite_interp::Hermite_interp(dVector &xv, dVector &yv):
-	Base_interp(xv, &yv[0], 2), y2(xv.size())
-{
+Hermite_interp::Hermite_interp(dVector &xv, dVector &yv) :
+		Base_interp(xv, &yv[0], 2), y2(xv.size()) {
 	sety2(&xv[0], &yv[0]);
 }
 
-
-void Hermite_interp::operator()(dVector & xv, dVector & yv)
-{
+void Hermite_interp::operator()(dVector & xv, dVector & yv) {
 	xx = &xv[0];
 	yy = &yv[0];
 	n = xv.size();
@@ -278,18 +245,16 @@ void Hermite_interp::operator()(dVector & xv, dVector & yv)
 	jsav = 0;
 	cor = 0;
 	y2.resize(n);
-	dj = Max(1, (int)pow025((double)n));
+	dj = Max(1, (int) pow025((double) n));
 	sety2(&xv[0], &yv[0]);
 }
 
-
-void Hermite_interp::sety2(const double *xv, const double *yv)
-{
+void Hermite_interp::sety2(const double *xv, const double *yv) {
 	double DeltaK, AlphaK, BetaK, TauK;
 
 	for (int i = 1; i < n - 1; ++i) {
-		y2[i] = (yv[i] - yv[i - 1]) / 2. / (xv[i] - xv[i - 1]) + (yv[i + 1] - yv[i]) / 2. /
-			(xv[i + 1] - xv[i]);
+		y2[i] = (yv[i] - yv[i - 1]) / 2. / (xv[i] - xv[i - 1])
+				+ (yv[i + 1] - yv[i]) / 2. / (xv[i + 1] - xv[i]);
 	}
 	y2[0] = (yv[1] - yv[0]) / (xv[1] - xv[0]);
 	y2[n - 1] = (yv[n - 1] - yv[n - 2]) / (xv[n - 1] - xv[n - 2]);
@@ -299,8 +264,7 @@ void Hermite_interp::sety2(const double *xv, const double *yv)
 		if (DeltaK == 0) {
 			y2[i] = 0;
 			y2[i + 1] = 0;
-		}
-		else {
+		} else {
 			AlphaK = y2[i] / DeltaK;
 			BetaK = y2[i + 1] / DeltaK;
 			if (BetaK * BetaK + AlphaK * AlphaK > 9) {
@@ -312,19 +276,15 @@ void Hermite_interp::sety2(const double *xv, const double *yv)
 	}
 }
 
-
-double Hermite_interp::rawinterp(int j, double x)
-{
+double Hermite_interp::rawinterp(int j, double x) {
 	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
 	// int k=0;
 
 	if (x <= xx[j]) {
 		ret_val = yy[j];
-	}
-	else if (x >= xx[j + 1]) {
+	} else if (x >= xx[j + 1]) {
 		ret_val = yy[j + 1];
-	}
-	else {
+	} else {
 		h = (xx[j + 1] - xx[j]);
 		t = (x - xx[j]) / h;
 		t2 = t * t;
@@ -333,44 +293,40 @@ double Hermite_interp::rawinterp(int j, double x)
 		h10 = t3 - 2 * t2 + t;
 		h01 = -2 * t3 + 3 * t2;
 		h11 = t3 - t2;
-		ret_val = h00 * yy[j] + h * h10 * y2[j] + h01 * yy[j + 1] + h * h11 * y2[j + 1];
+		ret_val = h00 * yy[j] + h * h10 * y2[j] + h01 * yy[j + 1]
+				+ h * h11 * y2[j + 1];
 	}
 	return ret_val;
 }
 
+Step_interp::Step_interp() :
+		Base_interp() {
+}
 
-Step_interp::Step_interp(): Base_interp() {}
+Step_interp::Step_interp(dVector &xv, dVector &yv) :
+		Base_interp(xv, &yv[0], 2) {
+}
 
-
-Step_interp::Step_interp(dVector &xv, dVector &yv): Base_interp(xv, &yv[0], 2) {}
-
-
-void Step_interp::operator()(dVector & xv, dVector & yv)
-{
+void Step_interp::operator()(dVector & xv, dVector & yv) {
 	xx = &xv[0];
 	yy = &yv[0];
 	n = xv.size();
 	mm = 2;
 	jsav = 0;
 	cor = 0;
-	dj = Max(1, (int)pow025((double)n));
+	dj = Max(1, (int) pow025((double) n));
 }
 
-
-double Step_interp::rawinterp(int j, double x)
-{
-	if (xx[j] == xx[j + 1])
-	{
+double Step_interp::rawinterp(int j, double x) {
+	if (xx[j] == xx[j + 1]) {
 		return yy[j];
-	}
-	else
-	{
+	} else {
 		return yy[j];
 	}
 }
 
-
-LUdcmp::LUdcmp(dMatrix &a) : n(a.size()), lu(a), aref(a), indx(n) {
+LUdcmp::LUdcmp(dMatrix &a) :
+		n(a.size()), lu(a), aref(a), indx(n) {
 
 	const double TINY = 1.0e-40;
 	int i, imax, j, k;
@@ -415,7 +371,6 @@ LUdcmp::LUdcmp(dMatrix &a) : n(a.size()), lu(a), aref(a), indx(n) {
 		}
 	}
 }
-
 
 void LUdcmp::solve(dVector &b, dVector &x) {
 	int i, ii = 0, ip, j;

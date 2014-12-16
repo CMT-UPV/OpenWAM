@@ -70,14 +70,12 @@ TMariposa::TMariposa(TMariposa *Origen, int valv) :
 	FLevControlled = Origen->FLevControlled;
 }
 
+void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
+		int norden, bool HayMotor, TBloqueMotor *Engine) {
+	int ctrl, prm;
 
-void TMariposa::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
-	bool HayMotor,TBloqueMotor *Engine)
-{
-int ctrl,prm;
-
-FILE *fich=fopen(FileWAM,"r");
-fsetpos(fich, &filepos);
+	FILE *fich = fopen(FileWAM, "r");
+	fsetpos(fich, &filepos);
 
 	FNumeroOrden = norden;
 
@@ -134,8 +132,8 @@ void TMariposa::LeeDatosInicialesXML(xml_node node_valve, int norden,
 	ctrl = CountNodes(node_throttle, "Actuator");
 	if (ctrl != 0) {
 		FLevControlled = true;
-		xml_node node_ctrl = GetNodeChild(node_throttle,"Actuator");
-		FControllerID = GetAttributeAsInt(node_ctrl,"CtrlID");
+		xml_node node_ctrl = GetNodeChild(node_throttle, "Actuator");
+		FControllerID = GetAttributeAsInt(node_ctrl, "CtrlID");
 	}
 
 }

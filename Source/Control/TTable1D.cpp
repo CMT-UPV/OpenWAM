@@ -1,43 +1,43 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 |==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-|----------------------------------------------------------------------------------
-License
+ |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ | \\ |  X  | //  W ave     |
+ |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ |   \\/   \//    M odel    |
+ |----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TTable1D.h"
 
 // ---------------------------------------------------------------------------
 
-TTable1D::TTable1D(int i) : TController(nmCtlTable, i) {
+TTable1D::TTable1D(int i) :
+		TController(nmCtlTable, i) {
 	fID = i + 1;
 	/* fError_ant=0;
-	fTime_ant=0;
-	fInicio=true; */
+	 fTime_ant=0;
+	 fInicio=true; */
 
 	fDimensiones = 1;
 	fDatos = NULL;
@@ -80,10 +80,9 @@ void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 			X_vec.push_back(X_tmp);
 			Y_vec.push_back(Y_tmp);
 		}
-		fX_map=X_vec;
-		fY_map=Y_vec;
-	}
-	else if (fromfile == 0) {
+		fX_map = X_vec;
+		fY_map = Y_vec;
+	} else if (fromfile == 0) {
 		// fscanf(fich,"%d ",&fDimensiones);
 		fscanf(fich, "%d ", &xnum);
 		fX_map.resize(xnum);
@@ -91,15 +90,14 @@ void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 		for (int i = 0; i < xnum; i++) {
 			fscanf(fich, "%lf %lf ", &fX_map[i], &fY_map[i]);
 		}
-	}
-	else {
+	} else {
 
 	}
 
 	fscanf(fich, "%lf ", &fPeriod);
 
 	fscanf(fich, "%d ", &tip);
-	switch(tip) {
+	switch (tip) {
 	case 0:
 		fTipo = nmLineal;
 		fDatos = new Linear_interp(fX_map, fY_map);
@@ -130,7 +128,8 @@ void TTable1D::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 }
 
-void TTable1D::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
+void TTable1D::LeeResultadosMedControlador(const char *FileWAM,
+		fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -140,26 +139,29 @@ void TTable1D::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos)
 		fscanf(fich, "%d ", &nvars);
 		for (int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch(var) {
+			switch (var) {
 			case 0:
 				FResMediosCtrl.Output = true;
 				break;
 			default:
-				std::cout << "Resultados medios en Controlador " << fID << " no implementados " << std::endl;
+				std::cout << "Resultados medios en Controlador " << fID
+						<< " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::LeeResultadosControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::LeeResultadosControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
 }
 
-void TTable1D::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
+void TTable1D::LeeResultadosInsControlador(const char *FileWAM,
+		fpos_t &filepos) {
 	try {
 		int nvars, var;
 
@@ -169,21 +171,22 @@ void TTable1D::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos)
 		fscanf(fich, "%d ", &nvars);
 		for (int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch(var) {
+			switch (var) {
 			case 0:
 				FResInstantCtrl.Output = true;
 				break;
 			default:
-				std::cout << "Resultados instantaneos en Controlador " << fID << " no implementados " <<
-					std::endl;
+				std::cout << "Resultados instantaneos en Controlador " << fID
+						<< " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::LeeResultadosInsControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::LeeResultadosInsControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -198,9 +201,10 @@ void TTable1D::CabeceraResultadosMedControlador(stringstream& medoutput) {
 			medoutput << Label.c_str();
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::CabeceraResultadosMedControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::CabeceraResultadosMedControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -215,9 +219,10 @@ void TTable1D::CabeceraResultadosInsControlador(stringstream& insoutput) {
 			insoutput << Label.c_str();
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::CabeceraResultadosInsControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::CabeceraResultadosInsControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -231,9 +236,10 @@ void TTable1D::ImprimeResultadosMedControlador(stringstream& medoutput) {
 			medoutput << "\t" << FResMediosCtrl.OutputMED;
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::ImprimeResultadosMedControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::ImprimeResultadosMedControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -247,9 +253,10 @@ void TTable1D::ImprimeResultadosInsControlador(stringstream& insoutput) {
 			insoutput << "\t" << FResInstantCtrl.OutputINS;
 		}
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::CabeceraResultadosInsControlador en el controlador " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::CabeceraResultadosInsControlador en el controlador "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}
@@ -262,9 +269,9 @@ void TTable1D::IniciaMedias() {
 		FResMediosCtrl.TiempoSUM = 0.;
 		FResMediosCtrl.Tiempo0 = 0.;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::IniciaMedias en el controlador: " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TTable::IniciaMedias en el controlador: " << fID
+				<< std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -274,17 +281,18 @@ void TTable1D::ResultadosMediosController() {
 	try {
 
 		if (FResMediosCtrl.Output && FResMediosCtrl.TiempoSUM > 0) {
-			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM
+					/ FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.OutputSUM = 0.;
-		}else{
-        	FResMediosCtrl.OutputMED = 0.;
-        }
+		} else {
+			FResMediosCtrl.OutputMED = 0.;
+		}
 
 		FResMediosCtrl.TiempoSUM = 0;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::ResultadosMediosController en el eje: " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TTable::ResultadosMediosController en el eje: "
+				<< fID << std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -293,7 +301,7 @@ void TTable1D::ResultadosMediosController() {
 void TTable1D::AcumulaResultadosMediosController(double Actual) {
 	try {
 		/* Lo que se hace en esta funcion se realiza dentro del calculo del eje, para asi poder
-		llevar a cabo la salida de resultados medios por pantalla. */
+		 llevar a cabo la salida de resultados medios por pantalla. */
 		double Delta = Actual - FResMediosCtrl.Tiempo0;
 
 		if (FResMediosCtrl.Output) {
@@ -303,9 +311,10 @@ void TTable1D::AcumulaResultadosMediosController(double Actual) {
 		FResMediosCtrl.TiempoSUM += Delta;
 		FResMediosCtrl.Tiempo0 = Actual;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::AcumulaResultadosMediosController en el eje: " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTable::AcumulaResultadosMediosController en el eje: "
+				<< fID << std::endl;
 		// std::cout << "Tipo de error: " << N.Message << std::endl;
 		throw Exception(N.Message);
 	}
@@ -316,9 +325,9 @@ void TTable1D::ResultadosInstantController() {
 		if (FResInstantCtrl.Output)
 			FResInstantCtrl.OutputINS = fOutput;
 
-	}
-	catch(Exception & N) {
-		std::cout << "ERROR: TTable::ResultadosInstantController en el eje " << fID << std::endl;
+	} catch (Exception & N) {
+		std::cout << "ERROR: TTable::ResultadosInstantController en el eje "
+				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
 	}

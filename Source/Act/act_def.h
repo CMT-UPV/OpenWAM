@@ -1,30 +1,29 @@
 /*--------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
-  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-	This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-	OpenWAM is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-	OpenWAM is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*--------------------------------------------------------------------------------*/
-
+ \*--------------------------------------------------------------------------------*/
 
 /* Indices de las Variables de entrada escalares "fijas", es decir, que no cambian de ejecucion en ejecucion */
 
@@ -54,7 +53,6 @@ License
 #define ACT_EVO                     23
 #define ACT_K                       24
 
-
 /* Indices de las Variables de entrada escalares que pueden variar en cada ejecucion */
 
 #define ACT_CBB                     0
@@ -70,8 +68,6 @@ License
 #define ACT_TCYL                    10
 #define ACT_TPIS                    11
 
-
-
 /* Indices de las Variables de Salida escalares */
 
 #define ACT_IMP_HP                  0
@@ -80,7 +76,6 @@ License
 #define ACT_P_EXIT                  3
 #define ACT_T_EXIT                  4
 #define ACT_DP_DA                   5
-
 
 /* Indices de las Variables de Salida vectoriales */
 

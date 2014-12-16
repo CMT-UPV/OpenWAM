@@ -10,9 +10,10 @@
 // ---------------------------------------------------------------------------
 
 TCFDConnection::TCFDConnection(nmTypeBC TipoCC, int numCC,
-	nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) : TCondicionContorno(TipoCC,
-	numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
+				GammaCalculation, ThereIsEGR) {
 
 	FirstTime = true;
 	FUpdateTime = 0;
@@ -24,8 +25,8 @@ TCFDConnection::~TCFDConnection() {
 
 }
 
-void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes,
-	TTubo **Pipe,int nDPF, TDPF **DPF) {
+void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
 
 	FTuboExtremo = new stTuboExtremo[1];
 	FTuboExtremo[0].Pipe = NULL;
@@ -59,10 +60,10 @@ void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int 
 	char *TMP;
 	fscanf(fich, "%s ", &TMP);
 	FCFDModel = TMP;
-	FCFDout = new char[(int)strlen(FCFDModel)];
+	FCFDout = new char[(int) strlen(FCFDModel)];
 	GetName(FCFDModel, FCFDout, ".1d");
 	// GetName(FCFDModel, FCFDout, ".cfd"); //< CFD
-	FCFDin = new char[(int)strlen(FCFDModel)];
+	FCFDin = new char[(int) strlen(FCFDModel)];
 	GetName(FCFDModel, FCFDin, ".cfd");
 	// GetName(FCFDModel, FCFDin, ".1d"); //< CFD
 
@@ -73,11 +74,13 @@ void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int 
 
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - 1; i++) {
-		FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		FFraccionMasicaEspecie[i] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 	}
 	if (FHayEGR) {
-		FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial
-		(FNumeroEspecies - 1);
+		FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+						FNumeroEspecies - 1);
 	}
 }
 
@@ -100,17 +103,20 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 	}
 
 	for (int j = 0; j < FNumeroEspecies - 2; j++) {
-		FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
+		FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(
+				FIndiceCC, j);
 		FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 	}
 	FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 	if (FHayEGR)
-		FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC
-			(FIndiceCC, FNumeroEspecies - 1);
+		FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
+						FNumeroEspecies - 1);
 
 	fileout = fopen(FCFDout, "a");
 
-	fprintf(fileout, "%.16f %g %g", Time, *FCC * ARef, FTuboExtremo[0].Entropia * ARef);
+	fprintf(fileout, "%.16f %g %g", Time, *FCC * ARef,
+			FTuboExtremo[0].Entropia * ARef);
 	for (int j = 0; j < FNumeroEspecies - 1; j++) {
 		fprintf(fileout, " %g", FFraccionMasicaEspecie[j]);
 	}
@@ -146,7 +152,7 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 	double AA0 = FTuboExtremo[0].Entropia;
 	double AA1 = FTuboExtremo[0].Entropia;
 
-	while (t1 < Time-1e-16) {
+	while (t1 < Time - 1e-16) {
 		filein = fopen(FCFDin, "r");
 
 		while (!feof(filein)) {
@@ -163,7 +169,7 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 		}
 		fclose(filein);
 
-		if (t1 < Time-1e-16) {
+		if (t1 < Time - 1e-16) {
 			stat(FCFDin, &buf);
 
 			while (difftime(buf.st_mtime, FUpdateTime) == 0) {
@@ -186,13 +192,11 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 	// ! Flow from de pipe to the cfd model
 	if (flow < 0.99999) {
 		*FCD = Beta / ARef;
-	}
-	else if (flow > 1.00001) {
+	} else if (flow > 1.00001) {
 		*FCD = Beta / ARef;
 		*FCC = *FCC * AA / ARef / FTuboExtremo[0].Entropia;
 		FTuboExtremo[0].Entropia = AA / ARef;
-	}
-	else {
+	} else {
 		*FCD = *FCC;
 	}
 

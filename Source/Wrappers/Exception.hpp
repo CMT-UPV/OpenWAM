@@ -4,11 +4,11 @@
 /**
  * @file Exception.hpp
  * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
- * 
+ *
  * @section LICENSE
- * 
+ *
  * This file is part of OpenWAM.
- * 
+ *
  * OpenWAM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +21,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @section DESCRIPTION
  * This file contains the declaration of a the Exception class.
  */
@@ -32,17 +32,16 @@ using namespace std;
 
 /**
  * @brief Custom exception class.
- * 
+ *
  * A custom exception class
  */
-class Exception
-{
-    private:
-        string msg;
-    public:
-        Exception(const string& __arg);
-        virtual ~Exception();
-        virtual const char* what();
-        string Message;
+class Exception {
+private:
+	string msg;
+public:
+	Exception(const string& __arg);
+	virtual ~Exception();
+	virtual const char* what();
+	string Message;
 };
 #endif

@@ -1,36 +1,35 @@
 /*--------------------------------------------------------------------------------*\
 |==========================|
-|\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-| \\ |  X  | //  W ave     |
-|  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-|   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-| License
-|
-|	This file is part of OpenWAM.
-|
-|	OpenWAM is free software: you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation, either version 3 of the License, or
-|	(at your option) any later version.
-|
-|	OpenWAM is distributed in the hope that it will be useful,
-|	but WITHOUT ANY WARRANTY; without even the implied warranty of
-|	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-|	GNU General Public License for more details.
-|
-|	You should have received a copy of the GNU General Public License
-|	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
-|
-\*--------------------------------------------------------------------------------*/
+ |\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ | \\ |  X  | //  W ave     |
+ |  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ |   \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ | License
+ |
+ |	This file is part of OpenWAM.
+ |
+ |	OpenWAM is free software: you can redistribute it and/or modify
+ |	it under the terms of the GNU General Public License as published by
+ |	the Free Software Foundation, either version 3 of the License, or
+ |	(at your option) any later version.
+ |
+ |	OpenWAM is distributed in the hope that it will be useful,
+ |	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |	GNU General Public License for more details.
+ |
+ |	You should have received a copy of the GNU General Public License
+ |	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ |
+ \*--------------------------------------------------------------------------------*/
 
 // ---------------------------------------------------------------------------
-
 #ifndef TOpenWAMH
 #define TOpenWAMH
 
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 #include <cstdio>
 #include <cstdlib>
@@ -110,7 +109,6 @@
 #include "TCanalDPF.h"
 #endif
 
-
 // CONCENTRIC 1D ELEMENTS
 #ifdef ConcentricElement
 #include "TConcentricoTubos.h"
@@ -129,17 +127,17 @@
 #define completo 1
 
 /* ! \def gestorcom
-Allow the communication with WAMer
+ Allow the communication with WAMer
  */
 
 #include <sys/timeb.h>
 
 #ifdef __BORLANDC__
-  #define gestorcom true
-  #define graphicalout true
+#define gestorcom true
+#define graphicalout true
 #else
-  //#define gestorcom 0
-  //#define graphicalout 0
+//#define gestorcom 0
+//#define graphicalout 0
 #endif
 
 #ifdef gestorcom
@@ -170,7 +168,6 @@ private:
 	// XML Input
 	xml_document FileInputXML;
 
-
 	//char fileinput[8];
 	AnsiString fileinput;
 
@@ -193,16 +190,15 @@ private:
 	// ! ARRAY OF PIPES
 	TTubo** Pipe;
 
-
 	// ! ARRAY OF CONCENTRIC ELEMENTS
-	#ifdef ConcentricElement
-	   TConcentrico** Concentric;
-	#endif
+#ifdef ConcentricElement
+	TConcentrico** Concentric;
+#endif
 
 	// ! ARRAY OF DPFs
-	#ifdef ParticulateFilter
-	  TDPF** DPF;
-	#endif
+#ifdef ParticulateFilter
+	TDPF** DPF;
+#endif
 
 	// ! ARRAYS OF PLENUMS
 	TDeposito** Plenum;
@@ -348,7 +344,7 @@ private:
 
 	/**
 	 * @brief Assigns the number of threads for CalculateFlowIndependent.
-	 * 
+	 *
 	 * As CalculateFlowFlowIndependent can use up to 3 threads, it counts
 	 * the number of available processors and sets fi_num_threads to 1, 2
 	 * or 3 accordingly.  Also, if OMP_NUM_THREADS is set to 2 or 1, it
@@ -406,8 +402,9 @@ private:
 
 	void CalculateNewHeatPositions();
 
-	void CalculateDistance(int NodoOrigen, int NodoFin, double Longitud, int NumberOfPlenums,
-		int NumberOfPipes, int NumberOfConnections, TTubo **Pipe, TCondicionContorno **BC);
+	void CalculateDistance(int NodoOrigen, int NodoFin, double Longitud,
+			int NumberOfPlenums, int NumberOfPipes, int NumberOfConnections,
+			TTubo **Pipe, TCondicionContorno **BC);
 
 	int SelectPipe(TTubo **Pipe, int NumberOfPipes, int nodo1, int nodo2);
 
@@ -417,9 +414,11 @@ private:
 
 	void StudyInflowOutflowMass();
 
-	void SearchMinimumTime(int LNumDepInicial, double* LTMinimo, TDeposito **LPlenum);
+	void SearchMinimumTime(int LNumDepInicial, double* LTMinimo,
+			TDeposito **LPlenum);
 
-	void SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito, TDeposito **LPlenum);
+	void SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito,
+			TDeposito **LPlenum);
 
 	void FixTimeStep();
 
@@ -491,12 +490,14 @@ public:
 
 	bool IsIndependent() {
 		return Independent;
-	};
+	}
+	;
 
-	void UpdateExternalBoundary(int i, double U0, double U1, double T0, double T1, double P0,
-		double P1, double t);
+	void UpdateExternalBoundary(int i, double U0, double U1, double T0,
+			double T1, double P0, double P1, double t);
 
-	void UpdateExternalBoundary(int i, double U0, double T0, double P0, double t);
+	void UpdateExternalBoundary(int i, double U0, double T0, double P0,
+			double t);
 
 	void InitiateExternalBoundary(int i, double D0, double D1, double dX);
 

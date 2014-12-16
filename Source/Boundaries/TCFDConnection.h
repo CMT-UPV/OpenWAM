@@ -7,7 +7,7 @@
 
 #include <ctime>
 
-class TCFDConnection : public TCondicionContorno {
+class TCFDConnection: public TCondicionContorno {
 private:
 
 	int FNodoFin; //<! Node of the pipe connected to the boundary.
@@ -33,12 +33,14 @@ private:
 protected:
 
 public:
-	TCFDConnection(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-		int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCFDConnection(nmTypeBC TipoCC, int numCC,
+			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCFDConnection();
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
+			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void CalculaCondicionContorno(double Time);
 

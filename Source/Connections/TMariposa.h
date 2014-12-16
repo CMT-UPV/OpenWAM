@@ -40,7 +40,6 @@
 #include "TTipoValvula.h"
 //---------------------------------------------------------------------------
 
-
 class TMariposa: public TTipoValvula {
 private:
 
@@ -78,8 +77,6 @@ public:
 	void GetCDin(double Time);
 
 	void GetCDout(double Time);
-
-
 
 };
 

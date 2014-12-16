@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TLamina.h"
@@ -37,7 +36,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TLamina::TLamina() : TTipoValvula(nmLamina) {
+TLamina::TLamina() :
+		TTipoValvula(nmLamina) {
 
 	// FDatosCDEntrada=NULL;
 	// FDatosCDSalida=NULL;
@@ -58,19 +58,20 @@ TLamina::~TLamina() {
 	// if(FDatosCDEntrada!=NULL)delete[] FDatosCDEntrada;
 	// if(FDatosCDSalida!=NULL) delete[] FDatosCDSalida;
 	if (FFuerza != NULL)
-		delete[]FFuerza;
+		delete[] FFuerza;
 	if (FLev1 != NULL)
-		delete[]FLev1;
+		delete[] FLev1;
 	if (FLev2 != NULL)
-		delete[]FLev2;
+		delete[] FLev2;
 	if (FLev3 != NULL)
-		delete[]FLev3;
+		delete[] FLev3;
 }
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TLamina::TLamina(TLamina *Origen, int Valvula) : TTipoValvula(nmLamina) {
+TLamina::TLamina(TLamina *Origen, int Valvula) :
+		TTipoValvula(nmLamina) {
 
 	FValvula = Valvula;
 
@@ -145,8 +146,8 @@ TLamina::TLamina(TLamina *Origen, int Valvula) : TTipoValvula(nmLamina) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
+		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
 		int tipo, sentido;
 
@@ -156,7 +157,7 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 		FNumeroOrden = norden;
 
 		fscanf(fich, "%d %lf %d ", &tipo, &FDiametroRef, &sentido);
-		switch(tipo) {
+		switch (tipo) {
 		case 0:
 			FTipoLamina = nmLamina0D;
 			break;
@@ -170,7 +171,7 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 			std::cout << "ERROR: Seleccion Tipo de Lamina" << std::endl;
 			break;
 		}
-		switch(sentido) {
+		switch (sentido) {
 		case 0:
 			FSentidoLamina = 1;
 			break;
@@ -183,11 +184,12 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 		}
 
 		if (FTipoLamina == nmLamina1D) {
-			fscanf(fich, "%lf %lf %lf %lf ", &FMasa, &FAmortiguamiento, &FRigidez, &FArea);
-		}
-		else if (FTipoLamina == nmLamina2D) {
-			fscanf(fich, "%lf %lf %lf %lf %lf %d %lf %lf ", &FDensidad, &FAmortiguamiento,
-				&FModuloYoung, &FAnchoPetalo, &FEspesor, &FNumPestanyas, &FLongitud, &FLongReal);
+			fscanf(fich, "%lf %lf %lf %lf ", &FMasa, &FAmortiguamiento,
+					&FRigidez, &FArea);
+		} else if (FTipoLamina == nmLamina2D) {
+			fscanf(fich, "%lf %lf %lf %lf %lf %d %lf %lf ", &FDensidad,
+					&FAmortiguamiento, &FModuloYoung, &FAnchoPetalo, &FEspesor,
+					&FNumPestanyas, &FLongitud, &FLongReal);
 		}
 		fscanf(fich, "%d %d ", &FNumLevCDE, &FNumLevCDS);
 
@@ -199,18 +201,17 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 		fscanf(fich, "%lf ", &FIncrLev);
 		fscanf(fich, "%lf %lf ", &FKCDE, &FKCDS);
 		for (int j = 0; j < FNumLevCDE; ++j) {
-			FLiftCDin[j] = (double)j * FIncrLev;
+			FLiftCDin[j] = (double) j * FIncrLev;
 			fscanf(fich, "%lf ", &FDatosCDEntrada[j]);
 		}
 		for (int j = 0; j < FNumLevCDS; ++j) {
-			FLiftCDout[j] = (double)j * FIncrLev;
+			FLiftCDout[j] = (double) j * FIncrLev;
 			fscanf(fich, "%lf ", &FDatosCDSalida[j]);
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Lamina" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -218,8 +219,8 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 	}
 }
 
-void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden,
+		bool HayMotor, TBloqueMotor *Engine) {
 	try {
 
 		FNumeroOrden = norden;
@@ -229,11 +230,9 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 		const char_t* Type = node_reed.attribute("Type").value();
 		if (Type == "0D") {
 			FTipoLamina = nmLamina0D;
-		}
-		else if (Type == "1D") {
+		} else if (Type == "1D") {
 			FTipoLamina = nmLamina1D;
-		}
-		else if (Type == "2D") {
+		} else if (Type == "2D") {
 			FTipoLamina = nmLamina2D;
 		}
 
@@ -242,8 +241,7 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 		const char_t* Mode = node_reed.attribute("Mode").value();
 		if (Mode == "Positive") {
 			FSentidoLamina = 1;
-		}
-		else if (Mode == "Negative") {
+		} else if (Mode == "Negative") {
 			FSentidoLamina = -1;
 		}
 
@@ -253,8 +251,7 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 			FAmortiguamiento = GetAttributeAsDouble(node_1d, "Damping");
 			FRigidez = GetAttributeAsDouble(node_1d, "Stiffness");
 			FArea = GetAttributeAsDouble(node_1d, "Area");
-		}
-		else if (FTipoLamina == nmLamina2D) {
+		} else if (FTipoLamina == nmLamina2D) {
 			xml_node node_2d = GetNodeChild(node_reed, "RdV:Valve2D");
 			FDensidad = GetAttributeAsDouble(node_2d, "Density");
 			FAmortiguamiento = GetAttributeAsDouble(node_2d, "Damping");
@@ -278,21 +275,20 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMoto
 		FKCDS = GetAttributeAsDouble(node_reed, "MultDCout");
 
 		int j = 0;
-		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCin"); node_dcin;
-			node_dcin = node_dcin.next_sibling("RdV:DCin")) {
-			FLiftCDin[j] = (double)j * FIncrLev;
+		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCin");
+				node_dcin; node_dcin = node_dcin.next_sibling("RdV:DCin")) {
+			FLiftCDin[j] = (double) j * FIncrLev;
 			FDatosCDEntrada[j] = GetAttributeAsDouble(node_dcin, "DCin");
 			++j;
 		}
 		j = 0;
-		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCout"); node_dcin;
-			node_dcin = node_dcin.next_sibling("RdV:DCout")) {
-			FLiftCDout[j] = (double)j * FIncrLev;
+		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCout");
+				node_dcin; node_dcin = node_dcin.next_sibling("RdV:DCout")) {
+			FLiftCDout[j] = (double) j * FIncrLev;
 			FDatosCDSalida[j] = GetAttributeAsDouble(node_dcin, "DCout");
 			++j;
 		}
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Lamina" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -312,21 +308,21 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 
 		// deltaP=FPipe->GetPresion(FPipeNode)-FCylinder->getPressure();
 
-		double deltaP2 = deltaP * (double)FSentidoLamina;
+		double deltaP2 = deltaP * (double) FSentidoLamina;
 
-		switch(FTipoLamina) {
+		switch (FTipoLamina) {
 		case nmLamina0D:
 			if (deltaP2 >= 0.) {
 				FCDTubVol = fun_CDin->interp(deltaP2) * FKCDE;
 				FCDVolTub = fun_CDout->interp(deltaP2) * FKCDS;
-			}
-			else {
+			} else {
 				FCDTubVol = 0.;
 				FCDVolTub = 0.;
 			}
 			break;
 		case nmLamina1D:
-			FddLev = (deltaP2 * 1e5 * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
+			FddLev = (deltaP2 * 1e5 * FArea - FRigidez * FLev
+					- FAmortiguamiento * FdLev) / FMasa;
 			FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 			FdLev = FdLev + FddLev * deltaT;
 
@@ -337,8 +333,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			if (FLev > 0) {
 				FCDTubVol = fun_CDin->interp(FLev) * FKCDE;
 				FCDVolTub = fun_CDout->interp(FLev) * FKCDS;
-			}
-			else {
+			} else {
 				FLev = 0.;
 				FdLev = 0.;
 				FCDTubVol = 0.;
@@ -347,32 +342,38 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			break;
 		case nmLamina2D:
 			for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-				FFuerza[i] = deltaP2 * 1e5 * FAnchoPetalo * FNumPestanyas / FDensidad / FAreaTrans;
+				FFuerza[i] = deltaP2 * 1e5 * FAnchoPetalo * FNumPestanyas
+						/ FDensidad / FAreaTrans;
 				if (i < FNodosFijos + 1) {
 					FFuerza[i] = 0.;
 				}
-				if (i == FNodosFijos + 1 || i == FNodosFijos + FNodosLamina + 1) {
+				if (i == FNodosFijos + 1
+						|| i == FNodosFijos + FNodosLamina + 1) {
 					FFuerza[i] *= 0.5;
 				}
 			}
-			double deltaT2 = deltaT / (double)FBucle;
+			double deltaT2 = deltaT / (double) FBucle;
 			for (int veces = 0; veces <= FBucle; ++veces) {
 				FLev2[0] = FLev2[2];
-				FLev2[FNodosLamina + FNodosFijos + 2] = 2 * FLev2[FNodosLamina + FNodosFijos + 1]
-					- FLev2[FNodosLamina + FNodosFijos];
+				FLev2[FNodosLamina + FNodosFijos + 2] = 2
+						* FLev2[FNodosLamina + FNodosFijos + 1]
+						- FLev2[FNodosLamina + FNodosFijos];
 				for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
-					FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1]
-						+ FLev2[i + 2];
+					FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i]
+							- 4 * FLev2[i + 1] + FLev2[i + 2];
 					FDerivada4 = FDerivada4 / pow4(FDeltaX);
-					FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4) +
-						(2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
+					FLev3[i] = pow2(deltaT2)
+							* (FFuerza[i] - FCoefC * FDerivada4)
+							+ (2 * FAmortiguamiento * deltaT2) * FLev2[i]
+							- FLev1[i];
 					FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 					if (FLev3[i] < 0)
 						FLev3[i] = 0.;
 				}
 				FLev3[1] = 0.;
-				FLev3[FNodosLamina + FNodosFijos + 1] = 2 * FLev3[FNodosLamina + FNodosFijos]
-					- FLev3[FNodosLamina + FNodosFijos - 1];
+				FLev3[FNodosLamina + FNodosFijos + 1] = 2
+						* FLev3[FNodosLamina + FNodosFijos]
+						- FLev3[FNodosLamina + FNodosFijos - 1];
 				if (FLev3[FNodosLamina + FNodosFijos + 1] < 0.)
 					FLev3[FNodosLamina + FNodosFijos + 1] = 0;
 				for (int i = 1; i <= FNodosLamina + FNodosFijos + 1; ++i) {
@@ -389,8 +390,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			if (FLev > 0) {
 				FCDTubVol = fun_CDin->interp(FLev) * FKCDE;
 				FCDVolTub = fun_CDout->interp(FLev) * FKCDS;
-			}
-			else {
+			} else {
 				FLev = 0.;
 				FCDTubVol = 0.;
 				FCDVolTub = 0.;
@@ -400,8 +400,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 		}
 		FCDTubVol *= FSectionRatio;
 		FCDVolTub *= FSectionRatio;
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: CalculaCD Lamina" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -416,23 +415,24 @@ void TLamina::GetCDin(double Time) {
 	double deltaP;
 
 	if (FToCylinder) {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure()) * (double)FSentidoLamina;
-	}
-	else {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure()) * (double)FSentidoLamina;
+		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure())
+				* (double) FSentidoLamina;
+	} else {
+		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure())
+				* (double) FSentidoLamina;
 	}
 
-	switch(FTipoLamina) {
+	switch (FTipoLamina) {
 	case nmLamina0D:
 		if (deltaP >= 0.) {
 			FCDTubVol = fun_CDin->interp(deltaP) * FKCDE;
-		}
-		else {
+		} else {
 			FCDTubVol = 0.;
 		}
 		break;
 	case nmLamina1D:
-		FddLev = (deltaP * 1e5 * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
+		FddLev = (deltaP * 1e5 * FArea - FRigidez * FLev
+				- FAmortiguamiento * FdLev) / FMasa;
 		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
 
@@ -442,16 +442,17 @@ void TLamina::GetCDin(double Time) {
 		}
 		if (FLev > 0) {
 			FCDTubVol = fun_CDin->interp(FLev) * FKCDE;
-		}
-		else {
+		} else {
 			FLev = 0.;
 			FdLev = 0.;
-			FCDTubVol = 0.; ;
+			FCDTubVol = 0.;
+			;
 		}
 		break;
 	case nmLamina2D:
 		for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-			FFuerza[i] = deltaP * 1e5 * FAnchoPetalo * FNumPestanyas / FDensidad / FAreaTrans;
+			FFuerza[i] = deltaP * 1e5 * FAnchoPetalo * FNumPestanyas / FDensidad
+					/ FAreaTrans;
 			if (i < FNodosFijos + 1) {
 				FFuerza[i] = 0.;
 			}
@@ -459,24 +460,27 @@ void TLamina::GetCDin(double Time) {
 				FFuerza[i] *= 0.5;
 			}
 		}
-		double deltaT2 = deltaT / (double)FBucle;
+		double deltaT2 = deltaT / (double) FBucle;
 		for (int veces = 0; veces <= FBucle; ++veces) {
 			FLev2[0] = FLev2[2];
-			FLev2[FNodosLamina + FNodosFijos + 2] = 2 * FLev2[FNodosLamina + FNodosFijos + 1]
-				- FLev2[FNodosLamina + FNodosFijos];
+			FLev2[FNodosLamina + FNodosFijos + 2] = 2
+					* FLev2[FNodosLamina + FNodosFijos + 1]
+					- FLev2[FNodosLamina + FNodosFijos];
 			for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
-				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1]
-					+ FLev2[i + 2];
+				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i]
+						- 4 * FLev2[i + 1] + FLev2[i + 2];
 				FDerivada4 = FDerivada4 / pow4(FDeltaX);
-				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4) +
-					(2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
+				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4)
+						+ (2 * FAmortiguamiento * deltaT2) * FLev2[i]
+						- FLev1[i];
 				FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 				if (FLev3[i] < 0)
 					FLev3[i] = 0.;
 			}
 			FLev3[1] = 0.;
-			FLev3[FNodosLamina + FNodosFijos + 1] = 2 * FLev3[FNodosLamina + FNodosFijos] - FLev3
-				[FNodosLamina + FNodosFijos - 1];
+			FLev3[FNodosLamina + FNodosFijos + 1] = 2
+					* FLev3[FNodosLamina + FNodosFijos]
+					- FLev3[FNodosLamina + FNodosFijos - 1];
 			if (FLev3[FNodosLamina + FNodosFijos + 1] < 0.)
 				FLev3[FNodosLamina + FNodosFijos + 1] = 0;
 			for (int i = 1; i <= FNodosLamina + FNodosFijos + 1; ++i) {
@@ -492,8 +496,7 @@ void TLamina::GetCDin(double Time) {
 		}
 		if (FLev > 0) {
 			FCDTubVol = fun_CDin->interp(FLev) * FKCDE;
-		}
-		else {
+		} else {
 			FLev = 0.;
 			FCDTubVol = 0.;
 		}
@@ -510,23 +513,24 @@ void TLamina::GetCDout(double Time) {
 	double deltaP;
 
 	if (FToCylinder) {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure()) * (double)FSentidoLamina;
-	}
-	else {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure()) * (double)FSentidoLamina;
+		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure())
+				* (double) FSentidoLamina;
+	} else {
+		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure())
+				* (double) FSentidoLamina;
 	}
 
-	switch(FTipoLamina) {
+	switch (FTipoLamina) {
 	case nmLamina0D:
 		if (deltaP >= 0.) {
 			FCDVolTub = fun_CDout->interp(deltaP) * FKCDS;
-		}
-		else {
+		} else {
 			FCDVolTub = 0.;
 		}
 		break;
 	case nmLamina1D:
-		FddLev = (deltaP * 1e5 * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
+		FddLev = (deltaP * 1e5 * FArea - FRigidez * FLev
+				- FAmortiguamiento * FdLev) / FMasa;
 		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
 
@@ -536,8 +540,7 @@ void TLamina::GetCDout(double Time) {
 		}
 		if (FLev > 0) {
 			FCDVolTub = fun_CDout->interp(FLev) * FKCDS;
-		}
-		else {
+		} else {
 			FLev = 0.;
 			FdLev = 0.;
 			FCDVolTub = 0.;
@@ -545,7 +548,8 @@ void TLamina::GetCDout(double Time) {
 		break;
 	case nmLamina2D:
 		for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-			FFuerza[i] = deltaP * 1e5 * FAnchoPetalo * FNumPestanyas / FDensidad / FAreaTrans;
+			FFuerza[i] = deltaP * 1e5 * FAnchoPetalo * FNumPestanyas / FDensidad
+					/ FAreaTrans;
 			if (i < FNodosFijos + 1) {
 				FFuerza[i] = 0.;
 			}
@@ -553,24 +557,27 @@ void TLamina::GetCDout(double Time) {
 				FFuerza[i] *= 0.5;
 			}
 		}
-		double deltaT2 = deltaT / (double)FBucle;
+		double deltaT2 = deltaT / (double) FBucle;
 		for (int veces = 0; veces <= FBucle; ++veces) {
 			FLev2[0] = FLev2[2];
-			FLev2[FNodosLamina + FNodosFijos + 2] = 2 * FLev2[FNodosLamina + FNodosFijos + 1]
-				- FLev2[FNodosLamina + FNodosFijos];
+			FLev2[FNodosLamina + FNodosFijos + 2] = 2
+					* FLev2[FNodosLamina + FNodosFijos + 1]
+					- FLev2[FNodosLamina + FNodosFijos];
 			for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
-				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1]
-					+ FLev2[i + 2];
+				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i]
+						- 4 * FLev2[i + 1] + FLev2[i + 2];
 				FDerivada4 = FDerivada4 / pow4(FDeltaX);
-				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4) +
-					(2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
+				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4)
+						+ (2 * FAmortiguamiento * deltaT2) * FLev2[i]
+						- FLev1[i];
 				FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 				if (FLev3[i] < 0)
 					FLev3[i] = 0.;
 			}
 			FLev3[1] = 0.;
-			FLev3[FNodosLamina + FNodosFijos + 1] = 2 * FLev3[FNodosLamina + FNodosFijos] - FLev3
-				[FNodosLamina + FNodosFijos - 1];
+			FLev3[FNodosLamina + FNodosFijos + 1] = 2
+					* FLev3[FNodosLamina + FNodosFijos]
+					- FLev3[FNodosLamina + FNodosFijos - 1];
 			if (FLev3[FNodosLamina + FNodosFijos + 1] < 0.)
 				FLev3[FNodosLamina + FNodosFijos + 1] = 0;
 			for (int i = 1; i <= FNodosLamina + FNodosFijos + 1; ++i) {
@@ -586,8 +593,7 @@ void TLamina::GetCDout(double Time) {
 		}
 		if (FLev > 0) {
 			FCDVolTub = fun_CDout->interp(FLev) * FKCDS;
-		}
-		else {
+		} else {
 			FLev = 0.;
 			FCDVolTub = 0.;
 		}
@@ -610,7 +616,7 @@ void TLamina::LeeDatosGraficas(char *FileWAM, fpos_t &filepos) {
 		fscanf(fich, " %d", &ndv);
 		for (int i = 0; i < ndv; i++) {
 			fscanf(fich, " %d", &var);
-			switch(var) {
+			switch (var) {
 			case 0:
 				FGrafLev = true;
 				break;
@@ -618,8 +624,7 @@ void TLamina::LeeDatosGraficas(char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosGraficas Lamina" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -642,8 +647,7 @@ void TLamina::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 			}
 		}
 		// fclose(fich);
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: CabeceraGrafica Lamina" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -662,8 +666,7 @@ void TLamina::ImprimeGraficaINS(stringstream& insoutput) {
 				insoutput << "\t" << FLev;
 		}
 		// fclose(fich);
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: ImprimeGrafica Lamina" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);

@@ -19,22 +19,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @section DESCRIPTION
  * The function defined here is used to get labels using an index.
  */
 
 #include "labels.hpp"
 
-
-namespace OpenWAM_labels{
-	std::map<int, AnsiString> labels;
+namespace OpenWAM_labels {
+std::map<int, AnsiString> labels;
 }
 
 using namespace OpenWAM_labels;
 
-void init_labels()
-{
+void init_labels() {
 	labels[10000] = "EN";
 
 	labels[1011] = "Inflow_Discharge_Coef_Node_";
@@ -474,13 +472,11 @@ void init_labels()
 
 using namespace std;
 
-AnsiString PutLabel(int idx)
-{
+AnsiString PutLabel(int idx) {
 	if (idx < 900) {
 		if (CompareStr(labels[10000], "ES") == 0) {
 			idx += 2000;
-		}
-		else if (CompareStr(labels[10000], "EN") == 0) {
+		} else if (CompareStr(labels[10000], "EN") == 0) {
 			idx += 1000;
 		}
 	}

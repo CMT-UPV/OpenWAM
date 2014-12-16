@@ -59,57 +59,57 @@ public:
 	~TController();
 
 	/*! Read the information of the controller*/
-	virtual void LeeController(const char *FileWAM,			//!< Input data filename
+	virtual void LeeController(const char *FileWAM,		//!< Input data filename
 			fpos_t &filepos			//!< Position to read within the input file
-			)=0;
+			) =0;
 
 	/*! Return the output value of the controller*/
 	virtual double Output(double Time						//!< Current time
-			)=0;
+			) =0;
 
 	/*! Asign the input sensor and controllers*/
-	virtual void AsignaObjetos(TSensor **Sensor,//!< Array with the sensor objects
+	virtual void AsignaObjetos(TSensor **Sensor, //!< Array with the sensor objects
 			TController **Controller	//!< Array with the controller objects
-			)=0;
+			) =0;
 
 	/*! Read the average results selected*/
-	virtual void LeeResultadosMedControlador(const char *FileWAM,	//!< Input data filename
+	virtual void LeeResultadosMedControlador(const char *FileWAM, //!< Input data filename
 			fpos_t &filepos			//!< Position to read within the input file
-			)=0;
+			) =0;
 
 	/*! Read the instantanous results selected*/
-	virtual void LeeResultadosInsControlador(const char *FileWAM,	//!< Input data filename
+	virtual void LeeResultadosInsControlador(const char *FileWAM, //!< Input data filename
 			fpos_t &filepos			//!< Position to read within the input file
-			)=0;
+			) =0;
 
 	/*! Generate the header of the average results*/
-	virtual void CabeceraResultadosMedControlador(std::stringstream& medoutput//!< StringStream where the average results are stored
-			)=0;
+	virtual void CabeceraResultadosMedControlador(std::stringstream& medoutput //!< StringStream where the average results are stored
+			) =0;
 
 	/*! Generate the header of the instantaneous results*/
-	virtual void CabeceraResultadosInsControlador(std::stringstream& insoutput//!< StringStream where the instantaneous results are stored
-			)=0;
+	virtual void CabeceraResultadosInsControlador(std::stringstream& insoutput //!< StringStream where the instantaneous results are stored
+			) =0;
 
 	/*! Print the average results of the controller*/
-	virtual void ImprimeResultadosMedControlador(std::stringstream& medoutput//!< StringStream where the average results are stored
-			)=0;
+	virtual void ImprimeResultadosMedControlador(std::stringstream& medoutput //!< StringStream where the average results are stored
+			) =0;
 
 	/*! Print the instantaneous results of the controller*/
 	virtual void ImprimeResultadosInsControlador(
-			std::stringstream& insoutput)=0;
+			std::stringstream& insoutput) =0;
 
 	/*! Initialize average results*/
-	virtual void IniciaMedias()=0;
+	virtual void IniciaMedias() =0;
 
 	/*! Calculate average results*/
-	virtual void ResultadosMediosController()=0;
+	virtual void ResultadosMediosController() =0;
 
 	/*! Acumulate average results*/
-	virtual void AcumulaResultadosMediosController(double Actual//!< Current tiem
-			)=0;
+	virtual void AcumulaResultadosMediosController(double Actual //!< Current tiem
+			) =0;
 
 	/*! Calculate instantaneus results*/
-	virtual void ResultadosInstantController()=0;
+	virtual void ResultadosInstantController() =0;
 };
 
 struct stGainInput {
@@ -121,7 +121,7 @@ struct stGainInput {
 	}
 	;
 
-	virtual double Output(double t)=0;
+	virtual double Output(double t) =0;
 };
 
 struct stGainInputSensor: stGainInput {

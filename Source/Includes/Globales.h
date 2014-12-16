@@ -1,34 +1,34 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 /**
  * @file Globales.h
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
- * 
+ *
  * @section LICENSE
  *
  * This file is part of OpenWAM.
@@ -45,15 +45,13 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @section DESCRIPTION
  * The common enums, structs, classes and functions of the project are declared
  * and / or defined here.
  */
 
-
 // ---------------------------------------------------------------------------
-
 #ifndef GlobalesH
 #define GlobalesH
 
@@ -95,11 +93,10 @@ using namespace std;
 //#define ParticulateFilter 1
 //#define tchtm 1
 
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-inline int matherr(struct exception *a){
+inline int matherr(struct exception *a) {
 
 	return 0;
 }
@@ -116,8 +113,7 @@ enum nmTurbineType {
 // ! Turbocharger speed calculation
 enum nmAxisSpeedCalculation {
 	nmFixed = 0, /* !< The turbocharger speed is constant during all the dimulation */
-	nmVariable =
-		1 /* !< The turbocharger speed is calculated depending on the turbina and compressor work balance */
+	nmVariable = 1 /* !< The turbocharger speed is calculated depending on the turbina and compressor work balance */
 };
 
 // ! Model used to calculate the compressor
@@ -145,12 +141,27 @@ enum nmCompressorInlet {
 
 // ! Define the type of boundary condition.
 enum nmTypeBC {
-	nmOpenEndAtmosphere = 0, nmOpenEndReservoir = 1, nmOpenEndCalcExtern = 2, nmClosedEnd = 3,
-	nmAnechoicEnd = 4, nmIncidentPressurWave = 5, nmPipesConnection = 6, nmIntakeValve = 7,
-	nmExhaustValve = 8, nmLinearPressureLoss = 9, nmQuadraticPressureLoss = 10,
-	nmPipeToPlenumConnection = 11, nmBranch = 12, nmVolumetricCompressor = 13, nmInjectionEnd = 14,
-	nmEntradaCompre = 15, nmUnionEntreDepositos = 16, nmCompresor = 17, nmPresionVble = 18,
-	nmCFDConnection = 19, nmExternalConnection = 20
+	nmOpenEndAtmosphere = 0,
+	nmOpenEndReservoir = 1,
+	nmOpenEndCalcExtern = 2,
+	nmClosedEnd = 3,
+	nmAnechoicEnd = 4,
+	nmIncidentPressurWave = 5,
+	nmPipesConnection = 6,
+	nmIntakeValve = 7,
+	nmExhaustValve = 8,
+	nmLinearPressureLoss = 9,
+	nmQuadraticPressureLoss = 10,
+	nmPipeToPlenumConnection = 11,
+	nmBranch = 12,
+	nmVolumetricCompressor = 13,
+	nmInjectionEnd = 14,
+	nmEntradaCompre = 15,
+	nmUnionEntreDepositos = 16,
+	nmCompresor = 17,
+	nmPresionVble = 18,
+	nmCFDConnection = 19,
+	nmExternalConnection = 20
 };
 
 enum nmTipoDescarga {
@@ -162,8 +173,10 @@ enum nmTipoValv {
 };
 
 enum nmCaso {
-	nmFlujoEntranteSaltoSubcritico = 0, nmFlujoEntranteSaltoSupercritico = 1,
-	nmFlujoSalienteSaltoSubcritico = 2, nmFlujoSalienteSaltoSupercritico = 3
+	nmFlujoEntranteSaltoSubcritico = 0,
+	nmFlujoEntranteSaltoSupercritico = 1,
+	nmFlujoSalienteSaltoSubcritico = 2,
+	nmFlujoSalienteSaltoSupercritico = 3
 };
 
 enum nmTipoPP {
@@ -187,7 +200,11 @@ enum nmVolumenDeposito {
 };
 
 enum nmTipoDeposito {
-	nmDepVolCte = 0, nmDepVolVble = 1, nmTurbinaSimple = 2, nmTurbinaTwin = 3, nmVenturi = 4,
+	nmDepVolCte = 0,
+	nmDepVolVble = 1,
+	nmTurbinaSimple = 2,
+	nmTurbinaTwin = 3,
+	nmVenturi = 4,
 	nmUnionDireccional = 5
 };
 
@@ -208,8 +225,15 @@ enum nmSubModelo {
 };
 
 enum nmOpcionSubModelo {
-	nmNinguna = 0, nmDDNAD = 1, nmDDPAD = 2, nmDDEAD = 3, nmDSNAD = 4, nmDSPAD = 5, nmDSEAD = 6,
-	nmLimiter1 = 7, nmLimiter2 = 8
+	nmNinguna = 0,
+	nmDDNAD = 1,
+	nmDDPAD = 2,
+	nmDDEAD = 3,
+	nmDSNAD = 4,
+	nmDSPAD = 5,
+	nmDSEAD = 6,
+	nmLimiter1 = 7,
+	nmLimiter2 = 8
 };
 
 enum nmFormulacionLeyes {
@@ -253,7 +277,9 @@ enum nmCalculoPared {
 };
 
 enum nmTipoModelado {
-	nmEstacionario = 0, nmTransitorioCarga = 1, nmTransitorioRegimen = 2,
+	nmEstacionario = 0,
+	nmTransitorioCarga = 1,
+	nmTransitorioRegimen = 2,
 	nmTransitorioRegimenExterno = 3
 };
 
@@ -262,7 +288,9 @@ enum nmRegimenValv {
 };
 
 enum nmTipoCalcTempParedTubos {
-	nmVariableConInerciaTermica = 0, nmVariableSinInerciaTermica = 1, nmTempConstante = 2
+	nmVariableConInerciaTermica = 0,
+	nmVariableSinInerciaTermica = 1,
+	nmTempConstante = 2
 };
 
 enum nmTipoCalculoEspecies {
@@ -286,10 +314,14 @@ enum nmTipoControl {
 };
 
 enum nmControlMethod {
-	nmCtlConstant = 0, nmCtlPID = 1, nmCtlTable = 2, nmCtlSwitch = 3, nmGainCtrl = 4
+	nmCtlConstant = 0,
+	nmCtlPID = 1,
+	nmCtlTable = 2,
+	nmCtlSwitch = 3,
+	nmGainCtrl = 4
 };
 
-enum nmInputObjet{
+enum nmInputObjet {
 	nmInController = 0, nmInSensor = 1
 };
 
@@ -298,24 +330,29 @@ enum nmObjectSensed {
 };
 
 enum nmParameterSensed {
-	nmTime = 0, nmPressure = 1, nmTemperature = 2, nmMassFlow = 3, nmFuel = 4, nmEngSpeed = 5
+	nmTime = 0,
+	nmPressure = 1,
+	nmTemperature = 2,
+	nmMassFlow = 3,
+	nmFuel = 4,
+	nmEngSpeed = 5
 };
 
 enum nmTipoInterpolacion {
 	nmLineal = 0, nmHermite = 1, nmSteps = 2
 };
 
-enum nmCompressorMapFormat{
+enum nmCompressorMapFormat {
 	nmOldWAMmap = 0, nmSAMmap = 1
 };
 
 // DPF
-enum nmSeccionCanal{
-        nmCuadrada=0,nmCircular=1,nmRectangular=2,nmTriangular=3
+enum nmSeccionCanal {
+	nmCuadrada = 0, nmCircular = 1, nmRectangular = 2, nmTriangular = 3
 };
 
-enum nmTipoCanal{
-        nmCanalEntrada=0,nmCanalSalida=1
+enum nmTipoCanal {
+	nmCanalEntrada = 0, nmCanalSalida = 1
 };
 
 // template<class T>
@@ -393,7 +430,8 @@ struct stDatosTGV {
 // ---------------------------------------------------------------------------
 
 struct stGammas {
-	double aref, gamma, gai123, gamm1, gams1, gas12, gas123, gads1, gar21, r, pi;
+	double aref, gamma, gai123, gamm1, gams1, gas12, gas123, gads1, gar21, r,
+			pi;
 };
 
 // ---------------------------------------------------------------------------
@@ -478,18 +516,14 @@ struct stResMedMot {
 // struct complex{
 // double r,i;
 // };
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
 /* Estructura para matriz compleja */
 // struct submatriz{
 // complex m11,m12,m21,m22;
 // };
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
 struct stMapa2D {
 	int nx;
 	int ny;
@@ -1112,7 +1146,7 @@ struct stLeyQuemadoBD {
 	double ley;
 	int nwiebes;
 
-	std::vector<stWiebe>Wiebes;
+	std::vector<stWiebe> Wiebes;
 };
 
 // ---------------------------------------------------------------------------
@@ -1419,8 +1453,7 @@ struct stResInstantCilindro {
 	bool HeatCyl;
 	double HeatCylINS;
 	bool HeatPis;
-    double HeatPisINS;
-
+	double HeatPisINS;
 
 };
 
@@ -1458,134 +1491,133 @@ struct stCapa { // Capas de los tubos
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-struct stResMediosDPF{
-    double Distancia;
-    bool VelocidadParedCanalEntrada;
-    double VelocidadParedCanalEntradaSUM;
-    double VelocidadParedCanalEntradaMED;
-    bool VelocidadParedCanalSalida;
-    double VelocidadParedCanalSalidaSUM;
-    double VelocidadParedCanalSalidaMED;
-    bool MasaSoot;
-    double MasaSootSUM;
-    double MasaSootMED;
-    bool EspesorSoot;
-    double EspesorSootSUM;
-    double EspesorSootMED;
-    bool TemperaturaParedCS;
-    double TemperaturaParedCSSUM;
-    double TemperaturaParedCSMED;
-    bool TemperaturaIntermediaPared;
-    double TemperaturaIntermediaParedSUM;
-    double TemperaturaIntermediaParedMED;
-    bool TemperaturaParedCE;
-    double TemperaturaParedCESUM;
-    double TemperaturaParedCEMED;
-    bool Kwall;
-    double KwallSUM;
-    double KwallMED;
-    bool Ksoot;
-    double KsootSUM;
-    double KsootMED;
-    bool Eficiencia;
-    double EficienciaSUM;
-    double EficienciaMED;
-    bool Porosidad;
-    double PorosidadSUM;
-    double PorosidadMED;
-    bool CoeficienteParticion;
-    double CoeficienteParticionSUM;
-    double CoeficienteParticionMED;
-    bool DiametroUC;
-    double DiametroUCSUM;
-    double DiametroUCMED;
-    bool Kreg1;
-    double Kreg1SUM;
-    double Kreg1MED;
-    bool Kreg2;
-    double Kreg2SUM;
-    double Kreg2MED;
-    bool Qreg;
-    double QregSUM;
-    double QregMED;
-    bool Q1;
-    double Q1SUM;
-    double Q1MED;
-    bool Q2;
-    double Q2SUM;
-    double Q2MED;
-    bool TasaFraccionMasicaEspecies;
-    double *TasaFraccionSUM;
-    double *TasaFraccionMED;
-    bool FraccionMasicaEspeciesSalida;
-    double *FraccionSalidaSUM;
-    double *FraccionSalidaMED;
-    double PonderacionSUM;
-    double GastoPonderacionSUM;
-    bool TemperaturaExternaSuperficie;
-    double TemperaturaExternaSuperficieSUM;
-    double TemperaturaExternaSuperficieMED;
-    bool TemperaturaMediaSuperficie;
-    double TemperaturaMediaSuperficieSUM;
-    double TemperaturaMediaSuperficieMED;
-    bool TemperaturaInternaSuperficie;
-    double TemperaturaInternaSuperficieSUM;
-    double TemperaturaInternaSuperficieMED;
+struct stResMediosDPF {
+	double Distancia;
+	bool VelocidadParedCanalEntrada;
+	double VelocidadParedCanalEntradaSUM;
+	double VelocidadParedCanalEntradaMED;
+	bool VelocidadParedCanalSalida;
+	double VelocidadParedCanalSalidaSUM;
+	double VelocidadParedCanalSalidaMED;
+	bool MasaSoot;
+	double MasaSootSUM;
+	double MasaSootMED;
+	bool EspesorSoot;
+	double EspesorSootSUM;
+	double EspesorSootMED;
+	bool TemperaturaParedCS;
+	double TemperaturaParedCSSUM;
+	double TemperaturaParedCSMED;
+	bool TemperaturaIntermediaPared;
+	double TemperaturaIntermediaParedSUM;
+	double TemperaturaIntermediaParedMED;
+	bool TemperaturaParedCE;
+	double TemperaturaParedCESUM;
+	double TemperaturaParedCEMED;
+	bool Kwall;
+	double KwallSUM;
+	double KwallMED;
+	bool Ksoot;
+	double KsootSUM;
+	double KsootMED;
+	bool Eficiencia;
+	double EficienciaSUM;
+	double EficienciaMED;
+	bool Porosidad;
+	double PorosidadSUM;
+	double PorosidadMED;
+	bool CoeficienteParticion;
+	double CoeficienteParticionSUM;
+	double CoeficienteParticionMED;
+	bool DiametroUC;
+	double DiametroUCSUM;
+	double DiametroUCMED;
+	bool Kreg1;
+	double Kreg1SUM;
+	double Kreg1MED;
+	bool Kreg2;
+	double Kreg2SUM;
+	double Kreg2MED;
+	bool Qreg;
+	double QregSUM;
+	double QregMED;
+	bool Q1;
+	double Q1SUM;
+	double Q1MED;
+	bool Q2;
+	double Q2SUM;
+	double Q2MED;
+	bool TasaFraccionMasicaEspecies;
+	double *TasaFraccionSUM;
+	double *TasaFraccionMED;
+	bool FraccionMasicaEspeciesSalida;
+	double *FraccionSalidaSUM;
+	double *FraccionSalidaMED;
+	double PonderacionSUM;
+	double GastoPonderacionSUM;
+	bool TemperaturaExternaSuperficie;
+	double TemperaturaExternaSuperficieSUM;
+	double TemperaturaExternaSuperficieMED;
+	bool TemperaturaMediaSuperficie;
+	double TemperaturaMediaSuperficieSUM;
+	double TemperaturaMediaSuperficieMED;
+	bool TemperaturaInternaSuperficie;
+	double TemperaturaInternaSuperficieSUM;
+	double TemperaturaInternaSuperficieMED;
 };
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-struct stResInstantDPF{
-    double Distancia;
-    bool VelocidadParedCanalEntrada;
-    double VelocidadParedCanalEntradaINS;
-    bool VelocidadParedCanalSalida;
-    double VelocidadParedCanalSalidaINS;
-    bool MasaSoot;
-    double MasaSootINS;
-    bool EspesorSoot;
-    double EspesorSootINS;
-    bool TemperaturaParedCS;
-    double TemperaturaParedCSINS;
-    bool TemperaturaIntermediaPared;
-    double TemperaturaIntermediaParedINS;
-    bool TemperaturaParedCE;
-    double TemperaturaParedCEINS;
-    bool Kwall;
-    double KwallINS;
-    bool Ksoot;
-    double KsootINS;
-    bool Eficiencia;
-    double EficienciaINS;
-    bool Porosidad;
-    double PorosidadINS;
-    bool CoeficienteParticion;
-    double CoeficienteParticionINS;
-    bool DiametroUC;
-    double DiametroUCINS;
-    bool Kreg1;
-    double Kreg1INS;
-    bool Kreg2;
-    double Kreg2INS;
-    bool Qreg;
-    double QregINS;
-    bool Q1;
-    double Q1INS;
-    bool Q2;
-    double Q2INS;
-    bool TasaFraccionMasicaEspecies;
-    double *TasaFraccionINS;
-    bool FraccionMasicaEspeciesSalida;
-    double *FraccionSalidaINS;
-    bool TemperaturaExternaSuperficie;
-    double TemperaturaExternaSuperficieINS;
-    bool TemperaturaMediaSuperficie;
-    double TemperaturaMediaSuperficieINS;
-    bool TemperaturaInternaSuperficie;
-    double TemperaturaInternaSuperficieINS;
+struct stResInstantDPF {
+	double Distancia;
+	bool VelocidadParedCanalEntrada;
+	double VelocidadParedCanalEntradaINS;
+	bool VelocidadParedCanalSalida;
+	double VelocidadParedCanalSalidaINS;
+	bool MasaSoot;
+	double MasaSootINS;
+	bool EspesorSoot;
+	double EspesorSootINS;
+	bool TemperaturaParedCS;
+	double TemperaturaParedCSINS;
+	bool TemperaturaIntermediaPared;
+	double TemperaturaIntermediaParedINS;
+	bool TemperaturaParedCE;
+	double TemperaturaParedCEINS;
+	bool Kwall;
+	double KwallINS;
+	bool Ksoot;
+	double KsootINS;
+	bool Eficiencia;
+	double EficienciaINS;
+	bool Porosidad;
+	double PorosidadINS;
+	bool CoeficienteParticion;
+	double CoeficienteParticionINS;
+	bool DiametroUC;
+	double DiametroUCINS;
+	bool Kreg1;
+	double Kreg1INS;
+	bool Kreg2;
+	double Kreg2INS;
+	bool Qreg;
+	double QregINS;
+	bool Q1;
+	double Q1INS;
+	bool Q2;
+	double Q2INS;
+	bool TasaFraccionMasicaEspecies;
+	double *TasaFraccionINS;
+	bool FraccionMasicaEspeciesSalida;
+	double *FraccionSalidaINS;
+	bool TemperaturaExternaSuperficie;
+	double TemperaturaExternaSuperficieINS;
+	bool TemperaturaMediaSuperficie;
+	double TemperaturaMediaSuperficieINS;
+	bool TemperaturaInternaSuperficie;
+	double TemperaturaInternaSuperficieINS;
 };
-
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -1595,7 +1627,7 @@ struct stResInstantDPF{
 template<class T>
 void DestruyeVector(T * pointer) {
 	if (pointer != NULL) {
-		delete[]pointer;
+		delete[] pointer;
 		pointer = NULL;
 	}
 }
@@ -1604,51 +1636,57 @@ template<class T>
 void DestruyeMatriz(T * *pointer, int num) {
 	if (pointer != NULL) {
 		for (int i = 0; i < num; i++) {
-			delete[]pointer[i];
+			delete[] pointer[i];
 		}
-		delete[]pointer;
+		delete[] pointer;
 		pointer = NULL;
 	}
 }
 
 inline double Gamma1(double gamma) {
 	return gamma - 1;
-};
+}
+;
 
 inline double Gamma2(double gamma) {
 	return gamma + 1;
-};
+}
+;
 
 inline double Gamma3(double gamma) {
-	return(gamma - 1) / 2.;
-};
+	return (gamma - 1) / 2.;
+}
+;
 
 inline double Gamma4(double gamma) {
 	return 2. * gamma / (gamma - 1);
-};
+}
+;
 
 inline double Gamma5(double gamma) {
-	return(gamma - 1) / 2. / gamma;
-};
+	return (gamma - 1) / 2. / gamma;
+}
+;
 
 inline double Gamma6(double gamma) {
 	return 1 / (gamma - 1);
-};
+}
+;
 
 inline double Gamma7(double gamma) {
-	return(3 - gamma) / (gamma + 1);
-};
-
+	return (3 - gamma) / (gamma + 1);
+}
+;
 
 /**
  * @brief Heat capacities ratio of air.
- * 
+ *
  * Computes the heat capacities ratio of air, with some burnt fraction.
- * 
+ *
  * @f[ \gamma = 1 + \cfrac{R}{c_v} @f]
  *
  * If @f$ \gamma @f$ is not a function of temperature, returns 1.4.
- * 
+ *
  * @param RMezcla Gas constant. [J / (kg / K)]
  * @param CvMezcla Specific heat capacity at constant volume. [J / (kg / K)]
  * @param GammaCalculation Whether gamma is a function of the temperature
@@ -1656,7 +1694,7 @@ inline double Gamma7(double gamma) {
  * @return Heat capacities ratio.
  */
 inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
-	nmCalculoGamma GammaCalculation) {
+		nmCalculoGamma GammaCalculation) {
 	double g = Gamma;
 
 	if (GammaCalculation != nmGammaConstante) {
@@ -1664,13 +1702,13 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
 	}
 
 	return g;
-};
-
+}
+;
 
 /**
  * @brief Specific heat capacity at constant volume of air, simplified
  * version.
- * 
+ *
  * Computes the specific heat capacity at constant volume of air, with
  * some burnt fraction.
  *
@@ -1679,85 +1717,112 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
  * + c_{v_{da}} \cdot \left( 1 - Y_{wv} - Y \right)
  * + c_{v_{wv}} \cdot  Y_{wv}
  * @f]
- * 
+ *
  * where @f$ c_v @f$ is the specific heat capacity at constant volume
  * and @f$ Y @f$ is the mass fraction.  If @f$ \gamma @f$ is not a function
  * of temperature, returns 717.5
- * 
+ *
  * @param Temperature Air temperature. [K]
  * @param YQuemados Burnt gases mass fraction. [-]
  * @param GammaCalculation Whether gamma is a function of the temperature
  * or not.
  * @return Specific heat capacity at constant volume. [J / (kg * K)]
  */
-inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible,
-	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible)
-{
-    if (TipoCombustible == 0) {
+inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
+		double YCombustible, nmCalculoGamma GammaCalculation,
+		nmTipoCombustion TipoCombustible) {
+	if (TipoCombustible == 0) {
 		TipoCombustible == nmMEC;
 	}
 	double CvMezcla = R / (Gamma - 1.);
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
-		double CvCombustible =  1496.92;
+		double CvCombustible = 1496.92;
 		double CvH2O = 1420.63;
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
 
-			CvAire = -10.4199 * RaizdeT + 2522.88 +
-				(-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT) / Temperature;
-			CvQuemados = 641.154 + Temperature *
-				(0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
-			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
-				/ Temperature) * RH2O - RH2O;
+			CvAire = -10.4199 * RaizdeT + 2522.88
+					+ (-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
+							/ Temperature;
+			CvQuemados = 641.154
+					+ Temperature
+							* (0.43045
+									+ Temperature
+											* (-0.0001125
+													+ Temperature * 8.979e-9));
+			CvH2O = (22.605 - 0.09067 * RaizdeT
+					+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+							/ Temperature) * RH2O - RH2O;
 			if (TipoCombustible == nmMEC) {
-			//Diesel C10.8H18.7
-				CvCombustible = -256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
-					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature);
-								}
-			else if (TipoCombustible == nmMEP) {
-			//Gasolina C8.26H15.5
-				CvCombustible = (4184 * (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168
-					+0.00000006475 * Temperature)) + 580800 * RaizdeT) * RGasoline / Runiversal) - RGasoline;    //cv = cp - R
+				//Diesel C10.8H18.7
+				CvCombustible =
+						-256.4
+								+ Temperature
+										* (6.95372
+												+ Temperature
+														* (-0.00404715
+																+ Temperature
+																		* 0.000000910259))
+								+ 1458487 / (Temperature * Temperature);
+			} else if (TipoCombustible == nmMEP) {
+				//Gasolina C8.26H15.5
+				CvCombustible =
+						(4184
+								* (-24.078
+										+ Temperature
+												* (0.25663
+														- Temperature
+																* (0.00020168
+																		+ 0.00000006475
+																				* Temperature))
+										+ 580800 * RaizdeT) * RGasoline
+								/ Runiversal) - RGasoline;   //cv = cp - R
 			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
 		//Sin Humedad en aire
-		CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados));
+		CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible
+				+ (CvAire * (1 - YCombustible - YQuemados));
 	}
 	return CvMezcla;
-};
+}
+;
 
 inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible,
-	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+		nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double R = 287;
 	double RFuel = 0;
 	if (TipoCombustible == nmMEP) {
 		RFuel = RGasoline;
-	}
-	else {
+	} else {
 		RFuel = RDiesel;
 	}
 	if (GammaCalculation != nmGammaConstante) {
 		//R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * RH2O);
 		//Sin humedad en aire
-		R = RBurnt * YQuemados + RFuel * YCombustible + (RAir * (1 - YQuemados - YCombustible));
+		R = RBurnt * YQuemados + RFuel * YCombustible
+				+ (RAir * (1 - YQuemados - YCombustible));
 	}
 	return R;
-};
+}
+;
 
-inline double CalculoCompletoGamma(double RMezcla, double CpMezcla, nmCalculoGamma GammaCalculation) {
+inline double CalculoCompletoGamma(double RMezcla, double CpMezcla,
+		nmCalculoGamma GammaCalculation) {
 	double Gamma = 1.4;
 
 	if (GammaCalculation != nmGammaConstante) {
 		Gamma = CpMezcla / (CpMezcla - RMezcla);
 	}
 	return Gamma;
-};
+}
+;
 
-inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double YCombustible, double Temperature,
-	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
+		double YCombustible, double Temperature,
+		nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 	double CpMezcla = 1004.5;
 	if (TipoCombustible == 0) {
@@ -1771,70 +1836,97 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 		double CpCombustible = 0;
 		if (TipoCombustible == nmMEC) {
 			CpCombustible = RDiesel + 1496.92;
-		}
-		else {
+		} else {
 			CpCombustible = RGasoline + 1496.92;
-        }
+		}
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
 			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
-			CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
-				/ Temperature) * RN2;
-			CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
-				/ Temperature) * RO2;
-			CpCO2 = (12.019 - 0.03566 * RaizdeT + (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
-				/ Temperature) * RCO2;
-			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
-				/ Temperature) * RH2O;
+			CpN2 = (12.531 - 0.05932 * RaizdeT
+					+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
+							/ Temperature) * RN2;
+			CpO2 = (-0.112 + 0.0479 * RaizdeT
+					+ (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
+							/ Temperature) * RO2;
+			CpCO2 =
+					(12.019 - 0.03566 * RaizdeT
+							+ (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
+									/ Temperature) * RCO2;
+			CpH2O = (22.605 - 0.09067 * RaizdeT
+					+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
+							/ Temperature) * RH2O;
 			if (TipoCombustible == nmMEC) {
-            //Diesel C10.8H18.7
-				CpCombustible = RDiesel + (-256.4 + Temperature * (6.95372  + Temperature * (-0.00404715
-					+ Temperature * 0.000000910259))  + 1458487 / (Temperature * Temperature));   //Cp = R + Cv
-			}
-			else if (TipoCombustible == nmMEP) {
-			//Gasolina C8.26H15.5
-				CpCombustible = 4184 * (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168
-					+0.00000006475 * Temperature)) + 580800 * RaizdeT) * RGasoline / Runiversal;    //cv = cp - R
+				//Diesel C10.8H18.7
+				CpCombustible =
+						RDiesel
+								+ (-256.4
+										+ Temperature
+												* (6.95372
+														+ Temperature
+																* (-0.00404715
+																		+ Temperature
+																				* 0.000000910259))
+										+ 1458487 / (Temperature * Temperature)); //Cp = R + Cv
+			} else if (TipoCombustible == nmMEP) {
+				//Gasolina C8.26H15.5
+				CpCombustible =
+						4184
+								* (-24.078
+										+ Temperature
+												* (0.25663
+														- Temperature
+																* (0.00020168
+																		+ 0.00000006475
+																				* Temperature))
+										+ 580800 * RaizdeT) * RGasoline
+								/ Runiversal;    //cv = cp - R
 			}
 
 		}
-		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292)
-			+ 520.32 * 0.01292 + CpCombustible * YCombustible;
+		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O
+				+ CpN2 * (YN2 - 0.01292) + 520.32 * 0.01292
+				+ CpCombustible * YCombustible;
 	}
 
 	return CpMezcla;
-};
+}
+;
 
-inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O, double YCombustible,
-	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
+		double YCombustible, nmCalculoGamma GammaCalculation,
+		nmTipoCombustion TipoCombustible) {
 	double R = 287;
 	double RFuel = 0;
 	if (TipoCombustible == nmMEP) {
 		RFuel = RGasoline;
-	}
-	else {
+	} else {
 		RFuel = RDiesel;
 	}
 	if (GammaCalculation != nmGammaConstante) {
 		R = RO2 * YO2 + RCO2 * YCO2 + RH2O * YH2O + RFuel * YCombustible
-		+ RN2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
-			+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
+				+ RN2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
+				+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
 	}
 	return R;
-};
+}
+;
 
-inline double CalculoUfgasoil(double Temperature){
+inline double CalculoUfgasoil(double Temperature) {
 	double Ufgasoil = 0.;
-		Ufgasoil = -1234157.8 - 256.4 * (Temperature + 273) + 3.47686 *
-			pow(Temperature + 273, 2) - 0.00134905 * pow(Temperature + 273, 3) +
-			0.000000227565 * pow(Temperature + 273, 4) - 1458487. / (Temperature + 273);
+	Ufgasoil = -1234157.8 - 256.4 * (Temperature + 273)
+			+ 3.47686 * pow(Temperature + 273, 2)
+			- 0.00134905 * pow(Temperature + 273, 3)
+			+ 0.000000227565 * pow(Temperature + 273, 4)
+			- 1458487. / (Temperature + 273);
 	return Ufgasoil;
-};
+}
+;
 
 inline double Seccion(double d) {
-	return d*d*Pi / 4.;
-};
+	return d * d * Pi / 4.;
+}
+;
 
 inline double Interp1(double x, double *x1, double *x2, int n) {
 	double ret_val, delta;
@@ -1842,11 +1934,9 @@ inline double Interp1(double x, double *x1, double *x2, int n) {
 
 	if (x < x1[0]) {
 		ret_val = x2[0];
-	}
-	else if (x > x1[n - 1]) {
+	} else if (x > x1[n - 1]) {
 		ret_val = x2[n - 1];
-	}
-	else {
+	} else {
 		pos = 0;
 		while (x > x1[pos + 1]) {
 			pos++;
@@ -1857,19 +1947,19 @@ inline double Interp1(double x, double *x1, double *x2, int n) {
 		ret_val = (1 - delta) * x2[pos] + delta * x2[pos + 1];
 	}
 	return ret_val;
-};
+}
+;
 
-inline double Interp1(double x, std::vector<double>x1, std::vector<double>x2, int n) {
+inline double Interp1(double x, std::vector<double> x1, std::vector<double> x2,
+		int n) {
 	double ret_val, delta;
 	int pos;
 
 	if (x < x1[0]) {
 		ret_val = x2[0];
-	}
-	else if (x > x1[n - 1]) {
+	} else if (x > x1[n - 1]) {
 		ret_val = x2[n - 1];
-	}
-	else {
+	} else {
 		pos = 0;
 		while (x > x1[pos + 1]) {
 			pos++;
@@ -1880,19 +1970,19 @@ inline double Interp1(double x, std::vector<double>x1, std::vector<double>x2, in
 		ret_val = (1 - delta) * x2[pos] + delta * x2[pos + 1];
 	}
 	return ret_val;
-};
+}
+;
 
-inline double StepFunction(double x, std::vector<double>x1, std::vector<double>x2, int n) {
+inline double StepFunction(double x, std::vector<double> x1,
+		std::vector<double> x2, int n) {
 	double ret_val;
 	int pos;
 
 	if (x < x1[0]) {
 		ret_val = x2[0];
-	}
-	else if (x > x1[n - 1]) {
+	} else if (x > x1[n - 1]) {
 		ret_val = x2[n - 1];
-	}
-	else {
+	} else {
 		pos = 0;
 		while (x > x1[pos + 1]) {
 			pos++;
@@ -1900,55 +1990,54 @@ inline double StepFunction(double x, std::vector<double>x1, std::vector<double>x
 		ret_val = x2[pos];
 	}
 	return ret_val;
-};
+}
+;
 
-inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa_fila, double *Mapa_col,
-	double **Mapa, int dimension_x, int dimension_y) {
+inline double Interpolacion_bidimensional(double xref, double yref,
+		double *Mapa_fila, double *Mapa_col, double **Mapa, int dimension_x,
+		int dimension_y) {
 	int y1, y2, x1, x2;
 	double Valor_mapa_fila_yref_columna_x1, Valor_mapa_fila_yref_columna_x2,
-	Valor_mapa_fila_yref_columna_xref;
+			Valor_mapa_fila_yref_columna_xref;
 	int contador_col = 0, contador_fila = 0;
 
 	if (yref < Mapa_fila[0]) {
 
 		if (xref < Mapa_col[0]) {
 			Valor_mapa_fila_yref_columna_xref = Mapa[0][0];
-		}
-		else if (xref >= Mapa_col[dimension_x - 1]) {
+		} else if (xref >= Mapa_col[dimension_x - 1]) {
 			Valor_mapa_fila_yref_columna_xref = Mapa[0][dimension_x - 1];
-		}
-		else {
+		} else {
 			while (Mapa_col[contador_col] <= xref) {
 				x1 = contador_col;
 				x2 = contador_col + 1;
 				contador_col++;
 			}
-			Valor_mapa_fila_yref_columna_xref = Mapa[0][x1] + (Mapa[0][x1] - Mapa[0][x2]) *
-				(Mapa_col[x1] - xref) / (Mapa_col[x1] - Mapa_col[x2]);
+			Valor_mapa_fila_yref_columna_xref = Mapa[0][x1]
+					+ (Mapa[0][x1] - Mapa[0][x2]) * (Mapa_col[x1] - xref)
+							/ (Mapa_col[x1] - Mapa_col[x2]);
 		}
 
-	}
-	else if (yref >= Mapa_fila[dimension_y - 1]) {
+	} else if (yref >= Mapa_fila[dimension_y - 1]) {
 
 		if (xref < Mapa_col[0]) {
 			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][0];
-		}
-		else if (xref >= Mapa_col[dimension_x - 1]) {
-			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][dimension_x - 1];
-		}
-		else {
+		} else if (xref >= Mapa_col[dimension_x - 1]) {
+			Valor_mapa_fila_yref_columna_xref =
+					Mapa[dimension_y - 1][dimension_x - 1];
+		} else {
 			while (Mapa_col[contador_col] <= xref) {
 				x1 = contador_col;
 				x2 = contador_col + 1;
 				contador_col++;
 			}
-			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][x1] -
-				(Mapa[dimension_y - 1][x1] - Mapa[dimension_y - 1][x2]) * (Mapa_col[x1] - xref) /
-				(Mapa_col[x1] - Mapa_col[x2]);
+			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][x1]
+					- (Mapa[dimension_y - 1][x1] - Mapa[dimension_y - 1][x2])
+							* (Mapa_col[x1] - xref)
+							/ (Mapa_col[x1] - Mapa_col[x2]);
 		}
 
-	}
-	else {
+	} else {
 
 		while (Mapa_fila[contador_fila] <= yref) {
 			y1 = contador_fila;
@@ -1956,44 +2045,48 @@ inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa
 			contador_fila++;
 		}
 		if (xref < Mapa_col[0]) {
-			Valor_mapa_fila_yref_columna_xref = Mapa[y1][0] - (Mapa[y1][0] - Mapa[y2][0]) *
-				(Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
-		}
-		else if (xref >= Mapa_col[dimension_x - 1]) {
-			Valor_mapa_fila_yref_columna_xref = Mapa[y1][dimension_x - 1] -
-				(Mapa[y1][dimension_x - 1] - Mapa[y2][dimension_x - 1]) * (Mapa_fila[y1] - yref) /
-				(Mapa_fila[y1] - Mapa_fila[y2]);
-		}
-		else {
+			Valor_mapa_fila_yref_columna_xref = Mapa[y1][0]
+					- (Mapa[y1][0] - Mapa[y2][0]) * (Mapa_fila[y1] - yref)
+							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+		} else if (xref >= Mapa_col[dimension_x - 1]) {
+			Valor_mapa_fila_yref_columna_xref = Mapa[y1][dimension_x - 1]
+					- (Mapa[y1][dimension_x - 1] - Mapa[y2][dimension_x - 1])
+							* (Mapa_fila[y1] - yref)
+							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+		} else {
 			while (Mapa_col[contador_col] <= xref) {
 				x1 = contador_col;
 				x2 = contador_col + 1;
 				contador_col++;
 			}
 			/* Se interpolan los valores entre las dos columnas */
-			Valor_mapa_fila_yref_columna_x1 = Mapa[y1][x1] - (Mapa[y1][x1] - Mapa[y2][x1]) *
-				(Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
-			Valor_mapa_fila_yref_columna_x2 = Mapa[y1][x2] - (Mapa[y1][x2] - Mapa[y2][x2]) *
-				(Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
+			Valor_mapa_fila_yref_columna_x1 = Mapa[y1][x1]
+					- (Mapa[y1][x1] - Mapa[y2][x1]) * (Mapa_fila[y1] - yref)
+							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+			Valor_mapa_fila_yref_columna_x2 = Mapa[y1][x2]
+					- (Mapa[y1][x2] - Mapa[y2][x2]) * (Mapa_fila[y1] - yref)
+							/ (Mapa_fila[y1] - Mapa_fila[y2]);
 
 			/* A continuacion se interpola el valor entre las filas del mapa, para obtener el (valor en xref,yref) */
-			Valor_mapa_fila_yref_columna_xref = Valor_mapa_fila_yref_columna_x1 -
-				(Valor_mapa_fila_yref_columna_x1 - Valor_mapa_fila_yref_columna_x2) *
-				(Mapa_col[x1] - xref) / (Mapa_col[x1] - Mapa_col[x2]);
+			Valor_mapa_fila_yref_columna_xref = Valor_mapa_fila_yref_columna_x1
+					- (Valor_mapa_fila_yref_columna_x1
+							- Valor_mapa_fila_yref_columna_x2)
+							* (Mapa_col[x1] - xref)
+							/ (Mapa_col[x1] - Mapa_col[x2]);
 		}
 
 	}
 
 	return Valor_mapa_fila_yref_columna_xref;
-};
-
+}
+;
 
 inline void Hermite(int n, double *x, double *y, double *sol) {
 	double DeltaK, AlphaK, BetaK, TauK;
 
 	for (int i = 1; i < n - 1; ++i) {
-		sol[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1]) + (y[i + 1] - y[i]) / 2. /
-			(x[i + 1] - x[i]);
+		sol[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1])
+				+ (y[i + 1] - y[i]) / 2. / (x[i + 1] - x[i]);
 	}
 	sol[0] = (y[1] - y[0]) / (x[1] - x[0]);
 	sol[n - 1] = (y[n - 1] - y[n - 2]) / (x[n - 1] - x[n - 2]);
@@ -2003,8 +2096,7 @@ inline void Hermite(int n, double *x, double *y, double *sol) {
 		if (DeltaK == 0) {
 			sol[i] = 0;
 			sol[i + 1] = 0;
-		}
-		else {
+		} else {
 			AlphaK = sol[i] / DeltaK;
 			BetaK = sol[i + 1] / DeltaK;
 			if (BetaK * BetaK + AlphaK * AlphaK > 9) {
@@ -2014,14 +2106,16 @@ inline void Hermite(int n, double *x, double *y, double *sol) {
 			}
 		}
 	}
-};
+}
+;
 
-inline void Hermite(int n, std::vector<double>x, std::vector<double>y, std::vector<double> *sol) {
+inline void Hermite(int n, std::vector<double> x, std::vector<double> y,
+		std::vector<double> *sol) {
 	double DeltaK, AlphaK, BetaK, TauK;
 
 	for (int i = 1; i < n - 1; ++i) {
-		(*sol)[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1]) + (y[i + 1] - y[i]) / 2. /
-			(x[i + 1] - x[i]);
+		(*sol)[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1])
+				+ (y[i + 1] - y[i]) / 2. / (x[i + 1] - x[i]);
 	}
 	(*sol)[0] = (y[1] - y[0]) / (x[1] - x[0]);
 	(*sol)[n - 1] = (y[n - 1] - y[n - 2]) / (x[n - 1] - x[n - 2]);
@@ -2031,8 +2125,7 @@ inline void Hermite(int n, std::vector<double>x, std::vector<double>y, std::vect
 		if (DeltaK == 0) {
 			(*sol)[i] = 0;
 			(*sol)[i + 1] = 0;
-		}
-		else {
+		} else {
 			AlphaK = (*sol)[i] / DeltaK;
 			BetaK = (*sol)[i + 1] / DeltaK;
 			if (BetaK * BetaK + AlphaK * AlphaK > 9) {
@@ -2042,19 +2135,19 @@ inline void Hermite(int n, std::vector<double>x, std::vector<double>y, std::vect
 			}
 		}
 	}
-};
+}
+;
 
-inline double EvaluaHermite(double punto, int n, double *x, double *y, double *sol) {
+inline double EvaluaHermite(double punto, int n, double *x, double *y,
+		double *sol) {
 	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
 	int k = 0;
 
 	if (punto <= x[0]) {
 		ret_val = y[0];
-	}
-	else if (punto >= x[n - 1]) {
+	} else if (punto >= x[n - 1]) {
 		ret_val = y[n - 1];
-	}
-	else {
+	} else {
 		while (x[k] < punto && k < n - 1) {
 			++k;
 		}
@@ -2066,24 +2159,24 @@ inline double EvaluaHermite(double punto, int n, double *x, double *y, double *s
 		h10 = t3 - 2 * t2 + t;
 		h01 = -2 * t3 + 3 * t2;
 		h11 = t3 - t2;
-		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k] + h * h11 * sol[k];
+		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k]
+				+ h * h11 * sol[k];
 	}
 
 	return ret_val;
-};
+}
+;
 
-inline double EvaluaHermite(double punto, int n, std::vector<double>x, std::vector<double>y,
-	std::vector<double>sol) {
+inline double EvaluaHermite(double punto, int n, std::vector<double> x,
+		std::vector<double> y, std::vector<double> sol) {
 	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
 	int k = 0;
 
 	if (punto <= x[0]) {
 		ret_val = y[0];
-	}
-	else if (punto >= x[n - 1]) {
+	} else if (punto >= x[n - 1]) {
 		ret_val = y[n - 1];
-	}
-	else {
+	} else {
 		while (x[k] < punto && k < n - 1) {
 			++k;
 		}
@@ -2095,16 +2188,18 @@ inline double EvaluaHermite(double punto, int n, std::vector<double>x, std::vect
 		h10 = t3 - 2 * t2 + t;
 		h01 = -2 * t3 + 3 * t2;
 		h11 = t3 - t2;
-		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k] + h * h11 * sol[k];
+		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k]
+				+ h * h11 * sol[k];
 	}
 
 	return ret_val;
-};
+}
+;
 
 inline void GetName(char *origin, char *destination, const char *add) {
 
-	int contpunto = (int)strlen(origin);
-	for (int i = (int)strlen(origin) - 1; i >= 0; i--) {
+	int contpunto = (int) strlen(origin);
+	for (int i = (int) strlen(origin) - 1; i >= 0; i--) {
 		if (origin[i] == '.') {
 			contpunto = i;
 			break;
@@ -2116,17 +2211,19 @@ inline void GetName(char *origin, char *destination, const char *add) {
 	destination[contpunto] = '\0';
 
 	strcat(destination, add);
-};
+}
+;
 
 inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 	double Machx = v / a;
 	double g3 = (g - 1) / 2;
-	double Machy = Machx / fabs(Machx) * sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx,
-				2) - 1.));
+	double Machy = Machx / fabs(Machx)
+			* sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx, 2) - 1.));
 	a = a * sqrt((g3 * Machx * Machx + 1.) / (g3 * Machy * Machy + 1.));
 
 	v = a * Machy;
-};
+}
+;
 
 // int _matherr(struct _exception *a) {
 //	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
@@ -2137,53 +2234,44 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 //	return 0;
 // }
 
-inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, bool Fuel,
-	nmTipoCalculoEspecies SpeciesModel) {
+inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR,
+		bool Fuel, nmTipoCalculoEspecies SpeciesModel) {
 	double fracciontotal;
 
 	if (SpeciesModel == nmCalculoCompleto) {
-		for (xml_node Specie = node_comp.child("Specie"); Specie;
-			Specie = Specie.next_sibling("Specie")) {
+		for (xml_node Specie = node_comp.child("Specie"); Specie; Specie =
+				Specie.next_sibling("Specie")) {
 			if (Specie.attribute("Name").value() == "O2") {
 				Comp[0] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[0];
-			}
-			else if (Specie.attribute("Name").value() == "CO2") {
+			} else if (Specie.attribute("Name").value() == "CO2") {
 				Comp[1] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[1];
-			}
-			else if (Specie.attribute("Name").value() == "H2O") {
+			} else if (Specie.attribute("Name").value() == "H2O") {
 				Comp[2] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[2];
-			}
-			else if (Specie.attribute("Name").value() == "HC") {
+			} else if (Specie.attribute("Name").value() == "HC") {
 				Comp[3] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[3];
-			}
-			else if (Specie.attribute("Name").value() == "Soot") {
+			} else if (Specie.attribute("Name").value() == "Soot") {
 				Comp[4] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[4];
-			}
-			else if (Specie.attribute("Name").value() == "NOx") {
+			} else if (Specie.attribute("Name").value() == "NOx") {
 				Comp[5] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[5];
-			}
-			else if (Specie.attribute("Name").value() == "CO") {
+			} else if (Specie.attribute("Name").value() == "CO") {
 				Comp[6] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[6];
-			}
-			else if (Specie.attribute("Name").value() == "Fuel") {
+			} else if (Specie.attribute("Name").value() == "Fuel") {
 				if (Fuel) {
 					Comp[7] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[7];
 				}
-			}
-			else if (Specie.attribute("Name").value() == "N2")
+			} else if (Specie.attribute("Name").value() == "N2")
 				if (Fuel) {
 					Comp[8] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[8];
-				}
-				else {
+				} else {
 					Comp[7] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[7];
 				}
@@ -2192,27 +2280,23 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, boo
 					if (Fuel) {
 						Comp[9] = GetAttributeAsDouble(Specie, "Value");
 						fracciontotal += Comp[9];
-					}
-					else {
+					} else {
 						Comp[8] = GetAttributeAsDouble(Specie, "Value");
 						fracciontotal += Comp[8];
 					}
 
 		}
-	}
-	else {
-		for (xml_node Specie = node_comp.child("Specie"); Specie;
-			Specie = Specie.next_sibling("Specie")) {
+	} else {
+		for (xml_node Specie = node_comp.child("Specie"); Specie; Specie =
+				Specie.next_sibling("Specie")) {
 			if (Specie.attribute("Name").value() == "Gas") {
 				Comp[0] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[0];
-			}
-			else if (Specie.attribute("Name").value() == "Air")
+			} else if (Specie.attribute("Name").value() == "Air")
 				if (Fuel) {
 					Comp[2] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[2];
-				}
-				else {
+				} else {
 					Comp[1] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[1];
 				}
@@ -2221,14 +2305,12 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, boo
 					Comp[1] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[1];
 				}
-			}
-			else if (Specie.attribute("Name").value() == "EGR")
+			} else if (Specie.attribute("Name").value() == "EGR")
 				if (EGR)
 					if (Fuel) {
 						Comp[3] = GetAttributeAsDouble(Specie, "Value");
 						fracciontotal += Comp[3];
-					}
-					else {
+					} else {
 						Comp[2] = GetAttributeAsDouble(Specie, "Value");
 						fracciontotal += Comp[2];
 					}
@@ -2237,17 +2319,17 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR, boo
 	}
 
 	if (fracciontotal != 1.) {
-		std::cout << "ERROR: The total mass fraction must be equal to 1. Check your input data " <<
-			std::endl;
+		std::cout
+				<< "ERROR: The total mass fraction must be equal to 1. Check your input data "
+				<< std::endl;
 		throw Exception(" ");
 	}
 
 }
 
-
-
 #ifndef __BORLANDC__
-class TObject {};
+class TObject {
+};
 #endif
 
 #endif

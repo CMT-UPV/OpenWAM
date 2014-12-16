@@ -26,7 +26,6 @@
  \*--------------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TEstatorTurbina.h"
@@ -70,12 +69,10 @@ TEstatorTurbina::TEstatorTurbina(TEstatorTurbina *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
-	bool HayMotor,TBloqueMotor *Engine)
-{
-try
-{
-int tpstator;
+void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
+		int norden, bool HayMotor, TBloqueMotor *Engine) {
+	try {
+		int tpstator;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

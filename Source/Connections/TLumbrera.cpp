@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TLumbrera.h"
@@ -34,7 +33,8 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-TLumbrera::TLumbrera(double Biela, double Carrera) : TTipoValvula(nmLumbrera2T) {
+TLumbrera::TLumbrera(double Biela, double Carrera) :
+		TTipoValvula(nmLumbrera2T) {
 
 	FBiela = Biela;
 	FCarrera = Carrera;
@@ -53,7 +53,8 @@ TLumbrera::~TLumbrera() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TLumbrera::TLumbrera(TLumbrera *Origen, int Valvula) : TTipoValvula(nmLumbrera2T) {
+TLumbrera::TLumbrera(TLumbrera *Origen, int Valvula) :
+		TTipoValvula(nmLumbrera2T) {
 
 	FValvula = Valvula;
 	FAltura = Origen->FAltura;
@@ -90,19 +91,17 @@ TLumbrera::TLumbrera(TLumbrera *Origen, int Valvula) : TTipoValvula(nmLumbrera2T
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TLumbrera::LeeDatosIniciales(const char *FileWAM,fpos_t &filepos,int norden,
-	bool HayMotor,TBloqueMotor *Engine)
-{
-try
-{
+void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
+		int norden, bool HayMotor, TBloqueMotor *Engine) {
+	try {
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
 		FNumeroOrden = norden;
 
-		fscanf(fich, "%lf %lf %lf %lf %lf %lf ", &FAltura, &FAnchura, &FRadioSup, &FRadioInf,
-			&FPosicionPMI, &FDiametroRef);
+		fscanf(fich, "%lf %lf %lf %lf %lf %lf ", &FAltura, &FAnchura,
+				&FRadioSup, &FRadioInf, &FPosicionPMI, &FDiametroRef);
 		fscanf(fich, "%d ", &FNumCD);
 
 		FApertura.resize(FNumCD);
@@ -119,14 +118,12 @@ try
 			fscanf(fich, "%lf ", &FDatosCDSalida[j]);
 		}
 
-CalculateOpeningANDClose();
+		CalculateOpeningANDClose();
 
-fgetpos(fich, &filepos);
-fclose(fich);
+		fgetpos(fich, &filepos);
+		fclose(fich);
 
-
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Lumbrera" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -137,8 +134,8 @@ fclose(fich);
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden,
+		bool HayMotor, TBloqueMotor *Engine) {
 	try {
 
 		FNumeroOrden = norden;
@@ -159,15 +156,15 @@ void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMo
 		FDatosCDSalida.resize(FNumCD);
 
 		int j = 0;
-		for (xml_node node_flowc = GetNodeChild(node_2sport, "P2s:FlowCoef"); node_flowc;
-			node_flowc = node_flowc.next_sibling("P2s:FlowCoef")) {
-			FApertura[j]=GetXMLLength(node_flowc, "Opening");
-			FDatosCDEntrada[j]=GetAttributeAsDouble(node_flowc, "DCin");
-			FDatosCDSalida[j]=GetAttributeAsDouble(node_flowc, "DCout");
+		for (xml_node node_flowc = GetNodeChild(node_2sport, "P2s:FlowCoef");
+				node_flowc;
+				node_flowc = node_flowc.next_sibling("P2s:FlowCoef")) {
+			FApertura[j] = GetXMLLength(node_flowc, "Opening");
+			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flowc, "DCin");
+			FDatosCDSalida[j] = GetAttributeAsDouble(node_flowc, "DCout");
 			j++;
 		}
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Lumbrera" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
@@ -186,8 +183,7 @@ void TLumbrera::CalculaCD(double Angulo) {
 		FApertActual = 0.;
 		FCDTubVol = 0.;
 		FCDVolTub = 0.;
-	}
-	else {
+	} else {
 		FCDTubVol = fun_CDin->interp(FApertActual);
 		FCDVolTub = fun_CDout->interp(FApertActual);
 	}
@@ -202,8 +198,7 @@ void TLumbrera::GetCDin(double Time) {
 	if (FApertActual <= 0) {
 		FApertActual = 0.;
 		FCDTubVol = 0.;
-	}
-	else {
+	} else {
 		FCDTubVol = fun_CDin->interp(FApertActual);
 	}
 }
@@ -217,8 +212,7 @@ void TLumbrera::GetCDout(double Time) {
 	if (FApertActual <= 0) {
 		FApertActual = 0.;
 		FCDVolTub = 0.;
-	}
-	else {
+	} else {
 		FCDVolTub = fun_CDout->interp(FApertActual);
 	}
 }
@@ -229,28 +223,29 @@ void TLumbrera::GetCDout(double Time) {
 inline double TLumbrera::CalculaDistPMI(double x) {
 
 	double c = (x * Pi / 180.);
-	return FCarrera - (FBiela + FCarrera * (1. - cos(c)) / 2. - sqrt
-		(pow2(FBiela) - pow2(FCarrera * sin(c) / 2.)));
+	return FCarrera
+			- (FBiela + FCarrera * (1. - cos(c)) / 2.
+					- sqrt(pow2(FBiela) - pow2(FCarrera * sin(c) / 2.)));
 }
 
 inline double TLumbrera::CalculaApertura(double x) {
 	return FAltura + FPosicionPMI - CalculaDistPMI(x);
 }
 
-void TLumbrera::CalculateOpeningANDClose(){
+void TLumbrera::CalculateOpeningANDClose() {
 	bool ang_found = false;
 	double ang0 = 0.;
 	double ang1 = 180.;
-	double apt0 = FAltura+FPosicionPMI-CalculaDistPMI(ang0);
-	double apt1 = FAltura+FPosicionPMI-CalculaDistPMI(ang1);
-	double ang,apt;
-	while(ang1-ang0 > 0.01){
+	double apt0 = FAltura + FPosicionPMI - CalculaDistPMI(ang0);
+	double apt1 = FAltura + FPosicionPMI - CalculaDistPMI(ang1);
+	double ang, apt;
+	while (ang1 - ang0 > 0.01) {
 		ang = (ang1 + ang0) / 2.;
 		apt = FAltura + FPosicionPMI - CalculaDistPMI(ang);
-		if(apt > 0){
+		if (apt > 0) {
 			ang1 = ang;
 			apt1 = apt;
-		}else{
+		} else {
 			ang0 = ang;
 			apt0 = apt;
 		}
@@ -259,7 +254,5 @@ void TLumbrera::CalculateOpeningANDClose(){
 	FAnguloCierre = 360. - ang;
 
 }
-
-
 
 #pragma package(smart_init)

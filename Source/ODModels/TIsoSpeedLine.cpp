@@ -1,32 +1,31 @@
 /* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TIsoSpeedLine.h"
@@ -45,7 +44,8 @@ TIsoSpeedLine::~TIsoSpeedLine() {
 	delete iStator;
 	delete iRotor;
 	delete iEfficiency;
-};
+}
+;
 
 void TIsoSpeedLine::ReadIsoSpeed(int points, FILE *Input) {
 	double ER, MF, EF;
@@ -65,11 +65,11 @@ void TIsoSpeedLine::AsignaValores(double ER, double MF, double EF) {
 }
 
 void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
-	double Diam1, double Diam2, double Diam3, double n_limit) {
+		double Diam1, double Diam2, double Diam3, double n_limit) {
 	double tmp1, tmp2;
 	double FGamma = 1.40, FR = 287;
 	double T00_T0, P00_P0, P2_P0, T2_T0, f_P2_P0, GR, nN, n, P2_P00, T2_T00,
-	T1_T0, gG, g, kK, k, P1_P0, P00_P1, P1_P2, raiZ;
+			T1_T0, gG, g, kK, k, P1_P0, P00_P1, P1_P2, raiZ;
 
 	FNumDatos = FReducedAirMassFlow.size();
 
@@ -79,67 +79,81 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 		tmp2 = 1;
 		do {
 			tmp1 = tmp2;
-			tmp2 = 1 + ((FGamma - 1) / 2) * (FR / FGamma) *
-			(pow2(FReducedAirMassFlow[i] / 1000000) / pow2(Area)) * pow
-			((tmp1), ((FGamma + 1) / (FGamma - 1)));
-		}
-		while (fabs(tmp1 - tmp2) / tmp1 > 1e-12);
+			tmp2 = 1
+					+ ((FGamma - 1) / 2) * (FR / FGamma)
+							* (pow2(FReducedAirMassFlow[i] / 1000000)
+									/ pow2(Area))
+							* pow((tmp1), ((FGamma + 1) / (FGamma - 1)));
+		} while (fabs(tmp1 - tmp2) / tmp1 > 1e-12);
 		T00_T0 = tmp2;
 		P00_P0 = pow(T00_T0, FGamma / (FGamma - 1));
 		P2_P0 = (1 / FExpansionRatio[i]) * pow(T00_T0, (FGamma / (FGamma - 1)));
-		T2_T0 = 1 - (FEfficiency[i]) * (1 - pow((1 / FExpansionRatio[i]),
-				((FGamma - 1) / FGamma))) * T00_T0;
-		f_P2_P0 = FExpansionRatio[i] *
-		(1 / T00_T0 - FEfficiency[i] * (1 - pow((1 / FExpansionRatio[i]),
-					((FGamma - 1) / FGamma))));
+		T2_T0 = 1
+				- (FEfficiency[i])
+						* (1
+								- pow((1 / FExpansionRatio[i]),
+										((FGamma - 1) / FGamma))) * T00_T0;
+		f_P2_P0 = FExpansionRatio[i]
+				* (1 / T00_T0
+						- FEfficiency[i]
+								* (1
+										- pow((1 / FExpansionRatio[i]),
+												((FGamma - 1) / FGamma))));
 		if (CalculaGR) {
-			GR = 1 - (((2 * FR * tan(Angle * 2 * Pi / 360)) /
-					(Diam1 * pow2(Diam2) * pow2(Pi))) *
-				((FReducedAirMassFlow[i] / 1000000) / FSpeed) * f_P2_P0);
+			GR = 1
+					- (((2 * FR * tan(Angle * 2 * Pi / 360))
+							/ (Diam1 * pow2(Diam2) * pow2(Pi)))
+							* ((FReducedAirMassFlow[i] / 1000000) / FSpeed)
+							* f_P2_P0);
 			// new code --> if the reaction degree is lower than 0.4 then force it to 0.4 value instead of calculating lower values or even negative values
 			if (GR < 0.5) {
 				GR = 0.5;
 			}
-		}
-		else {
+		} else {
 			GR = 0.5;
 		}
 		nN = log(P2_P0) / log(T2_T0);
 		n = nN / (nN - 1);
 		P2_P00 = P2_P0 / P00_P0;
 		T2_T00 = T2_T0 / T00_T0;
-		T1_T0 = 1 + T00_T0 * (GR - 1) * FEfficiency[i] *
-		(1 - pow(P2_P00, (FGamma - 1) / FGamma));
+		T1_T0 = 1
+				+ T00_T0 * (GR - 1) * FEfficiency[i]
+						* (1 - pow(P2_P00, (FGamma - 1) / FGamma));
 		if (n > n_limit) {
-			gG = ((FGamma / (FGamma - 1)) - nN * (log(T2_T00) + log(T00_T0))
-				/ log(T1_T0)) / (1 - (log(T2_T00) + log(T00_T0)) / log(T1_T0));
-			g = (n / (n - n_limit) + (gG / (gG - 1)) / (FGamma - n)) /
-			(1 / (n - n_limit) + 1 / (FGamma - n));
-		}
-		else {
+			gG = ((FGamma / (FGamma - 1))
+					- nN * (log(T2_T00) + log(T00_T0)) / log(T1_T0))
+					/ (1 - (log(T2_T00) + log(T00_T0)) / log(T1_T0));
+			g = (n / (n - n_limit) + (gG / (gG - 1)) / (FGamma - n))
+					/ (1 / (n - n_limit) + 1 / (FGamma - n));
+		} else {
 			gG = 0.;
-			g = (FGamma / (n - 1) + n / (n_limit - n)) /
-			(1 / (n - 1) + 1 / (n_limit - n));
+			g = (FGamma / (n - 1) + n / (n_limit - n))
+					/ (1 / (n - 1) + 1 / (n_limit - n));
 		}
-		kK = (g / (g - 1)) + (nN - (g / (g - 1))) * (log(T2_T00) + log(T00_T0))
-		/ log(T1_T0);
+		kK = (g / (g - 1))
+				+ (nN - (g / (g - 1))) * (log(T2_T00) + log(T00_T0))
+						/ log(T1_T0);
 		k = kK / (kK - 1);
-		P1_P0 = pow(1 + T00_T0 * (GR - 1) * FEfficiency[i] * (1 - pow(P2_P00,
-					((FGamma - 1) / FGamma))), kK);
+		P1_P0 = pow(
+				1
+						+ T00_T0 * (GR - 1) * FEfficiency[i]
+								* (1 - pow(P2_P00, ((FGamma - 1) / FGamma))),
+				kK);
 		P00_P1 = P00_P0 / P1_P0;
 		P1_P2 = P1_P0 / P2_P0;
-		raiZ = (2 / (FGamma - 1)) * (1 - pow(1 / P00_P1,
-				((FGamma - 1) / FGamma)));
+		raiZ = (2 / (FGamma - 1))
+				* (1 - pow(1 / P00_P1, ((FGamma - 1) / FGamma)));
 		if (raiZ < 0)
 			raiZ = 0;
 		else
 			raiZ = sqrt(raiZ);
 		// raiZ = sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P00_P1 , ((FGamma - 1) / FGamma))));
-		StatorEffectiveSection.push_back(FReducedAirMassFlow[i] * 1e-6 * pow
-			(P00_P1, (1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ);
+		StatorEffectiveSection.push_back(
+				FReducedAirMassFlow[i] * 1e-6 * pow(P00_P1, (1 / FGamma))
+						* (sqrt(FR / FGamma)) / raiZ);
 		// raiZ = sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P1_P2 , ((FGamma - 1) / FGamma))));
-		raiZ = (2 / (FGamma - 1)) * (1 - pow(1 / P1_P2, ((FGamma - 1) / FGamma))
-			);
+		raiZ = (2 / (FGamma - 1))
+				* (1 - pow(1 / P1_P2, ((FGamma - 1) / FGamma)));
 		if (raiZ < 0)
 			raiZ = 0;
 		else
@@ -148,9 +162,10 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 //			(FReducedAirMassFlow[i] * 1e-6 * P00_P1 * pow(P1_P2,
 //				(1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ * sqrt
 //			((1 / T1_T0) - (T00_T0 / T1_T0) + (T2_T00 * T1_T0 / T00_T0)));
-		RotorEffectiveSection.push_back
-			(FReducedAirMassFlow[i] * 1e-6 * P00_P1 * pow(P1_P2,
-				(1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ);
+		RotorEffectiveSection.push_back(
+				FReducedAirMassFlow[i] * 1e-6 * P00_P1
+						* pow(P1_P2, (1 / FGamma)) * (sqrt(FR / FGamma))
+						/ raiZ);
 	}
 }
 
@@ -161,9 +176,10 @@ void TIsoSpeedLine::CalculatePower(double Tin) {
 	double gamma = Cp / (Cp - R);
 	double gam = (1 - gamma) / gamma;
 	for (int i = 0; i < FNumDatos; i++) {
-		FPower.push_back(FReducedAirMassFlow[i] * Cp * FEfficiency[i] * sqrt
-			(Tin) * FExpansionRatio[i] / 10 * (1 - pow(FExpansionRatio[i],
-					gam)));
+		FPower.push_back(
+				FReducedAirMassFlow[i] * Cp * FEfficiency[i] * sqrt(Tin)
+						* FExpansionRatio[i] / 10
+						* (1 - pow(FExpansionRatio[i], gam)));
 		// printf("%4.2lf\t", FPower[i]);
 	}
 	FPowerMin = FPower.front();
@@ -180,8 +196,8 @@ void TIsoSpeedLine::Adimensionaliza() {
 	double m, Rtc;
 
 	for (int i = 0; i < FNumDatos; ++i) {
-		FExpansionRatioAdim.push_back
-			((FExpansionRatio[i] - FExpansionRatio.front()) / DeltaPreMax);
+		FExpansionRatioAdim.push_back(
+				(FExpansionRatio[i] - FExpansionRatio.front()) / DeltaPreMax);
 
 	}
 	FERMin = FExpansionRatio.front();
@@ -196,20 +212,20 @@ void TIsoSpeedLine::Adimensionaliza() {
 }
 
 void TIsoSpeedLine::GetAdiabaticEfficiency(TTC_HTM *HTM, double TinT,
-	double TinC) {
+		double TinC) {
 
 #ifdef tchtm
 	double m, Rtc;
 
-	for (int i = 0; i < FNumDatos; ++i) {
-		m = FReducedAirMassFlow[i] / sqrt(TinT) * FExpansionRatio[i] / 10;
-		Rtc = FSpeed * 60 * sqrt(TinT);
-		FEfficiency[i] = HTM->CorrectTurbineMap(m, FExpansionRatio[i],
-			FEfficiency[i], TinC, TinT, Rtc);
+	for ( int i = 0; i < FNumDatos; ++i ) {
+		m = FReducedAirMassFlow[i] / sqrt ( TinT ) * FExpansionRatio[i] / 10;
+		Rtc = FSpeed * 60 * sqrt ( TinT );
+		FEfficiency[i] = HTM->CorrectTurbineMap ( m, FExpansionRatio[i],
+				FEfficiency[i], TinC, TinT, Rtc );
 	}
-	if (iEfficiency != NULL)
-		delete iEfficiency;
-	iEfficiency = new Hermite_interp(FExpansionRatioAdim, FEfficiency);
+	if ( iEfficiency != NULL )
+	delete iEfficiency;
+	iEfficiency = new Hermite_interp ( FExpansionRatioAdim, FEfficiency );
 #endif
 }
 
@@ -234,9 +250,9 @@ double TIsoSpeedLine::Efficiency(double ERAdim) {
 void TIsoSpeedLine::PrintEffectiveSection(FILE * fich) {
 	for (dVector::size_type i = 0; i < FExpansionRatio.size(); i++) {
 		fprintf(fich, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n", FSpeed,
-			FExpansionRatio[i], FReducedAirMassFlow[i], FEfficiency[i],
-			FExpansionRatioAdim[i], StatorEffectiveSection[i],
-			RotorEffectiveSection[i]);
+				FExpansionRatio[i], FReducedAirMassFlow[i], FEfficiency[i],
+				FExpansionRatioAdim[i], StatorEffectiveSection[i],
+				RotorEffectiveSection[i]);
 	}
 }
 

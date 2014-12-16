@@ -1,11 +1,11 @@
 /**
  * @file Exception.cpp
  * @author Luis Miguel Garcia-Cuevas Gonzalez <luiga12@mot.upv.es>
- * 
+ *
  * @section LICENSE
- * 
+ *
  * This file is part of OpenWAM.
- * 
+ *
  * OpenWAM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +18,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @section DESCRIPTION
  * This file contains the definition of a the Exception class.
  */
@@ -27,19 +27,15 @@
 
 using namespace std;
 
-
-Exception::Exception(const string& __arg)
-{
-    msg = __arg;
-    Message = msg;
+Exception::Exception(const string& __arg) {
+	msg = __arg;
+	Message = msg;
 }
 
+Exception::~Exception() {
+}
 
-Exception::~Exception() {}
-
-
-const char* Exception::what()
-{
-    return msg.c_str();
+const char* Exception::what() {
+	return msg.c_str();
 }
 

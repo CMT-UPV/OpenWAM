@@ -6,14 +6,13 @@
 #include <vector>
 #include <cstdio>
 
-
 #include "TCompressorMap.h"
 
 // ---------------------------------------------------------------------------
 
-class TSAEMap : public TCompressorMap {
+class TSAEMap: public TCompressorMap {
 private:
-	int FNumeroCompresor;              //Numero del compresor al que pertenece el mapa.
+	int FNumeroCompresor;       //Numero del compresor al que pertenece el mapa.
 
 	double FTempRef;
 	double FPresionRef;
@@ -47,8 +46,8 @@ private:
 	dMatrix FEff;
 	dMatrix FEffAdim;
 	Base_interp* FEffMAX_int;
-	std::vector<double>FEffMAX;
-	std::vector<double>FEffMAXAdim;
+	std::vector<double> FEffMAX;
+	std::vector<double> FEffMAXAdim;
 	double FEffMAXMAX;
 
 	dMatrix FCoefCR;
@@ -79,7 +78,10 @@ public:
 
 	double GetCurrentRC(double Mass);
 
-	double getMaxCompRatio(){return FCurrentPresMAX;};
+	double getMaxCompRatio() {
+		return FCurrentPresMAX;
+	}
+	;
 
 	double GetCurrentEff(double Mass);
 
@@ -93,26 +95,34 @@ public:
 
 	double EvaluaRendSplines(double mass);
 
-	double getTempRef(){return FTempRef;};
+	double getTempRef() {
+		return FTempRef;
+	}
+	;
 
-	double getPresionRef(){return FPresionRef;};
+	double getPresionRef() {
+		return FPresionRef;
+	}
+	;
 
-	double getTempMeasure(){return FTempMeasure;};
+	double getTempMeasure() {
+		return FTempMeasure;
+	}
+	;
 
 	double getGastoRelComp1();
 
 	double getRelCompBombeo();
 
-	void InterpolaMapa(double rtc,double T10);
+	void InterpolaMapa(double rtc, double T10);
 
 	double getGastoBombeo();
 
 	double getRegimenCorregido();
 
-	void PutReference(double pref,double tref);
+	void PutReference(double pref, double tref);
 
 	void CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT);
-
 
 };
 

@@ -1,32 +1,31 @@
-﻿/* --------------------------------------------------------------------------------*\
+/* --------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
-\\ |  X  | //  W ave     |
-\\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-\\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\ |  X  | //  W ave     |
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-OpenWAM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-OpenWAM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*-------------------------------------------------------------------------------- */
+ \*-------------------------------------------------------------------------------- */
 
 // ---------------------------------------------------------------------------
-
 #ifndef TCCDescargaExtremoAbiertoH
 #define TCCDescargaExtremoAbiertoH
 
@@ -34,14 +33,14 @@ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 //#include <cmath>
 #ifdef __BORLANDC__
-    #include <vcl.h>
+#include <vcl.h>
 #endif
 #include <cstdio>
 #include <iostream>
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-class TCCDescargaExtremoAbierto : public TCondicionContorno {
+class TCCDescargaExtremoAbierto: public TCondicionContorno {
 private:
 
 	int FNodoFin; // Nodo del extremo del tubo que conecta con la condicion de contorno.
@@ -82,45 +81,53 @@ public:
 			FTemperaturaDep = valor;
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
-				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FCalculoGamma, nmMEP);
-				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-					FComposicion[2], 0, FTemperaturaDep, FCalculoGamma, nmMEP);
-				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
+				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0],
+						FComposicion[1], FComposicion[2], 0, FCalculoGamma,
+						nmMEP);
+				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0],
+						FComposicion[1], FComposicion[2], 0, FTemperaturaDep,
+						FCalculoGamma, nmMEP);
+				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep,
+						FCalculoGamma);
+
+			} else if (FCalculoEspecies == nmCalculoSimple) {
+
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0,
+						FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep,
+						FComposicion[0], 0, FCalculoGamma, nmMEP);
+				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep,
+						FCalculoGamma);
 
 			}
-			else if (FCalculoEspecies == nmCalculoSimple) {
-
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0],0, FCalculoGamma, nmMEP);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0],0,
-					FCalculoGamma, nmMEP);
-				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
-
-			}
-			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / ARef;
-		}
-		catch(Exception & N) {
-			std::cout <<
-				"ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " << FNumeroCC << std::endl;
+			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep)
+					/ ARef;
+		} catch (Exception & N) {
+			std::cout
+					<< "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: "
+					<< FNumeroCC << std::endl;
 			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 			throw Exception(N.Message.c_str());
 		}
 	}
 
 	TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCDescargaExtremoAbierto();
 
 	void CalculaCondicionContorno(double Time);
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
+			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
-	void AsignAmbientConditions(double Tamb, double Pamb, double *AtmosphericComposition);
+	void AsignAmbientConditions(double Tamb, double Pamb,
+			double *AtmosphericComposition);
 
 	void TuboCalculandose(int TuboActual) {
-	};
+	}
+	;
 
 };
 

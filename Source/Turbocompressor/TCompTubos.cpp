@@ -480,15 +480,15 @@ void TCompTubos::LeeCompresorXML(xml_node node_compressor) {
 
 	try {
 
-		xml_node node_comptubos = GetNodeChild(node_compressor,"CompressorPP");
+		xml_node node_comptubos = GetNodeChild(node_compressor, "CompressorPP");
 
-		FTuboRotor = GetAttributeAsInt(node_comptubos,"RotorPipeID");
-		FTuboStator = GetAttributeAsInt(node_comptubos,"StatorPipeID");
+		FTuboRotor = GetAttributeAsInt(node_comptubos, "RotorPipeID");
+		FTuboStator = GetAttributeAsInt(node_comptubos, "StatorPipeID");
 
-		FRadioTip = GetXMLLength(node_comptubos,"TipRadius");
-		FRadioHub = GetXMLLength(node_comptubos,"HubRadius");
-		FRadioRodete = GetXMLLength(node_comptubos,"WheelRadius");
-		FLongitudCaract = GetXMLLength(node_comptubos,"CharacteristicLength");
+		FRadioTip = GetXMLLength(node_comptubos, "TipRadius");
+		FRadioHub = GetXMLLength(node_comptubos, "HubRadius");
+		FRadioRodete = GetXMLLength(node_comptubos, "WheelRadius");
+		FLongitudCaract = GetXMLLength(node_comptubos, "CharacteristicLength");
 
 		Mapa2T->LeeMapaXML(node_compressor);
 

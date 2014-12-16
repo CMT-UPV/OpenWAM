@@ -176,8 +176,8 @@ void TDiscoRotativo::CalculaCD(double AnguloActual) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden,
+		bool HayMotor, TBloqueMotor *Engine) {
 	try {
 
 		FNumeroOrden = norden;
@@ -190,12 +190,13 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden, bool 
 		FShift = GetAttributeAsDouble(node_rotary, "Shift");
 		FDuration = GetAttributeAsDouble(node_rotary, "Duration");
 
-		const char_t* SpeedControl = node_rotary.attribute("SpeedControl").value();
+		const char_t* SpeedControl =
+				node_rotary.attribute("SpeedControl").value();
 		if (SpeedControl == "ByEngine") {
 			FControlRegimen = nmMotor;
-			FRelacionVelocidades = GetAttributeAsDouble(node_rotary, "SpeedRatio");
-		}
-		else if (SpeedControl == "Independent") {
+			FRelacionVelocidades = GetAttributeAsDouble(node_rotary,
+					"SpeedRatio");
+		} else if (SpeedControl == "Independent") {
 			FControlRegimen = nmPropio;
 			FRegimen = GetAttributeAsDouble(node_rotary, "Speed");
 			FRelacionVelocidades = 1;
@@ -207,17 +208,16 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden, bool 
 		FDatosCDEntrada.resize(FNumeroPuntos);
 		FDatosCDSalida.resize(FNumeroPuntos);
 
-		int j=0;
-		for (xml_node node_flow = GetNodeChild(node_rotary, "RtV:FlowCoef"); node_flow;
-			node_flow = node_flow.next_sibling("RtV:FlowCoef")) {
-			FAngulo[j] = GetAttributeAsDouble(node_flow,"Angle");
-			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flow,"DCin");
-			FDatosCDSalida[j] = GetAttributeAsDouble(node_flow,"DCout");
+		int j = 0;
+		for (xml_node node_flow = GetNodeChild(node_rotary, "RtV:FlowCoef");
+				node_flow; node_flow = node_flow.next_sibling("RtV:FlowCoef")) {
+			FAngulo[j] = GetAttributeAsDouble(node_flow, "Angle");
+			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flow, "DCin");
+			FDatosCDSalida[j] = GetAttributeAsDouble(node_flow, "DCout");
 			j++;
 		}
 
-	}
-	catch(Exception & N) {
+	} catch (Exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales DiscoRotativo" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);

@@ -25,11 +25,13 @@
 #include "TLamina.h"
 #include "TDPF.h"
 
-
 // ---------------------------------------------------------------------------
 
 enum nmTypeOfResults {
-	nmLastCyle = 0, nmAllCyclesIndependent = 1, nmAllCyclesConcatenated = 2, nmEveryNCycles = 3
+	nmLastCyle = 0,
+	nmAllCyclesIndependent = 1,
+	nmAllCyclesConcatenated = 2,
+	nmEveryNCycles = 3
 };
 
 class TOutputResults {
@@ -54,42 +56,42 @@ private:
 	double FControlAngle0;
 	double FControlAngle1;
 
-	vector<TTubo*>AvgPipe;
-	vector<TCilindro*>AvgCylinder;
+	vector<TTubo*> AvgPipe;
+	vector<TCilindro*> AvgCylinder;
 	TBloqueMotor* AvgEngine;
-	vector<TDeposito*>AvgPlenum;
-	vector<TEjeTurbogrupo*>AvgAxis;
-	vector<TCompresor*>AvgCompressor;
-	vector<TTurbina*>AvgTurbine;
-	vector<TTipoValvula*>AvgValve;
+	vector<TDeposito*> AvgPlenum;
+	vector<TEjeTurbogrupo*> AvgAxis;
+	vector<TCompresor*> AvgCompressor;
+	vector<TTurbina*> AvgTurbine;
+	vector<TTipoValvula*> AvgValve;
 	iVector AvgValveNode;
-	vector<TCCCompresorVolumetrico*>AvgRoot;
-	vector<TVenturi*>AvgVenturi;
-	vector<TCCUnionEntreDepositos*>AvgConnection;
-	vector<TSensor*>AvgSensor;
-	vector<TController*>AvgController;
-	vector<TDPF*>AvgDPF;
+	vector<TCCCompresorVolumetrico*> AvgRoot;
+	vector<TVenturi*> AvgVenturi;
+	vector<TCCUnionEntreDepositos*> AvgConnection;
+	vector<TSensor*> AvgSensor;
+	vector<TController*> AvgController;
+	vector<TDPF*> AvgDPF;
 
 	stringstream FAvgOutput;
 	fstream FFileAvg;
 	char FAvgFilename[300];
 
-	vector<TCilindro*>InsCylinder;
-	vector<TDeposito*>InsPlenum;
-	vector<TTubo*>InsPipe;
-	vector<TVenturi*>InsVenturi;
-	vector<TTipoValvula*>InsValve;
+	vector<TCilindro*> InsCylinder;
+	vector<TDeposito*> InsPlenum;
+	vector<TTubo*> InsPipe;
+	vector<TVenturi*> InsVenturi;
+	vector<TTipoValvula*> InsValve;
 	iVector InsValveNode;
-	vector<TEjeTurbogrupo*>InsTurbo;
-	vector<TCompresor*>InsCompressor;
-	vector<TTurbina*>InsTurbine;
-	vector<TCCCompresorVolumetrico*>InsRoot;
-	vector<TCCUnionEntreDepositos*>InsConnection;
-	vector<TWasteGate*>InsWasteGate;
-	vector<TLamina*>InsReedValve;
-	vector<TSensor*>InsSensor;
-	vector<TController*>InsController;
-	vector<TDPF*>InsDPF;
+	vector<TEjeTurbogrupo*> InsTurbo;
+	vector<TCompresor*> InsCompressor;
+	vector<TTurbina*> InsTurbine;
+	vector<TCCCompresorVolumetrico*> InsRoot;
+	vector<TCCUnionEntreDepositos*> InsConnection;
+	vector<TWasteGate*> InsWasteGate;
+	vector<TLamina*> InsReedValve;
+	vector<TSensor*> InsSensor;
+	vector<TController*> InsController;
+	vector<TDPF*> InsDPF;
 
 	stringstream FInsOutput;
 	fstream FFileIns;
@@ -99,9 +101,9 @@ private:
 	int FFileCountI;
 	int FCharacters;
 
-	vector<TTubo*>STPipe;
-	vector<TDeposito*>STPlenum;
-	vector<TCilindro*>STCylinder;
+	vector<TTubo*> STPipe;
+	vector<TDeposito*> STPlenum;
+	vector<TCilindro*> STCylinder;
 
 	iVector FParameterSpaceTime;
 
@@ -166,55 +168,69 @@ public:
 
 	~TOutputResults();
 
-	double GetFControlAngle1(){return FControlAngle1;};
+	double GetFControlAngle1() {
+		return FControlAngle1;
+	}
+	;
 
-	void ReadAverageResults(const char* FileWAM, fpos_t& filepos, TTubo** Pipe, bool EngineBlock,
-		TBloqueMotor** Engine, TDeposito **Plenum, TEjeTurbogrupo** Axis, TCompresor** Compressor,
-		TTurbina** Turbine, TCondicionContorno** BC, TDPF** DPF, TCCCompresorVolumetrico** Root,
-		TVenturi** Venturi, TSensor** Sensor, TController** Controller, int TotalCycles,
-		char* ModelName);
+	void ReadAverageResults(const char* FileWAM, fpos_t& filepos, TTubo** Pipe,
+			bool EngineBlock, TBloqueMotor** Engine, TDeposito **Plenum,
+			TEjeTurbogrupo** Axis, TCompresor** Compressor, TTurbina** Turbine,
+			TCondicionContorno** BC, TDPF** DPF, TCCCompresorVolumetrico** Root,
+			TVenturi** Venturi, TSensor** Sensor, TController** Controller,
+			int TotalCycles, char* ModelName);
 
-	void HeaderAverageResults(stEspecies *SpeciesName, TCalculoExtern* EXTERN, bool ThereIsDLL);
+	void HeaderAverageResults(stEspecies *SpeciesName, TCalculoExtern* EXTERN,
+			bool ThereIsDLL);
 
-	void OutputAverageResults(double AcumulatedTime, TCalculoExtern* EXTERN, bool ThereIsDLL);
+	void OutputAverageResults(double AcumulatedTime, TCalculoExtern* EXTERN,
+			bool ThereIsDLL);
 
 	void CopyAverageResultsToFile(int mode);
 
 	void CopyInstananeousResultsToFile(int mode);
 
-	void ReadInstantaneousResults(const char* FileWAM, fpos_t &filepos, TBloqueMotor** Engine,
-		TDeposito** Plenum, TTubo** Pipe, TVenturi** Venturi, TCondicionContorno** BC,
-		TDPF** DPF, TEjeTurbogrupo** Turbo, TCompresor** Compressor, TTurbina** Turbine,
-		TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
-		int NumberOfWasteGates, TCondicionContorno** BCReedValve, int NumberOfReedValves,
-		TSensor** Sensor, TController** Controller, char* ModelName);
+	void ReadInstantaneousResults(const char* FileWAM, fpos_t &filepos,
+			TBloqueMotor** Engine, TDeposito** Plenum, TTubo** Pipe,
+			TVenturi** Venturi, TCondicionContorno** BC, TDPF** DPF,
+			TEjeTurbogrupo** Turbo, TCompresor** Compressor, TTurbina** Turbine,
+			TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
+			int NumberOfWasteGates, TCondicionContorno** BCReedValve,
+			int NumberOfReedValves, TSensor** Sensor, TController** Controller,
+			char* ModelName);
 
-	void ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos, TTubo** Pipe, TBloqueMotor** Engine,
-		TDeposito **Plenum);
+	void ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
+			TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum);
 
 	void DoSpaceTimeFiles(int SpeciesNumber);
 
-	void HeaderSpaceTimeResults(double thmax, double grmax, double agincr, int SpeciesNumber);
+	void HeaderSpaceTimeResults(double thmax, double grmax, double agincr,
+			int SpeciesNumber);
 
-	void PrintSpaceTimeResults(bool EngineBlock, double Theta, double SimulationDuration,
-		TBloqueMotor **Engine, int SpeciesNumber);
+	void PrintSpaceTimeResults(bool EngineBlock, double Theta,
+			double SimulationDuration, TBloqueMotor **Engine,
+			int SpeciesNumber);
 
-	void HeaderInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL, bool EngineBlock,
-		stEspecies *SpeciesName);
+	void HeaderInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL,
+			bool EngineBlock, stEspecies *SpeciesName);
 
 	void PlotThisCycle(TBloqueMotor* Engine, int TotalCycles);
 
-	void OutputInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL, bool EngineBlock,
-		double Theta, TBloqueMotor* Engine, double Time);
+	void OutputInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL,
+			bool EngineBlock, double Theta, TBloqueMotor* Engine, double Time);
 
 	void PlotControl(double Theta0, double Theta, double CycleDuration);
 
-	void WriteInstantaneous(bool EngineBlock, double Angle, double AngStep, TBloqueMotor* Engine,
-		int TotalCycles);
+	void WriteInstantaneous(bool EngineBlock, double Angle, double AngStep,
+			TBloqueMotor* Engine, int TotalCycles);
 
-	void WriteSpaceTime(bool EngineBlock, TBloqueMotor* Engine, int TotalCycles);
+	void WriteSpaceTime(bool EngineBlock, TBloqueMotor* Engine,
+			int TotalCycles);
 
-	void PutInsPeriod(double agincr){FInsPeriod=agincr;};
+	void PutInsPeriod(double agincr) {
+		FInsPeriod = agincr;
+	}
+	;
 
 };
 #endif

@@ -1,33 +1,31 @@
-﻿/*--------------------------------------------------------------------------------*\
+/*--------------------------------------------------------------------------------*\
 ==========================|
-\\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
+ \\   /\ /\   // O pen     | OpenWAM: The Open Source 1D Gas-Dynamic Code
  \\ |  X  | //  W ave     |
-  \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
-   \\/   \//    M odel    |
-----------------------------------------------------------------------------------
-License
+ \\ \/_\/ //   A ction   | CMT-Motores Termicos / Universidad Politecnica Valencia
+ \\/   \//    M odel    |
+ ----------------------------------------------------------------------------------
+ License
 
-	This file is part of OpenWAM.
+ This file is part of OpenWAM.
 
-	OpenWAM is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+ OpenWAM is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-	OpenWAM is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+ OpenWAM is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
 
 
-\*--------------------------------------------------------------------------------*/
-
+ \*--------------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-
 #ifndef TCompresorH
 #define TCompresorH
 
@@ -46,45 +44,70 @@ class TTubo;
 
 class TDeposito;
 
-class TCompresor
-{
+class TCompresor {
 private:
 
 //---------------------------------------------------------------------------
 //          FUNCIONES PRIVADAS
 //---------------------------------------------------------------------------
 
+	double GetTrabajoCiclo() {
+		return FMedias.Trabajo;
+	}
 
-double GetTrabajoCiclo(){return FMedias.Trabajo;}
+	double GetRendimientoMedio() {
+		return FMedias.Rendimiento;
+	}
 
-double GetRendimientoMedio(){return FMedias.Rendimiento;}
+	double GetRelCompMedia() {
+		return FMedias.RelacionCompresion;
+	}
 
-double GetRelCompMedia(){return FMedias.RelacionCompresion;}
+	double GetGastoMedio() {
+		return FMedias.Massflow;
+	}
 
-double GetGastoMedio(){return FMedias.Massflow;}
+	double GetRendimientoInstant() {
+		return FInstant.Rendimiento;
+	}
 
-double GetRendimientoInstant(){return FInstant.Rendimiento;}
+	double GetPotenciaInstant() {
+		return FInstant.Potencia;
+	}
 
-double GetPotenciaInstant(){return FInstant.Potencia;}
+	double GetRelCompInstant() {
+		return FInstant.RelacionCompresion;
+	}
 
-double GetRelCompInstant(){return FInstant.RelacionCompresion;}
+	double GetGastoInstant() {
+		return FInstant.Massflow;
+	}
 
-double GetGastoInstant(){return FInstant.Massflow;}
+	nmCompressorModel GetModeloCompresor() {
+		return FModeloCompresor;
+	}
 
-nmCompressorModel GetModeloCompresor(){return FModeloCompresor;}
+	int GetDepRotor() {
+		return FDepRotor;
+	}
 
-int GetDepRotor(){return FDepRotor;}
+	int GetDepStator() {
+		return FDepStator;
+	}
 
-int GetDepStator(){return FDepStator;}
+	double GetRelCompBombeo() {
+		return Mapa->getRelCompBombeo();
+	}
 
-double GetRelCompBombeo(){return Mapa->getRelCompBombeo();}
+	double GetRegimen() {
+		return FRegimen;
+	}
 
-double GetRegimen(){return FRegimen;}
+	int GetEje() {
+		return FEje;
+	}
 
-int GetEje(){return FEje;}
-
-double GetASonidoComp();
-
+	double GetASonidoComp();
 
 protected:
 
@@ -92,59 +115,59 @@ protected:
 //          VARIABLES PROTEGIDAS
 //---------------------------------------------------------------------------
 
-int FNumeroCompresor;
-int FEje;
-int FDepRotor;                               // Numero del deposito conectado al rotor
-int FDepStator;                              // Numero del deposito conectado al estator (si tiene)
+	int FNumeroCompresor;
+	int FEje;
+	int FDepRotor;                     // Numero del deposito conectado al rotor
+	int FDepStator;       // Numero del deposito conectado al estator (si tiene)
 //TMapaComp *Mapa;                             // Puntero al mapa del compresor
-TCompressorMap *Mapa;
-TMapaComp2Tub *Mapa2T;
-double FRendimiento;                         // Rendimiento (-)
-double FTrabajo;                             // Trabajo del compresor (W)
-double FRelacionCompresion;                  // Relacion de compresion (-)
-double FGastoCompresor;                      // Massflow que pasa por el compresor (kg/h)
-double FGastoCorregido;
-double FRegimen;
-double FRegimenCorregido;
-double FPresion10;
-double FPresion20;
-double FTemperatura10;
-double FTemperatura20;
+	TCompressorMap *Mapa;
+	TMapaComp2Tub *Mapa2T;
+	double FRendimiento;                         // Rendimiento (-)
+	double FTrabajo;                             // Trabajo del compresor (W)
+	double FRelacionCompresion;                  // Relacion de compresion (-)
+	double FGastoCompresor;         // Massflow que pasa por el compresor (kg/h)
+	double FGastoCorregido;
+	double FRegimen;
+	double FRegimenCorregido;
+	double FPresion10;
+	double FPresion20;
+	double FTemperatura10;
+	double FTemperatura20;
 
-double FASonidoSalida;
+	double FASonidoSalida;
 
-double FDeltaTiempo;
-double FTiempo0;
+	double FDeltaTiempo;
+	double FTiempo0;
 
-bool FBombeo;
+	bool FBombeo;
 
-TTC_HTM *FHTM;
+	TTC_HTM *FHTM;
 
-bool FIsAcoustic;
-TAcousticCompressor *FAcComp;
+	bool FIsAcoustic;
+	TAcousticCompressor *FAcComp;
 
-nmCompressorModel FModeloCompresor;
+	nmCompressorModel FModeloCompresor;
 
-stMediasCompresor FMedias;                    // Estructura para los valores medios
-stInstantaneosCompresor FInstant;             // Estructura para los valores instantaneos
+	stMediasCompresor FMedias;             // Estructura para los valores medios
+	stInstantaneosCompresor FInstant; // Estructura para los valores instantaneos
 
-double FPotenciaPaso;
-double FTrabajoPaso;
-double FDeltaTPaso;
-double FPotencia;
+	double FPotenciaPaso;
+	double FTrabajoPaso;
+	double FDeltaTPaso;
+	double FPotencia;
 
 // Calculo de Especies
-double FGamma;
-double FRMezcla;
-double FCpMezcla;
-double *FFraccionMasicaEspecie;
-double GetFraccionMasiscaEspecie(int i);
-int FNumeroEspecies;
-bool FHayEGR;
-int FIntEGR;
-nmTipoCalculoEspecies FCalculoEspecies;
-nmCalculoGamma FCalculoGamma;
-double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
+	double FGamma;
+	double FRMezcla;
+	double FCpMezcla;
+	double *FFraccionMasicaEspecie;
+	double GetFraccionMasiscaEspecie(int i);
+	int FNumeroEspecies;
+	bool FHayEGR;
+	int FIntEGR;
+	nmTipoCalculoEspecies FCalculoEspecies;
+	nmCalculoGamma FCalculoGamma;
+	double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
 
 public:
 
@@ -152,99 +175,170 @@ public:
 //          VARIABLES PUBLICAS
 //---------------------------------------------------------------------------
 
-	double getEfficiency(){return FRendimiento;};
+	double getEfficiency() {
+		return FRendimiento;
+	}
+	;
 
-    double getMassflow(){return FGastoCompresor;};
+	double getMassflow() {
+		return FGastoCompresor;
+	}
+	;
 
-    double getTrabajo(){return FTrabajo;};
+	double getTrabajo() {
+		return FTrabajo;
+	}
+	;
 
-    double getRendMed(){return GetRendimientoMedio();};
+	double getRendMed() {
+		return GetRendimientoMedio();
+	}
+	;
 
-    double getTrabCiclo(){return GetTrabajoCiclo();};
+	double getTrabCiclo() {
+		return GetTrabajoCiclo();
+	}
+	;
 
-    double getRCMed(){return GetRelCompMedia();};
+	double getRCMed() {
+		return GetRelCompMedia();
+	}
+	;
 
-    double getGastoMed(){return GetGastoMedio();};
+	double getGastoMed() {
+		return GetGastoMedio();
+	}
+	;
 
-    double getRendINS(){return GetRendimientoInstant();};
+	double getRendINS() {
+		return GetRendimientoInstant();
+	}
+	;
 
-    double getPotenciaINS(){return GetPotenciaInstant();};
+	double getPotenciaINS() {
+		return GetPotenciaInstant();
+	}
+	;
 
-    double getGastoINS(){return GetGastoInstant();};
+	double getGastoINS() {
+		return GetGastoInstant();
+	}
+	;
 
-    double getRCINS(){return GetRelCompInstant();};
+	double getRCINS() {
+		return GetRelCompInstant();
+	}
+	;
 
-    nmCompressorModel getModeloCompresor(){return GetModeloCompresor();};
+	nmCompressorModel getModeloCompresor() {
+		return GetModeloCompresor();
+	}
+	;
 
-    int getDepRotor(){return GetDepRotor();};
+	int getDepRotor() {
+		return GetDepRotor();
+	}
+	;
 
-    int getDepStator(){return GetDepStator();};
+	int getDepStator() {
+		return GetDepStator();
+	}
+	;
 
-    double getRCInicial(){return GetRelCompBombeo();};
+	double getRCInicial() {
+		return GetRelCompBombeo();
+	}
+	;
 
-    double getRegimen(){return GetRegimen();};
+	double getRegimen() {
+		return GetRegimen();
+	}
+	;
 
-    int getAxis(){return GetEje();};
+	int getAxis() {
+		return GetEje();
+	}
+	;
 
-    double getTiempo0(){return FTiempo0;};
+	double getTiempo0() {
+		return FTiempo0;
+	}
+	;
 
-    double getSpeedSound(){return GetASonidoComp();};
+	double getSpeedSound() {
+		return GetASonidoComp();
+	}
+	;
 
-    double getPotenciaPaso(){return FPotenciaPaso;};
+	double getPotenciaPaso() {
+		return FPotenciaPaso;
+	}
+	;
 
-    double getGamma(){return FGamma;};
+	double getGamma() {
+		return FGamma;
+	}
+	;
 
-	double GetFraccionMasicaEspecie(int i);
+	double GetFraccionMasicaEspecie(int i);
 
-	TCompressorMap* GetMap(){return Mapa;};
-
+	TCompressorMap* GetMap() {
+		return Mapa;
+	}
+	;
 
 //---------------------------------------------------------------------------
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
 
-  TCompresor(int i,nmTipoCalculoEspecies SpeciesModel,int numeroespecies,
-             nmCalculoGamma GammaCalculation,bool ThereIsEGR);
+	TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
-  virtual ~TCompresor()=0;
+	virtual ~TCompresor() =0;
 
-  virtual void CalculaGasto(double TrabajoInsTurbina,double TiempoActual)=0;
+	virtual void CalculaGasto(double TrabajoInsTurbina, double TiempoActual) =0;
 
-  virtual void CondicionCompresor(double Theta,stTuboExtremo *TuboExtremo,double AcumulatedTime,int TuboCalculado)=0;
+	virtual void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
+			double AcumulatedTime, int TuboCalculado) =0;
 
-  virtual void Initialize()=0;
+	virtual void Initialize() =0;
 
-  void InterpolaValoresMapa(double rtc);
+	void InterpolaValoresMapa(double rtc);
 
-  void AcumulaMedias(double Tiempo);
+	void AcumulaMedias(double Tiempo);
 
-  void IniciaMedias();
+	void IniciaMedias();
 
-  void CalculaMedias();
+	void CalculaMedias();
 
-  void CalculaInstantaneos();
+	void CalculaInstantaneos();
 
-  void LeeDatosGraficasMedias(const char *FileWAM,fpos_t &filepos);
+	void LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos);
 
-  void CabeceraGraficasMedias(stringstream& medoutput);
+	void CabeceraGraficasMedias(stringstream& medoutput);
 
-  void ImprimeGraficasMedias(stringstream& medoutput);
+	void ImprimeGraficasMedias(stringstream& medoutput);
 
-  void LeeDatosGraficasInstantaneas(const char *FileWAM,fpos_t &filepos);
+	void LeeDatosGraficasInstantaneas(const char *FileWAM, fpos_t &filepos);
 
-  void CabeceraGraficasInstantaneas(stringstream& insoutput);
+	void CabeceraGraficasInstantaneas(stringstream& insoutput);
 
-  void ImprimeGraficasInstantaneas(stringstream& insoutput);
+	void ImprimeGraficasInstantaneas(stringstream& insoutput);
 
-  void CalculoPotenciaPaso();
+	void CalculoPotenciaPaso();
 
-  void AsignTCHTM(TTC_HTM *HTM){FHTM = HTM;};
+	void AsignTCHTM(TTC_HTM *HTM) {
+		FHTM = HTM;
+	}
+	;
 
-  void AsignAcousticElements(TTubo **Pipe, TDeposito **Volume);
+	void AsignAcousticElements(TTubo **Pipe, TDeposito **Volume);
 
-  TAcousticCompressor* AcousticC(){return FAcComp;};
+	TAcousticCompressor* AcousticC() {
+		return FAcComp;
+	}
+	;
 
 };
-
 
 #endif

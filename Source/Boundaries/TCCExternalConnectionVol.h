@@ -6,7 +6,7 @@
 
 #include "TCondicionContorno.h"
 
-class TCCExternalConnectionVol : public TCondicionContorno {
+class TCCExternalConnectionVol: public TCondicionContorno {
 private:
 
 	double FUExt;
@@ -46,13 +46,13 @@ protected:
 
 public:
 	TCCExternalConnectionVol(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExternalConnectionVol();
 
 	void UpdateCurrentExternalProperties(double U0, double T0, double P0,
-		double t);
+			double t);
 
 	void AsignGeometricalData(double D0, double deltaX);
 
@@ -60,11 +60,15 @@ public:
 
 	void CalculaCondicionContorno(double Time);
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,int NumberOfPipes, TTubo **Pipe,int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
+			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
-	int GetID(){return FID;};
+	int GetID() {
+		return FID;
+	}
+	;
 
-	void LoadNewData(double* p,double* T,double* u);
+	void LoadNewData(double* p, double* T, double* u);
 
 };
 #endif

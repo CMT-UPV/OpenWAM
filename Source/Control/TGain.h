@@ -21,12 +21,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * TGain.h
  *
  * Created on: 14/07/2014
  *     Author: farnau
- * 
+ *
  \*--------------------------------------------------------------------------------*/
 
 #ifndef TGAIN_H_
@@ -60,29 +60,29 @@ public:
 	void AsignaObjetos(TSensor **Sensor, TController **Controller);
 
 	/*! Read the average results selected*/
-	void LeeResultadosMedControlador(const char *FileWAM,		//!< Input data filename
+	void LeeResultadosMedControlador(const char *FileWAM,//!< Input data filename
 			fpos_t &filepos				//!< Position within the input file
 			);
 
 	/*! Read the instantaneous results selected*/
-	void LeeResultadosInsControlador(const char *FileWAM,		//!< Input data filename
+	void LeeResultadosInsControlador(const char *FileWAM,//!< Input data filename
 			fpos_t &filepos				//!< Position within the input file
 			);
 
 	/*! Generate average results header */
-	void CabeceraResultadosMedControlador(stringstream& medoutput//!< StringStrems where the average results are stored
+	void CabeceraResultadosMedControlador(stringstream& medoutput //!< StringStrems where the average results are stored
 			);
 
 	/*! Generate instantaneous results header */
-	void CabeceraResultadosInsControlador(stringstream& insoutput//!< StringStream where the instantaneous results are stored
+	void CabeceraResultadosInsControlador(stringstream& insoutput //!< StringStream where the instantaneous results are stored
 			);
 
 	/*! Print average results */
-	void ImprimeResultadosMedControlador(stringstream& medoutput//!< StringStream where the average results are stored
+	void ImprimeResultadosMedControlador(stringstream& medoutput //!< StringStream where the average results are stored
 			);
 
 	/*! Print instantaneous results */
-	void ImprimeResultadosInsControlador(stringstream& insoutput//!< StringStream where the instantaneous results are stored
+	void ImprimeResultadosInsControlador(stringstream& insoutput //!< StringStream where the instantaneous results are stored
 			);
 
 	/*! Initialize average results */
