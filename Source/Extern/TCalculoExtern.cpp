@@ -247,10 +247,8 @@ void TCalculoExtern::LlamadaECU(double DeltaT, TBloqueMotor **Engine) {
 		//=========================================================================
 		//AQUI SE DEBEN REALIZAR LOS CALCULOS EXTERNOS
 		//*****************************************
-
 		//**** CALCULO DE LA DESCARGA A MATLAB ****//
 		//FRemansoMatlab[0]->CalculaRemanso(FInputs[1]);
-
 		/*if(FTiempo>=Ftmuestreoecu){
 		 FTiempo=0.;
 		 FEGRV->CalculaEGRV(FInputs[7],FInputs[2],FInputs[4],FConvergencia);

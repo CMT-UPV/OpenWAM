@@ -37,8 +37,8 @@
 class TDecisor: public TController {
 private:
 
-	int fControllerLowID;//!< This parameter represents the controller ID of the lower controller
-	int fControllerHighID;//!< This parameter represents the controller ID of the higher controller
+	int fControllerLowID; //!< This parameter represents the controller ID of the lower controller
+	int fControllerHighID; //!< This parameter represents the controller ID of the higher controller
 	int fControllerTargetID;	//!< Controller ID of the target
 
 	bool fTargedControlled;		//!< The target can be modified by a controller?

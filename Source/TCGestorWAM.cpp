@@ -25,7 +25,6 @@
  \*--------------------------------------------------------------------------------*/
 
 //---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "TCGestorWAM.h"
@@ -64,7 +63,7 @@ void TCGestorWAM::Init() {
 
 	while (num_pasadas <= 500000) {
 		hPipe = CreateFile(lpszPipeName.c_str(), GENERIC_WRITE, 0, NULL,
-				OPEN_EXISTING, 0, NULL);
+		OPEN_EXISTING, 0, NULL);
 
 		if (hPipe != INVALID_HANDLE_VALUE)
 			break;
@@ -136,7 +135,7 @@ void TCGestorWAM::EsperarRespuesta() {
 	TCHAR chBuf[BUFSIZE];
 
 	fSuccess = ReadFile(hPipeResp, chBuf, BUFSIZE * sizeof(TCHAR), &cbRead,
-			NULL);
+	NULL);
 }
 
 void TCGestorWAM::NuevoMensaje(char *msg) {
