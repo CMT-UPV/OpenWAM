@@ -384,6 +384,8 @@ private:
 
 	void ReadConnections();
 
+	void ReadConnectionsXML();
+
 	void ReadTurbochargerAxis();
 
 	void ReadSensors();

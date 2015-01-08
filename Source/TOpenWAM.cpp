@@ -2415,6 +2415,701 @@ void TOpenWAM::ReadConnections() {
 	}
 }
 
+void TOpenWAM::ReadConnectionsXML() {
+	try {
+
+		const char_t* ConnectionType;
+		int ID;
+
+		xml_node node_openwam = FileInputXML.child("OpenWAM");
+		xml_node node_conblock = GetNodeChild(node_openwam, "BlockOfConnections");
+
+		NumberOfConnections = CountNodes(node_conblock,"Boc:Connection");
+		BC = new TCondicionContorno*[NumberOfConnections];
+		printf("Number of boundary condition: %d\n", NumberOfConnections);
+
+
+		fpos_t filepos;
+		int numerocv, contador;
+		int NumTCCDescargaExtremoAbierto = 0;
+		int NumTCCExtremoCerrado = 0,
+		NumTCCExtremoAnecoico = 0, NumTCCPulso = 0, NumTCCUnionEntreTubos = 0,
+		NumTCCCilindro = 0, NumTCCDeposito = 0, NumTCCRamificacion = 0,
+		NumTCCEntradaCompresor = 0, NumTCCPreVble = 0;
+		NumTCCPerdidaPresion = 0;
+
+		int numerovalvula = 0, quevalv;
+		int NumTCCExternalConnection = 0;
+
+		for (xml_node node_connect = GetNodeChild(node_conblock, "Boc:Connection"); node_connect;
+				node_connect = node_connect.next_sibling("Boc:Connection")) {
+			ConnectionType = node_connect.attribute("BoundaryType").value();
+			ID = GetAttributeAsInt(node_connect,"Boundary_ID");
+
+			if(ConnectionType == "OpenEndAmbient"){
+				BC[ID] = new TCCDescargaExtremoAbierto(nmOpenEndAtmosphere,
+					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCDescargaExtremoAbierto++;
+//#ifdef ParticulateFilter
+//					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//						Pipe, NumberOfDPF, DPF);
+//#else
+//					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//						Pipe, NumberOfDPF, NULL);
+//#endif
+//					BC[i]->AsignAmbientConditions(AmbientTemperature,
+//						AmbientPressure, AtmosphericComposition);
+			}else if(ConnectionType == "OpenEndReservoir"){
+				BC[ID] = new TCCDescargaExtremoAbierto(nmOpenEndReservoir,
+					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCDescargaExtremoAbierto++;
+//#ifdef ParticulateFilter
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "OpenEndExternal"){
+				BC[ID] = new TCCDescargaExtremoAbierto(nmOpenEndCalcExtern,
+					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCDescargaExtremoAbierto++;
+				nematlab++;
+//#ifdef ParticulateFilter
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "CloseEnd"){
+				BC[ID] = new TCCExtremoCerrado(nmClosedEnd, ID, SpeciesModel,
+					SpeciesNumber, GammaCalculation, ThereIsEGR);
+				NumTCCExtremoCerrado++;
+				BC[ID]->AsignaTubos(NumberOfPipes, Pipe);
+			}else if(ConnectionType == "AnechoicEnd"){
+				BC[ID] = new TCCExtremoAnecoico(nmAnechoicEnd, ID,
+					SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCExtremoAnecoico++;
+				BC[ID]->AsignaTubos(NumberOfPipes, Pipe);
+			}else if(ConnectionType == "PulseEnd"){
+				BC[ID] = new TCCPulso(nmIncidentPressurWave, ID,
+					SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCPulso++;
+//#ifdef ParticulateFilter
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "PipeJunction"){
+				BC[ID] = new TCCUnionEntreTubos(nmPipesConnection, ID,
+					SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCUnionEntreTubos++;
+//#ifdef ParticulateFilter
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "IntakeValve"){
+				BC[ID] = new TCCCilindro(nmIntakeValve, ID, SpeciesModel,
+					SpeciesNumber, GammaCalculation, ThereIsEGR);
+				NumTCCCilindro++;
+				NumberOfIntakeValves++;
+//#ifdef ParticulateFilter
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "ExhaustValve"){
+				BC[ID] = new TCCCilindro(nmExhaustValve, ID, SpeciesModel,
+					SpeciesNumber, GammaCalculation, ThereIsEGR);
+				NumTCCCilindro++;
+				NumberOfExhaustValves++;
+//#ifdef ParticulateFilter
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "LinearPressureLoss"){
+				BC[ID] = new TCCPerdidadePresion(nmLinearPressureLoss, ID,
+					SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCPerdidaPresion++;
+//#ifdef ParticulateFilter
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[ID]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "QuadraticPressureLoss"){
+				BC[ID] = new TCCPerdidadePresion(nmQuadraticPressureLoss, ID,
+					SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCPerdidaPresion++;
+//#ifdef ParticulateFilter
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "PipeToPlenum"){
+				BC[ID] = new TCCDeposito(nmPipeToPlenumConnection, ID,
+					SpeciesModel, SpeciesNumber, GammaCalculation,
+					ThereIsEGR);
+				NumTCCDeposito++;
+//#ifdef ParticulateFilter
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, DPF);
+//#else
+//				BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+//					Pipe, NumberOfDPF, NULL);
+//#endif
+			}else if(ConnectionType == "Branch"){
+				BC[ID] = new TCCRamificacion(nmBranch, ID, SpeciesModel,
+					SpeciesNumber, GammaCalculation, ThereIsEGR);
+				NumTCCRamificacion++;
+				BC[ID]->AsignaTubos(NumberOfPipes, Pipe);
+			}else if(ConnectionType == "Branch"){
+
+			}
+
+
+		}
+
+
+
+/*		if (NumberOfConnections != 0) {
+			for (int i = 0; i <= NumberOfConnections - 1; ++i) {
+				FileInput = fopen(fileinput, "r");
+				fsetpos(FileInput, &filepos);
+				fscanf(FileInput, "%d ", &TipoCC);
+				fgetpos(FileInput, &filepos);
+				fclose(FileInput);
+				switch(TipoCC) {
+				case 0:
+					BC[i] = new TCCDescargaExtremoAbierto(nmOpenEndAtmosphere,
+						i, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCDescargaExtremoAbierto++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					BC[i]->AsignAmbientConditions(AmbientTemperature,
+						AmbientPressure, AtmosphericComposition);
+					break;
+				case 1:
+					BC[i] = new TCCDescargaExtremoAbierto(nmOpenEndReservoir,
+						i, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCDescargaExtremoAbierto++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 2:
+					BC[i] = new TCCDescargaExtremoAbierto(nmOpenEndCalcExtern,
+						i, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCDescargaExtremoAbierto++;
+					nematlab++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 3:
+					BC[i] = new TCCExtremoCerrado(nmClosedEnd, i, SpeciesModel,
+						SpeciesNumber, GammaCalculation, ThereIsEGR);
+					NumTCCExtremoCerrado++;
+					BC[i]->AsignaTubos(NumberOfPipes, Pipe);
+					break;
+				case 4:
+					BC[i] = new TCCExtremoAnecoico(nmAnechoicEnd, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCExtremoAnecoico++;
+					BC[i]->AsignaTubos(NumberOfPipes, Pipe);
+					break;
+				case 5:
+					BC[i] = new TCCPulso(nmIncidentPressurWave, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCPulso++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 6:
+					BC[i] = new TCCUnionEntreTubos(nmPipesConnection, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCUnionEntreTubos++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 7:
+					BC[i] = new TCCCilindro(nmIntakeValve, i, SpeciesModel,
+						SpeciesNumber, GammaCalculation, ThereIsEGR);
+					NumTCCCilindro++;
+					NumberOfIntakeValves++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 8:
+					BC[i] = new TCCCilindro(nmExhaustValve, i, SpeciesModel,
+						SpeciesNumber, GammaCalculation, ThereIsEGR);
+					NumTCCCilindro++;
+					NumberOfExhaustValves++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 9:
+					BC[i] = new TCCPerdidadePresion(nmLinearPressureLoss, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCPerdidaPresion++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 10:
+					BC[i] = new TCCPerdidadePresion(nmQuadraticPressureLoss, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCPerdidaPresion++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 11:
+					BC[i] = new TCCDeposito(nmPipeToPlenumConnection, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCDeposito++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 12:
+					BC[i] = new TCCRamificacion(nmBranch, i, SpeciesModel,
+						SpeciesNumber, GammaCalculation, ThereIsEGR);
+					NumTCCRamificacion++;
+					BC[i]->AsignaTubos(NumberOfPipes, Pipe);
+					break;
+				case 13:
+					FileInput = fopen(fileinput, "r");
+					fsetpos(FileInput, &filepos);
+					fscanf(FileInput, "%d ", &numerocv);
+					fgetpos(FileInput, &filepos);
+					fclose(FileInput);
+					BC[i] = new TCCCompresorVolumetrico(nmVolumetricCompressor,
+						i, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					dynamic_cast<TCCCompresorVolumetrico*>(BC[i])->PutNumeroCV
+						(numerocv);
+					NumberOfVolumetricCompressors++;
+					dynamic_cast<TCCCompresorVolumetrico*>(BC[i])
+						->LeeCCCompresorVol(fileinput, filepos,
+						NumberOfPipes, Pipe, EngineBlock);
+					dynamic_cast<TCCCompresorVolumetrico*>(BC[i])->IniciaMedias
+						();
+					break;
+				case 14:
+					BC[i] = new TCCExtremoInyeccion(nmInjectionEnd, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumberOfInjectionEnds++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 15:
+					BC[i] = new TCCEntradaCompresor(nmEntradaCompre, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCEntradaCompresor++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 16:
+					BC[i] = new TCCUnionEntreDepositos(nmUnionEntreDepositos,
+						i, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumberOfConectionsBetweenPlenums++;
+					dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->LeeUEDepositos
+						(fileinput, filepos, Independent);
+					break;
+				case 17:
+					BC[i] = new TCCCompresor(nmCompresor, i, SpeciesModel,
+						SpeciesNumber, GammaCalculation, ThereIsEGR);
+					NumberOfCompressorsConnections++;
+					dynamic_cast<TCCCompresor*>(BC[i])->LeeNumeroCompresor
+						(fileinput, filepos);
+					break;
+				case 18:
+					BC[i] = new TCCPreVble(nmPresionVble, i, SpeciesModel,
+						SpeciesNumber, GammaCalculation, ThereIsEGR);
+					NumTCCPreVble++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 19:
+					BC[i] = new TCFDConnection(nmCFDConnection, i,
+						SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				case 20:
+					BC[i] = new TCCExternalConnectionVol(nmExternalConnection,
+						i, SpeciesModel, SpeciesNumber, GammaCalculation,
+						ThereIsEGR);
+					NumTCCExternalConnection++;
+#ifdef ParticulateFilter
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, DPF);
+#else
+					BC[i]->ReadBoundaryData(fileinput, filepos, NumberOfPipes,
+						Pipe, NumberOfDPF, NULL);
+#endif
+					break;
+				}
+				if (BC[i]->getTipoCC() == nmIntakeValve || BC[i]->getTipoCC()
+					== nmExhaustValve || BC[i]->getTipoCC()
+					== nmPipeToPlenumConnection || BC[i]->getTipoCC()
+					== nmUnionEntreDepositos) {
+					FileInput = fopen(fileinput, "r");
+					fsetpos(FileInput, &filepos);
+					fscanf(FileInput, "%d ", &quevalv);
+					fgetpos(FileInput, &filepos);
+					fclose(FileInput);
+					if (BC[i]->getTipoCC() == nmIntakeValve || BC[i]->getTipoCC
+						() == nmExhaustValve) {
+						dynamic_cast<TCCCilindro*>(BC[i])->AsignaTipoValvula
+							(TypeOfValve, quevalv, numerovalvula);
+					}
+					else if (BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
+						dynamic_cast<TCCDeposito*>(BC[i])->AsignaTipoValvula
+							(TypeOfValve, quevalv, numerovalvula);
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmLamina)
+							NumberOfReedValves++;
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmWasteGate)
+							NumberOfWasteGates++;
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmCalcExtern)
+							NumberOfExternalCalculatedValves++;
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmMariposa)
+							NumberOfButerflyValves++;
+					}
+					else if (BC[i]->getTipoCC() == nmUnionEntreDepositos) {
+						dynamic_cast<TCCUnionEntreDepositos*>(BC[i])
+							->AsignaTipoValvula(TypeOfValve, quevalv,
+							numerovalvula);
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmLamina)
+							NumberOfReedValves++;
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmWasteGate)
+							NumberOfWasteGates++;
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmCalcExtern)
+							NumberOfExternalCalculatedValves++;
+						if (TypeOfValve[quevalv - 1]->getTypeOfValve()
+							== nmMariposa)
+							NumberOfButerflyValves++;
+					}
+					numerovalvula++;
+				}
+
+			}
+		}
+		FileInput = fopen(fileinput, "r");
+		fsetpos(FileInput, &filepos);
+
+		if (NumberOfIntakeValves > 0) {
+			BCIntakeValve = new TCondicionContorno*[NumberOfIntakeValves];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmIntakeValve) {
+					BCIntakeValve[contador] = dynamic_cast<TCCCilindro*>(BC[j]);
+					contador++;
+				}
+			}
+		}
+
+		if (NumberOfExhaustValves > 0) {
+			BCExhaustValve = new TCondicionContorno*[NumberOfExhaustValves];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmExhaustValve) {
+					BCExhaustValve[contador] = dynamic_cast<TCCCilindro*>
+						(BC[j]);
+					contador++;
+				}
+			}
+		}
+
+		if (NumberOfVolumetricCompressors > 0) {
+			VolumetricCompressor = new TCCCompresorVolumetrico*
+				[NumberOfVolumetricCompressors];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmVolumetricCompressor) {
+					if (contador + 1 == dynamic_cast<TCCCompresorVolumetrico*>
+						(BC[j])->getNumeroCV()) {
+						VolumetricCompressor[contador]
+							= dynamic_cast<TCCCompresorVolumetrico*>(BC[j]);
+						contador++;
+					}
+				}
+			}
+		}
+
+		if (NumTCCPerdidaPresion > 0) {
+			PerdidaPresion = new TCCPerdidadePresion*[NumTCCPerdidaPresion];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmLinearPressureLoss || BC[j]
+					->getTipoCC() == nmQuadraticPressureLoss) {
+					PerdidaPresion[contador]
+						= dynamic_cast<TCCPerdidadePresion*>(BC[j]);
+					contador++;
+				}
+			}
+		}
+
+		if (nematlab > 0) {
+			MatlabDischarge = new TCCDescargaExtremoAbierto*[nematlab];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmOpenEndCalcExtern) {
+					MatlabDischarge[contador] =
+						dynamic_cast<TCCDescargaExtremoAbierto*>(BC[j]);
+					contador++;
+				}
+			}
+		}
+
+		if (NumberOfInjectionEnds > 0) {
+			InjectionEnd = new TCCExtremoInyeccion*[NumberOfInjectionEnds];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmInjectionEnd) {
+					InjectionEnd[contador] = dynamic_cast<TCCExtremoInyeccion*>
+						(BC[j]);
+					contador++;
+				}
+			}
+		}
+
+		if (NumberOfReedValves > 0) {
+			BCReedValve = new TCondicionContorno*[NumberOfReedValves];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmPipeToPlenumConnection) {
+					if (dynamic_cast<TCCDeposito*>(BC[j])->getValvula()
+						->getTypeOfValve() == nmLamina) {
+						BCReedValve[contador] = dynamic_cast<TCCDeposito*>
+							(BC[j]);
+						contador++;
+					}
+				}
+				else if (BC[j]->getTipoCC() == nmUnionEntreDepositos) {
+					if (dynamic_cast<TCCUnionEntreDepositos*>(BC[j])->getValvula
+						()->getTypeOfValve() == nmLamina) {
+						BCReedValve[contador] =
+							dynamic_cast<TCCUnionEntreDepositos*>(BC[j]);
+						contador++;
+					}
+				}
+			}
+		}
+
+		if (NumberOfWasteGates > 0) {
+			BCWasteGate = new TCondicionContorno*[NumberOfWasteGates];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmPipeToPlenumConnection) {
+					if (dynamic_cast<TCCDeposito*>(BC[j])->getValvula()
+						->getTypeOfValve() == nmWasteGate) {
+						BCWasteGate[contador] = BC[j];
+						contador++;
+					}
+				}
+				else if (BC[j]->getTipoCC() == nmUnionEntreDepositos) {
+					if (dynamic_cast<TCCUnionEntreDepositos*>(BC[j])->getValvula
+						()->getTypeOfValve() == nmWasteGate) {
+						BCWasteGate[contador] = BC[j];
+						contador++;
+					}
+				}
+			}
+		}
+
+		if (NumberOfExternalCalculatedValves > 0) {
+			CCCalcExtern = new TTipoValvula*[NumberOfExternalCalculatedValves];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmPipeToPlenumConnection) {
+					if (dynamic_cast<TCCDeposito*>(BC[j])->getValvula()
+						->getTypeOfValve() == nmCalcExtern) {
+						CCCalcExtern[contador] = dynamic_cast<TCCDeposito*>
+							(BC[j])->getValvula();
+						contador++;
+					}
+				}
+				else if (BC[j]->getTipoCC() == nmUnionEntreDepositos) {
+					if (dynamic_cast<TCCUnionEntreDepositos*>(BC[j])->getValvula
+						()->getTypeOfValve() == nmCalcExtern) {
+						CCCalcExtern[contador] = dynamic_cast<TCCDeposito*>
+							(BC[j])->getValvula();
+						contador++;
+					}
+				}
+			}
+		}
+
+		if (NumberOfButerflyValves > 0) {
+			BCButerflyValve = new TTipoValvula*[NumberOfButerflyValves];
+			contador = 0;
+			for (int j = 0; j < NumberOfConnections; j++) {
+				if (BC[j]->getTipoCC() == nmPipeToPlenumConnection) {
+					if (dynamic_cast<TCCDeposito*>(BC[j])->getValvula()
+						->getTypeOfValve() == nmMariposa) {
+						BCButerflyValve[contador] = dynamic_cast<TCCDeposito*>
+							(BC[j])->getValvula();
+						contador++;
+					}
+				}
+				else if (BC[j]->getTipoCC() == nmUnionEntreDepositos) {
+					if (dynamic_cast<TCCUnionEntreDepositos*>(BC[j])->getValvula
+						()->getTypeOfValve() == nmMariposa) {
+						BCButerflyValve[contador] = dynamic_cast<TCCDeposito*>
+							(BC[j])->getValvula();
+						contador++;
+					}
+				}
+			}
+		}
+		if (NumTCCExternalConnection > 0) {
+			BCExtConnectionVol = new TCCExternalConnectionVol*
+				[NumTCCExternalConnection];
+			bool *Asigned;
+			Asigned = new bool[NumTCCExternalConnection];
+
+			for (int i = 0; i < NumTCCExternalConnection; ++i) {
+				Asigned[i] = false;
+			}
+
+			for (int i = 0; i < NumberOfConnections; ++i) {
+				if (BC[i]->getTipoCC() == nmExternalConnection) {
+					int ID = dynamic_cast<TCCExternalConnectionVol*>(BC[i])
+						->GetID() - 1;
+					if (Asigned[ID] == true) {
+						std::cout <<
+							"ERROR: There are two external connection with the same ID" << std::endl;
+					}
+					Asigned[ID] = true;
+
+					if (ID >= NumTCCExternalConnection) {
+						std::cout <<
+							"ERROR: Wrong ID for the external connection node "
+							<< i << std::endl;
+					}
+					BCExtConnectionVol[ID] =
+						dynamic_cast<TCCExternalConnectionVol*>(BC[i]);
+				}
+			}
+		}*/
+
+	}
+	catch(Exception & N) {
+		std::cout << " ERROR : ReadConnections " << std::endl;
+		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 void TOpenWAM::ReadTurbochargerAxis() {
 	try {
 		fpos_t filepos;
