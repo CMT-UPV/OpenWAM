@@ -794,115 +794,142 @@ void TBloqueMotor::HeaderAverageResultsBloqueMotor(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosMotor.ParNeto) {
-			Label = "\t" + PutLabel(601);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4016) + PutLabel(917)
+					+ "/" + PutLabel(3001);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParEfectivo) {
-			Label = "\t" + PutLabel(602);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4016) + PutLabel(917)
+					+ "/" + PutLabel(3029) + "/" + PutLabel(3032);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParEfectivoCiclo) {
-			Label = "\t" + PutLabel(603);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4016) + PutLabel(917)
+					+ "/" + PutLabel(3029) + "/" + PutLabel(4020);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParPerdidasMecanicas) {
-			Label = "\t" + PutLabel(604);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4016) + PutLabel(917)
+					+ "/" + PutLabel(3033);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.TrabajoNeto) {
-			Label = "\t" + PutLabel(605);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4021) + PutLabel(907)
+					+ "/" + PutLabel(3001);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.TrabajoBombeo) {
-			Label = "\t" + PutLabel(606);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4021) + PutLabel(907)
+					+ "/" + PutLabel(3003);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMN) {
-			Label = "\t" + PutLabel(607);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4006) + PutLabel(908)
+					+ "/" + PutLabel(3002) + "/" + PutLabel(3032);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PME) {
-			Label = "\t" + PutLabel(608);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4006) + PutLabel(908)
+					+ "/" + PutLabel(3034) + "/" + PutLabel(3032);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMNCiclo) {
-			Label = "\t" + PutLabel(609);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4006) + PutLabel(908)
+					+ "/" + PutLabel(3002) + "/" + PutLabel(4020);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMECiclo) {
-			Label = "\t" + PutLabel(610);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4006) + PutLabel(908)
+					+ "/" + PutLabel(3034) + "/" + PutLabel(4020);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMICiclo) {
-			Label = "\t" + PutLabel(611);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4006) + PutLabel(908)
+					+ "/" + PutLabel(3009) + "/" + PutLabel(4020);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.PMBCiclo) {
-			Label = "\t" + PutLabel(612);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4006) + PutLabel(908)
+					+ "/" + PutLabel(3004) + "/" + PutLabel(4020);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.Potencia) {
-			Label = "\t" + PutLabel(613);
-			medoutput << Label.c_str();
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4009) + PutLabel(903)
+					+ "/" + PutLabel(3032);
 		}
 		if (FResMediosMotor.PotenciaCiclo) {
-			Label = "\t" + PutLabel(614);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4009) + PutLabel(903)
+					+ "/" + PutLabel(4020);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.MasaAdmision) {
-			Label = "\t" + PutLabel(615);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4004) + PutLabel(913)
+					+ "/" + PutLabel(3017);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.MasaFuel) {
-			Label = "\t" + PutLabel(616);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4004) + PutLabel(913)
+					+ "/" + PutLabel(3027);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.MasaAtrapada) {
-			Label = "\t" + PutLabel(617);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4004) + PutLabel(913)
+					+ "/" + PutLabel(3010);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RegimenGiro) {
-			Label = "\t" + PutLabel(618);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4022)
+					+ PutLabel(918);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendimientoVolumetrico) {
-			Label = "\t" + PutLabel(619);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4011) + PutLabel(901)
+					+ "/" + PutLabel(3022) + "/" + PutLabel(3017);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendimientoVolumetricoAtm) {
-			Label = "\t" + PutLabel(620);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4011) + PutLabel(901)
+					+ "/" + PutLabel(3022) + "/" + PutLabel(3035);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendEfectivo) {
-			Label = "\t" + PutLabel(621);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4011) + PutLabel(901)
+					+ "/" + PutLabel(3029);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.RendIndicado) {
-			Label = "\t" + PutLabel(622);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(4011) + PutLabel(901)
+					+ "/" + PutLabel(3036);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ConsumoEspecifico) {
-			Label = "\t" + PutLabel(623);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(3037)
+					+ PutLabel(924);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.ParResistente) {
-			Label = "\t" + PutLabel(624);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(3038)
+					+ PutLabel(917);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.VelocidadVehiculo) {
-			Label = "\t" + PutLabel(625);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(3039)
+					+ PutLabel(925);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.Dosado) {
-			Label = "\t" + PutLabel(626);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(3040)
+					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.AFR) {
-			Label = "\t" + PutLabel(627);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(3015)
+					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosMotor.Swirl) {
-			Label = "\t" + PutLabel(628);
+			Label = "\t" + PutLabel(5002) + "/" + PutLabel(3021)
+					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
 

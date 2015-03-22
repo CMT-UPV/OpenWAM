@@ -533,41 +533,45 @@ void TTurbinaTwin::CabeceraResultadosMedTurb(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosTurbina.Trabajo) {
-			Label = "\t" + PutLabel(511) + IntToStr(FNumeroTurbina)
-					+ PutLabel(907);
+			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+					+ PutLabel(4021) + PutLabel(907);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosTurbina.Rendimiento) {
-			Label = "\t" + PutLabel(512) + IntToStr(FNumeroTurbina)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+					+ PutLabel(4011) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosTurbina.RelaCinematica) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(513) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(901);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4027) + PutLabel(901) + "/"
+						+ IntToStr(i + 1);
 				medoutput << Label.c_str();
 			}
 			// fprintf(fich,"\tRelacion_cinematica_global_turb_%d(-)",IntToStr(FNumeroTurbina));
 		}
 		if (FResMediosTurbina.GastoCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(516) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(905);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4024) + PutLabel(905) + "/"
+						+ IntToStr(i + 1);
 				medoutput << Label.c_str();
 			}
 		}
 		if (FResMediosTurbina.RegimenCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(517) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(906);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4025) + PutLabel(906) + "/"
+						+ IntToStr(i + 1);
 				medoutput << Label.c_str();
 			}
 		}
 		if (FResMediosTurbina.RelacionExpansion) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(518) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(901);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4026) + PutLabel(901) + "/"
+						+ IntToStr(i + 1);
 				medoutput << Label.c_str();
 			}
 		}
@@ -809,40 +813,44 @@ void TTurbinaTwin::CabeceraResultadosInstantTurb(stringstream& insoutput) {
 		AnsiString Label;
 
 		if (FResInstantTurbina.Potencia) {
-			Label = "\t" + PutLabel(519) + IntToStr(FNumeroTurbina)
-					+ PutLabel(903);
+			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+					+ PutLabel(4009) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantTurbina.Rendimiento) {
-			Label = "\t" + PutLabel(512) + IntToStr(FNumeroTurbina)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+					+ PutLabel(4011) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantTurbina.RelaCinematica) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(513) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(901);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4027) + PutLabel(901) + "/"
+						+ IntToStr(i + 1);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantTurbina.GastoCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(516) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(905);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4024) + PutLabel(905) + "/"
+						+ IntToStr(i + 1);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantTurbina.RegimenCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(517) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(906);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4025) + PutLabel(906) + "/"
+						+ IntToStr(i + 1);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantTurbina.RelacionExpansion) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(518) + IntToStr(i + 1) + PutLabel(514)
-						+ IntToStr(FNumeroTurbina) + PutLabel(901);
+				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+						+ "/" + PutLabel(4026) + PutLabel(901) + "/"
+						+ IntToStr(i + 1);
 				insoutput << Label.c_str();
 			}
 		}

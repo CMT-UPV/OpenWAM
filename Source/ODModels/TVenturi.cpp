@@ -460,43 +460,43 @@ void TVenturi::CabeceraResultadosInstantVenturi(stringstream& insoutput) {
 		AnsiString Label;
 
 		if (FResInstantVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(521) + IntToStr(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(522) + IntToStr(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3049);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(523) + IntToStr(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(524) + IntToStr(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3049);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(525) + IntToStr(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelLateral) {
-			Label = "\t" + PutLabel(526) + IntToStr(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3050);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(527) + IntToStr(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(528) + IntToStr(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3050);
 			insoutput << Label.c_str();
 		}
 
@@ -698,43 +698,43 @@ void TVenturi::HeaderAverageResultsVenturi(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(521) + IntToStr(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(522) + IntToStr(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3049);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(523) + IntToStr(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(524) + IntToStr(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3049);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(525) + IntToStr(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelLateral) {
-			Label = "\t" + PutLabel(526) + IntToStr(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3050);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(527) + IntToStr(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(528) + IntToStr(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3050);
 			medoutput << Label.c_str();
 		}
 

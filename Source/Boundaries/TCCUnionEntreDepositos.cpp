@@ -778,7 +778,8 @@ void TCCUnionEntreDepositos::CabeceraResultadosInstantUED(
 		AnsiString Label;
 
 		if (FResInstantUED.Massflow) {
-			Label = "\t" + PutLabel(411) + IntToStr(FNumeroCC) + PutLabel(904);
+			Label = "\t" + PutLabel(5011) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4008) + PutLabel(904);
 			insoutput << Label.c_str();
 		}
 
@@ -872,8 +873,8 @@ void TCCUnionEntreDepositos::HeaderAverageResultsUED(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosUED.Massflow) {
-			Label = "\t" + PutLabel(411) + AnsiString(FNumeroCC)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(5011) + "/" + AnsiString(FNumeroCC) + "/"
+					+ PutLabel(4008) + PutLabel(904);
 			medoutput << Label.c_str();
 		}
 

@@ -289,8 +289,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 void TOutputResults::HeaderAverageResults(stEspecies *SpeciesName,
 		TCalculoExtern* EXTERN, bool ThereIsDLL) {
 
-	FAvgOutput << PutLabel(704);
-	FAvgOutput << "\t" << PutLabel(701);
+	FAvgOutput << PutLabel(4020) << PutLabel(901);
+	FAvgOutput << "\t" << PutLabel(4019) << PutLabel(923);
 
 	// ! Header average results in cylinders.
 
@@ -2371,10 +2371,10 @@ void TOutputResults::HeaderInstantaneousResults(TCalculoExtern *EXTERN,
 
 		AnsiString Label;
 
-		FInsOutput << "Time";
+		FInsOutput << PutLabel(4019) + PutLabel(923);
 
 		if (EngineBlock) {
-			Label = PutLabel(702);
+			Label = PutLabel(4028) + PutLabel(926);
 			FInsOutput << "\t" << Label.c_str();
 		}
 

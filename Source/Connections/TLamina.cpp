@@ -565,6 +565,8 @@ void TLamina::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 
 		if (FGraficasLam) {
 			if (FGrafLev) {
+				Label = "\t" + PutLabel(5015) + "/" + IntToStr(lam) + "/"
+						+ PutLabel(4030) + PutLabel(902);
 				Label = "\t" + PutLabel(14) + IntToStr(lam) + PutLabel(902);
 				insoutput << Label.c_str();
 			}

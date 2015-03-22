@@ -883,148 +883,176 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 
 		if (FNumVarMed > 0) {
 			if (FResMediosCilindro.TrabajoNeto) {
-				Label = "\t" + PutLabel(631) + IntToStr(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4021) + PutLabel(907) + "/"
+						+ PutLabel(3001);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaNeta) {
-				Label = "\t" + PutLabel(632) + IntToStr(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4006) + PutLabel(908) + "/"
+						+ PutLabel(3002);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TrabajoBombeo) {
-				Label = "\t" + PutLabel(633) + IntToStr(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4021) + PutLabel(907) + "/"
+						+ PutLabel(3003);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaBombeo) {
-				Label = "\t" + PutLabel(634) + IntToStr(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4006) + PutLabel(908) + "/"
+						+ PutLabel(3004);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCombustion) {
-				Label = "\t" + PutLabel(635) + IntToStr(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
+						+ PutLabel(3005);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCilindro) {
-				Label = "\t" + PutLabel(636) + IntToStr(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
+						+ PutLabel(3006);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCulata) {
-				Label = "\t" + PutLabel(637) + IntToStr(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
+						+ PutLabel(3007);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorPiston) {
-				Label = "\t" + PutLabel(638) + IntToStr(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
+						+ PutLabel(3008);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaIndicada) {
-				Label = "\t" + PutLabel(639) + IntToStr(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4006) + PutLabel(908) + "/"
+						+ PutLabel(3009);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaAtrapada) {
-				Label = "\t" + PutLabel(640) + IntToStr(FNumeroCilindro)
-						+ PutLabel(913);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3010);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroInterna) {
-				Label = "\t" + PutLabel(641) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3006) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroMedia) {
-				Label = "\t" + PutLabel(642) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3006) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroExterna) {
-				Label = "\t" + PutLabel(643) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3006) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonInterna) {
-				Label = "\t" + PutLabel(644) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3008) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonMedia) {
-				Label = "\t" + PutLabel(645) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3008) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonExterna) {
-				Label = "\t" + PutLabel(646) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3008) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataInterna) {
-				Label = "\t" + PutLabel(647) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3007) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataMedia) {
-				Label = "\t" + PutLabel(648) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3007) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataExterna) {
-				Label = "\t" + PutLabel(649) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3007) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.NITMedio) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(650) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(903);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3014)
+							+ PutLabel(903) + "/" + PutLabel(3018) + "/"
+							+ IntToStr(i + 1);
 					medoutput << Label.c_str();
 				}
-				Label = "\t" + PutLabel(652) + IntToStr(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ PutLabel(3014) + PutLabel(903) + "/" + PutLabel(3018)
+						+ "/" + PutLabel(3020);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.AFRMedio) {
-				Label = "\t" + PutLabel(653) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4015) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaBlowBy) {
-				Label = "\t" + PutLabel(654) + IntToStr(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3016);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaAdmision) {
-				Label = "\t" + PutLabel(655) + IntToStr(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3017);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaEscape) {
-				Label = "\t" + PutLabel(656) + IntToStr(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3018);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaCortocircuito) {
-				Label = "\t" + PutLabel(657) + IntToStr(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3019);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaMedia) {
-				Label = "\t" + PutLabel(658) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3020);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.Swirl) {
-				Label = "\t" + PutLabel(659) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(3021) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.RendVolumetrico) {
-				Label = "\t" + PutLabel(660) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4011) + PutLabel(910) + "/"
+						+ PutLabel(3022);
 				medoutput << Label.c_str();
 			}
 		}
@@ -1607,222 +1635,270 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			// cadena Label7;
 
 			if (FResInstantCilindro.Pressure) {
-				Label = "\t" + PutLabel(661) + IntToStr(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4006) + PutLabel(908);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.Temperature) {
-				Label = "\t" + PutLabel(662) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3041);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.MomentoAngularEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(663) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ PutLabel(901) + "/" + PutLabel(3018) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					Label = "\t" + PutLabel(664) + IntToStr(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ PutLabel(901) + "/" + PutLabel(3018) + "/"
+							+ PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MomentoAngularAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(665) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ PutLabel(901) + "/" + PutLabel(3017) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					Label = "\t" + PutLabel(666) + IntToStr(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ PutLabel(901) + "/" + PutLabel(3017) + "/"
+							+ PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.GastoEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(667) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(904);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ PutLabel(904) + "/" + PutLabel(3018) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					Label = "\t" + PutLabel(668) + IntToStr(FNumeroCilindro)
-							+ PutLabel(904);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ PutLabel(904) + "/" + PutLabel(3018) + "/"
+							+ PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.GastoAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(669) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(904);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ PutLabel(904) + "/" + PutLabel(3017) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					Label = "\t" + PutLabel(670) + IntToStr(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ PutLabel(904) + "/" + PutLabel(3017) + "/"
+							+ PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MachEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(671) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4014)
+							+ PutLabel(901) + "/" + PutLabel(3018) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MachAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(672) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4014)
+							+ PutLabel(901) + "/" + PutLabel(3017) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(673) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(915);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ PutLabel(4012) + PutLabel(915) + "/"
+							+ PutLabel(3018) + "/" + IntToStr(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					Label = "\t" + PutLabel(674) + IntToStr(FNumeroCilindro)
-							+ PutLabel(915);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ PutLabel(4012) + PutLabel(915) + "/"
+							+ PutLabel(3018) + "/" + PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(675) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(915);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ PutLabel(4012) + PutLabel(915) + "/"
+							+ PutLabel(3017) + "/" + IntToStr(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					Label = "\t" + PutLabel(676) + IntToStr(FNumeroCilindro)
-							+ PutLabel(915);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ PutLabel(4012) + PutLabel(915) + "/"
+							+ PutLabel(3017) + "/" + PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.Masa) {
-				Label = "\t" + PutLabel(677) + IntToStr(FNumeroCilindro)
-						+ PutLabel(913);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3041);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.Volumen) {
-				Label = "\t" + PutLabel(678) + IntToStr(FNumeroCilindro)
-						+ PutLabel(912);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4003) + PutLabel(912);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.CoeficienteWoschni) {
-				Label = "\t" + PutLabel(679) + IntToStr(FNumeroCilindro)
-						+ PutLabel(911);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4015) + PutLabel(911);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.MasaCombustible) {
-				Label = "\t" + PutLabel(680) + IntToStr(FNumeroCilindro)
-						+ PutLabel(916);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
+						+ PutLabel(3027);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.FQL) {
-				Label = "\t" + PutLabel(681) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4018) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroInterna) {
-				Label = "\t" + PutLabel(641) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3006) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroMedia) {
-				Label = "\t" + PutLabel(642) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3006) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroExterna) {
-				Label = "\t" + PutLabel(643) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3006) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonInterna) {
-				Label = "\t" + PutLabel(644) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3008) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonMedia) {
-				Label = "\t" + PutLabel(645) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3008) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonExterna) {
-				Label = "\t" + PutLabel(646) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3008) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataInterna) {
-				Label = "\t" + PutLabel(647) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3007) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataMedia) {
-				Label = "\t" + PutLabel(648) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3007) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataExterna) {
-				Label = "\t" + PutLabel(649) + IntToStr(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
+						+ PutLabel(3007) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.NIT) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(682) + IntToStr(i) + PutLabel(651)
-							+ IntToStr(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3014)
+							+ PutLabel(903) + "/" + PutLabel(3018) + "/"
+							+ IntToStr(i);
 					insoutput << Label.c_str();
 				}
-				Label = "\t" + PutLabel(683) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(3014) + PutLabel(903) + "/"
+						+ PutLabel(3018) + "/" + PutLabel(3026);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.ParInstantaneo) {
-				Label = "\t" + PutLabel(684) + IntToStr(FNumeroCilindro)
-						+ PutLabel(917);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4016) + PutLabel(917);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.GastoCortocircuito) {
-				Label = "\t" + PutLabel(685) + IntToStr(FNumeroCilindro)
-						+ PutLabel(904);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4008) + PutLabel(904) + "/"
+						+ PutLabel(3019);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.GastoBlowBy) {
-				Label = "\t" + PutLabel(686) + IntToStr(FNumeroCilindro)
-						+ PutLabel(904);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4008) + PutLabel(904) + "/"
+						+ PutLabel(3019);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.FraccionMasica) {
 				for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR; i++) {
-					Label = "\t" + PutLabel(687) + DatosEspecies[i].Nombre
-							+ PutLabel(651) + IntToStr(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5001) + "/"
+							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4023)
+							+ PutLabel(901) + "/" + DatosEspecies[i].Nombre;
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.Gamma) {
-				Label = "\t" + PutLabel(688) + IntToStr(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4017) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatHead) {
-				Label = "\t" + PutLabel(689) + IntToStr(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(903) + "/"
+						+ PutLabel(3007);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatCyl) {
-				Label = "\t" + PutLabel(690) + IntToStr(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(903) + "/"
+						+ PutLabel(3006);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatPis) {
-				Label = "\t" + PutLabel(691) + IntToStr(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+						+ "/" + PutLabel(4010) + PutLabel(903) + "/"
+						+ PutLabel(3008);
 				insoutput << Label.c_str();
 			}
 		}

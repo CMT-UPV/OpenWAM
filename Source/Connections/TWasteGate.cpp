@@ -265,7 +265,8 @@ void TWasteGate::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 
 		if (FGraficasWG) {
 			if (FGrafLev) {
-				Label = "\t" + PutLabel(13) + IntToStr(lam) + PutLabel(902);
+				Label = "\t" + PutLabel(5014) + "/" + IntToStr(lam) + "/"
+						+ PutLabel(4030) + PutLabel(902);
 				insoutput << Label.c_str();
 			}
 		}
