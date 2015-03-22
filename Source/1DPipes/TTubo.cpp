@@ -2983,65 +2983,64 @@ void TTubo::HeaderAverageResults(stringstream& medoutput,
 					3);
 
 			if (ResultadosMedios[i].TemperaturaGas) {
-				Label = "\t" + PutLabel(303) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3041);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Pressure) {
-				Label = "\t" + PutLabel(301) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4006)
 						+ PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Velocity) {
-				Label = "\t" + PutLabel(302) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4007)
 						+ PutLabel(909);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Massflow) {
-				Label = "\t" + PutLabel(304) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4008)
 						+ PutLabel(904);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaInternaPared) {
-				Label = "\t" + PutLabel(310) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3043) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaIntermediaPared) {
-				Label = "\t" + PutLabel(311) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3043) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaExternaPared) {
-				Label = "\t" + PutLabel(312) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3043) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].NITmedio) {
-				Label = "\t" + PutLabel(309) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(3014)
 						+ PutLabel(903);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].CoefPelInterior) {
-				Label = "\t" + PutLabel(313) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4015)
 						+ PutLabel(911);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].FraccionMasicaEspecies) {
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					Label = "\t" + PutLabel(314) + DatosEspecies[j].Nombre
-							+ PutLabel(318) + IntToStr(FNumeroTubo)
-							+ PutLabel(316) + TextDist + PutLabel(317)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+							+ "/" + TextDist + "m/" + PutLabel(4023)
+							+ PutLabel(901) + "/" + DatosEspecies[j].Nombre;
 					medoutput << Label.c_str();
 				}
 			}
@@ -3249,95 +3248,94 @@ void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
 			TextDist = FloatToStrF(ResultInstantaneos[i].Distancia, ffGeneral,
 					8, 3);
 			if (ResultInstantaneos[i].Pressure) {
-				Label = "\t" + PutLabel(301) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4006) + PutLabel(908)
+						+ "/" + PutLabel(3042);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].Velocity) {
-				Label = "\t" + PutLabel(302) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(909);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4007) + PutLabel(909)
+						+ "/" + PutLabel(3026);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaGas) {
-				Label = "\t" + PutLabel(303) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3041);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].FlujoMasico) {
-				Label = "\t" + PutLabel(304) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4008)
 						+ PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].VelocidadDerecha) {
-				Label = "\t" + PutLabel(305) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(909);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4007) + PutLabel(909)
+						+ "/" + PutLabel(3031);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].VelocidadIzquierda) {
-				Label = "\t" + PutLabel(306) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(909);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4007) + PutLabel(909)
+						+ "/" + PutLabel(3030);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].PresionDerecha) {
-				Label = "\t" + PutLabel(307) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4006) + PutLabel(908)
+						+ "/" + PutLabel(3031);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].PresionIzquierda) {
-				Label = "\t" + PutLabel(308) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4006) + PutLabel(908)
+						+ "/" + PutLabel(3030);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].NIT) {
-				Label = "\t" + PutLabel(309) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(3014)
 						+ PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaInternaPared) {
-				Label = "\t" + PutLabel(310) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3043) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaIntermediaPared) {
-				Label = "\t" + PutLabel(311) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3043) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaExternaPared) {
-				Label = "\t" + PutLabel(312) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+						+ "/" + PutLabel(3043) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].CoefPelInterior) {
-				Label = "\t" + PutLabel(313) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
-						+ PutLabel(911);
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4015) + PutLabel(911)
+						+ "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].FraccionMasicaEspecies) {
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					Label = "\t" + PutLabel(314) + DatosEspecies[j].Nombre
-							+ PutLabel(318) + IntToStr(FNumeroTubo)
-							+ PutLabel(316) + TextDist + PutLabel(317)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+							+ "/" + TextDist + "m/" + PutLabel(4023)
+							+ PutLabel(901) + "/" + DatosEspecies[j].Nombre;
 					insoutput << Label.c_str();
 				}
 			}
 			if (ResultInstantaneos[i].Gamma) {
-				Label = "\t" + PutLabel(315) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
+						+ "/" + TextDist + "m/" + PutLabel(4017)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}

@@ -314,13 +314,13 @@ void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosSensor.Output) {
-			Label = "\t" + PutLabel(707) + IntToStr(FNumeroSensor)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+					+ PutLabel(3051) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosSensor.Input) {
-			Label = "\t" + PutLabel(708) + IntToStr(FNumeroSensor)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+					+ PutLabel(3052) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 
@@ -338,13 +338,13 @@ void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 		AnsiString Label;
 
 		if (FResInstantSensor.Output) {
-			Label = "\t" + PutLabel(707) + IntToStr(FNumeroSensor)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+					+ PutLabel(3051) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantSensor.Input) {
-			Label = "\t" + PutLabel(708) + IntToStr(FNumeroSensor)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+					+ PutLabel(3052) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 	} catch (Exception & N) {

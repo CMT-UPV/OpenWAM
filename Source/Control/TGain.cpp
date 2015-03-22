@@ -132,7 +132,8 @@ void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {
 	AnsiString Label;
 
 	if (FResMediosCtrl.Output) {
-		Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+		Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+				+ PutLabel(3051) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
 
@@ -143,7 +144,8 @@ void TGain::CabeceraResultadosInsControlador(stringstream& insoutput) {
 	AnsiString Label;
 
 	if (FResInstantCtrl.Output) {
-		Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+		Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+				+ PutLabel(3051) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
 

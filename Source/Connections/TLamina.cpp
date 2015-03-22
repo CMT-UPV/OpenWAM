@@ -110,13 +110,13 @@ TLamina::TLamina(TLamina *Origen, int Valvula) :
 	FDatosCDEntrada.resize(Origen->FDatosCDEntrada.size());
 	FLiftCDout.resize(Origen->FLiftCDout.size());
 	FDatosCDSalida.resize(Origen->FDatosCDSalida.size());
-	for (int i = 0; i < FDatosCDEntrada.size(); i++) {
+	for (dVector::size_type i = 0; i < FDatosCDEntrada.size(); i++) {
 		FLiftCDin[i] = Origen->FLiftCDin[i];
 		FDatosCDEntrada[i] = Origen->FDatosCDEntrada[i];
 	}
 	fun_CDin = new Hermite_interp(FLiftCDin, FDatosCDEntrada);
 
-	for (int i = 0; i < FDatosCDSalida.size(); i++) {
+	for (dVector::size_type i = 0; i < FDatosCDSalida.size(); i++) {
 		FLiftCDout[i] = Origen->FLiftCDout[i];
 		FDatosCDSalida[i] = Origen->FDatosCDSalida[i];
 	}
@@ -143,8 +143,8 @@ TLamina::TLamina(TLamina *Origen, int Valvula) :
 
 }
 
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
@@ -642,14 +642,16 @@ void TLamina::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 
 		if (FGraficasLam) {
 			if (FGrafLev) {
+				Label = "\t" + PutLabel(5015) + "/" + IntToStr(lam) + "/"
+						+ PutLabel(4030) + PutLabel(902);
 				Label = "\t" + PutLabel(14) + IntToStr(lam) + PutLabel(902);
 				insoutput << Label.c_str();
 			}
 		}
-		// fclose(fich);
-	} catch (Exception & N) {
+//fclose(fich);
+	} catch (Exception &N) {
 		std::cout << "ERROR: CabeceraGrafica Lamina" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
 		throw Exception(N.Message);
 
 	}

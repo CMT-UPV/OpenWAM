@@ -2916,9 +2916,9 @@ void TCalculoExtern::ObtenerRutaTrabajo(const char *origin) {
 		int contpunto = 0;
 		for (int i = (int) strlen(origin) - 1; i >= 0; i--) {
 			if (origin[i] == '\\') {
-				contpunto = i + 1;
+				contpunto = i + 1;    //ha encontrado el punto de la extension
 				break;
-			}	 //ha encontrado el punto de la extension
+			}
 		}
 		FRutaTrabajo = new char[contpunto + 1];
 		for (int i = 0; i < contpunto; i++) {

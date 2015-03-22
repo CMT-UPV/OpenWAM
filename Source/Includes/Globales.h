@@ -1778,7 +1778,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 																		+ 0.00000006475
 																				* Temperature))
 										+ 580800 * RaizdeT) * RGasoline
-								/ Runiversal) - RGasoline;   //cv = cp - R
+								/ Runiversal) - RGasoline; //cv = cp - R
 			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
@@ -1880,7 +1880,7 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
 																		+ 0.00000006475
 																				* Temperature))
 										+ 580800 * RaizdeT) * RGasoline
-								/ Runiversal;    //cv = cp - R
+								/ Runiversal; //cv = cp - R
 			}
 
 		}

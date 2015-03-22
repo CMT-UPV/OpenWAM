@@ -1051,36 +1051,36 @@ void TDeposito::HeaderInstantaneousResultsDep(stringstream& insoutput,
 		AnsiString Label;
 
 		if (FResInstantDep.Pressure) {
-			Label = "\t" + PutLabel(501) + IntToStr(FNumeroDeposito)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+					+ "/" + PutLabel(4006) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Temperature) {
-			Label = "\t" + PutLabel(502) + IntToStr(FNumeroDeposito)
-					+ PutLabel(910);
+			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+					+ "/" + PutLabel(4005) + PutLabel(910);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Volumen) {
-			Label = "\t" + PutLabel(503) + IntToStr(FNumeroDeposito)
-					+ PutLabel(912);
+			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+					+ "/" + PutLabel(4003) + PutLabel(912);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Masa) {
-			Label = "\t" + PutLabel(504) + IntToStr(FNumeroDeposito)
-					+ PutLabel(913);
+			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+					+ "/" + PutLabel(4004) + PutLabel(913);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.FraccionMasicaEspecies) {
 			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-				Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre
-						+ PutLabel(506) + IntToStr(FNumeroDeposito)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+						+ "/" + PutLabel(4023) + PutLabel(901) + "/"
+						+ DatosEspecies[i].Nombre;
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantDep.Gamma) {
-			Label = "\t" + PutLabel(507) + IntToStr(FNumeroDeposito)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+					+ "/" + PutLabel(4017) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 
@@ -1137,20 +1137,20 @@ void TDeposito::HeaderAverageResultsDep(stringstream& medoutput,
 		AnsiString Label;
 		if (FNumResMed > 0) {
 			if (FResMediosDep.Pressure) {
-				Label = "\t" + PutLabel(501) + IntToStr(FNumeroDeposito)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+						+ "/" + PutLabel(4006) + PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosDep.Temperature) {
-				Label = "\t" + PutLabel(502) + IntToStr(FNumeroDeposito)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+						+ "/" + PutLabel(4005) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosDep.FraccionMasicaEspecies) {
 				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-					Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre
-							+ PutLabel(506) + IntToStr(FNumeroDeposito)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(5003) + "/"
+							+ IntToStr(FNumeroDeposito) + "/" + PutLabel(4023)
+							+ PutLabel(901) + "/" + DatosEspecies[i].Nombre;
 					medoutput << Label.c_str();
 				}
 			}

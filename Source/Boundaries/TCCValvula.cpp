@@ -208,7 +208,7 @@ void TCCCilindro::CalculaCondicionContorno() {
 
 		FAd = pow(FPresionCil / FPref, 1. / Gamma4);
 		rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
-		if (rel_CCon_Entropia / FAd > 1.000005) { // Flujo entrante al cilindro
+		if (rel_CCon_Entropia / FAd > 1.000005) {  // Flujo entrante al cilindro
 			/* ________ */
 			/* caso >1  */
 			/* ________ */
@@ -274,7 +274,7 @@ void TCCCilindro::CalculaCondicionContorno() {
 				 *g1lf = 0.;
 				 }    */
 			}
-		} else {    // Flujo Parado
+		} else {   // Flujo Parado
 			/* ________ */
 			/* caso =1  */
 			/* ________ */
@@ -528,7 +528,7 @@ void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 		}
 		if (salida) {
 			if (ei == 0.)
-				ei = medio;/*evita posibles errores*/
+				ei = medio; /*evita posibles errores*/
 
 			switch (Caso) {
 			case nmFlujoEntranteSaltoSubcritico:

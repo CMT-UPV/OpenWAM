@@ -4901,7 +4901,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	 printf("The element file results could not be opened");
 	 exit(1);
 	 }
-	 strcpy(title,"CAD[�],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
+	 strcpy(title,"CAD[deg],time[s],paq_10_1,paq_10_3,paq_10_5,paq_30_1,paq_30_3,paq_30_5,paq_50_1,paq_50_3,paq_50_5,paq_70_1,paq_70_3,paq_70_5,paq_90_1,paq_90_3,paq_90_5");
 	 fprintf(fich, "%s", title);
 
 	 for(counter=0;counter<size;counter++){

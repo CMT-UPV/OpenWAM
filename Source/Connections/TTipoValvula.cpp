@@ -164,11 +164,13 @@ void TTipoValvula::CabeceraGraficaINS(stringstream& insoutput, int nodo) {
 
 		if (FGraficasINS) {
 			if (FGraficaCDEINS) {
-				Label = "\t" + PutLabel(11) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3045);
 				insoutput << Label.c_str();
 			}
 			if (FGraficaCDSINS) {
-				Label = "\t" + PutLabel(12) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3046);
 				insoutput << Label.c_str();
 			}
 		}
@@ -269,11 +271,13 @@ void TTipoValvula::CabeceraGraficaMED(stringstream& medoutput, int nodo) {
 
 		if (FGraficasMED) {
 			if (FGraficaCDEMED) {
-				Label = "\t" + PutLabel(11) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3045);
 				medoutput << Label.c_str();
 			}
 			if (FGraficaCDSMED) {
-				Label = "\t" + PutLabel(12) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3046);
 				medoutput << Label.c_str();
 			}
 		}

@@ -257,7 +257,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 		*FCD = FSonido + FGamma3 * FVelocity;
 
 // Transporte de Especies Quimicas
-		if (*FCC > *FCD) {     // Flujo saliente del tubo
+		if (*FCC > *FCD) {   // Flujo saliente del tubo
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] =
 						FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
@@ -361,15 +361,18 @@ void TCCCompresorVolumetrico::CabeceraResultadosMedCV(stringstream& medoutput) {
 		AnsiString Label;
 
 		if (FResMediosCV.Potencia) {
-			Label = "\t" + PutLabel(401) + IntToStr(FNumeroCC) + PutLabel(903);
+			Label = "\t" + PutLabel(5010) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4009) + PutLabel(903);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCV.Massflow) {
-			Label = "\t" + PutLabel(402) + IntToStr(FNumeroCC) + PutLabel(904);
+			Label = "\t" + PutLabel(5010) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4008) + PutLabel(904);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCV.Pressure) {
-			Label = "\t" + PutLabel(402) + IntToStr(FNumeroCC) + PutLabel(908);
+			Label = "\t" + PutLabel(5010) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4006) + PutLabel(908);
 			medoutput << Label.c_str();
 		}
 
@@ -536,15 +539,18 @@ void TCCCompresorVolumetrico::CabeceraResultadosInstantCV(
 		AnsiString Label;
 
 		if (FResInstantCV.Potencia) {
-			Label = "\t" + PutLabel(401) + IntToStr(FNumeroCC) + PutLabel(903);
+			Label = "\t" + PutLabel(5010) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4009) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCV.Massflow) {
-			Label = "\t" + PutLabel(402) + IntToStr(FNumeroCC) + PutLabel(904);
+			Label = "\t" + PutLabel(5010) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4008) + PutLabel(904);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCV.Pressure) {
-			Label = "\t" + PutLabel(403) + IntToStr(FNumeroCC) + PutLabel(908);
+			Label = "\t" + PutLabel(5010) + "/" + IntToStr(FNumeroCC) + "/"
+					+ PutLabel(4006) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
 //fclose(fich);

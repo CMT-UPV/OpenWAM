@@ -209,3 +209,4 @@ void TCCPulso::CalculaCondicionContorno(double Time) {
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
+

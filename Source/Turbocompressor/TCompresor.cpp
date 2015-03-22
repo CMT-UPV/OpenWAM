@@ -291,33 +291,33 @@ void TCompresor::CabeceraGraficasMedias(stringstream& medoutput) {
 		AnsiString Label;
 		if (FMedias.GraficaMedias) {
 			if (FMedias.GraficaTrabajo) {
-				Label = "\t" + PutLabel(28) + IntToStr(FNumeroCompresor)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4021) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaRendimiento) {
-				Label = "\t" + PutLabel(22) + IntToStr(FNumeroCompresor)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4011) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaRelacionCompresion) {
-				Label = "\t" + PutLabel(23) + IntToStr(FNumeroCompresor)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4026) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaGasto) {
-				Label = "\t" + PutLabel(24) + IntToStr(FNumeroCompresor)
-						+ PutLabel(904);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4008) + PutLabel(904);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaGastoCorregido) {
-				Label = "\t" + PutLabel(25) + IntToStr(FNumeroCompresor)
-						+ PutLabel(905);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4024) + PutLabel(905);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaRegimenCorregido) {
-				Label = "\t" + PutLabel(26) + IntToStr(FNumeroCompresor)
-						+ PutLabel(906);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4025) + PutLabel(906);
 				medoutput << Label.c_str();
 			}
 		}
@@ -423,38 +423,38 @@ void TCompresor::CabeceraGraficasInstantaneas(stringstream& insoutput) {
 
 		if (FInstant.GraficaInstantaneas) {
 			if (FInstant.GraficaPotencia) {
-				Label = "\t" + PutLabel(21) + IntToStr(FNumeroCompresor)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4009) + PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaRendimiento) {
-				Label = "\t" + PutLabel(22) + IntToStr(FNumeroCompresor)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4011) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaRelacionCompresion) {
-				Label = "\t" + PutLabel(23) + IntToStr(FNumeroCompresor)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4026) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaGasto) {
-				Label = "\t" + PutLabel(24) + IntToStr(FNumeroCompresor)
-						+ PutLabel(904);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4008) + PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaGastoCorregido) {
-				Label = "\t" + PutLabel(25) + IntToStr(FNumeroCompresor)
-						+ PutLabel(905);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4024) + PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaRegimenCorregido) {
-				Label = "\t" + PutLabel(26) + IntToStr(FNumeroCompresor)
-						+ PutLabel(906);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4025) + PutLabel(918);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaGamma) {
-				Label = "\t" + PutLabel(27) + IntToStr(FNumeroCompresor)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(5008) + "/" + IntToStr(FNumeroCompresor)
+						+ "/" + PutLabel(4017) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
