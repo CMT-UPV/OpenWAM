@@ -123,6 +123,13 @@ double GetXMLDamping(const xml_node& node, const std::string& name) {
 	return to_N_s_per_m(x, unit);
 }
 
+double GetXMLConductivity(const xml_node& node, const std::string& name) {
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Damping").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_W_per_m_K(x, unit);
+}
+
 double GetXMLForce(const xml_node& node, const std::string& name) {
 	xml_node unit_node = node.child("Units");
 	std::string unit = unit_node.attribute("Force").value();
@@ -176,6 +183,12 @@ double GetXMLPower(const xml_node& node, const std::string& name) {
 double GetXMLPressure(const xml_node& node, const std::string& name) {
 	xml_node unit_node = node.child("Units");
 	std::string unit = unit_node.attribute("Pressure").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_bar(x, unit);
+}
+
+double GetXMLPressure(const xml_node& node, const std::string& name,
+		const std::string& unit) {
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_bar(x, unit);
 }
@@ -237,9 +250,21 @@ double GetXMLTemperature(const xml_node& node, const std::string& name) {
 	return to_celsius(x, unit);
 }
 
+double GetXMLTemperature(const xml_node& node, const std::string& name,
+		const std::string& unit) {
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_celsius(x, unit);
+}
+
 double GetXMLTime(const xml_node& node, const std::string& name) {
 	xml_node unit_node = node.child("Units");
 	std::string unit = unit_node.attribute("Time").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_seconds(x, unit);
+}
+
+double GetXMLTime(const xml_node& node, const std::string& name,
+		const std::string& unit) {
 	double x = GetAttributeAsDouble(node, name.c_str());
 	return to_seconds(x, unit);
 }

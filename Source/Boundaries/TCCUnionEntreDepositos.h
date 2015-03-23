@@ -150,6 +150,8 @@ public:
 
 	void LeeUEDepositos(const char *FileWAM, fpos_t &filepos, bool Independent);
 
+	void LeeUEDepositosXML(xml_node node_connect, bool Independent) ;
+
 	void AsignaDepositos(TDeposito **Plenum);
 
 	void CalculaCoeficientesDescarga(double Angulo, double mfcomb = 0.,

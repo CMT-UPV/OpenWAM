@@ -159,6 +159,48 @@ void TCCExternalConnectionVol::ReadBoundaryData(const char *FileWAM,
 
 }
 
+void TCCExternalConnectionVol::ReadBoundaryDataXML(xml_node node_connect, int NumberOfPipes, TTubo **Pipe, int nDPF,
+		TDPF **DPF) {
+
+	int i = 0;
+
+	FTuboExtremo = new stTuboExtremo[1];
+	FTuboExtremo[0].Pipe = NULL;
+
+	while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+		if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+			FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+			FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+			FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+			FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+			FNodoFin = 0;
+			FIndiceCC = 0;
+			FNumeroTubosCC++;
+		}
+		if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+			FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+			FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+			FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+			FNodoFin = FTuboExtremo[FNumeroTubosCC].Pipe->getNin() - 1;
+			FIndiceCC = 1;
+			FNumeroTubosCC++;
+		}
+		i++;
+	}
+
+	// Inicializacion del transporte de especies quimicas.
+	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		FFraccionMasicaEspecie[i] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+	}
+
+	xml_node node_ext = GetNodeChild(node_connect,"Con:ExternalConnection");
+	FID = GetAttributeAsDouble(node_ext,"Connection_ID");
+
+}
+
 void TCCExternalConnectionVol::LoadNewData(double* p, double* T, double* u) {
 
 	if (FTimeSum > 0) {

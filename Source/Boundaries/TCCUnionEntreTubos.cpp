@@ -221,6 +221,147 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+void TCCUnionEntreTubos::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	try {
+		int i = 0;
+
+		FEspesor = 0.;
+		FConductividad = 0.;
+
+		FTuboExtremo = new stTuboExtremo[2];
+		FNodoFin = new int[2];
+		FIndiceCC = new int[2];
+		FCC = new double*[2];
+		FCD = new double*[2];
+		FNumeroTubo = new int[2];
+		FTubo = new int[2];
+
+		for (int i = 0; i < 2; i++) {
+			FTuboExtremo[i].Pipe = NULL;
+		}
+
+		while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC
+					|| Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTubo[FNumeroTubosCC] = i;
+				if (Pipe[FTubo[FNumeroTubosCC]]->getNodoIzq() == FNumeroCC) {
+					FNodoFin[FNumeroTubosCC] = 0;
+				}
+				if (Pipe[FTubo[FNumeroTubosCC]]->getNodoDer() == FNumeroCC) {
+					FNodoFin[FNumeroTubosCC] =
+							Pipe[FTubo[FNumeroTubosCC]]->getNin() - 1;
+				}
+				FNumeroTubosCC++;
+			}
+			i++;
+		}
+
+		/* Ahora al tubo de mayor diametro se le asignara la posicion 1 de los vectores
+		 y al de menor diametro la posicion 0 */
+		if (Pipe[FTubo[0]]->GetDiametro(FNodoFin[0])
+				>= Pipe[FTubo[1]]->GetDiametro(FNodoFin[1])) {
+			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
+				FTuboExtremo[1].TipoExtremo = nmLeft;
+				FNodoFin[1] = 0;
+				FIndiceCC[1] = 0;
+				FNumeroTubo[1] = FTubo[0];
+				FCC[1] = &(FTuboExtremo[1].Beta);
+				FCD[1] = &(FTuboExtremo[1].Landa);
+			}
+			if (Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
+				FTuboExtremo[1].TipoExtremo = nmRight;
+				FNodoFin[1] = Pipe[FTubo[0]]->getNin() - 1;
+				FIndiceCC[1] = 1;
+				FNumeroTubo[1] = FTubo[0];
+				FCC[1] = &(FTuboExtremo[1].Landa);
+				FCD[1] = &(FTuboExtremo[1].Beta);
+			}
+			if (Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[0].Pipe = Pipe[FTubo[1]];
+				FTuboExtremo[0].TipoExtremo = nmLeft;
+				FNodoFin[0] = 0;
+				FIndiceCC[0] = 0;
+				FNumeroTubo[0] = FTubo[1];
+				FCC[0] = &(FTuboExtremo[0].Beta);
+				FCD[0] = &(FTuboExtremo[0].Landa);
+			}
+			if (Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[0].Pipe = Pipe[FTubo[1]];
+				FTuboExtremo[0].TipoExtremo = nmRight;
+				FNodoFin[0] = Pipe[FTubo[1]]->getNin() - 1;
+				FIndiceCC[0] = 1;
+				FNumeroTubo[0] = FTubo[1];
+				FCC[0] = &(FTuboExtremo[0].Landa);
+				FCD[0] = &(FTuboExtremo[0].Beta);
+			}
+
+		} else {
+			if (Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[1].Pipe = Pipe[FTubo[1]];
+				FTuboExtremo[1].TipoExtremo = nmLeft;
+				FNodoFin[1] = 0;
+				FIndiceCC[1] = 0;
+				FNumeroTubo[1] = FTubo[1];
+				FCC[1] = &(FTuboExtremo[1].Beta);
+				FCD[1] = &(FTuboExtremo[1].Landa);
+			}
+			if (Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[1].Pipe = Pipe[FTubo[1]];
+				FTuboExtremo[1].TipoExtremo = nmRight;
+				FNodoFin[1] = Pipe[FTubo[1]]->getNin() - 1;
+				FIndiceCC[1] = 1;
+				FNumeroTubo[1] = FTubo[1];
+				FCC[1] = &(FTuboExtremo[1].Landa);
+				FCD[1] = &(FTuboExtremo[1].Beta);
+			}
+			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[0].Pipe = Pipe[FTubo[0]];
+				FTuboExtremo[0].TipoExtremo = nmLeft;
+				FNodoFin[0] = 0;
+				FIndiceCC[0] = 0;
+				FNumeroTubo[0] = FTubo[0];
+				FCC[0] = &(FTuboExtremo[0].Beta);
+				FCD[0] = &(FTuboExtremo[0].Landa);
+			}
+			if (Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[0].Pipe = Pipe[FTubo[0]];
+				FTuboExtremo[0].TipoExtremo = nmRight;
+				FNodoFin[0] = Pipe[FTubo[0]]->getNin() - 1;
+				FIndiceCC[0] = 1;
+				FNumeroTubo[0] = FTubo[0];
+				FCC[0] = &(FTuboExtremo[0].Landa);
+				FCD[0] = &(FTuboExtremo[0].Beta);
+			}
+		}
+
+		// Inicializacion del transporte de especies quimicas.
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+			// Se elige como composicion inicial la del tubo 0. Es arbitrario.
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		}
+
+		xml_node node_junction = GetNodeChild(node_connect,"Con:Junction");
+
+		FEspesor = GetXMLLength(node_junction,"Thickness");
+		FConductividad = GetXMLConductivity(node_junction,"Conductivity");
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
 void TCCUnionEntreTubos::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;

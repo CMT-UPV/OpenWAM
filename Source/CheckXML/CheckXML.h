@@ -147,6 +147,16 @@ double GetXMLAngle(const xml_node& node, const std::string& name);
 double GetXMLArea(const xml_node& node, const std::string& name);
 
 /**
+ * @brief Gets an attribute as a conductivity.
+ *
+ * Gets an attribute as a conductivity.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @return Conductivity. [W/mK]
+ */
+double GetXMLConductivity(const xml_node& node, const std::string& name);
+/**
  * @brief Gets an attribute as a damping coefficient.
  *
  * Gets an attribute as a damping coefficient.
@@ -281,6 +291,19 @@ double GetXMLMass(const xml_node& node, const std::string& name,
 double GetXMLPressure(const xml_node& node, const std::string& name);
 
 /**
+ * @brief Gets an attribute as a pressure.
+ *
+ * Gets an attribute as a pressure.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node.
+ * @return Pressure. [bar]
+ */
+double GetXMLPressure(const xml_node& node, const std::string& name,
+		const std::string& unit);
+
+/**
  * @brief Gets an attribute as a power.
  *
  * Gets an attribute as a power.
@@ -289,6 +312,7 @@ double GetXMLPressure(const xml_node& node, const std::string& name);
  * @param name Attribute name.
  * @return Power. [W]
  */
+
 double GetXMLPower(const xml_node& node, const std::string& name);
 
 /**
@@ -349,6 +373,18 @@ double GetXMLStiffness(const xml_node& node, const std::string& name);
 double GetXMLTemperature(const xml_node& node, const std::string& name);
 
 /**
+ * @brief Gets an attribute as a temperature.
+ *
+ * Gets an attribute as a temperature.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node
+ * @return Temperature. [degC]
+ */
+double GetXMLTemperature(const xml_node& node, const std::string& name,
+		const std::string& unit);
+/**
  * @brief Gets an attribute as a time.
  *
  * Gets an attribute as a time.
@@ -359,6 +395,18 @@ double GetXMLTemperature(const xml_node& node, const std::string& name);
  */
 double GetXMLTime(const xml_node& node, const std::string& name);
 
+/**
+ * @brief Gets an attribute as a time.
+ *
+ * Gets an attribute as a time.
+ *
+ * @param node XML node.
+ * @param name Attribute name.
+ * @param unit Unit used in the node
+ * @return Time. [s]
+ */
+double GetXMLTime(const xml_node& node, const std::string& name,
+		const std::string& unit);
 /**
  * @brief Gets an attribute as a Volume
  *

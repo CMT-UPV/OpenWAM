@@ -57,6 +57,8 @@ public:
 
 	void LeeEntradaPulso(FILE *fich);
 
+	void LeeEntradaPulsoXML(xml_node node_pulse,nmTypeBC FTipoCC);
+
 	void BusquedaInstante(double Tiempo);
 
 	double InterpolaPresion();

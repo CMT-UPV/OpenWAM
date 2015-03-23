@@ -182,6 +182,9 @@ public:
 	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
+	void ReadBoundaryDataXML(xml_node node_connect,
+			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+
 	void CalculaCondicionContorno(double Time);
 
 	void AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i);

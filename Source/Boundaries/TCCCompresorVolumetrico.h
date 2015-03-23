@@ -132,6 +132,9 @@ public:
 
 	void LeeResultadosInstantCV(const char *FileWAM, fpos_t &filepos);
 
+	void ReadBoundaryDataXML(xml_node node_connect,
+			int NumberOfPipes, TTubo **Pipe, int nDPF,TDPF **DPF);
+
 	void CabeceraResultadosInstantCV(stringstream& insoutput);
 
 	void ImprimeResultadosInstantCV(stringstream& insoutput);

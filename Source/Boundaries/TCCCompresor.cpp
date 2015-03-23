@@ -91,6 +91,21 @@ void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 	}
 }
 
+void TCCCompresor::LeeNumeroCompresorXML(xml_node node_connect) {
+	try {
+
+		xml_node node_comp = GetNodeChild(node_connect,"Con:Compressor");
+		FNumeroCompresor = GetAttributeAsInt(node_comp,"Compressor_ID");
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCompresor::LeeCompresor en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 

@@ -16,7 +16,7 @@ private:
 	double *FCC; //<! Known characteristic at the boundary.
 	double *FCD; //<! Unknown characteristic at the boundary.
 
-	char* FCFDModel; //<! CFD model name.
+	const char* FCFDModel; //<! CFD model name.
 	char* FCFDout;
 	char* FCFDin;
 
@@ -40,6 +40,9 @@ public:
 	~TCFDConnection();
 
 	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
+			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+
+	void ReadBoundaryDataXML(xml_node node_connect,
 			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void CalculaCondicionContorno(double Time);

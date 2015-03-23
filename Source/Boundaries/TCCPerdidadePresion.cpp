@@ -153,6 +153,70 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
+void TCCPerdidadePresion::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	try {
+		int i = 0;
+		FK = 0;
+
+		FTuboExtremo = new stTuboExtremo[2];
+		FNodoFin = new int[2];
+		FIndiceCC = new int[2];
+		FCC = new double*[2];
+		FCD = new double*[2];
+		FNumeroTubo = new int[2];
+
+		for (int i = 0; i < 2; i++) {
+			FTuboExtremo[i].Pipe = NULL;
+		}
+
+		while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+				FNodoFin[FNumeroTubosCC] = 0;
+				FIndiceCC[FNumeroTubosCC] = 0;
+				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
+				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FNumeroTubosCC++;
+			}
+			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+				FNodoFin[FNumeroTubosCC] = Pipe[i]->getNin() - 1;
+				FIndiceCC[FNumeroTubosCC] = 1;
+				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
+				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FNumeroTubosCC++;
+			}
+			i++;
+		}
+
+// Inicializacion del transporte de especies quimicas.
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+			// Se elige como composicion inicial la del tubo 0. Es arbitrario.
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		}
+
+		xml_node node_ploss = GetNodeChild(node_connect,"Con:PressureLoss");
+		FK = GetAttributeAsDouble(node_ploss,"PressureCte");
+
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCPerdidadePresion::LecturaPerdidaPresion en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
 void TCCPerdidadePresion::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;

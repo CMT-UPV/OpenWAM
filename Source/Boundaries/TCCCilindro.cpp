@@ -202,6 +202,63 @@ void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+void TCCCilindro::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	try {
+		int i = 0;
+		int numid; // Variable necesaria para WAMer.
+
+		FTuboExtremo = new stTuboExtremo[1];
+		FTuboExtremo[0].Pipe = NULL;
+
+		FPref = 1;
+
+		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+				FNodoFin = 0;
+				FIndiceCC = 0;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FNumeroTubosCC++;
+			}
+			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+				FNodoFin = Pipe[i]->getNin() - 1;
+				FIndiceCC = 1;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FNumeroTubosCC++;
+			}
+			i++;
+		}
+
+		xml_node node_tocyl = GetNodeChild(node_connect,"Con:PipeToCylinder");
+		FNumeroCilindro = GetAttributeAsInt(node_tocyl,"Cylinder_ID");
+
+		// Inicializacion del transporte de especies quimicas
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		}
+
+	}
+
+	catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCCilindro::LeeCCCilindro en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
 void TCCCilindro::AsignaCilindro(TBloqueMotor *EngineBlock) {
 	try {
 

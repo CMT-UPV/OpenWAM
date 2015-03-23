@@ -84,6 +84,60 @@ void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 	}
 }
 
+void TCFDConnection::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+
+	FTuboExtremo = new stTuboExtremo[1];
+	FTuboExtremo[0].Pipe = NULL;
+
+	int i = 0;
+	while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+		if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+			FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+			FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+			FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+			FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+			FNodoFin = 0;
+			FIndiceCC = 0;
+			FNumeroTubosCC++;
+		}
+		if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+			FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+			FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+			FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+			FNodoFin = FTuboExtremo[FNumeroTubosCC].Pipe->getNin() - 1;
+			FIndiceCC = 1;
+			FNumeroTubosCC++;
+		}
+		i++;
+	}
+
+	xml_node node_cfd = GetNodeChild(node_connect,"Con:CFD");
+	//const char_t* TMP(node_cfd.attribute("ModelName").value());
+	//TMP = node_cfd.attribute("ModelName");
+	FCFDModel = node_cfd.attribute("ModelName").value();
+	FCFDout = new char[(int) strlen(FCFDModel)];
+	GetName(FCFDModel, FCFDout, ".1d");
+	// GetName(FCFDModel, FCFDout, ".cfd"); //< CFD
+	FCFDin = new char[(int) strlen(FCFDModel)];
+	GetName(FCFDModel, FCFDin, ".cfd");
+	// GetName(FCFDModel, FCFDin, ".1d"); //< CFD
+
+
+	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+	for (int i = 0; i < FNumeroEspecies - 1; i++) {
+		FFraccionMasicaEspecie[i] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+	}
+
+	if (FHayEGR) {
+		FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+						FNumeroEspecies - 1);
+	}
+}
+
 void TCFDConnection::CalculaCondicionContorno(double Time) {
 
 	struct stat buf;

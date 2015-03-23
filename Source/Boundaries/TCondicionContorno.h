@@ -162,6 +162,10 @@ public:
 	}
 	;
 
+	virtual void ReadBoundaryDataXML(xml_node node_connect,
+			int NumberOfPipes, TTubo **Pipe, int nDPF,TDPF **DPF){
+	};
+
 	virtual void AsignAmbientConditions(double Tamb, double Pamb,
 			double *AtmosphericComposition) {
 	}

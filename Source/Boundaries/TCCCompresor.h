@@ -135,6 +135,8 @@ public:
 
 	void LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos);
 
+	void LeeNumeroCompresorXML(xml_node node_connect);
+
 	void AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum,
 			char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
 			TCondicionContorno **BC, int numCC, double AmbientTemperature,

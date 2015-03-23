@@ -222,4 +222,15 @@ double to_cubic_metres(const double& x, const std::string& unit);
  */
 double to_watts(const double& x, const std::string& unit);
 
+/**
+ * @brief Converts a given power from some unit to watts per metre kelvin.
+ *
+ * Converts a given power from some unit to watts per metre kelvin.
+ *
+ * @param x Power to convert.
+ * @param unit Original unit.
+ * @return The power in watts per metre kelvin. [W/mK]
+ */
+double to_W_per_m_K(const double& x, const std::string& unit);
+
 #endif

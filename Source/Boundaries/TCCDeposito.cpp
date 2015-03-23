@@ -236,6 +236,135 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+void TCCDeposito::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	try {
+		int i = 0, j = 0;
+		int numid; // Variable necesaria para WAMer.
+
+		FTuboExtremo = new stTuboExtremo[1];
+		FTuboExtremo[0].Pipe = NULL;
+#ifdef ParticulateFilter
+		FTuboExtremo[0].DPF=NULL;
+#endif
+		FTuboExtremo[0].NumeroHaz = -1;
+		FTuboExtremo[0].TipoCanal = -1;
+
+		FPref = 1;
+
+		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+				FNodoFin = 0;
+				FIndiceCC = 0;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FNumeroTubosCC++;
+				FUnionDPF = false;
+				FEncontrado = true;
+			}
+			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+				FNodoFin = Pipe[i]->getNin() - 1;
+				FIndiceCC = 1;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FNumeroTubosCC++;
+				FUnionDPF = false;
+				FEncontrado = true;
+			}
+			i++;
+		}
+#ifdef ParticulateFilter
+		if ( !FEncontrado ) { // It is a junction between a plenum and a DPF
+			int k=0;
+			while ( FNumeroTubosCC<1 && j<nDPF ) {
+				while ( k<DPF[j]->getNumeroHacesCanales() ) {
+					if ( DPF[j]->GetCanal ( k,0 )->getNodoIzq() ==FNumeroCC ) {
+						FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
+						FTuboExtremo[FNumeroTubosCC].TipoCanal=0;
+						FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
+						FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmLeft;
+						FNodoFin=0;
+						FIndiceCC=0;
+						FCC=& ( FTuboExtremo[FNumeroTubosCC].Beta );
+						FCD=& ( FTuboExtremo[FNumeroTubosCC].Landa );
+						FNumeroTubosCC++;
+					}
+					if ( DPF[j]->GetCanal ( k,0 )->getNodoDer() ==FNumeroCC ) {
+						FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
+						FTuboExtremo[FNumeroTubosCC].TipoCanal=0;
+						FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
+						FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmRight;
+						FNodoFin=DPF[j]->GetCanal ( k,0 )->getNin()-1;
+						FIndiceCC=1;
+						FCC=& ( FTuboExtremo[FNumeroTubosCC].Landa );
+						FCD=& ( FTuboExtremo[FNumeroTubosCC].Beta );
+						FNumeroTubosCC++;
+					}
+					if ( DPF[j]->GetCanal ( k,1 )->getNodoIzq() ==FNumeroCC ) {
+						FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
+						FTuboExtremo[FNumeroTubosCC].TipoCanal=1;
+						FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
+						FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmLeft;
+						FNodoFin=0;
+						FIndiceCC=0;
+						FCC=& ( FTuboExtremo[FNumeroTubosCC].Beta );
+						FCD=& ( FTuboExtremo[FNumeroTubosCC].Landa );
+						FNumeroTubosCC++;
+					}
+					if ( DPF[j]->GetCanal ( k,1 )->getNodoDer() ==FNumeroCC ) {
+						FTuboExtremo[FNumeroTubosCC].NumeroHaz=k;
+						FTuboExtremo[FNumeroTubosCC].TipoCanal=1;
+						FTuboExtremo[FNumeroTubosCC].DPF=DPF[j];
+						FTuboExtremo[FNumeroTubosCC].TipoExtremo=nmRight;
+						FNodoFin=DPF[j]->GetCanal ( k,1 )->getNin()-1;
+						FIndiceCC=1;
+						FCC=& ( FTuboExtremo[FNumeroTubosCC].Landa );
+						FCD=& ( FTuboExtremo[FNumeroTubosCC].Beta );
+						FNumeroTubosCC++;
+					}
+					k++;
+				}
+				j++;
+				k=0;
+			}
+			FEncontrado=true;
+			FUnionDPF=true;
+		}
+#endif
+		xml_node node_toplen = GetNodeChild(node_connect,"Con:PipeToPlenum");
+		FNumeroDeposito = GetAttributeAsInt(node_toplen,"Plenum_ID");
+
+		// Inicializacion del transporte de especies quimicas
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		if (!FUnionDPF) {
+			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+				FFraccionMasicaEspecie[i] =
+						FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			}
+		} else {
+#ifdef ParticulateFilter
+			for ( int i=0; i<FNumeroEspecies-FIntEGR; i++ ) {
+				FFraccionMasicaEspecie[i]=FTuboExtremo[0].DPF->GetCanal ( FTuboExtremo[0].NumeroHaz,0 )->GetFraccionMasicaInicial ( i );
+			}
+#endif
+		}
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCDeposito::LeeCCDeposito en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
 void TCCDeposito::AsignaDeposito(TDeposito **Plenum) {
 	try {
 

@@ -120,6 +120,28 @@ void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM,
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
+void TCCUnionEntreDepositos::LeeUEDepositosXML(xml_node node_connect, bool Independent) {
+	try {
+		int numid; // Variable necesaria para WAMer.
+
+		FIndependiente = Independent;
+
+		xml_node node_orif = GetNodeChild(node_connect,"Con:PlenumToPlenum");
+		FNumeroDeposito1 = GetAttributeAsInt(node_orif,"Plenum1_ID");
+		FNumeroDeposito2 = GetAttributeAsInt(node_orif,"Plenum2_ID");
+
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
 void TCCUnionEntreDepositos::AsignaDepositos(TDeposito **Plenum) {
 	try {
 

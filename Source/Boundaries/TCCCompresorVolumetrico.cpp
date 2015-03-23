@@ -183,6 +183,138 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 	}
 }
 
+
+void TCCCompresorVolumetrico::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF,TDPF **DPF){
+
+	try {
+		int i = 0;
+		double fracciontotal = 0.;
+
+		FTuboExtremo = new stTuboExtremo[1];
+		FTuboExtremo[0].Pipe = NULL;
+
+		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+				FNodoFin = 0;
+				FIndiceCC = 0;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FSeccionTubo = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FNumeroTubosCC++;
+			}
+			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+				FNodoFin = Pipe[i]->getNin() - 1;
+				FIndiceCC = 1;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FSeccionTubo = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FNumeroTubosCC++;
+			}
+			i++;
+		}
+
+		xml_node node_cv = GetNodeChild(node_connect,"Con:VolCompressor");
+
+		FNumeroCV = GetAttributeAsInt(node_cv,"VolComp_ID");
+		asgNumeroCV = true;
+
+		std::string ControlRegimen = node_connect.attribute("SpeedControl").value();
+
+		if(ControlRegimen == "SelfControl"){
+			FControlRegimen = nmPropio;
+		}else if(ControlRegimen == "EngineControl"){
+			FControlRegimen = nmMotor;
+		}
+
+
+		if (FControlRegimen == nmPropio) {
+			FRegimen = GetXMLRotationalSpeed(node_cv,"Speed");
+			FRelacionVelocidadesCV = 1.;
+		} else if (FControlRegimen == nmMotor) {
+			FRelacionVelocidadesCV = GetAttributeAsDouble(node_cv,"SpeedRatio");
+		} else {
+			std::cout
+					<< "ERROR: TCCCompresorVolumetrico::LeeCCDeposito Lectura del Control del Regimen erronea en la condicion de contorno: "
+					<< FNumeroCC << std::endl;
+			throw Exception(" ");
+		}
+
+		FPresionCV = GetXMLPressure(node_cv,"Pressure");
+		FTemperaturaCV = GetXMLTemperature(node_cv,"Temperature");
+
+		FC1Caudal = GetAttributeAsDouble(node_cv,"FlowC1");
+		FC2Caudal = GetAttributeAsDouble(node_cv,"FlowC2");
+		FC3Caudal = GetAttributeAsDouble(node_cv,"FlowC3");
+
+		FC1Temperatura = GetAttributeAsDouble(node_cv,"TemperatureC1");
+		FC2Temperatura = GetAttributeAsDouble(node_cv,"TemperatureC2");
+		FC3Temperatura = GetAttributeAsDouble(node_cv,"TemperatureC3");
+
+		FC1Potencia = GetAttributeAsDouble(node_cv,"PowerC1");
+		FC2Potencia = GetAttributeAsDouble(node_cv,"PowerC2");
+		FC3Potencia = GetAttributeAsDouble(node_cv,"PowerC3");
+		FC4Potencia = GetAttributeAsDouble(node_cv,"PowerC4");
+		FC5Potencia = GetAttributeAsDouble(node_cv,"PowerC5");
+		FC6Potencia = GetAttributeAsDouble(node_cv,"PowerC6");
+
+
+// Inicializacion del transporte de especies quimicas.
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		xml_node nod_compini = GetNodeChild(node_cv, "Composition");
+		FComposicion = new double[FNumeroEspecies - FIntEGR];
+		bool HayFuel = false;
+		if (FNumeroEspecies == 4 || FNumeroEspecies == 10)
+			HayFuel = true;
+		ImposeCompositionXML(nod_compini, FComposicion, FHayEGR, HayFuel,
+				FCalculoEspecies);
+		for (int i = 0; i < FNumeroEspecies - 1; i++) {
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			fracciontotal += FComposicion[i];
+		}
+		if (FHayEGR) {
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+							FNumeroEspecies - 1);
+			if (FCalculoEspecies == nmCalculoCompleto) {
+				if (FComposicion[0] > 0.2)
+					FComposicion[FNumeroEspecies - 1] = 0.;
+				else
+					FComposicion[FNumeroEspecies - 1] = 1.;
+			} else {
+				if (FComposicion[0] > 0.5)
+					FComposicion[FNumeroEspecies - 1] = 1.;
+				else
+					FComposicion[FNumeroEspecies - 1] = 0.;
+			}
+		}
+
+		if (fracciontotal != 1.) {
+			std::cout
+					<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
+					<< FNumeroCC << std::endl;
+			throw Exception(" ");
+		}
+
+		IniciaMedias();
+
+	}
+
+	catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+
+}
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 

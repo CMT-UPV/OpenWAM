@@ -158,6 +158,98 @@ void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+void TCCPreVble::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	try {
+		int i = 0;
+		double fracciontotal = 0.;
+
+		FTuboExtremo = new stTuboExtremo[1];
+		FTuboExtremo[0].Pipe = NULL;
+
+		FTiempo = 0;
+		FPref = 1;
+
+		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FNodoFin = 0;
+				FIndiceCC = 0;
+				FNumeroTubosCC++;
+			}
+			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FNodoFin = FTuboExtremo[FNumeroTubosCC].Pipe->getNin() - 1;
+				FIndiceCC = 1;
+				FNumeroTubosCC++;
+			}
+			i++;
+		}
+
+		xml_node node_pvble = GetNodeChild(node_connect,"Con:StaticPressure");
+
+
+		FPulso = new TEntradaPulso();
+		FPulso->LeeEntradaPulsoXML(node_pvble,FTipoCC);
+
+		// Inicializacion del transporte de especies quimicas.
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		xml_node nod_compini = GetNodeChild(node_pvble, "Composition");
+		FComposicion = new double[FNumeroEspecies - FIntEGR];
+		bool HayFuel = false;
+		if (FNumeroEspecies == 4 || FNumeroEspecies == 10)
+			HayFuel = true;
+		ImposeCompositionXML(nod_compini, FComposicion, FHayEGR, HayFuel,
+				FCalculoEspecies);
+		for (int i = 0; i < FNumeroEspecies - 1; i++) {
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			fracciontotal += FComposicion[i];
+		}
+		if (FHayEGR) {
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+							FNumeroEspecies - 1);
+			if (FCalculoEspecies == nmCalculoCompleto) {
+				if (FComposicion[0] > 0.2)
+					FComposicion[FNumeroEspecies - 1] = 0.;
+				else
+					FComposicion[FNumeroEspecies - 1] = 1.;
+			} else {
+				if (FComposicion[0] > 0.5)
+					FComposicion[FNumeroEspecies - 1] = 1.;
+				else
+					FComposicion[FNumeroEspecies - 1] = 0.;
+			}
+		}
+
+		if (fracciontotal != 1.) {
+			std::cout
+					<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
+					<< FNumeroCC << std::endl;
+			throw Exception(" ");
+		}
+
+	}
+
+	catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCCPreVble::LecturaPulso en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
 void TCCPreVble::CalculaCondicionContorno(double Time) {
 	try {
 		double Pressure, Temp, Ason, FraccionMasicaAcum = 0.;

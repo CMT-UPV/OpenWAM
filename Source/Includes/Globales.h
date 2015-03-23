@@ -2196,7 +2196,7 @@ inline double EvaluaHermite(double punto, int n, std::vector<double> x,
 }
 ;
 
-inline void GetName(char *origin, char *destination, const char *add) {
+inline void GetName(const char *origin, char *destination, const char *add) {
 
 	int contpunto = (int) strlen(origin);
 	for (int i = (int) strlen(origin) - 1; i >= 0; i--) {

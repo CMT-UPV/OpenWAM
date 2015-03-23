@@ -152,6 +152,98 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
+void TCCExtremoInyeccion::ReadBoundaryDataXML(xml_node node_connect,
+		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	try {
+		int i = 0;
+		double fracciontotal = 0.;
+
+		FTuboExtremo = new stTuboExtremo[1];
+		FTuboExtremo[0].Pipe = NULL;
+
+		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
+				FNodoFin = 0;
+				FIndiceCC = 0;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FSeccion = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FNumeroTubosCC++;
+			}
+			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
+				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
+				FNodoFin = Pipe[i]->getNin() - 1;
+				FIndiceCC = 1;
+				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
+				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
+				FSeccion = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FNumeroTubosCC++;
+			}
+			i++;
+		}
+
+		xml_node node_inj = GetNodeChild(node_connect,"Con:Injector");
+
+		FGastoIny = GetXMLMassFlow(node_inj,"MassFlow");
+		FTemperaturaIny = GetXMLTemperature(node_inj,"Temperature");
+		FInicioIny = GetXMLAngle(node_inj,"InitialAngle");
+		FDuracionIny = GetXMLAngle(node_inj,"Duration");
+
+
+// Inicializacion del transporte de especies quimicas.
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+		xml_node nod_compini = GetNodeChild(node_inj, "Composition");
+		FComposicion = new double[FNumeroEspecies - FIntEGR];
+		bool HayFuel = false;
+		if (FNumeroEspecies == 4 || FNumeroEspecies == 10)
+			HayFuel = true;
+		ImposeCompositionXML(nod_compini, FComposicion, FHayEGR, HayFuel,
+				FCalculoEspecies);
+		for (int i = 0; i < FNumeroEspecies - 1; i++) {
+			FFraccionMasicaEspecie[i] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			fracciontotal += FComposicion[i];
+		}
+		if (FHayEGR) {
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
+					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+							FNumeroEspecies - 1);
+			if (FCalculoEspecies == nmCalculoCompleto) {
+				if (FComposicion[0] > 0.2)
+					FComposicion[FNumeroEspecies - 1] = 0.;
+				else
+					FComposicion[FNumeroEspecies - 1] = 1.;
+			} else {
+				if (FComposicion[0] > 0.5)
+					FComposicion[FNumeroEspecies - 1] = 1.;
+				else
+					FComposicion[FNumeroEspecies - 1] = 0.;
+			}
+		}
+		if (fracciontotal != 1.) {
+			std::cout
+					<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
+					<< FNumeroCC << std::endl;
+			throw Exception(" ");
+		}
+
+	}
+
+	catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCExtremoInyeccion::LeeExtremoInyeccion en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
 void TCCExtremoInyeccion::ObtencionValoresInstantaneos(double Theta) {
 	try {
 		double ang0;

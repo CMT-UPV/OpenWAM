@@ -84,6 +84,53 @@ void TEntradaPulso::LeeEntradaPulso(FILE *fich) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
+void TEntradaPulso::LeeEntradaPulsoXML(xml_node node_pulse,nmTypeBC FTipoCC) {
+	try {
+
+		FNumeroDatos = CountNodes(node_pulse,"Pvb:Pulse");
+		FTiempo = new double[FNumeroDatos];
+		FPresionRelativa = new double[FNumeroDatos];
+		FNivelEntropia = new double[FNumeroDatos];
+
+		xml_node unit_node = node_pulse.child("Units");
+		std::string unittime = unit_node.attribute("Time").value();
+		std::string unitpres = unit_node.attribute("Pressure").value();
+
+		int i = 0;
+		if(FTipoCC==nmPresionVble){
+			std::string unittemp = unit_node.attribute("Temperature").value();
+			for(xml_node node = GetNodeChild(node_pulse,"Pvb:Pulse"); node;
+					node = node.next_sibling("Pvb:Pulse")){
+				FTiempo[i] = GetXMLTime(node,"Time",unittime);
+				FPresionRelativa[i] = GetXMLPressure(node,"Pressure",unitpres);
+				FNivelEntropia[i] = GetXMLTemperature(node,"Entropy",unittemp);
+				++i;
+			}
+		}else if(FTipoCC==nmIncidentPressurWave)
+			for(xml_node node = GetNodeChild(node_pulse,"Pvb:Pulse"); node;
+					node = node.next_sibling("Pvb:Pulse")){
+				FTiempo[i] = GetXMLTime(node,"Time",unittime);
+				FPresionRelativa[i] = GetXMLPressure(node,"Pressure",unitpres);
+				FNivelEntropia[i] = GetAttributeAsDouble(node,"Entropy");
+				++i;
+		}
+
+		if (FTiempo[0] > 0.0) {
+			std::cout
+					<< "WARNING: El primer instante de tiempo deberia ser 0 para evitar problemas"
+					<< std::endl;
+		}
+	} catch (Exception &N) {
+		std::cout << "ERROR: TEntradaPulso::LeeEntradaPulso " << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(
+				("ERROR: TEntradaPulso::LeeEntradaPulso " + N.Message).c_str());
+	}
+}
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
 void TEntradaPulso::BusquedaInstante(double Tiempo) {
 	try {
 		int i = 0;

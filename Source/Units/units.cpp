@@ -550,3 +550,18 @@ double to_watts(const double& x, const std::string& unit) {
 		return x;
 	}
 }
+
+double to_W_per_m_K(const double& x, const std::string& unit){
+	if (unit == "") {
+		return x;
+	} else if (unit == "W/mK") {
+		return x;
+	} else if (unit == "k / mK") {
+		return x;
+	} else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming W/mK..." << std::endl;
+		return x;
+	}
+}
