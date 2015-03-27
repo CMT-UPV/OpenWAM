@@ -217,6 +217,147 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 	}
 }
 
+
+void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
+		TCompresor **Compressor, TTurbina **Turbine) {
+	try {
+		int htm;
+		int i;
+
+		FRegimenEje = GetXMLRotationalSpeed(node_tch,"Speed");
+		if(GetAttributeAsBool(node_tch,"FixedSpeed")){
+			FVariacionRegimen = nmFixed;
+		}else{
+			FVariacionRegimen = nmVariable;
+			FMomentoInercia = GetXMLInertia(node_tch,"Inertia");
+		}
+		FNumCompresoresAcoplados = CountNodes(node_tch, "Tch:Compressor");
+		FCompresor = new TCompresor*[FNumCompresoresAcoplados];
+		FNumeroCompresor = new int[FNumCompresoresAcoplados];
+		i = 0;
+		for (xml_node node_cmp = GetNodeChild(node_tch,
+				"Tch:Compressor"); node_cmp; node_cmp =
+						node_cmp.next_sibling("Tch:Compressor")) {
+			FNumeroCompresor[i] = GetAttributeAsInt(node_cmp,"Compressor_ID");
+			FCompresor[i] = Compressor[FNumeroCompresor[i] - 1];
+			FCompresor[i]->IniciaMedias();
+		}
+		FNumTurbinasAcopladas = CountNodes(node_tch, "Tch:Turbine");
+		FTurbina = new TTurbina*[FNumTurbinasAcopladas];
+		FNumeroTurbina = new int[FNumTurbinasAcopladas];
+		i = 0;
+		for (xml_node node_cmp = GetNodeChild(node_tch,
+				"Tch:Turbine"); node_cmp; node_cmp =
+						node_cmp.next_sibling("Tch:Turbine")) {
+			FNumeroTurbina[i] = GetAttributeAsInt(node_cmp,"Turbine_ID");
+			FTurbina[i] = Turbine[FNumeroCompresor[i] - 1];
+			FTurbina[i]->PutRegimen(FRegimenEje);
+		}
+
+		const char_t* Parameter;
+
+		for (xml_node node_act = GetNodeChild(node_tch,
+				"Actuator"); node_act; node_act =
+						node_act.next_sibling("Actuator")) {
+			Parameter = node_act.attribute("Parameter").value();
+			if(Parameter == "Speed"){
+				FControllerID = GetAttributeAsInt(node_act, "CtrlID");
+				FRPMControlled = true;
+			}
+		}
+
+
+
+#ifdef tchtm
+
+		if (node_openwam.child("BlockOfTurbochargers")) {
+
+			xml_node node_htm = GetNodeChild(node_tch,"Tch:HeatTransfer")
+			if ( FNumTurbinasAcopladas != 1 || FNumCompresoresAcoplados != 1 ) {
+				std::cout <<
+				"ERROR: Turbocharger heat transfer model is not adapted for more than one turbine" << std::endl;
+				std::cout <<
+				"       or more than one compressor in the same shaft"
+				<< std::endl;
+			}
+			FThereIsHTM = true;
+
+			xml_node node_bear = GetNodeChild(node_htm,"Htm:Bearings");
+			FDShaft = GetXMLLength(xml_bear,"ShaftDiameter");
+			FJournalBLengh = GetXMLLength(xml_bear,"JournalBearingLength");
+			FHD = GetXMLLength(xml_bear,"Clearence");
+			FTthrustBRmin = GetXMLLength(xml_bear,"ThrustBearingMinR");
+			FTthrustBRmax = GetXMLLength(xml_bear,"ThrustBearingMaxR");
+
+			xml_node node_flu = GetNodeChild(node_htm,"Htm:Fluids");
+			xml_node node_oil = GetNodeChild(node_flu,"Flu:Oil");
+
+			FDoil = GetXMLLength(node_oil,"PortDiameter");
+			FMoil = GetXMLMassFlow(node_oil,"MassFlow");
+			FToil = GetXMLTemperature(node_oil,"Temperature");
+			FPoil = GetXMLPressure(node_oil,"Pressure");
+
+			K1 = GetAttributeAsDouble(node_oil,"VoeguelK1");
+			K2 = GetAttributeAsDouble(node_oil,"VoeguelK2");
+			K3 = GetAttributeAsDouble(node_oil,"VoeguelK3");
+
+			FOil = new stHTMoil();
+			FOil->mu_c1 = K1;
+			FOil->mu_c2 = K2;
+			FOil->mu_c3 = K3;
+
+			if(node_flu.child("Flu:Water")){
+				xml_node node_water GetNodeChild(node_flu,"Flu:Water");
+
+				FDwater = GetXMLLength(node_water,"PortDiameter");
+				FMwater = GetXMLMassFlow(node_water,"MassFlow");
+				FTwater = GetXMLTemperature(node_water,"Temperature");
+
+				FWater = new stHTMwater();
+			}
+
+			xml_node node_ml = GetNodeChild(node_htm,"Htm:MechLosses");
+
+			FJournalB_K = GetAttributeAsDouble(node_ml,"JournalB_K");
+			Fk_m = GetAttributeAsDouble(node_ml,"K_m");
+			Fk_tb = GetAttributeAsDouble(node_ml,"K_tb");
+			FCAC = GetAttributeAsDouble(node_ml,"CAC");
+			FCAT = GetAttributeAsDouble(node_ml,"CAT");
+
+			xml_node node_geom = GetNodeChild(node_htm,"Htm:Geometry");
+
+			FCWArea = GetXMLArea(node_geom,"CompWheelArea");
+			FTWArea = GetXMLArea(node_geom,"TurbWheelArea");
+			DT = GetXMLLength(node_geom,"TurbExtDiameter");
+			LT = GetXMLLength(node_geom,"TurbExtLength");
+			DC = GetXMLLength(node_geom,"CompExtDiameter");
+			LC = GetXMLLength(node_geom,"CompExtLength");
+			DH = GetXMLLength(node_geom,"HousExtDiameter");
+			LH = GetXMLLength(node_geom,"HousExtLength");
+
+
+			FHTM = new TTC_HTM();
+
+			FMechLosses = new TurboBearings ( FOil, FJournalBLengh, FDShaft / 2,
+					FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
+					FTthrustBRmin, FTthrustBRmax, Fk_tb );
+
+			//FHTM->Read_HTM ( fich );
+
+			FHTM->TurbochargerData ( FDShaft, FHD, FDoil, FDwater, DT, LT, DC,
+					LC, DH, LH );
+
+		}
+#endif
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TEjeTurbogrupo::ReadTurbochargerAxis in the boundary condition: "
+				<< FNumeroEje << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 

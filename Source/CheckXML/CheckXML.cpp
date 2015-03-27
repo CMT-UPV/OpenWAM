@@ -137,6 +137,13 @@ double GetXMLForce(const xml_node& node, const std::string& name) {
 	return to_N(x, unit);
 }
 
+double GetXMLInertia(const xml_node& node, const std::string& name) {
+	xml_node unit_node = node.child("Units");
+	std::string unit = unit_node.attribute("Inertia").value();
+	double x = GetAttributeAsDouble(node, name.c_str());
+	return to_kg_square_m(x, unit);
+}
+
 double GetXMLLength(const xml_node& node, const std::string& name) {
 	xml_node unit_node = node.child("Units");
 	std::string unit = unit_node.attribute("Length").value();

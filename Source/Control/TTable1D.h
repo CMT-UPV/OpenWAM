@@ -68,6 +68,8 @@ public:
 			fpos_t &filepos 	//!< Position within the input data file to read
 			);
 
+	void LeeControllerXML(xml_node node_ctrl);
+
 	/*! Asign the controllers and the sensors*/
 	void AsignaObjetos(TSensor **Sensor,			//!< Array with sensors
 			TController **Controller    //!< Array with controllers

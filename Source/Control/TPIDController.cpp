@@ -163,6 +163,46 @@ void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 }
 
+void TPIDController::LeeControllerXML(xml_node node_ctrl) {
+
+	xml_node node_pid = GetNodeChild(node_ctrl,"Ctr:PID");
+
+	fKP_pos = GetAttributeAsDouble(node_pid,"P_pos");
+	fKI_pos = GetAttributeAsDouble(node_pid,"I_pos");
+	fKD_pos = GetAttributeAsDouble(node_pid,"D_pos");
+	fKP_neg = GetAttributeAsDouble(node_pid,"P_neg");
+	fKI_neg = GetAttributeAsDouble(node_pid,"I_neg");
+	fKD_neg = GetAttributeAsDouble(node_pid,"D_neg");
+
+	fOutput = GetAttributeAsDouble(node_pid,"Output");
+	fOutput0 = GetAttributeAsDouble(node_pid,"Outpupt0");
+	fMax_out = GetAttributeAsDouble(node_pid,"Max_out");
+	fMin_out = GetAttributeAsDouble(node_pid,"Min_out");
+
+	fPeriod = GetAttributeAsDouble(node_pid,"Period");
+	fDelay = GetAttributeAsDouble(node_pid,"Delay");
+	fGain = GetAttributeAsDouble(node_pid,"Gain");
+
+	fI_ant = fOutput;
+	fiact = fOutput;
+	fOutput_ant = fOutput;
+	fOutput_filt = fOutput;
+	fOutput_filt_ant = fOutput;
+
+	int tmp;
+
+	fSetPointControlled = node_pid.attribute("SetpointController_ID");
+
+	if (fSetPointControlled){
+		fSetPointControlled = true;
+		fSetPointControllerID = GetAttributeAsInt(node_pid,"SetpointController_ID");
+	}
+
+	FSensorID.resize(1);
+	FSensorID[0] = GetAttributeAsInt(node_pid,"Sensor_ID");
+
+}
+
 void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 	FSensor.push_back(Sensor[FSensorID[0] - 1]);

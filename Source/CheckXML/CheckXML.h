@@ -202,6 +202,8 @@ double GetXMLLength(const xml_node& node, const std::string& name,
  */
 double GetXMLForce(const xml_node& node, const std::string& name);
 
+double GetXMLInertia(const xml_node& node, const std::string& name);
+
 /**
  * @brief Gets an attribute as a mass flow rate.
  *

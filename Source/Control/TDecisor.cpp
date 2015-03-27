@@ -84,6 +84,24 @@ void TDecisor::LeeController(const char *FileWAM, fpos_t &filepos) {
 	fclose(fich);
 }
 
+void TDecisor::LeeControllerXML(xml_node node_ctrl) {
+
+	xml_node node_sw = GetNodeChild(node_ctrl,"Ctr:Switch");
+
+	fTarget = GetAttributeAsDouble(node_sw,"Target");
+	fControllerLowID = GetAttributeAsInt(node_sw,"CtrlLow_ID");
+	fControllerHighID = GetAttributeAsInt(node_sw,"CtrlHigh_ID");
+
+	fTargedControlled = node_sw.attribute("Target_ID");
+	if(fTargedControlled){
+		fControllerTargetID = GetAttributeAsInt(node_sw,"Target_ID");
+	}
+
+	int tmp;
+	FSensorID.resize(1);
+	FSensorID[0] = GetAttributeAsInt(node_sw,"Sensor_ID");
+}
+
 void TDecisor::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 	FSensor.push_back(Sensor[FSensorID[0] - 1]);
 

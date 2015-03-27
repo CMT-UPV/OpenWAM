@@ -75,6 +75,8 @@ public:
 			fpos_t &filepos				//!< Position within the file to read
 			);
 
+	void LeeControllerXML(xml_node node_ctrl);
+
 	/*! Asing the different controller and sensors */
 	void AsignaObjetos(TSensor **Sensor,				//!< Array with sensors
 			TController **Controller		//!< Array with controllers

@@ -144,6 +144,9 @@ public:
 	void ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 			TCompresor **Compressor, TTurbina **Turbine);
 
+	void ReadTurbochargerAxisXML(xml_node node_tch,
+			TCompresor **Compressor, TTurbina **Turbine);
+
 	void CalculaEjesTurbogrupo(double Theta, nmTipoModelado SimulationType,
 			double Time, double CrankAngle);
 

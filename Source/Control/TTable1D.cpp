@@ -120,6 +120,58 @@ void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 }
 
+void TTable1D::LeeControllerXML(xml_node node_ctrl) {
+
+	int xnum, tip, fromfile;
+
+	xml_node node_table = GetNodeChild(node_ctrl,"Ctr:Table1D");
+
+	bool FromFile = GetAttributeAsBool(node_table,"FromFile");
+
+	if (FromFile) {
+		const char *InputFile = node_table.attribute("FileName").value();
+
+		FILE *fichdata = fopen(InputFile, "r");
+
+		double X_tmp, Y_tmp;
+		dVector X_vec, Y_vec;
+		while (!feof(fichdata)) {
+			fscanf(fichdata, "%lf %lf ", &X_tmp, &Y_tmp);
+			X_vec.push_back(X_tmp);
+			Y_vec.push_back(Y_tmp);
+		}
+		fX_map = X_vec;
+		fY_map = Y_vec;
+	} else {
+		// fscanf(fich,"%d ",&fDimensiones);
+		for (xml_node node_pt = GetNodeChild(node_table,
+				"Bot:Turbocharger"); node_pt; node_pt =
+						node_pt.next_sibling("Bot:Turbocharger")) {
+
+			fX_map.push_back(GetAttributeAsDouble(node_pt,"X"));
+			fY_map.push_back(GetAttributeAsDouble(node_pt,"Y"));
+		}
+	}
+
+	fPeriod = GetAttributeAsDouble(node_table,"Period");
+	const char* Type = node_table.attribute("Type").value();
+
+	if(Type == "Lineal"){
+		fTipo = nmLineal;
+		fDatos = new Linear_interp(fX_map, fY_map);
+	}else if(Type == "Hermite"){
+		fTipo = nmHermite;
+		fDatos = new Hermite_interp(fX_map, fY_map);
+	}else if(Type == "Steps"){
+		fTipo = nmSteps;
+		fDatos = new Step_interp(fX_map, fY_map);
+	}
+
+	FSensorID.resize(1);
+	FSensorID[0] = GetAttributeAsInt(node_table,"Sensor_ID");
+
+}
+
 void TTable1D::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 	FSensor.push_back(Sensor[FSensorID[0] - 1]);

@@ -78,6 +78,17 @@ double to_degrees(const double& x, const std::string& unit);
 double to_kg_s(const double& x, const std::string& unit);
 
 /**
+ * @brief Converts a given inertia from some unit to kg * m^2.
+ *
+ * Converts a given inertia from some unit to kg * m^2.
+ *
+ * @param x inertia to convert.
+ * @param unit Original unit.
+ * @return The inertia in kilograms square metres. [kg * m^2]
+ */
+double to_kg_square_m(const double& x, const std::string& unit);
+
+/**
  * @brief Converts a given reduced mass flow from some unit to kg / s sqrt(K)/MPa.
  *
  * Converts a given reduced mass flow rate from some unit to kg / s sqrt(K)/MPa.

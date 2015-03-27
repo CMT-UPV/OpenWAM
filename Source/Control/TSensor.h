@@ -86,6 +86,8 @@ public:
 			fpos_t &filepos		//!< Specify a position within the input file.
 			);
 
+	void ReadSensorXML(xml_node node_sensor);
+
 	/*! Asign the pointer of the object sensed*/
 	void AsignaObjeto(TObject *Object		//!< Pointer to the object sensed
 			);

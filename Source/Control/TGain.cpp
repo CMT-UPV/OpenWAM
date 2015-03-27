@@ -67,6 +67,22 @@ void TGain::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 }
 
+void TGain::LeeControllerXML(xml_node node_ctrl) {
+
+	xml_node node_gain = GetNodeChild(node_ctrl,"Ctr:Gain");
+
+	FGain = GetAttributeAsDouble(node_gain,"Gain");
+	FObjectID = GetAttributeAsInt(node_gain,"Object_ID");
+	const char* Type = node_gain.attribute("Type").value();
+
+	if (Type == "Controller") {
+		FInObject = nmInController;
+	} else {
+		FInObject = nmInSensor;
+	}
+
+}
+
 void TGain::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 	if (FInObject == nmInController) {

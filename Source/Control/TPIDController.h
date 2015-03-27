@@ -100,6 +100,8 @@ public:
 			fpos_t &filepos			//!< Position within the input file
 			);
 
+	void LeeControllerXML(xml_node node_ctrl);
+
 	/*! Asign the sensor input and the setpoint controller*/
 	void AsignaObjetos(TSensor **Sensor,		//!< Array with sensor objects
 			TController **Controller	//!< Array with controller objects

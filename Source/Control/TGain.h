@@ -57,6 +57,8 @@ public:
 
 	void LeeController(const char *FileWAM, fpos_t &filepos);
 
+	void LeeControllerXML(xml_node node_ctrl);
+
 	void AsignaObjetos(TSensor **Sensor, TController **Controller);
 
 	/*! Read the average results selected*/

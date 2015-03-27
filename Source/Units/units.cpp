@@ -158,6 +158,25 @@ double to_kg_s(const double& x, const std::string& unit) {
 	}
 }
 
+double to_kg_square_m(const double& x, const std::string& unit) {
+	if (unit == "") {
+		return x;
+	} else if (unit == "kg · m^2") {
+		return x;
+	} else if (unit == "kg * m^2") {
+		return x;
+	} else if (unit == "kg·m^2") {
+		return x;
+	} else if (unit == "kg*m^2") {
+		return x;
+	} else {
+		std::cout << "ERROR: Unit unknown" << std::endl;
+		std::cout << "       UNIT: " << unit << std::endl;
+		std::cout << "       Assuming kg / s..." << std::endl;
+		return x;
+	}
+}
+
 double to_kg_s_sqrt_K_MPa(const double & x, const std::string& unit) {
 	if (unit == "") {
 		return x;

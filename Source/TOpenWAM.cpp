@@ -2955,6 +2955,44 @@ void TOpenWAM::ReadTurbochargerAxis() {
 	}
 }
 
+void TOpenWAM::ReadTurbochargerAxisXML() {
+	try {
+
+		int ID;
+
+		xml_node node_openwam = FileInputXML.child("OpenWAM");
+		if(node_openwam.child("BlockOfTurbochargers")){
+			xml_node node_tchblock = GetNodeChild(node_openwam, "BlockOfTurbochargers");
+
+			NumberOfAxis = CountNodes(node_tchblock, "Bot:Turbocharger");
+
+			Axis = new TEjeTurbogrupo*[NumberOfAxis];
+
+			for (xml_node node_tch = GetNodeChild(node_tchblock,
+					"Bot:Turbocharger"); node_tch; node_tch =
+							node_tch.next_sibling("Bot:Turbocharger")) {
+
+				ID = GetAttributeAsInt(node_tch,"Turbocharger_ID");
+
+				if (EngineBlock) {
+					Axis[ID] = new TEjeTurbogrupo(ID,
+							Engine[0]->getGeometria().NCilin);
+				} else
+					Axis[ID] = new TEjeTurbogrupo(ID, 0);
+
+				Axis[ID]->ReadTurbochargerAxisXML(node_tchblock,
+						Compressor, Turbine);
+				Axis[ID]->IniciaMedias();
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout << " ERROR : ReadTurbochargerAxis " << std::endl;
+		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 void TOpenWAM::ReadSensors() {
 	fpos_t filepos;
 
@@ -2973,6 +3011,28 @@ void TOpenWAM::ReadSensors() {
 	}
 	FileInput = fopen(fileinput.c_str(), "r");
 	fsetpos(FileInput, &filepos);
+}
+
+void TOpenWAM::ReadSensorsXML() {
+	fpos_t filepos;
+
+	xml_node node_openwam = FileInputXML.child("OpenWAM");
+	if(node_openwam.child("BlockOfSensors")){
+		xml_node node_sensblock = GetNodeChild(node_openwam, "BlockOfSensors");
+
+		NumberOfSensors = CountNodes(node_sensblock, "Bos:Sensor");
+
+		Sensor = new TSensor*[NumberOfSensors];
+		int i;
+		for (xml_node node_sensor = GetNodeChild(node_sensblock,
+				"Bos:Sensor"); node_sensor; node_sensor =
+						node_sensor.next_sibling("Bos:Sensor")){
+			i = GetAttributeAsInt(node_sensor,"Sensor_ID");
+			Sensor[i] = new TSensor(i);
+			Sensor[i]->ReadSensorXML(node_sensor);
+			Sensor[i]->IniciaMedias();
+		}
+	}
 }
 
 void TOpenWAM::ReadControllers() {
@@ -3007,6 +3067,44 @@ void TOpenWAM::ReadControllers() {
 		}
 	}
 }
+
+void TOpenWAM::ReadControllersXML() {
+
+	const char_t* Type;
+
+	xml_node node_openwam = FileInputXML.child("OpenWAM");
+	if(node_openwam.child("BlockOfControllers")){
+		xml_node node_ctrlblock = GetNodeChild(node_openwam,"BlockOfControllers");
+
+		NumberOfControllers = CountNodes(node_ctrlblock,"Bct:Controller");
+
+		Controller = new TController*[NumberOfControllers];
+
+		int i;
+		for (xml_node node_ctrl = GetNodeChild(node_ctrlblock,
+				"Bct:Controller"); node_ctrl; node_ctrl =
+						node_ctrl.next_sibling("Bct:Controller")){
+
+				Type = node_ctrl.attribute("Type").value();
+				i = GetAttributeAsInt(node_ctrl,"Controller_ID");
+				if(Type == "PID"){
+					Controller[i] = new TPIDController(i);
+				}else if(Type == "Table1D"){
+					Controller[i] = new TTable1D(i);
+				}else if(Type == "Switch"){
+					Controller[i] = new TDecisor(i);
+				}else if(Type == "Gain"){
+					Controller[i] = new TGain(i);
+				}else{
+					cout << "ERROR: Controler " << i << "type" << endl;
+				}
+				Controller[i]->LeeControllerXML(node_ctrl);
+				Controller[i]->IniciaMedias();
+		}
+
+	}
+}
+
 
 void TOpenWAM::ReadOutput(char* FileName) {
 

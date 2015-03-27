@@ -123,6 +123,64 @@ void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 	fclose(fich);
 }
 
+
+void TSensor::ReadSensorXML(xml_node node_sensor) {
+
+	const char_t* Object = node_sensor.attribute("ObjectSensed").value();
+	const char_t* Parameter = node_sensor.attribute("Parameter").value();
+
+	if(Object == "Simulation"){
+		FObjectSensed = nmSensEjec;
+		if(Parameter == "Time"){
+			FParameterSensed = nmTime;
+		}else{
+			std::cout << "ERROR: Parametro " << Parameter << "en el objeto " << Object
+					<< "no valido, sensor: " << FNumeroSensor << std::endl;
+		}
+	}else if(Object == "Pipe"){
+		FObjectID = GetAttributeAsInt(node_sensor,"Object_ID");
+		FDistancia = GetXMLLength(node_sensor,"Distance");
+		FObjectSensed = nmSensTubo;
+		if(Parameter == "Pressure"){
+			FParameterSensed = nmPressure;
+		}else if(Parameter == "Temperature"){
+			FParameterSensed = nmTemperature;
+		}else if(Parameter == "MassFlow"){
+			FParameterSensed = nmMassFlow;
+		}else{
+			std::cout << "ERROR: Parametro " << Parameter << "en el objeto " << Object
+					<< "no valido, sensor: " << FNumeroSensor << std::endl;
+		}
+	}else if(Object == "Plenum"){
+		FObjectID = GetAttributeAsInt(node_sensor,"Object_ID");
+		FObjectSensed = nmSensDeposito;
+		if(Parameter == "Pressure"){
+			FParameterSensed = nmPressure;
+		}else if(Parameter == "Temperature"){
+			FParameterSensed = nmTemperature;
+		}else{
+			std::cout << "ERROR: Parametro " << Parameter << "en el objeto " << Object
+					<< "no valido, sensor: " << FNumeroSensor << std::endl;
+		}
+	}else if(Object == "Engine"){
+		FObjectSensed = nmSensMotor;
+		if(Parameter == "Fuel"){
+			FParameterSensed = nmFuel;
+		}else if(Parameter == "Speed"){
+			FParameterSensed = nmEngSpeed;
+		}else{
+			std::cout << "ERROR: Parametro " << Parameter << "en el objeto " << Object
+					<< "no valido, sensor: " << FNumeroSensor << std::endl;
+		}
+	}else{
+		std::cout << "ERROR: Objeto " << Object << "no valido, sensor: "
+				<< FNumeroSensor << std::endl;
+	}
+
+	FDelay = GetAttributeAsDouble(node_sensor,"Delay");
+	FGain = GetAttributeAsDouble(node_sensor,"Gain");
+}
+
 void TSensor::AsignaObjeto(TObject *Object) {
 	int nin;
 	double tmp;

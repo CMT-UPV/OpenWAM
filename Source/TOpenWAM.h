@@ -388,9 +388,15 @@ private:
 
 	void ReadTurbochargerAxis();
 
+	void ReadTurbochargerAxisXML();
+
 	void ReadSensors();
 
+	void ReadSensorsXML();
+
 	void ReadControllers();
+
+	void ReadControllersXML();
 
 	void ReadOutput(char* FileName);
 

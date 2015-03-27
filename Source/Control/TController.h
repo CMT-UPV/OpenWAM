@@ -63,6 +63,8 @@ public:
 			fpos_t &filepos			//!< Position to read within the input file
 			) =0;
 
+	virtual void LeeControllerXML(xml_node node_ctrl) = 0;
+
 	/*! Return the output value of the controller*/
 	virtual double Output(double Time						//!< Current time
 			) =0;
