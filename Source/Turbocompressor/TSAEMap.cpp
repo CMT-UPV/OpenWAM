@@ -31,6 +31,8 @@ void TSAEMap::ReadSAECompressorMap(FILE *fich) {
 	double speedmax = 0, massmax = 0, presmax = 1, effmax = 0;
 	int points;
 
+	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
+			&FEffMultiplier);
 	fscanf(fich, "%d", &points);
 	FSpeed.resize(i + 1);
 	FMass.resize(i + 1);
