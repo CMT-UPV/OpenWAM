@@ -993,7 +993,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 						node_cyl;
 						node_cyl = node_cyl.next_sibling("Eng:Cylinder")) {
 
-					cil++;
+					cil = GetAttributeAsInt(node_cyl, "Cyl_ID");
 					int i = GetAttributeAsInt(node_cyl, "FireOrder") - 1;
 
 					FDesfase[cil - 1] = (double) i * FAngTotalCiclo
