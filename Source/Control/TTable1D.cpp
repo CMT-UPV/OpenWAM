@@ -170,6 +170,11 @@ void TTable1D::LeeControllerXML(xml_node node_ctrl) {
 	FSensorID.resize(1);
 	FSensorID[0] = GetAttributeAsInt(node_table,"Sensor_ID");
 
+	if(node_ctrl.child("Ctr:AvgOutput"))
+		LeeResultadosMedControladorXML(node_ctrl);
+	if(node_ctrl.child("Ctr:InsOutput"))
+		LeeResultadosInsControladorXML(node_ctrl);
+
 }
 
 void TTable1D::AsignaObjetos(TSensor **Sensor, TController **Controller) {
@@ -212,6 +217,20 @@ void TTable1D::LeeResultadosMedControlador(const char *FileWAM,
 	}
 }
 
+void TTable1D::LeeResultadosInsControladorXML(xml_node node_ctrl) {
+
+	xml_node node_ins=GetNodeChild(node_ctrl,"Ctrl:InsOutput");
+	for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+			parameter.next_attribute()){
+		if(parameter.value() == "Output"){
+			FResInstantCtrl.Output = true;
+		}else{
+			std::cout << "Resultados instantaneos en Controlador " << fID
+					<< " no implementados " << std::endl;
+		}
+	}
+}
+
 void TTable1D::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
@@ -241,6 +260,20 @@ void TTable1D::LeeResultadosInsControlador(const char *FileWAM,
 				<< fID << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(N.Message);
+	}
+}
+
+void TTable1D::LeeResultadosMedControladorXML(xml_node node_ctrl) {
+
+	xml_node node_avg=GetNodeChild(node_ctrl,"Ctrl:AvgOutput");
+	for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+			parameter.next_attribute()){
+		if(parameter.value() == "Output"){
+			FResMediosCtrl.Output = true;
+		}else{
+			std::cout << "Resultados medios en Controlador " << fID
+					<< " no implementados " << std::endl;
+		}
 	}
 }
 

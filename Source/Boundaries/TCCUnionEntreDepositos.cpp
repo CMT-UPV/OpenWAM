@@ -130,6 +130,11 @@ void TCCUnionEntreDepositos::LeeUEDepositosXML(xml_node node_connect, bool Indep
 		FNumeroDeposito1 = GetAttributeAsInt(node_orif,"Plenum1_ID");
 		FNumeroDeposito2 = GetAttributeAsInt(node_orif,"Plenum2_ID");
 
+		if(node_orif.child("Con:AvgOutput"))
+			ReadAverageResultsUEDXML(node_orif);
+		if(node_orif.child("Con:InsOutput"))
+			LeeResultadosInstantUEDXML(node_orif);
+
 	} catch (Exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: "
@@ -790,6 +795,31 @@ void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,
 	}
 }
 
+
+void TCCUnionEntreDepositos::LeeResultadosInstantUEDXML(xml_node nodo_con) {
+	int nvars, var;
+	try {
+
+		xml_node node_ins=GetNodeChild(nodo_con,"Con:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "MassFlow"){
+				FResInstantUED.Massflow = true;
+			}else{
+				std::cout << "Resultados instantaneos en UED(BC) " << FNumeroCC
+						<< " no implementados " << std::endl;
+			}
+		}
+
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCUnionEntreDepositos::LeeResultadosInstantUED en la BC "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
@@ -877,6 +907,29 @@ void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCUnionEntreDepositos::ReadAverageResultsUED en la BC "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+void TCCUnionEntreDepositos::ReadAverageResultsUEDXML(xml_node node_con) {
+	int nvars, var;
+	try {
+
+		xml_node node_avg=GetNodeChild(node_con,"Con:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "MassFlow"){
+				FResMediosUED.Massflow = true;
+			}else{
+				std::cout << "Resultados medios en UED(BC) " << FNumeroCC
+						<< " no implementados " << std::endl;
+			}
+		}
 	} catch (Exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ReadAverageResultsUED en la BC "

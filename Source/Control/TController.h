@@ -84,6 +84,12 @@ public:
 			fpos_t &filepos			//!< Position to read within the input file
 			) =0;
 
+	/*! Read the average results selected*/
+	virtual void LeeResultadosMedControladorXML(xml_node node_ctrl) =0;
+
+	/*! Read the instantanous results selected*/
+	virtual void LeeResultadosInsControladorXML(xml_node node_ctrl) =0;
+
 	/*! Generate the header of the average results*/
 	virtual void CabeceraResultadosMedControlador(std::stringstream& medoutput //!< StringStream where the average results are stored
 			) =0;

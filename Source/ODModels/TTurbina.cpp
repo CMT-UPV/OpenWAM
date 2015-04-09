@@ -518,6 +518,11 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 		}
 		FAjustRendTurb = GetAttributeAsDouble(node_turb, "FitEfficiency");
 
+		if(node_turb.child("Trb:InsOutput"))
+			LeeResultadosInstantTurbXML(node_turb);
+		if(node_turb.child("Trb:AvgOutput"))
+			ReadAverageResultsTurbXML(node_turb);
+
 	} catch (Exception & N) {
 		std::cout << "ERROR: TTurbina::LeeRendimientoTurbina en la turbina "
 				<< FNumeroTurbina << std::endl;

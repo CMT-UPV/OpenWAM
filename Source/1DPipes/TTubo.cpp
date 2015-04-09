@@ -816,6 +816,14 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 			}
 		}
 
+		if(node_pipe.child("Pip:AvgOutput")){
+			ReadAverageResultsTuboXML(node_pipe);
+		}
+		if(node_pipe.child("Pip:InsOutput")){
+			ReadInstantaneousResultsTuboXML(node_pipe);
+		}
+
+
 #ifdef usetry
 	} catch (Exception & N) {
 		std::cout << "ERROR: TTubo::LeeDatosGeneralesTubo en el tubo: "
@@ -2969,6 +2977,114 @@ void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
+void TTubo::ReadAverageResultsTuboXML(xml_node node_pipe) {
+	int NumVars, TipoVar;
+#ifdef usetry
+	try {
+#endif
+
+		xml_node node_res = GetNodeChild(node_pipe,"Pip:AvgOutput");
+		FNumResMedios = CountNodes(node_res,"Opi:Point");
+
+		ResultadosMedios = new stResMediosTubo[FNumResMedios];
+		FTiempoMedSUM = 0.;
+		FControlResMed = 1;
+
+		int i = 0;
+
+		for (xml_node node_point = GetNodeChild(node_res, "Opi:Point");
+				node_point;
+				node_point = node_point.next_sibling("Opi:Point")) {
+
+			ResultadosMedios[i].TemperaturaGas = false;
+			ResultadosMedios[i].TemperaturaGasSUM = 0.;
+			ResultadosMedios[i].TemperaturaGasMED = 0;
+			ResultadosMedios[i].Pressure = false;
+			ResultadosMedios[i].PresionSUM = 0.;
+			ResultadosMedios[i].PresionMED = 0.;
+			ResultadosMedios[i].Velocity = false;
+			ResultadosMedios[i].VelocidadSUM = 0.;
+			ResultadosMedios[i].VelocidadMED = 0.;
+			ResultadosMedios[i].Massflow = false;
+			ResultadosMedios[i].GastoSUM = 0.;
+			ResultadosMedios[i].GastoMED = 0.;
+			ResultadosMedios[i].TemperaturaInternaPared = false;
+			ResultadosMedios[i].TemperaturaInternaParedSUM = 0.;
+			ResultadosMedios[i].TemperaturaInternaParedMED = 0.;
+			ResultadosMedios[i].TemperaturaIntermediaPared = false;
+			ResultadosMedios[i].TemperaturaIntermediaParedSUM = 0.;
+			ResultadosMedios[i].TemperaturaIntermediaParedMED = 0.;
+			ResultadosMedios[i].TemperaturaExternaPared = false;
+			ResultadosMedios[i].TemperaturaExternaParedSUM = 0.;
+			ResultadosMedios[i].TemperaturaExternaParedMED = 0.;
+			ResultadosMedios[i].NITmedio = false;
+			ResultadosMedios[i].NITmedioSUM = 0;
+			ResultadosMedios[i].NITmedioMED = 0;
+			ResultadosMedios[i].CoefPelInterior = false;
+			ResultadosMedios[i].CoefPelInteriorSUM = 0.;
+			ResultadosMedios[i].CoefPelInteriorMED = 0.;
+			ResultadosMedios[i].FraccionMasicaEspecies = false;
+			ResultadosMedios[i].FraccionSUM = new double[FNumeroEspecies
+					- FIntEGR];
+			ResultadosMedios[i].FraccionMED = new double[FNumeroEspecies
+					- FIntEGR];
+			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+				ResultadosMedios[i].FraccionSUM[j] = 0.;
+				ResultadosMedios[i].FraccionMED[j] = 0.;
+			}
+			ResultadosMedios[i].PonderacionSUM = 0.;
+			ResultadosMedios[i].GastoPonderacionSUM = 0.;
+
+			ResultadosMedios[i].Distancia = GetXMLLength(node_point,"Distance");
+
+			for (xml_attribute parameter = node_point.attribute("parameter");
+					parameter;
+					parameter = parameter.next_attribute()) {
+
+				if(parameter.value() == "GasTemperature"){
+					ResultadosMedios[i].TemperaturaGas = true;
+				}else if(parameter.value() == "Pressure"){
+					ResultadosMedios[i].Pressure = true;
+				}else if(parameter.value() == "Velocity"){
+					ResultadosMedios[i].Velocity = true;
+				}else if(parameter.value() == "MassFlow"){
+					ResultadosMedios[i].Massflow = true;
+				}else if(parameter.value() == "IntWallTemperature"){
+					ResultadosMedios[i].TemperaturaInternaPared = true;
+				}else if(parameter.value() == "MedWallTemperature"){
+					ResultadosMedios[i].TemperaturaIntermediaPared = true;
+				}else if(parameter.value() == "ExtWallTemperature"){
+					ResultadosMedios[i].TemperaturaExternaPared = true;
+				}else if(parameter.value() == "NIT"){
+					ResultadosMedios[i].NITmedio = true;
+				}else if(parameter.value() == "HeatTransferCoef"){
+					ResultadosMedios[i].CoefPelInterior = true;
+				}else if(parameter.value() == "SpeciesMassFraction"){
+					ResultadosMedios[i].FraccionMasicaEspecies = true;
+				}else{
+					std::cout
+							<< "WARNING: El tipo de variable seleccionada para la salida de resultados medios no es valida"
+							<< std::endl;
+				}
+
+			}
+			i++;
+
+		}
+#ifdef usetry
+	} catch (Exception & N) {
+		std::cout << "ERROR: TTubo::ReadAverageResults en el tubo: "
+				<< FNumeroTubo << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
+
 void TTubo::HeaderAverageResults(stringstream& medoutput,
 		stEspecies *DatosEspecies) const {
 #ifdef usetry
@@ -3222,6 +3338,111 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+#ifdef usetry
+	} catch (Exception & N) {
+		std::cout << "ERROR: TTubo::ReadInstantaneousResults en el tubo: "
+				<< FNumeroTubo << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+#endif
+}
+
+void TTubo::ReadInstantaneousResultsTuboXML(xml_node node_pipe) {
+	int NumVars, TipoVar;
+#ifdef usetry
+	try {
+#endif
+
+		xml_node node_res = GetNodeChild(node_pipe,"Pip:AvgOutput");
+		FNumResInstant = CountNodes(node_res,"Opi:Point");
+
+		ResultInstantaneos = new stResInstantTubo[FNumResInstant];
+
+		int i=0;
+
+		for (xml_node node_point = GetNodeChild(node_res, "Opi:Point");
+				node_point;
+				node_point = node_point.next_sibling("Opi:Point")) {
+			ResultInstantaneos[i].Pressure = false;
+			ResultInstantaneos[i].PresionINS = 0.;
+			ResultInstantaneos[i].Velocity = false;
+			ResultInstantaneos[i].VelocidadINS = 0.;
+			ResultInstantaneos[i].TemperaturaGas = false;
+			ResultInstantaneos[i].TemperaturaGasINS = 0.;
+			ResultInstantaneos[i].FlujoMasico = false;
+			ResultInstantaneos[i].FlujoMasicoINS = 0.;
+			ResultInstantaneos[i].VelocidadDerecha = false;
+			ResultInstantaneos[i].VelocidadDerechaINS = 0.;
+			ResultInstantaneos[i].VelocidadIzquierda = false;
+			ResultInstantaneos[i].VelocidadIzquierdaINS = 0.;
+			ResultInstantaneos[i].PresionDerecha = false;
+			ResultInstantaneos[i].PresionDerechaINS = 0.;
+			ResultInstantaneos[i].PresionIzquierda = false;
+			ResultInstantaneos[i].PresionIzquierdaINS = 0.;
+			ResultInstantaneos[i].NIT = false;
+			ResultInstantaneos[i].NITINS = 0.;
+			ResultInstantaneos[i].TemperaturaInternaPared = false;
+			ResultInstantaneos[i].TemperaturaInternaParedINS = 0.;
+			ResultInstantaneos[i].TemperaturaIntermediaPared = false;
+			ResultInstantaneos[i].TemperaturaIntermediaParedINS = 0.;
+			ResultInstantaneos[i].TemperaturaExternaPared = false;
+			ResultInstantaneos[i].TemperaturaExternaParedINS = 0.;
+			ResultInstantaneos[i].CoefPelInterior = false;
+			ResultInstantaneos[i].CoefPelInteriorINS = 0.;
+			ResultInstantaneos[i].FraccionMasicaEspecies = false;
+			ResultInstantaneos[i].FraccionINS = new double[FNumeroEspecies
+					- FIntEGR];
+			ResultInstantaneos[i].Gamma = false;
+			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+				ResultInstantaneos[i].FraccionINS[j] = 0.;
+			}
+
+			ResultInstantaneos[i].Distancia = GetXMLLength(node_point,"Distance");
+
+			for (xml_attribute parameter = node_point.attribute("parameter");
+					parameter;
+					parameter = parameter.next_attribute()) {
+
+
+				if(parameter.value() == "Pressure"){
+					ResultInstantaneos[i].Pressure = true;
+				}else if(parameter.value() == "Velocity"){
+					ResultInstantaneos[i].Velocity = true;
+				}else if(parameter.value() == "GasTemperature"){
+					ResultInstantaneos[i].TemperaturaGas = true;
+				}else if(parameter.value() == "MassFlow"){
+					ResultInstantaneos[i].FlujoMasico = true;
+				}else if(parameter.value() == "RigthVelocity"){
+					ResultInstantaneos[i].VelocidadDerecha = true;
+				}else if(parameter.value() == "LeftVelocity"){
+					ResultInstantaneos[i].VelocidadIzquierda = true;
+				}else if(parameter.value() == "RightPressure"){
+					ResultInstantaneos[i].PresionDerecha = true;
+				}else if(parameter.value() == "LeftVelocity"){
+					ResultInstantaneos[i].PresionIzquierda = true;
+				}else if(parameter.value() == "NIT"){
+					ResultInstantaneos[i].NIT = true;
+				}else if(parameter.value() == "IntWallTemperature"){
+					ResultInstantaneos[i].TemperaturaInternaPared = true;
+				}else if(parameter.value() == "MedWallTemperature"){
+					ResultInstantaneos[i].TemperaturaIntermediaPared = true;
+				}else if(parameter.value() == "ExtWallTemperature"){
+					ResultInstantaneos[i].TemperaturaExternaPared = true;
+				}else if(parameter.value() == "IntHeatTransCoef"){
+					ResultInstantaneos[i].CoefPelInterior = true;
+				}else if(parameter.value() == "SpeciesMassFraction"){
+					ResultInstantaneos[i].FraccionMasicaEspecies = true;
+				}else if(parameter.value() == "SpecHeatRatio"){
+					ResultInstantaneos[i].Gamma = true;
+				}else{
+					std::cout
+							<< "WARNING: El tipo de variable seleccionada para la salida de resultados instantaneos no es valida"
+							<< std::endl;
+				}
+			}
+			i++;
+		}
 #ifdef usetry
 	} catch (Exception & N) {
 		std::cout << "ERROR: TTubo::ReadInstantaneousResults en el tubo: "

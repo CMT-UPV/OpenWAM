@@ -80,10 +80,14 @@ public:
 			fpos_t &filepos		//!< Position within the input data file to read
 			);
 
+	void LeeResultadosMedControladorXML(xml_node node_ctrl);
+
 	/*! Read the instantaneous results selected for the controller*/
 	void LeeResultadosInsControlador(const char *FileWAM, //!< Filename of the input data file
 			fpos_t &filepos		//!< Positon within the input data file to read
 			);
+
+	void LeeResultadosInsControladorXML(xml_node node_ctrl);
 
 	/*! Generate the header of the average results for the controller*/
 	void CabeceraResultadosMedControlador(stringstream& medoutput //!< StringStream where the average results are stored

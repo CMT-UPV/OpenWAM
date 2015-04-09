@@ -219,6 +219,8 @@ public:
 	virtual void ReadAverageResultsTurb(const char *FileWAM,
 			fpos_t &filepos) = 0;
 
+	virtual void ReadAverageResultsTurbXML(xml_node node_trb) = 0;
+
 	virtual void CabeceraResultadosMedTurb(stringstream& medoutput) = 0;
 
 	virtual void ImprimeResultadosMedTurb(stringstream& medoutput) = 0;
@@ -229,6 +231,8 @@ public:
 
 	virtual void LeeResultadosInstantTurb(const char *FileWAM,
 			fpos_t &filepos) = 0;
+
+	virtual void LeeResultadosInstantTurbXML(xml_node node_turb) = 0;
 
 	virtual void CabeceraResultadosInstantTurb(stringstream& insoutput) = 0;
 

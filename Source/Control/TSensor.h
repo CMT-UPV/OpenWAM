@@ -113,10 +113,14 @@ public:
 			fpos_t &filepos		//!< Specify a position within the input file.
 			);
 
+	void LeeResultadosMedSensorXML(xml_node node_sens);
+
 	/*! Read de instantaneous results selected for the sensor*/
 	void LeeResultadosInsSensor(const char *FileWAM, //!< Filename of the input data
 			fpos_t &filepos		//!< Specify a position within the input file.
 			);
+
+	void LeeResultadosInsSensorXML(xml_node node_sens);
 
 	/*! Generate the header of the average results*/
 	void CabeceraResultadosMedSensor(std::stringstream& medoutput //!< StringStream where the average results are stored

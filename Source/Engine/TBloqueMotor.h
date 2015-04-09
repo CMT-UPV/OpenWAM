@@ -542,6 +542,8 @@ public:
 
 	void ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &filepos);
 
+	void ReadAverageResultsBloqueMotorXML(xml_node node_engine);
+
 	void HeaderAverageResultsBloqueMotor(std::stringstream& medoutput);
 
 	void ImprimeResultadosMediosBloqueMotor(std::stringstream& medoutput);

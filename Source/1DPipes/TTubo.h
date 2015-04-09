@@ -1146,6 +1146,10 @@ public:
 			bool HayMotor                //!< Comment
 			);
 
+	void ReadAverageResultsTuboXML(xml_node node_pipe);
+
+	void ReadInstantaneousResultsTuboXML(xml_node node_pipe);
+
 	/*!Comment  */
 	void HeaderInstantaneousResults(std::stringstream& insoutput, //!< Comment
 			stEspecies* DatosEspecies     //!< Comment

@@ -315,11 +315,17 @@ public:
 
 	void LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos);
 
+	void LeeDatosGraficasMediasXML(xml_node node_comp);
+
 	void CabeceraGraficasMedias(stringstream& medoutput);
 
 	void ImprimeGraficasMedias(stringstream& medoutput);
 
 	void LeeDatosGraficasInstantaneas(const char *FileWAM, fpos_t &filepos);
+
+	void LeeDatosGraficasInstantaneasXML(xml_node node_comp);
+
+	void ReadCompressorOutputXML(xml_node node_comp);
 
 	void CabeceraGraficasInstantaneas(stringstream& insoutput);
 

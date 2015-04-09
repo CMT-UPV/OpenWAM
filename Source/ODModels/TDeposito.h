@@ -279,6 +279,8 @@ public:
 
 	void ReadInstantaneousResultsDep(const char *FileWAM, fpos_t &filepos);
 
+	void ReadInstantaneousResultsDepXML(xml_node node_plenum);
+
 	void HeaderInstantaneousResultsDep(std::stringstream& insoutput,
 			stEspecies *DatosEspecies);
 
@@ -287,6 +289,8 @@ public:
 	void ResultadosInstantaneosDep();
 
 	void ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos);
+
+	void ReadAverageResultsDepXML(xml_node node_plenum);
 
 	void HeaderAverageResultsDep(std::stringstream& medoutput,
 			stEspecies *DatosEspecies);

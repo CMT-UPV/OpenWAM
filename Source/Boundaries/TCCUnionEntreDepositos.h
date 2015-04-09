@@ -159,6 +159,8 @@ public:
 
 	void LeeResultadosInstantUED(const char *FileWAM, fpos_t &filepos);
 
+	void LeeResultadosInstantUEDXML(xml_node nodo_con);
+
 	void CabeceraResultadosInstantUED(stringstream& insoutput);
 
 	void ImprimeResultadosInstantUED(stringstream& insoutput);
@@ -166,6 +168,8 @@ public:
 	void ResultadosInstantUED();
 
 	void ReadAverageResultsUED(const char *FileWAM, fpos_t &filepos);
+
+	void ReadAverageResultsUEDXML(xml_node node_con);
 
 	void HeaderAverageResultsUED(stringstream& medoutput);
 

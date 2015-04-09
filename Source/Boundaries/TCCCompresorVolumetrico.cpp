@@ -300,6 +300,10 @@ void TCCCompresorVolumetrico::ReadBoundaryDataXML(xml_node node_connect,
 					<< FNumeroCC << std::endl;
 			throw Exception(" ");
 		}
+		if(node_cv.child("Con:AvgOutput"))
+			ReadAverageResultsCVXML(node_cv);
+		if(node_cv.child("Con:InsOutput"))
+			LeeResultadosInstantCVXML(node_cv);
 
 		IniciaMedias();
 
@@ -474,6 +478,33 @@ void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCCompresorVolumetrico::ReadAverageResultsCV en la BC "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+
+void TCCCompresorVolumetrico::ReadAverageResultsCVXML(xml_node node_root) {
+	try {
+
+		xml_node node_avg=GetNodeChild(node_root,"Con:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Power"){
+				FResMediosCV.Potencia = true;
+			}else if(parameter.value() == "MassFlow"){
+				FResMediosCV.Massflow = true;
+			}else if(parameter.value() == "Pressure"){
+				FResMediosCV.Pressure = true;
+			}else{
+				std::cout << "Resultados medios en CV(BC) " << FNumeroCC
+						<< " no implementados " << std::endl;
+			}
+		}
 	} catch (Exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ReadAverageResultsCV en la BC "
@@ -661,6 +692,33 @@ void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,
 	}
 }
 
+void TCCCompresorVolumetrico::LeeResultadosInstantCVXML(xml_node node_root) {
+	int nvars, var;
+
+	try {
+
+		xml_node node_ins=GetNodeChild(node_root,"Con:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Power"){
+				FResInstantCV.Potencia = true;
+			}else if(parameter.value() == "MassFlow"){
+				FResInstantCV.Massflow = true;
+			}else if(parameter.value() == "Pressure"){
+				FResInstantCV.Pressure = true;
+			}else{
+				std::cout << "Resultados medios en CV(BC) " << FNumeroCC
+						<< " no implementados " << std::endl;
+			}
+		}
+	} catch (Exception &N) {
+		std::cout
+				<< "ERROR: TCCCompresorVolumetrico::LeeResultadosInstantCV en la BC "
+				<< FNumeroCC << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 

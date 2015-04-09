@@ -559,6 +559,8 @@ public:
 
 	void ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
+	void ReadAverageResultsCilindroXML(xml_node node_cyl);
+
 	void HeaderAverageResultsCilindro(std::stringstream& medoutput,
 			stEspecies *DatosEspecies);
 
@@ -569,6 +571,8 @@ public:
 	void CalculaResultadosMediosCilindro();
 
 	void ReadInstantaneousResultsCilindro(const char *FileWAM, fpos_t &filepos);
+
+	void ReadInstantaneousResultsCilindroXML(xml_node node_cyl);
 
 	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput,
 			stEspecies *DatosEspecies);

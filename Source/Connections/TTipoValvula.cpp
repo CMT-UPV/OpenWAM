@@ -154,6 +154,30 @@ void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 	}
 }
 
+void TTipoValvula::LeeDatosGraficasINSXML(xml_node node_con) {
+	try {
+		int ndv, var;
+
+		FGraficasINS = true;
+
+		xml_node node_avg=GetNodeChild(node_con,"Val:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "InletDC"){
+				FGraficaCDEINS = true;
+			}else if(parameter.value() == "InletDC"){
+				FGraficaCDSINS = true;
+			}
+		}
+
+	} catch (Exception &N) {
+		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
+		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		throw Exception(N.Message);
+
+	}
+}
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
@@ -260,6 +284,29 @@ void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 
 	}
 }
+
+void TTipoValvula::LeeDatosGraficasMEDXML(xml_node node_con) {
+	try {
+
+		FGraficasMED = true;
+
+		xml_node node_avg=GetNodeChild(node_con,"Val:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "InletDC"){
+				FGraficaCDEMED = true;
+			}else if(parameter.value() == "OutletDC"){
+				FGraficaCDSMED = true;
+			}
+		}
+	} catch (Exception &N) {
+		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
+		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		throw Exception(N.Message);
+
+	}
+}
+
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------

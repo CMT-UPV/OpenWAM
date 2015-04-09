@@ -152,6 +152,8 @@ public:
 
 	void ReadAverageResultsEje(const char *FileWAM, fpos_t &filepos);
 
+	void ReadAverageResultsEjeXML(xml_node node_shaft);
+
 	void CabeceraResultadosMedEje(stringstream& medoutput);
 
 	void ImprimeResultadosMedEje(stringstream& medoutput);
@@ -163,6 +165,8 @@ public:
 	void AcumulaResultadosMediosEje(double Actual);
 
 	void ReadInstantaneousResultsEje(const char *FileWAM, fpos_t &filepos);
+
+	void ReadInstantaneousResultsEjeXML(xml_node node_shaft);
 
 	void HeaderInstantaneousResultsEje(stringstream& insoutput);
 

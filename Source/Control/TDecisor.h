@@ -87,6 +87,10 @@ public:
 			fpos_t &filepos				//!< Position within the file to read
 			);
 
+	void LeeResultadosMedControladorXML(xml_node node_ctrl);
+
+	void LeeResultadosInsControladorXML(xml_node node_ctrl);
+
 	/*! Read the instantenous results selected */
 	void LeeResultadosInsControlador(const char *FileWAM, //!< File name of the input data
 			fpos_t &filepos				//!< Position within the file to read

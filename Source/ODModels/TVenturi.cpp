@@ -119,6 +119,11 @@ void TVenturi::LeeDatosVenturiXML(xml_node node_venturi) {
 		FRendimientoVenturi = GetAttributeAsDouble(node_venturi, "Efficiency");
 		FPerdidasCalor = GetAttributeAsDouble(node_venturi, "HeatLosses");
 
+		if(node_venturi.child("Vtr:InsOutput"))
+			LeeResultadosInstantVenturiXML(node_venturi);
+		if(node_venturi.child("Vtr:AvgOutput"))
+			ReadAverageResultsVenturiXML(node_venturi);
+
 	} catch (Exception & N) {
 		std::cout << "ERROR: TVenturi::LeeDatosVenturi en el deposito: "
 				<< FNumeroDeposito << std::endl;
@@ -472,6 +477,46 @@ void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM,
 	}
 }
 
+void TVenturi::LeeResultadosInstantVenturiXML(xml_node node_venturi) {
+
+	try {
+
+
+		xml_node node_ins=GetNodeChild(node_venturi,"Vtr:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "InletPressure"){
+				FResInstantVenturi.PresionEntrada = true;
+			}else if(parameter.value() == "ThroatPressure"){
+				FResInstantVenturi.PresionGarganta = true;
+			}else if(parameter.value() == "InletMach"){
+				FResInstantVenturi.MachEntrada = true;
+			}else if(parameter.value() == "ThroatMach"){
+				FResInstantVenturi.MachGarganta = true;
+			}else if(parameter.value() == "InletVelocity"){
+				FResInstantVenturi.VelEntrada = true;
+			}else if(parameter.value() == "LateralVelocity"){
+				FResInstantVenturi.VelLateral = true;
+			}else if(parameter.value() == "InletMassFlow"){
+				FResInstantVenturi.GastoEntrada = true;
+			}else if(parameter.value() == "LaterlaMassFlow"){
+				FResInstantVenturi.GastoLateral = true;
+			}else{
+				std::cout << "Resultados instantaneos en venturi "
+						<< FNumeroVenturi << " no implementados " << std::endl;
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TVenturi::LeeResultadosInstantVenturi en el venturi: "
+				<< FNumeroVenturi << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -709,6 +754,47 @@ void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
 		throw Exception(N.Message.c_str());
 	}
 }
+
+
+void TVenturi::ReadAverageResultsVenturiXML(xml_node node_venturi) {
+	int nvars, var;
+
+	try {
+
+		xml_node node_avg=GetNodeChild(node_venturi,"Vtr:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "InletPressure"){
+				FResMediosVenturi.PresionEntrada = true;
+			}else if(parameter.value() == "ThroatPressure"){
+				FResMediosVenturi.PresionGarganta = true;
+			}else if(parameter.value() == "InletMach"){
+				FResMediosVenturi.MachEntrada = true;
+			}else if(parameter.value() == "ThroatMach"){
+				FResMediosVenturi.MachGarganta = true;
+			}else if(parameter.value() == "InletVelocity"){
+				FResMediosVenturi.VelEntrada = true;
+			}else if(parameter.value() == "LateralVelocity"){
+				FResMediosVenturi.VelLateral = true;
+			}else if(parameter.value() == "InletMassFlow"){
+				FResMediosVenturi.GastoEntrada = true;
+			}else if(parameter.value() == "LateralMassFlow"){
+				FResMediosVenturi.GastoLateral = true;
+			}else{
+				std::cout << "Resultados medios en venturi " << FNumeroVenturi
+						<< " no implementados " << std::endl;
+			}
+		}
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TVenturi::ReadAverageResultsVenturi en el venturi: "
+				<< FNumeroVenturi << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------

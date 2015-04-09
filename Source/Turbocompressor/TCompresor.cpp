@@ -282,6 +282,40 @@ void TCompresor::LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos) {
 	}
 }
 
+void TCompresor::LeeDatosGraficasMediasXML(xml_node node_comp) {
+	int NMagnitudes, Magnitud;
+	try {
+
+		FMedias.GraficaMedias = true;
+
+		xml_node node_avg=GetNodeChild(node_comp,"Com:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+
+			if(parameter.value() == "Work"){
+				FMedias.GraficaTrabajo = true;
+			}else if(parameter.value() == "Efficiency"){
+				FMedias.GraficaRendimiento = true;
+			}else if(parameter.value() == "CompressionRatio"){
+				FMedias.GraficaRelacionCompresion = true;
+			}else if(parameter.value() == "MassFlow"){
+				FMedias.GraficaGasto = true;
+			}else if(parameter.value() == "CorrectedMassFlow"){
+				FMedias.GraficaGastoCorregido = true;
+			}else if(parameter.value() == "CorrectedSpeed"){
+				FMedias.GraficaRegimenCorregido = true;
+			}
+		}
+	} catch (Exception &N) {
+		std::cout << "ERROR: LeeDatosGraficasMedias en el compresor: "
+				<< FNumeroCompresor << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(
+				"ERROR: LeeDatosGraficasMedias en el compresor: "
+						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+	}
+}
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
@@ -410,6 +444,50 @@ void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM,
 		throw Exception(
 				"ERROR: LeeDatosGraficasMedias en el compresor: "
 						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+	}
+}
+
+void TCompresor::LeeDatosGraficasInstantaneasXML(xml_node node_comp) {
+	int NMagnitudes, Magnitud;
+	try {
+
+		FInstant.GraficaInstantaneas = true;
+		xml_node node_ins=GetNodeChild(node_comp,"Com:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "CompressionRatio"){
+				FInstant.GraficaRelacionCompresion = true;
+			}else if(parameter.value() == "Efficiency"){
+				FInstant.GraficaRendimiento = true;
+			}else if(parameter.value() == "Power"){
+				FInstant.GraficaPotencia = true;
+			}else if(parameter.value() == "MassFlow"){
+				FInstant.GraficaGasto = true;
+			}else if(parameter.value() == "CorrectedMassFlow"){
+				FInstant.GraficaGastoCorregido = true;
+			}else if(parameter.value() == "CorrectedSpeed"){
+				FInstant.GraficaRegimenCorregido = true;
+			}else if(parameter.value() == "SpecificHeatRatio"){
+				FInstant.GraficaGamma = true;
+			}
+		}
+	} catch (Exception &N) {
+		std::cout << "ERROR: LeeDatosGraficasMedias en el compresor: "
+				<< FNumeroCompresor << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(
+				"ERROR: LeeDatosGraficasMedias en el compresor: "
+						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+	}
+}
+
+void TCompresor::ReadCompressorOutputXML(xml_node node_comp){
+
+	if(node_comp.child("Com:AvgOutput")){
+		LeeDatosGraficasMediasXML(node_comp);
+	}
+	if(node_comp.child("Com:InsOutput")){
+		LeeDatosGraficasInstantaneasXML(node_comp);
 	}
 }
 

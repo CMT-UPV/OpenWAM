@@ -81,6 +81,11 @@ void TGain::LeeControllerXML(xml_node node_ctrl) {
 		FInObject = nmInSensor;
 	}
 
+	if(node_ctrl.child("Ctr:AvgOutput"))
+		LeeResultadosMedControladorXML(node_ctrl);
+	if(node_ctrl.child("Ctr:InsOutput"))
+		LeeResultadosInsControladorXML(node_ctrl);
+
 }
 
 void TGain::AsignaObjetos(TSensor **Sensor, TController **Controller) {
@@ -118,6 +123,20 @@ void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 
 }
 
+void TGain::LeeResultadosMedControladorXML(xml_node node_ctrl) {
+
+	xml_node node_avg=GetNodeChild(node_ctrl,"Ctrl:AvgOutput");
+	for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+			parameter.next_attribute()){
+		if(parameter.value() == "Output"){
+			FResMediosCtrl.Output = true;
+		}else{
+			std::cout << "Resultados medios en Controlador " << fID
+					<< " no implementados " << std::endl;
+		}
+	}
+}
+
 void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 
 	int nvars, var;
@@ -141,6 +160,20 @@ void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 	fgetpos(fich, &filepos);
 	fclose(fich);
 
+}
+
+void TGain::LeeResultadosInsControladorXML(xml_node node_ctrl) {
+
+	xml_node node_ins=GetNodeChild(node_ctrl,"Ctrl:InsOutput");
+	for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+			parameter.next_attribute()){
+		if(parameter.value() == "Output"){
+			FResInstantCtrl.Output = true;
+		}else{
+			std::cout << "Resultados instantaneos en Controlador " << fID
+					<< " no implementados " << std::endl;
+		}
+	}
 }
 
 void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {

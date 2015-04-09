@@ -180,6 +180,13 @@ public:
 			TVenturi** Venturi, TSensor** Sensor, TController** Controller,
 			int TotalCycles, char* ModelName);
 
+	void ReadAverageResultsXML(xml_node node_openwam, TTubo** Pipe,
+			bool EngineBlock, TBloqueMotor** Engine, TDeposito **Plenum,
+			TEjeTurbogrupo** Axis, TCompresor** Compressor, TTurbina** Turbine,
+			TCondicionContorno** BC, TDPF** DPF, TCCCompresorVolumetrico** Root,
+			TVenturi** Venturi, TSensor** Sensor, TController** Controller,
+			int TotalCycles, char* ModelName);
+
 	void HeaderAverageResults(stEspecies *SpeciesName, TCalculoExtern* EXTERN,
 			bool ThereIsDLL);
 
@@ -199,7 +206,19 @@ public:
 			int NumberOfReedValves, TSensor** Sensor, TController** Controller,
 			char* ModelName);
 
+	void ReadInstantaneousResultsXML(xml_node node_openwam,
+			TBloqueMotor** Engine, TDeposito** Plenum, TTubo** Pipe,
+			TVenturi** Venturi, TCondicionContorno** BC, TDPF** DPF,
+			TEjeTurbogrupo** Turbo, TCompresor** Compressor, TTurbina** Turbine,
+			TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
+			int NumberOfWasteGates, TCondicionContorno** BCReedValve,
+			int NumberOfReedValves, TSensor** Sensor, TController** Controller,
+			char* ModelName);
+
 	void ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
+			TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum);
+
+	void ReadSpaceTimeResultsXML(xml_node node_openwam,
 			TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum);
 
 	void DoSpaceTimeFiles(int SpeciesNumber);

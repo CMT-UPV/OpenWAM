@@ -73,6 +73,8 @@ public:
 
 	void ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos);
 
+	void ReadAverageResultsTurbXML(xml_node node_trb);
+
 	void CabeceraResultadosMedTurb(stringstream& medoutput);
 
 	void ImprimeResultadosMedTurb(stringstream& medoutput);
@@ -82,6 +84,8 @@ public:
 	void AcumulaMedias(double Tiempo);
 
 	void LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filepos);
+
+	void LeeResultadosInstantTurbXML(xml_node node_trb);
 
 	void CabeceraResultadosInstantTurb(stringstream& insoutput);
 

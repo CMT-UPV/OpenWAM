@@ -350,6 +350,11 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 		}
 #endif
 
+		if(node_tch.child("Tch:AvgOutput"))
+			ReadAverageResultsEjeXML(node_tch);
+		if(node_tch.child("Tch:InsOutput"))
+			ReadInstantaneousResultsEjeXML(node_tch);
+
 	} catch (Exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::ReadTurbochargerAxis in the boundary condition: "
@@ -573,6 +578,32 @@ void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM,
 	}
 }
 
+void TEjeTurbogrupo::ReadAverageResultsEjeXML(xml_node node_shaft) {
+	try {
+		int nvars, var;
+
+		FResMediosEje.Regimen = false;
+
+		xml_node node_avg = node_shaft.child("Tch:AvgOutput");
+
+		for(xml_attribute parameter = node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Speed"){
+				FResMediosEje.Regimen = true;
+			}else{
+				std::cout << "Resultados medios en Axis " << FNumeroEje
+						<< " no implementados " << std::endl;
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout << "ERROR: TEjeTurbogrupo::ReadAverageResultsEje en el eje "
+				<< FNumeroEje << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -731,6 +762,46 @@ void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM,
 		throw Exception(N.Message);
 	}
 }
+
+
+void TEjeTurbogrupo::ReadInstantaneousResultsEjeXML(xml_node node_shaft) {
+	try {
+
+		FResInstantEje.Regimen = false;
+		FResInstantEje.MechPower = false;
+		FResInstantEje.MechEff = false;
+		FResInstantEje.NodeTemp = false;
+		FResInstantEje.HeatFlow = false;
+
+		xml_node node_ins = node_shaft.child("Tch:InsOutput");
+
+		for(xml_attribute parameter = node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Speed"){
+				FResInstantEje.Regimen = true;
+			}else if(parameter.value() == "MechanicalLosses"){
+				FResInstantEje.MechPower = true;
+			}else if(parameter.value() == "MechanicalEfficiency"){
+				FResInstantEje.MechEff = true;
+			}else if(parameter.value() == "NodeTemperature"){
+				FResInstantEje.NodeTemp = true;
+			}else if(parameter.value() == "HeatFlow"){
+				FResInstantEje.HeatFlow = true;
+			}else{
+				std::cout << "Instantaneous results in axis " << FNumeroEje
+						<< " are not implemented " << std::endl;
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TEjeTurbogrupo::ReadInstantaneousResultsEje en el eje "
+				<< FNumeroEje << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------

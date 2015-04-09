@@ -166,6 +166,8 @@ public:
 
 	void LeeResultadosInstantVenturi(const char *FileWAM, fpos_t &filepos);
 
+	void LeeResultadosInstantVenturiXML(xml_node node_venturi);
+
 	void CabeceraResultadosInstantVenturi(stringstream& insoutput);
 
 	void ImprimeResultadosInstantVenturi(stringstream& insoutput);
@@ -173,6 +175,8 @@ public:
 	void CalculaResultadosVenturi();
 
 	void ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos);
+
+	void ReadAverageResultsVenturiXML(xml_node node_venturi);
 
 	void HeaderAverageResultsVenturi(stringstream& medoutput);
 

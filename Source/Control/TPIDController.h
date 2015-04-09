@@ -112,10 +112,14 @@ public:
 			fpos_t &filepos				//!< Position within the input file
 			);
 
+	void LeeResultadosMedControladorXML(xml_node node_ctrl);
+
 	/*! Read the instantaneous results selected*/
 	void LeeResultadosInsControlador(const char *FileWAM, //!< Input data filename
 			fpos_t &filepos				//!< Position within the input file
 			);
+
+	void LeeResultadosInsControladorXML(xml_node node_ctrl);
 
 	/*! Generate average results header */
 	void CabeceraResultadosMedControlador(stringstream& medoutput //!< StringStrems where the average results are stored

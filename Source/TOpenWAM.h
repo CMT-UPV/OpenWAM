@@ -400,6 +400,8 @@ private:
 
 	void ReadOutput(char* FileName);
 
+	void ReadOutputXML(char* FileName);
+
 	void ReadDataDLL();
 
 	void RunningControl();

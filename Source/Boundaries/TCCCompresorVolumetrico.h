@@ -122,6 +122,8 @@ public:
 
 	void ReadAverageResultsCV(const char *FileWAM, fpos_t &filepos);
 
+	void ReadAverageResultsCVXML(xml_node node_root);
+
 	void CabeceraResultadosMedCV(stringstream& medoutput);
 
 	void ImprimeResultadosMedCV(stringstream& medoutput);
@@ -131,6 +133,8 @@ public:
 	void AcumulaResultadosMediosCV(double Actual);
 
 	void LeeResultadosInstantCV(const char *FileWAM, fpos_t &filepos);
+
+	void LeeResultadosInstantCVXML(xml_node node_root);
 
 	void ReadBoundaryDataXML(xml_node node_connect,
 			int NumberOfPipes, TTubo **Pipe, int nDPF,TDPF **DPF);

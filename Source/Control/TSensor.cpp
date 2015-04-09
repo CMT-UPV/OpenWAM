@@ -179,6 +179,11 @@ void TSensor::ReadSensorXML(xml_node node_sensor) {
 
 	FDelay = GetAttributeAsDouble(node_sensor,"Delay");
 	FGain = GetAttributeAsDouble(node_sensor,"Gain");
+
+	if(node_sensor.child("Sen:AvgOutput"))
+		LeeResultadosMedSensorXML(node_sensor);
+	if(node_sensor.child("Sen:InsOutput"))
+		LeeResultadosInsSensorXML(node_sensor);
 }
 
 void TSensor::AsignaObjeto(TObject *Object) {
@@ -333,6 +338,31 @@ void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 	}
 }
 
+void TSensor::LeeResultadosMedSensorXML(xml_node node_sens) {
+	try {
+
+		xml_node node_avg=GetNodeChild(node_sens,"Sen:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Output"){
+				FResMediosSensor.Output = true;
+			}else if(parameter.value() == "Output"){
+				FResMediosSensor.Input = true;
+			}else{
+				std::cout << "Resultados medios en Controlador "
+						<< FNumeroSensor << " no implementados " << std::endl;
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::LeeResultadosMedSensor en el controlador "
+				<< FNumeroSensor << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars, var;
@@ -358,6 +388,31 @@ void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::LeeResultadosInsSensor en el Sensor "
+				<< FNumeroSensor << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TSensor::LeeResultadosInsSensorXML(xml_node node_sens) {
+	try {
+
+		xml_node node_avg=GetNodeChild(node_sens,"Sen:InsOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Output"){
+				FResInstantSensor.Output = true;
+			}else if(parameter.value() == "Input"){
+				FResInstantSensor.Input = true;
+			}else{
+				std::cout << "Resultados instantaneos en Sensor "
+						<< FNumeroSensor << " no implementados " << std::endl;
+			}
+		}
+
 	} catch (Exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosInsSensor en el Sensor "

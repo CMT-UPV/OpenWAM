@@ -541,6 +541,40 @@ void TTurbinaSimple::ReadAverageResultsTurb(const char *FileWAM,
 	}
 }
 
+void TTurbinaSimple::ReadAverageResultsTurbXML(xml_node node_trb) {
+	try {
+		int nvars, var;
+
+		xml_node node_ins=GetNodeChild(node_trb,"Trb:AvgOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Work"){
+				FResMediosTurbina.Trabajo = true;
+			}else if(parameter.value() == "Efficiency"){
+				FResMediosTurbina.Rendimiento = true;
+			}else if(parameter.value() == "BSR"){
+				FResMediosTurbina.RelaCinematica = true;
+			}else if(parameter.value() == "CorrectedMassFlow"){
+				FResMediosTurbina.GastoCorregido = true;
+			}else if(parameter.value() == "CorrectedSpeed"){
+				FResMediosTurbina.RegimenCorregido = true;
+			}else if(parameter.value() == "ExpansionRatio"){
+				FResMediosTurbina.RelacionExpansion = true;
+			}else{
+				std::cout << "Resultados medios en turbina " << FNumeroTurbina
+						<< " no implementados " << std::endl;
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTurbinaSimple::ReadAverageResultsTurb en la turbina "
+				<< FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -813,6 +847,41 @@ void TTurbinaSimple::LeeResultadosInstantTurb(const char *FileWAM,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TTurbinaSimple::LeeResultadosInstantTurb en la turbina "
+				<< FNumeroTurbina << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TTurbinaSimple::LeeResultadosInstantTurbXML(xml_node node_trb) {
+	int nvars, var;
+
+	try {
+
+		xml_node node_ins=GetNodeChild(node_trb,"Trb:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Power"){
+				FResInstantTurbina.Potencia = true;
+			}else if(parameter.value() == "Efficiency"){
+				FResInstantTurbina.Rendimiento = true;
+			}else if(parameter.value() == "BSR"){
+				FResInstantTurbina.RelaCinematica = true;
+			}else if(parameter.value() == "CorrectedMassFlow"){
+				FResInstantTurbina.GastoCorregido = true;
+			}else if(parameter.value() == "CorrectedSpeed"){
+				FResInstantTurbina.RegimenCorregido = true;
+			}else if(parameter.value() == "ExpansionRatio"){
+				FResInstantTurbina.RelacionExpansion = true;
+			}else{
+				std::cout << "Instantaneous results in turbine "
+						<< FNumeroTurbina << " are not implemented "
+						<< std::endl;
+			}
+		}
 	} catch (Exception & N) {
 		std::cout
 				<< "ERROR: TTurbinaSimple::LeeResultadosInstantTurb en la turbina "

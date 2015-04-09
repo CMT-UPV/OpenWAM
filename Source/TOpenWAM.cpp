@@ -477,9 +477,8 @@ void TOpenWAM::ReadInputData(char* FileName) {
 
 	for (int i = 0; i < NumberOfConnections; i++) {
 		if (BC[i]->getTipoCC() == nmCompresor) {
-			dynamic_cast<TCCCompresor*>(BC[i])->ReadCompressorData(Compressor,
-					fileinput.c_str(), fileposition, AmbientTemperature,
-					AmbientPressure);
+			dynamic_cast<TCCCompresor*>(BC[i])->ReadCompressorData(fileinput.c_str(),
+					fileposition);
 		}
 	}
 
@@ -547,9 +546,6 @@ void TOpenWAM::ReadInputDataXML(char* FileName) {
 				"ERROR: THE WAM VERSION IS NOT CORRECT FOR THESE INPUT DATA\n\n");
 		exit(0);
 	}
-	// int ind;
-	// fscanf(FileInput, "%d ", &ind);
-	// ind == 0 ? Independent = false : Independent = true;
 
 	Independent = GetAttributeAsBool(node_openwam, "Independent");
 
@@ -574,25 +570,14 @@ void TOpenWAM::ReadInputDataXML(char* FileName) {
 	ReadCompressorsXML();
 
 	ReadConnectionsXML();
-	//
-	// ReadTurbochargerAxis();
-	//
-	// ReadSensors();
-	//
-	// ReadControllers();
-	//
-	// ReadOutput(FileName);
-	//
-	// fgetpos(FileInput, &fileposition);
-	// fclose(FileInput);
-	//
-	// for (int i = 0; i < NumberOfConnections; i++) {
-	// if (BC[i]->getTipoCC() == nmCompresor) {
-	// dynamic_cast<TCCCompresor*>(BC[i])->ReadCompressorData(Compressor,
-	// fileinput, fileposition, AmbientTemperature, AmbientPressure);
-	// }
-	// }
-	//
+
+	ReadTurbochargerAxisXML();
+
+	ReadSensorsXML();
+
+	ReadControllersXML();
+
+	ReadOutputXML(FileName);
 
 	ThereIsDLL = GetAttributeAsBool(node_openwam, "DLL");
 
@@ -601,11 +586,11 @@ void TOpenWAM::ReadInputDataXML(char* FileName) {
 	//
 	// ReadDataDLL();
 	// }
-	// printf("INFO: The input file data has been readed correctly\n\n");
-	// #if gestorcom
-	// if (GestorWAM != NULL)
-	// GestorWAM->NuevoMensaje("Performing preliminar calculations...");
-	// #endif
+	 printf("INFO: The input file data has been readed correctly\n\n");
+	 #if gestorcom
+	 if (GestorWAM != NULL)
+	 GestorWAM->NuevoMensaje("Performing preliminar calculations...");
+	 #endif
 
 }
 
@@ -1194,7 +1179,7 @@ void TOpenWAM::ReadPipesXML() {
 		for (xml_node node_pipe = node_pipeblock.child("Bop:Pipe"); node_pipe;
 				node_pipe = node_pipe.next_sibling("Bop:Pipe")) {
 
-			id = GetAttributeAsInt(node_pipe, "Pipe_ID");
+			id = GetAttributeAsInt(node_pipe, "Pipe_ID") - 1;
 			if (id > NumberOfPipes) {
 				std::cout << "ERROR: The pipe are not correctly ordered. Pipe: "
 						<< id << std::endl;
@@ -1869,6 +1854,7 @@ void TOpenWAM::ReadCompressorsXML() {
 				(dynamic_cast<TCompTubos*>(Compressor[ID]))->LeeCompresorXML(
 						node_compressor);
 			}
+			Compressor[ID]->ReadCompressorOutputXML(node_compressor);
 		}
 
 	} catch (Exception & N) {
@@ -2598,7 +2584,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == ""){
+			}else if(ConnectionType == "Injector"){
 				BC[ID] = new TCCExtremoInyeccion(nmInjectionEnd, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2633,7 +2619,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID] = new TCCCompresor(nmCompresor, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumberOfCompressorsConnections++;
-				dynamic_cast<TCCCompresor*>(BC[ID])->LeeNumeroCompresorXML
+				dynamic_cast<TCCCompresor*>(BC[ID])->LeeDatosCompresorXML
 					(node_connect);
 				break;
 			}else if(ConnectionType == "StaticPressure"){
@@ -2658,7 +2644,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == ""){
+			}else if(ConnectionType == "ExternalConnection"){
 				BC[ID] = new TCCExternalConnectionVol(nmExternalConnection,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2681,10 +2667,21 @@ void TOpenWAM::ReadConnectionsXML() {
 					() == nmExhaustValve) {
 					dynamic_cast<TCCCilindro*>(BC[ID])->AsignaTipoValvula
 						(TypeOfValve, quevalv, numerovalvula);
+					xml_node node_tocyl = GetNodeChild(node_connect,"");
+					if(node_tocyl.child("Con:AvgOutput"))
+						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_tocyl);
+					if(node_tocyl.child("Con:InsOutput"))
+						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_tocyl);
 				}
 				else if (BC[ID]->getTipoCC() == nmPipeToPlenumConnection) {
 					dynamic_cast<TCCDeposito*>(BC[ID])->AsignaTipoValvula
 						(TypeOfValve, quevalv, numerovalvula);
+					xml_node node_tople = GetNodeChild(node_connect,"");
+					if(node_tople.child("Con:AvgOutput"))
+						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_tople);
+					if(node_tople.child("Con:InsOutput"))
+						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_tople);
+
 					if (TypeOfValve[quevalv - 1]->getTypeOfValve()
 						== nmLamina)
 						NumberOfReedValves++;
@@ -2702,6 +2699,12 @@ void TOpenWAM::ReadConnectionsXML() {
 					dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])
 						->AsignaTipoValvula(TypeOfValve, quevalv,
 						numerovalvula);
+					xml_node node_beple = GetNodeChild(node_connect,"");
+					if(node_beple.child("Con:AvgOutput"))
+						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_beple);
+					if(node_beple.child("Con:InsOutput"))
+						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_beple);
+
 					if (TypeOfValve[quevalv - 1]->getTypeOfValve()
 						== nmLamina)
 						NumberOfReedValves++;
@@ -3143,6 +3146,38 @@ void TOpenWAM::ReadOutput(char* FileName) {
 	fsetpos(FileInput, &filepos);
 }
 
+void TOpenWAM::ReadOutputXML(char* FileName) {
+
+	Output = new TOutputResults();
+
+	xml_node node_openwam = FileInputXML.child("OpenWAM");
+
+	// OUTPUT ->
+#ifdef ParticulateFilter
+	Output->ReadAverageResultsXML(node_openwam, Pipe, EngineBlock, Engine,
+			Plenum, Axis, Compressor, Turbine, BC, DPF, VolumetricCompressor,
+			Venturi, Sensor, Controller, SimulationDuration, FileName );
+
+	Output->ReadInstantaneousResultsXML(node_openwam, Engine, Plenum, Pipe,
+			Venturi, BC, DPF, Axis, Compressor, Turbine, VolumetricCompressor,
+			BCWasteGate, NumberOfWasteGates, BCReedValve, NumberOfReedValves,
+			Sensor, Controller, FileName );
+#else
+	Output->ReadAverageResultsXML(node_openwam, Pipe, EngineBlock,
+			Engine, Plenum, Axis, Compressor, Turbine, BC, NULL,
+			VolumetricCompressor, Venturi, Sensor, Controller,
+			SimulationDuration, FileName);
+
+	Output->ReadInstantaneousResultsXML(node_openwam, Engine, Plenum,
+			Pipe, Venturi, BC, NULL, Axis, Compressor, Turbine,
+			VolumetricCompressor, BCWasteGate, NumberOfWasteGates, BCReedValve,
+			NumberOfReedValves, Sensor, Controller, FileName);
+#endif
+
+	Output->ReadSpaceTimeResultsXML(node_openwam, Pipe, Engine,Plenum);
+
+}
+
 void TOpenWAM::InitializeParameters() {
 
 	RunningControl();
@@ -3445,7 +3480,8 @@ void TOpenWAM::ConnectFlowElements() {
 	for (int i = 0; i < NumberOfConnections; i++) {
 		if (BC[i]->getTipoCC() == nmCompresor) {
 			dynamic_cast<TCCCompresor*>(BC[i])->AsignData(Plenum, NumberOfPipes,
-					Pipe, BC, NumberOfConnections, AtmosphericComposition);
+					Pipe, BC, NumberOfConnections, AtmosphericComposition,Compressor,
+					AmbientTemperature,AmbientPressure);
 		}
 	}
 

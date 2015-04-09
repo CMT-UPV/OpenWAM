@@ -201,6 +201,11 @@ void TPIDController::LeeControllerXML(xml_node node_ctrl) {
 	FSensorID.resize(1);
 	FSensorID[0] = GetAttributeAsInt(node_pid,"Sensor_ID");
 
+	if(node_ctrl.child("Ctr:AvgOutput"))
+		LeeResultadosMedControladorXML(node_ctrl);
+	if(node_ctrl.child("Ctr:InsOutput"))
+		LeeResultadosInsControladorXML(node_ctrl);
+
 }
 
 void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
@@ -259,6 +264,38 @@ void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
 	}
 }
 
+void TPIDController::LeeResultadosMedControladorXML(xml_node node_ctrl) {
+	try {
+
+		xml_node node_avg=GetNodeChild(node_ctrl,"Ctrl:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Output"){
+				FResMediosCtrl.Output = true;
+			}else if(parameter.value() == "Error"){
+				FResMediosCtrl.Error = true;
+			}else if(parameter.value() == "POutput"){
+				FResMediosCtrl.POutput = true;
+			}else if(parameter.value() == "IOutput"){
+				FResMediosCtrl.IOutput = true;
+			}else if(parameter.value() == "DOutput"){
+				FResMediosCtrl.DOutput = true;
+			}else if(parameter.value() == "OutputFilt"){
+				FResMediosCtrl.Output_filt = true;
+			}else{
+				std::cout << "Resultados medios en Controlador " << fID
+						<< " no implementados " << std::endl;
+			}
+		}
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::LeeResultadosControlador en el controlador "
+				<< fID << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
@@ -297,6 +334,39 @@ void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TPIDController::LeeResultadosInsControlador en el controlador "
+				<< fID << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TPIDController::LeeResultadosInsControladorXML(xml_node node_ctrl) {
+	try {
+
+		xml_node node_ins=GetNodeChild(node_ctrl,"Ctrl:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "Output"){
+				FResInstantCtrl.Output = true;
+			}else if(parameter.value() == "Error"){
+				FResInstantCtrl.Error = true;
+			}else if(parameter.value() == "POutput"){
+				FResInstantCtrl.POutput = true;
+			}else if(parameter.value() == "IOutput"){
+				FResInstantCtrl.IOutput = true;
+			}else if(parameter.value() == "DOutput"){
+				FResInstantCtrl.DOutput = true;
+			}else if(parameter.value() == "OutputFilt"){
+				FResInstantCtrl.Output_filt = true;
+			}else if(parameter.value() == "Output"){
+				std::cout << "Resultados instantaneos en Controlador " << fID
+						<< " no implementados " << std::endl;
+			}
+		}
+
 	} catch (Exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosInsControlador en el controlador "

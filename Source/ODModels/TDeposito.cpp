@@ -351,8 +351,12 @@ void TDeposito::LeeDatosGeneralesDepositosXML(xml_node node_plenum) {
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
-		}
 
+		}
+		if(node_plenum.child("Plm:InsOutput"))
+			ReadInstantaneousResultsDepXML(node_plenum);
+		if(node_plenum.child("Plm:AvgOutput"))
+			ReadAverageResultsDepXML(node_plenum);
 	} catch (Exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::LeeDatosGeneralesDepositos en el deposito: "
@@ -1003,6 +1007,40 @@ void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM,
 	}
 }
 
+void TDeposito::ReadInstantaneousResultsDepXML(xml_node node_plenum) {
+	int nvars, var;
+	try {
+
+		xml_node node_ins = GetNodeChild(node_plenum,"Plm:InsOutput");
+		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+
+			if(parameter.value() == "Pressure"){
+				FResInstantDep.Pressure = true;
+			}else if(parameter.value() == "Temperature"){
+				FResInstantDep.Temperature = true;
+			}else if(parameter.value() == "Volume"){
+				FResInstantDep.Volumen = true;
+			}else if(parameter.value() == "Mass"){
+				FResInstantDep.Masa = true;
+			}else if(parameter.value() == "SpecieMassFraction"){
+				FResInstantDep.FraccionMasicaEspecies = true;
+			}else if(parameter.value() == "SpecificHeatRatio"){
+				FResInstantDep.Gamma = true;
+			}else{
+				std::cout << "Instantaneous results in plenum "
+						<< FNumeroDeposito << " does not exist " << std::endl;
+			}
+		}
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TDeposito::ReadInstantaneousResultsDep en el deposito: "
+				<< FNumeroDeposito << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -1033,6 +1071,35 @@ void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+	} catch (Exception & N) {
+		std::cout << "ERROR: TDeposito::ReadAverageResultsDep en el deposito: "
+				<< FNumeroDeposito << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TDeposito::ReadAverageResultsDepXML(xml_node node_plenum) {
+	int nvars, var;
+	try {
+
+		xml_node node_avg = GetNodeChild(node_plenum,"Plm:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+
+			if(parameter.value() == "Pressure"){
+				FResMediosDep.Pressure = true;
+			}else if(parameter.value() == "Temperature"){
+				FResMediosDep.Temperature = true;
+			}else if(parameter.value() == "SpecieMassFraction"){
+				FResMediosDep.FraccionMasicaEspecies = true;
+			}else{
+				std::cout << "Average result in plenum " << FNumeroDeposito
+						<< " does not exist " << std::endl;
+			}
+		}
+
+
 	} catch (Exception & N) {
 		std::cout << "ERROR: TDeposito::ReadAverageResultsDep en el deposito: "
 				<< FNumeroDeposito << std::endl;

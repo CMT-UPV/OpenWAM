@@ -91,11 +91,31 @@ void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 	}
 }
 
-void TCCCompresor::LeeNumeroCompresorXML(xml_node node_connect) {
+void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect) {
 	try {
 
 		xml_node node_comp = GetNodeChild(node_connect,"Con:Compressor");
 		FNumeroCompresor = GetAttributeAsInt(node_comp,"Compressor_ID");
+
+		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
+
+			const char* InletType = node_comp.attribute("InletType").value();
+
+			if(InletType == "Atmosphere"){
+				FEntradaCompresor = nmAtmosphere;
+			}else if(InletType == "Pipe"){
+				FEntradaCompresor = nmPipe;
+			}else if(InletType == "Plenum"){
+				FEntradaCompresor = nmPlenum;
+				FNumeroDeposito = GetAttributeAsInt(node_comp,"Inlet_ID");
+			}
+
+		} else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
+			// Posee dos depositos. Hay que asignarselos a la BC.
+
+			FNumeroDepositoRot = GetAttributeAsInt(node_comp,"Inlet_ID");
+			FNumeroDepositoEst = GetAttributeAsInt(node_comp,"Outlet_ID");
+		}
 
 	} catch (Exception & N) {
 		std::cout
@@ -345,16 +365,9 @@ void TCCCompresor::TuboCalculandose(int TuboActual) {
 	}
 }
 
-void TCCCompresor::ReadCompressorData(TCompresor **Compressor,
-		const char *FileWAM, fpos_t &filepos, double AmbientTemperature,
-		double AmbientPressure) {
+void TCCCompresor::ReadCompressorData(const char *FileWAM, fpos_t &filepos) {
 
 	int tipoentrada;
-
-	FTamb = AmbientTemperature;
-	FPamb = AmbientPressure;
-	FCompresor = Compressor[FNumeroCompresor - 1];
-	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 
 	if (FCompresor->getModeloCompresor() == nmCompOriginal) {
 		FILE *fich = fopen(FileWAM, "r");
@@ -390,12 +403,31 @@ void TCCCompresor::ReadCompressorData(TCompresor **Compressor,
 	}
 }
 
+void TCCCompresor::ReadCompressorDataXML(TCompresor **Compressor,
+		xml_node node_comp, double AmbientTemperature,
+		double AmbientPressure) {
+
+	int tipoentrada;
+
+	FTamb = AmbientTemperature;
+	FPamb = AmbientPressure;
+	FCompresor = Compressor[FNumeroCompresor - 1];
+	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
+
+}
+
 void TCCCompresor::AsignData(TDeposito **Plenum, int NumberOfPipes,
 		TTubo **Pipe, TCondicionContorno **BC, int numCC,
-		double *AtmosphericComposition) {
+		double *AtmosphericComposition,TCompresor **Compressor,
+		double AmbientTemperature, double AmbientPressure) {
 	try {
 		int i = 0;
 		bool haytubo = false;
+
+		FTamb = AmbientTemperature;
+		FPamb = AmbientPressure;
+		FCompresor = Compressor[FNumeroCompresor - 1];
+		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
 			// Posee un tubo y un deposito. Hay que asignarselos a la BC.

@@ -871,6 +871,163 @@ void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 	}
 }
 
+void TCilindro::ReadAverageResultsCilindroXML(xml_node node_cyl) {
+	try {
+
+		FResMediosCilindro.TrabajoNeto = false;
+		FResMediosCilindro.TrabajoNetoMED = 0.;
+		FResMediosCilindro.TrabajoNetoSUM = 0.;
+		FResMediosCilindro.PresionMediaNeta = false;
+		FResMediosCilindro.PresionMediaNetaMED = 0.;
+		FResMediosCilindro.TrabajoBombeo = false;
+		FResMediosCilindro.TrabajoBombeoMED = 0.;
+		FResMediosCilindro.TrabajoBombeoSUM = 0.;
+		FResMediosCilindro.PresionMediaBombeo = false;
+		FResMediosCilindro.PresionMediaBombeoMED = 0.;
+		FResMediosCilindro.CalorCombustion = false;
+		FResMediosCilindro.CalorCombustionMED = 0.;
+		FResMediosCilindro.CalorCombustionSUM = 0.;
+		FResMediosCilindro.CalorCilindro = false;
+		FResMediosCilindro.CalorCilindroMED = 0.;
+		FResMediosCilindro.CalorCilindroSUM = 0.;
+		FResMediosCilindro.CalorCulata = false;
+		FResMediosCilindro.CalorCulataMED = 0.;
+		FResMediosCilindro.CalorCulataSUM = 0.;
+		FResMediosCilindro.CalorPiston = false;
+		FResMediosCilindro.CalorPistonMED = 0.;
+		FResMediosCilindro.CalorPistonSUM = 0.;
+		FResMediosCilindro.PresionMediaIndicada = false;
+		FResMediosCilindro.PresionMediaIndicadaMED = 0.;
+		FResMediosCilindro.MasaAtrapada = false;
+		FResMediosCilindro.MasaAtrapadaMED = 0.;
+		FResMediosCilindro.TemperaturaCilindroInterna = false;
+		FResMediosCilindro.TemperaturaCilindroInternaMED = 0.;
+		FResMediosCilindro.TemperaturaCilindroInternaSUM = 0.;
+		FResMediosCilindro.TemperaturaCilindroMedia = false;
+		FResMediosCilindro.TemperaturaCilindroMediaMED = 0.;
+		FResMediosCilindro.TemperaturaCilindroMediaSUM = 0.;
+		FResMediosCilindro.TemperaturaCilindroExterna = false;
+		FResMediosCilindro.TemperaturaCilindroExternaMED = 0.;
+		FResMediosCilindro.TemperaturaCilindroExternaSUM = 0.;
+		FResMediosCilindro.TemperaturaPistonInterna = false;
+		FResMediosCilindro.TemperaturaPistonInternaMED = 0.;
+		FResMediosCilindro.TemperaturaPistonInternaSUM = 0.;
+		FResMediosCilindro.TemperaturaPistonMedia = false;
+		FResMediosCilindro.TemperaturaPistonMediaMED = 0.;
+		FResMediosCilindro.TemperaturaPistonMediaSUM = 0.;
+		FResMediosCilindro.TemperaturaPistonExterna = false;
+		FResMediosCilindro.TemperaturaPistonExternaMED = 0.;
+		FResMediosCilindro.TemperaturaPistonExternaSUM = 0.;
+		FResMediosCilindro.TemperaturaCulataInterna = false;
+		FResMediosCilindro.TemperaturaCulataInternaMED = 0.;
+		FResMediosCilindro.TemperaturaCulataInternaSUM = 0.;
+		FResMediosCilindro.TemperaturaCulataMedia = false;
+		FResMediosCilindro.TemperaturaCulataMediaMED = 0.;
+		FResMediosCilindro.TemperaturaCulataMediaSUM = 0.;
+		FResMediosCilindro.TemperaturaCulataExterna = false;
+		FResMediosCilindro.TemperaturaCulataExternaMED = 0.;
+		FResMediosCilindro.TemperaturaCulataExternaSUM = 0.;
+		FResMediosCilindro.NITMedio = false;
+		FResMediosCilindro.NITMedioMED = 0.;
+		FResMediosCilindro.NITMedioSUM = 0.;
+		FResMediosCilindro.AFRMedio = false;
+		FResMediosCilindro.AFRMedioMED = 0.;
+		FResMediosCilindro.MasaBlowBy = false;
+		FResMediosCilindro.MasaBlowByMED = 0.;
+		FResMediosCilindro.MasaBlowBySUM = 0.;
+		FResMediosCilindro.MasaAdmision = false;
+		FResMediosCilindro.MasaAdmisionMED = 0.;
+		FResMediosCilindro.MasaEscape = false;
+		FResMediosCilindro.MasaEscapeMED = 0.;
+		FResMediosCilindro.TemperaturaMedia = false;
+		FResMediosCilindro.TemperaturaMediaMED = 0.;
+		FResMediosCilindro.TemperaturaMediaSUM = 0.;
+		FResMediosCilindro.Swirl = false;
+		FResMediosCilindro.SwirlMED = 0.;
+		FResMediosCilindro.RendVolumetrico = false;
+		FResMediosCilindro.RendVolumetricoMED = 0.;
+		FResMediosCilindro.DensidadReferenciaSUM = 0.;
+		FResMediosCilindro.MasaCortocircuito = false;
+		FResMediosCilindro.MasaCortocircuitoMED = 0.;
+		FResMediosCilindro.MasaCortocircuitoSUM = 0.;
+
+		FResMediosCilindro.Tiempo0 = 0.;
+		FResMediosCilindro.TiempoSUM = 0.;
+
+		xml_node node_avgout = GetNodeChild(node_cyl,"Cyl:AvgOutput");
+		for(xml_attribute parameter = node_avgout.attribute("Parameter"); parameter; parameter = parameter.next_attribute()){
+
+			if(parameter.value() == "NetWork"){
+				FResMediosCilindro.TrabajoNeto = true;
+			}else if(parameter.value() == "NMEP"){
+				FResMediosCilindro.PresionMediaNeta = true;
+			}else if(parameter.value() == "PumpingWork"){
+				FResMediosCilindro.TrabajoBombeo = true;
+			}else if(parameter.value() == "PMEP"){
+				FResMediosCilindro.PresionMediaBombeo = true;
+			}else if(parameter.value() == "CombustionHeat"){
+				FResMediosCilindro.CalorCombustion = true;
+			}else if(parameter.value() == "LinerHeat"){
+				FResMediosCilindro.CalorCilindro = true;
+			}else if(parameter.value() == "CylHeadHeat"){
+				FResMediosCilindro.CalorCulata = true;
+			}else if(parameter.value() == "PistonHeat"){
+				FResMediosCilindro.CalorPiston = true;
+			}else if(parameter.value() == "IMEP"){
+				FResMediosCilindro.PresionMediaIndicada = true;
+			}else if(parameter.value() == "TrappedMass"){
+				FResMediosCilindro.MasaAtrapada = true;
+			}else if(parameter.value() == "IntCylTemperature"){
+				FResMediosCilindro.TemperaturaCilindroInterna = true;
+			}else if(parameter.value() == "MedCylTemperature"){
+				FResMediosCilindro.TemperaturaCilindroMedia = true;
+			}else if(parameter.value() == "ExtCylTemperature"){
+				FResMediosCilindro.TemperaturaCilindroExterna = true;
+			}else if(parameter.value() == "IntPistonTemperature"){
+				FResMediosCilindro.TemperaturaPistonInterna = true;
+			}else if(parameter.value() == "MedPistonTemperature"){
+				FResMediosCilindro.TemperaturaPistonMedia = true;
+			}else if(parameter.value() == "ExtPistonTemperature"){
+				FResMediosCilindro.TemperaturaPistonExterna = true;
+			}else if(parameter.value() == "IntCylHeadTemperature"){
+				FResMediosCilindro.TemperaturaCulataInterna = true;
+			}else if(parameter.value() == "MedCylHeadTemperature"){
+				FResMediosCilindro.TemperaturaCulataMedia = true;
+			}else if(parameter.value() == "ExtCylHeadTemperature"){
+				FResMediosCilindro.TemperaturaCulataExterna = true;
+			}else if(parameter.value() == "NIT"){
+				FResMediosCilindro.NITMedio = true;
+			}else if(parameter.value() == "AFR"){
+				FResMediosCilindro.AFRMedio = true;
+			}else if(parameter.value() == "BlowByMass"){
+				FResMediosCilindro.MasaBlowBy = true;
+			}else if(parameter.value() == "IntakeMass"){
+				FResMediosCilindro.MasaAdmision = true;
+			}else if(parameter.value() == "ExhaustMass"){
+				FResMediosCilindro.MasaEscape = true;
+			}else if(parameter.value() == "ShortCircuitMass"){
+				FResMediosCilindro.MasaCortocircuito = true;
+			}else if(parameter.value() == "Temperature"){
+				FResMediosCilindro.TemperaturaMedia = true;
+			}else if(parameter.value() == "Swirl"){
+				FResMediosCilindro.Swirl = true;
+			}else if(parameter.value() == "VolumetricEfficiency"){
+				FResMediosCilindro.RendVolumetrico = true;
+			}else{
+				std::cout << "Resultados medios en cilindro " << FNumeroCilindro
+						<< " no implementado " << std::endl;
+			}
+		}
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCilindro::ReadAverageResultsCilindro en cilindro: "
+				<< FNumeroCilindro << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -1609,6 +1766,162 @@ void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TCilindro::ReadInstantaneousResultsCilindro en cilindro: "
+				<< FNumeroCilindro << std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message.c_str());
+	}
+}
+
+void TCilindro::ReadInstantaneousResultsCilindroXML(xml_node node_cyl) {
+	try {
+		int nvars, var;
+
+		FResInstantCilindro.Pressure = false;
+		FResInstantCilindro.PresionINS = 0.;
+		FResInstantCilindro.Temperature = false;
+		FResInstantCilindro.TemperaturaINS = 0.;
+		FResInstantCilindro.MomentoAngularEsc = false;
+		FResInstantCilindro.MomentoAngularTotalEscINS = 0.;
+		FResInstantCilindro.MomentoAngularAdm = false;
+		FResInstantCilindro.MomentoAngularTotalAdmINS = 0.;
+		FResInstantCilindro.GastoEsc = false;
+		FResInstantCilindro.GastoTotalEscINS = 0.;
+		FResInstantCilindro.GastoAdm = false;
+		FResInstantCilindro.GastoTotalAdmINS = 0.;
+		FResInstantCilindro.MachEsc = false;
+		FResInstantCilindro.MachAdm = false;
+		FResInstantCilindro.SeccionEfectivaAdm = false;
+		FResInstantCilindro.SeccionEfectivaTotalAdmINS = 0.;
+		FResInstantCilindro.SeccionEfectivaEsc = false;
+		FResInstantCilindro.SeccionEfectivaTotalEscINS = 0.;
+		FResInstantCilindro.Masa = false;
+		FResInstantCilindro.MasaINS = 0.;
+		FResInstantCilindro.Volumen = false;
+		FResInstantCilindro.VolumenINS = 0.;
+		FResInstantCilindro.CoeficienteWoschni = false;
+		FResInstantCilindro.CoeficienteWoschniINS = 0.;
+		FResInstantCilindro.MasaCombustible = false;
+		FResInstantCilindro.MasaCombustibleINS = 0.;
+		FResInstantCilindro.FQL = false;
+		FResInstantCilindro.FQLINS = 0.;
+		FResInstantCilindro.TemperaturaCilindroInterna = false;
+		FResInstantCilindro.TemperaturaCilindroInternaINS = 0.;
+		FResInstantCilindro.TemperaturaCilindroMedia = false;
+		FResInstantCilindro.TemperaturaCilindroMediaINS = 0.;
+		FResInstantCilindro.TemperaturaCilindroExterna = false;
+		FResInstantCilindro.TemperaturaCilindroExternaINS = 0.;
+		FResInstantCilindro.TemperaturaPistonInterna = false;
+		FResInstantCilindro.TemperaturaPistonInternaINS = 0.;
+		FResInstantCilindro.TemperaturaPistonMedia = false;
+		FResInstantCilindro.TemperaturaPistonMediaINS = 0.;
+		FResInstantCilindro.TemperaturaPistonExterna = false;
+		FResInstantCilindro.TemperaturaPistonExternaINS = 0.;
+		FResInstantCilindro.TemperaturaCulataInterna = false;
+		FResInstantCilindro.TemperaturaCulataInternaINS = 0.;
+		FResInstantCilindro.TemperaturaCulataMedia = false;
+		FResInstantCilindro.TemperaturaCulataMediaINS = 0.;
+		FResInstantCilindro.TemperaturaCulataExterna = false;
+		FResInstantCilindro.TemperaturaCulataExternaINS = 0.;
+		FResInstantCilindro.NIT = false;
+		FResInstantCilindro.GastoCortocircuito = false;
+		FResInstantCilindro.GastoCortocircuitoINS = 0.;
+		FResInstantCilindro.ParInstantaneo = false;
+		FResInstantCilindro.ParInstantaneoINS = 0.;
+		FResInstantCilindro.GastoBlowBy = false;
+		FResInstantCilindro.GastoBlowByINS = 0.;
+		FResInstantCilindro.FraccionMasica = false;
+		FResInstantCilindro.FraccionINS = new double[FMotor->getSpeciesNumber()
+				- FIntEGR];
+		for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR; i++) {
+			FResInstantCilindro.FraccionINS[i] = 0.;
+		}
+		FResInstantCilindro.Gamma = false;
+		FResInstantCilindro.GammaINS = 0.;
+
+		FResInstantCilindro.HeatHead = false;
+		FResInstantCilindro.HeatHeadINS = 0;
+		FResInstantCilindro.HeatCyl = false;
+		FResInstantCilindro.HeatCylINS = 0;
+		FResInstantCilindro.HeatPis = false;
+		FResInstantCilindro.HeatPisINS = 0;
+
+		xml_node node_insout = GetNodeChild(node_cyl,"Cyl:InsOutput");
+		for(xml_attribute parameter = node_insout.attribute("Parameter"); parameter; parameter = parameter.next_attribute()){
+
+			if(parameter.value() == "Pressure"){
+				FResInstantCilindro.Pressure = true;
+			}else if(parameter.value() == "Temperature"){
+				FResInstantCilindro.Temperature = true;
+			}else if(parameter.value() == "ExhaustAngularMomentum"){
+				FResInstantCilindro.MomentoAngularEsc = true;
+			}else if(parameter.value() == "IntakeAngulaMomentum"){
+				FResInstantCilindro.MomentoAngularAdm = true;
+			}else if(parameter.value() == "ExhaustMassFlow"){
+				FResInstantCilindro.GastoEsc = true;
+			}else if(parameter.value() == "IntakeMassFlow"){
+				FResInstantCilindro.GastoAdm = true;
+			}else if(parameter.value() == "ExhaustMach"){
+				FResInstantCilindro.MachEsc = true;
+			}else if(parameter.value() == "IntakeMach"){
+				FResInstantCilindro.MachAdm = true;
+			}else if(parameter.value() == "IntakeEffectiveSection"){
+				FResInstantCilindro.SeccionEfectivaAdm = true;
+			}else if(parameter.value() == "ExhaustEffectiveSection"){
+				FResInstantCilindro.SeccionEfectivaEsc = true;
+			}else if(parameter.value() == "Mass"){
+				FResInstantCilindro.Masa = true;
+			}else if(parameter.value() == "Volume"){
+				FResInstantCilindro.Volumen = true;
+			}else if(parameter.value() == "FuelMass"){
+				FResInstantCilindro.MasaCombustible = true;
+			}else if(parameter.value() == "HRL"){
+				FResInstantCilindro.FQL = true;
+			}else if(parameter.value() == "WoschniCoef"){
+				FResInstantCilindro.CoeficienteWoschni = true;
+			}else if(parameter.value() == "IntCylinderTemperature"){
+				FResInstantCilindro.TemperaturaCilindroInterna = true;
+			}else if(parameter.value() == "MedCylinderTeperature"){
+				FResInstantCilindro.TemperaturaCilindroMedia = true;
+			}else if(parameter.value() == "ExtCylinderTemperature"){
+				FResInstantCilindro.TemperaturaCilindroExterna = true;
+			}else if(parameter.value() == "IntPistonTemperature"){
+				FResInstantCilindro.TemperaturaPistonInterna = true;
+			}else if(parameter.value() == "MedPistonTemperature"){
+				FResInstantCilindro.TemperaturaPistonMedia = true;
+			}else if(parameter.value() == "ExtPistonTemperature"){
+				FResInstantCilindro.TemperaturaPistonExterna = true;
+			}else if(parameter.value() == "IntCylHeadTemperature"){
+				FResInstantCilindro.TemperaturaCulataInterna = true;
+			}else if(parameter.value() == "MedCylHeadTemperature"){
+				FResInstantCilindro.TemperaturaCulataMedia = true;
+			}else if(parameter.value() == "ExtCylHeadTemperature"){
+				FResInstantCilindro.TemperaturaCulataExterna = true;
+			}else if(parameter.value() == "NIT"){
+				FResInstantCilindro.NIT = true;
+			}else if(parameter.value() == "Torque"){
+				FResInstantCilindro.ParInstantaneo = true;
+			}else if(parameter.value() == "ShortCircuitMassFlow"){
+				FResInstantCilindro.GastoCortocircuito = true;
+			}else if(parameter.value() == "BlowByMassFlow"){
+				FResInstantCilindro.GastoBlowBy = true;
+			}else if(parameter.value() == "MassFraction"){
+				FResInstantCilindro.FraccionMasica = true;
+			}else if(parameter.value() == "SpecificHeatRatio"){
+				FResInstantCilindro.Gamma = true;
+			}else if(parameter.value() == "CylHeadHeat"){
+				FResInstantCilindro.HeatHead = true;
+			}else if(parameter.value() == "CylinderHeat"){
+				FResInstantCilindro.HeatCyl = true;
+			}else if(parameter.value() == "PistonHeat"){
+				FResInstantCilindro.HeatPis = true;
+			}else{
+				cout << "Instantaneous parameter " << parameter << " is not correct for cylinder " << FNumeroCilindro << endl;
+			}
+		}
 
 	} catch (Exception & N) {
 		std::cout

@@ -286,6 +286,197 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 
 }
 
+void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
+		TTubo** Pipe, bool EngineBlock, TBloqueMotor** Engine,
+		TDeposito **Plenum, TEjeTurbogrupo** Axis, TCompresor** Compressor,
+		TTurbina** Turbine, TCondicionContorno** BC, TDPF** DPF,
+		TCCCompresorVolumetrico** Root, TVenturi** Venturi, TSensor** Sensor,
+		TController** Controller, int TotalCycles, char* ModelName) {
+
+	GetName(ModelName, FAvgFilename, "AVG.DAT");
+
+	xml_node node_outsetup=GetNodeChild(node_openwam,"OutputSetup");;
+
+
+	const char* OutMode = node_outsetup.attribute("OutputMode").value();
+
+	if(OutMode == "LastCycle"){
+		FTypeOfInsResults = nmLastCyle;
+		FMultipleFiles = false;
+	}else if(OutMode == "AllCyclesIndependent"){
+		FTypeOfInsResults = nmAllCyclesIndependent;
+		FMultipleFiles = true;
+		FCharacters = int(log10((float) TotalCycles));
+	}else if(OutMode == "AllCyclesConcatenated"){
+		FTypeOfInsResults = nmAllCyclesConcatenated;
+		FMultipleFiles = false;
+	}else if(OutMode == "EveryNCycles"){
+		FTypeOfInsResults = nmEveryNCycles;
+		FMultipleFiles = true;
+		FCyclePeriod = GetAttributeAsInt(node_outsetup,"CycleStep");
+		FCharacters = int(log10(float(TotalCycles) / FCyclePeriod));
+	}
+
+	int PipeID;
+	xml_node node_blockpipes=GetNodeChild(node_openwam,"BlockOfPipes");
+
+	for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop:Pipe");
+			node_pipe;
+			node_pipe = node_pipe.next_sibling("Bop:Pipe")){
+		if(node_pipe.child("Pip:AvgOutput")){
+			PipeID = GetAttributeAsInt(node_pipe,"Pipe_ID");
+			AvgPipe.push_back(Pipe[PipeID - 1]);
+		}
+	}
+
+	int CylinderID;
+	xml_node node_engine=GetNodeChild(node_openwam,"EngineBlock");
+
+	for (xml_node node_cyl = GetNodeChild(node_engine, "Eng:Cylinder");
+			node_cyl;
+			node_cyl = node_cyl.next_sibling("Eng:Cylinder")){
+		if(node_cyl.child("Cyl:AvgOutput")){
+			CylinderID = GetAttributeAsInt(node_cyl,"Cyl_ID");
+			AvgCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
+		}
+	}
+
+	if(node_engine.child("Eng:AvgOutput")){
+		AvgEngine = Engine[0];
+	}
+
+
+	xml_node node_blockplenum=GetNodeChild(node_openwam,"BlockOfPlenums");
+	xml_node node_venturi;
+
+	for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod:Plenum");
+			node_plenum;
+			node_plenum = node_plenum.next_sibling("Bod:Plenum")){
+		if(node_plenum.child("Plm:AvgOutput")){
+			int PlenumID = GetAttributeAsInt(node_plenum,"Plenum_ID");
+			AvgPlenum.push_back(Plenum[PlenumID - 1]);
+		}
+		if(node_plenum.child("Plm:Venturi")){
+			node_venturi = GetNodeChild(node_plenum,"Plm:Venturi");
+			if(node_venturi.child("Vtr:AvgOutput")){
+				int VenturiID = GetAttributeAsInt(node_venturi,"Venturi_ID");
+				AvgVenturi.push_back(Venturi[VenturiID - 1]);
+			}
+		}
+		if(node_plenum.child("Plm:Turbine")){
+			node_venturi = GetNodeChild(node_plenum,"Plm:Turbine");
+			if(node_venturi.child("Trb:AvgOutput")){
+				int TurbineID = GetAttributeAsInt(node_venturi,"Turbine_ID");
+				AvgTurbine.push_back(Turbine[TurbineID - 1]);
+			}
+		}
+
+	}
+
+	int AxisID;
+	xml_node node_blocktch=GetNodeChild(node_openwam,"BlockOfTurbochargers");
+	for (xml_node node_tch = GetNodeChild(node_blockplenum, "Bot:Turbocharger");
+			node_tch;
+			node_tch = node_tch.next_sibling("Bot:Turbocharger")){
+		if(node_tch.child("Tch:AvgOutput")){
+			AxisID = GetAttributeAsInt(node_tch,"Turbocharger_ID");
+			AvgAxis.push_back(Axis[AxisID - 1]);
+		}
+	}
+
+	int CompressorID;
+	xml_node node_blockcmp=GetNodeChild(node_openwam,"BlockOfCompressor");
+	for (xml_node node_cmp = GetNodeChild(node_blockcmp, "Boc:Compressor");
+			node_cmp;
+			node_cmp = node_cmp.next_sibling("Boc:Compressor")){
+		if(node_cmp.child("Com:AvgOutput")){
+			CompressorID = GetAttributeAsInt(node_cmp,"ID");
+			AvgCompressor.push_back(Compressor[CompressorID - 1]);
+		}
+	}
+
+	xml_node node_blockcon=GetNodeChild(node_openwam,"BlockOfConnections");
+	TTipoValvula* Valve;
+
+	for(xml_node node_con = GetNodeChild(node_blockcon,"Bob:Connection");
+			node_con; node_con = node_con.next_sibling("Bob:Connection")){
+		if(node_con.child("Con:PipeToCylinder")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:PipeToCylinder");
+			if(node_pc.child("Val:AvgOutput")){
+				int ValveID = GetAttributeAsInt(node_con,"Boundary_ID");
+				Valve = dynamic_cast<TCCCilindro*>(BC[ValveID - 1])->getValvula();
+				AvgValveNode.push_back(ValveID);
+				AvgValve.push_back(Valve);
+			}
+		}else if(node_con.child("Con:PlenumToPlenum")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:PlenumToPlenum");
+			if(node_pc.child("Val:AvgOutput")){
+				int ValveID = GetAttributeAsInt(node_con,"Boundary_ID");
+				Valve = dynamic_cast<TCCUnionEntreDepositos*>(BC[ValveID - 1])->getValvula();
+				AvgValveNode.push_back(ValveID);
+				AvgValve.push_back(Valve);
+			}
+			if(node_pc.child("Con:AvgOutput")){
+				int Con_ID = GetAttributeAsInt(node_con,"Boundary_ID");
+				AvgConnection.push_back(dynamic_cast<TCCUnionEntreDepositos*>(BC[Con_ID - 1]));
+			}
+		}else if(node_con.child("Con:PipeToPlenum")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:PipeToPlenum");
+			if(node_pc.child("Val:AvgOutput")){
+				int ValveID = GetAttributeAsInt(node_con,"Boundary_ID");
+				Valve = dynamic_cast<TCCDeposito*>(BC[ValveID - 1])->getValvula();
+				AvgValveNode.push_back(ValveID);
+				AvgValve.push_back(Valve);
+			}
+		}else if(node_con.child("Con:VolCompressor")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:VolCompressor");
+			if(node_pc.child("Con:AvgOutput")){
+				int RootID = GetAttributeAsInt(node_pc,"VolComp_ID");
+				AvgRoot.push_back(Root[RootID - 1]);
+			}
+		}
+	}
+
+//	// !Read average results in DPF
+//#ifdef ParticulateFilter
+//	int NumDPFAvg;
+//	int DPFID;
+//	fscanf ( FileInput,"%d ", &NumDPFAvg );
+//	for ( int i = 0; i < NumDPFAvg; i++ ) {
+//		fscanf ( FileInput,"%d ",&DPFID );
+//		AvgDPF.push_back ( DPF[DPFID-1] );
+//		fgetpos ( FileInput, &filepos );
+//		fclose ( FileInput );
+//		AvgDPF[i]->LeeResultadosMediosDPF ( FileWAM,filepos );
+//		FileInput = fopen ( FileWAM,"r" );
+//		fsetpos ( FileInput, &filepos );
+//	}
+//#endif
+
+	int SensorID;
+	xml_node node_blocksen = GetNodeChild(node_openwam,"BlockOfSensors");
+	for (xml_node node_sen = GetNodeChild(node_blocksen, "Bos:Sensor");
+			node_sen;
+			node_sen = node_sen.next_sibling("Bos:Sensor")){
+		if(node_sen.child("Sen:AvgOutput")){
+			SensorID = GetAttributeAsInt(node_sen,"Sensor_ID");
+			InsSensor.push_back(Sensor[SensorID - 1]);
+		}
+	}
+
+	int ControllerID;
+	xml_node node_blockctr = GetNodeChild(node_openwam,"BlockOfControllers");
+	for (xml_node node_ctrl = GetNodeChild(node_blockctr, "Bct:Controller");
+			node_ctrl;
+			node_ctrl = node_ctrl.next_sibling("Bct:Controller")){
+		if(node_ctrl.child("Ctr:AvgOutput")){
+			ControllerID = GetAttributeAsInt(node_ctrl,"Controller_ID");
+			InsController.push_back(Controller[ControllerID - 1]);
+		}
+	}
+
+}
+
 void TOutputResults::HeaderAverageResults(stEspecies *SpeciesName,
 		TCalculoExtern* EXTERN, bool ThereIsDLL) {
 
@@ -820,6 +1011,252 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 
 }
 
+
+void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
+		TBloqueMotor** Engine, TDeposito** Plenum,
+		TTubo** Pipe, TVenturi** Venturi, TCondicionContorno** BC, TDPF** DPF,
+		TEjeTurbogrupo** Turbo, TCompresor** Compressor, TTurbina** Turbine,
+		TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
+		int NumberOfWasteGates, TCondicionContorno** BCReedValve,
+		int NumberOfReedValves, TSensor** Sensor, TController** Controller,
+		char* ModelName) {
+
+	GetName(ModelName, FInsFilename, "INS.DAT");
+
+	int err = remove(FInsFilename);
+
+	xml_node node_outsetup;
+	node_outsetup = GetNodeChild(node_openwam,"OutputSetup");
+	FInsPeriod = GetXMLAngle(node_outsetup,"AngleIncrement");
+
+
+//	// ! Instantaneous results in cylinders
+	int CylinderID;
+
+	xml_node node_engine = GetNodeChild(node_openwam,"EngineBlock");
+
+	for (xml_node node_cyl = GetNodeChild(node_engine, "Eng:Cylinder");
+			node_cyl;
+			node_cyl = node_cyl.next_sibling("Eng:Cylinder")){
+		if(node_cyl.child("Cyl:InsOutput")){
+			CylinderID = GetAttributeAsInt(node_cyl,"Cyl_ID");
+			InsCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
+		}
+	}
+
+	xml_node node_blockplenum = GetNodeChild(node_openwam,"BlockOfPlenums");
+	xml_node node_venturi;
+	xml_node node_trb;
+
+	for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod:Plenum");
+			node_plenum;
+			node_plenum = node_plenum.next_sibling("Bod:Plenum")){
+		if(node_plenum.child("Plm:InsOutput")){
+			int PlenumID = GetAttributeAsInt(node_plenum,"Plenum_ID");
+			InsPlenum.push_back(Plenum[PlenumID - 1]);
+		}
+		if(node_plenum.child("Plm:Venturi")){
+			node_venturi = GetNodeChild(node_plenum,"Plm:Venturi");
+			if(node_venturi.child("Vtr:InsOutput")){
+				int VenturiID = GetAttributeAsInt(node_venturi,"Venturi_ID");
+				InsVenturi.push_back(Venturi[VenturiID - 1]);
+			}
+		}
+		if(node_plenum.child("Plm:Turbine")){
+			node_venturi = GetNodeChild(node_plenum,"Plm:Turbine");
+			if(node_venturi.child("Trb:InsOutput")){
+				int TurbineID = GetAttributeAsInt(node_venturi,"Turbine_ID");
+				InsTurbine.push_back(Turbine[TurbineID - 1]);
+			}
+		}
+	}
+
+	// ! Instantaneous results in pipes
+	int PipeID;
+	xml_node node_blockpipes = GetNodeChild(node_openwam,"BlockOfPipes");
+
+	for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop:Pipe");
+			node_pipe;
+			node_pipe = node_pipe.next_sibling("Bop:Pipe")){
+		if(node_pipe.child("Pip:InsOutput")){
+			PipeID = GetAttributeAsInt(node_pipe,"Pipe_ID");
+			InsPipe.push_back(Pipe[PipeID - 1]);
+		}
+	}
+
+	xml_node node_blockcon=GetNodeChild(node_openwam,"BlockOfConnections");
+	TTipoValvula* Valve;
+
+	for(xml_node node_con = GetNodeChild(node_blockcon,"Bob:Connection");
+			node_con; node_con = node_con.next_sibling("Bob:Connection")){
+		if(node_con.child("Con:PipeToCylinder")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:PipeToCylinder");
+			if(node_pc.child("Val:InsOutput")){
+				int ValveID = GetAttributeAsInt(node_con,"Boundary_ID");
+				Valve = dynamic_cast<TCCCilindro*>(BC[ValveID - 1])->getValvula();
+				InsValveNode.push_back(ValveID);
+				InsValve.push_back(Valve);
+			}
+		}else if(node_con.child("Con:PipeToPlenum")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:PipeToPlenum");
+			if(node_pc.child("Val:InsOutput")){
+				int ValveID = GetAttributeAsInt(node_con,"Boundary_ID");
+				Valve = dynamic_cast<TCCDeposito*>(BC[ValveID - 1])->getValvula();
+				InsValveNode.push_back(ValveID);
+				InsValve.push_back(Valve);
+			}
+		}else if(node_con.child("Con:PlenumToPlenum")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:PlenumToPlenum");
+			if(node_pc.child("Val:InsOutput")){
+				int ValveID = GetAttributeAsInt(node_con,"Boundary_ID");
+				Valve = dynamic_cast<TCCUnionEntreDepositos*>(BC[ValveID - 1])->getValvula();
+				InsValveNode.push_back(ValveID);
+				InsValve.push_back(Valve);
+			}
+			if(node_pc.child("Con:InsOutput")){
+				int ConnectionID = GetAttributeAsInt(node_con,"Boundary_ID");
+				InsConnection.push_back(dynamic_cast<TCCUnionEntreDepositos*>(BC[ConnectionID - 1]));
+			}
+
+		}else if(node_con.child("Con:VolCompressor")){
+			xml_node node_pc = GetNodeChild(node_con,"Con:VolCompressor");
+			if(node_pc.child("Con:InsOutput")){
+				int RootID = GetAttributeAsInt(node_pc,"VolComp_ID");
+				InsRoot.push_back(Root[RootID - 1]);
+			}
+		}
+	}
+
+	int TurboID;
+	xml_node node_blocktch = GetNodeChild(node_openwam,"BlockOfTurbochargers");
+	for (xml_node node_tch = GetNodeChild(node_blocktch, "Bot:Turbocharger");
+			node_tch;
+			node_tch = node_tch.next_sibling("Bot:Turbocharger")){
+		if(node_tch.child("Tch:InsOutput")){
+			TurboID = GetAttributeAsInt(node_tch,"Turbocharger_ID");
+			InsTurbo.push_back(Turbo[TurboID - 1]);
+		}
+	}
+
+	int CompressorID;
+	xml_node node_blockcmp = GetNodeChild(node_openwam,"BlockOfTurbochargers");
+	for (xml_node node_cmp = GetNodeChild(node_blockcmp, "Boc:Compressor");
+			node_cmp;
+			node_cmp = node_cmp.next_sibling("Boc:Compressor")){
+		if(node_cmp.child("Com:InsOutput")){
+			CompressorID = GetAttributeAsInt(node_cmp,"ID");
+			InsCompressor.push_back(Compressor[CompressorID - 1]);
+		}
+	}
+
+
+//
+//	//
+//	// // RESULTADOS INSTANTANEOS WASTE-GATE.
+//
+//	int NumWasteGateIns;
+//	int WasteGateID;
+//	bool valido = false;
+//	fscanf(FileInput, "%d ", &NumWasteGateIns);
+//	for (int i = 0; i < NumWasteGateIns; i++) {
+//		fscanf(FileInput, "%d ", &WasteGateID);
+//		for (int j = 0; j < NumberOfWasteGates; j++) {
+//			if (BCWasteGate[j]->getNumeroCC() == WasteGateID) {
+//				valido = true;
+//				fgetpos(FileInput, &filepos);
+//				fclose(FileInput);
+//				if (BCWasteGate[j]->getTipoCC() == nmPipeToPlenumConnection) {
+//					InsWasteGate.push_back(
+//							dynamic_cast<TWasteGate*>(dynamic_cast<TCCDeposito*>(BCWasteGate[j])->getValvula()));
+//				} else if (BCWasteGate[j]->getTipoCC()
+//						== nmUnionEntreDepositos) {
+//					InsWasteGate.push_back(
+//							dynamic_cast<TWasteGate*>(dynamic_cast<TCCUnionEntreDepositos*>(BCWasteGate[j])->getValvula()));
+//				}
+//				InsWasteGate[i]->LeeDatosGraficasINS(FileWAM, filepos);
+//				FileInput = fopen(FileWAM, "r");
+//				fsetpos(FileInput, &filepos);
+//			}
+//		}
+//		if (!valido)
+//			printf(
+//					"ERROR: A WasteGate does not exist in connection number %d\n",
+//					WasteGateID);
+//		valido = false;
+//	}
+//	//
+//	// // RESULTADOS INSTANTANEOS LAMINA.
+//	int NumReedIns;
+//	int ReedID;
+//	fscanf(FileInput, "%d ", &NumReedIns);
+//	for (int i = 0; i < NumReedIns; i++) {
+//		fscanf(FileInput, "%d ", &ReedID);
+//		for (int j = 0; j < NumberOfReedValves; j++) {
+//			if (BCReedValve[j]->getNumeroCC() == ReedID) {
+//				valido = true;
+//				fgetpos(FileInput, &filepos);
+//				fclose(FileInput);
+//				if (BCReedValve[j]->getTipoCC() == nmPipeToPlenumConnection) {
+//					InsReedValve.push_back(
+//							dynamic_cast<TLamina*>(dynamic_cast<TCCDeposito*>(BCReedValve[j])->getValvula()));
+//				} else if (BCReedValve[j]->getTipoCC()
+//						== nmUnionEntreDepositos) {
+//					InsReedValve.push_back(
+//							dynamic_cast<TLamina*>(dynamic_cast<TCCUnionEntreDepositos*>(BCReedValve[j])->getValvula()));
+//				}
+//				InsReedValve[i]->LeeDatosGraficasINS(FileWAM, filepos);
+//				FileInput = fopen(FileWAM, "r");
+//				fsetpos(FileInput, &filepos);
+//			}
+//		}
+//		if (!valido)
+//			printf(
+//					"ERROR: A reed valve does not exist in connection number %d\n",
+//					ReedID);
+//		valido = false;
+//
+//	}
+//
+//	// !Read instantaneous results in DPF.
+//#ifdef ParticulateFilter
+//	int NumDPFIns;
+//	int DPFID;
+//	fscanf ( FileInput, "%d ", &NumDPFIns );
+//	for ( int i = 0; i < NumDPFIns; ++i ) {
+//		fscanf ( FileInput, "%d ", &DPFID );
+//		InsDPF.push_back ( DPF[DPFID - 1] );
+//		fgetpos ( FileInput, &filepos );
+//		fclose ( FileInput );
+//		InsDPF[i]->LeeResultadosInstantaneosDPF ( FileWAM,filepos );
+//		FileInput=fopen ( FileWAM,"r" );
+//		fsetpos ( FileInput, &filepos );
+//	}
+//#endif
+//
+	int SensorID;
+	xml_node node_blocksen = GetNodeChild(node_openwam,"BlockOfSensors");
+	for (xml_node node_sen = GetNodeChild(node_blocksen, "Bos:Sensor");
+			node_sen;
+			node_sen = node_sen.next_sibling("Bos:Sensor")){
+		if(node_sen.child("Sen:InsOutput")){
+			SensorID = GetAttributeAsInt(node_sen,"Sensor_ID");
+			InsSensor.push_back(Sensor[SensorID - 1]);
+		}
+	}
+
+	int ControllerID;
+	xml_node node_blockctr = GetNodeChild(node_openwam,"BlockOfControllers");
+	for (xml_node node_ctrl = GetNodeChild(node_blockctr, "Bct:Controller");
+			node_ctrl;
+			node_ctrl = node_ctrl.next_sibling("Bct:Controller")){
+		if(node_ctrl.child("Ctr:InsOutput")){
+			ControllerID = GetAttributeAsInt(node_ctrl,"Controller_ID");
+			InsController.push_back(Controller[ControllerID - 1]);
+		}
+	}
+}
+
+
 void TOutputResults::ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
 		TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum) {
 
@@ -865,6 +1302,68 @@ void TOutputResults::ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
 
 	fgetpos(FileInput, &filepos);
 	fclose(FileInput);
+
+}
+
+void TOutputResults::ReadSpaceTimeResultsXML(xml_node node_openwam,
+		TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum) {
+
+	// Numero de elementos en los que se grafica
+
+
+	int CylinderID;
+
+	xml_node node_engine = GetNodeChild(node_openwam,"EngineBlock");
+
+	for (xml_node node_cyl = GetNodeChild(node_engine, "Eng:Cylinder");
+			node_cyl;
+			node_cyl = node_cyl.next_sibling("Eng:Cylinder")){
+		if(node_cyl.attribute("SpaceTimeOut").as_bool()){
+			CylinderID = GetAttributeAsInt(node_cyl,"Cyl_ID");
+			STCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
+		}
+	}
+	xml_node node_blockplenum = GetNodeChild(node_openwam,"BlockOfPlenums");
+
+	for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod:Plenum");
+			node_plenum;
+			node_plenum = node_plenum.next_sibling("Bod:Plenum")){
+		if(node_plenum.attribute("SpaceTimeOut").as_bool()){
+			int PlenumID = GetAttributeAsInt(node_plenum,"Plenum_ID");
+			STPlenum.push_back(Plenum[PlenumID - 1]);
+		}
+	}
+
+	// ! Instantaneous results in pipes
+	int PipeID;
+	xml_node node_blockpipes = GetNodeChild(node_openwam,"BlockOfPipes");
+
+	for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop:Pipe");
+			node_pipe;
+			node_pipe = node_pipe.next_sibling("Bop:Pipe")){
+		if(node_pipe.attribute("SpaceTimeOut").as_bool()){
+			PipeID = GetAttributeAsInt(node_pipe,"Pipe_ID");
+			STPipe.push_back(Pipe[PipeID - 1]);
+		}
+	}
+
+	xml_node node_out = GetNodeChild(node_openwam,"OutputSetup");
+
+	if(node_out.attribute("stPressure").as_bool()){
+		FParameterSpaceTime.push_back(0);
+	}
+	if(node_out.attribute("stTemperature").as_bool()){
+		FParameterSpaceTime.push_back(1);
+	}
+	if(node_out.attribute("stMassFlow").as_bool()){
+		FParameterSpaceTime.push_back(2);
+	}
+	if(node_out.attribute("stMassFraction").as_bool()){
+		FParameterSpaceTime.push_back(3);
+	}
+	if(node_out.attribute("stSpecieMassFlow").as_bool()){
+		FParameterSpaceTime.push_back(4);
+	}
 
 }
 

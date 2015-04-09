@@ -207,6 +207,8 @@ public:
 
 	void LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos);
 
+	void LeeDatosGraficasINSXML(xml_node node_con);
+
 	void CabeceraGraficaINS(stringstream& insoutput, int nodo);
 
 	void ImprimeGraficaINS(stringstream& insoutput);
@@ -214,6 +216,8 @@ public:
 	void AcumulaCDMedio(double TiempoActual);
 
 	void LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos);
+
+	void LeeDatosGraficasMEDXML(xml_node node_con);
 
 	void CabeceraGraficaMED(stringstream& medoutput, int nodo);
 

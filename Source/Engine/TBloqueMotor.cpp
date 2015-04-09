@@ -986,6 +986,12 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 					} else {
 						FCilindro[i] = new TCilindro4T(this, i + 1, FHayEGR);
 					}
+					if(node_cyl.child("Cyl:AvgOutput")){
+						FCilindro[i]->ReadAverageResultsCilindroXML(node_cyl);
+					}
+					if(node_cyl.child("Ins:AvgOutput")){
+						FCilindro[i]->ReadInstantaneousResultsCilindroXML(node_cyl);
+					}
 				}
 			} else {
 				int cil = 0;
@@ -1048,6 +1054,8 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 			}
 
 		}
+		if(node_engine.child("Eng:AvgOutput"))
+			ReadAverageResultsBloqueMotorXML(node_engine);
 	} catch (Exception & N) {
 		std::cout << "ERROR : TBloqueMotor::LeeMotor en el Bloque Engine."
 				<< std::endl;
@@ -1281,6 +1289,161 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
+
+	} catch (Exception & N) {
+		std::cout
+				<< "ERROR: TBloqueMotor::ReadAverageResults en el Bloque Engine. "
+				<< std::endl;
+		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		throw Exception(N.Message);
+	}
+}
+
+void TBloqueMotor::ReadAverageResultsBloqueMotorXML(xml_node node_engine) {
+	try {
+		int nvars, Tipovar;
+
+
+		FResMediosMotor.ParNeto = false;
+		FResMediosMotor.ParNetoSUM = 0.;
+		FResMediosMotor.ParNetoMED = 0.;
+		FResMediosMotor.PMN = false;
+		FResMediosMotor.PMNMED = 0.;
+		FResMediosMotor.ParEfectivo = false;
+		FResMediosMotor.ParEfectivoSUM = 0.;
+		FResMediosMotor.ParEfectivoMED = 0.;
+		FResMediosMotor.ParEfectivoCiclo = false;
+		FResMediosMotor.ParEfectivoCicloMED = 0.;
+		FResMediosMotor.PME = false;
+		FResMediosMotor.PMEMED = 0.;
+		FResMediosMotor.Potencia = false;
+		FResMediosMotor.PotenciaMED = 0.;
+		FResMediosMotor.PotenciaCiclo = false;
+		FResMediosMotor.PotenciaCicloMED = 0.;
+		FResMediosMotor.MasaAdmision = false;
+		FResMediosMotor.MasaAdmisionMED = 0.;
+		FResMediosMotor.MasaAdmisionSUM = 0.;
+		FResMediosMotor.MasaFuel = false;
+		FResMediosMotor.MasaFuelMED = 0.;
+		FResMediosMotor.MasaFuelSUM = 0.;
+		FResMediosMotor.RegimenGiro = false;
+		FResMediosMotor.RegimenGiroSUM = 0.;
+		FResMediosMotor.RegimenGiroMED = 0.;
+		FResMediosMotor.RendimientoVolumetrico = false;
+		FResMediosMotor.RendimientoVolumetricoMED = 0.;
+		FResMediosMotor.RendimientoVolumetricoAtm = false;
+		FResMediosMotor.RendimientoVolumetricoAtmMED = 0.;
+		FResMediosMotor.ParPerdidasMecanicas = false;
+		FResMediosMotor.ParPerdidasMecanicasSUM = 0.;
+		FResMediosMotor.ParPerdidasMecanicasMED = 0.;
+		FResMediosMotor.ParResistente = false;
+		FResMediosMotor.ParResistenteSUM = 0.;
+		FResMediosMotor.ParResistenteMED = 0.;
+		FResMediosMotor.VelocidadVehiculo = false;
+		FResMediosMotor.VelocidadVehiculoSUM = 0.;
+		FResMediosMotor.VelocidadVehiculoMED = 0.;
+		FResMediosMotor.DensidadReferenciaSUM = 0.;
+		FResMediosMotor.DensidadReferenciaMED = 0.;
+		FResMediosMotor.MasaTuboReferenciaSUM = 0.;
+		FResMediosMotor.MasaTuboReferenciaMED = 0.;
+		FResMediosMotor.GastoTuboReferenciaSUM = 0.;
+		FResMediosMotor.GastoTuboReferenciaMED = 0.;
+		FResMediosMotor.MasaAtrapada = false;
+		FResMediosMotor.MasaAtrapadaMED = 0.;
+		FResMediosMotor.TrabajoNeto = false;
+		FResMediosMotor.TrabajoNetoSUM = 0.;
+		FResMediosMotor.TrabajoNetoMED = 0.;
+		FResMediosMotor.TrabajoBombeo = false;
+		FResMediosMotor.TrabajoBombeoSUM = 0.;
+		FResMediosMotor.TrabajoBombeoMED = 0.;
+		FResMediosMotor.PMNCiclo = false;
+		FResMediosMotor.PMNCicloMED = 0.;
+		FResMediosMotor.PME = false;
+		FResMediosMotor.PMECicloMED = 0.;
+		FResMediosMotor.PMBCiclo = false;
+		FResMediosMotor.PMBCicloMED = 0.;
+		FResMediosMotor.PMICiclo = false;
+		FResMediosMotor.PMICicloMED = 0.;
+		FResMediosMotor.RendEfectivo = false;
+		FResMediosMotor.RendEfectivoMED = 0.;
+		FResMediosMotor.RendIndicado = false;
+		FResMediosMotor.RendIndicadoMED = 0.;
+		FResMediosMotor.ConsumoEspecifico = false;
+		FResMediosMotor.ConsumoEspecificoMED = 0.;
+		FResMediosMotor.Dosado = false;
+		FResMediosMotor.DosadoMED = 0.;
+		FResMediosMotor.AFR = false;
+		FResMediosMotor.AFRMED = 0.;
+		FResMediosMotor.Swirl = false;
+		FResMediosMotor.SwirlMED = 0.;
+
+		FResMediosMotor.TiempoSUM = 0.;
+		FResMediosMotor.Tiempo0 = 0.;
+
+		xml_node node_avg=GetNodeChild(node_engine,"Eng:AvgOutput");
+		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
+				parameter.next_attribute()){
+			if(parameter.value() == "NetTorque"){
+				FResMediosMotor.ParNeto = true;
+			}else if(parameter.value() == "EffectiveTorque"){
+				FResMediosMotor.ParEfectivo = true;
+			}else if(parameter.value() == "EffectiveTorque_cycle"){
+				FResMediosMotor.ParEfectivoCiclo = true;
+			}else if(parameter.value() == "MechLossesTorque"){
+				FResMediosMotor.ParPerdidasMecanicas = true;
+			}else if(parameter.value() == "NetWork"){
+				FResMediosMotor.TrabajoNeto = true;
+			}else if(parameter.value() == "PumpingWork"){
+				FResMediosMotor.TrabajoBombeo = true;
+			}else if(parameter.value() == "NMEP"){
+				FResMediosMotor.PMN = true;
+			}else if(parameter.value() == "BMEP"){
+				FResMediosMotor.PME = true;
+			}else if(parameter.value() == "NMEP_cycle"){
+				FResMediosMotor.PMNCiclo = true;
+			}else if(parameter.value() == "BMEP_cycle"){
+				FResMediosMotor.PMECiclo = true;
+			}else if(parameter.value() == "IMEP_cycle"){
+				FResMediosMotor.PMICiclo = true;
+			}else if(parameter.value() == "PMEP_cycle"){
+				FResMediosMotor.PMBCiclo = true;
+			}else if(parameter.value() == "Power"){
+				FResMediosMotor.Potencia = true;
+			}else if(parameter.value() == "Power_cycle"){
+				FResMediosMotor.PotenciaCiclo = true;
+			}else if(parameter.value() == "IntakeMass"){
+				FResMediosMotor.MasaAdmision = true;
+			}else if(parameter.value() == "FuelMass"){
+				FResMediosMotor.MasaFuel = true;
+			}else if(parameter.value() == "TrappedMass"){
+				FResMediosMotor.MasaAtrapada = true;
+			}else if(parameter.value() == "Speed"){
+				FResMediosMotor.RegimenGiro = true;
+			}else if(parameter.value() == "VolumetricEfficiency"){
+				FResMediosMotor.RendimientoVolumetrico = true;
+			}else if(parameter.value() == "VolumetricEfficiency_amb"){
+				FResMediosMotor.RendimientoVolumetricoAtm = true;
+			}else if(parameter.value() == "EffectiveEfficiency"){
+				FResMediosMotor.RendEfectivo = true;
+			}else if(parameter.value() == "IndicatedEfficiency"){
+				FResMediosMotor.RendIndicado = true;
+			}else if(parameter.value() == "BSFC"){
+				FResMediosMotor.ConsumoEspecifico = true;
+			}else if(parameter.value() == "ResistantTorque"){
+				FResMediosMotor.ParResistente = true;
+			}else if(parameter.value() == "VehicleSpeed"){
+				FResMediosMotor.VelocidadVehiculo = true;
+			}else if(parameter.value() == "FueltoAirRatio"){
+				FResMediosMotor.Dosado = true;
+			}else if(parameter.value() == "AFR"){
+				FResMediosMotor.AFR = true;
+			}else if(parameter.value() == "Swirl"){
+				FResMediosMotor.Swirl = true;
+			}else{
+				std::cout << "Resultados medios en el motor (" << Tipovar
+						<< ")no definido" << std::endl;
+			}
+		}
 
 	} catch (Exception & N) {
 		std::cout
