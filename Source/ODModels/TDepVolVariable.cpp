@@ -60,7 +60,7 @@ void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,
 		fpos_t &filepos, bool HayMotor) {
 	try {
 
-		int ControlRegimen;
+		int ControlRegimen = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -110,11 +110,11 @@ void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,
 
 void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 
-	double H; //Entalpia de entrada
-	double Energia;
+	double H = 0.; //Entalpia de entrada
+	double Energia = 0.;
 	double MasaEntrante, FraccionMasicaAcum = 0.;
-	double DeltaT, DeltaAngulo;
-	double g, v, a, m;
+	double DeltaT = 0., DeltaAngulo = 0.;
+	double g = 0., v = 0., a = 0., m = 0.;
 	int SignoFlujo = 1, SignoFlujoED = 1;
 
 	try {
@@ -242,7 +242,7 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 
 double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 		double lbiela, double diametro, double vol_muerto) {
-	double c, tt, ttt;
+	double c = 0., tt = 0., ttt = 0.;
 	double ret_val;
 
 	try {

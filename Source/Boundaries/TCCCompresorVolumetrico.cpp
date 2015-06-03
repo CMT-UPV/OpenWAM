@@ -210,7 +210,7 @@ void TCCCompresorVolumetrico::ObtencionValoresInstantaneos(
 void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 	try {
 		double ei, ed, massflow, entropia, FraccionMasicaAcum = 0.;
-		int cd;
+		int cd = 0;
 
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
@@ -316,7 +316,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -491,7 +491,7 @@ void TCCCompresorVolumetrico::AcumulaResultadosMediosCV(double Actual) {
 
 void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");

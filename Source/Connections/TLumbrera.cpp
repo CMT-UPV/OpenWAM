@@ -197,7 +197,7 @@ void TLumbrera::CalculateOpeningANDClose() {
 	double ang1 = 180.;
 	double apt0 = FAltura + FPosicionPMI - CalculaDistPMI(ang0);
 	double apt1 = FAltura + FPosicionPMI - CalculaDistPMI(ang1);
-	double ang, apt;
+	double ang = 0., apt = 0.;
 	while (ang1 - ang0 > 0.01) {
 		ang = (ang1 + ang0) / 2.;
 		apt = FAltura + FPosicionPMI - CalculaDistPMI(ang);

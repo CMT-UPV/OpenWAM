@@ -101,7 +101,7 @@ TDiscoRotativo::TDiscoRotativo(TDiscoRotativo *Origen, int Valvula) :
 void TDiscoRotativo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
-		int ControlRegimen;
+		int ControlRegimen = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -176,7 +176,7 @@ void TDiscoRotativo::CalculaCD(double AnguloActual) {
 
 void TDiscoRotativo::GetCDin(double Time) {
 
-	double X, XLv, XCd, Angulo;
+	double X = 0., XLv = 0., XCd = 0., Angulo = 0.;
 
 	if (FControlRegimen == nmPropio) {
 		Angulo = 6. * FRegimen * Time - FShift; // It's correct if FRegimen is constant.
@@ -208,7 +208,7 @@ void TDiscoRotativo::GetCDin(double Time) {
 }
 
 void TDiscoRotativo::GetCDout(double Time) {
-	double X, XLv, XCd, Angulo;
+	double X = 0., XLv = 0., XCd = 0., Angulo = 0.;
 
 	if (FControlRegimen == nmPropio) {
 		Angulo = 360. * FRegimen / 60. * Time - FShift;

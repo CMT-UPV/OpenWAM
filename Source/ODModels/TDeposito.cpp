@@ -852,7 +852,7 @@ void TDeposito::ResultadosMediosDep() {
 
 void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -900,7 +900,7 @@ void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM,
 // ---------------------------------------------------------------------------
 
 void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -1089,8 +1089,8 @@ void TDeposito::ImprimeResultadosMediosDep(stringstream& medoutput) {
 // ---------------------------------------------------------------------------
 
 double TDeposito::CriterioEstabilidad(double TMinimo) {
-	double DeltTMin, MasaFinal, g;
-	int SignoFlujoED;
+	double DeltTMin = 0., MasaFinal = 0., g = 0.;
+	int SignoFlujoED = 0;
 
 	try {
 

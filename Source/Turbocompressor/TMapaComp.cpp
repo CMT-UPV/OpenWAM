@@ -302,7 +302,7 @@ void TMapaComp::LeeMapa(FILE *fich) {
 				FCoefSplBombeo);
 
 // Obtencion de los coeficientes polinomios ortogonales.
-		/*double NumTerms;
+		/*double NumTerms = 0.;
 
 		 W=new double[FNumCurvasRendMax];
 
@@ -430,7 +430,7 @@ void TMapaComp::LeeMapa(FILE *fich) {
 
 void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 	try {
-		double Espaciado;
+		double Espaciado = 0.;
 //Calculo de diferencias
 		for (int i = 1; i < n; ++i) {
 			FSpl[i].h = x[i] - x[i - 1];
@@ -704,8 +704,8 @@ void TMapaComp::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
 
 void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 
-	double DeltaN;
-	int Cent;
+	double DeltaN = 0.;
+	int Cent = 0;
 
 	try {
 
@@ -851,9 +851,9 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 //---------------------------------------------------------------------------
 
 double TMapaComp::EvaluaRendimiento(double MasaAire) {
-	int k;
-	double prev2;
-	double prev;
+	int k = 0;
+	double prev2 = 0.;
+	double prev = 0.;
 	double ret_val;
 	try {
 		k = FNumTerms - 1;
@@ -881,11 +881,11 @@ double TMapaComp::EvaluaRendimiento(double MasaAire) {
 //---------------------------------------------------------------------------
 
 double TMapaComp::EvaluaRendSplines(double MasaAire) {
-	double AireAdim;
+	double AireAdim = 0.;
 	double ret_val;
-	double RendInf;
-	double RendSup;
-	double DeltaN;
+	double RendInf = 0.;
+	double RendSup = 0.;
+	double DeltaN = 0.;
 	try {
 		if (MasaAire < FGastoBombeoX) {
 			//En Bombeo se toma como rendimiento el del ultimo punto.
@@ -978,7 +978,7 @@ double TMapaComp::BuscaRegimen(double RC, double Massflow,
 		double RCSup = 0.;
 		double RCInf = 0.;
 		double ret_val, val1, val2;
-		double reg;
+		double reg = 0.;
 		int i = 0, sup, inf;
 		while (RC > RCSup && i < FNumCurvasReg) {
 			reg = FRegimenCurva[i] * AmbientTemperature / FTempRef;
@@ -1059,7 +1059,7 @@ void TMapaComp::ImprimeMapa() {
 	std::cout << "Printing compresso map .";
 	FILE *fich;
 	fich = fopen("MapaSimple.txt", "w");
-	double inc;
+	double inc = 0.;
 	double *massflow;
 	double **rc;
 	massflow = new double[200];

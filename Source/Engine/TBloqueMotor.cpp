@@ -101,10 +101,10 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 		nmTipoModelado& SimulationType, int CiclosSinInerciaTermica,
 		nmTipoMotor EngineType, double *AtmosphericComposition) {
 	try {
-		double daux;
-		double ddaux;
-		int tipodesfa, cil, tipocombustion, TipoPresionAAE;
-		int NumeroLeyesQuemado, CalculoTempPared, nwiebes, ImponerComposicionAE;
+		double daux = 0.;
+		double ddaux = 0.;
+		int tipodesfa = 0, cil = 0, tipocombustion = 0, TipoPresionAAE = 0;
+		int NumeroLeyesQuemado = 0, CalculoTempPared = 0, nwiebes = 0, ImponerComposicionAE = 0;
 
 		FTipoMotor = EngineType;
 		FTipoModelado = SimulationType;
@@ -115,7 +115,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 		// UTILIZACION COMBUSTION ACT
 		// -------------------------------
 
-		int aux;
+		int aux = 0;
 		fscanf(fich, "%d ", &aux);
 		aux == 0 ? FACT = false : FACT = true;
 		if (FACT) {
@@ -297,8 +297,8 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 		// --------------------
 
 		if (SimulationType == nmTransitorioRegimen) {
-			double mv, mt, mr;
-			double Imc, Ict, Itr;
+			double mv = 0., mt = 0., mr = 0.;
+			double Imc = 0., Ict = 0., Itr = 0.;
 
 			// Lectura de las masas
 			fscanf(fich, "%lf %lf %lf ", &mv, &mt, &mr);
@@ -508,8 +508,8 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 				FCilindro[0] = new TCilindro4T(this, 1, FHayEGR);
 			}
 		}
-		int controllers;
-		int param;
+		int controllers = 0;
+		int param = 0;
 		fscanf(fich, "%d ", &controllers);
 		for (int i = 0; i < controllers; ++i) {
 			fscanf(fich, "%d ", &param);
@@ -526,7 +526,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 			}
 		}
 
-		int MfControllerID;
+		int MfControllerID = 0;
 		for (int i = 0; i < FGeom.NCilin; ++i) {
 			fscanf(fich, "%d ", &controllers);
 			for (int j = 0; j < controllers; ++j) {
@@ -598,7 +598,7 @@ void TBloqueMotor::IniciaAnguloCalculo() {
 void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, Tipovar;
+		int nvars = 0, Tipovar = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -994,7 +994,7 @@ void TBloqueMotor::ImprimeResultadosMediosBloqueMotor(stringstream& medoutput) {
 
 void TBloqueMotor::ResultadosMediosBloqueMotor() {
 	try {
-		double DensidadAtm;
+		double DensidadAtm = 0.;
 		double MasaAtrapadaSUM = 0.;
 		double FraccionAireFrescoSUM = 0., AFRSUM = 0.;
 		double swirltotal = 0.;
@@ -1414,7 +1414,7 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 		FTime = Time;
 		// Calculo de par proporcionado por el motor
 		double ParNeto = 0;
-		double W;
+		double W = 0.;
 		for (int i = 0; i < FGeom.NCilin; i++) {
 			ParNeto += FCilindro[i]->getParInstantaneo();
 		}

@@ -154,7 +154,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 
 void TCCExtremoInyeccion::ObtencionValoresInstantaneos(double Theta) {
 	try {
-		double ang0;
+		double ang0 = 0.;
 
 		FTheta = Theta;
 

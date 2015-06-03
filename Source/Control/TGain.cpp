@@ -49,7 +49,7 @@ double TGain::Output(double Time) {
 
 void TGain::LeeController(const char *FileWAM, fpos_t &filepos) {
 
-	int Type;
+	int Type = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -78,7 +78,7 @@ void TGain::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -104,7 +104,7 @@ void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 
 void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);

@@ -3,7 +3,7 @@
 /** ************     FUNCTION min      ************** */
 
 double min(double a, double b) {
-	double sol;
+	double sol = 0.;
 	if (a < b)
 		sol = a;
 	else
@@ -17,7 +17,7 @@ void FUNCTION_FOR_INTERPOLATION(double *interpolated, double *time_interpolated,
 		double *CAD_to_interpolate, double *vector_to_interpolate,
 		int size_interpolated, int size_to_interpolate, double speed) {
 
-	int auxiliar, counter;
+	int auxiliar = 0, counter = 0;
 	auxiliar = 0;
 	for (counter = 0; counter < size_interpolated; counter++) {
 		while ((CAD_to_interpolate[auxiliar] * 60. / (360. * speed)
@@ -52,9 +52,9 @@ void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity,
 		int size, double PI, double speed, double *EOI_IM, double inj_num,
 		double *SOI_IM, double Piston_D, double DBowl, double CTM, double *CAD,
 		double Kswirl) {
-	int counter, auxiliar;
+	int counter = 0, auxiliar = 0;
 	double *virt, *w;
-	int i;
+	int i = 0;
 
 	virt = (double*) malloc(size * sizeof(double));
 	w = (double*) malloc(size * sizeof(double));
@@ -122,7 +122,7 @@ void CALCULUS_OF_VIRTUAL_VELOCITY(double *inj_velocity,
 void CALCULUS_OF_ACCUMULATED_INJ_RATE(double *acu_dmf, double *dmf,
 		double *time_vector, int size) {
 
-	int counter;
+	int counter = 0;
 
 	for (counter = 0; counter < size; counter++) {
 		if (counter == 0) {
@@ -307,26 +307,26 @@ void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *V_cyl,
 		double TPIS, double TCYL_HEAD, double TCYL, double *Qcylhead,
 		double *Qcyl, double *Qpis) {
 
-	double QT; /* Resultant heat due to fuel combustion (-) */
-	double QC; /* Instantaneous heat */
+	double QT = 0.; /* Resultant heat due to fuel combustion (-) */
+	double QC = 0.; /* Instantaneous heat */
 	double average_Volume;
 	/* Average volume between the actual and the previous step */
 	double average_Temperature;
 	/* Average temperature between the actual and the previous step */
 	double average_Pressure;
 	/* Average temperature between the actual and the previous step */
-	double DU; /* Increment of internal energy */
-	double MCYL; /* Cylinder mass */
+	double DU = 0.; /* Increment of internal energy */
+	double MCYL = 0.; /* Cylinder mass */
 	double AERR = 0.; /* Error in the energetic balance */
 	int niter = 0; /* Number of iterations */
-	double Wi; /* Instantaneous work */
-	double uf; /* internal energy of fuel */
-	double ecg; /* enthalpy of evaporated fuel */
+	double Wi = 0.; /* Instantaneous work */
+	double uf = 0.; /* internal energy of fuel */
+	double ecg = 0.; /* enthalpy of evaporated fuel */
 	double ent_ref; /* Reference enthalpy */
-	double HFTiny; /* Enthalpy due to the temperature of the fuel */
-	double a; /* auxiliar variable */
+	double HFTiny = 0.; /* Enthalpy due to the temperature of the fuel */
+	double a = 0.; /* auxiliar variable */
 	double delta_CAD; /* Calculus interval CAD */
-	double UANT; /* UANT acumulates a variable that is calculated  as the internal energy in the
+	double UANT = 0.; /* UANT acumulates a variable that is calculated  as the internal energy in the
 	 previous step with the actual masic ratios because of only is considered the
 	 increasement of energy due to the rise of the temperature not the rise of the
 	 mass */
@@ -480,7 +480,7 @@ void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl, double *dp_da_cyl,
 		double *CAD, double *pmax, double *Tmax, double *dp_da_max,
 		double *p_exit, double *T_exit, int size) {
 
-	int counter, iter, n;
+	int counter = 0, iter = 0, n = 0;
 	double *dp_da_aux;
 
 	dp_da_aux = (double*) malloc(size * sizeof(double));
@@ -558,17 +558,17 @@ void DEFORMATIONS(double *V_cyl, double *DEFOR, double p_cyl, double CAD,
 		double Piston_Crown_H, double M_Connecting_Rod, double M_P_R_PA,
 		double C_ESteel, double C_Mech_Defor) {
 
-	double AVp; /* Increseament of volume due to the pressure */
-	double AVi; /* Increasement of volume due to the inertia */
-	double Acel; /* Linear acceleration of the piston */
-	double Lactual;
+	double AVp = 0.; /* Increseament of volume due to the pressure */
+	double AVi = 0.; /* Increasement of volume due to the inertia */
+	double Acel = 0.; /* Linear acceleration of the piston */
+	double Lactual = 0.;
 	/* Distance between the piston and the piston head at actual step */
-	double Lanterior;
+	double Lanterior = 0.;
 	/* Distance between the piston and the piston head at previous step */
-	double Lposterior;
+	double Lposterior = 0.;
 	/* Distance between the piston and the piston head at following step */
-	double auxalfa; /* Auxiliar variable */
-	double Msist;
+	double auxalfa = 0.; /* Auxiliar variable */
+	double Msist = 0.;
 	/* Msist is the mass of the piston+piston axis+rings+ 0.33*connecting rod */
 
 	AVp = (PI * pow(Piston_D, 2.) / 4.) * C_Mech_Defor * (p_cyl / C_ESteel)
@@ -617,7 +617,7 @@ void MASIC_RATIO(double *Yair, double *Yfuel, double *Yburned, double *Rmixture,
 		double mfuel, double mEGR, double mairIVC, double Runiv, double MW_air,
 		double MW_fuel, double MW_burned) {
 
-	double Yq2, Yq0;
+	double Yq2 = 0., Yq0 = 0.;
 
 	Yq2 = (1. + (AFe))
 			/ (1. + (f)
@@ -696,10 +696,10 @@ double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl,
 
 		{
 
-	double C1;
-	double cm; /* mean piston speed */
-	double PA; /* pressure in the cylinder without combustion */
-	double comb; /* Term of combustion */
+	double C1 = 0.;
+	double cm = 0.; /* mean piston speed */
+	double PA = 0.; /* pressure in the cylinder without combustion */
+	double comb = 0.; /* Term of combustion */
 	double Cylinder_capacity; /* Cylinder capacity(m3) */
 	double Piston_area; /* Piston area */
 	double Cylinder_head_area; /* piston head area */
@@ -746,9 +746,9 @@ double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl,
 double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B,
 		double Piston_D, double DBowl, double speed, double CAD, double PI) {
 
-	double C1;
-	double cu;
-	double KCTM;
+	double C1 = 0.;
+	double cu = 0.;
+	double KCTM = 0.;
 	double ratio_CTM;
 	double x_alfa;
 
@@ -785,7 +785,7 @@ double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_CAD,
 	double Pressure_up;
 	double Pressure_down;
 	double Pressure_critic;
-	double BBy;
+	double BBy = 0.;
 
 	if (p_cyl > Atmosphere_press) {
 		Pressure_up = p_cyl;
@@ -831,7 +831,7 @@ void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD,
 		double exhaust_pres) {
 
 	double delta_CAD;
-	int counter;
+	int counter = 0;
 
 	*IMP_HP = 0;
 	*WI_HP = 0;
@@ -899,8 +899,8 @@ void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD,
 
 void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOeq,
 		double **KdYNO, double temperature, double mO2, double mtotal) {
-	int i, j;
-	double di, dj;
+	int i = 0, j = 0;
+	double di = 0., dj = 0.;
 
 	YNOeq[0][0] = 0.000000;
 	KdYNO[0][0] = 0.000000;
@@ -2206,8 +2206,8 @@ void FUNCTION_NOX(double *YNOeq_value, double *KdYNO_value, double **YNOeq,
 
 void FUNCTION_SOOT_C(double *soot_pre, double element_FI) {
 
-	int i;
-	int di, dk;
+	int i = 0;
+	int di = 0, dk = 0;
 	double *soot_pre_vector;
 	double *FI_vector;
 
@@ -2291,20 +2291,20 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	int elem_i, pulso_i;
 
-	double realelementmfreac; // Auxiliar variable
+	double realelementmfreac = 0.; // Auxiliar variable
 
 	// General constants
 	double PI = 3.1415926;
 	double Runiv = 8314.;
 	FILE *fich, *foculto, *foculto2;
-	double FRLOL; // Dosado en el lift-off del instante considerado
+	double FRLOL = 0.; // Dosado en el lift-off del instante considerado
 	double *Itot;
 	int CalcRad[8] = { 0, 0, 0, 0, 0, 0, 0, 0 }; // Variable que indica si se ha de calcular o no la radiacion (al principio, NO).
-	int RadCalc; // Variable que indica el deseo del usuario de calcular o no la radiacion.
+	int RadCalc = 0; // Variable que indica el deseo del usuario de calcular o no la radiacion.
 
 	double YO2aire = 0.23019;
-	double YO2i; // Concentracion de O2 en el bowl en un instante
-	double Zst, Z1, Z0, TCC, TSC; // Para calculo T (relaciones de estado)
+	double YO2i = 0.; // Concentracion de O2 en el bowl en un instante
+	double Zst = 0., Z1 = 0., Z0 = 0., TCC = 0., TSC = 0.; // Para calculo T (relaciones de estado)
 	double mmH2O = 18.; // Molecular weight for H2O
 	double mmCO2 = 44.; // Molecular weight for CO2
 
@@ -2447,14 +2447,14 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	double PRECISION_ITERATION = 0.000005; /* Value to iterate */
 	double delta_t; /* Calculus interval time (s) */
-	int size; /* Size of the temporal vector */
+	int size = 0; /* Size of the temporal vector */
 	double mf_burned; /* Fuel mass burned (-) */
 	double mf_burned_pmx; // Fuel mass burned in premixed combustion.
 	double Cylinder_capacity; /* Cylinder capacity(m3) */
-	double VTDC; /* Volume at top dead center(m3) */
-	double Gamma; /* Politropic exponent */
-	double f; /* Real air fuel ratio */
-	double mEGR; /* Burned gases mass(Kg) */
+	double VTDC = 0.; /* Volume at top dead center(m3) */
+	double Gamma = 0.; /* Politropic exponent */
+	double f = 0.; /* Real air fuel ratio */
+	double mEGR = 0.; /* Burned gases mass(Kg) */
 	double p_exit; /* In cylinder pressure at exhaust valve openning (bar) */
 	double T_exit; /* In cylinder temperature at exhaust valve openning (K) */
 	double WI_HP = 0; /* Indicated work of pressure high cicle(J) */
@@ -2546,41 +2546,41 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	// ELEMENT TRACKING MATRIX: STATE, COMPOSITION AND CHARACTERISTICS
 
 	struct stPropertiesElement {
-		int state; /* element mixture and combustion state */
-		double mtotal; /* element total mass */
-		double dmtotal; /* element mass include at mixture process */
-		double mO2; /* element O2 mass */
-		double mN2; /* element N2 mass */
-		double mCO2; /* element CO2 mass */
-		double mH2O; /* element H2O mass */
+		int state = 0; /* element mixture and combustion state */
+		double mtotal = 0.; /* element total mass */
+		double dmtotal = 0.; /* element mass include at mixture process */
+		double mO2 = 0.; /* element O2 mass */
+		double mN2 = 0.; /* element N2 mass */
+		double mCO2 = 0.; /* element CO2 mass */
+		double mH2O = 0.; /* element H2O mass */
 		double mf_jet;
 		/* element fuel mass injected according to injection rate law */
 		double mf_reac; /* element fuel mass updated with mixture */
 		double mf_evap;
 		/* element fuel mass updated with mixture and combustion process */
-		double C; /* element fuel concentration */
-		double FI; /* element air-fuel ratio */
-		double RID; /* element ignition delay time intensity */
-		double Rpmx; /* element premix combustion intensity */
+		double C = 0.; /* element fuel concentration */
+		double FI = 0.; /* element air-fuel ratio */
+		double RID = 0.; /* element ignition delay time intensity */
+		double Rpmx = 0.; /* element premix combustion intensity */
 		double Rpmx_value;
-		double mNOx; /* element NOx mass */
-		double dNOx; /* element NOx mass increment */
-		double HC; /* element HC mass */
-		double CO; /* element CO mass */
+		double mNOx = 0.; /* element NOx mass */
+		double dNOx = 0.; /* element NOx mass increment */
+		double HC = 0.; /* element HC mass */
+		double CO = 0.; /* element CO mass */
 		double mSOOT_A; /* element SOOT mass */
 		double dSOOT_A;
 		double mSOOT_B; /* element SOOT mass */
 		double dSOOT_B;
 		double mSOOT_C; /* element SOOT mass */
 		double dSOOT_C;
-		double TSD;
-		double Tadib;
+		double TSD = 0.;
+		double Tadib = 0.;
 		double Pcyl_POC;
-		double TNOx;
-		double X;
+		double TNOx = 0.;
+		double X = 0.;
 		double soot_precursor;
-		double tLOL; /* Time when the LOL is reached. */
-		double FRLOL; /* Relative equiv. ratio at LOL. */
+		double tLOL = 0.; /* Time when the LOL is reached. */
+		double FRLOL = 0.; /* Relative equiv. ratio at LOL. */
 
 	}**element;
 
@@ -2589,19 +2589,19 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *PEN_max; // Punto mas adelantado del chorro
 
 	struct stRealElementComposition {
-		double mtotal; /* element total mass */
-		double mO2; /* element O2 mass */
-		double mO; /* element O mass wich is provided by O2, H2O and CO2 */
-		double mCH;
-		double mN2; /* element N2 mass */
-		double mCO2; /* element CO2 mass */
-		double mH2O; /* element H2O mass */
+		double mtotal = 0.; /* element total mass */
+		double mO2 = 0.; /* element O2 mass */
+		double mO = 0.; /* element O mass wich is provided by O2, H2O and CO2 */
+		double mCH = 0.;
+		double mN2 = 0.; /* element N2 mass */
+		double mCO2 = 0.; /* element CO2 mass */
+		double mH2O = 0.; /* element H2O mass */
 		double mf_reac;
 		/* element fuel mass updated with mixture and combustion process */
 		double dmf_reac; /* change in element fuel mass at the time step */
 		double mf_reac_pmx; /* element fuel mass for premixed combustion */
-		double C; /* element fuel concentration */
-		double FI; /* element air-fuel ratio */
+		double C = 0.; /* element fuel concentration */
+		double FI = 0.; /* element air-fuel ratio */
 	}**realelement;
 
 	stControlElementComposition **elementcontrol;
@@ -2625,10 +2625,10 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double mSOOT_IVC_C;
 	double CO_IVC;
 	double HC_IVC;
-	double YO2IVC; /* Mass oxygen concentration at inlet valve closing */
-	double YN2IVC; /* Mass nitrogen concentration at inlet valve closing */
-	double YCO2IVC;
-	double YH2OIVC;
+	double YO2IVC = 0.; /* Mass oxygen concentration at inlet valve closing */
+	double YN2IVC = 0.; /* Mass nitrogen concentration at inlet valve closing */
+	double YCO2IVC = 0.;
+	double YH2OIVC = 0.;
 
 	// bowl variables definition: composition, species and characteristics
 
@@ -2667,12 +2667,12 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	/* increment mass exchange between bowl and dead volume */
 
 	// stoichometric constant link with HC fuel ratio
-	double Kst1;
-	double Kst2;
-	double Kst3;
-	double Kst4;
-	double Kst5;
-	double Kst6;
+	double Kst1 = 0.;
+	double Kst2 = 0.;
+	double Kst3 = 0.;
+	double Kst4 = 0.;
+	double Kst5 = 0.;
+	double Kst6 = 0.;
 
 	/** *******AUXILIAR VARIABLES DECLARATION********* */
 
@@ -2682,17 +2682,17 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	/* vector size from -180 to IVC with a  delta_CAD increment */
 	int complete_post_size;
 	/* vector size from EVO to +180 with a  delta_CAD increment */
-	double auxiliar;
+	double auxiliar = 0.;
 	double *vector_to_interpolate;
 
 	double counter_CAD_1;
 	double counter_CAD_2;
-	int counter;
-	int m, i, j, aux;
-	double Y1, T1, RID1;
+	int counter = 0;
+	int m = 0, i = 0, j = 0, aux = 0;
+	double Y1 = 0., T1 = 0., RID1 = 0.;
 
-	double maximum;
-	double minimum;
+	double maximum = 0.;
+	double minimum = 0.;
 	double aux_mfuel, Tot;
 
 	int element_value;
@@ -3406,8 +3406,8 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						/ (Tadib_cyl[counter] - inj_fuel_temp);
 
 		// lift off calculation
-		double Rhoa, Ta, d0, EfectoO2, Pres, valor; // valor se usa mas abajo, en el calculo de Fsoot.
-		double x1, x2, t1, t2, t0, K; // Parametros para calcular con exactitud las condiciones en el LOL.
+		double Rhoa = 0., Ta = 0., d0 = 0., EfectoO2 = 0., Pres = 0., valor = 0.; // valor se usa mas abajo = 0., en el calculo de Fsoot.
+		double x1 = 0., x2 = 0., t1 = 0., t2 = 0., t0 = 0., K = 0.; // Parametros para calcular con exactitud las condiciones en el LOL.
 
 		YO2_bowl_i = YO2IVC; // It considers YO2 at the beginning
 		Uo_i = virtual_velocity[counter];
@@ -4179,8 +4179,8 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		 Inicio calculo radiacion.
 		 *********************************************************************************** */
 
-		double lambda, dlambda, tgAng, Teje, Tllama, Xeje, radio, aux1, Xmax;
-		int k, iini, ifin;
+		double lambda = 0., dlambda = 0., tgAng = 0., Teje = 0., Tllama = 0., Xeje = 0., radio = 0., aux1 = 0., Xmax = 0.;
+		int k = 0, iini = 0, ifin = 0;
 
 		if ((time_vector[counter] <= (Ang_Grab / (6 * speed)))
 				&& (time_vector[counter + 1] > (Ang_Grab / (6 * speed)))
@@ -5037,7 +5037,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	vector_to_interpolate = (double*) malloc(size * sizeof(double));
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = dp_da_cyl[counter];
-		// vector_to_interpolate[counter]=PEN_min[counter]*1e5;    // El factor es para evitar cambio de unidad. OJO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// vector_to_interpolate[counter]=PEN_min[counter]*1e5 = 0.;    // El factor es para evitar cambio de unidad. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
 			vector_to_interpolate, CAI, size, speed);
@@ -5151,7 +5151,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	vector_to_interpolate = (double*) malloc(size * sizeof(double));
 	for (counter = 0; counter < size; counter++) {
 		vector_to_interpolate[counter] = acu_dmf[counter];
-		// vector_to_interpolate[counter]=PEN_max[counter]/(test_variables[4]*42.92);           // El factor es para evitar cambio de unidad. OJO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// vector_to_interpolate[counter]=PEN_max[counter]/(test_variables[4]*42.92) = 0.;           // El factor es para evitar cambio de unidad. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	FUNCTION_FOR_INTERPOLATION(aux_vector, time_vector_exit, CAD,
 			vector_to_interpolate, CAI, size, speed);
@@ -5342,7 +5342,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 // ------------------------------------------------------
 
 double YSoot_to_FSN(double YSoot) {
-	double x1, x2, x, y;
+	double x1 = 0., x2 = 0., x = 0., y = 0.;
 	// Busca el FSN implentando un metodo de la biseccion.
 	if (YSoot < 0.)
 		x = 0.;

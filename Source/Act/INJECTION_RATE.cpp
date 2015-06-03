@@ -24,8 +24,8 @@ extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI,
 // {
 //
 // int counter,test_number,z,p,size_inlet_inj;
-// int aux;
-// int CAI;                                 /* vectors point number according to crank angle degree  */
+// int aux = 0;
+// int CAI = 0;                                 /* vectors point number according to crank angle degree  */
 // FILE *fich;
 //
 // char title[3000];
@@ -233,7 +233,7 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI,
 
 		{
 
-	int k;
+	int k = 0;
 	// initialize injection rate
 	injection_rate[0] = 0.;
 	for (k = 1; k < CAI; k++) {
@@ -247,7 +247,7 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI,
 	// definition of injection rate for each injection
 
 	double mftopemini = 1. / 2. * ((b / a) + (b / -c)) * b;
-	double time;
+	double time = 0.;
 
 	for (int j = 0; j < INITIAL; j++) {
 

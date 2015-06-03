@@ -127,7 +127,7 @@ void TTipoValvula::AsignaCDVolTub(double Valor) {
 
 void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int ndv, var;
+		int ndv = 0, var = 0;
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 		FGraficasINS = true;
@@ -207,7 +207,7 @@ void TTipoValvula::ImprimeGraficaINS(stringstream& insoutput) {
 
 void TTipoValvula::AcumulaCDMedio(double TiempoActual) {
 	try {
-		double DeltaT;
+		double DeltaT = 0.;
 		DeltaT = TiempoActual - FTiempoAnt;
 		FTiempoAnt = TiempoActual;
 
@@ -231,7 +231,7 @@ void TTipoValvula::AcumulaCDMedio(double TiempoActual) {
 
 void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int ndv, var;
+		int ndv = 0, var = 0;
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 

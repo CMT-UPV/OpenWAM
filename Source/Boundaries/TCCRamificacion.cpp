@@ -96,7 +96,7 @@ TCCRamificacion::~TCCRamificacion() {
 void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 	try {
 		int i = 0;
-		int ContadorTubosRamificacion;
+		int ContadorTubosRamificacion = 0;
 
 		ContadorTubosRamificacion = 0;
 
@@ -202,8 +202,8 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 	try {
 		double sonido_supuesta_ad, sonido_ant_ad, entropia_entrante,
 				corr_entropia;
-		double suma1, suma2, sm1, sm2, sm3;
-		int TuboCalculado;
+		double suma1 = 0., suma2 = 0., sm1 = 0., sm2 = 0., sm3 = 0.;
+		int TuboCalculado = 0;
 		double DeltaT, MasaTotal = 0., g, m, FraccionMasicaAcum = 0.;
 		// Necesarias para el calculo de especies en la BC.
 

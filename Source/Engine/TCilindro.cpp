@@ -680,7 +680,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int Tipovar;
+		int Tipovar = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -1396,7 +1396,7 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -2165,7 +2165,7 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 
 double TCilindro::CalculaVolumen(double AnguloActual) {
 	try {
-		double tt, ttt, xxx;
+		double tt = 0., ttt = 0., xxx = 0.;
 		double ret_val, deltaVol, acel = 0., c;
 
 		double a = AnguloActual * Pi / 180.;
@@ -2248,7 +2248,7 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 
 void TCilindro::IniciaVariables() {
 	try {
-		double TemperaturaInicial;
+		double TemperaturaInicial = 0.;
 		double RAtmosfera, PMAtmosfera, FraccionMolarO2, FraccionMolarH2O,
 				FraccionMolarN2;
 
@@ -2540,9 +2540,9 @@ void TCilindro::InicioFinCombustion() {
 		double distMa = 0;
 		double Numerador = 0;
 		double Denominador = 0;
-		double Ang01;
-		double dist, e, b, DistMax, DistMin, Weight;
-		int k;
+		double Ang01 = 0.;
+		double dist = 0., e = 0., b = 0., DistMax = 0., DistMin = 0., Weight = 0.;
+		int k = 0;
 
 		if (FMotor->getMasaFuel() == 0.) {
 			FIniComb = 0.;
@@ -2610,7 +2610,7 @@ void TCilindro::InicioFinCombustion() {
 				FFinComb = Ang01;
 
 				// Busqueda del begining y el fin de la combustion
-				double Finaliza;
+				double Finaliza = 0.;
 
 				for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
 
@@ -2659,13 +2659,13 @@ void TCilindro::InicioFinCombustion() {
 
 double TCilindro::CalculaCalorLiberado(double x) {
 	try {
-		double Result;
+		double Result = 0.;
 		double distReg = 0;
 		double distMf = 0;
 		double distMa = 0;
 		double Numerador = 0;
 		double Denominador = 0;
-		double dist, e, b, ley, DistMax, DistMin, Weight;
+		double dist = 0., e = 0., b = 0., ley = 0., DistMax = 0., DistMin = 0., Weight = 0.;
 
 		if (FMotor->getLeyQuemadoBD().size() == 1) {
 			Result = fql(x, 0);
@@ -2683,11 +2683,11 @@ double TCilindro::CalculaCalorLiberado(double x) {
 				distMf = pow2(
 						(FMfint - FMotor->getLeyQuemadoBD()[i].mf)
 								/ FMotor->getLQMfMax());
-				/* OJO: kg/cc */
+				/* : kg/cc */
 				distMa = pow2(
 						(FMaint - FMotor->getLeyQuemadoBD()[i].ma)
 								/ FMotor->getLQMaMax());
-				/* OJO: kg/cc */
+				/* : kg/cc */
 				// dist=pow(distReg+distMf+distMa,0.5);
 				b = distReg + distMf + distMa;
 
@@ -2795,7 +2795,7 @@ double TCilindro::FuncionGamma(double T, double X) {
 	try {
 		// T - Temperature en kelvin.
 		// X - Tanto por uno de gases quemados.
-		double a, b, c, T00, cv, Result;
+		double a = 0., b = 0., c = 0., T00 = 0., cv = 0., Result = 0.;
 
 		T00 = T / 100. - 2.73;
 		if (fabs(X) < 1e-100 || X < 0.)
@@ -2826,9 +2826,9 @@ void TCilindro::CalculaTemperaturasPared() {
 	double *TPAnt = NULL;
 
 	try {
-		double ViscGas, ViscPared, Vel, Re, Cond, hExt;
-		double Fo, Bii, Bie;
-		double hi2, hi3, ho1, ho2;
+		double ViscGas = 0., ViscPared = 0., Vel = 0., Re = 0., Cond = 0., hExt = 0.;
+		double Fo = 0., Bii = 0., Bie = 0.;
+		double hi2 = 0., hi3 = 0., ho1 = 0., ho2 = 0.;
 		// NUMERO DE NODOS IGUAL A 3
 		TPAnt = new double[3];
 
@@ -3375,7 +3375,7 @@ void TCilindro::DefineCombustion() {
 // ---------------------------------------------------------------------------
 double TCilindro::CalculaCTorbAdmProm() {
 	try {
-		double retval;
+		double retval = 0.;
 		double CTorbSum = 0.;
 
 		for (int i = 0; i < FNumeroUnionesAdm; i++) {
@@ -3460,7 +3460,7 @@ void TCilindro::CalculaMomentoAngular() {
 		}
 
 		FMomentoAngular = (FMomentoAngularAdm + FMomentoAngularEsc) * FDeltaT;
-		/* OJO. Se multiplica por el tiempo */
+		/* . Se multiplica por el tiempo */
 
 	} catch (Exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: "
@@ -3586,7 +3586,7 @@ void TCilindro::CalculaVariablesResultados() {
 
 void TCilindro::CalculaSWIRL() {
 	try {
-		double wctcc;
+		double wctcc = 0.;
 
 		wctcc = Pi * pow2(FMotor->getGeometria().DiametroBowl) / 4.
 				* FMotor->getGeometria().AlturaBowl;

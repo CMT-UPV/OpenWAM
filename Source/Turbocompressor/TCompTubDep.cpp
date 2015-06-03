@@ -69,8 +69,8 @@ TCompTubDep::~TCompTubDep() {
 void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 	try {
 
-		int format, ac;
-		int InID, OutID, VolID, StaID, RotID;
+		int format = 0, ac = 0;
+		int InID = 0, OutID = 0, VolID = 0, StaID = 0, RotID = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -312,7 +312,7 @@ double TCompTubDep::RegulaFalsi() {
 // ---------------------------------------------------------------------------
 
 void TCompTubDep::CalculaCompresor(double Theta) {
-	double temp, work;
+	double temp = 0., work = 0.;
 	try {
 
 		temp = pow(*FLanda / *FEntro, FGamma4) * 1e5;
@@ -455,7 +455,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 		double AmbientTemperature, int numeroCC, TCondicionContorno **BC,
 		double *AtmosphericComposition) {
 	try {
-		double Cp;
+		double Cp = 0.;
 
 		FEntradaCompresor = EntradaCompresor;
 		if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmLeft) {
@@ -510,7 +510,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 
 void TCompTubDep::Initialize() {
 
-	double Cp;
+	double Cp = 0.;
 
 	switch (FEntradaCompresor) {
 	case nmAtmosphere:
@@ -577,7 +577,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 		double AmbientPressure, TCondicionContorno *BC) {
 	try {
 		double pentcomp = 0., tentcomp = 0., ventcomp = 0.;
-		double RMezclaEnt, RMezclaSal, GammaEnt, GammaSal, Cp;
+		double RMezclaEnt = 0., RMezclaSal = 0., GammaEnt = 0., GammaSal = 0., Cp = 0.;
 
 		switch (FEntradaCompresor) {
 		case nmAtmosphere:
@@ -672,7 +672,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 double TCompTubDep::NewDampedSolution(double Mass) {
 
 	double A2, U2, AA2, A20, AA2Old, A2Old, delta = 1, delta0 = 1, deltaA = 1.;
-	double A10, AA1;
+	double A10 = 0., AA1 = 0.;
 	double Mass_filt;
 	bool conv;
 

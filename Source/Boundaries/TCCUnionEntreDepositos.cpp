@@ -94,7 +94,7 @@ TCCUnionEntreDepositos::~TCCUnionEntreDepositos() {
 void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM,
 		fpos_t &filepos, bool Independent) {
 	try {
-		int numid; // Variable necesaria para WAMer.
+		int numid = 0; // Variable necesaria para WAMer.
 
 		FIndependiente = Independent;
 
@@ -219,8 +219,8 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 		double mfcomb, double RegimenMotor) {
 	try {
 
-		double PVol, PTub, PAdm, DeltaP, distancia, CDExt, nodoadm, p1, p2;
-		int turb, entr;
+		double PVol = 0., PTub = 0., PAdm = 0., DeltaP = 0., distancia = 0., CDExt = 0., nodoadm = 0., p1 = 0., p2 = 0.;
+		int turb = 0, entr = 0;
 
 		if (FValvula->getTypeOfValve() == nmLumbrera2T) {
 			FRegimen = dynamic_cast<TDepVolVariable*>(FDeposito1)->getRegimen();
@@ -426,8 +426,8 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			double p0, p1, T0,/*T1,*/gasto_isen, a0, FraccionMasicaAcum = 0.,
 					Massflow;
-			double paso1, paso2, paso3, paso4;
-			int signodep1, signodep2;
+			double paso1 = 0., paso2 = 0., paso3 = 0., paso4 = 0.;
+			int signodep1 = 0, signodep2 = 0;
 
 			/* if(FNumeroCC==3){
 			 printf(".\n");
@@ -521,8 +521,8 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			double p0, p1, T0, T1, gasto_isen, a0, FraccionMasicaAcum = 0.,
 					Massflow;
-			double paso1, paso2, paso3, paso4;
-			int signodep1, signodep2;
+			double paso1 = 0., paso2 = 0., paso3 = 0., paso4 = 0.;
+			int signodep1 = 0, signodep2 = 0;
 
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) {
 				FGamma = FDeposito1->getGamma();
@@ -623,8 +623,8 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 void TCCUnionEntreDepositos::CalculaUED() {
 	try {
 		double p0, p1, T0, gasto_isen, gasto_real, a0, FraccionMasicaAcum = 0.;
-		double paso1, paso2, paso3, paso4;
-		int signodep1, signodep2;
+		double paso1 = 0., paso2 = 0., paso3 = 0., paso4 = 0.;
+		int signodep1 = 0, signodep2 = 0;
 
 		FPresionDep1 = FPresionDep1SUM / FTiempoDep1SUM;
 		FPresionDep2 = FPresionDep2SUM / FTiempoDep2SUM;
@@ -740,7 +740,7 @@ void TCCUnionEntreDepositos::CalculaUED() {
 
 void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -835,7 +835,7 @@ void TCCUnionEntreDepositos::ImprimeResultadosInstantUED(
 
 void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

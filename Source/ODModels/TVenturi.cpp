@@ -86,7 +86,7 @@ TVenturi::~TVenturi() {
 
 void TVenturi::LeeDatosVenturi(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int numid; // dato para Wamer
+		int numid = 0; // dato para Wamer
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
@@ -111,11 +111,11 @@ void TVenturi::LeeDatosVenturi(const char *FileWAM, fpos_t &filepos) {
 
 void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 
-	double H; // Entalpia de entrada
-	double Energia;
+	double H = 0.; // Entalpia de entrada
+	double Energia = 0.;
 	double MasaEntrante, FraccionMasicaAcum = 0.;
-	double DeltaT;
-	double g, v, a, m;
+	double DeltaT = 0.;
+	double g = 0., v = 0., a = 0., m = 0.;
 	int SignoFlujo = 1;
 
 	try {
@@ -157,7 +157,7 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 		double Asonido0 = FAsonido;
 		double Asonido1 = FAsonido;
 		double Error = 0.;
-		double Diff;
+		double Diff = 0.;
 
 		while (!Converge) {
 			H = 0.;
@@ -265,11 +265,11 @@ void TVenturi::CalculaVenturi() {
 	// ramal de entrada como por el ramal de salida.
 
 	try {
-		double Velocity, Speedsound;
-		double Converge, VelGarganta0, VelGarganta1;
-		double Mach0, Mach1;
-		double CSup;
-		double TempGarganta, TempEntrada;
+		double Velocity = 0., Speedsound = 0.;
+		double Converge = 0., VelGarganta0 = 0., VelGarganta1 = 0.;
+		double Mach0 = 0., Mach1 = 0.;
+		double CSup = 0.;
+		double TempGarganta = 0., TempEntrada = 0.;
 		int SentidoEntrada = 0, SentidoSalida = 0;
 
 		TempEntrada = FTemperature + 273.;
@@ -400,7 +400,7 @@ void TVenturi::CalculaVenturi() {
 void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM,
 		fpos_t &filepos) {
 
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -549,7 +549,7 @@ void TVenturi::ImprimeResultadosInstantVenturi(stringstream& insoutput) {
 
 void TVenturi::CalculaResultadosVenturi() {
 	try {
-		int SentidoEntrada, SentidoLateral, SentidoSalida;
+		int SentidoEntrada = 0, SentidoLateral = 0, SentidoSalida = 0;
 		if (FResInstantVenturi.PresionEntrada) {
 			FResInstantVenturi.PresionEntradaINS = FPressure;
 		}
@@ -639,7 +639,7 @@ void TVenturi::CalculaResultadosVenturi() {
 // ---------------------------------------------------------------------------
 
 void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -753,7 +753,7 @@ void TVenturi::HeaderAverageResultsVenturi(stringstream& medoutput) {
 
 void TVenturi::AcumulaResultadosMediosVenturi(double Actual) {
 	try {
-		int SentidoEntrada, SentidoLateral;
+		int SentidoEntrada = 0, SentidoLateral = 0;
 		double Delta = Actual - FResMediosVenturi.Tiempo0;
 
 		if (FResMediosVenturi.PresionEntrada) {

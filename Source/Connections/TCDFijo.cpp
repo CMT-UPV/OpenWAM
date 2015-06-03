@@ -75,7 +75,7 @@ TCDFijo::TCDFijo(TCDFijo *Origen, int Valvula) :
 void TCDFijo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
-		int tmp;
+		int tmp = 0;
 		FActivaDiamRef = false;
 
 		FILE *fich = fopen(FileWAM, "r");

@@ -116,7 +116,7 @@ void TCompresor::InterpolaValoresMapa(double rtc) {
 //---------------------------------------------------------------------------
 
 void TCompresor::AcumulaMedias(double Tiempo) {
-	double DeltaT;
+	double DeltaT = 0.;
 	try {
 		DeltaT = Tiempo - FMedias.Tiempo0;
 		FMedias.TiempoSUM += DeltaT;
@@ -240,7 +240,7 @@ void TCompresor::CalculaInstantaneos() {
 //---------------------------------------------------------------------------
 
 void TCompresor::LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos) {
-	int NMagnitudes, Magnitud;
+	int NMagnitudes = 0, Magnitud = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -368,7 +368,7 @@ void TCompresor::ImprimeGraficasMedias(stringstream& medoutput) {
 
 void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM,
 		fpos_t &filepos) {
-	int NMagnitudes, Magnitud;
+	int NMagnitudes = 0, Magnitud = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

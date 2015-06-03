@@ -155,13 +155,13 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 	double cpte, cpts /* ,gammaent,gammasal,cvte,cvts,Rentrada,Rsalida */;
 	// double B,Cte_R,A;
-	double TempIsentSal;
-	double DeltaT;
-	double incrRelCin;
-	double Landa, Beta, Entropia;
+	double TempIsentSal = 0.;
+	double DeltaT = 0.;
+	double incrRelCin = 0.;
+	double Landa = 0., Beta = 0., Entropia = 0.;
 	int SentidoSalida = -1, SentidoEntrada = 1;
-	double dd, b, c, d;
-	int NumberOfPipes;
+	double dd = 0., b = 0., c = 0., d = 0.;
+	int NumberOfPipes = 0;
 	double gam_med;
 	double gam_te;
 	double cp_med;
@@ -497,7 +497,7 @@ void TTurbinaSimple::ImprimeResultadosMediosPantalla() {
 void TTurbinaSimple::ReadAverageResultsTurb(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -623,7 +623,7 @@ void TTurbinaSimple::IniciaMedias() {
 // ---------------------------------------------------------------------------
 
 void TTurbinaSimple::AcumulaMedias(double Tiempo) {
-	double DeltaT;
+	double DeltaT = 0.;
 	try {
 		DeltaT = Tiempo - FResMediosTurbina.Tiempo0;
 		FResMediosTurbina.TiempoSUM += DeltaT;
@@ -773,7 +773,7 @@ void TTurbinaSimple::CalculaResultadosMediosTurb() {
 
 void TTurbinaSimple::LeeResultadosInstantTurb(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");

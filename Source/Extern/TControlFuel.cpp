@@ -145,7 +145,7 @@ void TControlFuel::LeeDatosEntrada(char *Ruta, FILE *fich) {
 //---------------------------------------------------------------------------
 double TControlFuel::xit_(double vizq, double vder, double axid, double xif) {
 	try {
-		double xx, yy;
+		double xx = 0., yy = 0.;
 		double ret_val;
 
 		xx = vder - vizq;
@@ -171,7 +171,7 @@ double TControlFuel::CalculaFuel(double MasaPorAdmision, double Regimen,
 		double TiempoActual) {
 	try {
 		/* Estrategia de inyeccion de combustible en transitorio de carga. */
-		double MasaAire, FuelMin, FuelMax, FuelLimitador;
+		double MasaAire = 0., FuelMin = 0., FuelMax = 0., FuelLimitador = 0.;
 
 		FuelMin = 4.32E-06; // en (kg/cc)
 		FuelMax = 5.86E-05; // en (kg/cc)

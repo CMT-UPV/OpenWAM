@@ -67,7 +67,7 @@ void TDecisor::LeeController(const char *FileWAM, fpos_t &filepos) {
 	fscanf(fich, "%d ", &fControllerLowID);
 	fscanf(fich, "%d ", &fControllerHighID);
 
-	int ctrl;
+	int ctrl = 0;
 	fscanf(fich, "%d ", &ctrl);
 	if (ctrl == 0) {
 		fTargedControlled = false;
@@ -76,7 +76,7 @@ void TDecisor::LeeController(const char *FileWAM, fpos_t &filepos) {
 		fControllerTargetID = ctrl;
 	}
 
-	int tmp;
+	int tmp = 0;
 	FSensorID.resize(1);
 	fscanf(fich, "%d ", &FSensorID[0]);
 
@@ -95,7 +95,7 @@ void TDecisor::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 void TDecisor::LeeResultadosMedControlador(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -119,7 +119,7 @@ void TDecisor::LeeResultadosMedControlador(const char *FileWAM,
 
 void TDecisor::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);

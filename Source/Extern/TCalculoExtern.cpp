@@ -528,7 +528,7 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos,
 
 		double T = 0., temp = 0., v1 = 0., den = 0.;
 		int n1 = 0, t = 0;
-		int tipo, tubo, nsensortubo, ndistancias;
+		int tipo = 0, tubo = 0, nsensortubo = 0, ndistancias = 0;
 		double dist = 0.;
 		ndistancias = 0;
 		fscanf(fich, "%d ", &FNSensTubos); /*numero de sensores en tubos*/
@@ -899,7 +899,7 @@ void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		int tipo, ndep, deposito, nsensdeposito;
+		int tipo = 0, ndep = 0, deposito = 0, nsensdeposito = 0;
 		ndep = 0;
 		fscanf(fich, "%d ", &FNSensDepositos); /*numero de sensores en depositos*/
 		fscanf(fich, "%d ", &ndep); /*numero de depositos con sensores*/
@@ -1226,7 +1226,7 @@ void TCalculoExtern::Lee_Sens_TG(const char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		int tipo, ntg, turbogrupo, nsensturbogrupo;
+		int tipo = 0, ntg = 0, turbogrupo = 0, nsensturbogrupo = 0;
 		ntg = 0;
 		fscanf(fich, "%d ", &FNSensTurbogrupo); /*numero de sensores en TG*/
 		fscanf(fich, "%d ", &ntg); /*numero de turbogrupos con sensor*/
@@ -1281,7 +1281,7 @@ void TCalculoExtern::Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		int tipo, nturbinas, turbina, nsensturbina;
+		int tipo = 0, nturbinas = 0, turbina = 0, nsensturbina = 0;
 		nturbinas = 0;
 		fscanf(fich, "%d ", &FNSensTurbina); /* numero de sensores en turbina */
 		fscanf(fich, "%d ", &nturbinas); /* numero de turbinas con sensor */
@@ -1354,7 +1354,7 @@ void TCalculoExtern::Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		int tipo, ncil, cilindro, nsenscilindro;
+		int tipo = 0, ncil = 0, cilindro = 0, nsenscilindro = 0;
 		ncil = 0;
 		fscanf(fich, "%d ", &FNSensCilindros); /*numero de sensores en cilindros*/
 		fscanf(fich, "%d ", &ncil); /*numero de cilindros con sensores*/
@@ -1441,8 +1441,8 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos,
 		fsetpos(fich, &filepos);
 
 		int signo = 0;
-		double prent, prgar, velent, vellat, gasent, gaslat;
-		int tipo, nventuris, venturi, nsensventuri, v;
+		double prent = 0., prgar = 0., velent = 0., vellat = 0., gasent = 0., gaslat = 0.;
+		int tipo = 0, nventuris = 0, venturi = 0, nsensventuri = 0, v = 0;
 		nventuris = 0;
 		fscanf(fich, "%d ", &FNSensVenturis); /*numero de sensores en venturis*/
 		fscanf(fich, "%d ", &nventuris);
@@ -1580,7 +1580,7 @@ void TCalculoExtern::Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		int tipo;
+		int tipo = 0;
 		fscanf(fich, "%d ", &FNSensMotor); /*numero de sensores en motor*/
 		if (ene < 0. && FNSensMotor != 0) {
 			std::cout
@@ -1651,7 +1651,7 @@ void TCalculoExtern::Lee_Sens_UED(const char *FileWAM, fpos_t &filepos,
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
-		int nUED, CCued, nsensUED;
+		int nUED = 0, CCued = 0, nsensUED = 0;
 		int tipo, cont = 0;
 		fscanf(fich, "%d ", &FNSensUED); /*numero de sensores en UED*/
 		fscanf(fich, "%d ", &nUED); /*numero de uniones entre tubos con sensores*/
@@ -2532,7 +2532,7 @@ void TCalculoExtern::Calculo_Sensores_Venturi(double deltaT,
 		TVenturi **Venturi) {
 	try {
 		int signo = 0;
-		double prent, prgar, velent, vellat, gasent, gaslat;
+		double prent = 0., prgar = 0., velent = 0., vellat = 0., gasent = 0., gaslat = 0.;
 
 		for (int i = 0; i <= FNSensVenturis - 1; i++) {
 			switch (FSensorVent[i].tipo) {
@@ -2736,7 +2736,7 @@ void TCalculoExtern::Calculo_Sensores_UED(double deltaT,
 
 double TCalculoExtern::xit_(double vizq, double vder, double axid, double xif) {
 	try {
-		double xx, yy;
+		double xx = 0., yy = 0.;
 		double ret_val;
 
 		xx = vder - vizq;

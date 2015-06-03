@@ -70,7 +70,7 @@ TMatlab::~TMatlab() {
 void TMatlab::IniciaECU() {
 	try {
 
-		int i;
+		int i = 0;
 
 		char daux[140];
 		/* Inicializacion del acceso a MATLAB*/

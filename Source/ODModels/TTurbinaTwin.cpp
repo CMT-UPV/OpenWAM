@@ -165,12 +165,12 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 			cpts /* ,gammaent[2],gammasal,cvte[2],cvts,Rentrada[2],Rsalida */;
 	// double B,Cte_R,A;
 	double TempIsentSal[2];
-	double DeltaT;
-	double incrRelCin;
-	double TrabIsen;
-	double Landa, Beta, Entropia;
+	double DeltaT = 0.;
+	double incrRelCin = 0.;
+	double TrabIsen = 0.;
+	double Landa = 0., Beta = 0., Entropia = 0.;
 	int SentidoEntrada[1], SentidoSalida;
-	int dd, b, c, d;
+	int dd = 0, b = 0, c = 0, d = 0;
 	double gam_med;
 	double gam_te;
 	double cp_med[2];
@@ -321,7 +321,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				if (FRackIsControlled) {
 					FRack = FRackController->Output(FTime);
 				}
-				double MassAcum;
+				double MassAcum = 0.;
 				double RotorEF = 0;
 
 				for (int i = 0; i < 2; i++) {
@@ -479,7 +479,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 void TTurbinaTwin::ReadAverageResultsTurb(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -606,7 +606,7 @@ void TTurbinaTwin::IniciaMedias() {
 // ---------------------------------------------------------------------------
 
 void TTurbinaTwin::AcumulaMedias(double Tiempo) {
-	double DeltaT;
+	double DeltaT = 0.;
 	try {
 		DeltaT = Tiempo - FResMediosTurbina.Tiempo0;
 		FResMediosTurbina.TiempoSUM += DeltaT;
@@ -755,7 +755,7 @@ void TTurbinaTwin::CalculaResultadosMediosTurb() {
 
 void TTurbinaTwin::LeeResultadosInstantTurb(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");

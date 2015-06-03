@@ -175,7 +175,7 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 //---------------------------------------------------------------------------
 double TEGRV::xit_(double vizq, double vder, double axid, double xif) {
 	try {
-		double xx, yy;
+		double xx = 0., yy = 0.;
 		double ret_val;
 
 		xx = vder - vizq;

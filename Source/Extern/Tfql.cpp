@@ -274,7 +274,7 @@ double Tfql::fun_wiebe(double x, double m, double c, double ia, double a0)
 
 			xx = (x - a0) / ia;
 			xxx = pow(xx, m + 1);
-			if ((xxx * c) > 10.) { /* OJO Josevi */
+			if ((xxx * c) > 10.) { /*  Josevi */
 				ret_val = 1.;
 			} else {
 				ret_val = 1. - 1. / exp(xxx * c);

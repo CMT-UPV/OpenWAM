@@ -57,7 +57,7 @@ TMuelle::~TMuelle() {
 
 void TMuelle::CalculaPosicion(double fuerza, double DeltaT) {
 	try {
-		double ddx, xact, dxact;
+		double ddx = 0., xact = 0., dxact = 0.;
 
 		ddx = (fuerza - FRigidez * Fx - FAmort * Fdx) / FMasa;
 

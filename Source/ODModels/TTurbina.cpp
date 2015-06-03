@@ -160,11 +160,11 @@ TTurbina::~TTurbina() {
 
 void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 
-	double H; // Entalpia de entrada
-	double Energia;
+	double H = 0.; // Entalpia de entrada
+	double Energia = 0.;
 	double MasaEntrante, FraccionMasicaAcum = 0.;
-	double DeltaT;
-	double g, v, a, m;
+	double DeltaT = 0.;
+	double g = 0., v = 0., a = 0., m = 0.;
 	int SignoFlujo = 1;
 
 	try {
@@ -198,14 +198,14 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 
 			bool FirstStep = true;
 			bool Converge = false;
-			double Error;
+			double Error = 0.;
 			double Ason1 = FAsonido;
 			double Ason0 = FAsonido;
 			double MTemp0 = 1 / (FMasa0 * FRMezcla * (FTemperature + 273));
 			double MTemp1 = 1 / (FMasa0 * FRMezcla * (FTemperature + 273));
-			double MTemp;
+			double MTemp = 0.;
 			double H0 = 0;
-			double Diff;
+			double Diff = 0.;
 #ifdef tchtm
 			FHeatPower = FHTM->Turb_Heat_Flow();
 #endif
@@ -350,8 +350,8 @@ void TTurbina::TransformaContorno(double *L, double *B, double *E, double *a,
 
 void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int rdturb, tipoturb, ctrl, numctrl, ac;
-		double AngCritico, Beta;
+		int rdturb = 0, tipoturb = 0, ctrl = 0, numctrl = 0, ac = 0;
+		double AngCritico = 0., Beta = 0.;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -405,7 +405,7 @@ void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 			if ( ac == 1 ) {
 				iVector InID;
 				iVector VolID;
-				int OutID;
+				int OutID = 0;
 				FIsAcoustic = true;
 				if ( FTipoDeposito == nmTurbinaSimple ) {
 					InID.resize ( 1 );

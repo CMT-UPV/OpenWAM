@@ -436,7 +436,7 @@ void TMapaComp2Tub::LeeMapa(FILE *fich) {
 
 void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 	try {
-		double Espaciado;
+		double Espaciado = 0.;
 //Calculo de diferencias
 		for (int i = 1; i < n; ++i) {
 			FSpl[i].h = x[i] - x[i - 1];
@@ -584,7 +584,7 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 void TMapaComp2Tub::SplineVector(int n, std::vector<double> x,
 		std::vector<double> y, std::vector<double> sol) {
 	try {
-		double Espaciado;
+		double Espaciado = 0.;
 
 		std::vector<stSpline2Tub> Spl;
 
@@ -774,7 +774,7 @@ double TMapaComp2Tub::InterpolaLineal(double punto, int n, double *x,
 		double *y) {
 	try {
 		int k = 0;
-		double delta;
+		double delta = 0.;
 		double ret_val;
 //Determinacion del indice para evaluacion spline
 
@@ -999,9 +999,9 @@ void TMapaComp2Tub::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
 
 void TMapaComp2Tub::InterpolaMapa(double rtc, double AmbientTemperature) {
 
-	double DeltaN;
-	int Cent;
-	int index;
+	double DeltaN = 0.;
+	int Cent = 0;
+	int index = 0;
 
 	try {
 
@@ -1169,9 +1169,9 @@ void TMapaComp2Tub::InterpolaMapa(double rtc, double AmbientTemperature) {
 //---------------------------------------------------------------------------
 
 double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
-	int k;
-	double prev2;
-	double prev;
+	int k = 0;
+	double prev2 = 0.;
+	double prev = 0.;
 	double ret_val;
 	try {
 		k = FNumTerms - 1;
@@ -1199,12 +1199,12 @@ double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
 //---------------------------------------------------------------------------
 
 double TMapaComp2Tub::EvaluaRendSplines(double MasaAire) {
-	double AireAdim;
+	double AireAdim = 0.;
 	double ret_val;
-	double RendInf;
-	double RendSup;
-	double DeltaN;
-	int index;
+	double RendInf = 0.;
+	double RendSup = 0.;
+	double DeltaN = 0.;
+	int index = 0;
 	try {
 		if (FRegComp >= FRegMax) {
 			index = FCurvInf - 1;
@@ -1309,7 +1309,7 @@ double TMapaComp2Tub::BuscaRegimen(double RC, double Massflow,
 		double RCSup = 0.;
 		double RCInf = 0.;
 		double ret_val, val1, val2;
-		double reg;
+		double reg = 0.;
 		int i = 0, sup, inf;
 		while (RC > RCSup && i < FNumCurvasReg) {
 			reg = FRegimenCurva[i] * AmbientTemperature / FTempRef;
@@ -1391,8 +1391,8 @@ void TMapaComp2Tub::Cambio_Mapa(double radtip, double radhub,
 	try {
 //FILE *fplot;
 		int cont = 0;
-		double r1;
-		int n;
+		double r1 = 0.;
+		int n = 0;
 
 //los valores de ra,rb y r2, deberan ser medidos directamente en el compresor y ser leidos desde lee_compresor
 
@@ -1494,7 +1494,7 @@ void TMapaComp2Tub::ImprimeMapa() {
 	FILE *fichrd;
 	fich = fopen("MapaInterp.txt", "w");
 	fichrd = fopen("MapaRend.txt", "w");
-	double inc;
+	double inc = 0.;
 	double *massflow;
 	double **rc;
 	double **rend;
@@ -1592,7 +1592,7 @@ void TMapaComp2Tub::ImprimeMapa() {
 
 void TMapaComp2Tub::ReadGTPowerMap(FILE *fich, int correct) {
 	try {
-		double speed, mass, pres, eff;
+		double speed = 0., mass = 0., pres = 0., eff = 0.;
 		int i = 0; //Curva de isoregimen
 		int j = 0; //Puntos de la curva
 		if (correct == 1)
@@ -1639,7 +1639,7 @@ void TMapaComp2Tub::ReadGTPowerMap(FILE *fich, int correct) {
 void TMapaComp2Tub::RearrangeGTPowerMap(double rtip, double rhub,
 		double rwheel) {
 	try {
-		double FlowMass;
+		double FlowMass = 0.;
 
 		//FTempRef=303;
 		//FPresionRef=0.96;
@@ -1815,7 +1815,7 @@ void TMapaComp2Tub::RearrangeGTPowerMap(double rtip, double rhub,
 
 void TMapaComp2Tub::WriteMapForWAM() {
 	try {
-		double gast;
+		double gast = 0.;
 
 		FILE *fich2;
 		fich2 = fopen("MapaWAM.cmp", "w");

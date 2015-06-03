@@ -23,13 +23,13 @@ TSAEMap::~TSAEMap() {
 
 void TSAEMap::ReadSAECompressorMap(FILE *fich) {
 
-	double speed, mass, pres, eff;
+	double speed = 0., mass = 0., pres = 0., eff = 0.;
 	int i = 0; // Curva de isoregimen
 	int j = 0; // Puntos de la curva
 	int k = 0;
-	int puntos;
+	int puntos = 0;
 	double speedmax = 0, massmax = 0, presmax = 1, effmax = 0;
-	int points;
+	int points = 0;
 
 	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
 			&FEffMultiplier);
@@ -110,7 +110,7 @@ void TSAEMap::ReadSAECompressorMap(FILE *fich) {
 
 void TSAEMap::AdimensionalizeMap() {
 
-	double tmp;
+	double tmp = 0.;
 
 	// FSpeedAdim.resize(FNumLines);
 	FMassAdim.resize(FNumLines);
@@ -186,7 +186,7 @@ void TSAEMap::InterpolateMAP(double RTC) {
 double TSAEMap::GetCurrentRC(double Mass) {
 
 	double massadim = Mass / FCurrentMassMAX;
-	double CurrentRC;
+	double CurrentRC = 0.;
 
 	if (FCurrentIND == 0) {
 		CurrentRC = (FDeltaLow * FPre_MassCurve[FCurrentIND]->interp(massadim))
@@ -208,7 +208,7 @@ double TSAEMap::GetCurrentRC(double Mass) {
 double TSAEMap::GetCurrentEff(double Mass) {
 
 	double massadim = Mass / FCurrentMassMAX;
-	double CurrentEff;
+	double CurrentEff = 0.;
 
 	if (FCurrentIND == 0) {
 		CurrentEff = (FDeltaLow * FEff_MassCurve[FCurrentIND]->interp(massadim))
@@ -229,7 +229,7 @@ double TSAEMap::GetCurrentEff(double Mass) {
 
 void TSAEMap::LeeMapa(FILE *fich) {
 
-	int Adiab;
+	int Adiab = 0;
 
 	fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
 	FTempRef += 273.;
@@ -298,7 +298,7 @@ void TSAEMap::PutReference(double pref, double tref) {
 
 void TSAEMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
 #ifdef tchtm
-	double m, eff, Rtc;
+	double m = 0., eff = 0., Rtc = 0.;
 
 	if ( !FIsAdiabatic ) {
 		for ( int i = 0; i < FNumLines; i++ ) {

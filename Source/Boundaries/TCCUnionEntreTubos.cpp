@@ -242,7 +242,7 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 				vel_sonido_Out = 0., vel_In = 0., vel_Out = 0.,
 				correc_sonido_In = 0.;
 		double flujo, FraccionMasicaAcum = 0., exd, exi;
-		int TuboCalculado;
+		int TuboCalculado = 0;
 
 		if (FTuboActual == 10000) {
 			TuboCalculado = FTuboActual;
@@ -431,7 +431,7 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 
  //void TCCUnionEntreTubos::CalculaCaracteristicas(double Time)
  //{
- //int signo;
+ //int signo = 0;
  //
  //	for(int i=0;i<FNumeroTubosCC;i++){
  //		signo=1.;

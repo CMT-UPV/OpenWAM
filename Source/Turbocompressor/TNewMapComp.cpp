@@ -41,8 +41,8 @@ TNewMapComp::~TNewMapComp() {
 
 void TNewMapComp::ReadMap(FILE *fich, int correct) {
 
-	double speed, mass, pres, eff;
-	int filas;
+	double speed = 0., mass = 0., pres = 0., eff = 0.;
+	int filas = 0;
 	int i = 0; //Curva de isoregimen
 	int j = 0; //Puntos de la curva
 	if (correct == 1)

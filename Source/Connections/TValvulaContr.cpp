@@ -75,7 +75,7 @@ TValvulaContr::TValvulaContr(TValvulaContr *Origen, int Valvula) :
 void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
-		int Ctrl;
+		int Ctrl = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -113,7 +113,7 @@ void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 
 void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 	try {
-		double xx, acoef, bcoef;
+		double xx = 0., acoef = 0., bcoef = 0.;
 
 		if (FTipoContr == nmContrAngulo)
 			xx = AnguloActual;
@@ -174,7 +174,7 @@ void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 
 void TValvulaContr::GetCDin(double Time) {
 
-	double xx, acoef, bcoef;
+	double xx = 0., acoef = 0., bcoef = 0.;
 
 	if (FTipoContr == nmContrAngulo) {
 		double DeltaT = Time - FTime0;
@@ -226,7 +226,7 @@ void TValvulaContr::GetCDin(double Time) {
 }
 
 void TValvulaContr::GetCDout(double Time) {
-	double xx, acoef, bcoef;
+	double xx = 0., acoef = 0., bcoef = 0.;
 
 	if (FTipoContr == nmContrAngulo) {
 		double DeltaT = Time - FTime0;

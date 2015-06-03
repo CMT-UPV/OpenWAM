@@ -58,11 +58,11 @@ TDepVolCte::~TDepVolCte() {
 
 void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 
-	double H; // Entalpia de entrada
-	double Energia;
+	double H = 0.; // Entalpia de entrada
+	double Energia = 0.;
 	double MasaEntrante, FraccionMasicaAcum = 0.;
-	double DeltaT;
-	double g, v, a, m, g1;
+	double DeltaT = 0.;
+	double g = 0., v = 0., a = 0., m = 0., g1 = 0.;
 	int SignoFlujo = 1; // Inicializado por si el flujo esta parado.
 	int SignoFlujoED = 1; // Inicializado por si el flujo esta parado.
 
@@ -99,8 +99,8 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		double Asonido0 = FAsonido;
 		double Asonido1 = FAsonido;
 		double Error = 0.;
-		double Diff;
-		double Heat;
+		double Diff = 0.;
+		double Heat = 0.;
 		double MTemp = FGamma / (pow2(FAsonido * ARef) * FMasa0);
 
 		while (!Converge) {
@@ -122,7 +122,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 										* FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
 					} else {
 #ifdef ParticulateFilter
-						int NumeroCanales;
+						int NumeroCanales = 0;
 						int NumeroHaz=FCCDeposito[i]->GetTuboExtremo ( 0 ).NumeroHaz;
 						int TipoCanal=FCCDeposito[i]->GetTuboExtremo ( 0 ).TipoCanal;
 						NumeroCanales=FCCDeposito[i]->GetTuboExtremo ( 0 ).DPF->GetCanal ( NumeroHaz,TipoCanal )->getNumeroCanales();

@@ -149,7 +149,7 @@ TLamina::TLamina(TLamina *Origen, int Valvula) :
 void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
-		int tipo, sentido;
+		int tipo = 0, sentido = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -224,8 +224,8 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 
 void TLamina::CalculaCD(double deltaP, double ttotal) {
 	try {
-		double X;
-		int Indice;
+		double X = 0.;
+		int Indice = 0;
 		double deltaT = ttotal - FTime0;
 		FTime0 = ttotal;
 
@@ -335,7 +335,7 @@ void TLamina::GetCDin(double Time) {
 
 	double deltaT = Time - FTime0;
 	FTime0 = Time;
-	double deltaP;
+	double deltaP = 0.;
 
 	if (FToCylinder) {
 		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure())
@@ -433,7 +433,7 @@ void TLamina::GetCDout(double Time) {
 
 	double deltaT = Time - FTime0;
 	FTime0 = Time;
-	double deltaP;
+	double deltaP = 0.;
 
 	if (FToCylinder) {
 		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure())
@@ -531,7 +531,7 @@ void TLamina::GetCDout(double Time) {
 
 void TLamina::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int ndv, var;
+		int ndv = 0, var = 0;
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 		FGraficasLam = true;

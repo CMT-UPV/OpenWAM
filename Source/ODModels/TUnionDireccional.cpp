@@ -91,7 +91,7 @@ TUnionDireccional::~TUnionDireccional() {
 void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int numid; // Dato para Wamer
+		int numid = 0; // Dato para Wamer
 
 		FNodoEntrada = new int[2];
 		FSentidoEntrada = new int[2];
@@ -170,11 +170,11 @@ void TUnionDireccional::AsignaCCUnionDireccional() {
 
 void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 	try {
-		double H; // Entalpia de entrada
-		double Energia;
+		double H = 0.; // Entalpia de entrada
+		double Energia = 0.;
 		double MasaEntrante, FraccionMasicaAcum = 0.;
-		double DeltaT;
-		double g, v, a, m;
+		double DeltaT = 0.;
+		double g = 0., v = 0., a = 0., m = 0.;
 		int SignoFlujo = 1;
 
 		FMasa0 = FMasa;
@@ -209,7 +209,7 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 		double Asonido0 = FAsonido;
 		double Asonido1 = FAsonido;
 		double Error = 0.;
-		double Diff;
+		double Diff = 0.;
 
 		while (!Converge) {
 			H = 0.;
@@ -288,7 +288,7 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 void TUnionDireccional::CalculoUnionDireccional() {
 	try {
 
-		double coefA, coefB;
+		double coefA = 0., coefB = 0.;
 		/* Parametro independiente y pendiente de la recta para el calculo del Coeficiende de Descarga */
 
 		for (int i = 0; i < 2; i++) {

@@ -47,7 +47,7 @@ TSensor::~TSensor() {
 }
 
 void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
-	int obj, prm;
+	int obj = 0, prm = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -124,8 +124,8 @@ void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 }
 
 void TSensor::AsignaObjeto(TObject *Object) {
-	int nin;
-	double tmp;
+	int nin = 0;
+	double tmp = 0.;
 
 	FObjectPointer = Object;
 	if (FObjectSensed == nmSensTubo) {
@@ -144,9 +144,9 @@ double TSensor::Output() {
 }
 
 void TSensor::ActualizaMedida(double Time) {
-	double tmp0, tmp1;
+	double tmp0 = 0., tmp1 = 0.;
 	bool Update = false;
-	double deltaT;
+	double deltaT = 0.;
 
 	double TimeStep = Time - FTime0;
 
@@ -243,7 +243,7 @@ void TSensor::ActualizaMedida(double Time) {
 
 void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -277,7 +277,7 @@ void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 
 void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

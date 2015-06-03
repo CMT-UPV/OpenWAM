@@ -65,7 +65,7 @@ double TAcousticTurbine::P3(int i) {
 
 double TAcousticTurbine::P3() {
 
-	double P3Sum;
+	double P3Sum = 0.;
 	for (int i = 0; i < FInletPipe.size(); i++) {
 		P3Sum += P3(i);
 	}
@@ -114,7 +114,7 @@ double TAcousticTurbine::ExpRatio(int i) {
 
 double TAcousticTurbine::ExpRatio() {
 
-	double ERSum;
+	double ERSum = 0.;
 	for (int i = 0; i < FInletPipe.size(); i++) {
 		ERSum += ExpRatio(i);
 	}
@@ -149,7 +149,7 @@ double TAcousticTurbine::MassIn(int i) {
 
 double TAcousticTurbine::MassIn() {
 
-	double MasSum;
+	double MasSum = 0.;
 	for (int i = 0; i < FInletPipe.size(); i++) {
 		MasSum += MassIn(i);
 	}
@@ -167,7 +167,7 @@ double TAcousticTurbine::MassOut() {
 
 double TAcousticTurbine::DIn() {
 
-	double DInSum;
+	double DInSum = 0.;
 	for (int i = 0; i < FInletPipe.size(); i++) {
 		DInSum += pow2(DIn(i));
 	}

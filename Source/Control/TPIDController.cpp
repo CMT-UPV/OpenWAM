@@ -46,7 +46,7 @@ TPIDController::~TPIDController() {
 }
 
 double TPIDController::Output(double Time) {
-	double dt, out, deltaT, Kp, Ki, Kd;
+	double dt = 0., out = 0., deltaT = 0., Kp = 0., Ki = 0., Kd = 0.;
 
 	dt = Time - fTime_ant;
 
@@ -126,7 +126,7 @@ double TPIDController::Output(double Time) {
 
 void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 
-	int ctrl;
+	int ctrl = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -144,7 +144,7 @@ void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 	fOutput_filt = fOutput;
 	fOutput_filt_ant = fOutput;
 
-	int tmp;
+	int tmp = 0;
 
 	fscanf(fich, "%lf ", &fSetPoint);
 	fscanf(fich, "%d ", &ctrl);
@@ -175,7 +175,7 @@ void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -222,7 +222,7 @@ void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
 void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

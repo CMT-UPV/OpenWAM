@@ -105,7 +105,7 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
 	try {
 		int i = 0, j = 0;
-		int numid; // Variable necesaria para WAMer.
+		int numid = 0; // Variable necesaria para WAMer.
 
 		FTuboExtremo = new stTuboExtremo[1];
 		FTuboExtremo[0].Pipe = NULL;
@@ -338,8 +338,8 @@ void TCCDeposito::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual,
 		double mfcomb, double RegimenMotor) {
 	try {
-		double PVol, PTub, PAdm, DeltaP, distancia, CDExt, nodoadm, p1, p2;
-		int turb, entr, NodoFin;
+		double PVol = 0., PTub = 0., PAdm = 0., DeltaP = 0., distancia = 0., CDExt = 0., nodoadm = 0., p1 = 0., p2 = 0.;
+		int turb = 0, entr = 0, NodoFin = 0;
 
 		switch (FValvula->getTypeOfValve()) {
 		case nmCDFijo:
@@ -652,7 +652,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 
 void TCCDeposito::FEDRecuperacionEnergiaCinetica() {
 	try {
-		double xaa2, ed, ei, a1, a2supuesta;
+		double xaa2 = 0., ed = 0., ei = 0., a1 = 0., a2supuesta = 0.;
 
 		ed = *FCC;
 		ei = *FCC * 2. / FGamma2;
@@ -764,8 +764,8 @@ void TCCDeposito::FlujoEntranteDeposito() {
 void TCCDeposito::FlujoSalienteDeposito() {
 	try {
 
-		double a1, xx, yy, d1;
-		double a2cr, val1, val2, u2cr, ycal, error, valde, miembro2;
+		double a1 = 0., xx = 0., yy = 0., d1 = 0.;
+		double a2cr = 0., val1 = 0., val2 = 0., u2cr = 0., ycal = 0., error = 0., valde = 0., miembro2 = 0.;
 		// Variables para resolver la onda de choque.
 		double relacion_velocidades_son, Mach_tras_ondachoque, Mach,
 				temp_antes_ondachoque, temp_tras_ondachoque;

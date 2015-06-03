@@ -201,8 +201,8 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 					<< std::endl;
 			throw Exception(" ");
 		}
-		int controllers;
-		int param;
+		int controllers = 0;
+		int param = 0;
 		fscanf(fich, "%d ", &controllers);
 		for (int i = 0; i < controllers; i++) {
 			fscanf(fich, "%d ", &param);
@@ -240,7 +240,7 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 
 void TValvula4T::CalculaCD(double Angulo) {
 	try {
-		double X, XLv, XCd;
+		double X = 0., XLv = 0., XCd = 0.;
 
 		if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 			FCDTubVol = 0.;
@@ -269,7 +269,7 @@ void TValvula4T::CalculaCD(double Angulo) {
 
 void TValvula4T::GetCDin(double Time) {
 
-	double X, XLv, XCd, Angulo;
+	double X = 0., XLv = 0., XCd = 0., Angulo = 0.;
 
 	if (FControlRegimen == nmPropio) {
 		Angulo = 6. * FRegimen * Time; // It's correct if FRegimen is constant.
@@ -308,7 +308,7 @@ void TValvula4T::GetCDin(double Time) {
 }
 
 void TValvula4T::GetCDout(double Time) {
-	double X, XLv, XCd, Angulo;
+	double X = 0., XLv = 0., XCd = 0., Angulo = 0.;
 
 	if (FControlRegimen == nmPropio) {
 		Angulo = 360. * FRegimen / 60. * Time; // It's correct if FRegimen is constant.

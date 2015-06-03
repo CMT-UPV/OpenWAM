@@ -168,7 +168,7 @@ void TControlInyeccion::LeeDatosEntrada(char *Ruta, FILE *fich) {
 void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel,
 		double Regimen) {
 	try {
-		double Prail;
+		double Prail = 0.;
 // En esta funcion u otras que puedas necesitar debes programar las acciones
 // a realizar para realizar el control sobre el sistema de inyeccion, de acuerdo
 // a los requerimientos de ACT. Actualmente ACT necesita como datos para cada ciclo:

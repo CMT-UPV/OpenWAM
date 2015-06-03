@@ -70,8 +70,8 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				MasaCortocircuitoEsc = 0.;
 		int NumeroUnionesEntrante = 0;
 		double FraccionMasicaAcum = 0., mfquefin = 0.;
-		double z;
-		double ctorbadmp;
+		double z = 0.;
+		double ctorbadmp = 0.;
 
 		if (FCicloCerrado & FPrimerInstanteCicloCerrado) {
 
@@ -1084,13 +1084,13 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		double Temp1 = FTemperature;
 		double MasTemp0 = 1 / (FTemperature + 273.) / FMasa0;
 		double MasTemp1 = 1 / (FTemperature + 273.) / FMasa0;
-		double MasTempMed;
+		double MasTempMed = 0.;
 		bool CotaError = false;
 		double H1 = 0.;
 		double H0 = 0.;
-		double Energia;
-		double Error;
-		double Diff;
+		double Energia = 0.;
+		double Error = 0.;
+		double Diff = 0.;
 
 		// ITERACION PARA BUSCAR EL ESTADO TERMODINAMICO FINAL
 		while (!CotaError) {
