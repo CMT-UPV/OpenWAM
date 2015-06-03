@@ -2250,7 +2250,7 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 void TTubo::Colebrook(double rug, double dia, double& f, double Re) {
 	double temp = 0., temp2 = 0.;
 
-	double pow_approx;
+	double pow_approx = 0.;
 
 	if (Re > 2000) {
 		if (Re > 130000.) {
@@ -5902,7 +5902,7 @@ void TTubo::TVD_Estabilidad() {
 	try {
 #endif
 		double VTotalMax = 0.;
-		double VLocal, DeltaT_tvd;
+		double VLocal = 0., DeltaT_tvd = 0.;
 
 		CalculaFlujo(FU0, FTVD.W, FGamma, FGamma1, FNin);
 
@@ -6072,7 +6072,7 @@ void TTubo::TVD_Limitador() {
 // ---------------------------------------------------------------------------
 
 inline double TTubo::Limita(double r) {
-	double ret_val;
+	double ret_val = 0.;
 	// ------Van Albada
 	// double ret_val=(r*r+r)/(1+r*r);
 

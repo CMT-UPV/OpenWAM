@@ -93,7 +93,7 @@ void TControlK::LeeDatosEntrada(char *Ruta, FILE *fich, double DiametroTubo) {
 void TControlK::CalculaK(double velocidad, double temperatura, double presion,
 		double R_mezcla) {
 	try {
-		double viscgas, rho, deltaRe, VariacionRe, K_Actual;
+		double viscgas = 0., rho = 0., deltaRe = 0., VariacionRe = 0., K_Actual = 0.;
 		int i = 0;
 
 		viscgas = 1.4615e-6 * pow150(temperatura + 273.)

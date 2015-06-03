@@ -359,7 +359,7 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 
 void TCCCilindro::FlujoEntranteCilindro() {
 	try {
-		double vel_son_garganta, velocidad_garganta, Mach, xaa2, ycal, d1;
+		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		if (Fk < 1)
@@ -427,7 +427,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 		// Variables para resolver la onda de choque.
 		double relacion_velocidades_son, Mach_tras_ondachoque, Mach,
 				temp_antes_ondachoque, temp_tras_ondachoque;
-		double root_a;
+		double root_a = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		if (Fk < 1)

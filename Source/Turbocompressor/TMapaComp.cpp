@@ -546,7 +546,7 @@ double TMapaComp::EvaluaSpline(double punto, int n, double *x, double *y,
 
 double TMapaComp::EvaluaRCSplines(double Massflow) {
 	try {
-		double ret_val;
+		double ret_val = 0.;
 		if (Massflow < FGastoInt[0]) {
 			ret_val = FRelCompInt[0];
 		} else {
@@ -591,7 +591,7 @@ double TMapaComp::EvaluaRCSplines(double Massflow) {
 
 double TMapaComp::EvaluaRCHermite(double Massflow) {
 	try {
-		double ret_val, t2, t3, t, h00, h10, h01, h11, h;
+		double ret_val = 0., t2 = 0., t3 = 0., t = 0., h00 = 0., h10 = 0., h01 = 0., h11 = 0., h = 0.;
 
 		if (Massflow < FGastoInt[0]) {
 			ret_val = FRelCompInt[0];
@@ -854,7 +854,7 @@ double TMapaComp::EvaluaRendimiento(double MasaAire) {
 	int k = 0;
 	double prev2 = 0.;
 	double prev = 0.;
-	double ret_val;
+	double ret_val = 0.;
 	try {
 		k = FNumTerms - 1;
 		ret_val = FCoefdX[k];
@@ -882,7 +882,7 @@ double TMapaComp::EvaluaRendimiento(double MasaAire) {
 
 double TMapaComp::EvaluaRendSplines(double MasaAire) {
 	double AireAdim = 0.;
-	double ret_val;
+	double ret_val = 0.;
 	double RendInf = 0.;
 	double RendSup = 0.;
 	double DeltaN = 0.;
@@ -977,7 +977,7 @@ double TMapaComp::BuscaRegimen(double RC, double Massflow,
 	try {
 		double RCSup = 0.;
 		double RCInf = 0.;
-		double ret_val, val1, val2;
+		double ret_val = 0., val1 = 0., val2 = 0.;
 		double reg = 0.;
 		int i = 0, sup, inf;
 		while (RC > RCSup && i < FNumCurvasReg) {

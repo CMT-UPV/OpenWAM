@@ -162,7 +162,7 @@ void STOICHIOMETRY_CONSTANTS(double HC, double *Kst1, double *Kst2,
 void CALCULUS_OF_NUMBER_ELEMENTS(int *num_i_IM, double *time_vector, int size,
 		double speed, double *SOI_IM, double *EOI_IM, int inj_num) {
 
-	int time_counter, inj_counter;
+	int time_counter = 0, inj_counter = 0;
 
 	for (inj_counter = 0; inj_counter < inj_num; inj_counter++) {
 		num_i_IM[inj_counter] = 0;
@@ -183,7 +183,7 @@ void CALCULUS_OF_POI(double **POI_IM, double **mfuel_i_IM, double **mfuel_ij_IM,
 		double *acu_dmf, double *time_vector, int size, double speed,
 		int *num_i_IM, int num_j, double *SOI_IM, double* EOI_IM, int inj_num,
 		stControlElementComposition **elementcontrol) {
-	int counter, inj_counter, aux;
+	int counter = 0, inj_counter = 0, aux = 0;
 	int *auxiliar_numi;
 
 	auxiliar_numi = (int*) malloc(inj_num * sizeof(int*));
@@ -309,11 +309,11 @@ void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *V_cyl,
 
 	double QT = 0.; /* Resultant heat due to fuel combustion (-) */
 	double QC = 0.; /* Instantaneous heat */
-	double average_Volume;
+	double average_Volume = 0.;
 	/* Average volume between the actual and the previous step */
-	double average_Temperature;
+	double average_Temperature = 0.;
 	/* Average temperature between the actual and the previous step */
-	double average_Pressure;
+	double average_Pressure = 0.;
 	/* Average temperature between the actual and the previous step */
 	double DU = 0.; /* Increment of internal energy */
 	double MCYL = 0.; /* Cylinder mass */
@@ -322,10 +322,10 @@ void CALCULATE_CYCLE(double *roair, double *CAD, double delta_t, double *V_cyl,
 	double Wi = 0.; /* Instantaneous work */
 	double uf = 0.; /* internal energy of fuel */
 	double ecg = 0.; /* enthalpy of evaporated fuel */
-	double ent_ref; /* Reference enthalpy */
+	double ent_ref = 0.; /* Reference enthalpy */
 	double HFTiny = 0.; /* Enthalpy due to the temperature of the fuel */
 	double a = 0.; /* auxiliar variable */
-	double delta_CAD; /* Calculus interval CAD */
+	double delta_CAD = 0.; /* Calculus interval CAD */
 	double UANT = 0.; /* UANT acumulates a variable that is calculated  as the internal energy in the
 	 previous step with the actual masic ratios because of only is considered the
 	 increasement of energy due to the rise of the temperature not the rise of the
@@ -532,7 +532,7 @@ void CALCULUS_OF_MEAN_VARIABLES(double *p_cyl, double *T_cyl, double *dp_da_cyl,
 double VOLUME(double CAD, double VTDC, double PI, double Piston_D,
 		double Crank_L, double Connecting_Rod_L, double E) {
 
-	double V_cyl, AREA, AUX, A;
+	double V_cyl = 0., AREA = 0., AUX = 0., A = 0.;
 
 	A = CAD * PI / 180.;
 	AREA = PI * Piston_D * Piston_D / 4.;
@@ -645,7 +645,7 @@ void MASIC_RATIO(double *Yair, double *Yfuel, double *Yburned, double *Rmixture,
 void PROPERTIES(double *u, double *CV, double T_cyl, double T_cyl_pre,
 		double Yair, double Yfuel, double Yburned) {
 
-	double cva, cvf, cvq, average_Temperature, ua, uf, uq;
+	double cva = 0., cvf = 0., cvq = 0., average_Temperature = 0., ua = 0., uf = 0., uq = 0.;
 
 	average_Temperature = 0.5 * (T_cyl + T_cyl_pre);
 
@@ -700,10 +700,10 @@ double HEAT_COOLER(double p_cyl, double pressureIVC, double T_cyl,
 	double cm = 0.; /* mean piston speed */
 	double PA = 0.; /* pressure in the cylinder without combustion */
 	double comb = 0.; /* Term of combustion */
-	double Cylinder_capacity; /* Cylinder capacity(m3) */
-	double Piston_area; /* Piston area */
-	double Cylinder_head_area; /* piston head area */
-	double H_cooler; /* Heat hung over to the cooler */
+	double Cylinder_capacity = 0.; /* Cylinder capacity(m3) */
+	double Piston_area = 0.; /* Piston area */
+	double Cylinder_head_area = 0.; /* piston head area */
+	double H_cooler = 0.; /* Heat hung over to the cooler */
 
 	cm = 2. * S * speed / 60.;
 	C1 = CALCULATE_C1(cm, CTM, WC1A, WC1B, Piston_D, DBowl, speed, CAD, PI);
@@ -749,8 +749,8 @@ double CALCULATE_C1(double cm, double CTM, double WC1A, double WC1B,
 	double C1 = 0.;
 	double cu = 0.;
 	double KCTM = 0.;
-	double ratio_CTM;
-	double x_alfa;
+	double ratio_CTM = 0.;
+	double x_alfa = 0.;
 
 	KCTM = exp(-0.200679 * pow(CTM, 0.431262));
 
@@ -781,10 +781,10 @@ double BLOW_BY(double p_cyl, double T_cyl, double Rmixture, double delta_CAD,
 		double speed, double Gamma, double Atmosphere_press, double Piston_D,
 		double C_MBLBY, double Cbb) {
 
-	double C_Z;
-	double Pressure_up;
-	double Pressure_down;
-	double Pressure_critic;
+	double C_Z = 0.;
+	double Pressure_up = 0.;
+	double Pressure_down = 0.;
+	double Pressure_critic = 0.;
 	double BBy = 0.;
 
 	if (p_cyl > Atmosphere_press) {
@@ -830,7 +830,7 @@ void CALCULUS_OF_IMP_HP(double *complete_p_cyl, double *complete_CAD,
 		double C_ESteel, double C_Mech_Defor, double inlet_pres,
 		double exhaust_pres) {
 
-	double delta_CAD;
+	double delta_CAD = 0.;
 	int counter = 0;
 
 	*IMP_HP = 0;
@@ -2289,7 +2289,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		stInto_diffusion_flame = 7
 	};
 
-	int elem_i, pulso_i;
+	int elem_i = 0, pulso_i = 0;
 
 	double realelementmfreac = 0.; // Auxiliar variable
 
@@ -2393,10 +2393,10 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	// KSOOTC1=1.2771738e-3; // Imponemos este valor, para que todo cuadre...
 	KSOOTC1 = 0.9e-3; // Imponemos este valor, para calar el soot...
 
-	double mf_old; // Para poder calcular el dmf_reac de realelement.
+	double mf_old = 0.; // Para poder calcular el dmf_reac de realelement.
 
-	double SOOT_EVO_A;
-	double SOOT_EVO_C;
+	double SOOT_EVO_A = 0.;
+	double SOOT_EVO_C = 0.;
 
 	double Kswirl = 0; /* swirl correction model constant */
 
@@ -2446,24 +2446,24 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	// individual variables declaration
 
 	double PRECISION_ITERATION = 0.000005; /* Value to iterate */
-	double delta_t; /* Calculus interval time (s) */
+	double delta_t = 0.; /* Calculus interval time (s) */
 	int size = 0; /* Size of the temporal vector */
-	double mf_burned; /* Fuel mass burned (-) */
-	double mf_burned_pmx; // Fuel mass burned in premixed combustion.
-	double Cylinder_capacity; /* Cylinder capacity(m3) */
+	double mf_burned = 0.; /* Fuel mass burned (-) */
+	double mf_burned_pmx = 0.; // Fuel mass burned in premixed combustion.
+	double Cylinder_capacity = 0.; /* Cylinder capacity(m3) */
 	double VTDC = 0.; /* Volume at top dead center(m3) */
 	double Gamma = 0.; /* Politropic exponent */
 	double f = 0.; /* Real air fuel ratio */
 	double mEGR = 0.; /* Burned gases mass(Kg) */
-	double p_exit; /* In cylinder pressure at exhaust valve openning (bar) */
-	double T_exit; /* In cylinder temperature at exhaust valve openning (K) */
+	double p_exit = 0.; /* In cylinder pressure at exhaust valve openning (bar) */
+	double T_exit = 0.; /* In cylinder temperature at exhaust valve openning (K) */
 	double WI_HP = 0; /* Indicated work of pressure high cicle(J) */
 	double IMP_HP = 0; /* Indicated Mean Pressure of pressure high cicle(bar) */
 	double pmax = 0; /* In-cylinder Maximum pressure(bar) */
 	double Tmax = 0; /* In cylinder Maximum temperature(K) */
 	double dp_da_max = 0; /* Maximum dp/d(alfa) (bar/deg) */
-	double Uo_i; // Virtual velocity at instant i
-	double YO2_bowl_i; // O2 mass fraction in the bowl at instant i
+	double Uo_i = 0.; // Virtual velocity at instant i
+	double YO2_bowl_i = 0.; // O2 mass fraction in the bowl at instant i
 
 	// TEMPORAL VARIABLES DECLARATION
 
@@ -2513,14 +2513,14 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	// ELEMENT AND SUB-ELEMENT VARIABLES DECLARATION
 
-	int num_i; /* Number of elements i */
-	int num_j; /* Number of sub-elements j */
+	int num_i = 0; /* Number of elements i */
+	int num_j = 0; /* Number of sub-elements j */
 	double *mixture_correction; /* Burnt limit for the sub-element j */
-	int inj_num;
-	int inj_counter;
-	double rate_area;
+	int inj_num = 0;
+	int inj_counter = 0;
+	double rate_area = 0.;
 
-	int i_aux, j_aux;
+	int i_aux = 0, j_aux = 0;
 
 	// MULTIPLE INJECTION VARIABLES
 
@@ -2532,16 +2532,16 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *SOC_IM;
 
 	// NOx emission variables
-	double YNOeq_value;
-	double KdYNO_value;
+	double YNOeq_value = 0.;
+	double KdYNO_value = 0.;
 
 	double **YNOeq;
 	double **KdYNO;
 
 	// SOOT emission variables;
 
-	double soot_pre;
-	double RES_FSN;
+	double soot_pre = 0.;
+	double RES_FSN = 0.;
 
 	// ELEMENT TRACKING MATRIX: STATE, COMPOSITION AND CHARACTERISTICS
 
@@ -2553,32 +2553,32 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		double mN2 = 0.; /* element N2 mass */
 		double mCO2 = 0.; /* element CO2 mass */
 		double mH2O = 0.; /* element H2O mass */
-		double mf_jet;
+		double mf_jet = 0.;
 		/* element fuel mass injected according to injection rate law */
-		double mf_reac; /* element fuel mass updated with mixture */
-		double mf_evap;
+		double mf_reac = 0.; /* element fuel mass updated with mixture */
+		double mf_evap = 0.;
 		/* element fuel mass updated with mixture and combustion process */
 		double C = 0.; /* element fuel concentration */
 		double FI = 0.; /* element air-fuel ratio */
 		double RID = 0.; /* element ignition delay time intensity */
 		double Rpmx = 0.; /* element premix combustion intensity */
-		double Rpmx_value;
+		double Rpmx_value = 0.;
 		double mNOx = 0.; /* element NOx mass */
 		double dNOx = 0.; /* element NOx mass increment */
 		double HC = 0.; /* element HC mass */
 		double CO = 0.; /* element CO mass */
-		double mSOOT_A; /* element SOOT mass */
-		double dSOOT_A;
-		double mSOOT_B; /* element SOOT mass */
-		double dSOOT_B;
-		double mSOOT_C; /* element SOOT mass */
-		double dSOOT_C;
+		double mSOOT_A = 0.; /* element SOOT mass */
+		double dSOOT_A = 0.;
+		double mSOOT_B = 0.; /* element SOOT mass */
+		double dSOOT_B = 0.;
+		double mSOOT_C = 0.; /* element SOOT mass */
+		double dSOOT_C = 0.;
 		double TSD = 0.;
 		double Tadib = 0.;
-		double Pcyl_POC;
+		double Pcyl_POC = 0.;
 		double TNOx = 0.;
 		double X = 0.;
-		double soot_precursor;
+		double soot_precursor = 0.;
 		double tLOL = 0.; /* Time when the LOL is reached. */
 		double FRLOL = 0.; /* Relative equiv. ratio at LOL. */
 
@@ -2596,10 +2596,10 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 		double mN2 = 0.; /* element N2 mass */
 		double mCO2 = 0.; /* element CO2 mass */
 		double mH2O = 0.; /* element H2O mass */
-		double mf_reac;
+		double mf_reac = 0.;
 		/* element fuel mass updated with mixture and combustion process */
-		double dmf_reac; /* change in element fuel mass at the time step */
-		double mf_reac_pmx; /* element fuel mass for premixed combustion */
+		double dmf_reac = 0.; /* change in element fuel mass at the time step */
+		double mf_reac_pmx = 0.; /* element fuel mass for premixed combustion */
 		double C = 0.; /* element fuel concentration */
 		double FI = 0.; /* element air-fuel ratio */
 	}**realelement;
@@ -2608,23 +2608,23 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	// inlet valve closing composition variables declaration
 
-	double mtotal_IVC; /* Total mass at inlet valve closing */
-	double mO2_IVC;
+	double mtotal_IVC = 0.; /* Total mass at inlet valve closing */
+	double mO2_IVC = 0.;
 	/* O2 mass at inlet valve closing coming from air fresh mass */
-	double mN2_IVC;
+	double mN2_IVC = 0.;
 	/* N2 mass at inlet valve closing coming from air fresh mass */
-	double mCO2_IVC;
+	double mCO2_IVC = 0.;
 	/* CO2 mass at inlet valve closing coming from exhaust gasses recirculated */
-	double mH2O_IVC;
+	double mH2O_IVC = 0.;
 	/* H2O mass at inlet valve closing coming from exhaust gasses recirculated */
-	double NOx_IVC;
+	double NOx_IVC = 0.;
 	/* NOx mass at inlet valve closing coming from exhaust gasses recirculated emissions */
-	double mSOOT_IVC_B;
+	double mSOOT_IVC_B = 0.;
 	/* SOOT mass at inlet valve closing coming from exhaust gasses recirculated emissions */
-	double mSOOT_IVC_A;
-	double mSOOT_IVC_C;
-	double CO_IVC;
-	double HC_IVC;
+	double mSOOT_IVC_A = 0.;
+	double mSOOT_IVC_C = 0.;
+	double CO_IVC = 0.;
+	double HC_IVC = 0.;
 	double YO2IVC = 0.; /* Mass oxygen concentration at inlet valve closing */
 	double YN2IVC = 0.; /* Mass nitrogen concentration at inlet valve closing */
 	double YCO2IVC = 0.;
@@ -2647,9 +2647,9 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double *mSOOT_bowl_B;
 	double *mSOOT_bowl_C;
 
-	double mSOOT_bowl_A_i_burned;
-	double mSOOT_bowl_B_i_burned;
-	double mSOOT_bowl_C_i_burned;
+	double mSOOT_bowl_A_i_burned = 0.;
+	double mSOOT_bowl_B_i_burned = 0.;
+	double mSOOT_bowl_C_i_burned = 0.;
 
 	// Dead volume variables definition: composition, species and characteristics
 
@@ -2676,26 +2676,26 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 
 	/** *******AUXILIAR VARIABLES DECLARATION********* */
 
-	int complete_size;
+	int complete_size = 0;
 	/* vector size from -180 to +180 with a  delta_CAD increment */
-	int complete_prev_size;
+	int complete_prev_size = 0;
 	/* vector size from -180 to IVC with a  delta_CAD increment */
-	int complete_post_size;
+	int complete_post_size = 0;
 	/* vector size from EVO to +180 with a  delta_CAD increment */
 	double auxiliar = 0.;
 	double *vector_to_interpolate;
 
-	double counter_CAD_1;
-	double counter_CAD_2;
+	double counter_CAD_1 = 0.;
+	double counter_CAD_2 = 0.;
 	int counter = 0;
 	int m = 0, i = 0, j = 0, aux = 0;
 	double Y1 = 0., T1 = 0., RID1 = 0.;
 
 	double maximum = 0.;
 	double minimum = 0.;
-	double aux_mfuel, Tot;
+	double aux_mfuel = 0., Tot = 0.;
 
-	int element_value;
+	int element_value = 0;
 
 	aux_mfuel = mfuel;
 
@@ -2711,7 +2711,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	 Abir el fichero oculto
 	 ******************************************************************************* */
 
-	double Ang_Grab;
+	double Ang_Grab = 0.;
 	Ang_Grab = -180.0; // angulo en el que se grabaran los datos
 
 	if (RadCalc == 1 && Ang_Grab > -179.) {

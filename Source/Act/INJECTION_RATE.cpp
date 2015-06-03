@@ -43,7 +43,7 @@ extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI,
 // double **SOI;
 // double **EOI;
 // double **MFI;
-// double PMI_hp;
+// double PMI_hp = 0.;
 //
 // double **test_variables;
 //

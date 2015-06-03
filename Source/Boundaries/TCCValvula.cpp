@@ -200,7 +200,7 @@ void TCCCilindro::ObtencionValoresInstantaneos() {
 
 void TCCCilindro::CalculaCondicionContorno() {
 	try {
-		double rel_CCon_Entropia, coef;
+		double rel_CCon_Entropia = 0., coef = 0.;
 
 		FSeccionValvula = Pi * pow2(FValvula->getDiametro()) / 4.;
 		FSeccionTubo = Pi * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin))
@@ -302,7 +302,7 @@ void TCCCilindro::CalculaCondicionContorno() {
 
 void TCCCilindro::FlujoEntranteCilindro() {
 	try {
-		double vel_son_garganta, velocidad_garganta, Mach, xaa2, ycal, d1;
+		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		vel_son_garganta = FTuboExtremo[0].Entropia * FAd; //Velocity del sonido en la garganta. Adimensional.

@@ -1356,7 +1356,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 double TCilindro4T::EntalpiaEntrada(double ASonEnt, double VelEnt,
 		double MasEnt, double ASonCil, double MasCil) {
 	try {
-		double xx, yy, ret_val;
+		double xx = 0., yy = 0., ret_val = 0.;
 
 		if (fabs(MasEnt) != 0.) {
 			xx = (ASonEnt * ASonEnt / ASonCil / ASonCil - 1.) / FGamma1;

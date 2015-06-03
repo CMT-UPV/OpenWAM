@@ -566,12 +566,12 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 		double k, int sig) {
 	try {
 		double f1 = 0., f2 = 0., J11 = 0., J12 = 0., J22 = 0., J21 = 0., DetJ = 0., da1 = 0., da2 = 0., Error = 0.;
-		double a10, a20, v10, v20, Lim_u1, Lim_u2, aa2new;
+		double a10 = 0., a20 = 0., v10 = 0., v20 = 0., Lim_u1 = 0., Lim_u2 = 0., aa2new = 0.;
 		bool biseccion = false;
 		int cont = 0;
 
 		/* Pedro */
-		double a1_local, a2_local, u1_local, u2_local;
+		double a1_local = 0., a2_local = 0., u1_local = 0., u2_local = 0.;
 
 		a1_local = *a1;
 		a2_local = *a2;
@@ -878,7 +878,7 @@ void TCompTubos::OutFlow(double Ad, double &A, double &U) {
 double TCompTubos::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 		double MasaE, double ASonidoD, double MasaD, double Gamma) {
 
-	double xx, yy, ret_val;
+	double xx = 0., yy = 0., ret_val = 0.;
 
 	if (fabs(MasaE) != 0.) {
 		xx = (ASonidoE * ASonidoE / ASonidoD / ASonidoD - 1.) / Gamma1(Gamma);

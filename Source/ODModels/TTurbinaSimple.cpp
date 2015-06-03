@@ -162,9 +162,9 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 	int SentidoSalida = -1, SentidoEntrada = 1;
 	double dd = 0., b = 0., c = 0., d = 0.;
 	int NumberOfPipes = 0;
-	double gam_med;
-	double gam_te;
-	double cp_med;
+	double gam_med = 0.;
+	double gam_te = 0.;
+	double cp_med = 0.;
 
 	try {
 

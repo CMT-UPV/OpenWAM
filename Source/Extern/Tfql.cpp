@@ -266,7 +266,7 @@ double Tfql::fun_wiebe(double x, double m, double c, double ia, double a0)
 
 	try {
 
-		double ret_val, xx, xxx;
+		double ret_val = 0., xx = 0., xxx = 0.;
 
 		if (x <= a0) {
 			ret_val = 0;

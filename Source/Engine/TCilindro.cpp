@@ -2760,7 +2760,7 @@ double TCilindro::fql(double x, int ley) {
 
 double TCilindro::fun_wiebe(double x, int ley, int wiebe) {
 	try {
-		double ret_val, xx, xxx;
+		double ret_val = 0., xx = 0., xxx = 0.;
 
 		if (x <= FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].Inicia) {
 			ret_val = 0.;
@@ -3641,7 +3641,7 @@ TCondicionContorno* TCilindro::GetCCValvulaEsc(int i) {
 
 double TCilindro::GetAireFresco() {
 	try {
-		double ret_val;
+		double ret_val = 0.;
 		ret_val = FComposicionCicloCerrado[2];
 		return ret_val;
 

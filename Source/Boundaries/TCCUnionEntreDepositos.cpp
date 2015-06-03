@@ -382,7 +382,7 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 double TCCUnionEntreDepositos::InterpolaDeposito(double vizq, double vder,
 		double axid, double xif) {
 	try {
-		double xx, yy, ret_val;
+		double xx = 0., yy = 0., ret_val = 0.;
 
 		xx = vder - vizq;
 		if (axid != 0.) {

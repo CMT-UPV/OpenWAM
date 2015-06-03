@@ -4523,7 +4523,7 @@ void TOpenWAM::InitFlowIndependentNumThreads() {
 	fi_num_threads = 1;
 #ifdef WITH_OPENMP
 	std::stringstream ss;
-	int n_threads;
+	int n_threads = 0;
 	char const* env_value = getenv ( "OMP_NUM_THREADS" );
 	if ( env_value == NULL ) {
 		n_threads = omp_get_num_procs();

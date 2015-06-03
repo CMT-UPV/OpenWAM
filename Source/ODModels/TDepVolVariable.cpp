@@ -243,7 +243,7 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 		double lbiela, double diametro, double vol_muerto) {
 	double c = 0., tt = 0., ttt = 0.;
-	double ret_val;
+	double ret_val = 0.;
 
 	try {
 

@@ -73,7 +73,7 @@ void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 		FILE *fichdata = fopen(InputFile, "r");
 
-		double X_tmp, Y_tmp;
+		double X_tmp = 0., Y_tmp = 0.;
 		dVector X_vec, Y_vec;
 		while (!feof(fichdata)) {
 			fscanf(fichdata, "%lf %lf ", &X_tmp, &Y_tmp);

@@ -699,7 +699,7 @@ void TCCDeposito::FEDRecuperacionEnergiaCinetica() {
 
 void TCCDeposito::FlujoEntranteDeposito() {
 	try {
-		double vel_son_garganta, velocidad_garganta, Mach, xaa2, ycal, d1;
+		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		if (Fk < 1)

@@ -277,7 +277,7 @@ void Hermite_interp::sety2(const double *xv, const double *yv) {
 }
 
 double Hermite_interp::rawinterp(int j, double x) {
-	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
+	double ret_val = 0., h00 = 0., h10 = 0., h01 = 0., h11 = 0., t2 = 0., t3 = 0., t = 0., h = 0.;
 	// int k=0;
 
 	if (x <= xx[j]) {

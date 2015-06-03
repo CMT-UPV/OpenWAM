@@ -171,8 +171,8 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 	double Landa = 0., Beta = 0., Entropia = 0.;
 	int SentidoEntrada[1], SentidoSalida;
 	int dd = 0, b = 0, c = 0, d = 0;
-	double gam_med;
-	double gam_te;
+	double gam_med = 0.;
+	double gam_te = 0.;
 	double cp_med[2];
 	double AbsoluteMass = 0;
 	dVector EntalEntr;

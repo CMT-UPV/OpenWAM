@@ -775,7 +775,7 @@ double TMapaComp2Tub::InterpolaLineal(double punto, int n, double *x,
 	try {
 		int k = 0;
 		double delta = 0.;
-		double ret_val;
+		double ret_val = 0.;
 //Determinacion del indice para evaluacion spline
 
 		if (punto < x[0]) {
@@ -845,7 +845,7 @@ double TMapaComp2Tub::EvaluaSpline(double punto, int n, std::vector<double> x,
 
 double TMapaComp2Tub::EvaluaRCSplines(double Massflow) {
 	try {
-		double ret_val;
+		double ret_val = 0.;
 		if (Massflow < FGastoInt[0]) {
 			ret_val = FRelCompInt[0];
 		} else if (Massflow >= FGastoInt[FNumPuntos]) {
@@ -887,7 +887,7 @@ double TMapaComp2Tub::EvaluaRCSplines(double Massflow) {
 
 double TMapaComp2Tub::EvaluaRCHermite(double Massflow) {
 	try {
-		double ret_val, t2, t3, t, h00, h10, h01, h11, h;
+		double ret_val = 0., t2 = 0., t3 = 0., t = 0., h00 = 0., h10 = 0., h01 = 0., h11 = 0., h = 0.;
 
 		if (Massflow <= FGastoInt[0]) {
 			ret_val = FRelCompInt[0];
@@ -1172,7 +1172,7 @@ double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
 	int k = 0;
 	double prev2 = 0.;
 	double prev = 0.;
-	double ret_val;
+	double ret_val = 0.;
 	try {
 		k = FNumTerms - 1;
 		ret_val = FCoefdX[k];
@@ -1200,7 +1200,7 @@ double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
 
 double TMapaComp2Tub::EvaluaRendSplines(double MasaAire) {
 	double AireAdim = 0.;
-	double ret_val;
+	double ret_val = 0.;
 	double RendInf = 0.;
 	double RendSup = 0.;
 	double DeltaN = 0.;
@@ -1308,7 +1308,7 @@ double TMapaComp2Tub::BuscaRegimen(double RC, double Massflow,
 	try {
 		double RCSup = 0.;
 		double RCInf = 0.;
-		double ret_val, val1, val2;
+		double ret_val = 0., val1 = 0., val2 = 0.;
 		double reg = 0.;
 		int i = 0, sup, inf;
 		while (RC > RCSup && i < FNumCurvasReg) {

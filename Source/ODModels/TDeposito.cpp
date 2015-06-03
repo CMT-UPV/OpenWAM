@@ -465,7 +465,7 @@ double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 		double MasaE, double ASonidoD, double MasaD, double Gamma) {
 	try {
 
-		double xx, yy, ret_val;
+		double xx = 0., yy = 0., ret_val = 0.;
 
 		if (fabs(MasaE) != 0.) {
 			xx = (ASonidoE * ASonidoE / ASonidoD / ASonidoD - 1.)

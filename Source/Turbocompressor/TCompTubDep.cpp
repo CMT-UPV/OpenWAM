@@ -116,7 +116,7 @@ void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 // ---------------------------------------------------------------------------
 
 double TCompTubDep::CalGastoNuevo(double MasaAire) {
-	double ret_val, ac, bc, cc, discr;
+	double ret_val = 0., ac = 0., bc = 0., cc = 0., discr = 0.;
 	try {
 
 		FRelacionCompresion = Mapa->EvaluaRCHermite(MasaAire);
@@ -673,7 +673,7 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 
 	double A2, U2, AA2, A20, AA2Old, A2Old, delta = 1, delta0 = 1, deltaA = 1.;
 	double A10 = 0., AA1 = 0.;
-	double Mass_filt;
+	double Mass_filt = 0.;
 	bool conv;
 
 	// FDelay = 0.1;

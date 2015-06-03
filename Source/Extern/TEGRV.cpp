@@ -176,7 +176,7 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 double TEGRV::xit_(double vizq, double vder, double axid, double xif) {
 	try {
 		double xx = 0., yy = 0.;
-		double ret_val;
+		double ret_val = 0.;
 
 		xx = vder - vizq;
 		if (axid != 0.) {
@@ -198,7 +198,7 @@ double TEGRV::xit_(double vizq, double vder, double axid, double xif) {
 
 nmTipoControl TEGRV::DeterminacionTipoControl(double Regimen, double MasaFuel) {
 	try {
-		double MasaFuel_mapadecisor;
+		double MasaFuel_mapadecisor = 0.;
 
 		MasaFuel_mapadecisor = Interp1(Regimen,
 				FVector_TipoControl_Regimen_mapa, FMapa_TipoControl,

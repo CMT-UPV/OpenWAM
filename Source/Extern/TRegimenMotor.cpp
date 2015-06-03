@@ -127,7 +127,7 @@ void TRegimenMotor::CalculaRegimen(double TiempoActual) {
 double TRegimenMotor::xit_(double vizq, double vder, double axid, double xif) {
 	try {
 		double xx = 0., yy = 0.;
-		double ret_val;
+		double ret_val = 0.;
 
 		xx = vder - vizq;
 		if (axid != 0.) {
