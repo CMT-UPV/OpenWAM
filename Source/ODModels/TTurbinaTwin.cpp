@@ -417,6 +417,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 								<< std::endl;
 						throw Exception("");
 					}
+					FRendTurbina[i] = FRendTurbina[i] * FAjustRendTurb;
 				}
 			} else {
 				FRelacionCinematica[0] = 0.;
