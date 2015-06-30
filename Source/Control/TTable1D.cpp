@@ -194,10 +194,10 @@ void TTable1D::LeeResultadosInsControlador(const char *FileWAM,
 
 void TTable1D::CabeceraResultadosMedControlador(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCtrl.Output) {
-			Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+			Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 
@@ -212,10 +212,10 @@ void TTable1D::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
 void TTable1D::CabeceraResultadosInsControlador(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCtrl.Output) {
-			Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+			Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 
@@ -230,7 +230,7 @@ void TTable1D::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
 void TTable1D::ImprimeResultadosMedControlador(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCtrl.Output) {
 			medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -247,7 +247,7 @@ void TTable1D::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
 void TTable1D::ImprimeResultadosInsControlador(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCtrl.Output) {
 			insoutput << "\t" << FResInstantCtrl.OutputINS;

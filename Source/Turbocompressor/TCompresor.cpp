@@ -108,7 +108,7 @@ void TCompresor::InterpolaValoresMapa(double rtc) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: InterpolaValoresMapa en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -133,7 +133,7 @@ void TCompresor::AcumulaMedias(double Tiempo) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: AcumulaMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -158,7 +158,7 @@ void TCompresor::IniciaMedias() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: IniciaMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -178,7 +178,7 @@ void TCompresor::CalculoPotenciaPaso() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TCompresor::CalculoPotenciaPaso en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 //---------------------------------------------------------------------------
@@ -210,7 +210,7 @@ void TCompresor::CalculaMedias() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalculaMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -232,7 +232,7 @@ void TCompresor::CalculaInstantaneos() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalculaInstantaneos en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -278,7 +278,7 @@ void TCompresor::LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeDatosGraficasMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -288,35 +288,35 @@ void TCompresor::LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos) {
 void TCompresor::CabeceraGraficasMedias(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 		if (FMedias.GraficaMedias) {
 			if (FMedias.GraficaTrabajo) {
-				Label = "\t" + PutLabel(28) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(28) + std::to_string(FNumeroCompresor)
 						+ PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaRendimiento) {
-				Label = "\t" + PutLabel(22) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(22) + std::to_string(FNumeroCompresor)
 						+ PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaRelacionCompresion) {
-				Label = "\t" + PutLabel(23) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(23) + std::to_string(FNumeroCompresor)
 						+ PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaGasto) {
-				Label = "\t" + PutLabel(24) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(24) + std::to_string(FNumeroCompresor)
 						+ PutLabel(904);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaGastoCorregido) {
-				Label = "\t" + PutLabel(25) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(25) + std::to_string(FNumeroCompresor)
 						+ PutLabel(905);
 				medoutput << Label.c_str();
 			}
 			if (FMedias.GraficaRegimenCorregido) {
-				Label = "\t" + PutLabel(26) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(26) + std::to_string(FNumeroCompresor)
 						+ PutLabel(906);
 				medoutput << Label.c_str();
 			}
@@ -328,7 +328,7 @@ void TCompresor::CabeceraGraficasMedias(stringstream& medoutput) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CabeceraGraficasMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -359,7 +359,7 @@ void TCompresor::ImprimeGraficasMedias(stringstream& medoutput) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: ImprimeGraficasMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -409,7 +409,7 @@ void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeDatosGraficasMedias en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -419,41 +419,41 @@ void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM,
 void TCompresor::CabeceraGraficasInstantaneas(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FInstant.GraficaInstantaneas) {
 			if (FInstant.GraficaPotencia) {
-				Label = "\t" + PutLabel(21) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(21) + std::to_string(FNumeroCompresor)
 						+ PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaRendimiento) {
-				Label = "\t" + PutLabel(22) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(22) + std::to_string(FNumeroCompresor)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaRelacionCompresion) {
-				Label = "\t" + PutLabel(23) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(23) + std::to_string(FNumeroCompresor)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaGasto) {
-				Label = "\t" + PutLabel(24) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(24) + std::to_string(FNumeroCompresor)
 						+ PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaGastoCorregido) {
-				Label = "\t" + PutLabel(25) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(25) + std::to_string(FNumeroCompresor)
 						+ PutLabel(905);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaRegimenCorregido) {
-				Label = "\t" + PutLabel(26) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(26) + std::to_string(FNumeroCompresor)
 						+ PutLabel(906);
 				insoutput << Label.c_str();
 			}
 			if (FInstant.GraficaGamma) {
-				Label = "\t" + PutLabel(27) + IntToStr(FNumeroCompresor)
+				Label = "\t" + PutLabel(27) + std::to_string(FNumeroCompresor)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
@@ -465,7 +465,7 @@ void TCompresor::CabeceraGraficasInstantaneas(stringstream& insoutput) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CabeceraGraficasInstantaneas en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -498,7 +498,7 @@ void TCompresor::ImprimeGraficasInstantaneas(stringstream& insoutput) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: ImprimeGraficasInstantaneas en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -519,7 +519,7 @@ double TCompresor::GetASonidoComp() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: ImprimeGraficasInstantaneas en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 

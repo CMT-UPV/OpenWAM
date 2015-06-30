@@ -457,45 +457,45 @@ void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM,
 void TVenturi::CabeceraResultadosInstantVenturi(stringstream& insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(521) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(521) + std::to_string(FNumeroVenturi)
 					+ PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(522) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(522) + std::to_string(FNumeroVenturi)
 					+ PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(523) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(523) + std::to_string(FNumeroVenturi)
 					+ PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(524) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(524) + std::to_string(FNumeroVenturi)
 					+ PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(525) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(525) + std::to_string(FNumeroVenturi)
 					+ PutLabel(909);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelLateral) {
-			Label = "\t" + PutLabel(526) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(526) + std::to_string(FNumeroVenturi)
 					+ PutLabel(909);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(527) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(527) + std::to_string(FNumeroVenturi)
 					+ PutLabel(904);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(528) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(528) + std::to_string(FNumeroVenturi)
 					+ PutLabel(904);
 			insoutput << Label.c_str();
 		}
@@ -695,45 +695,45 @@ void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
 void TVenturi::HeaderAverageResultsVenturi(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(521) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(521) + std::to_string(FNumeroVenturi)
 					+ PutLabel(908);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(522) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(522) + std::to_string(FNumeroVenturi)
 					+ PutLabel(908);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(523) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(523) + std::to_string(FNumeroVenturi)
 					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(524) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(524) + std::to_string(FNumeroVenturi)
 					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(525) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(525) + std::to_string(FNumeroVenturi)
 					+ PutLabel(909);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelLateral) {
-			Label = "\t" + PutLabel(526) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(526) + std::to_string(FNumeroVenturi)
 					+ PutLabel(909);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(527) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(527) + std::to_string(FNumeroVenturi)
 					+ PutLabel(904);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(528) + IntToStr(FNumeroVenturi)
+			Label = "\t" + PutLabel(528) + std::to_string(FNumeroVenturi)
 					+ PutLabel(904);
 			medoutput << Label.c_str();
 		}

@@ -477,8 +477,8 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual,
 					FCDEntrada, FAnguloActual, FNumeroCC);
 			throw Exception(
 					"ERROR: TCCDeposito::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: "
-							+ AnsiString(FCDEntrada) + ", en "
-							+ AnsiString(FAnguloActual) + " grados ");
+							+ std::to_string(FCDEntrada) + ", en "
+							+ std::to_string(FAnguloActual) + " grados ");
 
 		}
 		if (FCDSalida > 1.0 || FCDSalida < 0.0) {
@@ -487,8 +487,8 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual,
 					FCDSalida, FAnguloActual, FNumeroCC);
 			throw Exception(
 					"ERROR: TCCDeposito::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: "
-							+ AnsiString(FCDSalida) + ", en "
-							+ AnsiString(FAnguloActual) + " grados ");
+							+ std::to_string(FCDSalida) + ", en "
+							+ std::to_string(FAnguloActual) + " grados ");
 		}
 	} catch (Exception & N) {
 		std::cout

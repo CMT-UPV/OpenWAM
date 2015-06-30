@@ -179,11 +179,11 @@ void TCCCilindro::ObtencionValoresInstantaneos() {
 
 		 if (FCDEntrada > 2.0 || FCDEntrada < 0.0) {
 		 printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga entrante: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDEntrada,Angulo,FNumeroCC);
-		 throw Exception("ERROR: en calculo coeficiente descarga entrante: "+AnsiString(FCDEntrada)+", en "+AnsiString(Angulo)+" grados");
+		 throw Exception("ERROR: en calculo coeficiente descarga entrante: "+std::to_string(FCDEntrada)+", en "+std::to_string(Angulo)+" grados");
 		 }
 		 if (FCDSalida > 1.0 || FCDSalida < 0.0) {
 		 printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDSalida,Angulo,FNumeroCC);
-		 throw Exception("ERROR: en calculo coeficiente descarga saliente: "+AnsiString(FCDSalida)+", en "+AnsiString(Angulo)+" grados ");
+		 throw Exception("ERROR: en calculo coeficiente descarga saliente: "+std::to_string(FCDSalida)+", en "+std::to_string(Angulo)+" grados ");
 		 }
 		 */
 	} catch (Exception &N) {

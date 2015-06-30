@@ -319,7 +319,7 @@ void TTurbina::CalculoPotenciaPaso() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TTurbina::CalculoPotenciaPaso en la turbina: "
-						+ AnsiString(FNumeroTurbina) + N.Message.c_str());
+						+ std::to_string(FNumeroTurbina) + N.Message.c_str());
 	}
 }
 // ---------------------------------------------------------------------------

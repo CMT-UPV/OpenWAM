@@ -261,11 +261,11 @@ void TWasteGate::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 void TWasteGate::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FGraficasWG) {
 			if (FGrafLev) {
-				Label = "\t" + PutLabel(13) + IntToStr(lam) + PutLabel(902);
+				Label = "\t" + PutLabel(13) + std::to_string(lam) + PutLabel(902);
 				insoutput << Label.c_str();
 			}
 		}

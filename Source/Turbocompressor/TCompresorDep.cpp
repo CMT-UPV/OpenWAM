@@ -72,7 +72,7 @@ void TCompresorDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -95,7 +95,7 @@ void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -267,7 +267,7 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalculaGasto en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 

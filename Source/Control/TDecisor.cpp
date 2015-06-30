@@ -142,26 +142,26 @@ void TDecisor::LeeResultadosInsControlador(const char *FileWAM,
 }
 
 void TDecisor::CabeceraResultadosMedControlador(stringstream& medoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
-		Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
 
 }
 
 void TDecisor::CabeceraResultadosInsControlador(stringstream& insoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
-		Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
 }
 
 void TDecisor::ImprimeResultadosMedControlador(stringstream& medoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
 		medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -169,7 +169,7 @@ void TDecisor::ImprimeResultadosMedControlador(stringstream& medoutput) {
 }
 
 void TDecisor::ImprimeResultadosInsControlador(stringstream& insoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
 		insoutput << "\t" << FResInstantCtrl.OutputINS;

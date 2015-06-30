@@ -561,11 +561,11 @@ void TLamina::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 void TLamina::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FGraficasLam) {
 			if (FGrafLev) {
-				Label = "\t" + PutLabel(14) + IntToStr(lam) + PutLabel(902);
+				Label = "\t" + PutLabel(14) + std::to_string(lam) + PutLabel(902);
 				insoutput << Label.c_str();
 			}
 		}

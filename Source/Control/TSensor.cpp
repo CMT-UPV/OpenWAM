@@ -311,15 +311,15 @@ void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 
 void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosSensor.Output) {
-			Label = "\t" + PutLabel(707) + IntToStr(FNumeroSensor)
+			Label = "\t" + PutLabel(707) + std::to_string(FNumeroSensor)
 					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosSensor.Input) {
-			Label = "\t" + PutLabel(708) + IntToStr(FNumeroSensor)
+			Label = "\t" + PutLabel(708) + std::to_string(FNumeroSensor)
 					+ PutLabel(901);
 			medoutput << Label.c_str();
 		}
@@ -335,15 +335,15 @@ void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 
 void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantSensor.Output) {
-			Label = "\t" + PutLabel(707) + IntToStr(FNumeroSensor)
+			Label = "\t" + PutLabel(707) + std::to_string(FNumeroSensor)
 					+ PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantSensor.Input) {
-			Label = "\t" + PutLabel(708) + IntToStr(FNumeroSensor)
+			Label = "\t" + PutLabel(708) + std::to_string(FNumeroSensor)
 					+ PutLabel(901);
 			insoutput << Label.c_str();
 		}
@@ -358,7 +358,7 @@ void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 
 void TSensor::ImprimeResultadosMedSensor(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosSensor.Output) {
 			medoutput << "\t" << FResMediosSensor.OutputMED;
@@ -378,7 +378,7 @@ void TSensor::ImprimeResultadosMedSensor(stringstream& medoutput) {
 
 void TSensor::ImprimeResultadosInsSensor(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantSensor.Output) {
 			insoutput << "\t" << FResInstantSensor.OutputINS;

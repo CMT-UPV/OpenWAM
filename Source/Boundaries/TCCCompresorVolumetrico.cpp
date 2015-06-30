@@ -358,18 +358,18 @@ void TCCCompresorVolumetrico::CabeceraResultadosMedCV(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCV.Potencia) {
-			Label = "\t" + PutLabel(401) + IntToStr(FNumeroCC) + PutLabel(903);
+			Label = "\t" + PutLabel(401) + std::to_string(FNumeroCC) + PutLabel(903);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCV.Massflow) {
-			Label = "\t" + PutLabel(402) + IntToStr(FNumeroCC) + PutLabel(904);
+			Label = "\t" + PutLabel(402) + std::to_string(FNumeroCC) + PutLabel(904);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCV.Pressure) {
-			Label = "\t" + PutLabel(402) + IntToStr(FNumeroCC) + PutLabel(908);
+			Label = "\t" + PutLabel(402) + std::to_string(FNumeroCC) + PutLabel(908);
 			medoutput << Label.c_str();
 		}
 
@@ -533,18 +533,18 @@ void TCCCompresorVolumetrico::CabeceraResultadosInstantCV(
 		stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCV.Potencia) {
-			Label = "\t" + PutLabel(401) + IntToStr(FNumeroCC) + PutLabel(903);
+			Label = "\t" + PutLabel(401) + std::to_string(FNumeroCC) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCV.Massflow) {
-			Label = "\t" + PutLabel(402) + IntToStr(FNumeroCC) + PutLabel(904);
+			Label = "\t" + PutLabel(402) + std::to_string(FNumeroCC) + PutLabel(904);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCV.Pressure) {
-			Label = "\t" + PutLabel(403) + IntToStr(FNumeroCC) + PutLabel(908);
+			Label = "\t" + PutLabel(403) + std::to_string(FNumeroCC) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
 //fclose(fich);

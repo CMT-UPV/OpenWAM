@@ -438,10 +438,10 @@ void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM,
 void TEjeTurbogrupo::CabeceraResultadosMedEje(stringstream & medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosEje.Regimen) {
-			Label = "\t" + PutLabel(703) + IntToStr(FNumeroEje) + PutLabel(918);
+			Label = "\t" + PutLabel(703) + std::to_string(FNumeroEje) + PutLabel(918);
 			medoutput << Label.c_str();
 		}
 
@@ -597,18 +597,18 @@ void TEjeTurbogrupo::HeaderInstantaneousResultsEje(stringstream & insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantEje.Regimen) {
-			Label = "\t" + PutLabel(703) + IntToStr(FNumeroEje) + PutLabel(918);
+			Label = "\t" + PutLabel(703) + std::to_string(FNumeroEje) + PutLabel(918);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantEje.MechPower) {
-			Label = "\t" + PutLabel(713) + IntToStr(FNumeroEje) + PutLabel(903);
+			Label = "\t" + PutLabel(713) + std::to_string(FNumeroEje) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantEje.MechEff) {
-			Label = "\t" + PutLabel(714) + IntToStr(FNumeroEje) + PutLabel(901);
+			Label = "\t" + PutLabel(714) + std::to_string(FNumeroEje) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 #ifdef tchtm

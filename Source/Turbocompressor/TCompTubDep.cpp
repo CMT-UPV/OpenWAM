@@ -108,7 +108,7 @@ void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -175,7 +175,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalGastoNuevo en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -304,7 +304,7 @@ double TCompTubDep::RegulaFalsi() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: RegulaFalsi en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -372,7 +372,7 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TCompTubDep::CalculaCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -444,7 +444,7 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CondicionCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -504,7 +504,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: BusquedaEntradaSalida en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -665,7 +665,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: DatosEntradaCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 

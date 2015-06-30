@@ -160,15 +160,15 @@ void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 void TTipoValvula::CabeceraGraficaINS(stringstream& insoutput, int nodo) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FGraficasINS) {
 			if (FGraficaCDEINS) {
-				Label = "\t" + PutLabel(11) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(11) + std::to_string(nodo) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FGraficaCDSINS) {
-				Label = "\t" + PutLabel(12) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(12) + std::to_string(nodo) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
@@ -265,15 +265,15 @@ void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 void TTipoValvula::CabeceraGraficaMED(stringstream& medoutput, int nodo) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FGraficasMED) {
 			if (FGraficaCDEMED) {
-				Label = "\t" + PutLabel(11) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(11) + std::to_string(nodo) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FGraficaCDSMED) {
-				Label = "\t" + PutLabel(12) + IntToStr(nodo) + PutLabel(901);
+				Label = "\t" + PutLabel(12) + std::to_string(nodo) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 		}

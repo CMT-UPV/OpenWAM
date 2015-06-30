@@ -792,7 +792,7 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM,
 void TBloqueMotor::HeaderAverageResultsBloqueMotor(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosMotor.ParNeto) {
 			Label = "\t" + PutLabel(601);

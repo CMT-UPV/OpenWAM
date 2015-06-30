@@ -2369,7 +2369,7 @@ void TOutputResults::HeaderInstantaneousResults(TCalculoExtern *EXTERN,
 
 	if (WriteInsHeader) {
 
-		AnsiString Label;
+		std::string Label;
 
 		FInsOutput << "Time";
 

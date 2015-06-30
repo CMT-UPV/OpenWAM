@@ -348,7 +348,7 @@ void TOpenWAM::CleanLabels() {
 
 	//strcpy(fileinput.c_str(), "tmp.wam");
 
-	fileinput = AnsiString("tmp.wam");
+	fileinput = "tmp.wam";
 
 	fetmp = fopen(fileinput.c_str(), "w");
 

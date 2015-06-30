@@ -38,7 +38,7 @@
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 //int _matherr(struct _exception *a) {
-//	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
+//	// throw Exception(std::to_string(a->name)+"("+std::to_string(a->arg1)+","+std::to_string(a->arg2)+")");
 //	if (a->arg2 != 0) {
 //		MessageBeep(2);
 //	}

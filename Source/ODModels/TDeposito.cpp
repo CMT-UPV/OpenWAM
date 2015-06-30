@@ -941,38 +941,38 @@ void TDeposito::HeaderInstantaneousResultsDep(stringstream& insoutput,
 		stEspecies *DatosEspecies) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantDep.Pressure) {
-			Label = "\t" + PutLabel(501) + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(501) + std::to_string(FNumeroDeposito)
 					+ PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Temperature) {
-			Label = "\t" + PutLabel(502) + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(502) + std::to_string(FNumeroDeposito)
 					+ PutLabel(910);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Volumen) {
-			Label = "\t" + PutLabel(503) + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(503) + std::to_string(FNumeroDeposito)
 					+ PutLabel(912);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Masa) {
-			Label = "\t" + PutLabel(504) + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(504) + std::to_string(FNumeroDeposito)
 					+ PutLabel(913);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.FraccionMasicaEspecies) {
 			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre
-						+ PutLabel(506) + IntToStr(FNumeroDeposito)
+						+ PutLabel(506) + std::to_string(FNumeroDeposito)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantDep.Gamma) {
-			Label = "\t" + PutLabel(507) + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(507) + std::to_string(FNumeroDeposito)
 					+ PutLabel(901);
 			insoutput << Label.c_str();
 		}
@@ -1027,22 +1027,22 @@ void TDeposito::HeaderAverageResultsDep(stringstream& medoutput,
 		stEspecies *DatosEspecies) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 		if (FNumResMed > 0) {
 			if (FResMediosDep.Pressure) {
-				Label = "\t" + PutLabel(501) + IntToStr(FNumeroDeposito)
+				Label = "\t" + PutLabel(501) + std::to_string(FNumeroDeposito)
 						+ PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosDep.Temperature) {
-				Label = "\t" + PutLabel(502) + IntToStr(FNumeroDeposito)
+				Label = "\t" + PutLabel(502) + std::to_string(FNumeroDeposito)
 						+ PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosDep.FraccionMasicaEspecies) {
 				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 					Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre
-							+ PutLabel(506) + IntToStr(FNumeroDeposito)
+							+ PutLabel(506) + std::to_string(FNumeroDeposito)
 							+ PutLabel(901);
 					medoutput << Label.c_str();
 				}

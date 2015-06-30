@@ -129,10 +129,10 @@ void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 
 void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
-		Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
 
@@ -140,10 +140,10 @@ void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
 void TGain::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
-		Label = "\t" + PutLabel(705) + IntToStr(fID) + PutLabel(901);
+		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
 
@@ -151,7 +151,7 @@ void TGain::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
 void TGain::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
 		medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -161,7 +161,7 @@ void TGain::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
 void TGain::ImprimeResultadosInsControlador(stringstream& insoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
 		insoutput << "\t" << FResInstantCtrl.OutputINS;

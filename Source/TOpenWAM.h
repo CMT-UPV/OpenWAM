@@ -163,7 +163,7 @@ private:
 	FILE *fc; // !< Pointers to input and output files.
 
 	//char fileinput[8];
-	AnsiString fileinput;
+	std::string fileinput;
 
 	TBloqueMotor** Engine;
 	TCompresor** Compressor;

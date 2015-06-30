@@ -39,7 +39,7 @@ __fastcall TCGestorWAM::TCGestorWAM() {
 
 void TCGestorWAM::Init() {
 	BOOL fSuccess;
-	//AnsiString lpszPipeName;
+	//std::string lpszPipeName;
 	string lpszPipeName;
 	LPTSTR lpszPipeNameResp;
 	DWORD dwMode;

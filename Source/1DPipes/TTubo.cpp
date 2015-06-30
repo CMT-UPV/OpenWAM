@@ -2761,72 +2761,72 @@ void TTubo::HeaderAverageResults(stringstream& medoutput,
 	try {
 #endif
 
-		AnsiString Label;
-		AnsiString TextDist;
+		std::string Label;
+		std::ostringstream TextDist;
+		TextDist.precision(8);
 
 		for (int i = 0; i < FNumResMedios; i++) {
-			TextDist = FloatToStrF(ResultadosMedios[i].Distancia, ffGeneral, 8,
-					3);
+			TextDist << ResultadosMedios[i].Distancia;
 
 			if (ResultadosMedios[i].TemperaturaGas) {
-				Label = "\t" + PutLabel(303) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(303) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Pressure) {
-				Label = "\t" + PutLabel(301) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(301) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Velocity) {
-				Label = "\t" + PutLabel(302) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(302) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(909);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Massflow) {
-				Label = "\t" + PutLabel(304) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(304) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(904);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaInternaPared) {
-				Label = "\t" + PutLabel(310) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(310) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaIntermediaPared) {
-				Label = "\t" + PutLabel(311) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(311) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaExternaPared) {
-				Label = "\t" + PutLabel(312) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(312) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].NITmedio) {
-				Label = "\t" + PutLabel(309) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(309) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(903);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].CoefPelInterior) {
-				Label = "\t" + PutLabel(313) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(313) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(911);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].FraccionMasicaEspecies) {
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 					Label = "\t" + PutLabel(314) + DatosEspecies[j].Nombre
-							+ PutLabel(318) + IntToStr(FNumeroTubo)
-							+ PutLabel(316) + TextDist + PutLabel(317)
+							+ PutLabel(318) + std::to_string(FNumeroTubo)
+							+ PutLabel(316) + TextDist.str() + PutLabel(317)
 							+ PutLabel(901);
 					medoutput << Label.c_str();
 				}
@@ -3028,102 +3028,102 @@ void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
 	try {
 #endif
 
-		AnsiString Label;
-		AnsiString TextDist;
+		std::string Label;
+		std::ostringstream TextDist;
+		TextDist.precision(8);
 
 		for (int i = 0; i < FNumResInstant; i++) {
-			TextDist = FloatToStrF(ResultInstantaneos[i].Distancia, ffGeneral,
-					8, 3);
+			TextDist << ResultInstantaneos[i].Distancia;
 			if (ResultInstantaneos[i].Pressure) {
-				Label = "\t" + PutLabel(301) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(301) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(908);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].Velocity) {
-				Label = "\t" + PutLabel(302) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(302) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(909);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaGas) {
-				Label = "\t" + PutLabel(303) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(303) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].FlujoMasico) {
-				Label = "\t" + PutLabel(304) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(304) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].VelocidadDerecha) {
-				Label = "\t" + PutLabel(305) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(305) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(909);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].VelocidadIzquierda) {
-				Label = "\t" + PutLabel(306) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(306) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(909);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].PresionDerecha) {
-				Label = "\t" + PutLabel(307) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(307) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(908);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].PresionIzquierda) {
-				Label = "\t" + PutLabel(308) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(308) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(908);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].NIT) {
-				Label = "\t" + PutLabel(309) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(309) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaInternaPared) {
-				Label = "\t" + PutLabel(310) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(310) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaIntermediaPared) {
-				Label = "\t" + PutLabel(311) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(311) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaExternaPared) {
-				Label = "\t" + PutLabel(312) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(312) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].CoefPelInterior) {
-				Label = "\t" + PutLabel(313) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(313) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(911);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].FraccionMasicaEspecies) {
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 					Label = "\t" + PutLabel(314) + DatosEspecies[j].Nombre
-							+ PutLabel(318) + IntToStr(FNumeroTubo)
-							+ PutLabel(316) + TextDist + PutLabel(317)
+							+ PutLabel(318) + std::to_string(FNumeroTubo)
+							+ PutLabel(316) + TextDist.str() + PutLabel(317)
 							+ PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (ResultInstantaneos[i].Gamma) {
-				Label = "\t" + PutLabel(315) + IntToStr(FNumeroTubo)
-						+ PutLabel(316) + TextDist + PutLabel(317)
+				Label = "\t" + PutLabel(315) + std::to_string(FNumeroTubo)
+						+ PutLabel(316) + TextDist.str() + PutLabel(317)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}

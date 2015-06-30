@@ -354,8 +354,8 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 					FCDEntrada, FAnguloActual, FNumeroCC);
 			throw Exception(
 					"ERROR:TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: "
-							+ AnsiString(FCDEntrada) + ", en "
-							+ AnsiString(FAnguloActual) + " grados ");
+							+ std::to_string(FCDEntrada) + ", en "
+							+ std::to_string(FAnguloActual) + " grados ");
 
 		}
 		if (FCDSalida > 1.0 || FCDSalida < 0.0) {
@@ -364,8 +364,8 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 					FCDSalida, FAnguloActual, FNumeroCC);
 			throw Exception(
 					"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: "
-							+ AnsiString(FCDSalida) + ", en "
-							+ AnsiString(FAnguloActual) + " grados ");
+							+ std::to_string(FCDSalida) + ", en "
+							+ std::to_string(FAnguloActual) + " grados ");
 		}
 	} catch (Exception &N) {
 		std::cout
@@ -775,10 +775,10 @@ void TCCUnionEntreDepositos::CabeceraResultadosInstantUED(
 		stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantUED.Massflow) {
-			Label = "\t" + PutLabel(411) + IntToStr(FNumeroCC) + PutLabel(904);
+			Label = "\t" + PutLabel(411) + std::to_string(FNumeroCC) + PutLabel(904);
 			insoutput << Label.c_str();
 		}
 
@@ -869,10 +869,10 @@ void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,
 void TCCUnionEntreDepositos::HeaderAverageResultsUED(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosUED.Massflow) {
-			Label = "\t" + PutLabel(411) + AnsiString(FNumeroCC)
+			Label = "\t" + PutLabel(411) + std::to_string(FNumeroCC)
 					+ PutLabel(904);
 			medoutput << Label.c_str();
 		}
