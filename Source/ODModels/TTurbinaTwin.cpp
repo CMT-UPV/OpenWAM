@@ -322,7 +322,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 					FRack = FRackController->Output(FTime);
 				}
 				double MassAcum = 0.;
-				double RotorEF = 0;
+				double RotorEF = 0.;
 
 				for (int i = 0; i < 2; i++) {
 
@@ -342,7 +342,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				if (MassAcum > 0)
 					RotorEF /= MassAcum;
 				dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->PutAreaEff(
-						FMapa->RotorEF());
+						RotorEF);
 
 			}
 
@@ -417,6 +417,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 								<< std::endl;
 						throw Exception("");
 					}
+					FRendTurbina[i] = FRendTurbina[i] * FAjustRendTurb;
 				}
 			} else {
 				FRelacionCinematica[0] = 0.;
@@ -463,6 +464,9 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				FPotencia = 0.;
 
 			FDeltaPaso += DeltaT;
+		}else{
+			FTrabajoIsenInstTotal = 0.;
+			FTrabajoFluido = 0.;
 		}
 	} catch (Exception &N) {
 		std::cout
@@ -610,7 +614,7 @@ void TTurbinaTwin::AcumulaMedias(double Tiempo) {
 	try {
 		DeltaT = Tiempo - FResMediosTurbina.Tiempo0;
 		FResMediosTurbina.TiempoSUM += DeltaT;
-		FResMediosTurbina.TrabajoSUM += FTrabajoFluido;
+		FResMediosTurbina.TrabajoSUM = FTrabajoReal;
 		FResMediosTurbina.Tiempo0 = Tiempo;
 		for (int i = 0; i < FNumeroEntradas; i++) {
 			if (FResMediosTurbina.GastoCorregido) {
