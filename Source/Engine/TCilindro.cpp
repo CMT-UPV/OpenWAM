@@ -1162,8 +1162,8 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 					medoutput << Label.c_str();
 				}
 				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
-						+ PutLabel(3014) + PutLabel(903) + "/" + PutLabel(3018)
-						+ "/" + PutLabel(3020);
+						+ "/" + PutLabel(3014) + PutLabel(903) + "/"
+						+ PutLabel(3018) + "/" + PutLabel(3020);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.AFRMedio) {
