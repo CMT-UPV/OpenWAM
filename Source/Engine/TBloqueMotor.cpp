@@ -414,6 +414,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 		fscanf(fich, "%d ", &FTipoDatosIny);
 		switch (FTipoDatosIny) {
 		case 0:  // No hay datos de inyeccion
+			FNumeroInyecciones = 0;
 			break;
 		case 1:  // Datos de Angulo y tiempo de inyecciones
 			fscanf(fich, "%d ", &FNumeroInyecciones); // Numero de inyecciones

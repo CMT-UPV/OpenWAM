@@ -1149,8 +1149,8 @@ void TOpenWAM::ReadPipes() {
 				Pipe[i]->LeeDatosGeometricosTubo(fileinput.c_str(), filepos,
 						-1., tipomallado, Engine);
 			}
-			printf("INFO: Pipe n. %d - N. of cells %d - Mesh size = %g m.\n",
-					i + 1, Pipe[i]->getNin(), Pipe[i]->getMallado());
+			cout << "INFO: Pipe n. " << i + 1 << " - N. of cells " << Pipe[i]->getNin() << " - Mesh size = " <<  Pipe[i]->getMallado() << " m." << endl;
+//					i + 1, Pipe[i]->getNin(), Pipe[i]->getMallado());
 		}
 
 		FileInput = fopen(fileinput.c_str(), "r");
