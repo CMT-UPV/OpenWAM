@@ -238,7 +238,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 		double vel_sonido_Out = 0., vel_Out = 0., vel_sonido_In = 0., vel_In =
 				0., xx3 = 0., ei = 0, ed = 0;
 		double flujo, FraccionMasicaAcum = 0.;
-		int TuboCalculado;
+		int TuboCalculado = 0;
 
 		if (FTuboActual == 10000) {
 			TuboCalculado = FTuboActual;

@@ -44,7 +44,7 @@ TTurbPosition::~TTurbPosition() {
 
 void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos,
 		double ang) {
-	double SP, ER, MF, EF, SP0, ER0;
+	double SP = 0., ER = 0., MF = 0., EF = 0., SP0 = 0., ER0 = 0.;
 
 	FPosition = pos;
 	FAngle = ang;

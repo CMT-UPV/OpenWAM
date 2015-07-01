@@ -424,7 +424,7 @@ void TMapaComp2Tub::LeeMapa(FILE *fich) {
 			delete[] W;
 		throw Exception(
 				"ERROR: LeeMapa en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -651,7 +651,7 @@ void TMapaComp2Tub::LeeMapaXML(xml_node node_compressor) {
 			delete[] W;
 		throw Exception(
 				"ERROR: LeeMapa en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -663,7 +663,7 @@ void TMapaComp2Tub::LeeMapaXML(xml_node node_compressor) {
 
 void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 	try {
-		double Espaciado;
+		double Espaciado = 0.;
 //Calculo de diferencias
 		for (int i = 1; i < n; ++i) {
 			FSpl[i].h = x[i] - x[i - 1];
@@ -730,7 +730,7 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: Spline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: Spline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -767,7 +767,7 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 //{
 //std::cout << "ERROR: Hermite en el compresor: " << FNumeroCompresor << std::endl;
 //std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception("ERROR: Spline en el compresor: " +AnsiString(FNumeroCompresor)+N.Message);
+//throw Exception("ERROR: Spline en el compresor: " +std::to_string(FNumeroCompresor)+N.Message);
 //}
 //}
 //
@@ -804,14 +804,14 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 //{
 //std::cout << "ERROR: Hermite en el compresor: " << FNumeroCompresor << std::endl;
 //std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception("ERROR: Spline en el compresor: " +AnsiString(FNumeroCompresor)+N.Message);
+//throw Exception("ERROR: Spline en el compresor: " +std::to_string(FNumeroCompresor)+N.Message);
 //}
 //}
 
 void TMapaComp2Tub::SplineVector(int n, std::vector<double> x,
 		std::vector<double> y, std::vector<double> sol) {
 	try {
-		double Espaciado;
+		double Espaciado = 0.;
 
 		std::vector<stSpline2Tub> Spl;
 
@@ -878,7 +878,7 @@ void TMapaComp2Tub::SplineVector(int n, std::vector<double> x,
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: Spline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: Spline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -919,7 +919,7 @@ double TMapaComp2Tub::EvaluaSpline(double punto, int n, double *x, double *y,
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaSpline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -956,7 +956,7 @@ double TMapaComp2Tub::EvaluaSpline(double punto, int n, double *x, double *y,
 //{
 //std::cout << "ERROR: EvaluaHermite en el compresor: " << FNumeroCompresor << std::endl;
 //std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception("ERROR: EvaluaHermite en el compresor: " +AnsiString(FNumeroCompresor)+N.Message);
+//throw Exception("ERROR: EvaluaHermite en el compresor: " +std::to_string(FNumeroCompresor)+N.Message);
 //}
 //}
 //
@@ -993,7 +993,7 @@ double TMapaComp2Tub::EvaluaSpline(double punto, int n, double *x, double *y,
 //{
 //std::cout << "ERROR: EvaluaHermite en el compresor: " << FNumeroCompresor << std::endl;
 //std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception("ERROR: EvaluaHermite en el compresor: " +AnsiString(FNumeroCompresor)+N.Message);
+//throw Exception("ERROR: EvaluaHermite en el compresor: " +std::to_string(FNumeroCompresor)+N.Message);
 //}
 //}
 
@@ -1001,8 +1001,8 @@ double TMapaComp2Tub::InterpolaLineal(double punto, int n, double *x,
 		double *y) {
 	try {
 		int k = 0;
-		double delta;
-		double ret_val;
+		double delta = 0.;
+		double ret_val = 0.;
 //Determinacion del indice para evaluacion spline
 
 		if (punto < x[0]) {
@@ -1025,7 +1025,7 @@ double TMapaComp2Tub::InterpolaLineal(double punto, int n, double *x,
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaSpline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1060,7 +1060,7 @@ double TMapaComp2Tub::EvaluaSpline(double punto, int n, std::vector<double> x,
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaSpline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1072,7 +1072,7 @@ double TMapaComp2Tub::EvaluaSpline(double punto, int n, std::vector<double> x,
 
 double TMapaComp2Tub::EvaluaRCSplines(double Massflow) {
 	try {
-		double ret_val;
+		double ret_val = 0.;
 		if (Massflow < FGastoInt[0]) {
 			ret_val = FRelCompInt[0];
 		} else if (Massflow >= FGastoInt[FNumPuntos]) {
@@ -1108,13 +1108,13 @@ double TMapaComp2Tub::EvaluaRCSplines(double Massflow) {
 				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaRCSpline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaRCSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
 double TMapaComp2Tub::EvaluaRCHermite(double Massflow) {
 	try {
-		double ret_val, t2, t3, t, h00, h10, h01, h11, h;
+		double ret_val = 0., t2 = 0., t3 = 0., t = 0., h00 = 0., h10 = 0., h01 = 0., h11 = 0., h = 0.;
 
 		if (Massflow <= FGastoInt[0]) {
 			ret_val = FRelCompInt[0];
@@ -1145,7 +1145,7 @@ double TMapaComp2Tub::EvaluaRCHermite(double Massflow) {
 				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaRCSpline en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaRCSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1213,7 +1213,7 @@ void TMapaComp2Tub::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: PolOrtogonal en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: PolOrtogonal en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1226,9 +1226,9 @@ void TMapaComp2Tub::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
 
 void TMapaComp2Tub::InterpolaMapa(double rtc, double AmbientTemperature) {
 
-	double DeltaN;
-	int Cent;
-	int index;
+	double DeltaN = 0.;
+	int Cent = 0;
+	int index = 0;
 
 	try {
 
@@ -1384,7 +1384,7 @@ void TMapaComp2Tub::InterpolaMapa(double rtc, double AmbientTemperature) {
 				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: InterpolaMapa en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: InterpolaMapa en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1396,10 +1396,10 @@ void TMapaComp2Tub::InterpolaMapa(double rtc, double AmbientTemperature) {
 //---------------------------------------------------------------------------
 
 double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
-	int k;
-	double prev2;
-	double prev;
-	double ret_val;
+	int k = 0;
+	double prev2 = 0.;
+	double prev = 0.;
+	double ret_val = 0.;
 	try {
 		k = FNumTerms - 1;
 		ret_val = FCoefdX[k];
@@ -1418,7 +1418,7 @@ double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
 				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaRendimiento en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaRendimiento en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1426,12 +1426,12 @@ double TMapaComp2Tub::EvaluaRendimiento(double MasaAire) {
 //---------------------------------------------------------------------------
 
 double TMapaComp2Tub::EvaluaRendSplines(double MasaAire) {
-	double AireAdim;
-	double ret_val;
-	double RendInf;
-	double RendSup;
-	double DeltaN;
-	int index;
+	double AireAdim = 0.;
+	double ret_val = 0.;
+	double RendInf = 0.;
+	double RendSup = 0.;
+	double DeltaN = 0.;
+	int index = 0;
 	try {
 		if (FRegComp >= FRegMax) {
 			index = FCurvInf - 1;
@@ -1493,7 +1493,7 @@ double TMapaComp2Tub::EvaluaRendSplines(double MasaAire) {
 				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaRendSplines en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaRendSplines en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1508,7 +1508,7 @@ double TMapaComp2Tub::GetRelCompInt(int i) {
 				<< FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: GetRelCompInt en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: GetRelCompInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1523,7 +1523,7 @@ double TMapaComp2Tub::GetGastoInt(int i) {
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: GetGastoInt en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: GetGastoInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1535,8 +1535,8 @@ double TMapaComp2Tub::BuscaRegimen(double RC, double Massflow,
 	try {
 		double RCSup = 0.;
 		double RCInf = 0.;
-		double ret_val, val1, val2;
-		double reg;
+		double ret_val = 0., val1 = 0., val2 = 0.;
+		double reg = 0.;
 		int i = 0, sup, inf;
 		while (RC > RCSup && i < FNumCurvasReg) {
 			reg = FRegimenCurva[i] * AmbientTemperature / FTempRef;
@@ -1606,7 +1606,7 @@ double TMapaComp2Tub::BuscaRegimen(double RC, double Massflow,
 				<< std::endl;
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
-				"ERROR: BuscaRegimen en el compresor: "/* +AnsiString(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: BuscaRegimen en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
 	}
 }
 
@@ -1618,8 +1618,8 @@ void TMapaComp2Tub::Cambio_Mapa(double radtip, double radhub,
 	try {
 //FILE *fplot;
 		int cont = 0;
-		double r1;
-		int n;
+		double r1 = 0.;
+		int n = 0;
 
 //los valores de ra,rb y r2, deberan ser medidos directamente en el compresor y ser leidos desde lee_compresor
 
@@ -1721,7 +1721,7 @@ void TMapaComp2Tub::ImprimeMapa() {
 	FILE *fichrd;
 	fich = fopen("MapaInterp.txt", "w");
 	fichrd = fopen("MapaRend.txt", "w");
-	double inc;
+	double inc = 0.;
 	double *massflow;
 	double **rc;
 	double **rend;
@@ -1819,7 +1819,7 @@ void TMapaComp2Tub::ImprimeMapa() {
 
 void TMapaComp2Tub::ReadGTPowerMap(FILE *fich, int correct) {
 	try {
-		double speed, mass, pres, eff;
+		double speed = 0., mass = 0., pres = 0., eff = 0.;
 		int i = 0; //Curva de isoregimen
 		int j = 0; //Puntos de la curva
 		if (correct == 1)
@@ -1866,7 +1866,7 @@ void TMapaComp2Tub::ReadGTPowerMap(FILE *fich, int correct) {
 void TMapaComp2Tub::RearrangeGTPowerMap(double rtip, double rhub,
 		double rwheel) {
 	try {
-		double FlowMass;
+		double FlowMass = 0.;
 
 		//FTempRef=303;
 		//FPresionRef=0.96;
@@ -2042,7 +2042,7 @@ void TMapaComp2Tub::RearrangeGTPowerMap(double rtip, double rhub,
 
 void TMapaComp2Tub::WriteMapForWAM() {
 	try {
-		double gast;
+		double gast = 0.;
 
 		FILE *fich2;
 		fich2 = fopen("MapaWAM.cmp", "w");

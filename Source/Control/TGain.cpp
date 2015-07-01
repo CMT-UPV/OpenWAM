@@ -49,7 +49,7 @@ double TGain::Output(double Time) {
 
 void TGain::LeeController(const char *FileWAM, fpos_t &filepos) {
 
-	int Type;
+	int Type = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -99,7 +99,7 @@ void TGain::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -139,7 +139,7 @@ void TGain::LeeResultadosMedControladorXML(xml_node node_ctrl) {
 
 void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -178,10 +178,10 @@ void TGain::LeeResultadosInsControladorXML(xml_node node_ctrl) {
 
 void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
-		Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+		Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 				+ PutLabel(3051) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
@@ -190,10 +190,10 @@ void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
 void TGain::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
-		Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+		Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 				+ PutLabel(3051) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
@@ -202,7 +202,7 @@ void TGain::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
 void TGain::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
 		medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -212,7 +212,7 @@ void TGain::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
 void TGain::ImprimeResultadosInsControlador(stringstream& insoutput) {
 
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
 		insoutput << "\t" << FResInstantCtrl.OutputINS;

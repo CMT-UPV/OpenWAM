@@ -60,7 +60,7 @@ double TTable1D::Output(double Time) {
 
 void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 
-	int xnum, tip, fromfile;
+	int xnum = 0, tip = 0, fromfile = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -73,7 +73,7 @@ void TTable1D::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 		FILE *fichdata = fopen(InputFile, "r");
 
-		double X_tmp, Y_tmp;
+		double X_tmp = 0., Y_tmp = 0.;
 		dVector X_vec, Y_vec;
 		while (!feof(fichdata)) {
 			fscanf(fichdata, "%lf %lf ", &X_tmp, &Y_tmp);
@@ -188,7 +188,7 @@ void TTable1D::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 void TTable1D::LeeResultadosMedControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -234,7 +234,7 @@ void TTable1D::LeeResultadosInsControladorXML(xml_node node_ctrl) {
 void TTable1D::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -279,10 +279,10 @@ void TTable1D::LeeResultadosMedControladorXML(xml_node node_ctrl) {
 
 void TTable1D::CabeceraResultadosMedControlador(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCtrl.Output) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3051) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
@@ -298,10 +298,10 @@ void TTable1D::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
 void TTable1D::CabeceraResultadosInsControlador(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCtrl.Output) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3051) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
@@ -317,7 +317,7 @@ void TTable1D::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
 void TTable1D::ImprimeResultadosMedControlador(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCtrl.Output) {
 			medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -334,7 +334,7 @@ void TTable1D::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
 void TTable1D::ImprimeResultadosInsControlador(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCtrl.Output) {
 			insoutput << "\t" << FResInstantCtrl.OutputINS;

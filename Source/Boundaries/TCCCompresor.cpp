@@ -136,7 +136,7 @@ void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum,
 	try {
 		int i = 0;
 		bool haytubo = false;
-		int tipoentrada;
+		int tipoentrada = 0;
 
 		FTamb = AmbientTemperature;
 		FPamb = AmbientPressure;
@@ -304,7 +304,7 @@ void TCCCompresor::ObtencionValoresInstantaneos(double Theta,
 void TCCCompresor::CalculaCondicionContorno(double Time) {
 	try {
 		double TrabajoInsTurbina = 0.; /* para que compile.inacabado. */
-		int TuboCalculado;
+		int TuboCalculado = 0;
 
 		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
 			TuboCalculado = 0; // Es la posicion del tubo a calcular en el vector estructura FTuboExtremo.
@@ -367,7 +367,7 @@ void TCCCompresor::TuboCalculandose(int TuboActual) {
 
 void TCCCompresor::ReadCompressorData(const char *FileWAM, fpos_t &filepos) {
 
-	int tipoentrada;
+	int tipoentrada = 0;
 
 	if (FCompresor->getModeloCompresor() == nmCompOriginal) {
 		FILE *fich = fopen(FileWAM, "r");

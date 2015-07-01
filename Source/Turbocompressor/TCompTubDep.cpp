@@ -69,8 +69,8 @@ TCompTubDep::~TCompTubDep() {
 void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 	try {
 
-		int format, ac;
-		int InID, OutID, VolID, StaID, RotID;
+		int format = 0, ac = 0;
+		int InID = 0, OutID = 0, VolID = 0, StaID = 0, RotID = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -108,7 +108,7 @@ void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -155,7 +155,7 @@ void TCompTubDep::LeeCompresorXML(xml_node node_compressor) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -163,7 +163,7 @@ void TCompTubDep::LeeCompresorXML(xml_node node_compressor) {
 // ---------------------------------------------------------------------------
 
 double TCompTubDep::CalGastoNuevo(double MasaAire) {
-	double ret_val, ac, bc, cc, discr;
+	double ret_val = 0., ac = 0., bc = 0., cc = 0., discr = 0.;
 	try {
 
 		FRelacionCompresion = Mapa->EvaluaRCHermite(MasaAire);
@@ -222,7 +222,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalGastoNuevo en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -351,7 +351,7 @@ double TCompTubDep::RegulaFalsi() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: RegulaFalsi en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -359,7 +359,7 @@ double TCompTubDep::RegulaFalsi() {
 // ---------------------------------------------------------------------------
 
 void TCompTubDep::CalculaCompresor(double Theta) {
-	double temp, work;
+	double temp = 0., work = 0.;
 	try {
 
 		temp = pow(*FLanda / *FEntro, FGamma4) * 1e5;
@@ -419,7 +419,7 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TCompTubDep::CalculaCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -491,7 +491,7 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CondicionCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -502,7 +502,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 		double AmbientTemperature, int numeroCC, TCondicionContorno **BC,
 		double *AtmosphericComposition) {
 	try {
-		double Cp;
+		double Cp = 0.;
 
 		FEntradaCompresor = EntradaCompresor;
 		if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmLeft) {
@@ -551,13 +551,13 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: BusquedaEntradaSalida en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
 void TCompTubDep::Initialize() {
 
-	double Cp;
+	double Cp = 0.;
 
 	switch (FEntradaCompresor) {
 	case nmAtmosphere:
@@ -624,7 +624,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 		double AmbientPressure, TCondicionContorno *BC) {
 	try {
 		double pentcomp = 0., tentcomp = 0., ventcomp = 0.;
-		double RMezclaEnt, RMezclaSal, GammaEnt, GammaSal, Cp;
+		double RMezclaEnt = 0., RMezclaSal = 0., GammaEnt = 0., GammaSal = 0., Cp = 0.;
 
 		switch (FEntradaCompresor) {
 		case nmAtmosphere:
@@ -712,15 +712,15 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: DatosEntradaCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
 double TCompTubDep::NewDampedSolution(double Mass) {
 
 	double A2, U2, AA2, A20, AA2Old, A2Old, delta = 1, delta0 = 1, deltaA = 1.;
-	double A10, AA1;
-	double Mass_filt;
+	double A10 = 0., AA1 = 0.;
+	double Mass_filt = 0.;
 	bool conv;
 
 	// FDelay = 0.1;

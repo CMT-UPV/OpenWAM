@@ -57,7 +57,7 @@ TCompresorDep::~TCompresorDep() {
 // ---------------------------------------------------------------------------
 
 void TCompresorDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
-	int modelo;
+	int modelo = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -72,7 +72,7 @@ void TCompresorDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -104,7 +104,7 @@ void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -125,27 +125,27 @@ void TCompresorDep::Initialize() {
 
 void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 		double TiempoActual) {
-	int NumGastos;
-	double Aux0;
-	double Aux1;
-	double Masa0;
-	double Masa1;
-	double MasaX;
-	double RC0;
-	// double RC1;
-	double RCX;
-	double ErrorMasa;
-	double ErrorRC;
+	int NumGastos = 0;
+	double Aux0 = 0.;
+	double Aux1 = 0.;
+	double Masa0 = 0.;
+	double Masa1 = 0.;
+	double MasaX = 0.;
+	double RC0 = 0.;
+	// double RC1 = 0.;
+	double RCX = 0.;
+	double ErrorMasa = 0.;
+	double ErrorRC = 0.;
 	double *RelComp;
 	double *Gastos;
 	double *Trab;
 	double *Rnd;
 	double *DeltaWork;
-	double Min;
-	int Contador;
+	double Min = 0.;
+	int Contador = 0;
 	int *PuntosDeCruce;
-	int PuntoMin;
-	double DescorrigeGasto;
+	int PuntoMin = 0;
+	double DescorrigeGasto = 0.;
 	try {
 
 		// NO ESTAN PUESTAS LAS ESPECIES !!!!!!! SOLO ESTA HECHO PARA QUE COMPILE.
@@ -276,7 +276,7 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalculaGasto en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 

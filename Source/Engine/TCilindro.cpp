@@ -680,7 +680,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int Tipovar;
+		int Tipovar = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -1036,119 +1036,119 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		AnsiString Label;
+		std::string Label;
 
 		if (FNumVarMed > 0) {
 			if (FResMediosCilindro.TrabajoNeto) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4021) + PutLabel(907) + "/"
 						+ PutLabel(3001);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaNeta) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4006) + PutLabel(908) + "/"
 						+ PutLabel(3002);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TrabajoBombeo) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4021) + PutLabel(907) + "/"
 						+ PutLabel(3003);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaBombeo) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4006) + PutLabel(908) + "/"
 						+ PutLabel(3004);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCombustion) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
 						+ PutLabel(3005);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCilindro) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
 						+ PutLabel(3006);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCulata) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
 						+ PutLabel(3007);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorPiston) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(907) + "/"
 						+ PutLabel(3008);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaIndicada) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4006) + PutLabel(908) + "/"
 						+ PutLabel(3009);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaAtrapada) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3010);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroInterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3006) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3006) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroExterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3006) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonInterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3008) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3008) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonExterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3008) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataInterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3007) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3007) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataExterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3007) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
@@ -1156,58 +1156,58 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 			if (FResMediosCilindro.NITMedio) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3014)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(3014)
 							+ PutLabel(903) + "/" + PutLabel(3018) + "/"
-							+ IntToStr(i + 1);
+							+ std::to_string(i + 1);
 					medoutput << Label.c_str();
 				}
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(3014) + PutLabel(903) + "/"
 						+ PutLabel(3018) + "/" + PutLabel(3020);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.AFRMedio) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4015) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaBlowBy) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3016);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaAdmision) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3017);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaEscape) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3018);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaCortocircuito) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3019);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3020);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.Swirl) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(3021) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.RendVolumetrico) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4011) + PutLabel(910) + "/"
 						+ PutLabel(3022);
 				medoutput << Label.c_str();
@@ -1581,7 +1581,7 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -1943,17 +1943,17 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 		if (FNumVarIns > 0) {
 
 			char *label1, *label2, *label3;
-			AnsiString Label;
+			std::string Label;
 			string kkkk;
 			// cadena Label7;
 
 			if (FResInstantCilindro.Pressure) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4006) + PutLabel(908);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.Temperature) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3041);
 				insoutput << Label.c_str();
@@ -1961,14 +1961,14 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.MomentoAngularEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4013)
 							+ PutLabel(901) + "/" + PutLabel(3018) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4013)
 							+ PutLabel(901) + "/" + PutLabel(3018) + "/"
 							+ PutLabel(3026);
 					insoutput << Label.c_str();
@@ -1977,14 +1977,14 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.MomentoAngularAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4013)
 							+ PutLabel(901) + "/" + PutLabel(3017) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4013)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4013)
 							+ PutLabel(901) + "/" + PutLabel(3017) + "/"
 							+ PutLabel(3026);
 					insoutput << Label.c_str();
@@ -1993,14 +1993,14 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.GastoEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4008)
 							+ PutLabel(904) + "/" + PutLabel(3018) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4008)
 							+ PutLabel(904) + "/" + PutLabel(3018) + "/"
 							+ PutLabel(3026);
 					insoutput << Label.c_str();
@@ -2009,14 +2009,14 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.GastoAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4008)
 							+ PutLabel(904) + "/" + PutLabel(3017) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4008)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4008)
 							+ PutLabel(904) + "/" + PutLabel(3017) + "/"
 							+ PutLabel(3026);
 					insoutput << Label.c_str();
@@ -2025,32 +2025,32 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.MachEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4014)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4014)
 							+ PutLabel(901) + "/" + PutLabel(3018) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MachAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4014)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4014)
 							+ PutLabel(901) + "/" + PutLabel(3017) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(3029)
 							+ PutLabel(4012) + PutLabel(915) + "/"
-							+ PutLabel(3018) + "/" + IntToStr(i);
+							+ PutLabel(3018) + "/" + std::to_string(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(3029)
 							+ PutLabel(4012) + PutLabel(915) + "/"
 							+ PutLabel(3018) + "/" + PutLabel(3026);
 					insoutput << Label.c_str();
@@ -2059,96 +2059,96 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.SeccionEfectivaAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(3029)
 							+ PutLabel(4012) + PutLabel(915) + "/"
-							+ PutLabel(3017) + "/" + IntToStr(i);
+							+ PutLabel(3017) + "/" + std::to_string(i);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3029)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(3029)
 							+ PutLabel(4012) + PutLabel(915) + "/"
 							+ PutLabel(3017) + "/" + PutLabel(3026);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.Masa) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3041);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.Volumen) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4003) + PutLabel(912);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.CoeficienteWoschni) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4015) + PutLabel(911);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.MasaCombustible) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4004) + PutLabel(913) + "/"
 						+ PutLabel(3027);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.FQL) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4018) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroInterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3006) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3006) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroExterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3006) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonInterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3008) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3008) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonExterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3008) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataInterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3007) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataMedia) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3007) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataExterna) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4005) + PutLabel(910) + "/"
 						+ PutLabel(3007) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
@@ -2156,29 +2156,29 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.NIT) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(3014)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(3014)
 							+ PutLabel(903) + "/" + PutLabel(3018) + "/"
-							+ IntToStr(i);
+							+ std::to_string(i);
 					insoutput << Label.c_str();
 				}
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(3014) + PutLabel(903) + "/"
 						+ PutLabel(3018) + "/" + PutLabel(3026);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.ParInstantaneo) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4016) + PutLabel(917);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.GastoCortocircuito) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4008) + PutLabel(904) + "/"
 						+ PutLabel(3019);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.GastoBlowBy) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4008) + PutLabel(904) + "/"
 						+ PutLabel(3019);
 				insoutput << Label.c_str();
@@ -2186,30 +2186,30 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			if (FResInstantCilindro.FraccionMasica) {
 				for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR; i++) {
 					Label = "\t" + PutLabel(5001) + "/"
-							+ IntToStr(FNumeroCilindro) + "/" + PutLabel(4023)
+							+ std::to_string(FNumeroCilindro) + "/" + PutLabel(4023)
 							+ PutLabel(901) + "/" + DatosEspecies[i].Nombre;
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.Gamma) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4017) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatHead) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(903) + "/"
 						+ PutLabel(3007);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatCyl) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(903) + "/"
 						+ PutLabel(3006);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatPis) {
-				Label = "\t" + PutLabel(5001) + "/" + IntToStr(FNumeroCilindro)
+				Label = "\t" + PutLabel(5001) + "/" + std::to_string(FNumeroCilindro)
 						+ "/" + PutLabel(4010) + PutLabel(903) + "/"
 						+ PutLabel(3008);
 				insoutput << Label.c_str();
@@ -2554,7 +2554,7 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 
 double TCilindro::CalculaVolumen(double AnguloActual) {
 	try {
-		double tt, ttt, xxx;
+		double tt = 0., ttt = 0., xxx = 0.;
 		double ret_val, deltaVol, acel = 0., c;
 
 		double a = AnguloActual * Pi / 180.;
@@ -2637,7 +2637,7 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 
 void TCilindro::IniciaVariables() {
 	try {
-		double TemperaturaInicial;
+		double TemperaturaInicial = 0.;
 		double RAtmosfera, PMAtmosfera, FraccionMolarO2, FraccionMolarH2O,
 				FraccionMolarN2;
 
@@ -2929,9 +2929,9 @@ void TCilindro::InicioFinCombustion() {
 		double distMa = 0;
 		double Numerador = 0;
 		double Denominador = 0;
-		double Ang01;
-		double dist, e, b, DistMax, DistMin, Weight;
-		int k;
+		double Ang01 = 0.;
+		double dist = 0., e = 0., b = 0., DistMax = 0., DistMin = 0., Weight = 0.;
+		int k = 0;
 
 		if (FMotor->getMasaFuel() == 0.) {
 			FIniComb = 0.;
@@ -2999,7 +2999,7 @@ void TCilindro::InicioFinCombustion() {
 				FFinComb = Ang01;
 
 				// Busqueda del begining y el fin de la combustion
-				double Finaliza;
+				double Finaliza = 0.;
 
 				for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
 
@@ -3048,13 +3048,13 @@ void TCilindro::InicioFinCombustion() {
 
 double TCilindro::CalculaCalorLiberado(double x) {
 	try {
-		double Result;
+		double Result = 0.;
 		double distReg = 0;
 		double distMf = 0;
 		double distMa = 0;
 		double Numerador = 0;
 		double Denominador = 0;
-		double dist, e, b, ley, DistMax, DistMin, Weight;
+		double dist = 0., e = 0., b = 0., ley = 0., DistMax = 0., DistMin = 0., Weight = 0.;
 
 		if (FMotor->getLeyQuemadoBD().size() == 1) {
 			Result = fql(x, 0);
@@ -3072,11 +3072,11 @@ double TCilindro::CalculaCalorLiberado(double x) {
 				distMf = pow2(
 						(FMfint - FMotor->getLeyQuemadoBD()[i].mf)
 								/ FMotor->getLQMfMax());
-				/* OJO: kg/cc */
+				/* : kg/cc */
 				distMa = pow2(
 						(FMaint - FMotor->getLeyQuemadoBD()[i].ma)
 								/ FMotor->getLQMaMax());
-				/* OJO: kg/cc */
+				/* : kg/cc */
 				// dist=pow(distReg+distMf+distMa,0.5);
 				b = distReg + distMf + distMa;
 
@@ -3149,7 +3149,7 @@ double TCilindro::fql(double x, int ley) {
 
 double TCilindro::fun_wiebe(double x, int ley, int wiebe) {
 	try {
-		double ret_val, xx, xxx;
+		double ret_val = 0., xx = 0., xxx = 0.;
 
 		if (x <= FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].Inicia) {
 			ret_val = 0.;
@@ -3184,7 +3184,7 @@ double TCilindro::FuncionGamma(double T, double X) {
 	try {
 		// T - Temperature en kelvin.
 		// X - Tanto por uno de gases quemados.
-		double a, b, c, T00, cv, Result;
+		double a = 0., b = 0., c = 0., T00 = 0., cv = 0., Result = 0.;
 
 		T00 = T / 100. - 2.73;
 		if (fabs(X) < 1e-100 || X < 0.)
@@ -3215,9 +3215,9 @@ void TCilindro::CalculaTemperaturasPared() {
 	double *TPAnt = NULL;
 
 	try {
-		double ViscGas, ViscPared, Vel, Re, Cond, hExt;
-		double Fo, Bii, Bie;
-		double hi2, hi3, ho1, ho2;
+		double ViscGas = 0., ViscPared = 0., Vel = 0., Re = 0., Cond = 0., hExt = 0.;
+		double Fo = 0., Bii = 0., Bie = 0.;
+		double hi2 = 0., hi3 = 0., ho1 = 0., ho2 = 0.;
 		// NUMERO DE NODOS IGUAL A 3
 		TPAnt = new double[3];
 
@@ -3764,7 +3764,7 @@ void TCilindro::DefineCombustion() {
 // ---------------------------------------------------------------------------
 double TCilindro::CalculaCTorbAdmProm() {
 	try {
-		double retval;
+		double retval = 0.;
 		double CTorbSum = 0.;
 
 		for (int i = 0; i < FNumeroUnionesAdm; i++) {
@@ -3849,7 +3849,7 @@ void TCilindro::CalculaMomentoAngular() {
 		}
 
 		FMomentoAngular = (FMomentoAngularAdm + FMomentoAngularEsc) * FDeltaT;
-		/* OJO. Se multiplica por el tiempo */
+		/* . Se multiplica por el tiempo */
 
 	} catch (Exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: "
@@ -3975,7 +3975,7 @@ void TCilindro::CalculaVariablesResultados() {
 
 void TCilindro::CalculaSWIRL() {
 	try {
-		double wctcc;
+		double wctcc = 0.;
 
 		wctcc = Pi * pow2(FMotor->getGeometria().DiametroBowl) / 4.
 				* FMotor->getGeometria().AlturaBowl;
@@ -4030,7 +4030,7 @@ TCondicionContorno* TCilindro::GetCCValvulaEsc(int i) {
 
 double TCilindro::GetAireFresco() {
 	try {
-		double ret_val;
+		double ret_val = 0.;
 		ret_val = FComposicionCicloCerrado[2];
 		return ret_val;
 

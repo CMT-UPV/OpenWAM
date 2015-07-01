@@ -66,11 +66,11 @@ TCompTubos::~TCompTubos() {
 void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		double TiempoActual, int TuboCalculado) {
 
-	double ErrorVelMax, ErrorVelMin, ErrorCheck, RC, RD, CP;
-	double temp;
+	double ErrorVelMax = 0., ErrorVelMin = 0., ErrorCheck = 0., RC = 0., RD = 0., CP = 0.;
+	double temp = 0.;
 	double CoefPresiones_anterior, Rendimiento_ant = 0.;
 	double FraccionMasicaAcum = 0.;
-	double vout, aaout;
+	double vout = 0., aaout = 0.;
 
 	try {
 		// FContadorCheckSentido=0;
@@ -163,7 +163,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 
 			SolveInletBoundary(FA1in, FU1in, FA1out, FU1out);
 
-			double AA1fin;
+			double AA1fin = 0.;
 
 			if (!FFlujoDirecto) {
 				AA1fin = FAsonidoDep / ARef * pow(FPresionDep, -FGamma5)
@@ -183,7 +183,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 
 			SolveOutletBoundary(FA2, FU2);
 
-			double AA2fin;
+			double AA2fin = 0.;
 			if (FFlowOut < 0) {
 				AA2fin = FAsonidoDep / ARef * pow(FPresionDep, -FGamma5);
 			} else {
@@ -209,7 +209,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			// NUEVO MODELO ---->
 			SolveInletBoundary(FA1in, FU1in, FA1out, FU1out);
 
-			double AA1fin;
+			double AA1fin = 0.;
 
 			if (!FFlujoDirecto) {
 				AA1fin = FAsonidoDep / ARef * pow(FPresionDep, -FGamma5)
@@ -236,7 +236,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			// NUEVO MODELO ---->
 			SolveOutletBoundary(FA2, FU2);
 
-			double AA2fin;
+			double AA2fin = 0.;
 			if (FFlowOut < 0) {
 				AA2fin = FAsonidoDep / ARef * pow(FPresionDep, -FGamma5);
 			} else {
@@ -334,7 +334,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: CalculaCondicionContorno en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -425,7 +425,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: BuscaErrorCaracteristica en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -433,7 +433,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 // ---------------------------------------------------------------------------
 
 void TCompTubos::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
-	int tipo;
+	int tipo = 0;
 	try {
 
 		FILE *fich = fopen(FileWAM, "r");
@@ -443,7 +443,7 @@ void TCompTubos::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		fscanf(fich, "%lf %lf %lf %lf", &FRadioTip, &FRadioHub, &FRadioRodete,
 				&FLongitudCaract);
 
-		int format;
+		int format = 0;
 		fscanf(fich, "%d ", &format);
 		if (format == 1) {
 			std::cout
@@ -469,7 +469,7 @@ void TCompTubos::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -498,7 +498,7 @@ void TCompTubos::LeeCompresorXML(xml_node node_compressor) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 // ---------------------------------------------------------------------------
@@ -506,7 +506,7 @@ void TCompTubos::LeeCompresorXML(xml_node node_compressor) {
 
 void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 	try {
-		double Cp;
+		double Cp = 0.;
 
 		for (int i = 0; i < 2; i++) {
 			if (FTuboRotor
@@ -582,7 +582,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -593,13 +593,13 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 		double aa1, double aa2, double cc1, double cc2, double s1, double s2,
 		double k, int sig) {
 	try {
-		double f1, f2, J11, J12, J22, J21, DetJ, da1, da2, Error;
-		double a10, a20, v10, v20, Lim_u1, Lim_u2, aa2new;
+		double f1 = 0., f2 = 0., J11 = 0., J12 = 0., J22 = 0., J21 = 0., DetJ = 0., da1 = 0., da2 = 0., Error = 0.;
+		double a10 = 0., a20 = 0., v10 = 0., v20 = 0., Lim_u1 = 0., Lim_u2 = 0., aa2new = 0.;
 		bool biseccion = false;
 		int cont = 0;
 
 		/* Pedro */
-		double a1_local, a2_local, u1_local, u2_local;
+		double a1_local = 0., a2_local = 0., u1_local = 0., u2_local = 0.;
 
 		a1_local = *a1;
 		a2_local = *a2;
@@ -701,7 +701,7 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -733,7 +733,7 @@ void TCompTubos::Solver(double *a1, double *a2, double *u1, double *u2,
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -755,7 +755,7 @@ void TCompTubos::ExtremoCerrado() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TCompTubos::ExtremoCerrado en el compresor: "
-						+ AnsiString(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
 	}
 }
 
@@ -764,7 +764,7 @@ void TCompTubos::ExtremoCerrado() {
 
 void TCompTubos::SolveInletBoundary(double &A, double &U, double &Ao,
 		double &Uo) {
-	double K1, K2, K3;
+	double K1 = 0., K2 = 0., K3 = 0.;
 
 	double A_dep = pow(FPresionDep, FGamma5);
 	double A_pipe = *FCarCIn / *FAaIn * pow(FRelacionCompresion, FGamma5);
@@ -905,7 +905,7 @@ void TCompTubos::OutFlow(double Ad, double &A, double &U) {
 double TCompTubos::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 		double MasaE, double ASonidoD, double MasaD, double Gamma) {
 
-	double xx, yy, ret_val;
+	double xx = 0., yy = 0., ret_val = 0.;
 
 	if (fabs(MasaE) != 0.) {
 		xx = (ASonidoE * ASonidoE / ASonidoD / ASonidoD - 1.) / Gamma1(Gamma);
@@ -976,7 +976,7 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 
 void TCompTubos::Initialize() {
 
-	double Cp;
+	double Cp = 0.;
 
 	if (FExtremoRotor == nmLeft) {
 		Cp = (FTuboRot->GetGamma(0) * FTuboRot->GetRMezcla(0))

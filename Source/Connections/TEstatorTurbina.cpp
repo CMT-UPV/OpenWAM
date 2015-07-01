@@ -72,7 +72,7 @@ TEstatorTurbina::TEstatorTurbina(TEstatorTurbina *Origen, int Valvula) :
 void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
-		int tpstator;
+		int tpstator = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);

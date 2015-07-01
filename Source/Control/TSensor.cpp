@@ -47,7 +47,7 @@ TSensor::~TSensor() {
 }
 
 void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
-	int obj, prm;
+	int obj = 0, prm = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -187,8 +187,8 @@ void TSensor::ReadSensorXML(xml_node node_sensor) {
 }
 
 void TSensor::AsignaObjeto(TObject *Object) {
-	int nin;
-	double tmp;
+	int nin = 0;
+	double tmp = 0.;
 
 	FObjectPointer = Object;
 	if (FObjectSensed == nmSensTubo) {
@@ -207,9 +207,9 @@ double TSensor::Output() {
 }
 
 void TSensor::ActualizaMedida(double Time) {
-	double tmp0, tmp1;
+	double tmp0 = 0., tmp1 = 0.;
 	bool Update = false;
-	double deltaT;
+	double deltaT = 0.;
 
 	double TimeStep = Time - FTime0;
 
@@ -306,7 +306,7 @@ void TSensor::ActualizaMedida(double Time) {
 
 void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -365,7 +365,7 @@ void TSensor::LeeResultadosMedSensorXML(xml_node node_sens) {
 
 void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -424,15 +424,15 @@ void TSensor::LeeResultadosInsSensorXML(xml_node node_sens) {
 
 void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosSensor.Output) {
-			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+			Label = "\t" + PutLabel(5012) + "/" + std::to_string(FNumeroSensor) + "/"
 					+ PutLabel(3051) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosSensor.Input) {
-			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+			Label = "\t" + PutLabel(5012) + "/" + std::to_string(FNumeroSensor) + "/"
 					+ PutLabel(3052) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
@@ -448,15 +448,15 @@ void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 
 void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantSensor.Output) {
-			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+			Label = "\t" + PutLabel(5012) + "/" + std::to_string(FNumeroSensor) + "/"
 					+ PutLabel(3051) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantSensor.Input) {
-			Label = "\t" + PutLabel(5012) + "/" + IntToStr(FNumeroSensor) + "/"
+			Label = "\t" + PutLabel(5012) + "/" + std::to_string(FNumeroSensor) + "/"
 					+ PutLabel(3052) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
@@ -471,7 +471,7 @@ void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 
 void TSensor::ImprimeResultadosMedSensor(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosSensor.Output) {
 			medoutput << "\t" << FResMediosSensor.OutputMED;
@@ -491,7 +491,7 @@ void TSensor::ImprimeResultadosMedSensor(stringstream& medoutput) {
 
 void TSensor::ImprimeResultadosInsSensor(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantSensor.Output) {
 			insoutput << "\t" << FResInstantSensor.OutputINS;

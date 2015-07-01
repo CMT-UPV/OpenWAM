@@ -179,11 +179,11 @@ void TCCCilindro::ObtencionValoresInstantaneos() {
 
 		 if (FCDEntrada > 2.0 || FCDEntrada < 0.0) {
 		 printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga entrante: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDEntrada,Angulo,FNumeroCC);
-		 throw Exception("ERROR: en calculo coeficiente descarga entrante: "+AnsiString(FCDEntrada)+", en "+AnsiString(Angulo)+" grados");
+		 throw Exception("ERROR: en calculo coeficiente descarga entrante: "+std::to_string(FCDEntrada)+", en "+std::to_string(Angulo)+" grados");
 		 }
 		 if (FCDSalida > 1.0 || FCDSalida < 0.0) {
 		 printf("ERROR: TCCDeposito::ObtencionValoresInstantaneos, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",FCDSalida,Angulo,FNumeroCC);
-		 throw Exception("ERROR: en calculo coeficiente descarga saliente: "+AnsiString(FCDSalida)+", en "+AnsiString(Angulo)+" grados ");
+		 throw Exception("ERROR: en calculo coeficiente descarga saliente: "+std::to_string(FCDSalida)+", en "+std::to_string(Angulo)+" grados ");
 		 }
 		 */
 	} catch (Exception &N) {
@@ -200,7 +200,7 @@ void TCCCilindro::ObtencionValoresInstantaneos() {
 
 void TCCCilindro::CalculaCondicionContorno() {
 	try {
-		double rel_CCon_Entropia, coef;
+		double rel_CCon_Entropia = 0., coef = 0.;
 
 		FSeccionValvula = Pi * pow2(FValvula->getDiametro()) / 4.;
 		FSeccionTubo = Pi * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin))
@@ -302,7 +302,7 @@ void TCCCilindro::CalculaCondicionContorno() {
 
 void TCCCilindro::FlujoEntranteCilindro() {
 	try {
-		double vel_son_garganta, velocidad_garganta, Mach, xaa2, ycal, d1;
+		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		vel_son_garganta = FTuboExtremo[0].Entropia * FAd; //Velocity del sonido en la garganta. Adimensional.
@@ -360,8 +360,8 @@ void TCCCilindro::FlujoEntranteCilindro() {
 void TCCCilindro::FlujoSalienteCilindro() {
 	try {
 
-		double a1, xx, yy, d1;
-		double a2cr, val1, val2, u2cr, ycal, error, valde, miembro2;
+		double a1 = 0., xx = 0., yy = 0., d1 = 0.;
+		double a2cr = 0., val1 = 0., val2 = 0., u2cr = 0., ycal = 0., error = 0., valde = 0., miembro2 = 0.;
 //Variables para resolver la onda de choque.
 		double relacion_velocidades_son, Mach_tras_ondachoque, Mach,
 				temp_antes_ondachoque, temp_tras_ondachoque;
@@ -476,7 +476,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 		double *a2t, double prey, double prex) {
 	try {
-		int contador;
+		int contador = 0;
 		double xx, xx1 = 0., xx2 = 0., ed, ei, medio = 0.;
 		bool salida;
 
@@ -577,7 +577,7 @@ void TCCCilindro::FESubcritico(double vel_son_supuesta, double *u2_1,
 		double *u2_2) {
 	try {
 
-		double xx, yy, u2;
+		double xx = 0., yy = 0., u2 = 0.;
 
 		/* Resolucion de la ecuacion (20) del articulo "Solucion a la condicion de
 		 contorno de la union cilindro-conducto de los MCIA". Ecuacion 4.30 en la
@@ -618,7 +618,7 @@ void TCCCilindro::FESupercritico(double mach_supuesto, double *miembro1,
 		double *miembro2) {
 	try {
 
-		double xx, yy;
+		double xx = 0., yy = 0.;
 
 		/* Resolucion de la ecuacion (21) del articulo "Solucion a la condicion de
 		 contorno de la union cilindro-conducto de los MCIA". Ecuacion (4.31) de
@@ -644,7 +644,7 @@ void TCCCilindro::FESupercritico(double mach_supuesto, double *miembro1,
 void TCCCilindro::FSSubcritico(double vel_son_supuesta, double *error,
 		double *miembro2) {
 	try {
-		double a1, u1, u2;
+		double a1 = 0., u1 = 0., u2 = 0.;
 
 		*miembro2 = 0;
 

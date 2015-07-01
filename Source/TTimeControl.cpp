@@ -34,7 +34,7 @@ using namespace std;
 
 #ifdef __BORLANDC__
 int RDTSC ( void ) {
-	int k;
+	int k = 0;
 	asm rdtsc;
 	asm mov k, eax;
 	return k;
@@ -48,7 +48,7 @@ int RDTSC ( void ) {
 #else
 extern "C" {
 inline unsigned long long RDTSC(void) {
-	unsigned int a, d;
+	unsigned int a = 0, d = 0;
 	asm volatile (
 			"xorl %%eax, %%eax \n        cpuid"
 			::: "%rax", "%rbx", "%rcx", "%rdx" );
@@ -78,7 +78,7 @@ TTimeControl::~TTimeControl() {
 //---------------------------------------------------------------------------
 
 void TTimeControl::Ini() {
-	int k;
+	int k = 0;
 	k = RDTSC();
 
 	Inicio = k;
@@ -88,7 +88,7 @@ void TTimeControl::Ini() {
 //---------------------------------------------------------------------------
 
 void TTimeControl::Fin() {
-	int k;
+	int k = 0;
 	k = RDTSC();
 
 	Final = k;

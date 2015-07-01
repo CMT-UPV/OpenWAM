@@ -56,8 +56,8 @@ TAjusteTransCalorCil::~TAjusteTransCalorCil() {
 
 void TAjusteTransCalorCil::CalculaTCC(double TiempoActual, double Regimen) {
 	try {
-		int jmax, j;
-		double deltaT, t;
+		int jmax = 0, j = 0;
+		double deltaT = 0., t = 0.;
 		jmax = FCiclo[FNumeroTramos - 1];
 
 		if (TiempoActual < FCiclo[1] * 120 / Regimen) {
@@ -123,8 +123,8 @@ void TAjusteTransCalorCil::IniciaTCC(int NumeroTramos, int *Ciclo,
 double TAjusteTransCalorCil::xit_(double vizq, double vder, double axid,
 		double xif) {
 	try {
-		double xx, yy;
-		double ret_val;
+		double xx = 0., yy = 0.;
+		double ret_val = 0.;
 
 		xx = vder - vizq;
 		if (axid != 0.) {

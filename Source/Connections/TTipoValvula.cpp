@@ -127,7 +127,7 @@ void TTipoValvula::AsignaCDVolTub(double Valor) {
 
 void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int ndv, var;
+		int ndv = 0, var = 0;
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 		FGraficasINS = true;
@@ -184,16 +184,16 @@ void TTipoValvula::LeeDatosGraficasINSXML(xml_node node_con) {
 void TTipoValvula::CabeceraGraficaINS(stringstream& insoutput, int nodo) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FGraficasINS) {
 			if (FGraficaCDEINS) {
-				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+				Label = "\t" + PutLabel(5005) + "/" + std::to_string(nodo) + "/"
 						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3045);
 				insoutput << Label.c_str();
 			}
 			if (FGraficaCDSINS) {
-				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+				Label = "\t" + PutLabel(5005) + "/" + std::to_string(nodo) + "/"
 						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3046);
 				insoutput << Label.c_str();
 			}
@@ -233,7 +233,7 @@ void TTipoValvula::ImprimeGraficaINS(stringstream& insoutput) {
 
 void TTipoValvula::AcumulaCDMedio(double TiempoActual) {
 	try {
-		double DeltaT;
+		double DeltaT = 0.;
 		DeltaT = TiempoActual - FTiempoAnt;
 		FTiempoAnt = TiempoActual;
 
@@ -257,7 +257,7 @@ void TTipoValvula::AcumulaCDMedio(double TiempoActual) {
 
 void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int ndv, var;
+		int ndv = 0, var = 0;
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
@@ -314,16 +314,16 @@ void TTipoValvula::LeeDatosGraficasMEDXML(xml_node node_con) {
 void TTipoValvula::CabeceraGraficaMED(stringstream& medoutput, int nodo) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FGraficasMED) {
 			if (FGraficaCDEMED) {
-				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+				Label = "\t" + PutLabel(5005) + "/" + std::to_string(nodo) + "/"
 						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3045);
 				medoutput << Label.c_str();
 			}
 			if (FGraficaCDSMED) {
-				Label = "\t" + PutLabel(5005) + "/" + IntToStr(nodo) + "/"
+				Label = "\t" + PutLabel(5005) + "/" + std::to_string(nodo) + "/"
 						+ PutLabel(3044) + PutLabel(901) + "/" + PutLabel(3046);
 				medoutput << Label.c_str();
 			}

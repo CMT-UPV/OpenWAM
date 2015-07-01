@@ -1,1 +1,1 @@
-add_library(Wrappers Exception.cpp StringManagement.cpp)
+add_library(Wrappers Exception.cpp)

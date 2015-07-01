@@ -67,7 +67,7 @@ void TDecisor::LeeController(const char *FileWAM, fpos_t &filepos) {
 	fscanf(fich, "%d ", &fControllerLowID);
 	fscanf(fich, "%d ", &fControllerHighID);
 
-	int ctrl;
+	int ctrl = 0;
 	fscanf(fich, "%d ", &ctrl);
 	if (ctrl == 0) {
 		fTargedControlled = false;
@@ -76,7 +76,7 @@ void TDecisor::LeeController(const char *FileWAM, fpos_t &filepos) {
 		fControllerTargetID = ctrl;
 	}
 
-	int tmp;
+	int tmp = 0;
 	FSensorID.resize(1);
 	fscanf(fich, "%d ", &FSensorID[0]);
 
@@ -118,7 +118,7 @@ void TDecisor::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 void TDecisor::LeeResultadosMedControlador(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -156,7 +156,7 @@ void TDecisor::LeeResultadosMedControladorXML(xml_node node_ctrl) {
 
 void TDecisor::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -195,10 +195,10 @@ void TDecisor::LeeResultadosInsControladorXML(xml_node node_ctrl) {
 
 
 void TDecisor::CabeceraResultadosMedControlador(stringstream& medoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
-		Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+		Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 				+ PutLabel(3051) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
@@ -206,17 +206,17 @@ void TDecisor::CabeceraResultadosMedControlador(stringstream& medoutput) {
 }
 
 void TDecisor::CabeceraResultadosInsControlador(stringstream& insoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
-		Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+		Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 				+ PutLabel(3051) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
 }
 
 void TDecisor::ImprimeResultadosMedControlador(stringstream& medoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResMediosCtrl.Output) {
 		medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -224,7 +224,7 @@ void TDecisor::ImprimeResultadosMedControlador(stringstream& medoutput) {
 }
 
 void TDecisor::ImprimeResultadosInsControlador(stringstream& insoutput) {
-	AnsiString Label;
+	std::string Label;
 
 	if (FResInstantCtrl.Output) {
 		insoutput << "\t" << FResInstantCtrl.OutputINS;

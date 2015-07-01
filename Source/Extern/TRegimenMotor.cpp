@@ -67,8 +67,8 @@ void TRegimenMotor::LeeDatosEntrada(char *Ruta, FILE *fich) {
 			std::cout << "ERROR: Fichero de regimen de giro no cargado";
 		} else {
 			FNumeroDatos = 0;
-			double temp1;
-			double temp2;
+			double temp1 = 0.;
+			double temp2 = 0.;
 			while (!feof(FichRegimen)) {
 				fscanf(FichRegimen, "%lf %lf ", &temp1, &temp2);
 				FNumeroDatos++;
@@ -101,7 +101,7 @@ void TRegimenMotor::CalculaRegimen(double TiempoActual) {
 // AQUI SE CALCULAN LOS COEFICIENTES DE DESCARGA Y TURBULENCIA
 
 		int j = 0, jmax = FNumeroDatos - 1;
-		double RegimenAct, deltaT, t;
+		double RegimenAct = 0., deltaT = 0., t = 0.;
 		while (TiempoActual > FTiempo[j] && j < jmax) {
 			j++;
 		}
@@ -126,8 +126,8 @@ void TRegimenMotor::CalculaRegimen(double TiempoActual) {
 
 double TRegimenMotor::xit_(double vizq, double vder, double axid, double xif) {
 	try {
-		double xx, yy;
-		double ret_val;
+		double xx = 0., yy = 0.;
+		double ret_val = 0.;
 
 		xx = vder - vizq;
 		if (axid != 0.) {

@@ -839,9 +839,9 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 
 void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 		double ene, int tipomallado, TBloqueMotor **Engine) {
-	double EspesorPrin;
-	int EsPrincipal, refrigerante, EsFluida;
-	int datoWAMer;
+	double EspesorPrin = 0.;
+	int EsPrincipal = 0, refrigerante = 0, EsFluida = 0;
+	int datoWAMer = 0;
 
 	FDExtTramo = new double[FNTramos + 1];
 	FLTramo = new double[FNTramos + 1];
@@ -1035,7 +1035,7 @@ void TTubo::CalculoPuntosMalla(double ene) {
 	try {
 #endif
 		double *FLTotalTramo;
-		double xx;
+		double xx = 0.;
 
 		FLTotalTramo = new double[FNTramos + 1];
 
@@ -1142,7 +1142,7 @@ void TTubo::ComunicacionTubo_CC(TCondicionContorno **BC) {
 
 void TTubo::ComunicacionDPF ( TCondicionContorno **CC, TDeposito **Deposito ) {
 	try {
-		int numDeposito;
+		int numDeposito = 0;
 		bool PrimeraVez = false;
 
 		if ( FTipoCalcTempPared != nmTempConstante ) {
@@ -1212,7 +1212,7 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 #ifdef usetry
 	try {
 #endif
-		double RMezclaIni, CpMezclaIni, CvMezclaIni, GammaIni;
+		double RMezclaIni = 0., CpMezclaIni = 0., CvMezclaIni = 0., GammaIni = 0.;
 
 		FPresion0 = new double[FNin];
 		FAsonido0 = new double[FNin];
@@ -1697,7 +1697,7 @@ void TTubo::Transforma3Area(double **Ufct, double **U, double Area,
 void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 		double Gamma, double Gamma1, double Gamma3, double Gamma4,
 		double Gamma6, int i) {
-	double error, fu, dfu, vel, vel1;
+	double error = 0., fu = 0., dfu = 0., vel = 0., vel1 = 0.;
 	double v, a, p, *Y;
 	bool peta = false;
 	// double pruebadefuego1,pruebadefuego2;
@@ -1762,7 +1762,7 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 
 void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC,
 		TBloqueMotor **Engine, double AmbientTemperature) {
-	double dist1, dist2;
+	double dist1 = 0., dist2 = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -1837,7 +1837,7 @@ void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC,
 // ---------------------------------------------------------------------------
 
 void TTubo::EstabilidadMetodoCalculo() {
-	double VTotalMax, VTotalNodo;
+	double VTotalMax = 0., VTotalNodo = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -1905,7 +1905,7 @@ void TTubo::LaxWendroff() {
 #ifdef usetry
 	try {
 #endif
-		int Nodos;
+		int Nodos = 0;
 		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12,
 				*Rmezcla12, *Gamma1_12;
 
@@ -1990,7 +1990,7 @@ void TTubo::LaxWendroff() {
 // ---------------------------------------------------------------------------
 
 void TTubo::FluxCorrectedTransport() {
-	double c1, c2, c3, c4, sign;
+	double c1 = 0., c2 = 0., c3 = 0., c4 = 0., sign = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -2158,7 +2158,7 @@ void TTubo::LaxWendroffArea() {
 #ifdef usetry
 	try {
 #endif
-		int Nodos;
+		int Nodos = 0;
 		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12,
 				*Rmezcla12, *Gamma1_12;
 
@@ -2249,7 +2249,7 @@ void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
 
 	{
 #endif
-		double U1U0;
+		double U1U0 = 0.;
 
 		for (int i = 0; i < Nodos; i++) {
 			if (!DoubEqZero(U[1][i])) {
@@ -2290,7 +2290,7 @@ void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma,
 #ifdef usetry
 	try {
 #endif
-		double U1U0;
+		double U1U0 = 0.;
 		for (int i = 0; i < Nodos; i++) {
 			U1U0 = U[1][i] / U[0][i];
 
@@ -2317,7 +2317,7 @@ void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma,
 
 void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
 		double *Gamma1, int Nodos) {
-	double p;
+	double p = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -2419,7 +2419,7 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 		double *hi, double *rho, double *Re, double *TempParedTubo,
 		double *Gamma, double *Rmezcla, double *Gamma1, int Nodos) {
 	double v = 0., a = 0., pA = 0., tgas = 0., g = 0., q = 0., f = 0.;
-	double diame;
+	double diame = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -2470,9 +2470,9 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 // ---------------------------------------------------------------------------
 
 void TTubo::Colebrook(double rug, double dia, double& f, double Re) {
-	double temp, temp2;
+	double temp = 0., temp2 = 0.;
 
-	double pow_approx;
+	double pow_approx = 0.;
 
 	if (Re > 2000) {
 		if (Re > 130000.) {
@@ -2631,9 +2631,9 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 	try {
 #endif
 
-		double a, v, p;
-		double LandaIzq, BetaIzq, EntropiaIzq;
-		double LandaDer, BetaDer, EntropiaDer;
+		double a = 0., v = 0., p = 0.;
+		double LandaIzq = 0., BetaIzq = 0., EntropiaIzq = 0.;
+		double LandaDer = 0., BetaDer = 0., EntropiaDer = 0.;
 		double *YIzq, *YDer;
 
 		YIzq = new double[FNumeroEspecies - FIntEGR];
@@ -2772,7 +2772,7 @@ void TTubo::TransformaContorno(double& L, double& B, double& E, double& a,
 // ---------------------------------------------------------------------------
 
 void TTubo::ReduccionFlujoSubsonico() {
-	double Machx, Machy, Velocidady, Sonidoy;
+	double Machx = 0., Machy = 0., Velocidady = 0., Sonidoy = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -2808,8 +2808,8 @@ void TTubo::ReduccionFlujoSubsonico() {
 // ---------------------------------------------------------------------------
 
 void TTubo::ReduccionFlujoSubsonicoFCT() {
-	double Machx, Machy, Velocidady, Sonidoy;
-	double velocidad, asonido, presion;
+	double Machx = 0., Machy = 0., Velocidady = 0., Sonidoy = 0.;
+	double velocidad = 0., asonido = 0., presion = 0.;
 #ifdef usetry
 	try {
 #endif
@@ -2858,7 +2858,7 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 
 void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 		bool HayMotor) {
-	int NumVars, TipoVar;
+	int NumVars = 0, TipoVar = 0;
 #ifdef usetry
 	try {
 #endif
@@ -3091,71 +3091,71 @@ void TTubo::HeaderAverageResults(stringstream& medoutput,
 	try {
 #endif
 
-		AnsiString Label;
-		AnsiString TextDist;
+		std::string Label;
+		std::ostringstream TextDist;
+		TextDist.precision(8);
 
 		for (int i = 0; i < FNumResMedios; i++) {
-			TextDist = FloatToStrF(ResultadosMedios[i].Distancia, ffGeneral, 8,
-					3);
+			TextDist << ResultadosMedios[i].Distancia;
 
 			if (ResultadosMedios[i].TemperaturaGas) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3041);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Pressure) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4006)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4006)
 						+ PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Velocity) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4007)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4007)
 						+ PutLabel(909);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].Massflow) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4008)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4008)
 						+ PutLabel(904);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaInternaPared) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3043) + "/" + PutLabel(3011);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaIntermediaPared) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3043) + "/" + PutLabel(3012);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].TemperaturaExternaPared) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3043) + "/" + PutLabel(3013);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].NITmedio) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(3014)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(3014)
 						+ PutLabel(903);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].CoefPelInterior) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4015)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4015)
 						+ PutLabel(911);
 				medoutput << Label.c_str();
 			}
 			if (ResultadosMedios[i].FraccionMasicaEspecies) {
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-							+ "/" + TextDist + "m/" + PutLabel(4023)
+					Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+							+ "/" +  TextDist.str()  + "m/" + PutLabel(4023)
 							+ PutLabel(901) + "/" + DatosEspecies[j].Nombre;
 					medoutput << Label.c_str();
 				}
@@ -3226,7 +3226,7 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput) const {
 // ---------------------------------------------------------------------------
 void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 		bool HayMotor) {
-	int NumVars, TipoVar;
+	int NumVars = 0, TipoVar = 0;
 #ifdef usetry
 	try {
 #endif
@@ -3462,101 +3462,101 @@ void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
 	try {
 #endif
 
-		AnsiString Label;
-		AnsiString TextDist;
+		std::string Label;
+		std::ostringstream TextDist;
+		TextDist.precision(8);
 
 		for (int i = 0; i < FNumResInstant; i++) {
-			TextDist = FloatToStrF(ResultInstantaneos[i].Distancia, ffGeneral,
-					8, 3);
+			TextDist << ResultInstantaneos[i].Distancia;
 			if (ResultInstantaneos[i].Pressure) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4006) + PutLabel(908)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" + TextDist.str() + "m/" + PutLabel(4006) + PutLabel(908)
 						+ "/" + PutLabel(3042);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].Velocity) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4007) + PutLabel(909)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4007) + PutLabel(909)
 						+ "/" + PutLabel(3026);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaGas) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3041);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].FlujoMasico) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4008)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4008)
 						+ PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].VelocidadDerecha) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4007) + PutLabel(909)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4007) + PutLabel(909)
 						+ "/" + PutLabel(3031);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].VelocidadIzquierda) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4007) + PutLabel(909)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4007) + PutLabel(909)
 						+ "/" + PutLabel(3030);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].PresionDerecha) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4006) + PutLabel(908)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4006) + PutLabel(908)
 						+ "/" + PutLabel(3031);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].PresionIzquierda) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4006) + PutLabel(908)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4006) + PutLabel(908)
 						+ "/" + PutLabel(3030);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].NIT) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(3014)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(3014)
 						+ PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaInternaPared) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3043) + "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaIntermediaPared) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3043) + "/" + PutLabel(3012);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].TemperaturaExternaPared) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4005) + PutLabel(910)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4005) + PutLabel(910)
 						+ "/" + PutLabel(3043) + "/" + PutLabel(3013);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].CoefPelInterior) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4015) + PutLabel(911)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4015) + PutLabel(911)
 						+ "/" + PutLabel(3011);
 				insoutput << Label.c_str();
 			}
 			if (ResultInstantaneos[i].FraccionMasicaEspecies) {
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-							+ "/" + TextDist + "m/" + PutLabel(4023)
+					Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+							+ "/" +  TextDist.str()  + "m/" + PutLabel(4023)
 							+ PutLabel(901) + "/" + DatosEspecies[j].Nombre;
 					insoutput << Label.c_str();
 				}
 			}
 			if (ResultInstantaneos[i].Gamma) {
-				Label = "\t" + PutLabel(5004) + "/" + IntToStr(FNumeroTubo)
-						+ "/" + TextDist + "m/" + PutLabel(4017)
+				Label = "\t" + PutLabel(5004) + "/" + std::to_string(FNumeroTubo)
+						+ "/" +  TextDist.str()  + "m/" + PutLabel(4017)
 						+ PutLabel(901);
 				insoutput << Label.c_str();
 			}
@@ -3635,8 +3635,8 @@ void TTubo::ImprimeResultadosInstantaneos(stringstream& insoutput) const {
 // ---------------------------------------------------------------------------
 
 void TTubo::CalculaResultadosMedios(double Theta) {
-	double dist, Vble, d, Rmezcla, Gamma, GastoPonderacion;
-	int n1, n2;
+	double dist = 0., Vble = 0., d = 0., Rmezcla = 0., Gamma = 0., GastoPonderacion = 0.;
+	int n1 = 0, n2 = 0;
 #ifdef usetry
 	try {
 #endif
@@ -3854,8 +3854,8 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 // ---------------------------------------------------------------------------
 
 void TTubo::CalculaResultadosInstantaneos() {
-	double dist, d, ason, vel, Aa, ason1, vel1, Aa1, ason2, vel2, Aa2;
-	int n1, n2;
+	double dist = 0., d = 0., ason = 0., vel = 0., Aa = 0., ason1 = 0., vel1 = 0., Aa1 = 0., ason2 = 0., vel2 = 0., Aa2 = 0.;
+	int n1 = 0, n2 = 0;
 #ifdef usetry
 	try {
 #endif
@@ -4066,8 +4066,8 @@ double TTubo::CalculaNIT(double a, double v, double p, double d, double Gamma,
 #ifdef usetry
 	try {
 #endif
-		double kp;
-		double tem0, pre0, area, gto, nit, V, A, V2, A2;
+		double kp = 0.;
+		double tem0 = 0., pre0 = 0., area = 0., gto = 0., nit = 0., V = 0., A = 0., V2 = 0., A2 = 0.;
 
 		kp = Gamma * R / (Gamma - 1);
 		V = v * ARef;
@@ -4484,7 +4484,7 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 #ifdef usetry
 	try {
 #endif
-		double Tg, cesp, viscgas, cond, viscpared;
+		double Tg = 0., cesp = 0., viscgas = 0., cond = 0., viscpared = 0.;
 
 		if (FCoefAjusTC != 0) {
 			for (int i = 0; i < FNin; i++) {
@@ -4551,12 +4551,12 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 
 void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 		double CrankAngle, TCondicionContorno **BC) {
-	double Tg;
-	double zzz, czz, cz1, uq1;
-	double DeltaTTPared;
-	double Tpant0, Tpant1, Tpant2, Tpantant, Tpantpos, Text, Ri, Re, ErrorTp;
+	double Tg = 0.;
+	double zzz = 0., czz = 0., cz1 = 0., uq1 = 0.;
+	double DeltaTTPared = 0.;
+	double Tpant0 = 0., Tpant1 = 0., Tpant2 = 0., Tpantant = 0., Tpantpos = 0., Text = 0., Ri = 0., Re = 0., ErrorTp = 0.;
 	bool EsPrimeraVez;
-	int extremo, nodo;
+	int extremo = 0, nodo = 0;
 #ifdef usetry
 	try {
 #endif
@@ -5024,12 +5024,12 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 // ---------------------------------------------------------------------------
 
 void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
-	double Tg;
-	double zzz, czz, cz1, uq1;
-	double DeltaTTPared;
-	double Tpant0, Tpant1, Tpant2, Tpantant, Tpantpos, Text, Ri, Re, ErrorTp;
+	double Tg = 0.;
+	double zzz = 0., czz = 0., cz1 = 0., uq1 = 0.;
+	double DeltaTTPared = 0.;
+	double Tpant0 = 0., Tpant1 = 0., Tpant2 = 0., Tpantant = 0., Tpantpos = 0., Text = 0., Ri = 0., Re = 0., ErrorTp = 0.;
 	bool EsPrimeraVez;
-	int extremo, nodo;
+	int extremo = 0, nodo = 0;
 
 #ifdef usetry
 	try {
@@ -5628,9 +5628,9 @@ double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 		}
 		double dtdx = DeltaTiempo / FXref;
 		int ind = extremo;
-		double entropia;
-		double velocidadp;
-		double asonidop;
+		double entropia = 0.;
+		double velocidadp = 0.;
+		double asonidop = 0.;
 
 		if (DeltaTiempo < 1e-15 || DoubEqZero(FVelocidadDim[extremo])) {
 
@@ -5745,7 +5745,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 		/* --------------------------------------- */
 		if (!DoubEqZero(velocidadp) && !DoubEqZero(FCoefAjusFric)) {
 
-			double f;
+			double f = 0.;
 			double velabs = fabs(velocidadp);
 			Colebrook(FFriccion, diamep, f, Rep);
 			double dafric = gamma1p * FCoefAjusFric * f * entropiap
@@ -5775,9 +5775,9 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 
 		double dtdx = DeltaTiempo / FXref;
 		int ind = extremo;
-		double caracteristica;
-		double velocidadp;
-		double asonidop;
+		double caracteristica = 0.;
+		double velocidadp = 0.;
+		double asonidop = 0.;
 
 		if (DeltaTiempo < 1e-15) {
 			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
@@ -5970,7 +5970,7 @@ void TTubo::CalculaB() {
 #ifdef usetry
 	try {
 #endif
-		double v, p, f, tgas, g, q, diamemed, Rm, Rm1;
+		double v = 0., p = 0., f = 0., tgas = 0., g = 0., q = 0., diamemed = 0., Rm = 0., Rm1 = 0.;
 		double Remed, gamma, gamma1, Rmed, himed, rhomed, twallmed, Vmed, H1,
 				H2, Hmed, Amed, rhoAmed;
 
@@ -6065,7 +6065,7 @@ void TTubo::CalculaBmen() {
 #endif
 		double v, p, f, tgas, g, q, diamemed, B, Rm, Rm1, gamma, gamma1, Vmed,
 				Amed, H1, H2, Hmed, rhoAmed;
-		double Remed, Rmed, himed, rhomed, twallmed;
+		double Remed = 0., Rmed = 0., himed = 0., rhomed = 0., twallmed = 0.;
 
 		for (int i = 1; i < FNin; i++) {
 
@@ -6161,7 +6161,7 @@ void TTubo::CalculaBmas() {
 #endif
 		double v, p, f, tgas, g, q, diamemed, B, Rm, Rm1, gamma, gamma1, Vmed,
 				Amed, H1, H2, Hmed, rhoAmed;
-		double Remed, Rmed, himed, rhomed, twallmed;
+		double Remed = 0., Rmed = 0., himed = 0., rhomed = 0., twallmed = 0.;
 
 		for (int i = 0; i < FNin - 1; i++) {
 
@@ -6255,7 +6255,7 @@ void TTubo::CalculaMatrizJacobiana() {
 #ifdef usetry
 	try {
 #endif
-		double Rmed, Vmed, Vmed2, Hmed, Amed, Amed2, gamma, H1, H2, Rmed1;
+		double Rmed = 0., Vmed = 0., Vmed2 = 0., Hmed = 0., Amed = 0., Amed2 = 0., gamma = 0., H1 = 0., H2 = 0., Rmed1 = 0.;
 		double *Ymed, gamma1, gamma2, gaAmed2;
 
 		Ymed = new double[FNumeroEspecies - 1 - FIntEGR];
@@ -6335,7 +6335,7 @@ void TTubo::TVD_Estabilidad() {
 	try {
 #endif
 		double VTotalMax = 0.;
-		double VLocal, DeltaT_tvd;
+		double VLocal = 0., DeltaT_tvd = 0.;
 
 		CalculaFlujo(FU0, FTVD.W, FGamma, FGamma1, FNin);
 
@@ -6505,7 +6505,7 @@ void TTubo::TVD_Limitador() {
 // ---------------------------------------------------------------------------
 
 inline double TTubo::Limita(double r) {
-	double ret_val;
+	double ret_val = 0.;
 	// ------Van Albada
 	// double ret_val=(r*r+r)/(1+r*r);
 

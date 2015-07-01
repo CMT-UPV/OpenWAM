@@ -311,7 +311,7 @@ private:
 
 	stNodesHTM FNode;
 
-	std::vector<AnsiString> FNodeLabel;
+	std::vector<std::string> FNodeLabel;
 
 	double FTime0;
 

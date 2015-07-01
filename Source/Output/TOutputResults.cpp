@@ -35,7 +35,7 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 
 	// fpos_t filepos;
 
-	int intAuxiliar;
+	int intAuxiliar = 0;
 	fscanf(FileInput, "%d ", &intAuxiliar);
 	switch (intAuxiliar) {
 	case 0:
@@ -60,8 +60,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// ! Read average results in pipes
-	int NumPipesAvg;
-	int PipeID;
+	int NumPipesAvg = 0;
+	int PipeID = 0;
 	fscanf(FileInput, "%d ", &NumPipesAvg);
 	fscanf(FileInput, "%d ", &intAuxiliar);
 	for (int i = 0; i < NumPipesAvg; i++) {
@@ -75,8 +75,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// ! Read average results in cylinders
-	int NumCylindersAvg;
-	int CylinderID;
+	int NumCylindersAvg = 0;
+	int CylinderID = 0;
 	fscanf(FileInput, "%d ", &NumCylindersAvg);
 	for (int i = 0; i < NumCylindersAvg; i++) {
 		fscanf(FileInput, "%d ", &CylinderID);
@@ -89,8 +89,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// ! Read average results in the engine
-	int NumEnginesAvg;
-	int EngineID;
+	int NumEnginesAvg = 0;
+	int EngineID = 0;
 	fscanf(FileInput, "%d ", &NumEnginesAvg);
 	if (NumEnginesAvg > 0) {
 		AvgEngine = Engine[0];
@@ -102,8 +102,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in plenums
-	int NumPlenumsAvg;
-	int PlenumID;
+	int NumPlenumsAvg = 0;
+	int PlenumID = 0;
 	fscanf(FileInput, "%d ", &NumPlenumsAvg);
 	for (int i = 0; i < NumPlenumsAvg; i++) {
 		fscanf(FileInput, "%d ", &PlenumID);
@@ -116,8 +116,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in turbocharger axis
-	int NumAxisAvg;
-	int AxisID;
+	int NumAxisAvg = 0;
+	int AxisID = 0;
 	fscanf(FileInput, "%d ", &NumAxisAvg);
 	for (int i = 0; i < NumAxisAvg; i++) {
 		fscanf(FileInput, "%d ", &AxisID);
@@ -130,8 +130,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in compressors
-	int NumCompressorAvg;
-	int CompressorID;
+	int NumCompressorAvg = 0;
+	int CompressorID = 0;
 	fscanf(FileInput, "%d ", &NumCompressorAvg);
 	for (int i = 0; i < NumCompressorAvg; i++) {
 		fscanf(FileInput, "%d ", &CompressorID);
@@ -144,8 +144,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in turbines
-	int NumTurbineAvg;
-	int TurbineID;
+	int NumTurbineAvg = 0;
+	int TurbineID = 0;
 	fscanf(FileInput, "%d ", &NumTurbineAvg);
 	for (int i = 0; i < NumTurbineAvg; i++) {
 		fscanf(FileInput, "%d ", &TurbineID);
@@ -158,8 +158,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in valves
-	int NumValvesAvg;
-	int ValveID;
+	int NumValvesAvg = 0;
+	int ValveID = 0;
 	fscanf(FileInput, "%d ", &NumValvesAvg);
 	for (int i = 0; i < NumValvesAvg; i++) {
 		fscanf(FileInput, "%d ", &ValveID);
@@ -187,8 +187,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in root compressors
-	int NumRootsAvg;
-	int RootID;
+	int NumRootsAvg = 0;
+	int RootID = 0;
 	fscanf(FileInput, "%d ", &NumRootsAvg);
 
 	for (int i = 0; i < NumRootsAvg; ++i) {
@@ -202,8 +202,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in venturis
-	int NumVenturisAvg;
-	int VenturiID;
+	int NumVenturisAvg = 0;
+	int VenturiID = 0;
 	fscanf(FileInput, "%d ", &NumVenturisAvg);
 
 	for (int i = 0; i < NumVenturisAvg; ++i) {
@@ -217,8 +217,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in connections between plenums
-	int NumConnectionsAvg;
-	int ConnectionID;
+	int NumConnectionsAvg = 0;
+	int ConnectionID = 0;
 	fscanf(FileInput, "%d ", &NumConnectionsAvg);
 
 	for (int i = 0; i < NumConnectionsAvg; ++i) {
@@ -239,8 +239,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 
 	// !Read average results in DPF
 #ifdef ParticulateFilter
-	int NumDPFAvg;
-	int DPFID;
+	int NumDPFAvg = 0;
+	int DPFID = 0;
 	fscanf ( FileInput,"%d ", &NumDPFAvg );
 	for ( int i = 0; i < NumDPFAvg; i++ ) {
 		fscanf ( FileInput,"%d ",&DPFID );
@@ -254,8 +254,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 #endif
 
 	// !Read average results in sensors
-	int NumSensorAvg;
-	int SensorID;
+	int NumSensorAvg = 0;
+	int SensorID = 0;
 	fscanf(FileInput, "%d ", &NumSensorAvg);
 	for (int i = 0; i < NumSensorAvg; ++i) {
 		fscanf(FileInput, "%d ", &SensorID);
@@ -268,8 +268,8 @@ void TOutputResults::ReadAverageResults(const char* FileWAM, fpos_t& filepos,
 	}
 
 	// !Read average results in controllers
-	int NumControllersAvg;
-	int ControllerID;
+	int NumControllersAvg = 0;
+	int ControllerID = 0;
 	fscanf(FileInput, "%d ", &NumControllersAvg);
 
 	for (int i = 0; i < NumControllersAvg; ++i) {
@@ -735,8 +735,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	fsetpos(FileInput, &filepos);
 
 	// ! Instantaneous results in cylinders
-	int NumCylindersIns;
-	int CylinderID;
+	int NumCylindersIns = 0;
+	int CylinderID = 0;
 	fscanf(FileInput, "%d ", &NumCylindersIns);
 	for (int i = 0; i < NumCylindersIns; ++i) {
 		fscanf(FileInput, "%d ", &CylinderID);
@@ -749,8 +749,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 
 	// ! Instantaneous results in plenums
-	int NumPlenumsIns;
-	int PlenumID;
+	int NumPlenumsIns = 0;
+	int PlenumID = 0;
 	fscanf(FileInput, "%d ", &NumPlenumsIns);
 	for (int i = 0; i < NumPlenumsIns; i++) {
 		fscanf(FileInput, "%d ", &PlenumID);
@@ -763,11 +763,11 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 
 	// ! Instantaneous results in pipes
-	int NumPipesIns;
-	int PipeID;
+	int NumPipesIns = 0;
+	int PipeID = 0;
 	fscanf(FileInput, "%d ", &NumPipesIns);
 	/* Dato para WAMer. Numero de resultados instantaneos en tubos */
-	int numeroparawamer;
+	int numeroparawamer = 0;
 	fscanf(FileInput, "%d ", &numeroparawamer);
 	for (int i = 0; i < NumPipesIns; i++) {
 		fscanf(FileInput, "%d ", &PipeID);
@@ -780,8 +780,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 
 	// ! Instantaneous results in venturis
-	int NumVenturisIns;
-	int VenturiID;
+	int NumVenturisIns = 0;
+	int VenturiID = 0;
 	fscanf(FileInput, "%d ", &NumVenturisIns);
 	for (int i = 0; i < NumVenturisIns; i++) {
 		fscanf(FileInput, "%d ", &VenturiID);
@@ -794,8 +794,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 
 	// ! Instantaneous results in connections
-	int NumValvesIns;
-	int ValveID;
+	int NumValvesIns = 0;
+	int ValveID = 0;
 	fscanf(FileInput, "%d", &NumValvesIns);
 	for (int i = 0; i < NumValvesIns; i++) {
 		fscanf(FileInput, "%d ", &ValveID);
@@ -822,8 +822,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 
 	// ! Instantaneous results turbochargers.
-	int NumTurboIns;
-	int TurboID;
+	int NumTurboIns = 0;
+	int TurboID = 0;
 	fscanf(FileInput, "%d", &NumTurboIns);
 	for (int i = 0; i < NumTurboIns; i++) {
 		fscanf(FileInput, "%d", &TurboID);
@@ -835,8 +835,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 		fsetpos(FileInput, &filepos);
 	}
 
-	int NumCompressorIns;
-	int CompressorID;
+	int NumCompressorIns = 0;
+	int CompressorID = 0;
 	fscanf(FileInput, "%d ", &NumCompressorIns);
 	for (int i = 0; i < NumCompressorIns; i++) {
 		fscanf(FileInput, "%d ", &CompressorID);
@@ -848,8 +848,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 		fsetpos(FileInput, &filepos);
 	}
 
-	int NumTurbineIns;
-	int TurbineID;
+	int NumTurbineIns = 0;
+	int TurbineID = 0;
 	fscanf(FileInput, "%d ", &NumTurbineIns);
 	for (int i = 0; i < NumTurbineIns; i++) {
 		fscanf(FileInput, "%d ", &TurbineID);
@@ -861,8 +861,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 		fsetpos(FileInput, &filepos);
 	}
 
-	int NumRootsIns;
-	int RootID;
+	int NumRootsIns = 0;
+	int RootID = 0;
 	fscanf(FileInput, "%d ", &NumRootsIns);
 	for (int i = 0; i < NumRootsIns; ++i) {
 		fscanf(FileInput, "%d ", &RootID);
@@ -875,8 +875,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 
 	// !Read instantaneous results in connections between plenums
-	int NumConnectionsIns;
-	int ConnectionID;
+	int NumConnectionsIns = 0;
+	int ConnectionID = 0;
 	fscanf(FileInput, "%d ", &NumConnectionsIns);
 	for (int i = 0; i < NumConnectionsIns; ++i) {
 		fscanf(FileInput, "%d ", &ConnectionID);
@@ -897,8 +897,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	//
 	// // RESULTADOS INSTANTANEOS WASTE-GATE.
 
-	int NumWasteGateIns;
-	int WasteGateID;
+	int NumWasteGateIns = 0;
+	int WasteGateID = 0;
 	bool valido = false;
 	fscanf(FileInput, "%d ", &NumWasteGateIns);
 	for (int i = 0; i < NumWasteGateIns; i++) {
@@ -929,8 +929,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 	}
 	//
 	// // RESULTADOS INSTANTANEOS LAMINA.
-	int NumReedIns;
-	int ReedID;
+	int NumReedIns = 0;
+	int ReedID = 0;
 	fscanf(FileInput, "%d ", &NumReedIns);
 	for (int i = 0; i < NumReedIns; i++) {
 		fscanf(FileInput, "%d ", &ReedID);
@@ -962,8 +962,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 
 	// !Read instantaneous results in DPF.
 #ifdef ParticulateFilter
-	int NumDPFIns;
-	int DPFID;
+	int NumDPFIns = 0;
+	int DPFID = 0;
 	fscanf ( FileInput, "%d ", &NumDPFIns );
 	for ( int i = 0; i < NumDPFIns; ++i ) {
 		fscanf ( FileInput, "%d ", &DPFID );
@@ -977,8 +977,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 #endif
 
 	// !Read instantaneous results in sensors
-	int NumSensorIns;
-	int SensorID;
+	int NumSensorIns = 0;
+	int SensorID = 0;
 	fscanf(FileInput, "%d ", &NumSensorIns);
 	for (int i = 0; i < NumSensorIns; ++i) {
 		fscanf(FileInput, "%d ", &SensorID);
@@ -992,8 +992,8 @@ void TOutputResults::ReadInstantaneousResults(const char* FileWAM,
 
 	// !Read instantaneous results in controllers
 
-	int NumControllersIns;
-	int ControllerID;
+	int NumControllersIns = 0;
+	int ControllerID = 0;
 	fscanf(FileInput, "%d ", &NumControllersIns);
 
 	for (int i = 0; i < NumControllersIns; ++i) {
@@ -1261,10 +1261,10 @@ void TOutputResults::ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
 		TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum) {
 
 	// Numero de elementos en los que se grafica
-	int FNumMagnitudesEspTemp;
-	int NumCilEspTemp;
-	int NumDepEspTemp;
-	int NumTubEspTemp;
+	int FNumMagnitudesEspTemp = 0;
+	int NumCilEspTemp = 0;
+	int NumDepEspTemp = 0;
+	int NumTubEspTemp = 0;
 
 	FILE *FileInput = fopen(FileWAM, "r");
 	fsetpos(FileInput, &filepos);
@@ -1274,26 +1274,26 @@ void TOutputResults::ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
 		fscanf(FileInput, "%d %d %d ", &NumCilEspTemp, &NumDepEspTemp,
 				&NumTubEspTemp);
 
-		int CylinderID;
+		int CylinderID = 0;
 		for (int i = 0; i < NumCilEspTemp; ++i) {
 			fscanf(FileInput, "%d ", &CylinderID);
 			STCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
 		}
 
-		int PlenumID;
+		int PlenumID = 0;
 		for (int i = 0; i < NumDepEspTemp; ++i) {
 			fscanf(FileInput, "%d ", &PlenumID);
 			STPlenum.push_back(Plenum[PlenumID - 1]);
 		}
 
-		int PipeID;
+		int PipeID = 0;
 		for (int i = 0; i < NumTubEspTemp; ++i) {
 			fscanf(FileInput, "%d ", &PipeID);
 			STPipe.push_back(Pipe[PipeID - 1]);
 		}
 
 		// Magnitudes que se grafican
-		int ParameterID;
+		int ParameterID = 0;
 		for (int i = 0; i < FNumMagnitudesEspTemp; ++i) {
 			fscanf(FileInput, "%d ", &ParameterID);
 			FParameterSpaceTime.push_back(ParameterID);
@@ -1370,7 +1370,7 @@ void TOutputResults::ReadSpaceTimeResultsXML(xml_node node_openwam,
 void TOutputResults::DoSpaceTimeFiles(int SpeciesNumber) {
 
 	if (FParameterSpaceTime.size() > 0) {
-		int k;
+		int k = 0;
 		if (SpeciesNumber == 3) {
 			for (int j = 0; j <= 299; ++j) {
 				salpre[j] = '\0';
@@ -2365,7 +2365,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 
 	if (FWriteSpaceTime) {
 		float pasafloat = 0.;
-		double m, RegimenFicticio;
+		double m = 0., RegimenFicticio = 0.;
 
 		if (EngineBlock) {
 			m = floor(Theta / Engine[0]->getAngTotalCiclo());
@@ -2647,7 +2647,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 				}
 				break;
 			case 5:
-				double massflow;
+				double massflow = 0.;
 				if (SpeciesNumber == 3) {
 					fprintf(FOutFlowBurntGas, "\n%g", pasafloat);
 					fprintf(FOutFlowFreshAir, "\n%g", pasafloat);
@@ -2868,7 +2868,7 @@ void TOutputResults::HeaderInstantaneousResults(TCalculoExtern *EXTERN,
 
 	if (WriteInsHeader) {
 
-		AnsiString Label;
+		std::string Label;
 
 		FInsOutput << PutLabel(4019) + PutLabel(923);
 
@@ -3021,7 +3021,7 @@ void TOutputResults::PlotThisCycle(TBloqueMotor* Engine, int TotalCycles) {
 void TOutputResults::PlotControl(double Theta0, double Theta,
 		double CycleDuration) {
 
-	int n1, n0;
+	int n1 = 0, n0 = 0;
 
 	if (FFirstTime) {
 		FFirstTime = false;
@@ -3059,7 +3059,7 @@ void TOutputResults::OutputInstantaneousResults(TCalculoExtern *EXTERN,
 
 	if (FPlotIns) {
 		float pasafloat, m;
-		double RegimenFicticio;
+		double RegimenFicticio = 0.;
 
 		FInsOutput << std::endl;
 		FInsOutput << Time;

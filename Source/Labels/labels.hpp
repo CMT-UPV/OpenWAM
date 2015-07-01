@@ -29,15 +29,10 @@
 
 #include <map>
 #include <string>
-#ifndef __BORLANDC__
-#include "StringManagement.hpp"
-#endif
-#ifdef __BORLANDC__
-#include "vcl.h"
-#endif
+
 
 namespace OpenWAM_labels {
-extern std::map<int, AnsiString> labels;
+extern std::map<int, std::string> labels;
 }
 
 /**
@@ -53,6 +48,6 @@ void init_labels();
  * @param idx Label index.
  * @return Label.
  */
-AnsiString PutLabel(int idx);
+std::string PutLabel(int idx);
 
 #endif

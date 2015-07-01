@@ -96,7 +96,7 @@ TEjeTurbogrupo::~TEjeTurbogrupo() {
 void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 		TCompresor **Compressor, TTurbina **Turbine) {
 	try {
-		int variacion, htm;
+		int variacion = 0, htm = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -145,7 +145,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 			FRPMControlled = true;
 
 		// basura para wamer
-		int numide;
+		int numide = 0;
 		fscanf(fich, "%d ", &numide);
 
 #ifdef tchtm
@@ -171,16 +171,16 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 					&FCAC, &FCAT );
 			// Wheel areas
 			fscanf ( fich, "%lf %lf", &FCWArea, &FTWArea );
-			double DT, LT;
+			double DT = 0., LT = 0.;
 			fscanf ( fich, "%lf %lf", &DT, &LT );
-			double DC, LC;
+			double DC = 0., LC = 0.;
 			fscanf ( fich, "%lf %lf", &DC, &LC );
-			double DH, LH;
+			double DH = 0., LH = 0.;
 			fscanf ( fich, "%lf %lf", &DH, &LH );
 
 			// Oil properties.
 			fscanf ( fich, "%lf %lf %lf ", &FMoil, &FToil, &FPoil );
-			double K1, K2, K3;
+			double K1 = 0., K2 = 0., K3 = 0.;
 			// Oil Voeguel parameters.
 			fscanf ( fich, "%lf %lf %lf ", &K1, &K2, &K3 );
 			FOil = new stHTMoil();
@@ -394,7 +394,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 		// Calculo del nuevo regimen del turbogrupo.
 
 		double MechWork = 0;
-		// OJO HAY QUE PASAR EL VALOR DE TAMB
+		//  HAY QUE PASAR EL VALOR DE TAMB
 		double DeltaTime = Time - FTime;
 		FTime = Time;
 
@@ -550,7 +550,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM,
 		fpos_t & filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -610,10 +610,10 @@ void TEjeTurbogrupo::ReadAverageResultsEjeXML(xml_node node_shaft) {
 void TEjeTurbogrupo::CabeceraResultadosMedEje(stringstream & medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosEje.Regimen) {
-			Label = "\t" + PutLabel(5007) + "/" + IntToStr(FNumeroEje) + "/"
+			Label = "\t" + PutLabel(5007) + "/" + std::to_string(FNumeroEje) + "/"
 					+ PutLabel(4022);
 			medoutput << Label.c_str();
 		}
@@ -716,7 +716,7 @@ void TEjeTurbogrupo::AcumulaResultadosMediosEje(double Actual) {
 void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM,
 		fpos_t & filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -810,20 +810,20 @@ void TEjeTurbogrupo::HeaderInstantaneousResultsEje(stringstream & insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantEje.Regimen) {
-			Label = "\t" + PutLabel(5007) + "/" + IntToStr(FNumeroEje) + "/"
+			Label = "\t" + PutLabel(5007) + "/" + std::to_string(FNumeroEje) + "/"
 					+ PutLabel(4022) + PutLabel(918);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantEje.MechPower) {
-			Label = "\t" + PutLabel(5007) + "/" + IntToStr(FNumeroEje) + "/"
+			Label = "\t" + PutLabel(5007) + "/" + std::to_string(FNumeroEje) + "/"
 					+ PutLabel(4029) + PutLabel(4009) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantEje.MechEff) {
-			Label = "\t" + PutLabel(5007) + "/" + IntToStr(FNumeroEje) + "/"
+			Label = "\t" + PutLabel(5007) + "/" + std::to_string(FNumeroEje) + "/"
 					+ PutLabel(4029) + PutLabel(4011) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
@@ -944,7 +944,7 @@ void TEjeTurbogrupo::InitizlizeHTM(double Tamb) {
 	FCompresor[0]->GetMap()->CalculateAdiabaticEfficiency ( FHTM,
 			FTurbina[0]->getMap()->getTempMeasure() );
 
-	// OJO TEMPERATURA AMBIENTE
+	//  TEMPERATURA AMBIENTE
 	FHTM->InitializeTemp ( T3, T2, T1, FToil, FTwater, Tamb );
 
 #endif

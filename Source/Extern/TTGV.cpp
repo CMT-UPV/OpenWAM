@@ -142,7 +142,7 @@ void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
 		double RelExp, double RegTurboCorr, double GastoCorr, double Tiempo) {
 	try {
 		int contador = 0, x1, x2;
-		double Rendimiento1, Rendimiento2, AefecEstator, AefecRotor;
+		double Rendimiento1 = 0., Rendimiento2 = 0., AefecEstator = 0., AefecRotor = 0.;
 		if (TipoControl == nmControlPadm) {
 
 			MasaFuel = MasaFuel * 1e6; // en (mg/cc)

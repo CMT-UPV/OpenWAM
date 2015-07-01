@@ -72,7 +72,7 @@ TMariposa::TMariposa(TMariposa *Origen, int valv) :
 
 void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
-	int ctrl, prm;
+	int ctrl = 0, prm = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);

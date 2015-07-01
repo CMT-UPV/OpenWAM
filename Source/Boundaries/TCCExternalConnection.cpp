@@ -53,7 +53,7 @@ void TCCExternalConnection::AsignGeometricalData(double D0, double D1,
 void TCCExternalConnection::ExternalCharacteristics(double Time) {
 
 	// Calculo Entropia
-	double x, Px, Tx, Ux, Ax;
+	double x = 0., Px = 0., Tx = 0., Ux = 0., Ax = 0.;
 	double Deltat = Time - FCurrentTime;
 
 	double g = Gamma;
@@ -89,7 +89,7 @@ void TCCExternalConnection::ExternalCharacteristics(double Time) {
 
 void TCCExternalConnection::CalculaCondicionContorno(double Time) {
 
-	double flujo;
+	double flujo = 0.;
 
 	ExternalCharacteristics(Time);
 

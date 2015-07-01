@@ -84,7 +84,7 @@ TWasteGate::TWasteGate(TWasteGate *Origen, int Valvula) :
 void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
-		int modo;
+		int modo = 0;
 
 		FNumeroOrden = norden;
 
@@ -273,7 +273,7 @@ void TWasteGate::GetCDout(double Time) {
 
 void TWasteGate::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int ndv, var;
+		int ndv = 0, var = 0;
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 		FGraficasWG = true;
@@ -302,12 +302,12 @@ void TWasteGate::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 
 void TWasteGate::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 	try {
-		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+//FILE *fich=fopen(FileSALIDA,"a");
+		std::string Label;
 
 		if (FGraficasWG) {
 			if (FGrafLev) {
-				Label = "\t" + PutLabel(5014) + "/" + IntToStr(lam) + "/"
+				Label = "\t" + PutLabel(5014) + "/" + std::to_string(lam) + "/"
 						+ PutLabel(4030) + PutLabel(902);
 				insoutput << Label.c_str();
 			}

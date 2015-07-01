@@ -576,7 +576,7 @@ double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 		double MasaE, double ASonidoD, double MasaD, double Gamma) {
 	try {
 
-		double xx, yy, ret_val;
+		double xx = 0., yy = 0., ret_val = 0.;
 
 		if (fabs(MasaE) != 0.) {
 			xx = (ASonidoE * ASonidoE / ASonidoD / ASonidoD - 1.)
@@ -963,7 +963,7 @@ void TDeposito::ResultadosMediosDep() {
 
 void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -1045,7 +1045,7 @@ void TDeposito::ReadInstantaneousResultsDepXML(xml_node node_plenum) {
 // ---------------------------------------------------------------------------
 
 void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -1115,38 +1115,38 @@ void TDeposito::HeaderInstantaneousResultsDep(stringstream& insoutput,
 		stEspecies *DatosEspecies) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantDep.Pressure) {
-			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 					+ "/" + PutLabel(4006) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Temperature) {
-			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 					+ "/" + PutLabel(4005) + PutLabel(910);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Volumen) {
-			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 					+ "/" + PutLabel(4003) + PutLabel(912);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.Masa) {
-			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 					+ "/" + PutLabel(4004) + PutLabel(913);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantDep.FraccionMasicaEspecies) {
 			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-				Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+				Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 						+ "/" + PutLabel(4023) + PutLabel(901) + "/"
 						+ DatosEspecies[i].Nombre;
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantDep.Gamma) {
-			Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+			Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 					+ "/" + PutLabel(4017) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
@@ -1201,22 +1201,22 @@ void TDeposito::HeaderAverageResultsDep(stringstream& medoutput,
 		stEspecies *DatosEspecies) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 		if (FNumResMed > 0) {
 			if (FResMediosDep.Pressure) {
-				Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+				Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 						+ "/" + PutLabel(4006) + PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosDep.Temperature) {
-				Label = "\t" + PutLabel(5003) + "/" + IntToStr(FNumeroDeposito)
+				Label = "\t" + PutLabel(5003) + "/" + std::to_string(FNumeroDeposito)
 						+ "/" + PutLabel(4005) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosDep.FraccionMasicaEspecies) {
 				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 					Label = "\t" + PutLabel(5003) + "/"
-							+ IntToStr(FNumeroDeposito) + "/" + PutLabel(4023)
+							+ std::to_string(FNumeroDeposito) + "/" + PutLabel(4023)
 							+ PutLabel(901) + "/" + DatosEspecies[i].Nombre;
 					medoutput << Label.c_str();
 				}
@@ -1263,8 +1263,8 @@ void TDeposito::ImprimeResultadosMediosDep(stringstream& medoutput) {
 // ---------------------------------------------------------------------------
 
 double TDeposito::CriterioEstabilidad(double TMinimo) {
-	double DeltTMin, MasaFinal, g;
-	int SignoFlujoED;
+	double DeltTMin = 0., MasaFinal = 0., g = 0.;
+	int SignoFlujoED = 0;
 
 	try {
 

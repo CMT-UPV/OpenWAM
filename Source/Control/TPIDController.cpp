@@ -46,7 +46,7 @@ TPIDController::~TPIDController() {
 }
 
 double TPIDController::Output(double Time) {
-	double dt, out, deltaT, Kp, Ki, Kd;
+	double dt = 0., out = 0., deltaT = 0., Kp = 0., Ki = 0., Kd = 0.;
 
 	dt = Time - fTime_ant;
 
@@ -126,7 +126,7 @@ double TPIDController::Output(double Time) {
 
 void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 
-	int ctrl;
+	int ctrl = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
 	fsetpos(fich, &filepos);
@@ -144,7 +144,7 @@ void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 	fOutput_filt = fOutput;
 	fOutput_filt_ant = fOutput;
 
-	int tmp;
+	int tmp = 0;
 
 	fscanf(fich, "%lf ", &fSetPoint);
 	fscanf(fich, "%d ", &ctrl);
@@ -220,7 +220,7 @@ void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -299,7 +299,7 @@ void TPIDController::LeeResultadosMedControladorXML(xml_node node_ctrl) {
 void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -378,35 +378,35 @@ void TPIDController::LeeResultadosInsControladorXML(xml_node node_ctrl) {
 
 void TPIDController::CabeceraResultadosMedControlador(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCtrl.Output) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3051) + PutLabel(901) + "/" + PutLabel(3057);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCtrl.Error) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3053) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCtrl.POutput) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3054) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCtrl.IOutput) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3055) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCtrl.DOutput) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3056) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosCtrl.Output_filt) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3051) + PutLabel(901) + "/" + PutLabel(3058);
 			medoutput << Label.c_str();
 		}
@@ -422,35 +422,35 @@ void TPIDController::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
 void TPIDController::CabeceraResultadosInsControlador(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCtrl.Output) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3051) + PutLabel(901) + "/" + PutLabel(3057);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCtrl.Error) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3053) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCtrl.POutput) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3054) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCtrl.IOutput) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3055) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCtrl.DOutput) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3056) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantCtrl.Output_filt) {
-			Label = "\t" + PutLabel(5013) + "/" + IntToStr(fID) + "/"
+			Label = "\t" + PutLabel(5013) + "/" + std::to_string(fID) + "/"
 					+ PutLabel(3051) + PutLabel(901) + "/" + PutLabel(3058);
 			insoutput << Label.c_str();
 		}
@@ -465,7 +465,7 @@ void TPIDController::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
 void TPIDController::ImprimeResultadosMedControlador(stringstream& medoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosCtrl.Output) {
 			medoutput << "\t" << FResMediosCtrl.OutputMED;
@@ -496,7 +496,7 @@ void TPIDController::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
 void TPIDController::ImprimeResultadosInsControlador(stringstream& insoutput) {
 	try {
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantCtrl.Output) {
 			insoutput << "\t" << FResInstantCtrl.OutputINS;

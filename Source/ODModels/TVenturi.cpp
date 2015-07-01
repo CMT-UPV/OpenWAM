@@ -86,7 +86,7 @@ TVenturi::~TVenturi() {
 
 void TVenturi::LeeDatosVenturi(const char *FileWAM, fpos_t &filepos) {
 	try {
-		int numid; // dato para Wamer
+		int numid = 0; // dato para Wamer
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
@@ -137,11 +137,11 @@ void TVenturi::LeeDatosVenturiXML(xml_node node_venturi) {
 
 void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 
-	double H; // Entalpia de entrada
-	double Energia;
+	double H = 0.; // Entalpia de entrada
+	double Energia = 0.;
 	double MasaEntrante, FraccionMasicaAcum = 0.;
-	double DeltaT;
-	double g, v, a, m;
+	double DeltaT = 0.;
+	double g = 0., v = 0., a = 0., m = 0.;
 	int SignoFlujo = 1;
 
 	try {
@@ -183,7 +183,7 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 		double Asonido0 = FAsonido;
 		double Asonido1 = FAsonido;
 		double Error = 0.;
-		double Diff;
+		double Diff = 0.;
 
 		while (!Converge) {
 			H = 0.;
@@ -291,11 +291,11 @@ void TVenturi::CalculaVenturi() {
 	// ramal de entrada como por el ramal de salida.
 
 	try {
-		double Velocity, Speedsound;
-		double Converge, VelGarganta0, VelGarganta1;
-		double Mach0, Mach1;
-		double CSup;
-		double TempGarganta, TempEntrada;
+		double Velocity = 0., Speedsound = 0.;
+		double Converge = 0., VelGarganta0 = 0., VelGarganta1 = 0.;
+		double Mach0 = 0., Mach1 = 0.;
+		double CSup = 0.;
+		double TempGarganta = 0., TempEntrada = 0.;
 		int SentidoEntrada = 0, SentidoSalida = 0;
 
 		TempEntrada = FTemperature + 273.;
@@ -426,7 +426,7 @@ void TVenturi::CalculaVenturi() {
 void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM,
 		fpos_t &filepos) {
 
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -523,45 +523,45 @@ void TVenturi::LeeResultadosInstantVenturiXML(xml_node node_venturi) {
 void TVenturi::CabeceraResultadosInstantVenturi(stringstream& insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3049);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3049);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelLateral) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3050);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3047);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3050);
 			insoutput << Label.c_str();
 		}
@@ -615,7 +615,7 @@ void TVenturi::ImprimeResultadosInstantVenturi(stringstream& insoutput) {
 
 void TVenturi::CalculaResultadosVenturi() {
 	try {
-		int SentidoEntrada, SentidoLateral, SentidoSalida;
+		int SentidoEntrada = 0, SentidoLateral = 0, SentidoSalida = 0;
 		if (FResInstantVenturi.PresionEntrada) {
 			FResInstantVenturi.PresionEntradaINS = FPressure;
 		}
@@ -705,7 +705,7 @@ void TVenturi::CalculaResultadosVenturi() {
 // ---------------------------------------------------------------------------
 
 void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -802,45 +802,45 @@ void TVenturi::ReadAverageResultsVenturiXML(xml_node node_venturi) {
 void TVenturi::HeaderAverageResultsVenturi(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4006) + PutLabel(908) + "/" + PutLabel(3049);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4014) + PutLabel(901) + "/" + PutLabel(3049);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelLateral) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4007) + PutLabel(909) + "/" + PutLabel(3050);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3047);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(5006) + "/" + IntToStr(FNumeroVenturi) + "/"
+			Label = "\t" + PutLabel(5006) + "/" + std::to_string(FNumeroVenturi) + "/"
 					+ PutLabel(4008) + PutLabel(904) + "/" + PutLabel(3050);
 			medoutput << Label.c_str();
 		}
@@ -860,7 +860,7 @@ void TVenturi::HeaderAverageResultsVenturi(stringstream& medoutput) {
 
 void TVenturi::AcumulaResultadosMediosVenturi(double Actual) {
 	try {
-		int SentidoEntrada, SentidoLateral;
+		int SentidoEntrada = 0, SentidoLateral = 0;
 		double Delta = Actual - FResMediosVenturi.Tiempo0;
 
 		if (FResMediosVenturi.PresionEntrada) {

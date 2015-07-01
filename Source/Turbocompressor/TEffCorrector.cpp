@@ -77,10 +77,10 @@ void TEffCorrector::InputData(double T_AF, double T_Humidity, double T_MassFlow,
 
 void TEffCorrector::BuidMatrix() {
 
-	double Re_mass_tur, Re_mass_com, Re_shaft, Re_mass_oil;
-	double k_air_T, k_air_C, k_oil;
-	double Pr_oil;
-	double mu_oil_h1, mu_oil_h2, mu_oil_h3;
+	double Re_mass_tur = 0., Re_mass_com = 0., Re_shaft = 0., Re_mass_oil = 0.;
+	double k_air_T = 0., k_air_C = 0., k_oil = 0.;
+	double Pr_oil = 0.;
+	double mu_oil_h1 = 0., mu_oil_h2 = 0., mu_oil_h3 = 0.;
 
 	FMatriz_KS[0][0] = 1.0;
 	FMatriz_KS[1][1] = 1.0;

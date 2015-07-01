@@ -71,8 +71,8 @@ TCCDescargaExtremoAbierto::~TCCDescargaExtremoAbierto() {
 void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 		double *AtmosphericComposition) {
 
-	double RMezclaDep, CvMezclaDep, CpMezclaDep, GammaDep;
-	int modeladoescape;
+	double RMezclaDep = 0., CvMezclaDep = 0., CpMezclaDep = 0., GammaDep = 0.;
+	int modeladoescape = 0;
 
 	FPressure = Pamb;
 	FTemperaturaDep = Tamb;
@@ -116,8 +116,8 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 	try {
 		int i = 0;
 		double fracciontotal = 0.;
-		double RMezclaDep, CvMezclaDep, CpMezclaDep, GammaDep;
-		int modeladoescape;
+		double RMezclaDep = 0., CvMezclaDep = 0., CpMezclaDep = 0., GammaDep = 0.;
+		int modeladoescape = 0;
 
 		FTuboExtremo = new stTuboExtremo[1];
 		FTuboExtremo[0].Pipe = NULL;
@@ -509,7 +509,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryDataXML(xml_node node_connect,
 
 //void TCCDescargaExtremoAbierto::PutTemperatura(double valor) {
 //	try {
-//		double RMezclaDep, CvMezclaDep, CpMezclaDep, GammaDep;
+//		double RMezclaDep = 0., CvMezclaDep = 0., CpMezclaDep = 0., GammaDep = 0.;
 //
 //		FTemperaturaDep = valor;
 //		if (FCalculoEspecies == nmCalculoCompleto) {

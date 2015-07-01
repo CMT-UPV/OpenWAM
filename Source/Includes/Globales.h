@@ -59,6 +59,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <string>
 //#include <system.hpp>
 #include <ctime>
 // #include <sys\timeb.h>
@@ -68,7 +69,6 @@
 #include "Math_wam.h"
 #include "labels.hpp"
 #ifndef __BORLANDC__
-#include "StringManagement.hpp"
 #include "Exception.hpp"
 #define ffGeneral 3
 #endif
@@ -380,7 +380,7 @@ class TDPF;
 // ---------------------------------------------------------------------------
 
 struct stEspecies {
-	AnsiString Nombre;
+	std::string Nombre;
 	double R;
 };
 
@@ -2226,7 +2226,7 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 ;
 
 // int _matherr(struct _exception *a) {
-//	// throw Exception(AnsiString(a->name)+"("+AnsiString(a->arg1)+","+AnsiString(a->arg2)+")");
+//	// throw Exception(std::to_string(a->name)+"("+std::to_string(a->arg1)+","+std::to_string(a->arg2)+")");
 //
 //	if (a->arg2 != 0) {
 //		MessageBeep(2);

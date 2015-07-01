@@ -27,7 +27,7 @@
 #include "labels.hpp"
 
 namespace OpenWAM_labels {
-std::map<int, AnsiString> labels;
+std::map<int, std::string> labels;
 }
 
 using namespace OpenWAM_labels;
@@ -581,11 +581,11 @@ void init_labels() {
 
 using namespace std;
 
-AnsiString PutLabel(int idx) {
+std::string PutLabel(int idx) {
 	if (idx < 900) {
-		if (CompareStr(labels[10000], "ES") == 0) {
+		if (labels[10000].compare("ES") == 0) {
 			idx += 2000;
-		} else if (CompareStr(labels[10000], "EN") == 0) {
+		} else if (labels[10000].compare("EN") == 0) {
 			idx += 1000;
 		}
 	}

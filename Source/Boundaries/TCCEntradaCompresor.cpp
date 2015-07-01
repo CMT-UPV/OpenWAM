@@ -193,7 +193,7 @@ void TCCEntradaCompresor::AsignaCompresor(TCompresor **Compressor) {
 
 void TCCEntradaCompresor::CalculaCondicionContorno(double Time) {
 	try {
-		double cte1, cte2, ctea, numerador, denominador, presionact;
+		double cte1 = 0., cte2 = 0., ctea = 0., numerador = 0., denominador = 0., presionact = 0.;
 		int contador = 0;
 		double error = 1e5;
 

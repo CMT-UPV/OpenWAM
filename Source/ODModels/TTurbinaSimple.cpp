@@ -155,16 +155,16 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 	double cpte, cpts /* ,gammaent,gammasal,cvte,cvts,Rentrada,Rsalida */;
 	// double B,Cte_R,A;
-	double TempIsentSal;
-	double DeltaT;
-	double incrRelCin;
-	double Landa, Beta, Entropia;
+	double TempIsentSal = 0.;
+	double DeltaT = 0.;
+	double incrRelCin = 0.;
+	double Landa = 0., Beta = 0., Entropia = 0.;
 	int SentidoSalida = -1, SentidoEntrada = 1;
-	double dd, b, c, d;
-	int NumberOfPipes;
-	double gam_med;
-	double gam_te;
-	double cp_med;
+	double dd = 0., b = 0., c = 0., d = 0.;
+	int NumberOfPipes = 0;
+	double gam_med = 0.;
+	double gam_te = 0.;
+	double cp_med = 0.;
 
 	try {
 
@@ -497,7 +497,7 @@ void TTurbinaSimple::ImprimeResultadosMediosPantalla() {
 void TTurbinaSimple::ReadAverageResultsTurb(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
-		int nvars, var;
+		int nvars = 0, var = 0;
 
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -581,48 +581,48 @@ void TTurbinaSimple::ReadAverageResultsTurbXML(xml_node node_trb) {
 void TTurbinaSimple::CabeceraResultadosMedTurb(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResMediosTurbina.Trabajo) {
-			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+			Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina) + "/"
 					+ PutLabel(4021) + PutLabel(907);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosTurbina.Rendimiento) {
-			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+			Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina) + "/"
 					+ PutLabel(4011) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosTurbina.RelaCinematica) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4027) + PutLabel(901) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				medoutput << Label.c_str();
 			}
-			// fprintf(fich,"\tRelacion_cinematica_global_turb_%d(-)",IntToStr(FNumeroTurbina));
+			// fprintf(fich,"\tRelacion_cinematica_global_turb_%d(-)",std::to_string(FNumeroTurbina));
 		}
 		if (FResMediosTurbina.GastoCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4024) + PutLabel(905) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				medoutput << Label.c_str();
 			}
 		}
 		if (FResMediosTurbina.RegimenCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4025) + PutLabel(906) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				medoutput << Label.c_str();
 			}
 		}
 		if (FResMediosTurbina.RelacionExpansion) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4026) + PutLabel(901) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				medoutput << Label.c_str();
 			}
 		}
@@ -653,7 +653,7 @@ void TTurbinaSimple::IniciaMedias() {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TTurbinaSimple::IniciaMedias en el turbina: "
-						+ AnsiString(FNumeroTurbina) + N.Message);
+						+ std::to_string(FNumeroTurbina) + N.Message);
 	}
 }
 
@@ -661,7 +661,7 @@ void TTurbinaSimple::IniciaMedias() {
 // ---------------------------------------------------------------------------
 
 void TTurbinaSimple::AcumulaMedias(double Tiempo) {
-	double DeltaT;
+	double DeltaT = 0.;
 	try {
 		DeltaT = Tiempo - FResMediosTurbina.Tiempo0;
 		FResMediosTurbina.TiempoSUM += DeltaT;
@@ -688,7 +688,7 @@ void TTurbinaSimple::AcumulaMedias(double Tiempo) {
 		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
 		throw Exception(
 				"ERROR: TTurbinaSimple::AcumulaMedias en la Turbine: "
-						+ AnsiString(FNumeroTurbina) + N.Message);
+						+ std::to_string(FNumeroTurbina) + N.Message);
 	}
 }
 
@@ -811,7 +811,7 @@ void TTurbinaSimple::CalculaResultadosMediosTurb() {
 
 void TTurbinaSimple::LeeResultadosInstantTurb(const char *FileWAM,
 		fpos_t &filepos) {
-	int nvars, var;
+	int nvars = 0, var = 0;
 
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -897,47 +897,47 @@ void TTurbinaSimple::LeeResultadosInstantTurbXML(xml_node node_trb) {
 void TTurbinaSimple::CabeceraResultadosInstantTurb(stringstream& insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		AnsiString Label;
+		std::string Label;
 
 		if (FResInstantTurbina.Potencia) {
-			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+			Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina) + "/"
 					+ PutLabel(4009) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantTurbina.Rendimiento) {
-			Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina) + "/"
+			Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina) + "/"
 					+ PutLabel(4011) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantTurbina.RelaCinematica) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4027) + PutLabel(901) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantTurbina.GastoCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4024) + PutLabel(905) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantTurbina.RegimenCorregido) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4025) + PutLabel(906) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				insoutput << Label.c_str();
 			}
 		}
 		if (FResInstantTurbina.RelacionExpansion) {
 			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(5009) + "/" + IntToStr(FNumeroTurbina)
+				Label = "\t" + PutLabel(5009) + "/" + std::to_string(FNumeroTurbina)
 						+ "/" + PutLabel(4026) + PutLabel(901) + "/"
-						+ IntToStr(i + 1);
+						+ std::to_string(i + 1);
 				insoutput << Label.c_str();
 			}
 		}

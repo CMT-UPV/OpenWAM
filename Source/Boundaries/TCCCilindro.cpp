@@ -144,7 +144,7 @@ void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;
-		int numid; // Variable necesaria para WAMer.
+		int numid = 0; // Variable necesaria para WAMer.
 
 		FTuboExtremo = new stTuboExtremo[1];
 		FTuboExtremo[0].Pipe = NULL;
@@ -416,7 +416,7 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 
 void TCCCilindro::FlujoEntranteCilindro() {
 	try {
-		double vel_son_garganta, velocidad_garganta, Mach, xaa2, ycal, d1;
+		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		if (Fk < 1)
@@ -479,12 +479,12 @@ void TCCCilindro::FlujoEntranteCilindro() {
 void TCCCilindro::FlujoSalienteCilindro() {
 	try {
 
-		double a1, xx, yy, d1, Ga3U;
-		double a2cr, val1, val2, u2cr, ycal, error, valde, miembro2;
+		double a1 = 0., xx = 0., yy = 0., d1 = 0., Ga3U = 0.;
+		double a2cr = 0., val1 = 0., val2 = 0., u2cr = 0., ycal = 0., error = 0., valde = 0., miembro2 = 0.;
 		// Variables para resolver la onda de choque.
 		double relacion_velocidades_son, Mach_tras_ondachoque, Mach,
 				temp_antes_ondachoque, temp_tras_ondachoque;
-		double root_a;
+		double root_a = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
 		if (Fk < 1)

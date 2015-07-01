@@ -348,11 +348,11 @@ void TOpenWAM::CleanLabels() {
 
 	//strcpy(fileinput.c_str(), "tmp.wam");
 
-	fileinput = AnsiString("tmp.wam");
+	fileinput = "tmp.wam";
 
 	fetmp = fopen(fileinput.c_str(), "w");
 
-	int cc, cc2;
+	int cc = 0, cc2 = 0;
 	bool label;
 	char line[256];
 	char linenew[256];
@@ -438,7 +438,7 @@ void TOpenWAM::ReadInputData(char* FileName) {
 				"ERROR: THE WAM VERSION IS NOT CORRECT FOR THESE INPUT DATA\n\n");
 		exit(1);
 	}
-	int ind;
+	int ind = 0;
 	fscanf(FileInput, "%d ", &ind);
 	ind == 0 ? Independent = false : Independent = true;
 
@@ -645,8 +645,8 @@ void TOpenWAM::ReadDataDLL() {
 void TOpenWAM::ReadGeneralData() {
 	try {
 
-		int hayBQ;
-		int tipociclo, tipomod, tipocalculoespecies;
+		int hayBQ = 0;
+		int tipociclo = 0, tipomod = 0, tipocalculoespecies = 0;
 		double fracciontotal = 0.;
 		int haycombustible, tipocombustible, tipogamma, EGR, IntEGR = 1;
 		stEspecies *DatEsp;
@@ -1128,7 +1128,7 @@ void TOpenWAM::ReadEngineXML()
 void TOpenWAM::ReadPipes() {
 	try {
 		fpos_t filepos;
-		int tipomallado;
+		int tipomallado = 0;
 
 		fscanf(FileInput, "%d ", &NumberOfPipes);
 		Pipe = new TTubo*[NumberOfPipes];
@@ -1239,7 +1239,7 @@ void TOpenWAM::ReadConcentric() {
 	try {
 #ifdef ConcentricElement
 		fpos_t filepos;
-		int numducts;
+		int numducts = 0;
 
 		fscanf ( FileInput, "%d ", &NumberOfConcentrics );
 		Concentric = new TConcentrico*[NumberOfConcentrics];
@@ -1283,7 +1283,7 @@ void TOpenWAM::ReadValves() {
 	try {
 		fscanf(FileInput, "%d ", &NumberOfValves);
 		TypeOfValve = new TTipoValvula*[NumberOfValves];
-		int val;
+		int val = 0;
 		int NumTCDFijo = 0;
 		int NumTValvula4T = 0;
 		int NumberOfReedValves = 0;
@@ -1295,7 +1295,7 @@ void TOpenWAM::ReadValves() {
 		int NumTRotorTurbina = 0;
 		int NumTCDExterno = 0;
 		int NumberOfButerflyValves = 0;
-		int tipval;
+		int tipval = 0;
 		fpos_t filepos;
 
 		for (int i = 0; i < NumberOfValves; ++i) {
@@ -1762,8 +1762,8 @@ void TOpenWAM::ReadPlenumsXML() {
 void TOpenWAM::ReadCompressors() {
 	try {
 		fpos_t filepos;
-		int TipoCompresor;
-		int haydeposito, numid, numid1, numid2;
+		int TipoCompresor = 0;
+		int haydeposito = 0, numid = 0, numid1 = 0, numid2 = 0;
 
 		fscanf(FileInput, "%d ", &NumberOfCompressors);
 		Compressor = new TCompresor*[NumberOfCompressors];
@@ -1867,14 +1867,14 @@ void TOpenWAM::ReadCompressorsXML() {
 void TOpenWAM::ReadConnections() {
 	try {
 		fpos_t filepos;
-		int numerocv, contador;
+		int numerocv = 0, contador = 0;
 		int NumTCCDescargaExtremoAbierto = 0, NumTCCExtremoCerrado = 0,
 				NumTCCExtremoAnecoico = 0, NumTCCPulso = 0,
 				NumTCCUnionEntreTubos = 0, NumTCCCilindro = 0, NumTCCDeposito =
 						0, NumTCCRamificacion = 0, NumTCCEntradaCompresor = 0,
 				NumTCCPreVble = 0;
 		NumTCCPerdidaPresion = 0;
-		int TipoCC;
+		int TipoCC = 0;
 		int numerovalvula = 0, quevalv;
 		int NumTCCExternalConnection = 0;
 
@@ -3039,7 +3039,7 @@ void TOpenWAM::ReadSensorsXML() {
 }
 
 void TOpenWAM::ReadControllers() {
-	int ctrl;
+	int ctrl = 0;
 	fpos_t filepos;
 
 	fscanf(FileInput, " %d ", &NumberOfControllers);
@@ -3310,7 +3310,7 @@ void TOpenWAM::InitializeParameters() {
 
 void TOpenWAM::RunningControl() {
 	try {
-		double regimenficticio;
+		double regimenficticio = 0.;
 
 		if (!EngineBlock) {
 			/* No hay motor pero Theta controla el funcionamiento del WAM. DE MOMENTO (pedro,paco) */
@@ -3360,7 +3360,7 @@ void TOpenWAM::AllocateVGTData() {
 
 		CountVGT = 0;
 		int tgv = 0;
-		int entr;
+		int entr = 0;
 
 		StatorTurbine = new TEstatorTurbina * *[NumberOfTurbines];
 		RotorTurbine = new TRotorTurbina*[NumberOfTurbines];
@@ -3509,7 +3509,7 @@ void TOpenWAM::ConnectFlowElements() {
 }
 
 void TOpenWAM::ConnectControlElements() {
-	int ID;
+	int ID = 0;
 
 	// Asign elements to sensor
 	for (int i = 0; i < NumberOfSensors; i++) {
@@ -3602,8 +3602,8 @@ void TOpenWAM::CalculateNewHeatPositions()
 
 {
 	try {
-		int NodoOrigen;
-		int NodoFin;
+		int NodoOrigen = 0;
+		int NodoFin = 0;
 		bool Encontrado = false;
 
 		for (int i = 0; i < NumberOfConnections; i++) {
@@ -3740,8 +3740,8 @@ void TOpenWAM::CalculateDistance(int LNodoOrigen, int LNodoFin,
 		int LNumberOfConnections, TTubo **LPipe, TCondicionContorno **LBC) {
 
 	try {
-		int NodoOrigen1, NodoFin1;
-		double Long;
+		int NodoOrigen1 = 0, NodoFin1 = 0;
+		double Long = 0.;
 
 		int j = SelectPipe(LPipe, LNumberOfPipes, LNodoOrigen, LNodoFin);
 		if (LPipe[j]->getTipoTransCal() == 3 || LLongitud == 0.)
@@ -3994,7 +3994,7 @@ void TOpenWAM::DetermineTimeStep(double t) {
 }
 
 void TOpenWAM::MethodStability() {
-	double TiempoFinPaso0;
+	double TiempoFinPaso0 = 0.;
 
 	TiempoFinPaso0 = TimeEndStep;
 
@@ -4087,9 +4087,9 @@ void TOpenWAM::SearchMinimumTimeStep() {
 void TOpenWAM::StudyInflowOutflowMass() {
 	try {
 		double smadd = 0, cociente, gasta = 0, gaste = 0;
-		int i;
+		int i = 0;
 		bool masacil, masadep;
-		double TMinimo;
+		double TMinimo = 0.;
 		DeltaTPlenums = Run.TimeStep;
 		cociente = 0.;
 
@@ -4173,7 +4173,7 @@ void TOpenWAM::StudyInflowOutflowMass() {
 void TOpenWAM::SearchMinimumTime(int LNumDepInicial, double *LTMinimo,
 		TDeposito **LPlenum) {
 	try {
-		int NumDepSiguiente;
+		int NumDepSiguiente = 0;
 
 		*LTMinimo = 100000.;
 
@@ -4251,7 +4251,7 @@ void TOpenWAM::SearchMinimumTime(int LNumDepInicial, double *LTMinimo,
 void TOpenWAM::SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito,
 		TDeposito **LPlenum) {
 	try {
-		int NumDepSiguiente;
+		int NumDepSiguiente = 0;
 
 		if (LPlenum[LNumDeposito - 1]->getNUniones() != 0) {
 			for (int i = 0; i < Plenum[LNumDeposito - 1]->getNUniones(); i++) {
@@ -4323,7 +4323,7 @@ void TOpenWAM::SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito,
 
 void TOpenWAM::FixTimeStep() {
 
-	double TInicialPaso, m, RegimenFicticio;
+	double TInicialPaso = 0., m = 0., RegimenFicticio = 0.;
 	TInicialPaso = TimeEndStep - Run.TimeStep;
 	if (DeltaTPlenums < Run.TimeStep) {
 		TimeEndStep = TInicialPaso + DeltaTPlenums;
@@ -4369,7 +4369,7 @@ void TOpenWAM::FixTimeStep() {
 
 void TOpenWAM::FixTimeStepExternal(double deltat) {
 
-	double TInicialPaso, m, RegimenFicticio;
+	double TInicialPaso = 0., m = 0., RegimenFicticio = 0.;
 	TInicialPaso = TimeEndStep - Run.TimeStep;
 
 	if (deltat < Min(Run.TimeStep, DeltaTPlenums)) {
@@ -4412,7 +4412,7 @@ void TOpenWAM::FixTimeStepExternal(double deltat) {
 
 void TOpenWAM::RecalculateStability() {
 
-	double i;
+	double i = 0.;
 
 	if (PipeStepMax) {
 		for (int j = 0; j < NumberOfPipes; j++) {
@@ -4515,7 +4515,7 @@ void TOpenWAM::RecalculateStability() {
 
 void TOpenWAM::RecalculateStabilitySolver() {
 
-	double i;
+	double i = 0.;
 
 	if (PipeStepMax) {
 		if (TimeMinPipe) {
@@ -4643,7 +4643,7 @@ void TOpenWAM::InitializeOutput() {
 
 void TOpenWAM::CalculateFlowIndependent() {
 
-	int OneDEnd;
+	int OneDEnd = 0;
 
 	do {
 		// ! Search which pipe must be calculated
@@ -4850,12 +4850,12 @@ void TOpenWAM::CalculateFlowIndependent() {
 
 void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 	try {
-		int NumDepInicial, NumeroCilindro;
-		int NumDepSiguiente;
+		int NumDepInicial = 0, NumeroCilindro = 0;
+		int NumDepSiguiente = 0;
 		bool CalculaElementosAdyacentes = false;
 		bool CalculoCilindro = false;
 		bool CalculoDeposito = false;
-		int indiceUED;
+		int indiceUED = 0;
 
 		if (BC[OneDEnd - 1]->getTipoCC() == nmPipeToPlenumConnection) {
 			CalculaElementosAdyacentes = true;
@@ -5092,8 +5092,8 @@ void TOpenWAM::SolveBranch(int NumDeposito, double TiempoActual) {
 	try {
 
 		bool ExisteDepSiguiente = false;
-		int NumDepSiguiente;
-		int indiceUED;
+		int NumDepSiguiente = 0;
+		int indiceUED = 0;
 
 		for (int i = 0; i < Plenum[NumDeposito - 1]->getNUnionesED(); i++) {
 			if (Plenum[NumDeposito - 1]->GetCCUnionEntreDep(i)->getTipoCC()
@@ -5662,7 +5662,7 @@ void TOpenWAM::comunica_wam_dll() {
 }
 
 void TOpenWAM::ModificacionControlEjecucion() {
-	int nuevaduracionejecucion;
+	int nuevaduracionejecucion = 0;
 
 	if (!EngineBlock) {
 		if (Theta < 700.) {
@@ -5820,7 +5820,7 @@ void TOpenWAM::InitFlowIndependentNumThreads() {
 	fi_num_threads = 1;
 #ifdef WITH_OPENMP
 	std::stringstream ss;
-	int n_threads;
+	int n_threads = 0;
 	char const* env_value = getenv ( "OMP_NUM_THREADS" );
 	if ( env_value == NULL ) {
 		n_threads = omp_get_num_procs();

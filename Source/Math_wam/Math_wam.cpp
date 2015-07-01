@@ -130,7 +130,7 @@ double Base_interp::interp(double x) {
 }
 
 int Base_interp::locate(const double x) {
-	int ju, jm, jl;
+	int ju = 0, jm = 0, jl = 0;
 	if (n < 2 || mm < 2 || mm > n)
 		throw("locate size error");
 	bool ascnd = (xx[n - 1] >= xx[0]);
@@ -250,7 +250,7 @@ void Hermite_interp::operator()(dVector & xv, dVector & yv) {
 }
 
 void Hermite_interp::sety2(const double *xv, const double *yv) {
-	double DeltaK, AlphaK, BetaK, TauK;
+	double DeltaK = 0., AlphaK = 0., BetaK = 0., TauK = 0.;
 
 	for (int i = 1; i < n - 1; ++i) {
 		y2[i] = (yv[i] - yv[i - 1]) / 2. / (xv[i] - xv[i - 1])
@@ -277,7 +277,7 @@ void Hermite_interp::sety2(const double *xv, const double *yv) {
 }
 
 double Hermite_interp::rawinterp(int j, double x) {
-	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
+	double ret_val = 0., h00 = 0., h10 = 0., h01 = 0., h11 = 0., t2 = 0., t3 = 0., t = 0., h = 0.;
 	// int k=0;
 
 	if (x <= xx[j]) {
@@ -329,8 +329,8 @@ LUdcmp::LUdcmp(dMatrix &a) :
 		n(a.size()), lu(a), aref(a), indx(n) {
 
 	const double TINY = 1.0e-40;
-	int i, imax, j, k;
-	double big, temp;
+	int i = 0, imax = 0, j = 0, k = 0;
+	double big = 0., temp = 0.;
 	dVector vv(n);
 	d = 1.0;
 	for (i = 0; i < n; i++) {
@@ -374,7 +374,7 @@ LUdcmp::LUdcmp(dMatrix &a) :
 
 void LUdcmp::solve(dVector &b, dVector &x) {
 	int i, ii = 0, ip, j;
-	double sum;
+	double sum = 0.;
 	if (b.size() != n || x.size() != n)
 		throw("LUdcmp::solve bad sizes");
 	for (i = 0; i < n; i++)

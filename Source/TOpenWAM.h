@@ -169,7 +169,7 @@ private:
 	xml_document FileInputXML;
 
 	//char fileinput[8];
-	AnsiString fileinput;
+	std::string fileinput;
 
 	TBloqueMotor** Engine;
 	TCompresor** Compressor;

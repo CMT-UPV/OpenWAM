@@ -246,7 +246,7 @@ void TCCExtremoInyeccion::ReadBoundaryDataXML(xml_node node_connect,
 
 void TCCExtremoInyeccion::ObtencionValoresInstantaneos(double Theta) {
 	try {
-		double ang0;
+		double ang0 = 0.;
 
 		FTheta = Theta;
 
