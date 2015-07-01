@@ -271,7 +271,7 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 												- (FTrabajoFluido + Heat)
 														* MTemp),
 						Gamma1(FGamma));
-				Ason1 = FAsonido * sqrt(Energia);
+				Ason1 = FAsonido * Sqrt(Energia);
 				Error = (Diff = Ason1 - Ason0, fabs(Diff)) / Ason1;
 				if (Error > 1e-6) {
 					Ason0 = Ason1;
@@ -582,7 +582,7 @@ void TTurbina::AllocateDatosTGV(stDatosTGV *DatosTGV) {
 double TTurbina::CpTurbineSimple(double Temperature, double YBurnt) {
 
 	double R = RBurnt * YBurnt + (RAir * (1 - YBurnt - 0.0164) + 0.0164 * RH2O);
-	double RaizdeT = sqrt(Temperature);
+	double RaizdeT = Sqrt(Temperature);
 
 	double CvAir = -10.4199 * RaizdeT + 2522.88
 			+ (-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
@@ -606,7 +606,7 @@ double TTurbina::CpTurbineComplete(double YO2, double YCO2, double YH2O,
 		double Temperature) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 
-	double RaizdeT = sqrt(Temperature);
+	double RaizdeT = Sqrt(Temperature);
 	// Temperature en Kelvin. Calculado segun la correlacion de JANAF.
 	double CpN2 = (12.531 - 0.05932 * RaizdeT
 			+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT) / Temperature)

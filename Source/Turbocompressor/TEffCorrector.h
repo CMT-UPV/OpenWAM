@@ -26,22 +26,22 @@ struct stTurbomachinery {
 	double SecIn; // Inlet section (m^3)
 
 	double funCORRMass() {
-		return MassFlow * sqrt(IT_K / TREF_K) / (IP / PREF);
+		return MassFlow * Sqrt(IT_K / TREF_K) / (IP / PREF);
 	}
 	;
 
 	double funUnCORRMass() {
-		return MassFlowC * (IP / PREF) / sqrt(IT_K / TREF_K);
+		return MassFlowC * (IP / PREF) / Sqrt(IT_K / TREF_K);
 	}
 	;
 
 	double funCORRRTC(double RTC) {
-		return RTC / sqrt(IT_K / TREF_K);
+		return RTC / Sqrt(IT_K / TREF_K);
 	}
 	;
 
 	double funUnCORRRTC() {
-		return RTC_C * sqrt(IT_K / TREF_K);
+		return RTC_C * Sqrt(IT_K / TREF_K);
 	}
 	;
 

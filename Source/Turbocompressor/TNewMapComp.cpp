@@ -86,7 +86,7 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 	dVector PreExtra;
 	dVector EffExtra;
 
-	double r1 = sqrt((pow2(FRadHub) + pow2(FRadTip)) / 2);
+	double r1 = Sqrt((pow2(FRadHub) + pow2(FRadTip)) / 2);
 
 	dVector::iterator it;
 

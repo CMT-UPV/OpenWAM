@@ -31,7 +31,6 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-//#include <cmath>
 #include "TCompresorDep.h"
 
 #include "TDeposito.h"
@@ -153,7 +152,7 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 		FDeltaTiempo = TiempoActual - FTiempo0;
 		FTiempo0 = TiempoActual;
 		DescorrigeGasto = FPresion10 * 1e5 / Mapa->getPresionRef()
-				/ sqrt(FTemperatura10 / Mapa->getTempRef());
+				/ Sqrt(FTemperatura10 / Mapa->getTempRef());
 
 		if (FRelacionCompresion <= 1.) {
 			FGastoCorregido = Mapa->getGastoRelComp1();
@@ -254,7 +253,7 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 				}
 			}
 		}
-		FASonidoSalida = sqrt(FGamma * FRMezcla * FTempGasto);
+		FASonidoSalida = Sqrt(FGamma * FRMezcla * FTempGasto);
 		FTrabajo *= FDeltaTiempo;
 		FPotencia = FTrabajo / FDeltaTiempo;
 		FTrabajoPaso += FTrabajo;

@@ -34,7 +34,6 @@
 #include "TTubo.h"
 #include "Constantes.h"
 
-//#include <cmath>
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
@@ -413,7 +412,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 											FGamma2 / FGamma));
 			FGastoBlowBy = FMotor->getGeometria().CDBlowBy * 3.5e-5
 					* FMotor->getGeometria().Diametro * FPressure * 1e5
-					* sqrt(z / FRMezcla / (FTemperature + 273.));
+					* Sqrt(z / FRMezcla / (FTemperature + 273.));
 		} else {
 			FGastoBlowBy = 0.;
 		}
@@ -1168,7 +1167,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		FTemperature = Temp1;
 
 		FAsonido0 = FAsonido;
-		FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273));
+		FAsonido = Sqrt(FGamma * FRMezcla * (FTemperature + 273));
 
 		FPresion0 = FPressure;
 		FPressure = (FTemperature + 273) * FMasa * FRMezcla / FVolumen * 1e-5;
@@ -1186,7 +1185,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 				FPressure = FMotor->getPresionAAE();
 				FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla
 						- 273.;
-				FAsonido = sqrt(FRMezcla * FGamma * (FTemperature + 273.));
+				FAsonido = Sqrt(FRMezcla * FGamma * (FTemperature + 273.));
 				std::cout << "INFO: Imposed pressure at E.O.:     " << FPressure
 						<< " (bar)" << std::endl;
 				std::cout << "INFO: Imposed temperature at E.O.:  "

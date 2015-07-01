@@ -301,9 +301,9 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 #endif
 
-			FGastoCorregido[0] = FGastoEntrada[0] * sqrt(FTemp0Entrada[0])
+			FGastoCorregido[0] = FGastoEntrada[0] * Sqrt(FTemp0Entrada[0])
 					/ FPresion0Entrada[0] / 0.1;
-			FRegimenCorregido[0] = FRegimen / sqrt(FTemp0Entrada[0]);
+			FRegimenCorregido[0] = FRegimen / Sqrt(FTemp0Entrada[0]);
 
 			if (FCalculoEspecies == nmCalculoCompleto) {
 				cp_med = CpTurbineComplete(FFraccionMasicaEspecie[0],
@@ -360,7 +360,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 				if ((FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) > 0.) {
 					FRelacionCinematica[0] = FRegimen * Pi * FDiametroRodete
 							/ 60.
-							/ sqrt(
+							/ Sqrt(
 									2
 											* (FEntalpia0Entrada[0]
 													- FEntalpiaIsenSalida[0]));

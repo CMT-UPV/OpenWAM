@@ -31,7 +31,6 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-//#include <cmath>
 
 #include "TCompTubos.h"
 #include "TCondicionContorno.h"
@@ -168,7 +167,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			if (!FFlujoDirecto) {
 				AA1fin = FAsonidoDep / ARef * pow(FPresionDep, -FGamma5)
 						* pow(FRelacionCompresion, FGamma5)
-						/ sqrt(1 + FCoefPresiones);
+						/ Sqrt(1 + FCoefPresiones);
 			} else {
 				AA1fin = *FAaIn;
 			}
@@ -214,7 +213,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			if (!FFlujoDirecto) {
 				AA1fin = FAsonidoDep / ARef * pow(FPresionDep, -FGamma5)
 						* pow(FRelacionCompresion, FGamma5)
-						/ sqrt(1 + FCoefPresiones);
+						/ Sqrt(1 + FCoefPresiones);
 			} else {
 				AA1fin = *FAaIn;
 			}
@@ -271,7 +270,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		FPreTotalOut = FPresionOut
 				* pow(FTempTotalOut / FTempOut, FGamma / FGamma1);
 
-		FGastoCorregido = FGasto1 * sqrt(FTempTotalIn / Mapa2T->getTempRef())
+		FGastoCorregido = FGasto1 * Sqrt(FTempTotalIn / Mapa2T->getTempRef())
 				/ (FPreTotalIn / Mapa2T->getPresionRef());
 
 		// Busqueda de relacion de compresion en el compresor dado por el mapa
@@ -381,12 +380,12 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 			FVelOutMin = 0.;
 			FVelOutMax = (double) sig * 2 * ARef * CarOut / (3 - FGamma);
 
-			if (FVelOutMax < -sqrt(2 * FCpMezcla * FTempTotalOut)) {
-				FVelOutMax = -sqrt(2 * FCpMezcla * FTempTotalOut);
+			if (FVelOutMax < -Sqrt(2 * FCpMezcla * FTempTotalOut)) {
+				FVelOutMax = -Sqrt(2 * FCpMezcla * FTempTotalOut);
 			}
 			if (FVelOutMax
-					< -sqrt(2 * FRMezcla * FGamma * FTempTotalOut / FGamma2)) {
-				FVelOutMax = -sqrt(
+					< -Sqrt(2 * FRMezcla * FGamma * FTempTotalOut / FGamma2)) {
+				FVelOutMax = -Sqrt(
 						2 * FRMezcla * FGamma * FTempTotalOut / FGamma2);
 			}
 			FCuentaVelOut = 0;
@@ -407,7 +406,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 				else
 					FVelOutMin = *VelOut;
 			}
-			*AOut = sqrt(FGamma * FRMezcla * FTempOut);
+			*AOut = Sqrt(FGamma * FRMezcla * FTempOut);
 			FErrorVelIn = CarOut
 					- (*AOut - (double) sig * *VelOut * FGamma1 / 2) / ARef;
 
@@ -584,7 +583,7 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 		Lim_u1 = (double) sig * 2 * ARef * cc1 / FGamma2;
 		Lim_u2 = (double) sig * 2 * ARef * cc2 / FGamma2;
 
-		// aa2new=sqrt(1+FCoefPresiones)* aa1/pow(FRelacionCompresion,sig*FGamma5);
+		// aa2new=Sqrt(1+FCoefPresiones)* aa1/pow(FRelacionCompresion,sig*FGamma5);
 
 		aa2new = aa2;
 		// k_local=k;
@@ -632,7 +631,7 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 				if (fabs(*u2) > *a2)
 					*u2 = *a2 * *u2 / fabs(*u2);
 
-				Error = sqrt(pow2(da1 / (*a1 + da1)) + pow2(da2 / (*a2 + da2)));
+				Error = Sqrt(pow2(da1 / (*a1 + da1)) + pow2(da2 / (*a2 + da2)));
 
 				cont++;
 			} while (Error > 1e-12 && cont < 5000);
@@ -833,7 +832,7 @@ void TCompTubos::NewPropertiesInTheVolume() {
 	FMasaDep = FMasaDep + MasaIn + MasaOut;
 
 	double Energia = pow(FMasaDep / MasaDep0 * exp(H), FGamma1);
-	FAsonidoDep *= sqrt(Energia);
+	FAsonidoDep *= Sqrt(Energia);
 	double A2 = FAsonidoDep * FAsonidoDep;
 	FPresionDep = A2 / FGamma / FVolumen * FMasaDep * 1e-5;
 	FTempDep = A2 / FGamma / FRMezcla - 273.;
@@ -859,9 +858,9 @@ void TCompTubos::InFlow(double Ad, double &A, double &U) {
 void TCompTubos::OutFlow(double Ad, double &A, double &U) {
 	// Critical conditions
 
-	double U2cr = FAsonidoDep * sqrt(2. / FGamma2)
-			* (sqrt(1 + FGamma1 * FGamma2) - 1) / FGamma1;
-	double A2cr = sqrt(pow2(FAsonidoDep) - FGamma3 * pow2(U2cr));
+	double U2cr = FAsonidoDep * Sqrt(2. / FGamma2)
+			* (Sqrt(1 + FGamma1 * FGamma2) - 1) / FGamma1;
+	double A2cr = Sqrt(pow2(FAsonidoDep) - FGamma3 * pow2(U2cr));
 
 	stFSSub FSA2(*FAaOut, Ad, FGamma, 1, *FCarCOut, FAsonidoDep / ARef);
 

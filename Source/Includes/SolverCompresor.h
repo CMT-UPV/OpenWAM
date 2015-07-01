@@ -65,7 +65,7 @@ struct stCompSolverVOut {
 //		return PresTotOut-PresOut*pow(TempTotOut/TempOut,Gam/(Gam-1));
 
 		TempOut = AOut * AOut / Gam / RMezcla;
-		VOut = sqrt((TempTotOut - TempOut) * 2 * CpMezcla);
+		VOut = Sqrt((TempTotOut - TempOut) * 2 * CpMezcla);
 		PresOut = PresTotOut / pow(TempTotOut / TempOut, Gam / (Gam - 1));
 		return Massflow - PresOut / RMezcla / TempOut * VOut * SecOut;
 	}
@@ -144,12 +144,12 @@ struct stCompSolverVIn {
 //		Doub VOutMin=0.;
 //		Doub VOutMax=(double)Sig*2*ARef*CarOut/(3-Gam);
 //
-//		Doub VMax1=-sqrt(2*CpMezcla*TempTotOut);
+//		Doub VMax1=-Sqrt(2*CpMezcla*TempTotOut);
 //		if(VOutMax < VMax1){
 //			VOutMax=VMax1;
 //		}
 //
-//		VMax1=sqrt(2*RMezcla*Gam*TempTotOut/(Gam+1));
+//		VMax1=Sqrt(2*RMezcla*Gam*TempTotOut/(Gam+1));
 //		if(VOutMax < VMax1){
 //			VOutMax=VMax1;
 //		}
@@ -174,7 +174,7 @@ struct stCompSolverVIn {
 		Doub AOutMin = CarOut * ARef;
 		Doub AOutMax = 2 * CarOut * ARef / (3 - Gam);
 
-		Doub lim = sqrt(Gam * RMezcla * TempTotOut);
+		Doub lim = Sqrt(Gam * RMezcla * TempTotOut);
 		if (AOutMax > lim)
 			AOutMax = lim;
 		if (AOutMin < lim) {
@@ -189,7 +189,7 @@ struct stCompSolverVIn {
 			return 1.;
 		}
 
-		//AOut=sqrt(Gam * RMezcla*TempOut);
+		//AOut=Sqrt(Gam * RMezcla*TempOut);
 		return CarOut * ARef - (AOut - (double) Sig * VOut * Gam1 / 2) / ARef;
 
 	}

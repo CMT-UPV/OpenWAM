@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCPulso.h"
-//#include <cmath>
 #include <iostream>
 
 #include "TTubo.h"

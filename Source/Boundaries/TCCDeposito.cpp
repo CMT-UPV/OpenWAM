@@ -30,7 +30,6 @@
 #pragma hdrstop
 
 #include "TCCDeposito.h"
-//#include <cmath>
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
@@ -551,7 +550,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 
 		FAd = pow(FDeposito->getPressure() / FPref, 1. / FGamma4);
 		rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
-		FAdCr = FAd / sqrt(1 + pow2(FMachVenturi) * FGamma3); // Importante solo si hay venturi.
+		FAdCr = FAd / Sqrt(1 + pow2(FMachVenturi) * FGamma3); // Importante solo si hay venturi.
 		// Si no es asi, no modifica el valor de Ad.
 		if (rel_CCon_Entropia / FAdCr > 1 + 1e-5) { // Flujo entrante al deposito
 			FValvula->GetCDin(Time);
@@ -716,7 +715,7 @@ void TCCDeposito::FlujoEntranteDeposito() {
 			Resolucion(vel_son_garganta, *FCC, FCaso, &FVelocity, &FSonido);
 
 		// Ecuacion de la energia
-		velocidad_garganta = sqrt(
+		velocidad_garganta = Sqrt(
 				2. * FGamma6
 						* (pow2(FSonido) + FGamma3 * pow2(FVelocity)
 								- pow2(vel_son_garganta)));
@@ -776,9 +775,9 @@ void TCCDeposito::FlujoSalienteDeposito() {
 
 		/* Calculo del valor de la velocidad del sonido en el extremo del tubo para
 		 el cual el salto es critico. */
-		u2cr = FDeposito->getSpeedsound() * sqrt(2. / FGamma2)
-				* (sqrt(pow2(Fk) + FGamma1 * FGamma2) - Fk) / FGamma1;
-		a2cr = sqrt(pow2(FDeposito->getSpeedsound()) - FGamma3 * pow2(u2cr));
+		u2cr = FDeposito->getSpeedsound() * Sqrt(2. / FGamma2)
+				* (Sqrt(pow2(Fk) + FGamma1 * FGamma2) - Fk) / FGamma1;
+		a2cr = Sqrt(pow2(FDeposito->getSpeedsound()) - FGamma3 * pow2(u2cr));
 		// Ecuacion de la energia. Garganta-Deposito.
 
 		/* A partir  de a2cr se determina el error en el calculo de A2 al suponer salto
@@ -795,7 +794,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			/* Determinacion del intervalo de iteracion. Para ello se supone que
 			 en el extremo del tubo se dan las condiciones criticas. Explicado en
 			 los apuntes de Pedro. */
-			a1 = sqrt(2. / FGamma2) * FDeposito->getSpeedsound();
+			a1 = Sqrt(2. / FGamma2) * FDeposito->getSpeedsound();
 			FVelocidadGarganta = a1;
 			xx = pow(FAdCr / FDeposito->getSpeedsound(), FGamma4);
 			yy = pow(a1, 2. / FGamma1);
@@ -810,7 +809,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 				valde = FVelocidadGarganta;
 			if (val1 >= 0.) {
 				double Epsilon = numeric_limits<double>::epsilon();
-				valde = FDeposito->getSpeedsound() / sqrt(FGamma3) - Epsilon;
+				valde = FDeposito->getSpeedsound() / Sqrt(FGamma3) - Epsilon;
 			}
 
 			/* Una vez conocido el intervalo de iteracion, se pasa a la resolucion
@@ -819,7 +818,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			Resolucion(0.0, valde, FCaso, &FVelocity, &FSonido);
 
 			// Calcula del massflow. Como es saliente del deposito, siempre es positivo.
-			xx = pow(sqrt(2. / FGamma2), (FGamma2 / FGamma1));
+			xx = pow(Sqrt(2. / FGamma2), (FGamma2 / FGamma1));
 			yy = pow(FAdCr, FGamma4);
 			FGasto = FCDSalida * FSeccionValvula * FGamma * xx * yy * 1e5
 					/ (FDeposito->getSpeedsound() * ARef);
@@ -838,11 +837,11 @@ void TCCDeposito::FlujoSalienteDeposito() {
 				 de choque plana. Se pueden encontrar en el punto 2.5 de la tesis
 				 de Corberan. */
 				xx = FGamma4 * pow2(Mach) - 1.;
-				Mach_tras_ondachoque = sqrt((pow2(Mach) + 2. / FGamma1) / xx);
+				Mach_tras_ondachoque = Sqrt((pow2(Mach) + 2. / FGamma1) / xx);
 				temp_tras_ondachoque = FGamma3 * pow2(Mach) + 1.;
 				temp_antes_ondachoque = FGamma3 * pow2(Mach_tras_ondachoque)
 						+ 1.;
-				relacion_velocidades_son = sqrt(
+				relacion_velocidades_son = Sqrt(
 						temp_tras_ondachoque / temp_antes_ondachoque);
 				FSonido = FSonido * relacion_velocidades_son;
 				FVelocity = FSonido * Mach_tras_ondachoque;
@@ -857,7 +856,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			Resolucion(a2cr, FDeposito->getSpeedsound(), FCaso, &ycal,
 					&FSonido);
 			// Aplicando la Ecuacion de la Energia entre el deposito y la garganta:
-			FVelocity = sqrt(
+			FVelocity = Sqrt(
 					(pow2(FDeposito->getSpeedsound()) - pow2(FSonido))
 							/ FGamma3);
 
@@ -949,7 +948,7 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // xx=vel_son_supuesta/(FTuboExtremo[0].Entropia*FAdCr);
 // yy=pow(xx,4.*FGamma6);
 // yy=pow(Fk,2.)*yy-1.;
-// *u2_2=FTuboExtremo[0].Entropia*FAdCr*sqrt(2.*FGamma6*(pow(xx,2.)-1.)/yy);   // Valor absoluto
+// *u2_2=FTuboExtremo[0].Entropia*FAdCr*Sqrt(2.*FGamma6*(pow(xx,2.)-1.)/yy);   // Valor absoluto
 //
 //
 // /* Resolucion de la ecuacion de la caracteristica incidente. */
@@ -1010,7 +1009,7 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // /* Resolucion del algoritmo de calculo propuesto en la pagina 113 de la tesis
 // de Corberan. */
 //
-// u2 = sqrt((pow(FDeposito->getSpeedsound(),2)-pow(vel_son_supuesta,2))/FGamma3);
+// u2 = Sqrt((pow(FDeposito->getSpeedsound(),2)-pow(vel_son_supuesta,2))/FGamma3);
 // a1 = FDeposito->getSpeedsound()*(*FCC+FGamma3*u2)/(FTuboExtremo[0].Entropia*FAdCr);
 // u1 = Fk*u2*pow(a1,2)/pow(vel_son_supuesta,2);
 // *error=pow(a1,2)+FGamma3*pow(u1,2)-pow(FDeposito->getSpeedsound(),2);
@@ -1033,10 +1032,10 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // {
 //
 // // Resolucion de la ecuacion de la energia entre el deposito y el extremo del tubo.
-// *a2_1 = sqrt(pow(FDeposito->getSpeedsound(),2)-FGamma3*pow(vel_supuesta,2));
+// *a2_1 = Sqrt(pow(FDeposito->getSpeedsound(),2)-FGamma3*pow(vel_supuesta,2));
 //
 // // Resolucion de la ecuacion 4.20 de la tesis de Corberan.
-// *a2_2 = sqrt(vel_supuesta*pow((*FCC+FGamma3*vel_supuesta)/
+// *a2_2 = Sqrt(vel_supuesta*pow((*FCC+FGamma3*vel_supuesta)/
 // FTuboExtremo[0].Entropia,FGamma4)/Fcc);
 //
 // }

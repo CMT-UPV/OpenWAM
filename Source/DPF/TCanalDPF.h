@@ -144,7 +144,7 @@ private:
 	// Variables del TVD
 
 	stTVD FTVD;
-	double *sqrtRhoA;
+	double *SqrtRhoA;
 
 	// Calculo Especies
 

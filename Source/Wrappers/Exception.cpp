@@ -35,12 +35,13 @@ Exception::Exception() {
 
 Exception::Exception(const string& __arg) {
 	msg = __arg;
+	foo = __arg;
 }
 
 Exception::~Exception() {
 }
 
-const char* Exception::what() {
-	return msg.c_str();
+const char* Exception::what() const throw() {
+	return foo.c_str();
 }
 

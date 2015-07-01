@@ -62,7 +62,6 @@
 #include "Globales.h"
 #include "THTM_Fluids.h"
 #include "turbo_bearings.hpp"
-//#include <cmath>
 
 enum nmSide {
 	nmCompressor = 0, nmTurbine = 1
@@ -131,22 +130,22 @@ struct stTurbomachinery {
 	double OT_K; // Outlet temperature (K)
 
 	double funCORRMass() {
-		return MassFlow * sqrt(IT_K / TREF_K) / (IP / PREF);
+		return MassFlow * Sqrt(IT_K / TREF_K) / (IP / PREF);
 	}
 	;
 
 	double funUnCORRMass() {
-		return MassFlowC * (IP / PREF) / sqrt(IT_K / TREF_K);
+		return MassFlowC * (IP / PREF) / Sqrt(IT_K / TREF_K);
 	}
 	;
 
 	double funCORRRTC(double RTC) {
-		return RTC / sqrt(IT_K / TREF_K);
+		return RTC / Sqrt(IT_K / TREF_K);
 	}
 	;
 
 	double funUnCORRRTC() {
-		return RTC_C * sqrt(IT_K / TREF_K);
+		return RTC_C * Sqrt(IT_K / TREF_K);
 	}
 	;
 

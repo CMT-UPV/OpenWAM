@@ -62,7 +62,7 @@
 #include <cmath>
 #include <limits>
 #include <iostream>
-#include "Globales.h"
+#include "Exception.hpp"
 
 using namespace std;
 
@@ -73,6 +73,19 @@ typedef std::vector<int> iVector; ///< Integer vector
 typedef std::vector<std::vector<int> > iMatrix; ///< 2-dimensional integer matrix
 typedef std::vector<bool> bVector; ///< Boolean vector
 typedef std::vector<std::vector<bool> > bMatrix; ///< 2-dimensional boolean matrix
+
+
+
+template<class T>
+inline T Sqrt(T x)
+{
+	if (x < 0.)
+	{
+		throw(Exception("Sqrt of negative number."));
+	}
+	return std::sqrt(x);
+}
+
 
 double Interpola(double vizq, double vder, double axid, double xif);
 
@@ -125,7 +138,7 @@ inline T pow4(T x) {
  */
 template<class T>
 inline T pow025(T x) {
-	return sqrt(sqrt(x));
+	return Sqrt(Sqrt(x));
 }
 
 /**
@@ -138,7 +151,7 @@ inline T pow025(T x) {
  */
 template<class T>
 inline T pow150(T x) {
-	return sqrt(pow3(x));
+	return Sqrt(pow3(x));
 }
 
 /**
@@ -151,7 +164,7 @@ inline T pow150(T x) {
  */
 template<class T>
 inline T pow075(T x) {
-	return sqrt(pow150(x));
+	return Sqrt(pow150(x));
 }
 
 template<class T, class U>
@@ -160,8 +173,8 @@ inline T poww(T x, U y) {
 }
 
 template<class T>
-inline T sqrtw(T x) {
-	return abs(x) > std::numeric_limits<T>::epsilon() ? sqrt(x) : 0;
+inline T Sqrtw(T x) {
+	return abs(x) > std::numeric_limits<T>::epsilon() ? Sqrt(x) : 0;
 }
 
 #ifdef __BORLANDC__
@@ -653,7 +666,7 @@ inline double zriddr(T & func, const double x1, const double x2,
 		for (int j = 0; j < MAXIT; j++) {
 			double xm = 0.5 * (xl + xh);
 			double fm = func(xm);
-			double s = sqrt(fm * fm - fl * fh);
+			double s = Sqrt(fm * fm - fl * fh);
 			if (s == 0.0) {
 				/* std::cout << j << std::endl; */return ans;
 			}
@@ -779,6 +792,7 @@ struct LUdcmp {
 
 	dMatrix &aref;
 };
+
 
 #endif
 

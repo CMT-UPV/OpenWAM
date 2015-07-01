@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCUnionEntreTubos.h"
-//#include <cmath>
 #include <iostream>
 #include "TTubo.h"
 

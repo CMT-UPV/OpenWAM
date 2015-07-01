@@ -66,10 +66,10 @@ struct stCompSolverA2 {
 	double operator()(const double A2) {
 		V2 = (CC2 * ARef - A2) * (-Gaa);
 		if (V2 < 0) {
-			AA1new = AA2ini * pow(RelComp, Gae / 2.) / sqrt(1 + CP);
+			AA1new = AA2ini * pow(RelComp, Gae / 2.) / Sqrt(1 + CP);
 			AA2new = AA2ini;
 		} else {
-			AA2new = sqrt(1 + CP) * AA1ini / pow(RelComp, Gae / 2.);
+			AA2new = Sqrt(1 + CP) * AA1ini / pow(RelComp, Gae / 2.);
 			AA1new = AA1ini;
 		}
 		return pow(A1ini / pow(AA1new, Gam), Gaa) * V1ini * RelSec

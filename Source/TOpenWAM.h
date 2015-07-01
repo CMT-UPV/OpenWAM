@@ -139,6 +139,8 @@
 //#define graphicalout 0
 #endif
 
+#include "Math_wam.h"
+
 #ifdef gestorcom
 #include "TCGestorWAM.h"
 #endif

@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCExtremoInyeccion.h"
-//#include <cmath>
 #include <iostream>
 #include "TTubo.h"
 
@@ -184,7 +183,7 @@ void TCCExtremoInyeccion::CalculaCondicionContorno(double Time) {
 		FGamma5 = Gamma5(FGamma);
 
 		if (FAngap < FDuracionIny && FTheta > 720.) {
-			FSonido = sqrt(FGamma * FRMezcla * (FTemperaturaIny + 273.)) / ARef;
+			FSonido = Sqrt(FGamma * FRMezcla * (FTemperaturaIny + 273.)) / ARef;
 			FVelocity = (FSonido - *FCC) / FGamma3;
 			FPressure = FGastoIny * FRMezcla * (FTemperaturaIny + 273.)
 					/ (FVelocity * ARef * FSeccion * 1e5); // Cociente entre presion y la presion de referencia(1e5);

@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TIsoSpeedLine.h"
-//#include <cmath>
 #include "Globales.h"
 
 // ---------------------------------------------------------------------------
@@ -146,25 +145,25 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle,
 		if (raiZ < 0)
 			raiZ = 0;
 		else
-			raiZ = sqrt(raiZ);
-		// raiZ = sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P00_P1 , ((FGamma - 1) / FGamma))));
+			raiZ = Sqrt(raiZ);
+		// raiZ = Sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P00_P1 , ((FGamma - 1) / FGamma))));
 		StatorEffectiveSection.push_back(
 				FReducedAirMassFlow[i] * 1e-6 * pow(P00_P1, (1 / FGamma))
-						* (sqrt(FR / FGamma)) / raiZ);
-		// raiZ = sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P1_P2 , ((FGamma - 1) / FGamma))));
+						* (Sqrt(FR / FGamma)) / raiZ);
+		// raiZ = Sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P1_P2 , ((FGamma - 1) / FGamma))));
 		raiZ = (2 / (FGamma - 1))
 				* (1 - pow(1 / P1_P2, ((FGamma - 1) / FGamma)));
 		if (raiZ < 0)
 			raiZ = 0;
 		else
-			raiZ = sqrt(raiZ);
+			raiZ = Sqrt(raiZ);
 //		RotorEffectiveSection.push_back
 //			(FReducedAirMassFlow[i] * 1e-6 * P00_P1 * pow(P1_P2,
-//				(1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ * sqrt
+//				(1 / FGamma)) * (Sqrt(FR / FGamma)) / raiZ * Sqrt
 //			((1 / T1_T0) - (T00_T0 / T1_T0) + (T2_T00 * T1_T0 / T00_T0)));
 		RotorEffectiveSection.push_back(
 				FReducedAirMassFlow[i] * 1e-6 * P00_P1
-						* pow(P1_P2, (1 / FGamma)) * (sqrt(FR / FGamma))
+						* pow(P1_P2, (1 / FGamma)) * (Sqrt(FR / FGamma))
 						/ raiZ);
 	}
 }
@@ -177,7 +176,7 @@ void TIsoSpeedLine::CalculatePower(double Tin) {
 	double gam = (1 - gamma) / gamma;
 	for (int i = 0; i < FNumDatos; i++) {
 		FPower.push_back(
-				FReducedAirMassFlow[i] * Cp * FEfficiency[i] * sqrt(Tin)
+				FReducedAirMassFlow[i] * Cp * FEfficiency[i] * Sqrt(Tin)
 						* FExpansionRatio[i] / 10
 						* (1 - pow(FExpansionRatio[i], gam)));
 		// printf("%4.2lf\t", FPower[i]);
@@ -218,8 +217,8 @@ void TIsoSpeedLine::GetAdiabaticEfficiency(TTC_HTM *HTM, double TinT,
 	double m = 0., Rtc = 0.;
 
 	for ( int i = 0; i < FNumDatos; ++i ) {
-		m = FReducedAirMassFlow[i] / sqrt ( TinT ) * FExpansionRatio[i] / 10;
-		Rtc = FSpeed * 60 * sqrt ( TinT );
+		m = FReducedAirMassFlow[i] / Sqrt ( TinT ) * FExpansionRatio[i] / 10;
+		Rtc = FSpeed * 60 * Sqrt ( TinT );
 		FEfficiency[i] = HTM->CorrectTurbineMap ( m, FExpansionRatio[i],
 				FEfficiency[i], TinC, TinT, Rtc );
 	}

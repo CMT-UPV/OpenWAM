@@ -537,12 +537,12 @@ double VOLUME(double CAD, double VTDC, double PI, double Piston_D,
 	A = CAD * PI / 180.;
 	AREA = PI * Piston_D * Piston_D / 4.;
 	AUX = (Crank_L
-			* sqrt(
+			* Sqrt(
 					pow(1. + 1. / (Crank_L / Connecting_Rod_L), 2)
 							- pow(E / Crank_L, 2.))
 			- Crank_L
 					* (cos(A)
-							+ sqrt(
+							+ Sqrt(
 									pow(1. / (Crank_L / Connecting_Rod_L), 2.)
 											- pow(sin(A) - E / Crank_L, 2.))));
 	V_cyl = (VTDC + AREA * AUX);
@@ -576,23 +576,23 @@ void DEFORMATIONS(double *V_cyl, double *DEFOR, double p_cyl, double CAD,
 			* (Piston_Crown_H + Connecting_Rod_L + S / 2.);
 
 	auxalfa = (CAD - delta_CAD) * PI / 180.;
-	Lanterior = (sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.)))
+	Lanterior = (Sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.)))
 			- ((S / 2.) * cos(auxalfa)
-					+ sqrt(
+					+ Sqrt(
 							pow(Connecting_Rod_L, 2.)
 									- pow((S / 2.) * sin(auxalfa) - E, 2.)));
 
 	auxalfa = (CAD + delta_CAD) * PI / 180.;
-	Lposterior = (sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.)))
+	Lposterior = (Sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.)))
 			- ((S / 2.) * cos(auxalfa)
-					+ sqrt(
+					+ Sqrt(
 							pow(Connecting_Rod_L, 2.)
 									- pow((S / 2.) * sin(auxalfa) - E, 2.)));
 
 	auxalfa = (CAD) * PI / 180.;
-	Lactual = (sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.)))
+	Lactual = (Sqrt(pow((S / 2.) + Connecting_Rod_L, 2.) - pow(E, 2.)))
 			- ((S / 2.) * cos(auxalfa)
-					+ sqrt(
+					+ Sqrt(
 							pow(Connecting_Rod_L, 2.)
 									- pow((S / 2.) * sin(auxalfa) - E, 2.)));
 
@@ -3509,7 +3509,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 										t2 = time_vector[counter];
 										t0 = (x2 * x2 * t1 - x1 * x1 * t2)
 												/ (x2 * x2 - x1 * x1);
-										K = x2 / sqrt(t2 - t0);
+										K = x2 / Sqrt(t2 - t0);
 
 										element[m][aux].tLOL = t0
 												+ pow(XLO[counter] / K, 2);
@@ -4305,7 +4305,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 						if (aux1 < 0.)
 							aux1 = 0.;
 						Radiation[m][i - iini].RFlame = Radiation[m][i - iini].x
-								* tgAng * sqrt(aux1);
+								* tgAng * Sqrt(aux1);
 						Radiation[m][i - iini].R = Radiation[m][i - iini].x
 								* tgAng;
 
@@ -4417,7 +4417,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 					if (aux1 < 0.)
 						aux1 = 0.;
 					Radiation[m][ifin + 1 - iini].RFlame = Radiation[m][ifin + 1
-							- iini].x * tgAng * sqrt(aux1);
+							- iini].x * tgAng * Sqrt(aux1);
 					Radiation[m][ifin + 1 - iini].R = Radiation[m][ifin + 1
 							- iini].x * tgAng;
 					Radiation[m][ifin + 1 - iini].np = 1;

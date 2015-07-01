@@ -59,8 +59,8 @@ void TCCExternalConnection::ExternalCharacteristics(double Time) {
 	double g = Gamma;
 	double gg = (g - 1) / 2 / g;
 
-	double A0 = sqrt(g * R * FTExt[0]);
-	double A1 = sqrt(g * R * FTExt[1]);
+	double A0 = Sqrt(g * R * FTExt[0]);
+	double A1 = Sqrt(g * R * FTExt[1]);
 
 	double AA0 = A0 / pow(FPExt[0], gg);
 	double AA1 = A1 / pow(FPExt[1], gg);

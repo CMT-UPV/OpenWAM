@@ -1,7 +1,6 @@
 #ifndef TURBO_BEARINGS_HPP
 #define TURBO_BEARINGS_HPP
 
-//#include <cmath>
 
 #include "THTM_Fluids.h"
 

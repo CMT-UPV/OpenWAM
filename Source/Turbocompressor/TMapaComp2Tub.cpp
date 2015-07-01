@@ -30,7 +30,6 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-//#include <cmath>
 #pragma hdrstop
 
 #include "TMapaComp2Tub.h"
@@ -468,10 +467,10 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 					- FSpl[i].dif / FSpl[i].h) * 6.;
 		}
 //Descomposicion de Cholesky
-		FSpl[1].ud = sqrt(FSpl[1].d);
+		FSpl[1].ud = Sqrt(FSpl[1].d);
 		for (int i = 2; i < n - 1; i++) {
 			FSpl[i - 1].ud1 = FSpl[i - 1].d1 / FSpl[i - 1].ud;
-			FSpl[i].ud = sqrt(FSpl[i].d - FSpl[i - 1].ud1 * FSpl[i - 1].ud1);
+			FSpl[i].ud = Sqrt(FSpl[i].d - FSpl[i - 1].ud1 * FSpl[i - 1].ud1);
 		}
 //Sustitucion directa
 		FSpl[1].yp = FSpl[1].b / FSpl[1].ud;
@@ -529,7 +528,7 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 //		AlphaK=sol[i]/DeltaK;
 //		BetaK=sol[i+1]/DeltaK;
 //		if(BetaK*BetaK+AlphaK*AlphaK>9){
-//			TauK=3/sqrt(BetaK*BetaK+AlphaK*AlphaK);
+//			TauK=3/Sqrt(BetaK*BetaK+AlphaK*AlphaK);
 //			sol[i]=TauK*AlphaK*DeltaK;
 //			sol[i+1]=TauK*BetaK*DeltaK;
 //		}
@@ -566,7 +565,7 @@ void TMapaComp2Tub::Spline(int n, double *x, double *y, double *sol) {
 //		AlphaK=(*sol)[i]/DeltaK;
 //		BetaK=(*sol)[i+1]/DeltaK;
 //		if(BetaK*BetaK+AlphaK*AlphaK>9){
-//			TauK=3/sqrt(BetaK*BetaK+AlphaK*AlphaK);
+//			TauK=3/Sqrt(BetaK*BetaK+AlphaK*AlphaK);
 //			(*sol)[i]=TauK*AlphaK*DeltaK;
 //			(*sol)[i+1]=TauK*BetaK*DeltaK;
 //		}
@@ -621,10 +620,10 @@ void TMapaComp2Tub::SplineVector(int n, std::vector<double> x,
 					* 6.;
 		}
 //Descomposicion de Cholesky
-		Spl[1].ud = sqrt(Spl[1].d);
+		Spl[1].ud = Sqrt(Spl[1].d);
 		for (int i = 2; i < n - 1; i++) {
 			Spl[i - 1].ud1 = Spl[i - 1].d1 / Spl[i - 1].ud;
-			Spl[i].ud = sqrt(Spl[i].d - Spl[i - 1].ud1 * Spl[i - 1].ud1);
+			Spl[i].ud = Sqrt(Spl[i].d - Spl[i - 1].ud1 * Spl[i - 1].ud1);
 		}
 //Sustitucion directa
 		Spl[1].yp = Spl[1].b / Spl[1].ud;
@@ -1007,7 +1006,7 @@ void TMapaComp2Tub::InterpolaMapa(double rtc, double AmbientTemperature) {
 
 // Se adapta el regimen de giro a interpolar al mapa compresor
 		if (FCorrect)
-			FRegComp = rtc * sqrt(FTempRef / AmbientTemperature);
+			FRegComp = rtc * Sqrt(FTempRef / AmbientTemperature);
 		else
 			FRegComp = rtc;
 
@@ -1408,7 +1407,7 @@ void TMapaComp2Tub::Cambio_Mapa(double radtip, double radhub,
 		}
 		FGastoMin = -n * FIncGasto;
 
-		r1 = sqrt((pow2(radhub) + pow2(radtip)) / 2);
+		r1 = Sqrt((pow2(radhub) + pow2(radtip)) / 2);
 //FGastoMin=-0.07;
 		FNumPuntosGastoNuevo = floor(
 				((FGastoMax - FGastoMin) / FIncGasto) + 0.5) + 1;

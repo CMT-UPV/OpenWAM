@@ -127,12 +127,12 @@ struct stHTMair: stHTM_Fluid {
 	}
 
 	double fun_Cp_AirS(double T) {
-		return -10.4199 * sqrt(T) + 2809.87 - 67227.1 / sqrt(T) + 917124.4 / T
+		return -10.4199 * Sqrt(T) + 2809.87 - 67227.1 / Sqrt(T) + 917124.4 / T
 				- 4174853.6 / pow150(T);
 	}
 
 	double fun_Cp_W(double T) {
-		return -41.9055 * sqrt(T) + 10447.493 - 382002.49 / sqrt(T)
+		return -41.9055 * Sqrt(T) + 10447.493 - 382002.49 / Sqrt(T)
 				+ 6456647.7 / T - 37951136.5 / pow150(T);
 	}
 
@@ -263,7 +263,7 @@ struct stHTMwater: stHTM_Fluid {
 	}
 
 	double fun_Cp(double T) {
-		return -41.9055 * sqrt(T) + 10447.493 - 382002.49 / sqrt(T)
+		return -41.9055 * Sqrt(T) + 10447.493 - 382002.49 / Sqrt(T)
 				+ 6456647.7 / T - 37951136.5 / pow150(T);
 	}
 
@@ -325,7 +325,7 @@ struct stHTMFreshair: stHTM_Fluid {
 	}
 
 	double fun_Cp(double T) {
-		return -10.4199 * sqrt(T) + 2809.87 - 67227.1 / sqrt(T) + 917124.4 / T
+		return -10.4199 * Sqrt(T) + 2809.87 - 67227.1 / Sqrt(T) + 917124.4 / T
 				- 4174853.6 / pow150(T);
 	}
 

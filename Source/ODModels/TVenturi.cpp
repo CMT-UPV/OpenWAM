@@ -207,7 +207,7 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 			}
 
 			Energia = pow(FMasa / FMasa0 * exp((H + H0) / 2), FGamma1);
-			Asonido1 = FAsonido * sqrt(Energia);
+			Asonido1 = FAsonido * Sqrt(Energia);
 			Error = (Diff = Asonido1 - Asonido0, fabs(Diff)) / Asonido1;
 			if (Error > 1e-6) {
 				Asonido0 = Asonido1;
@@ -335,7 +335,7 @@ void TVenturi::CalculaVenturi() {
 					printf("Velocity = %g (m/s) \t", VelGarganta1 * ARef);
 					printf("Temperature = %g (degC)\n", TempGarganta);
 				} else if (Mach1 == 1.) {
-					VelGarganta1 = sqrt(
+					VelGarganta1 = Sqrt(
 							((1. + FGamma1 / 2. * pow2(Mach0))
 									/ (FGamma2 * pow2(Mach0) / 2.)
 									* pow2(Velocity)));
@@ -349,11 +349,11 @@ void TVenturi::CalculaVenturi() {
 								/ (2. * FCpMezcla);
 
 				Mach1 = VelGarganta1 * ARef
-						/ sqrt(FGamma * FRMezcla * TempGarganta);
+						/ Sqrt(FGamma * FRMezcla * TempGarganta);
 				Converge = VelGarganta1 / VelGarganta0;
 				VelGarganta0 = VelGarganta1;
 			}
-			VelGarganta0 = sqrt(
+			VelGarganta0 = Sqrt(
 					(FRendimientoVenturi * pow2(VelGarganta0)
 							- FPerdidasCalor * 2.));
 // dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = (VelGarganta0  * ARef)/pow(FGamma*FRMezcla*TempGarganta,0.5);

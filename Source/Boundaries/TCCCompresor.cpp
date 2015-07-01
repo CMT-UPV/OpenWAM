@@ -28,7 +28,6 @@
 // ---------------------------------------------------------------------------
 #pragma hdrstop
 
-//#include <cmath>
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif

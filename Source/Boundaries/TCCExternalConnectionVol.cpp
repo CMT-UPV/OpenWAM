@@ -56,7 +56,7 @@ void TCCExternalConnectionVol::ExternalCharacteristics(double Time) {
 	double g = Gamma;
 	double gg = (g - 1) / 2 / g;
 
-	double A0 = sqrt(g * R * FTExt);
+	double A0 = Sqrt(g * R * FTExt);
 
 	FA_AExt = A0 / pow(FPExt / 1e5, gg) / ARef;
 

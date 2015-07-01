@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCRamificacion.h"
-//#include <cmath>
 #include <iostream>
 #include "TTubo.h"
 
@@ -307,10 +306,10 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			double Machx = fabs(FVelocity[TuboCalculado]) / ason;
 			if (Machx > 1) {
 				printf("Sonic condition in boundary: %d\n", FNumeroCC);
-				// double Machy = Machx / fabs(Machx) * sqrt
+				// double Machy = Machx / fabs(Machx) * Sqrt
 				// ((pow(Machx, 2) + 2. / FGamma1) / (FGamma4 * pow(Machx, 2) - 1.));
 				// double asonido = (*FCC[TuboCalculado] + *FCD[TuboCalculado]) / 2;
-				// double Sonidoy = asonido * sqrt
+				// double Sonidoy = asonido * Sqrt
 				// ((FGamma3 * pow(Machx, 2) + 1.) / (FGamma3 * pow(Machy, 2) + 1.));
 				//
 				// double Velocidady = Sonidoy * Machy;
@@ -331,12 +330,12 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 				if (Machx > 1) {
 					printf("Sonic condition in boundary: %d\n", FNumeroCC);
 					double Machy = Machx / fabs(Machx)
-							* sqrt(
+							* Sqrt(
 									(pow2(Machx) + 2. / FGamma1)
 											/ (FGamma4 * pow2(Machx) - 1.));
 					double asonido = (*FCC[i] + *FCD[i]) / 2;
 					double Sonidoy = asonido
-							* sqrt(
+							* Sqrt(
 									(FGamma3 * pow2(Machx) + 1.)
 											/ (FGamma3 * pow2(Machy) + 1.));
 

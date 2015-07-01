@@ -28,7 +28,6 @@
 // ---------------------------------------------------------------------------
 #pragma hdrstop
 
-//#include <cmath>
 
 #include "TBloqueMotor.h"
 #include "TTubo.h"

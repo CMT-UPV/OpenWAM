@@ -31,7 +31,6 @@
 
 #include "TCondicionContorno.h"
 
-//#include <cmath>
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
@@ -100,7 +99,7 @@ public:
 						FCalculoGamma);
 
 			}
-			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep)
+			FVelocidadSonidoDep = Sqrt(FTemperaturaDep * GammaDep * RMezclaDep)
 					/ ARef;
 		} catch (exception & N) {
 			std::cout

@@ -35,7 +35,6 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-//#include <cmath>
 #include "Globales.h"
 
 //---------------------------------------------------------------------------

@@ -39,10 +39,11 @@ using namespace std;
 class Exception: public exception {
 private:
 	string msg;
+	string foo;
 public:
 	Exception();
 	Exception(const string& __arg);
 	virtual ~Exception();
-	virtual const char* what();
+	virtual const char* what() const throw();
 };
 #endif

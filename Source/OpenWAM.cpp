@@ -33,6 +33,7 @@
 
 #include "TOpenWAM.h"
 #include "labels.hpp"
+#include <exception>
 
 // #include <tchar.h>
 // ---------------------------------------------------------------------------
@@ -43,58 +44,65 @@ TOpenWAM* Aplication = NULL;
 
 int main(int argc, char *argv[]) {
 
-	init_labels();
+	try
+	{
+		init_labels();
 
-	Aplication = new TOpenWAM();
+		Aplication = new TOpenWAM();
 
-	Aplication->ReadInputData(argv[1]);
+		Aplication->ReadInputData(argv[1]);
 
-	Aplication->ConnectFlowElements();
+		Aplication->ConnectFlowElements();
 
-	Aplication->ConnectControlElements();
+		Aplication->ConnectControlElements();
 
-	Aplication->InitializeParameters();
+		Aplication->InitializeParameters();
 
-	Aplication->InitializeOutput();
+		Aplication->InitializeOutput();
 
-	Aplication->ProgressBegin();
+		Aplication->ProgressBegin();
 
-	if (Aplication->IsIndependent()) {
+		if (Aplication->IsIndependent()) {
 
-		do {
+			do {
 
-			Aplication->Progress();
+				Aplication->Progress();
 
-			Aplication->DetermineTimeStepIndependent();
+				Aplication->DetermineTimeStepIndependent();
 
-			Aplication->NewEngineCycle();
+				Aplication->NewEngineCycle();
 
-			Aplication->CalculateFlowIndependent();
+				Aplication->CalculateFlowIndependent();
 
-			Aplication->ManageOutput();
+				Aplication->ManageOutput();
 
-		} while (!Aplication->CalculationEnd());
-	} else {
-		do {
+			} while (!Aplication->CalculationEnd());
+		} else {
+			do {
 
-			Aplication->Progress();
+				Aplication->Progress();
 
-			Aplication->DetermineTimeStepCommon();
+				Aplication->DetermineTimeStepCommon();
 
-			Aplication->NewEngineCycle();
+				Aplication->NewEngineCycle();
 
-			Aplication->CalculateFlowCommon();
+				Aplication->CalculateFlowCommon();
 
-			Aplication->ManageOutput();
+				Aplication->ManageOutput();
 
-		} while (!Aplication->CalculationEnd());
+			} while (!Aplication->CalculationEnd());
+		}
+
+		Aplication->GeneralOutput();
+
+		Aplication->ProgressEnd();
+
+		delete Aplication;
 	}
-
-	Aplication->GeneralOutput();
-
-	Aplication->ProgressEnd();
-
-	delete Aplication;
+	catch (std::exception & N)
+	{
+		std::cout << N.what() << std::endl;
+	}
 
 	return 0;
 

@@ -62,7 +62,7 @@ struct stFESub {
 		yy = pow2(K) * yy - 1.;
 		U2_2 = 0;
 		if (xx > 1)
-			U2_2 = AdAA * sqrt((pow2(xx) - 1.) / (yy * Ga3)); // Valor absoluto
+			U2_2 = AdAA * Sqrt((pow2(xx) - 1.) / (yy * Ga3)); // Valor absoluto
 		U2 = (BC - A2) / Ga3;
 		return U2_2 - U2;
 	}
@@ -116,7 +116,7 @@ struct stFSSub {
 	double operator()(const double A2) {
 		U2 = 0;
 		if (pow2Ac > pow2(A2)) {
-			U2 = sqrt((pow2Ac - pow2(A2)) / Ga3);
+			U2 = Sqrt((pow2Ac - pow2(A2)) / Ga3);
 		}
 		double A1 = Ac * (BC + Ga3 * U2) * invAdAA;
 		double U1 = K * U2 * pow2(A1 / A2);
@@ -151,12 +151,12 @@ struct stFSSup {
 
 		double dif = pow2(Ac) - Ga3 * pow2(U2);
 		if (dif > 0) {
-			A2 = sqrt(dif);
+			A2 = Sqrt(dif);
 		} else {
 			A2 = 0;
 		}
-		//A2 = sqrt(pow2(Ac) - Ga3 * pow2(U2));
-		double A2_2 = sqrt(
+		//A2 = Sqrt(pow2(Ac) - Ga3 * pow2(U2));
+		double A2_2 = Sqrt(
 				U2 * pow((BC + Ga3 * U2) * invAA, Gam / Ga3) * invFcc);
 
 		return A2 - A2_2;
@@ -189,11 +189,11 @@ struct stRecover {
 	double operator()(double A2) {
 		U2 = (BC - A2) / Ga3;
 		double Ga3U22 = Ga3 * pow2(U2);
-		double Adep1 = sqrt(pow2(A2) + Ga3U22);
+		double Adep1 = Sqrt(pow2(A2) + Ga3U22);
 		A1 = A2 * Adep1 * invAdAA;
 		UThroat = U2 * CR * pow2(A1 / A2);
-		double Adep2 = sqrt(pow2(A1) + Ga3 * pow2(UThroat));
-		A2_2 = sqrt(pow2(Adep2) - Ga3U22);
+		double Adep2 = Sqrt(pow2(A1) + Ga3 * pow2(UThroat));
+		A2_2 = Sqrt(pow2(Adep2) - Ga3U22);
 		return A2 - A2_2;
 	}
 };
@@ -248,7 +248,7 @@ struct stExpansion {
 				U2 = (xx2 / (Ga2 * U1));
 			} else {
 				U2 = (xx2 / (Ga2 * U1))
-						* (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
+						* (1 - Sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
 			}
 		} else {
 			if ((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1) {
@@ -257,7 +257,7 @@ struct stExpansion {
 				U2 =
 						xx2
 								* (1
-										- sqrt(
+										- Sqrt(
 												1.
 														- (xx1 * 2. * Ga2
 																* (pow2(U1)
@@ -272,7 +272,7 @@ struct stExpansion {
 				U2 = U2 / U1;
 			}
 		}
-		A2 = sqrt(xx1 - Ga3 * pow2(U2));
+		A2 = Sqrt(xx1 - Ga3 * pow2(U2));
 		xx3 = CCE + Ga3 * U2; // Velocity del sonido corregida, hara falta en el calculo de las caracteristicas//
 		double xx = pow(rel_entropia * xx3, Gam);
 		double xtx = (pow2(A2) + Gam * pow2(U2))
@@ -326,7 +326,7 @@ struct stContraction {
 		if (b < 0) { /* Adaptacion del metodo para este caso problematico */
 			A2 = xx1 / (2 * xx2);
 		} else {
-			A2 = (xx1 + sqrt(b)) / (2. * xx2); // Calculo de A2 segun la ec. 4.316, si el //
+			A2 = (xx1 + Sqrt(b)) / (2. * xx2); // Calculo de A2 segun la ec. 4.316, si el //
 		}
 		/* Si el flujo es supersonico en la seccion 1 (diametro mayor) peta el metodo de Brent peta al calcular el valor en el extremo
 		 derecho, debido a que sale una raiz negativa. Probar entonces una condicion que bloquee en este caso el calculo de la raiz
@@ -385,14 +385,14 @@ struct stPerdPresAd {
 		double b1 = -FK * pow2(U1) / pow2(A1) + 1.;
 		double b = pow2(A1) * b1;
 		double c = -(pow2(A1) + Ga3 * pow2(U1)) * pow2(U1);
-		double u2u1 = (sqrt(pow2(b) - 4. * a * c) - b) / (2. * a); // ec. 252//
+		double u2u1 = (Sqrt(pow2(b) - 4. * a * c) - b) / (2. * a); // ec. 252//
 		if (U1 == 0.) {
 			U2 = 0.; // ec.253//
 		} else { // ec.254//
 			U2 = u2u1 / U1;
 		}
 
-		A2 = sqrt(pow2(A1) + Ga3 * (pow2(U1) - pow2(U2))); // ec.255//
+		A2 = Sqrt(pow2(A1) + Ga3 * (pow2(U1) - pow2(U2))); // ec.255//
 
 		xx3 = CC2 + Ga3 * U2;
 		A1p = xx3 * FRE * pow(b1, -Ga5); // ec.4.256, CUIDADO QUE HAY UN SIGNO MENOS EN EL EXPONENTE//
@@ -442,7 +442,7 @@ struct stPerdPresAdL {
 		} else {
 			U2 = u2u1 / U1;
 		}
-		A2 = sqrt(pow2(A1) + Ga3 * (pow2(U1) - pow2(U2)));
+		A2 = Sqrt(pow2(A1) + Ga3 * (pow2(U1) - pow2(U2)));
 		// Calculo de la velocidad del sonido entrante.
 
 		xx3 = CC2 + U2 * Ga3;
@@ -521,7 +521,7 @@ struct stNewCompressorConditions {
 			const double T01, const double P01, const double iEff,
 			const double iGam, const double R, const double Sec) :
 			Mass(iMass), Lambda(iCC), Gam(iGam), Section(Sec), Eff(iEff) {
-		A01 = sqrt(Gam * R * T01);
+		A01 = Sqrt(Gam * R * T01);
 		AA1 = A01 * pow(P01, (1 - Gam) / 2 / Gam);
 		Ga3 = (Gam - 1) / 2;
 	}
@@ -530,7 +530,7 @@ struct stNewCompressorConditions {
 
 		double A2 = Lambda / (1 - Ga3 * Match);
 		double k = pow2(A2) * (1 + Ga3 * Match * Match) / (A01 * A01) - 1;
-		double AA2 = AA1 * sqrt(1 + k) / (k * Eff + 1);
+		double AA2 = AA1 * Sqrt(1 + k) / (k * Eff + 1);
 		double Match2 = Mass
 				/ (Gam * pow(A2 / pow(AA2, Gam), 1 / Ga3) * A2 * Section);
 		return Match - Match2;
@@ -563,7 +563,7 @@ struct stCharOrigin {
 		double W2p = Interpola(W20, W21, 1., x);
 		double Gp = Interpola(G0, G1, 1., x);
 		double Up = W1p / W0p;
-		double Ap = sqrt(Gp * (Gp - 1) * (W2p / W0p - pow2(Up) / 2.));
+		double Ap = Sqrt(Gp * (Gp - 1) * (W2p / W0p - pow2(Up) / 2.));
 		return x + signo * (Up - signo * Ap) * dtdx;
 	}
 };

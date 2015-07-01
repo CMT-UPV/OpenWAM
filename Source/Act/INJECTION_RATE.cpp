@@ -2,11 +2,11 @@
 // #include "simstruc.h"
 #pragma hdrstop
 #include<cstdio>
-#include<cmath>
 #include<string.h>
 #include<stdlib.h>
 #include<malloc.h>
 // #include<conio.h>
+#include "Globales.h"
 
 using namespace std;
 
@@ -271,7 +271,7 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI,
 			// calculates end of injection
 			EOI[j] = SOI[j] + (b / a + DLM + b / -c) * 6 * speed;
 		} else {
-			double levmaxi = sqrt((2. * MFI[j]) / (1. / a + 1. / -c));
+			double levmaxi = Sqrt((2. * MFI[j]) / (1. / a + 1. / -c));
 			double DTL = levmaxi / a;
 			double DTB = levmaxi / -c;
 			for (int k = 0; k < CAI; k++) {

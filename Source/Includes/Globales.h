@@ -38,7 +38,6 @@
 // #include <sys\timeb.h>
 #include "Constantes.h"
 #include <limits>
-#include <cmath>
 #include "Math_wam.h"
 #include "labels.hpp"
 #ifndef __BORLANDC__
@@ -1708,7 +1707,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 		double CvCombustible = 1496.92;
 		double CvH2O = 1420.63;
 		if (GammaCalculation == nmComposicionTemperatura) {
-			double RaizdeT = sqrt(Temperature);
+			double RaizdeT = Sqrt(Temperature);
 
 			CvAire = -10.4199 * RaizdeT + 2522.88
 					+ (-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
@@ -1808,7 +1807,7 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
 		}
 
 		if (GammaCalculation == nmComposicionTemperatura) {
-			double RaizdeT = sqrt(Temperature);
+			double RaizdeT = Sqrt(Temperature);
 			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
 			CpN2 = (12.531 - 0.05932 * RaizdeT
 					+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
@@ -2067,7 +2066,7 @@ inline void Hermite(int n, double *x, double *y, double *sol) {
 			AlphaK = sol[i] / DeltaK;
 			BetaK = sol[i + 1] / DeltaK;
 			if (BetaK * BetaK + AlphaK * AlphaK > 9) {
-				TauK = 3 / sqrt(BetaK * BetaK + AlphaK * AlphaK);
+				TauK = 3 / Sqrt(BetaK * BetaK + AlphaK * AlphaK);
 				sol[i] = TauK * AlphaK * DeltaK;
 				sol[i + 1] = TauK * BetaK * DeltaK;
 			}
@@ -2096,7 +2095,7 @@ inline void Hermite(int n, std::vector<double> x, std::vector<double> y,
 			AlphaK = (*sol)[i] / DeltaK;
 			BetaK = (*sol)[i + 1] / DeltaK;
 			if (BetaK * BetaK + AlphaK * AlphaK > 9) {
-				TauK = 3 / sqrt(BetaK * BetaK + AlphaK * AlphaK);
+				TauK = 3 / Sqrt(BetaK * BetaK + AlphaK * AlphaK);
 				(*sol)[i] = TauK * AlphaK * DeltaK;
 				(*sol)[i + 1] = TauK * BetaK * DeltaK;
 			}
@@ -2185,8 +2184,8 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 	double Machx = v / a;
 	double g3 = (g - 1) / 2;
 	double Machy = Machx / fabs(Machx)
-			* sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx, 2) - 1.));
-	a = a * sqrt((g3 * Machx * Machx + 1.) / (g3 * Machy * Machy + 1.));
+			* Sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx, 2) - 1.));
+	a = a * Sqrt((g3 * Machx * Machx + 1.) / (g3 * Machy * Machy + 1.));
 
 	v = a * Machy;
 }

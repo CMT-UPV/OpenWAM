@@ -102,7 +102,7 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 		GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 	}
-	FVelocidadSonidoDep = sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep)
+	FVelocidadSonidoDep = Sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep)
 			/ ARef;
 
 }
@@ -213,7 +213,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 						FCalculoGamma);
 
 			}
-			FVelocidadSonidoDep = sqrt(
+			FVelocidadSonidoDep = Sqrt(
 					(FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
 
 		} else if (FTipoDescarga == nmDescargaRemansoMatlab) {
@@ -277,7 +277,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 						FCalculoGamma);
 
 			}
-			FVelocidadSonidoDep = sqrt(
+			FVelocidadSonidoDep = Sqrt(
 					(FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
 
 		} else
@@ -335,7 +335,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 //			GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 //
 //		}
-//		FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / ARef;
+//		FVelocidadSonidoDep = Sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / ARef;
 //	}
 //	catch(Exception & N) {
 //		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " <<
@@ -390,14 +390,14 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 			b = Gamma1(FGamma) * *FCC * pow2(xyx) * FPerdidaExtremo;
 			a2 = pow2(FGamma3 * xyx * FPerdidaExtremo) + FGamma3;
 			c = pow2(xyx * *FCC) - pow2(FVelocidadSonidoDep);
-			u_isen = (-b + sqrt(pow2(b) - a2 * 4. * c)) / (2. * a2);
+			u_isen = (-b + Sqrt(pow2(b) - a2 * 4. * c)) / (2. * a2);
 			// Resolucion ecuacion de segundo grado
-			a_isen = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_isen));
+			a_isen = Sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_isen));
 			u_real = u_isen * FPerdidaExtremo; // Con esta relacion obtenemos la velocidad real.
-			a_real = sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_real));
+			a_real = Sqrt(pow2(FVelocidadSonidoDep) - FGamma3 * pow2(u_real));
 			aap = a_real / a_isen * aap;
 			if (fabs(u_real) > a_real) { /* Condicion flujo supersonico */
-				a_real = sqrt(2 / Gamma2(FGamma)) * FVelocidadSonidoDep;
+				a_real = Sqrt(2 / Gamma2(FGamma)) * FVelocidadSonidoDep;
 				u_real = a_real;
 				aap = FTuboExtremo[0].Entropia * a_real
 						/ (*FCC + FGamma3 * u_real);

@@ -282,7 +282,7 @@ double TSAEMap::getGastoBombeo() {
 }
 
 void TSAEMap::InterpolaMapa(double rtc, double T10) {
-	double rtc_cor = rtc * sqrt(FTempRef / T10);
+	double rtc_cor = rtc * Sqrt(FTempRef / T10);
 
 	InterpolateMAP(rtc_cor);
 }
@@ -303,9 +303,9 @@ void TSAEMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
 	if ( !FIsAdiabatic ) {
 		for ( int i = 0; i < FNumLines; i++ ) {
 			for ( unsigned int j = 0; j < FSpeed[i].size(); j++ ) {
-				m = FMass[i][j] * 1e5 / FPresionRef / sqrt
+				m = FMass[i][j] * 1e5 / FPresionRef / Sqrt
 				( FTempMeasure / FTempRef );
-				Rtc = FSpeed[i][j] / sqrt ( FTempRef / FTempMeasure );
+				Rtc = FSpeed[i][j] / Sqrt ( FTempRef / FTempMeasure );
 				if ( FPres[i][j] > 1 )
 				FEff[i][j] = HTM->CorrectCompressorMap ( m, FPres[i][j],
 						FEff[i][j], FTempMeasure, TinT, Rtc );

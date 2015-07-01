@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCPreVble.h"
-// #include <cmath>
 #include <iostream>
 
 #include "TTubo.h"
@@ -177,7 +176,7 @@ void TCCPreVble::CalculaCondicionContorno(double Time) {
 
 		if (rel_CCon_entropia / yyy < 1.0) {
 
-			Ason = sqrt(FGamma * R * (Temp + 273)) / ARef;
+			Ason = Sqrt(FGamma * R * (Temp + 273)) / ARef;
 			double AA = Ason / pow(Pressure, Gamma5(FGamma));
 			double U = (*FCC - Ason * FTuboExtremo[0].Entropia / AA) / Gamma3;
 			*FCC = Ason + Gamma3 * U;

@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCCompresorVolumetrico.h"
-//#include <cmath>
 #include <iostream>
 #include "TTubo.h"
 
@@ -230,7 +229,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 				+ FC2Temperatura * FPressure + FC3Temperatura;
 
 		/* Velocity del sonido en el tubo */
-		FSonido = sqrt(FGamma * (FTemperature + 273.) * FRMezcla) / ARef;
+		FSonido = Sqrt(FGamma * (FTemperature + 273.) * FRMezcla) / ARef;
 
 		/* Potencia */
 		FPotencia = FC1Potencia * pow3(FPressure)

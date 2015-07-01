@@ -184,7 +184,7 @@ inline double TLumbrera::CalculaDistPMI(double x) {
 	double c = (x * Pi / 180.);
 	return FCarrera
 			- (FBiela + FCarrera * (1. - cos(c)) / 2.
-					- sqrt(pow2(FBiela) - pow2(FCarrera * sin(c) / 2.)));
+					- Sqrt(pow2(FBiela) - pow2(FCarrera * sin(c) / 2.)));
 }
 
 inline double TLumbrera::CalculaApertura(double x) {

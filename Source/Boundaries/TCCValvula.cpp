@@ -35,7 +35,6 @@
 #pragma hdrstop
 
 #include "TCCCilindro.h"
-//#include <cmath>
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
@@ -313,7 +312,7 @@ void TCCCilindro::FlujoEntranteCilindro() {
 				2e-6);
 
 //Ecuacion de la energia
-		velocidad_garganta = sqrt(
+		velocidad_garganta = Sqrt(
 				2. * Gamma6
 						* (pow2(FSonido) + Gamma3 * pow2(FVelocity)
 								- pow2(vel_son_garganta)));
@@ -370,9 +369,9 @@ void TCCCilindro::FlujoSalienteCilindro() {
 
 		/* Calculo del valor de la velocidad del sonido en el extremo del tubo para
 		 el cual el salto es critico. */
-		u2cr = FVelSonidoCil * sqrt(2. / Gamma2)
-				* (sqrt(pow2(Fk) + Gamma1 * Gamma2) - Fk) * FSigno / Gamma1;
-		a2cr = sqrt(pow2(FVelSonidoCil) - Gamma3 * pow2(u2cr)); //Ecuacion de la energia. Garganta-Cylinder.
+		u2cr = FVelSonidoCil * Sqrt(2. / Gamma2)
+				* (Sqrt(pow2(Fk) + Gamma1 * Gamma2) - Fk) * FSigno / Gamma1;
+		a2cr = Sqrt(pow2(FVelSonidoCil) - Gamma3 * pow2(u2cr)); //Ecuacion de la energia. Garganta-Cylinder.
 
 		/* A partir  de a2cr se determina el error en el calculo de A2 al suponer salto
 		 subcritico. Si es negativo, el salto es supercritico. Si es positivo, el salto
@@ -384,7 +383,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			/* Determinacion del intervalo de iteracion. Para ello se supone que
 			 en el extremo del tubo se dan las condiciones criticas. Explicado en
 			 los apuntes de Pedro. */
-			a1 = sqrt(2. / Gamma2) * FVelSonidoCil;
+			a1 = Sqrt(2. / Gamma2) * FVelSonidoCil;
 			FVelocidadGarganta = FSigno * a1;
 			xx = pow(FAd / FVelSonidoCil, Gamma4);
 			yy = pow(a1, 2. / Gamma1);
@@ -393,7 +392,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			if (val1 - val2 < 0.)
 				valde = FVelocidadGarganta;
 			if (val1 - val2 >= 0.)
-				valde = FSigno * FVelSonidoCil / sqrt(Gamma3);
+				valde = FSigno * FVelSonidoCil / Sqrt(Gamma3);
 
 			/* Una vez conocido el intervalo de iteracion, se pasa a la resolucion
 			 del caso flujo saliente salto supercritico. */
@@ -401,7 +400,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			Resolucion(0.0, valde, FCaso, &FVelocity, &FSonido, 1e-5, 2e-6);
 
 			// Calcula del massflow. Como es saliente del cilindro, siempre es positivo.
-			xx = pow(sqrt(2. / Gamma2), (Gamma2 / Gamma1));
+			xx = pow(Sqrt(2. / Gamma2), (Gamma2 / Gamma1));
 			yy = pow(FAd, Gamma4);
 			FGasto = FCDSalida * FSeccionValvula * Gamma * xx * yy * 1e5
 					/ (FVelSonidoCil * ARef);
@@ -419,11 +418,11 @@ void TCCCilindro::FlujoSalienteCilindro() {
 				 de choque plana. Se pueden encontrar en el punto 2.5 de la tesis
 				 de Corberan.  */
 				xx = Gamma4 * pow2(Mach) - 1.;
-				Mach_tras_ondachoque = sqrt((pow2(Mach) + 2. / Gamma1) / xx);
+				Mach_tras_ondachoque = Sqrt((pow2(Mach) + 2. / Gamma1) / xx);
 				temp_tras_ondachoque = Gamma3 * pow2(Mach) + 1.;
 				temp_antes_ondachoque = Gamma3 * pow2(Mach_tras_ondachoque)
 						+ 1.;
-				relacion_velocidades_son = sqrt(
+				relacion_velocidades_son = Sqrt(
 						temp_tras_ondachoque / temp_antes_ondachoque);
 				FSonido = FSonido * relacion_velocidades_son;
 				FVelocity = FSonido * Mach_tras_ondachoque * FSigno;
@@ -438,7 +437,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			FCaso = nmFlujoSalienteSaltoSubcritico;
 			Resolucion(a2cr, FVelSonidoCil, FCaso, &ycal, &FSonido, 1e-5, 2e-6);
 			// Aplicando la Ecuacion de la Energia entre el cilindro y la garganta:
-			FVelocity = sqrt((pow2(FVelSonidoCil) - pow2(FSonido)) / Gamma3)
+			FVelocity = Sqrt((pow2(FVelSonidoCil) - pow2(FSonido)) / Gamma3)
 					* FSigno;
 
 			// Calculo del massflow. Como es saliente del cilindro, siempre es positivo.
@@ -587,7 +586,7 @@ void TCCCilindro::FESubcritico(double vel_son_supuesta, double *u2_1,
 		yy = pow(xx, 4. * Gamma6);
 		yy = pow2(Fk) * yy - 1.;
 		u2 = -FTuboExtremo[0].Entropia * FAd
-				* sqrt(2. * Gamma6 * (pow2(xx) - 1.) / yy) * FSigno;
+				* Sqrt(2. * Gamma6 * (pow2(xx) - 1.) / yy) * FSigno;
 
 // Se pone el siguiente if para que en Resolucion la eleccion del intervalo
 // de calculo sea la adecuada. En la pagina 59 de Apuntes de Pedro esta explicado.
@@ -651,7 +650,7 @@ void TCCCilindro::FSSubcritico(double vel_son_supuesta, double *error,
 		/* Resolucion del algoritmo de calculo propuesto en la pagina 113 de la tesis
 		 de Corberan. */
 
-		u2 = sqrt((pow2(FVelSonidoCil) - pow2(vel_son_supuesta)) / Gamma3)
+		u2 = Sqrt((pow2(FVelSonidoCil) - pow2(vel_son_supuesta)) / Gamma3)
 				* FSigno;
 		a1 = FVelSonidoCil * (*FCC + Gamma3 * u2 * FSigno)
 				/ (FTuboExtremo[0].Entropia * FAd);
@@ -675,10 +674,10 @@ void TCCCilindro::FSSupercritico(double vel_supuesta, double *a2_1,
 	try {
 
 // Resolucion de la ecuacion de la energia entre el cilindro y el extremo del tubo.
-		*a2_1 = sqrt(pow2(FVelSonidoCil) - Gamma3 * pow2(vel_supuesta));
+		*a2_1 = Sqrt(pow2(FVelSonidoCil) - Gamma3 * pow2(vel_supuesta));
 
 // Resolucion de la ecuacion 4.20 de la tesis de Corberan.
-		*a2_2 = sqrt(
+		*a2_2 = Sqrt(
 				vel_supuesta
 						* pow(
 								(*FCC + Gamma3 * vel_supuesta * FSigno)

@@ -58,7 +58,6 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-//#include <cmath>
 #include "TCondicionContorno.h"
 #include "TDeposito.h"
 #include "TBloqueMotor.h"
@@ -252,7 +251,7 @@ private:
 	// Variables del TVD
 
 	stTVD FTVD;		//!< Struct with the intermediate parameters of TVD scheme
-	double *sqrtRhoA;
+	double *SqrtRhoA;
 
 	// Calculo Especies
 

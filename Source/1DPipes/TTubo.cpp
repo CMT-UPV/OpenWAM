@@ -864,7 +864,7 @@ void TTubo::CalculoPuntosMalla(double ene) {
 		FArea12 = new double[FNin];
 		for (int i = 0; i < FNin - 1; i++) {
 			FDiametroD12[i] = (FDiametroTubo[i + 1] + FDiametroTubo[i]) / 2.;
-			FDiametroS12[i] = sqrt(
+			FDiametroS12[i] = Sqrt(
 					(pow2(FDiametroTubo[i + 1]) + pow2(FDiametroTubo[i])) / 2.);
 			FArea12[i] = (FArea[i + 1] + FArea[i]) / 2.;
 		}
@@ -1159,7 +1159,7 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 
 			FPresion0[i] = FPini;
 			FTemperature[i] = FTini + 273.;
-			FAsonidoDim[i] = sqrt((FTini + 273.) * FGamma[i] * FRMezcla[i]);
+			FAsonidoDim[i] = Sqrt((FTini + 273.) * FGamma[i] * FRMezcla[i]);
 			FAsonido0[i] = FAsonidoDim[i] / ARef;
 			FVelocidadDim[i] = FVelMedia;
 			FVelocidad0[i] = FVelMedia / ARef;
@@ -1350,7 +1350,7 @@ void TTubo::Transforma2(double& v, double& a, double& p, double **U,
 		v = V / ARef;
 		double P = (U[2][i] - U[1][i] * V / 2.0) * Gamma1;
 		p = P / 1e5;
-		a = sqrt(Gamma * P / U[0][i] / ARef2);
+		a = Sqrt(Gamma * P / U[0][i] / ARef2);
 		if (v > 1e200 || v < -1e200) {
 			std::cout << "ERROR: Valor de velocidad no valido" << std::endl;
 			throw Exception("Error Velociad");
@@ -1411,7 +1411,7 @@ void TTubo::Transforma2Area(double& v, double& a, double& p, double **U,
 
 		v = V / ARef;
 		p = P / 1e5 / area;
-		a = sqrt(Gamma * P / U[0][i] / ARef2);
+		a = Sqrt(Gamma * P / U[0][i] / ARef2);
 
 		for (int j = 0; j < FNumeroEspecies - 2; j++) {
 			Yespecie[j] = U[j + 3][i] / U[0][i];
@@ -1509,7 +1509,7 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 
 		if (!peta) {
 			v = vel / ARef;
-			a = sqrt(Gamma1 * (Ufctd[1][i] - (vel * vel) / 2.)) / ARef;
+			a = Sqrt(Gamma1 * (Ufctd[1][i] - (vel * vel) / 2.)) / ARef;
 			p = Ufctd[2][i] / pow((1 + Gamma3 * pow2(v / a)), Gamma / Gamma1)
 					/ 1.e5;
 			for (int j = 0; j < FNumeroEspecies - 1 - FIntEGR; j++) {
@@ -2138,7 +2138,7 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
 			/* paso de las variables en funcion de la velocidad,asonido y presion */
 			v = U[1][i] / U[0][i];
 			p = (U[2][i] - U[1][i] * v / 2.0) * Gamma1[i];
-			a = sqrt(Gamma[i] * p / U[0][i]);
+			a = Sqrt(Gamma[i] * p / U[0][i]);
 			if (v > 1e200 || v < -1e200) {
 				std::cout << "ERROR: Valor de velocidad no valido" << std::endl;
 				throw Exception("Error Velociad");
@@ -2205,9 +2205,9 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 			/* paso de las variables en funcion de la velocidad,asonido y presion */
 			v = U[1][i] / U[0][i];
 			pA = (U[2][i] - U[1][i] * v / 2.0) * Gamma1[i];
-			a = sqrt(Gamma[i] * pA / U[0][i]);
+			a = Sqrt(Gamma[i] * pA / U[0][i]);
 
-			diame = sqrt(Area[i] * 4 / Pi);
+			diame = Sqrt(Area[i] * 4 / Pi);
 			/* calculo factor friccion */
 			if (DoubEqZero(v) || DoubEqZero(FCoefAjusFric)) {
 				g = 0.;
@@ -2559,11 +2559,11 @@ void TTubo::ReduccionFlujoSubsonico() {
 			Machx = FVelocidad0[i] / FAsonido0[i];
 			if (-1. >= Machx || Machx > 1.) {
 				Machy = Machx / fabs(Machx)
-						* sqrt(
+						* Sqrt(
 								(pow2(Machx) + 2. / FGamma1[i])
 										/ (FGamma4[i] * pow2(Machx) - 1.));
 				Sonidoy = FAsonido0[i]
-						* sqrt(
+						* Sqrt(
 								(FGamma1[i] / 2. * pow2(Machx) + 1.)
 										/ (FGamma1[i] / 2. * pow2(Machy) + 1.));
 
@@ -2596,17 +2596,17 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 			velocidad = FU1[1][i] / FU1[0][i] / ARef;
 			presion = (FU1[2][i] - FU1[1][i] * velocidad * ARef / 2.0)
 					* FGamma1[i] / 1e5 / FArea[i];
-			asonido = sqrt(
+			asonido = Sqrt(
 					FGamma[i] * presion * 1e5 * FArea[i] / FU1[0][i] / ARef
 							/ ARef);
 			Machx = velocidad / asonido;
 			if (-1. >= Machx || Machx > 1.) {
 				Machy = Machx / fabs(Machx)
-						* sqrt(
+						* Sqrt(
 								(pow2(Machx) + 2. / FGamma1[i])
 										/ (FGamma4[i] * pow2(Machx) - 1.));
 				Sonidoy = asonido
-						* sqrt(
+						* Sqrt(
 								(FGamma1[i] / 2. * pow2(Machx) + 1.)
 										/ (FGamma1[i] / 2. * pow2(Machy) + 1.));
 
@@ -3736,7 +3736,7 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 						n2 = 0.8;
 					}
 					Fhe[i] = 0.3
-							+ 0.62 * sqrt(Re) * cbrt(Pr)
+							+ 0.62 * Sqrt(Re) * cbrt(Pr)
 									/ pow025(1 + pow(0.4 / Pr, 0.666666))
 									* pow(1 + pow(Re / 282000, n1), n2) * cond
 									/ FDiametroTubo[i];
@@ -5281,7 +5281,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 		double gamma5p = Gamma5(gammap);
 		velocidadp = w1 / w0;
 		rhop = w0 / Seccion(diamep);
-		double asonidop = sqrt(
+		double asonidop = Sqrt(
 				gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2));
 		double presionp = (w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep)
 				* unPaToBar;
@@ -5421,7 +5421,7 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 		double gamma3p = Gamma3(gammap);
 		double gamma5p = Gamma5(gammap);
 		velocidadp = w1 / w0;
-		asonidop = sqrt(gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2));
+		asonidop = Sqrt(gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2));
 		caracteristica = asonidop - signo * gamma3p * velocidadp;
 
 		// Las siguientes expresiones se pueden encontrar en la Tesis de Corberan
@@ -5552,7 +5552,7 @@ void TTubo::CalculaB() {
 			if (FArea[i] != FArea[i + 1] || FCoefAjusFric != 0
 					|| FCoefAjusTC != 0) {
 
-				Rm = sqrtRhoA[i + 1] / sqrtRhoA[i + 1];
+				Rm = SqrtRhoA[i + 1] / SqrtRhoA[i + 1];
 				Rm1 = Rm + 1;
 				gamma = (Rm * FGamma[i + 1] + FGamma[i]) / Rm1;
 				gamma1 = gamma - 1;
@@ -5567,12 +5567,12 @@ void TTubo::CalculaB() {
 					H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1]
 							+ FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
 					Hmed = (Rm * H2 + H1) / Rm1;
-					Amed = sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
-					rhomed = sqrt(Frho[i] * Frho[i + 1]);
+					Amed = Sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
+					rhomed = Sqrt(Frho[i] * Frho[i + 1]);
 
 				}
 				if (FCoefAjusFric != 0 || FCoefAjusTC != 0) {
-					rhoAmed = sqrtRhoA[i + 1] * sqrtRhoA[i + 1];
+					rhoAmed = SqrtRhoA[i + 1] * SqrtRhoA[i + 1];
 				}
 
 				if (FArea[i] != FArea[i + 1]) {
@@ -5645,9 +5645,9 @@ void TTubo::CalculaBmen() {
 			if (FArea[i] != FArea12[i - 1] || FCoefAjusFric != 0
 					|| FCoefAjusTC != 0) {
 
-				rhoAmed = sqrt(sqrtRhoA[i - 1] * pow3(sqrtRhoA[i]));
-				B = FU0[0][i] + rhoAmed + sqrtRhoA[i] * sqrtRhoA[i - 1];
-				Rm = B / sqrt(pow3(sqrtRhoA[i - 1]) * sqrtRhoA[i]);
+				rhoAmed = Sqrt(SqrtRhoA[i - 1] * pow3(SqrtRhoA[i]));
+				B = FU0[0][i] + rhoAmed + SqrtRhoA[i] * SqrtRhoA[i - 1];
+				Rm = B / Sqrt(pow3(SqrtRhoA[i - 1]) * SqrtRhoA[i]);
 				Rm1 = Rm + 1;
 				gamma = (Rm * FGamma[i] + FGamma[i - 1]) / Rm1;
 				gamma1 = gamma - 1;
@@ -5662,8 +5662,8 @@ void TTubo::CalculaBmen() {
 					H2 = 0.5 * FVelocidadDim[i - 1] * FVelocidadDim[i - 1]
 							+ FAsonidoDim[i - 1] * FAsonidoDim[i - 1] / gamma1;
 					Hmed = (Rm * H1 + H2) / Rm1;
-					Amed = sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
-					rhomed = sqrt(Frho[i] * sqrt(Frho[i] * Frho[i - 1]));
+					Amed = Sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
+					rhomed = Sqrt(Frho[i] * Sqrt(Frho[i] * Frho[i - 1]));
 
 				}
 				if (FCoefAjusFric != 0 || FCoefAjusTC != 0) {
@@ -5741,9 +5741,9 @@ void TTubo::CalculaBmas() {
 			if (FArea[i] != FArea12[i] || FCoefAjusFric != 0
 					|| FCoefAjusTC != 0) {
 
-				rhoAmed = sqrt(sqrtRhoA[i + 1] * pow3(sqrtRhoA[i]));
-				B = FU0[0][i] + rhoAmed + sqrtRhoA[i] * sqrtRhoA[i + 1];
-				Rm = B / sqrt(pow3(sqrtRhoA[i + 1]) * sqrtRhoA[i]);
+				rhoAmed = Sqrt(SqrtRhoA[i + 1] * pow3(SqrtRhoA[i]));
+				B = FU0[0][i] + rhoAmed + SqrtRhoA[i] * SqrtRhoA[i + 1];
+				Rm = B / Sqrt(pow3(SqrtRhoA[i + 1]) * SqrtRhoA[i]);
 				Rm1 = Rm + 1;
 				gamma = (Rm * FGamma[i] + FGamma[i + 1]) / Rm1;
 				gamma1 = gamma - 1;
@@ -5758,8 +5758,8 @@ void TTubo::CalculaBmas() {
 					H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1]
 							+ FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
 					Hmed = (Rm * H1 + H2) / Rm1;
-					Amed = sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
-					rhomed = sqrt(Frho[i] * sqrt(Frho[i] * Frho[i + 1]));
+					Amed = Sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
+					rhomed = Sqrt(Frho[i] * Sqrt(Frho[i] * Frho[i + 1]));
 
 				}
 				if (FCoefAjusFric != 0 || FCoefAjusTC != 0) {
@@ -5832,7 +5832,7 @@ void TTubo::CalculaMatrizJacobiana() {
 			RoeConstants();
 
 			// Calculo de las medias de Roe
-			Rmed = sqrtRhoA[i + 1] / sqrtRhoA[i + 1];
+			Rmed = SqrtRhoA[i + 1] / SqrtRhoA[i + 1];
 			Rmed1 = Rmed + 1;
 			gamma = (Rmed * FGamma[i + 1] + FGamma[i]) / Rmed1;
 			gamma1 = gamma - 1;
@@ -5845,7 +5845,7 @@ void TTubo::CalculaMatrizJacobiana() {
 			Vmed2 = Vmed * Vmed;
 			Hmed = (Rmed * H2 + H1) / Rmed1;
 			Amed2 = gamma1 * (Hmed - 0.5 * Vmed2);
-			Amed = sqrt(Amed2);
+			Amed = Sqrt(Amed2);
 			for (int j = 0; j < FNumeroEspecies - 1 - FIntEGR; j++) {
 				Ymed[j] = (Rmed * FFraccionMasicaEspecie[i + 1][j]
 						+ FFraccionMasicaEspecie[i][j]) / Rmed1;
@@ -6176,7 +6176,7 @@ void TTubo::DimensionaTVD() {
 		FTVD.Qmatrix = new double**[FNumEcuaciones];
 		FTVD.Pmatrix = new double**[FNumEcuaciones];
 
-		sqrtRhoA = new double[FNin];
+		SqrtRhoA = new double[FNin];
 
 		for (int k = 0; k < FNumEcuaciones; ++k) {
 			FTVD.Bmas[k] = new double[FNin];
@@ -6239,9 +6239,9 @@ void TTubo::DimensionaTVD() {
 
 void TTubo::RoeConstants() {
 
-	sqrtRhoA[0] = sqrt(FU1[0][0]);
+	SqrtRhoA[0] = Sqrt(FU1[0][0]);
 	for (int i = 0; i < FNin - 1; i++) {
-		sqrtRhoA[i + 1] = sqrt(FU1[0][i + 1]);
+		SqrtRhoA[i + 1] = Sqrt(FU1[0][i + 1]);
 	}
 }
 

@@ -34,7 +34,6 @@
 #include <vcl.h>
 #endif
 #include <iostream>
-//#include <cmath>
 
 #include "TTipoValvula.h"
 

@@ -30,7 +30,6 @@
 
 #include "TCCPerdidadePresion.h"
 
-//#include <cmath>
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
@@ -203,8 +202,8 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 
 			/*Acotacion del intervalo de busqueda para A1 (Velocity del sonido a la entrada)*/
 			if ((*FCC[0] * 2 / FGamma2)
-					< (*FCC[0] / (FGamma3 / sqrt(FK) + 1) + 1e-6)) {
-				ei = *FCC[0] / (FGamma3 / sqrt(FK) + 1) + 1e-6;
+					< (*FCC[0] / (FGamma3 / Sqrt(FK) + 1) + 1e-6)) {
+				ei = *FCC[0] / (FGamma3 / Sqrt(FK) + 1) + 1e-6;
 			} else {
 				ei = *FCC[0] * 2 / FGamma2;
 			}
@@ -285,8 +284,8 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 					/ FTuboExtremo[0].Entropia;
 
 			if ((*FCC[1] * 2 / FGamma2)
-					< (*FCC[1] / (FGamma3 / sqrt(FK) + 1) + 1e-6)) {
-				ei = *FCC[1] / (FGamma3 / sqrt(FK) + 1) + 1e-6;
+					< (*FCC[1] / (FGamma3 / Sqrt(FK) + 1) + 1e-6)) {
+				ei = *FCC[1] / (FGamma3 / Sqrt(FK) + 1) + 1e-6;
 			} else {
 				ei = *FCC[1] * 2 / FGamma2;
 			}

@@ -281,9 +281,9 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 						* pow(FTemp0Entrada[i] / FTempEntrada[i],
 								(gam_te / (gam_te - 1.0)));
 
-				FGastoCorregido[i] = FGastoEntrada[i] * sqrt(FTemp0Entrada[i])
+				FGastoCorregido[i] = FGastoEntrada[i] * Sqrt(FTemp0Entrada[i])
 						/ FPresion0Entrada[i] / 0.1;
-				FRegimenCorregido[i] = FRegimen / sqrt(FTemp0Entrada[i]);
+				FRegimenCorregido[i] = FRegimen / Sqrt(FTemp0Entrada[i]);
 
 				if (FCalculoEspecies == nmCalculoCompleto) {
 					cp_med[i] = CpTurbineComplete(FFraccionMasicaEspecie[0],
@@ -358,7 +358,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 					if ((FEntalpia0Entrada[i] - FEntalpiaIsenSalida[i]) > 0.) {
 						FRelacionCinematica[i] =
 								FRegimen * Pi * FDiametroRodete / 60.
-										/ sqrt(
+										/ Sqrt(
 												2
 														* (FEntalpia0Entrada[i]
 																- FEntalpiaIsenSalida[i]));
@@ -452,9 +452,9 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				FPonderacionRelacionCinematica[i] += FRendTurbina[i]
 						* FTrabajoIsen;
 
-				FGastoCorregido[i] = FGastoEntrada[i] * sqrt(FTemp0Entrada[i])
+				FGastoCorregido[i] = FGastoEntrada[i] * Sqrt(FTemp0Entrada[i])
 						/ FPresion0Entrada[i] / 0.1;
-				FRegimenCorregido[i] = FRegimen / sqrt(FTemp0Entrada[i]);
+				FRegimenCorregido[i] = FRegimen / Sqrt(FTemp0Entrada[i]);
 				FRelacionExpansion[i] = FPresion0Entrada[i] / FPresionSalida;
 			}
 

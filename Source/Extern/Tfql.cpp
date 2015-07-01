@@ -326,7 +326,7 @@ void Tfql::calcula_angulos_combustion(double *parametros, int i) {
 			densidad = pow2((parametros[8] - Fpar_dist[8][j]) / Fmax[8]); // Density en 2
 			b = c + r + s + d + egr + densidad;
 
-			dist = sqrt(b);
+			dist = Sqrt(b);
 			if (dist < 1e-15)
 				dist = 1e-15;
 			e = 2 + 1 / dist;
@@ -386,7 +386,7 @@ double Tfql::calcula_fql(double *parametros, double x, int i) {
 				b += a;
 			}
 
-			dist = sqrt(b);
+			dist = Sqrt(b);
 			e = 2 + 1 / dist;
 			dist = pow(b, e);
 			ley = fql(x, j, i);

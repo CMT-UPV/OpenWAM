@@ -172,7 +172,7 @@ double TAcousticTurbine::DIn() {
 		DInSum += pow2(DIn(i));
 	}
 
-	return sqrt(DInSum);
+	return Sqrt(DInSum);
 }
 
 #pragma package(smart_init)

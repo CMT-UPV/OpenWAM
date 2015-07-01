@@ -58,11 +58,11 @@ double Interpola(double vizq, double vder, double axid, double xif) {
 }
 
 double QuadraticEqP(double A, double B, double C) {
-	return (-B + sqrt(B * B - 4 * A * C)) / 2 / A;
+	return (-B + Sqrt(B * B - 4 * A * C)) / 2 / A;
 }
 
 double QuadraticEqN(double A, double B, double C) {
-	return (-B - sqrt(B * B - 4 * A * C)) / 2 / A;
+	return (-B - Sqrt(B * B - 4 * A * C)) / 2 / A;
 }
 
 float Max(const double &a, const float &b) {
@@ -93,12 +93,12 @@ stPolar::stPolar() {
 }
 
 stPolar::stPolar(double X, double Y) {
-	Mod = sqrt(X * X + Y * Y);
+	Mod = Sqrt(X * X + Y * Y);
 	Ang = atan(Y / X);
 }
 
 void stPolar::operator()(double X, double Y) {
-	Mod = sqrt(X * X + Y * Y);
+	Mod = Sqrt(X * X + Y * Y);
 	Ang = atan(Y / X);
 }
 
@@ -268,7 +268,7 @@ void Hermite_interp::sety2(const double *xv, const double *yv) {
 			AlphaK = y2[i] / DeltaK;
 			BetaK = y2[i + 1] / DeltaK;
 			if (BetaK * BetaK + AlphaK * AlphaK > 9) {
-				TauK = 3 / sqrt(BetaK * BetaK + AlphaK * AlphaK);
+				TauK = 3 / Sqrt(BetaK * BetaK + AlphaK * AlphaK);
 				y2[i] = TauK * AlphaK * DeltaK;
 				y2[i + 1] = TauK * BetaK * DeltaK;
 			}
@@ -399,4 +399,3 @@ void LUdcmp::solve(dVector &b, dVector &x) {
 	}
 
 }
-

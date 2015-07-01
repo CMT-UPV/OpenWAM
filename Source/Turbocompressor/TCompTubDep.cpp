@@ -31,7 +31,6 @@
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
-//#include <cmath>
 #include "TCompTubDep.h"
 #include "TCCCompresor.h"
 #include "TDeposito.h"
@@ -143,7 +142,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		FTemperatura20 = FTemperatura10
 				+ (pow(FRelacionCompresion, FGamma5 * 2.) - 1.) * FTemperatura10
 						/ FRendimiento;
-		FEntropia2 = sqrt(FGamma * FRMezcla * FTemperatura20)
+		FEntropia2 = Sqrt(FGamma * FRMezcla * FTemperatura20)
 				/ pow(FPresion20 * 1e5 / 1e5, FGamma5) / ARef;
 
 		ac = pow2(FEntropia2 * FGamma3 / *FEntro) + FGamma3;
@@ -155,7 +154,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		if (discr < 0.) {
 			FVelocidad2 = -bc / 2. / ac;
 		} else {
-			FVelocidad2 = (-bc - sqrt(discr)) / 2. / ac;
+			FVelocidad2 = (-bc - Sqrt(discr)) / 2. / ac;
 		}
 
 		FASonidoSalida = (*FLanda - FGamma3 * FVelocidad2) * FEntropia2
@@ -165,7 +164,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		FDensidad2 = FDensidad20
 				* pow(FTemperatura2 / FTemperatura20, 1. / FGamma1);
 		ret_val = -FDensidad2 * FVelocidad2 * FAreaSalComp * ARef
-				* sqrt(FTemperatura10 / Mapa->getTempRef())
+				* Sqrt(FTemperatura10 / Mapa->getTempRef())
 				* Mapa->getPresionRef() / (FPresion10 * 1e5);
 
 		return ret_val;
@@ -229,12 +228,12 @@ double TCompTubDep::RegulaFalsi() {
 			} else {
 
 				GastoNuevo = Mapa->getGastoRelComp1()
-						/ (sqrt(FTemperatura10 / Mapa->getTempRef())
+						/ (Sqrt(FTemperatura10 / Mapa->getTempRef())
 								* Mapa->getPresionRef() / (FPresion10 * 1e5));
 				FPresion20 = FPresion10;
 				FTemperatura20 = FTemperatura10;
 
-				double Adep = sqrt(FGamma * FRMezcla * FTemperatura20) / ARef;
+				double Adep = Sqrt(FGamma * FRMezcla * FTemperatura20) / ARef;
 				FEntropia2 = Adep / pow(FPresion20 * 1e5 / 1e5, FGamma5);
 
 				double a = pow2(FGamma3 * FEntropia2 / *FEntro) + FGamma3;
@@ -243,7 +242,7 @@ double TCompTubDep::RegulaFalsi() {
 				double c = pow2(FEntropia2 / *FEntro * *FLanda) - pow(Adep, 2);
 
 				FVelocidad2 = -QuadraticEqP(a, b, c);
-				FASonidoSalida = sqrt(pow2(Adep) - FGamma3 * pow2(FVelocidad2));
+				FASonidoSalida = Sqrt(pow2(Adep) - FGamma3 * pow2(FVelocidad2));
 
 				std::cout << "WARNING: El compresor: " << FNumeroCompresor
 						<< " esta trabajando en zona de choque" << std::endl;
@@ -253,7 +252,7 @@ double TCompTubDep::RegulaFalsi() {
 						/ pow2(FASonidoSalida * ARef);
 
 				GastoNuevo = -FVelocidad2 * ARef * FAreaSalComp * FDensidad2
-						* (sqrt(FTemperatura10 / Mapa->getTempRef())
+						* (Sqrt(FTemperatura10 / Mapa->getTempRef())
 								/ Mapa->getPresionRef() * (FPresion10 * 1e5));
 
 				return GastoNuevo;
@@ -352,7 +351,7 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		RC_filt_ant = RC_filt;
 
 		FGasto1 = FGastoCorregido * FPresion10 * 1e5 / Mapa->getPresionRef()
-				/ sqrt(FTemperatura10 / Mapa->getTempRef());
+				/ Sqrt(FTemperatura10 / Mapa->getTempRef());
 		FGasto0 = FGasto1;
 		FGasto0Correg = FGastoCorregido;
 		FTrabajo = work * FGasto1 * FDeltaTiempo;
@@ -694,14 +693,14 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 	FRendimiento = Mapa->EvaluaRendSplines(Mass_filt)
 			* FAcComp->EFCorrector(FCorrector, FRelacionCompresion);
 
-	A10 = sqrt(FGamma * FRMezcla * FTemperatura10) / ARef;
+	A10 = Sqrt(FGamma * FRMezcla * FTemperatura10) / ARef;
 	AA1 = pow(FPresion10, -FGamma5) * A10;
 
 	A2 = FASonidoSalida;
 	A2Old = A2;
 	AA2 = FEntropia2;
 	AA2Old = AA2;
-	A20 = sqrt(pow2(A2) + FGamma3 * pow2(FVelocidad2));
+	A20 = Sqrt(pow2(A2) + FGamma3 * pow2(FVelocidad2));
 
 	// double m2 = FDensidad2 * FVelocidad2 * FAreaSalComp * ARef;
 	int step = 0;
@@ -714,13 +713,13 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 
 		A2 = (*FLanda + FGamma3 * U2) * AA2 / *FEntro;
 
-		A20 = sqrt(pow2(A2) + FGamma3 * pow2(U2));
+		A20 = Sqrt(pow2(A2) + FGamma3 * pow2(U2));
 
 		if (U2 <= 0)
 			AA2 = *FEntro;
 		else
 			AA2 = A20 * AA1 / A10
-					/ sqrt(
+					/ Sqrt(
 							(pow2(A20) - pow2(A10)) / pow2(A10) * FRendimiento
 									+ 1);
 

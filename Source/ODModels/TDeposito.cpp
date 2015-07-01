@@ -208,7 +208,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 
 			}
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
+			FAsonido = Sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
 			FMasa = FVolumen * FGamma * FPressure * 1e5 / pow2(FAsonido * ARef);
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
@@ -237,7 +237,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 
 			}
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
+			FAsonido = Sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}

@@ -226,7 +226,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 			Energia = pow(FMasa / FMasa0 * exp((H0 + H) / 2 - Heat),
 					Gamma1(FGamma));
 
-			Asonido1 = FAsonido * sqrt(Energia);
+			Asonido1 = FAsonido * Sqrt(Energia);
 			Error = (Diff = Asonido1 - Asonido0, fabs(Diff)) / Asonido1;
 			if (Error > 1e-6) {
 				Asonido0 = Asonido1;

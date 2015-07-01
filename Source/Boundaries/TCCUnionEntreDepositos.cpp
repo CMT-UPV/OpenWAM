@@ -29,7 +29,6 @@
 #pragma hdrstop
 
 #include "TCCUnionEntreDepositos.h"
-//#include <cmath>
 #ifdef __BORLANDC__
 #include <vcl.h>
 #endif
@@ -459,10 +458,10 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			FGamma2 = Gamma2(FGamma);
 
 			paso1 = (Pi * pow2(FValvula->getDiametro()) / 4) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+					* Sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
-			paso4 = sqrt(paso2 - paso3);
+			paso4 = Sqrt(paso2 - paso3);
 			gasto_isen = paso1 * paso4;
 
 			/* FGasto es el valor del massflow en modulo. Asi lo necesitan recibir los depositos, que ademas conocen el signo por
@@ -551,10 +550,10 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			FGamma2 = Gamma2(FGamma);
 
 			paso1 = (Pi * pow2(FValvula->getDiametro()) / 4) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+					* Sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
-			paso4 = sqrt(paso2 - paso3);
+			paso4 = Sqrt(paso2 - paso3);
 			gasto_isen = paso1 * paso4;
 
 			/* FGasto es el valor del massflow en modulo. Asi lo necesitan recibir los depositos, que ademas conocen el signo por
@@ -642,10 +641,10 @@ void TCCUnionEntreDepositos::CalculaUED() {
 			FGamma2 = Gamma2(FGamma);
 
 			paso1 = (Pi * pow2(FValvula->getDiametro()) / 4) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+					* Sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
-			paso4 = sqrt(paso2 - paso3);
+			paso4 = Sqrt(paso2 - paso3);
 			gasto_isen = paso1 * paso4;
 
 		} else if (FPresionDep2 > FPresionDep1) {
@@ -662,10 +661,10 @@ void TCCUnionEntreDepositos::CalculaUED() {
 			FGamma2 = Gamma2(FGamma);
 
 			paso1 = (Pi * pow2(FValvula->getDiametro()) / 4) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+					* Sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
-			paso4 = sqrt(paso2 - paso3);
+			paso4 = Sqrt(paso2 - paso3);
 			gasto_isen = paso1 * paso4;
 		}
 

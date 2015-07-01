@@ -219,7 +219,7 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 
 		Energia = pow(FVolumen0 * FMasa / FMasa0 / FVolumen * exp(H),
 				Gamma1(FGamma));
-		FAsonido *= sqrt(Energia);
+		FAsonido *= Sqrt(Energia);
 		FPressure = pow2(ARef * FAsonido) * FMasa * 1e-5 / (FGamma * FVolumen);
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTemperature = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
@@ -250,7 +250,7 @@ double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 		c = CrankAngle * Pi / 180.;
 		tt = pow2(lbiela);
 		tt -= pow2(carrera * sin(c) / 2.);
-		tt = sqrt(tt);
+		tt = Sqrt(tt);
 		ttt = lbiela + carrera * (1. - cos(c)) / 2. - tt;
 		ret_val = ttt * Pi * pow2(diametro) / 4.;
 		ret_val += vol_muerto;

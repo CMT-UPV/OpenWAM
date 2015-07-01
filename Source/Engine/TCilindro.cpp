@@ -35,7 +35,6 @@
 #include "TValvula4T.h"
 #include "TLumbrera.h"
 
-//#include <cmath>
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -2174,10 +2173,10 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 		double e = FMotor->getGeometria().Excentricidad / 1000;
 		double area = Pi * pow2(FMotor->getGeometria().Diametro) / 4.;
 
-		double Lact = m * sqrt(pow2(1. + b / m) - pow2(e / m))
-				- m * (cos(a) + sqrt(pow2((b / m)) - pow2(sin(a) - e / m)));
+		double Lact = m * Sqrt(pow2(1. + b / m) - pow2(e / m))
+				- m * (cos(a) + Sqrt(pow2((b / m)) - pow2(sin(a) - e / m)));
 
-		// Lact=b+m*(1-cos(a))-sqrt(pow(b,2.)-pow(m*sin(a),2.));
+		// Lact=b+m*(1-cos(a))-Sqrt(pow(b,2.)-pow(m*sin(a),2.));
 		ret_val = Lact * area + FMotor->getGeometria().VCC;
 
 		if (FMotor->getGeometria().CoefDeformaciones != 0) {
@@ -2190,10 +2189,10 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 
 			if (FDeltaAngulo != 0) {
 				double Lant =
-						m * sqrt(pow2(1. + b / m) - pow2(e / m))
+						m * Sqrt(pow2(1. + b / m) - pow2(e / m))
 								- m
 										* (cos(a - FDeltaAngulo * Pi / 180.)
-												+ sqrt(
+												+ Sqrt(
 														pow2((b / m))
 																- pow2(
 																		sin(
@@ -2205,10 +2204,10 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 																						/ m)));
 
 				double Lpos =
-						m * sqrt(pow2(1. + b / m) - pow2(e / m))
+						m * Sqrt(pow2(1. + b / m) - pow2(e / m))
 								- m
 										* (cos(a + FDeltaAngulo * Pi / 180.)
-												+ sqrt(
+												+ Sqrt(
 														pow2((b / m))
 																- pow2(
 																		sin(
@@ -2395,7 +2394,7 @@ void TCilindro::IniciaVariables() {
 				FMasaEspecieCicloCerrado[j] = FMasa
 						* FComposicionCicloCerrado[j];
 			}
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
+			FAsonido = Sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 		} else {
 			// Ciclo cerrado. Compresion Isoentropica.
 			if (FAnguloActual < 180. || FAnguloActual > 540.) {
@@ -2443,7 +2442,7 @@ void TCilindro::IniciaVariables() {
 							FMotor->getGammaCalculation());
 
 				}
-				FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
+				FAsonido = Sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 				// Ciclo abierto. Density constante.
 			} else {
 				FCicloCerrado = false;
@@ -2460,7 +2459,7 @@ void TCilindro::IniciaVariables() {
 					FMasaEspecieCicloCerrado[j] = FMasa
 							* FComposicionCicloCerrado[j];
 				}
-				FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
+				FAsonido = Sqrt(FGamma * FRMezcla * (FTemperature + 273.));
 			}
 		}
 		FMasa0 = FMasa;
@@ -2581,7 +2580,7 @@ void TCilindro::InicioFinCombustion() {
 
 					if (b < 1e-15)
 						b = 1e-15;
-					Dist[i] = sqrt(b);
+					Dist[i] = Sqrt(b);
 					if (i == 0) {
 						DistMax = Dist[i];
 						DistMin = Dist[i];
@@ -2693,7 +2692,7 @@ double TCilindro::CalculaCalorLiberado(double x) {
 
 				if (b < 1e-15)
 					b = 1e-15;
-				Dist[i] = sqrt(b);
+				Dist[i] = Sqrt(b);
 				if (i == 0) {
 					DistMax = Dist[i];
 					DistMin = Dist[i];

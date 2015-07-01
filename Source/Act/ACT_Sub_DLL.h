@@ -11,7 +11,7 @@
 // #include "simstruc.h"
 #pragma hdrstop
 #include<stdio.h>
-#include<math.h>
+#include<Math_wam.h>
 #include<string.h>
 #include<stdlib.h>
 #include<malloc.h>
