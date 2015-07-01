@@ -86,10 +86,10 @@ void TRotorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales CDFijo" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -124,10 +124,10 @@ void TRotorTurbina::TipodeRotor(nmTipoRotor TipoRotor) {
 
 		FTipoRotor = TipoRotor;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TRotorTurbina::TipodeRotor " << std::endl;
-//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -160,10 +160,10 @@ void TRotorTurbina::CalculaCD() {
 		} else if (FCDVolTub < 0) {
 			FCDVolTub = 0.001;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaCD RotorTurbine" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

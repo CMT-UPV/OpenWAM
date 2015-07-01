@@ -85,11 +85,11 @@ void TRegimenMotor::LeeDatosEntrada(char *Ruta, FILE *fich) {
 			fclose(FichRegimen);
 
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosEntrada de RegimenMotor (DLL)"
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -115,10 +115,10 @@ void TRegimenMotor::CalculaRegimen(double TiempoActual) {
 
 		FRegimenMotor = RegimenAct;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo del Regimen del Engine(DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -138,10 +138,10 @@ double TRegimenMotor::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -73,11 +73,12 @@ void TEntradaPulso::LeeEntradaPulso(FILE *fich) {
 					<< "WARNING: El primer instante de tiempo deberia ser 0 para evitar problemas"
 					<< std::endl;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
+		stringstream err;
 		std::cout << "ERROR: TEntradaPulso::LeeEntradaPulso " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(
-				("ERROR: TEntradaPulso::LeeEntradaPulso " + N.Message).c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		err << "ERROR: TEntradaPulso::LeeEntradaPulso " << N.what();
+		throw Exception(err.str());
 	}
 }
 
@@ -149,11 +150,12 @@ void TEntradaPulso::BusquedaInstante(double Tiempo) {
 		}
 		FInstante = i;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
+		stringstream err;
 		std::cout << "ERROR: TEntradaPulso::BusquedaInstante " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(
-				("ERROR: TEntradaPulso::BusquedaInstante " + N.Message).c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		err << "ERROR: TEntradaPulso::BusquedaInstante " << N.what();
+		throw Exception(err.str());
 	}
 }
 
@@ -167,11 +169,12 @@ double TEntradaPulso::InterpolaPresion() {
 		double presion = (1 - deltat) * FPresionRelativa[FInstante - 1]
 				+ deltat * FPresionRelativa[FInstante];
 		return presion;
-	} catch (Exception &N) {
+	} catch (exception &N) {
+		stringstream err;
 		std::cout << "ERROR: TEntradaPulso::InterpolaPresion " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(
-				("ERROR: TEntradaPulso::InterpolaPresion " + N.Message).c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		err << "ERROR: TEntradaPulso::InterpolaPresion " << N.what();
+		throw Exception(err.str());
 	}
 }
 
@@ -185,11 +188,12 @@ double TEntradaPulso::InterpolaEntropia() {
 		double entropia = (1 - deltat) * FNivelEntropia[FInstante - 1]
 				+ deltat * FNivelEntropia[FInstante];
 		return entropia;
-	} catch (Exception &N) {
+	} catch (exception &N) {
+		stringstream err;
 		std::cout << "ERROR: TEntradaPulso::InterpolaEntropia" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(
-				("ERROR: TEntradaPulso::InterpolaEntropia " + N.Message).c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		err << "ERROR: TEntradaPulso::InterpolaEntropia " << N.what();
+		throw Exception(err.str());
 	}
 }
 

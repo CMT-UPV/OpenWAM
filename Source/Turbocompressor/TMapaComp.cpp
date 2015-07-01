@@ -585,15 +585,16 @@ void TMapaComp::LeeMapaXML(xml_node node_compressor) {
 					FCoefSplRend[i]);
 		}
 //ImprimeMapa();
-	} catch (Exception &N) {
+		/*if(W!=NULL) delete[] W;*/
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeMapa en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		if (W != NULL)
 			delete[] W;
 		throw Exception(
 				"ERROR: LeeMapa en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -663,12 +664,12 @@ void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 			}
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Spline en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: Spline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: Spline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -704,12 +705,12 @@ double TMapaComp::EvaluaSpline(double punto, int n, double *x, double *y,
 
 		return ret_val;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: EvaluaSpline en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -754,13 +755,13 @@ double TMapaComp::EvaluaRCSplines(double Massflow) {
 
 		return ret_val;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: EvaluaRCSpline en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: EvaluaRCSpline en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message);
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -792,13 +793,13 @@ double TMapaComp::EvaluaRCHermite(double Massflow) {
 		}
 		return ret_val;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: EvaluaRCSpline en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: EvaluaRCSpline en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message);
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -861,12 +862,12 @@ void TMapaComp::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
 				}
 			}
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: PolOrtogonal en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: PolOrtogonal en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: PolOrtogonal en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -1009,12 +1010,12 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 		 FCoefdX[i]=FCoefbInf[FCurvInf][i]+(FCoefdSup[FCurvInf+1][i]-FCoefdInf[FCurvInf][i])*DeltaN;
 		 }
 		 } */
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: InterpolaMapa en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: InterpolaMapa en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: InterpolaMapa en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -1043,12 +1044,12 @@ double TMapaComp::EvaluaRendimiento(double MasaAire) {
 			--k;
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: EvaluaRendimiento en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaRendimiento en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaRendimiento en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -1105,12 +1106,12 @@ double TMapaComp::EvaluaRendSplines(double MasaAire) {
 			}
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: EvaluaRendSplines en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: EvaluaRendSplines en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: EvaluaRendSplines en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -1120,12 +1121,12 @@ double TMapaComp::EvaluaRendSplines(double MasaAire) {
 double TMapaComp::GetRelCompInt(int i) {
 	try {
 		return FRelCompInt[i];
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetRelCompInt en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: GetRelCompInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: GetRelCompInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -1135,12 +1136,12 @@ double TMapaComp::GetRelCompInt(int i) {
 double TMapaComp::GetGastoInt(int i) {
 	try {
 		return FGastoInt[i];
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetGastoInt en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: GetGastoInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: GetGastoInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -1218,12 +1219,12 @@ double TMapaComp::BuscaRegimen(double RC, double Massflow,
 					<< std::endl << std::endl;
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: BuscaRegimen en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
-				"ERROR: BuscaRegimen en el compresor: "/* +std::to_string(FNumeroCompresor)+N.Message.c_str()*/);
+				"ERROR: BuscaRegimen en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 

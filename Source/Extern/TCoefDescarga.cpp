@@ -52,10 +52,10 @@ TCoefDescarga::~TCoefDescarga() {
 void TCoefDescarga::CalculaCD(int tipo) {
 	try {
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TCoefDescarga::CalculaCD (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

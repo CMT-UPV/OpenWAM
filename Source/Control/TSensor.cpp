@@ -329,12 +329,12 @@ void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosMedSensor en el controlador "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -388,12 +388,12 @@ void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosInsSensor en el Sensor "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -437,12 +437,12 @@ void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 			medoutput << Label.c_str();
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::CabeceraResultadosMedSensor en el Sensor "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -460,12 +460,12 @@ void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 					+ PutLabel(3052) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::CabeceraResultadosInsSensor en el Sensor "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -480,12 +480,12 @@ void TSensor::ImprimeResultadosMedSensor(stringstream& medoutput) {
 			medoutput << "\t" << FResMediosSensor.InputMED;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::ImprimeResultadosMedSensor en el Sensor "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -499,12 +499,12 @@ void TSensor::ImprimeResultadosInsSensor(stringstream& insoutput) {
 		if (FResInstantSensor.Input) {
 			insoutput << "\t" << FResInstantSensor.InputINS;
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::CabeceraResultadosInsSensor en el Sensor "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -516,11 +516,11 @@ void TSensor::IniciaMedias() {
 		FResMediosSensor.TiempoSUM = 0.;
 		FResMediosSensor.Tiempo0 = 0.;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TPIDController::IniciaMedias en el Sensor: "
 				<< FNumeroSensor << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -539,11 +539,11 @@ void TSensor::ResultadosMediosSensor() {
 		}
 		FResMediosSensor.TiempoSUM = 0;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TPIDController::ResultadosMediosSensor en el eje: "
 				<< FNumeroSensor << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -562,11 +562,11 @@ void TSensor::AcumulaResultadosMediosSensor(double Actual) {
 		FResMediosSensor.TiempoSUM += Delta;
 		FResMediosSensor.Tiempo0 = Actual;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TSensor::AcumulaResultadosMediosSensor en el eje: "
 				<< FNumeroSensor << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -577,11 +577,11 @@ void TSensor::ResultadosInstantSensor() {
 		if (FResInstantSensor.Input)
 			FResInstantSensor.InputINS = FRealValue;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TPIDController::ResultadosInstantSensor en el eje "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

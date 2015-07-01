@@ -127,10 +127,10 @@ void TTGV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 		FDistanciasVastago[6] = 10;
 		FDistanciasVastago[7] = 12;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TTGV::LeeDatosEntrada (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -378,10 +378,10 @@ void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
 			FCDRotor = 0.8;
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaTurbina (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -208,12 +208,12 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::ReadTurbochargerAxis in the boundary condition: "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -375,12 +375,12 @@ void TEjeTurbogrupo::InterpolaValoresMapa() {
 
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::InterpolaValoresMapa in the boundary condition: "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -535,12 +535,12 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 		}
 		FAngle0 = CrankAngle;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::CalculaEjesTurbogrupo in the boundary condition: "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -570,11 +570,11 @@ void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TEjeTurbogrupo::ReadAverageResultsEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -619,12 +619,12 @@ void TEjeTurbogrupo::CabeceraResultadosMedEje(stringstream & medoutput) {
 		}
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::CabeceraResultadosMedEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -639,11 +639,11 @@ void TEjeTurbogrupo::ImprimeResultadosMedEje(stringstream & medoutput) {
 			medoutput << "\t" << FResMediosEje.RegimenMED;
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TEjeTurbogrupo::ImprimeResultadosMedEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -657,11 +657,11 @@ void TEjeTurbogrupo::IniciaMedias() {
 		FResMediosEje.TiempoSUM = 0.;
 		FResMediosEje.Tiempo0 = 0.;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TEjeTurbogrupo::IniciaMedias en el eje: "
 				<< FNumeroEje << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -678,11 +678,11 @@ void TEjeTurbogrupo::ResultadosMediosEje() {
 		}
 		FResMediosEje.TiempoSUM = 0;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TEjeTurbogrupo::ResultadosMediosEje en el eje: "
 				<< FNumeroEje << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -701,12 +701,12 @@ void TEjeTurbogrupo::AcumulaResultadosMediosEje(double Actual) {
 		FResMediosEje.TiempoSUM += Delta;
 		FResMediosEje.Tiempo0 = Delta;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::AcumulaResultadosMediosEje en el eje: "
 				<< FNumeroEje << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -754,12 +754,12 @@ void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::ReadInstantaneousResultsEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -837,12 +837,12 @@ void TEjeTurbogrupo::HeaderInstantaneousResultsEje(stringstream & insoutput) {
 #endif
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::HeaderInstantaneousResultsEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -870,12 +870,12 @@ void TEjeTurbogrupo::ImprimeResultadosInstantaneosEje(
 #endif
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TEjeTurbogrupo::ImprimeResultadosInstantaneosEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -891,11 +891,11 @@ void TEjeTurbogrupo::ResultadosInstantEje() {
 		if (FResInstantEje.MechEff)
 			FResInstantEje.MechEffINS = FMechEff;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TEjeTurbogrupo::ResultadosInstantEje en el eje "
 				<< FNumeroEje << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

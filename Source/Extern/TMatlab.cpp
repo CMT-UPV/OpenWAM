@@ -114,10 +114,10 @@ void TMatlab::IniciaECU() {
 
 		/* Fin de la inicializacion del acceso a MATLAB*/
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: IniciaECU" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -129,10 +129,10 @@ void TMatlab::FinalizaECU()
 {
 	try {
 		engClose(ep);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: FinalizaECU" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -150,10 +150,10 @@ void TMatlab::CalculaECU() {
 		memcpy(FOutput, mxGetPr(FOutputMatlab), 3 * sizeof(double));
 		mxDestroyArray(FOutputMatlab);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaECU" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -170,10 +170,10 @@ void TMatlab::PutInput(int i, double valor) {
 					<< std::endl;
 			std::cout << "         Revisa el acceso a matlab" << std::endl;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: PutInput" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -191,10 +191,10 @@ double TMatlab::GetOutput(int i) {
 			std::cout << "         Revisa el acceso a matlab" << std::endl;
 			return 0.;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetOutput" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -206,10 +206,10 @@ void TMatlab::LeeFicherosECU(FILE *fich) {
 		fgets(Fdirtrab, 256, fich); //Lee la ruta, maximo 256 Characters
 		fscanf(fich, "%s", &Fworkspace);
 		fscanf(fich, "%s", &Fficheme);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeFicherosECU" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

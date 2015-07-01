@@ -102,13 +102,13 @@ void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompTubDep::LeeCompresor en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -216,13 +216,13 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 				* Mapa->getPresionRef() / (FPresion10 * 1e5);
 
 		return ret_val;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: CalGastoNuevo en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: CalGastoNuevo en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -345,13 +345,13 @@ double TCompTubDep::RegulaFalsi() {
 			return GastoNuevo;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: RegulaFalsi en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: RegulaFalsi en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -413,13 +413,13 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		FDeltaTPaso += FDeltaTiempo;
 		// }
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompTubDep::CalculaCompresor en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: TCompTubDep::CalculaCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -485,13 +485,13 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 
 		FRegimenCorregido = Mapa->getRegimenCorregido();
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: CondicionCompresor en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: CondicionCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -545,13 +545,13 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 			FDeposito->AsignaCompresor(this, -1); /* Entrada */
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: BusquedaEntradaSalida en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: BusquedaEntradaSalida en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -706,13 +706,13 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 			break;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: DatosEntradaCompresor en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: DatosEntradaCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 

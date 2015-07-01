@@ -110,12 +110,12 @@ void TCCEntradaCompresor::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCEntradaCompresor::AsignaTubos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //---------------------------------------------------------------------------
@@ -179,12 +179,12 @@ void TCCEntradaCompresor::AsignaCompresor(TCompresor **Compressor) {
 
 		FCompresor = Compressor[FNumeroCompresor - 1];
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCEntradaCompresor::AsignaCompresor en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -235,12 +235,12 @@ void TCCEntradaCompresor::CalculaCondicionContorno(double Time) {
 // sera la determinada por la linea de corriente que llega del tubo. Esta sera la composicion del fluido
 // en el compresor. Se actualiza directamente en el compresor.
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCEntradaCompresor::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

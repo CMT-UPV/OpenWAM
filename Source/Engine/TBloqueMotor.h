@@ -224,11 +224,11 @@ public:
 
 			FRegimen = valor;
 
-		} catch (Exception & N) {
+		} catch (exception & N) {
 			std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. "
 					<< std::endl;
-			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-			throw Exception(N.Message);
+			std::cout << "Tipo de error: " << N.what() << std::endl;
+			throw Exception(N.what());
 		}
 	}
 
@@ -266,11 +266,11 @@ public:
 	void PutTheta(double valor) {
 		try {
 			FTheta = valor;
-		} catch (Exception & N) {
+		} catch (exception & N) {
 			std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. "
 					<< std::endl;
-			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-			throw Exception(N.Message);
+			std::cout << "Tipo de error: " << N.what() << std::endl;
+			throw Exception(N.what());
 		}
 	}
 
@@ -285,11 +285,11 @@ public:
 
 			FCiclo = valor;
 
-		} catch (Exception & N) {
+		} catch (exception & N) {
 			std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. "
 					<< std::endl;
-			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-			throw Exception(N.Message);
+			std::cout << "Tipo de error: " << N.what() << std::endl;
+			throw Exception(N.what());
 		}
 	}
 

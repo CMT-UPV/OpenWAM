@@ -103,10 +103,10 @@ void TControlFuel::LeeDatosEntrada(char *Ruta, FILE *fich) {
 			fclose(FichFuel);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosEntrada Fuel (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -133,8 +133,8 @@ void TControlFuel::LeeDatosEntrada(char *Ruta, FILE *fich) {
  catch(Exception &N)
  {
  std::cout << "ERROR: CalculaFuel" << std::endl;
- std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
- throw Exception(N.Message.c_str());
+ std::cout << "Tipo de error: " << N.what() << std::endl;
+ throw Exception(N.what());
  }
 
  }
@@ -157,10 +157,10 @@ double TControlFuel::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -199,10 +199,10 @@ double TControlFuel::CalculaFuel(double MasaPorAdmision, double Regimen,
 
 		return FuelAct;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlFuel::CalculaFuel" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -221,8 +221,8 @@ double TControlFuel::CalculaFuel(double MasaPorAdmision, double Regimen,
 //catch(Exception &N)
 //{
 //std::cout << "ERROR: TControlFuel::CalculaFuel" << std::endl;
-//std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception(N.Message.c_str());
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+//throw Exception(N.what());
 //}
 //}
 //
@@ -234,10 +234,10 @@ void TControlFuel::IniciaFuel(double mfuel) {
 
 		FuelAct = mfuel;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlFuel::IniciaFuel" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

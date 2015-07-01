@@ -672,11 +672,11 @@ void TTubo::LeeDatosGeneralesTubo(const char *FileWAM, fpos_t &filepos) {
 		fgetpos(fich, &filepos);
 		fclose(fich);
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::LeeDatosGeneralesTubo en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -949,11 +949,11 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::LeeDatosGeometricoTubo en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1093,11 +1093,11 @@ void TTubo::CalculoPuntosMalla(double ene) {
 
 		delete[] FLTotalTramo;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculoPuntosMalla en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1126,11 +1126,11 @@ void TTubo::ComunicacionTubo_CC(TCondicionContorno **BC) {
 #ifdef usetry
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout << "ERROR: TTubo::ComunicacionTubo_CC en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1199,8 +1199,8 @@ void TTubo::ComunicacionDPF ( TCondicionContorno **CC, TDeposito **Deposito ) {
 	} catch ( Exception & N ) {
 		std::cout << "ERROR: TTubo::ComunicacionDPF en el Tubo " <<
 		FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception ( N.Message.c_str() );
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception ( N.what() );
 	}
 }
 
@@ -1420,12 +1420,12 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 			FRe[i] = Frho[i] * FVelocidadDim[i] * FDiametroTubo[i] / viscgas;
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTubo::IniciaVariableFundamentalesTubo en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1484,11 +1484,11 @@ void TTubo::ActualizaPropiedadesGas() {
 			Frho[i] = FPresion0[i] * 1e5 / FRMezcla[i] / FTemperature[i];
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculoPropiedadesGas en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1515,11 +1515,11 @@ void TTubo::Transforma1(const double& v, const double& a, const double& p,
 			U[3 + (FNumeroEspecies - 2)][i] = U[0][i]
 					* Yespecie[FNumeroEspecies - 1];
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Transforma1 en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1549,11 +1549,11 @@ void TTubo::Transforma1Area(const double& v, const double& a, const double& p,
 #ifdef usetry
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout << "ERROR: TTubo::Transforma1Area en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1598,11 +1598,11 @@ void TTubo::Transforma2(double& v, double& a, double& p, double **U,
 			Yespecie[FNumeroEspecies - 1] = U[FNumeroEspecies - 2 + 3][i]
 					/ U[0][i];
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Transforma2 en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1644,11 +1644,11 @@ void TTubo::Transforma2Area(double& v, double& a, double& p, double **U,
 			Yespecie[FNumeroEspecies - 1] = U[FNumeroEspecies - 2 + 3][i]
 					/ U[0][i];
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Transforma2Area en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1682,11 +1682,11 @@ void TTubo::Transforma3Area(double **Ufct, double **U, double Area,
 			// Massflow de cada especie.
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Transforma3Area en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1748,11 +1748,11 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 
 		delete[] Y;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Transforma4Area en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1824,12 +1824,12 @@ void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTubo::IniciaVariablesTransmisionCalor en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1857,11 +1857,11 @@ void TTubo::EstabilidadMetodoCalculo() {
 		FTime0 = FTime1;
 		FTime1 = FTime0 + FDeltaTime;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::EstabilidadMetodoCalculo en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1889,11 +1889,11 @@ void TTubo::CalculaVariablesFundamentales() {
 			throw Exception("");
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaVariablesFundamentales en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1977,11 +1977,11 @@ void TTubo::LaxWendroff() {
 		delete[] Rmezcla12;
 		delete[] Gamma1_12;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::LaxWendrof en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2142,11 +2142,11 @@ void TTubo::FluxCorrectedTransport() {
 
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::FluxCorrectedTransport en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2230,11 +2230,11 @@ void TTubo::LaxWendroffArea() {
 		delete[] Rmezcla12;
 		delete[] Gamma1_12;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::LaxWendroffArea en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2273,11 +2273,11 @@ void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaFlujo en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2303,11 +2303,11 @@ void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2337,11 +2337,11 @@ void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaFuente1Area en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2403,11 +2403,11 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2457,11 +2457,11 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2573,11 +2573,11 @@ void TTubo::TransmisionCalor(double tgas, double diametro, double& q, double hi,
 		} else
 			q = 0.;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::TransmisionCalor en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2594,11 +2594,11 @@ inline double TTubo::DerLinF(double d1, double d2, double xref) {
 		return 2. * (d2 - d1) / ((d1 + d2) / 2.0) / xref;
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::DerLinF en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2614,11 +2614,11 @@ inline double TTubo::DerLinFArea(double area1, double area2, double xref) {
 		return (area2 - area1) / xref;
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::DerLinFArea en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2732,11 +2732,11 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 #ifdef usetry
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout << "ERROR: TTubo::ValoresDeContorno tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2759,11 +2759,11 @@ void TTubo::TransformaContorno(double& L, double& B, double& E, double& a,
 			p = pow(a / E, Gamma4);
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::TransformaContorno en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2795,11 +2795,11 @@ void TTubo::ReduccionFlujoSubsonico() {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ReduccionFlujoSubsonico en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2844,11 +2844,11 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ReduccionFlujoSubsonicoFCT en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -2965,11 +2965,11 @@ void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ReadAverageResults en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3163,11 +3163,11 @@ void TTubo::HeaderAverageResults(stringstream& medoutput,
 		}
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::HeaderAverageResults en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3213,11 +3213,11 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput) const {
 		}
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ResultadosMedios en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3339,11 +3339,11 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ReadInstantaneousResults en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3563,11 +3563,11 @@ void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
 		}
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::HeaderInstantaneousResults en el tubo nº: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3622,11 +3622,11 @@ void TTubo::ImprimeResultadosInstantaneos(stringstream& insoutput) const {
 		}
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ResultadosInstantaneos en el tubo nº: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3841,11 +3841,11 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 			FControlResMed = FControlResMed + 1.;
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaResultadosMedios en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -4049,11 +4049,11 @@ void TTubo::CalculaResultadosInstantaneos() {
 
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaResultadosInstantaneos en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -4081,11 +4081,11 @@ double TTubo::CalculaNIT(double a, double v, double p, double d, double Gamma,
 		nit = gto * kp * tem0 * (1 - pow(pre0 / 100000., (-287. / kp)));
 		return nit;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaNIT en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -4218,12 +4218,12 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTubo::CalculaCoeficientePeliculaExterior en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -4468,11 +4468,11 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaResistenciasdePared en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -4536,12 +4536,12 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTubo::CalculaCoeficientePeliculaInterior en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5011,11 +5011,11 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaTemperaturaPared en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5476,12 +5476,12 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTubo::CalculaTemperaturaParedSinMotor en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5526,11 +5526,11 @@ void TTubo::SalidaGeneralTubos(stEspecies *DatosEspecies) const {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::SalidaGeneralTubos en el tubo nº: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5559,11 +5559,11 @@ void TTubo::AjustaPaso(double TimeEndStep) {
 		FTime1 = TimeEndStep;
 		FDeltaTime = FTime1 - FTime0;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::AjustaPaso en el tubo: " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5599,11 +5599,11 @@ void TTubo::CalculaCaracteristicasExtremos(TCondicionContorno **BC,
 						BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).Entropia,
 						-1, getNin() - 1, DeltaTiempo));
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaCaracteristicasExtremos en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5652,10 +5652,10 @@ double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 
 		return entropia / ARef;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Interpola_Entropia: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5755,11 +5755,11 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 #ifdef usetry
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout << "ERROR: TTubo::Calculo_Entropia " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5799,11 +5799,11 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 		}
 		return caracteristica / ARef;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Interpola_Caracteristica " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5920,11 +5920,11 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 		}
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -5954,11 +5954,11 @@ void TTubo::InicializaCaracteristicas(TCondicionContorno **BC) {
 				FAsonido0[FNin - 1]
 						/ pow(FPresion0[FNin - 1], FGamma5[FNin - 1]));
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::InicializaCaracteristicas tubo:"
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6048,10 +6048,10 @@ void TTubo::CalculaB() {
 
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaB tubo:" << FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6143,11 +6143,11 @@ void TTubo::CalculaBmen() {
 		}
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaBmen tubo:" << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6239,11 +6239,11 @@ void TTubo::CalculaBmas() {
 
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaBmas tubo:" << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6318,11 +6318,11 @@ void TTubo::CalculaMatrizJacobiana() {
 		}
 		delete[] Ymed;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::CalculaMatrizJacobiana tubo:" << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6387,11 +6387,11 @@ void TTubo::TVD_Estabilidad() {
 		if (DeltaT_tvd < FDeltaTime)
 			FDeltaTime = DeltaT_tvd;
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::TVD_Estabilidad tubo:" << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6492,11 +6492,11 @@ void TTubo::TVD_Limitador() {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::TVD_Limitador tubo:" << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -6661,11 +6661,11 @@ void TTubo::DimensionaTVD() {
 			}
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::TVD_Limitador tubo:" << FNumeroTubo
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }

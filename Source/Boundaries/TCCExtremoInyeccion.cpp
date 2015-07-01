@@ -140,12 +140,12 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCExtremoInyeccion::LeeExtremoInyeccion en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -253,12 +253,12 @@ void TCCExtremoInyeccion::ObtencionValoresInstantaneos(double Theta) {
 		ang0 = FTheta - FInicioIny;
 		FAngap = ang0 - floor(ang0 / 360.) * 360.;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCExtremoInyeccion::ObtencionValoresInstantaneos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -315,12 +315,12 @@ void TCCExtremoInyeccion::CalculaCondicionContorno(double Time) {
 								FNumeroEspecies - 1);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCExtremoInyeccion::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -338,8 +338,8 @@ void TCCExtremoInyeccion::CalculaCondicionContorno(double Time) {
 //catch(Exception &N)
 //{
 //std::cout << "ERROR: TCCExtremoInyeccion::PutIniIny en la condicion de contorno: " << FNumeroCC <<  std::endl;
-//std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception(N.Message.c_str());
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+//throw Exception(N.what());
 //}
 //}
 
@@ -357,8 +357,8 @@ void TCCExtremoInyeccion::CalculaCondicionContorno(double Time) {
 //catch(Exception &N)
 //{
 //std::cout << "ERROR: TCCExtremoInyeccion::PutDuracionIny en la condicion de contorno: " << FNumeroCC <<  std::endl;
-//std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception(N.Message.c_str());
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+//throw Exception(N.what());
 //}
 //}
 

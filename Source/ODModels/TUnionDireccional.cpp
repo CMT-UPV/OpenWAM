@@ -129,12 +129,12 @@ void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM,
 		FCoefB[1] = FCDSalidaInicial[1]
 				/ (FVelocidadCorte[1] - FVelocidadFin[1]);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -201,12 +201,12 @@ void TUnionDireccional::AsignaCCUnionDireccional() {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional "
 				<< FNumUnionDireccional << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -318,12 +318,12 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 				* FMasa * 1e-5;
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTime = TimeCalculo;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TUnionDireccional::ActualizaPropiedades en la union direccional: "
 				<< FNumUnionDireccional << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -374,12 +374,12 @@ void TUnionDireccional::CalculoUnionDireccional() {
 
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TUnionDireccional::CalculoUnionDireccional en la union direccional: "
 				<< FNumUnionDireccional << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -209,12 +209,12 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -365,12 +365,12 @@ void TCCUnionEntreTubos::ReadBoundaryDataXML(xml_node node_connect,
 void TCCUnionEntreTubos::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -521,12 +521,12 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 			// La composicion se mantiene, al estar el flujo parado.
 
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreTubos::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -546,8 +546,8 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
  catch(Exception &N)
  {
  std::cout << "ERROR: TCCUnionEntreTubos::Estrechamiento en la condicion de contorno: " << FNumeroCC <<  std::endl;
- std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
- throw Exception(N.Message.c_str());
+ std::cout << "Tipo de error: " << N.what() << std::endl;
+ throw Exception(N.what());
  }
  }
 
@@ -565,8 +565,8 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
  catch(Exception &N)
  {
  std::cout << "ERROR: TCCUnionEntreTubos::Ensanchamiento en la condicion de contorno: " << FNumeroCC <<  std::endl;
- std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
- throw Exception(N.Message.c_str());
+ std::cout << "Tipo de error: " << N.what() << std::endl;
+ throw Exception(N.what());
  }
  }
 

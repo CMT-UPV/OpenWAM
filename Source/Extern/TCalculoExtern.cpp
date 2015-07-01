@@ -295,10 +295,10 @@ void TCalculoExtern::LlamadaECU(double DeltaT, TBloqueMotor **Engine) {
 			FOutputs[0] = 1;
 		if (FOutputs[1] > 1)
 			FOutputs[1] = 1;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LlamadaECU" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -311,10 +311,10 @@ void TCalculoExtern::FinECU() {
 //	 ECU->FinalizaECU();
 //}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: PutInputdll" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -332,10 +332,10 @@ double TCalculoExtern::GetOutput_dll(int i) {
 			std::cout << "         Revisa el acceso a la dll" << std::endl;
 			return 0.;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetOutputdll" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -351,10 +351,10 @@ TRemansoMatlab* TCalculoExtern::GetTRemansoMatlab(int i) {
 //       std::cout << "         Revisa el acceso a la dll" << std::endl;
 //       return 0.;
 //   }
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetTRemansoMatlab" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -370,10 +370,10 @@ TCoefDescarga* TCalculoExtern::GetTCoefDescarga(int i) {
 //       std::cout << "         Revisa el acceso a la dll" << std::endl;
 //       return 0.;
 //   }
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetTCoefDescarga" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -389,10 +389,10 @@ TControlFuel* TCalculoExtern::GetFuel() {
 //       std::cout << "         Revisa el acceso a la dll" << std::endl;
 //       return 0.;
 //   }
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: GetFuel" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -509,10 +509,10 @@ void TCalculoExtern::LeeFicherosDLL(const char *FileWAM, fpos_t &filepos,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeFicherosDLL" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -882,10 +882,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_Tubos" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1210,10 +1210,10 @@ void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_Dep" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1265,10 +1265,10 @@ void TCalculoExtern::Lee_Sens_TG(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_TG" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1338,10 +1338,10 @@ void TCalculoExtern::Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TCalculoExtern::Lee_Sens_Turbina" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1424,10 +1424,10 @@ void TCalculoExtern::Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_Cil" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1564,10 +1564,10 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_Vent" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1636,10 +1636,10 @@ void TCalculoExtern::Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_Motor" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1690,10 +1690,10 @@ void TCalculoExtern::Lee_Sens_UED(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lee_Sens_UED" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1704,10 +1704,10 @@ void TCalculoExtern::Lectura_Datos_Adicionales(const char *FileWAM,
 		fpos_t &filepos) {
 	try {
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Lectura_Datos_Adicionales" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1720,10 +1720,10 @@ void TCalculoExtern::IniciaEntradaDLL() {
 				+ FNSensTurbina + FNSensMotor + FNSensVenturis + FNSensCilindros
 				+ FNSensUED;
 		FInputs = new double[FNInputsdll];
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: IniciaEntradaDLL" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //------------------------------------------------------------------------------
@@ -2185,10 +2185,10 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 			}/*fin del else*/
 
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Tubos" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2382,10 +2382,10 @@ void TCalculoExtern::Calculo_Sensores_Deposito(TDeposito **Plenum,
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Deposito" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2410,10 +2410,10 @@ void TCalculoExtern::Calculo_Sensores_TG(double deltaT, TEjeTurbogrupo **Axis) {
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_TG" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2451,11 +2451,11 @@ void TCalculoExtern::Calculo_Sensores_Turbina(double deltaT,
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TCalculoExtern::Calculo_Sensores_Turbina "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2518,10 +2518,10 @@ void TCalculoExtern::Calculo_Sensores_Cilindro(double deltaT,
 
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Cilindro" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2643,10 +2643,10 @@ void TCalculoExtern::Calculo_Sensores_Venturi(double deltaT,
 
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Venturi" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2694,10 +2694,10 @@ void TCalculoExtern::Calculo_Sensores_Motor(double deltaT,
 
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Cilindro" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2724,10 +2724,10 @@ void TCalculoExtern::Calculo_Sensores_UED(double deltaT,
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_UED" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2748,10 +2748,10 @@ double TCalculoExtern::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2771,10 +2771,10 @@ void TCalculoExtern::InicializaMedias() {
 		SensorP3SUM = 0.;
 		SensorP4SUM = 0.;
 		SensorRegimenTurboSUM = 0.;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: InicializaMedias" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2783,10 +2783,10 @@ void TCalculoExtern::InicializaMedias() {
 void TCalculoExtern::AcumulaMedias(double DeltaT) {
 	try {
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: AcumulaMedias: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2813,10 +2813,10 @@ void TCalculoExtern::CalculaMedias() {
 //	 FTiempoSum=0.;
 		// VariableSUM=0.;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaMedias: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2840,10 +2840,10 @@ void TCalculoExtern::ImprimeCabeceraMedias(stringstream& medoutput) {
 //	 fich << '\t' << "Regimen_Turbo_[rpm]";
 //	 fich << '\t' << "Sensor_Rel_Cin";
 //	 fich.close();
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeCabeceraMedias: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2865,10 +2865,10 @@ void TCalculoExtern::ImprimeGraficosMedias(stringstream& medoutput) {
 //	 fich << '\t' << SensorRelCinematica;
 //	 fich.close();
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeGraficosMedias: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //------------------------------------------------------------------------------
@@ -2883,10 +2883,10 @@ void TCalculoExtern::ImprimeCabeceraInstantaneas(stringstream& insoutput) {
 		//     fich << '\t' << "Salida_Instantanea_EXTERN_" << i;
 		//}
 		//fich.close();
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeCabeceraInstantaneas: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2901,10 +2901,10 @@ void TCalculoExtern::ImprimeGraficosInstantaneas(stringstream& insoutput) {
 		// fich << '\t' << Variable;
 
 		//fich.close();
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeGraficosInstantaneas: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2926,10 +2926,10 @@ void TCalculoExtern::ObtenerRutaTrabajo(const char *origin) {
 		}
 		FRutaTrabajo[contpunto] = '\0';
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ObtenerRutaTrabajo: " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

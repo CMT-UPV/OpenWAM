@@ -246,12 +246,12 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::LeeDatosGeneralesDepositos en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -561,11 +561,11 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		delete[] CCasignadaUD;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::AsignacionCC en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -587,11 +587,11 @@ double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 			ret_val = 0.;
 		}
 		return ret_val;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito:EntalpiaEntrada en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -619,11 +619,11 @@ void TDeposito::AsignaCompresor(TCompresor *Compressor, int sentido) {
 				FCompresorSentido = sentido;
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito:AsignaCompresor en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -662,11 +662,11 @@ void TDeposito::CreaUnionED(int numero, int sentido) {
 			FUnionED.push_back(numero);
 			FSentidoUED.push_back(sentido);
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito:CreaUnionED en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -725,11 +725,11 @@ void TDeposito::PutNUniones(int value) {
 					<< " are already asigned" << std::endl;
 			throw Exception("");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito:PutNUniones en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -755,11 +755,11 @@ void TDeposito::PutUnion(int indice, int valor) {
 					<< std::endl;
 			throw Exception("");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: PutUnion en el depositito: " << FNumeroDeposito
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -788,11 +788,11 @@ void TDeposito::PutSentidoFlujo(int indice, int valor) {
 					<< std::endl;
 			throw Exception("");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: PutSentidoFlujo en el depositito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -821,11 +821,11 @@ void TDeposito::PutNumConductos(int indice, int valor) {
 			std::cout << "ERROR: All pipes are already asigned" << std::endl;
 			throw Exception("");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: PutNumConductos en el depositito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -855,11 +855,11 @@ void TDeposito::PutNumNodos(int indice, int valor) {
 					<< std::endl;
 			throw Exception("");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: PutNumConductos en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -885,12 +885,12 @@ void TDeposito::ResultadosInstantaneosDep() {
 		if (FResInstantDep.Gamma)
 			FResInstantDep.GammaINS = FGamma;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::ResultadosInstantaneosDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -916,12 +916,12 @@ void TDeposito::AcumulaResultadosMedios(double Actual) {
 
 		FResMediosDep.TiempoSUM += Delta;
 		FResMediosDep.Tiempo0 = Actual;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::AcumulaResultadosMedios en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -950,11 +950,11 @@ void TDeposito::ResultadosMediosDep() {
 			}
 			FResMediosDep.TiempoSUM = 0;
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::ResultadosMediosDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -998,12 +998,12 @@ void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::ReadInstantaneousResultsDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1071,11 +1071,11 @@ void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::ReadAverageResultsDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1152,12 +1152,12 @@ void TDeposito::HeaderInstantaneousResultsDep(stringstream& insoutput,
 		}
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::CabeceraResultadosInstaneosDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1185,12 +1185,12 @@ void TDeposito::ImprimeResultadosInstantaneosDep(stringstream& insoutput) {
 			insoutput << "\t" << FResInstantDep.GammaINS;
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::ImprimeResultadosInstaneosDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1223,12 +1223,12 @@ void TDeposito::HeaderAverageResultsDep(stringstream& medoutput,
 			}
 		}
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::HeaderAverageResultsDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1250,12 +1250,12 @@ void TDeposito::ImprimeResultadosMediosDep(stringstream& medoutput) {
 			}
 		}
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::ImprimeResultadosMediosDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1310,11 +1310,11 @@ double TDeposito::CriterioEstabilidad(double TMinimo) {
 
 		MasaFinal += FMasa;
 		return MasaFinal;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::CriterioEstabilidad en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1348,11 +1348,11 @@ void TDeposito::SalidaGeneralDep(stEspecies *DatosEspecies) {
 			std::cout << std::endl;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::SalidaGeneralDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1362,11 +1362,11 @@ void TDeposito::SalidaGeneralDep(stEspecies *DatosEspecies) {
 TCondicionContorno* TDeposito::GetCCUnionEntreDep(int i) {
 	try {
 		return FCCUnionEntreDep[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::GetCCUnionEntreDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1376,11 +1376,11 @@ TCondicionContorno* TDeposito::GetCCUnionEntreDep(int i) {
 TCondicionContorno* TDeposito::GetCCDeposito(int i) {
 	try {
 		return FCCDeposito[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::GetCCDeposito en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1395,8 +1395,8 @@ TCondicionContorno* TDeposito::GetCCDeposito(int i) {
 //	}
 //	catch(Exception & N) {
 //		std::cout << "ERROR: TDeposito::PutCalculadoPaso en el deposito: " << FNumeroDeposito << std::endl;
-//		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//		throw Exception(N.Message);
+//		std::cout << "Tipo de error: " << N.what() << std::endl;
+//		throw Exception(N.what());
 //	}
 //}
 
@@ -1408,11 +1408,11 @@ void TDeposito::ActualizaTiempo(double TiempoActual) {
 
 		FTime = TiempoActual;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::PutCalculadoPaso en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 // ---------------------------------------------------------------------------
@@ -1421,12 +1421,12 @@ void TDeposito::ActualizaTiempo(double TiempoActual) {
 double TDeposito::GetFraccionMasicaEspecie(int i) {
 	try {
 		return FFraccionMasicaEspecie[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::GetConcentracionEspecie en la condicion de contorno: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 // ---------------------------------------------------------------------------

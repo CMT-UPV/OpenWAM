@@ -154,11 +154,11 @@ void TControlInyeccion::LeeDatosEntrada(char *Ruta, FILE *fich) {
 		FSOI = new double[2];
 		FMasaFuel = new double[2];
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlInyeccion::LeeDatosEntrada (DLL)"
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -215,11 +215,11 @@ void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel,
 			FSOI[i] = 180.;
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlInyeccion::CalculaSistemaInyeccion "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -231,10 +231,10 @@ double TControlInyeccion::GetSOI(int i) {
 
 		return FSOI[i];
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlInyeccion::GetSOI (DLL) " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -246,10 +246,10 @@ double TControlInyeccion::GetMasaFuel(int i) {
 
 		return FMasaFuel[i];
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlInyeccion::GetMasaFuel (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

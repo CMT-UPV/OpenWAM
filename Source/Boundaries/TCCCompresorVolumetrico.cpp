@@ -174,12 +174,12 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -331,12 +331,12 @@ void TCCCompresorVolumetrico::ObtencionValoresInstantaneos(
 			FRegimen = RegimenMotor;
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ObtencionValoresInstantaneos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -414,12 +414,12 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 
 		AcumulaResultadosMediosCV(Time);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -441,8 +441,8 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 //catch(Exception &N)
 //{
 //std::cout << "ERROR: TCCCompresorVolumetrico::PutNumeroCV en la BC " << FNumeroCC << std::endl;
-//std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//throw Exception(N.Message);
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+//throw Exception(N.what());
 //}
 //}
 
@@ -478,12 +478,12 @@ void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ReadAverageResultsCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -540,12 +540,12 @@ void TCCCompresorVolumetrico::CabeceraResultadosMedCV(stringstream& medoutput) {
 		}
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::CabeceraResultadosMedCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -564,12 +564,12 @@ void TCCCompresorVolumetrico::ImprimeResultadosMedCV(stringstream& medoutput) {
 			medoutput << "\t" << FResMediosCV.PresionMED;
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ImprimerResultadosMedCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -585,11 +585,11 @@ void TCCCompresorVolumetrico::IniciaMedias() {
 		FResMediosCV.TiempoSUM = 0.;
 		FResMediosCV.Tiempo0 = 0.;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TCCCompresorVolumetrico::IniciaMedias en la BC: "
 				<< FNumeroCC << std::endl;
-//std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -614,12 +614,12 @@ void TCCCompresorVolumetrico::ResultadosMediosCV() {
 			FResMediosCV.PresionSUM = 0.;
 		}
 		FResMediosCV.TiempoSUM = 0;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ResultadosMediosCV en la BC: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -643,12 +643,12 @@ void TCCCompresorVolumetrico::AcumulaResultadosMediosCV(double Actual) {
 
 		FResMediosCV.TiempoSUM += Delta;
 		FResMediosCV.Tiempo0 = Delta;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::AcumulaResultadosMediosCV en la BC: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -683,12 +683,12 @@ void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::LeeResultadosInstantCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -744,12 +744,12 @@ void TCCCompresorVolumetrico::CabeceraResultadosInstantCV(
 			insoutput << Label.c_str();
 		}
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::CabeceraResultadosInstantCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -765,12 +765,12 @@ void TCCCompresorVolumetrico::ResultadosInstantCV() {
 		if (FResInstantCV.Pressure)
 			FResInstantCV.PresionINS = FPressure;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ResultadosInstantCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -790,12 +790,12 @@ void TCCCompresorVolumetrico::ImprimeResultadosInstantCV(
 			insoutput << "\t" << FResInstantCV.PresionINS;
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ImprimeResultadosInstantCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

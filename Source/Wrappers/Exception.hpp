@@ -27,6 +27,7 @@
  */
 
 #include <string>
+#include <exception>
 
 using namespace std;
 
@@ -35,13 +36,13 @@ using namespace std;
  *
  * A custom exception class
  */
-class Exception {
+class Exception: public exception {
 private:
 	string msg;
 public:
+	Exception();
 	Exception(const string& __arg);
 	virtual ~Exception();
 	virtual const char* what();
-	string Message;
 };
 #endif

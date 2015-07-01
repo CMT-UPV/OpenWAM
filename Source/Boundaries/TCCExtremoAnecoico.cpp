@@ -91,12 +91,12 @@ void TCCExtremoAnecoico::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCExtremoAnecoico::AsignaTubos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -121,12 +121,12 @@ void TCCExtremoAnecoico::CalculaCondicionContorno(double Time) {
 					FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
 							FNumeroEspecies - 1);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCExtremoAnecoico::CalculaCondicionesContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

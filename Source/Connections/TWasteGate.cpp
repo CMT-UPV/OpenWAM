@@ -106,10 +106,10 @@ void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales WasteGate" << std::endl;
 		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		throw Exception(N.what());
 
 	}
 }
@@ -171,10 +171,10 @@ void TWasteGate::CalculoNodoAdm(TTubo **Pipe) {
 		} else
 			FDist = FDistancia / Pipe[FTuboControl - 1]->getXRef() - FNodoAdm;
 
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TWasteGate::CalculoNodoAdm " << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -204,10 +204,10 @@ void TWasteGate::CalculaCD(double Padm, double PTubo, double PDeposito,
 			FCDTubVol = FCoefC1 * (pow((FX / FDiametroRef), FCoefC2));
 			FCDVolTub = FCoefC1 * (pow((FX / FDiametroRef), FCoefC2));
 		}
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales WasteGate" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -289,10 +289,10 @@ void TWasteGate::LeeDatosGraficas(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas WasteGate" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -312,11 +312,11 @@ void TWasteGate::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 				insoutput << Label.c_str();
 			}
 		}
-		// fclose(fich);
-	} catch (Exception & N) {
+//fclose(fich);
+	} catch (exception &N) {
 		std::cout << "ERROR: CabeceraGrafica WasteGate" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -331,11 +331,11 @@ void TWasteGate::ImprimeGraficaINS(stringstream& insoutput) {
 			if (FGrafLev)
 				insoutput << "\t" << FX;
 		}
-		// fclose(fich);
-	} catch (Exception & N) {
+//fclose(fich);
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeGrafica WasteGate" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

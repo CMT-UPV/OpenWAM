@@ -240,11 +240,11 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTemperature = A2 / FGamma / FRMezcla - 273.;
 		FTime = TimeCalculo;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDepVolCte::ActualizaPropiedades en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

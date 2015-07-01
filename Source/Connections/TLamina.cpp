@@ -211,10 +211,10 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales Lamina" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -400,10 +400,10 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 		}
 		FCDTubVol *= FSectionRatio;
 		FCDVolTub *= FSectionRatio;
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaCD Lamina" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -624,10 +624,10 @@ void TLamina::LeeDatosGraficas(char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas Lamina" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -649,10 +649,10 @@ void TLamina::CabeceraGraficaINS(stringstream& insoutput, int lam) {
 			}
 		}
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CabeceraGrafica Lamina" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -667,11 +667,11 @@ void TLamina::ImprimeGraficaINS(stringstream& insoutput) {
 			if (FGrafLev)
 				insoutput << "\t" << FLev;
 		}
-		// fclose(fich);
-	} catch (Exception & N) {
+//fclose(fich);
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeGrafica Lamina" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

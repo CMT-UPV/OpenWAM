@@ -75,10 +75,10 @@ void TCDExterno::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales CDExterno" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -111,10 +111,10 @@ void TCDExterno::CalculaCD() {
 		FCDTubVol = FCDEntMatlab;
 		FCDVolTub = FCDSalMatlab;
 		FCTorb = FCTorMatlab;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaCD CDExterno" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

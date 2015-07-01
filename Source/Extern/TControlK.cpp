@@ -80,10 +80,10 @@ void TControlK::LeeDatosEntrada(char *Ruta, FILE *fich, double DiametroTubo) {
 			fclose(FichK_Re);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlK::LeeDatosEntrada (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -103,10 +103,10 @@ void TControlK::CalculaK(double velocidad, double temperatura, double presion,
 
 		FK = Interp1(FRe, FVector_Re, FVector_K, FNumeroDatos);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TControlK::CalculaK (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
