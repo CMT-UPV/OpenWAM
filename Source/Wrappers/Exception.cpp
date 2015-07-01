@@ -27,9 +27,14 @@
 
 using namespace std;
 
+
+Exception::Exception() {
+	msg = "Unknown error!";
+}
+
+
 Exception::Exception(const string& __arg) {
 	msg = __arg;
-	Message = msg;
 }
 
 Exception::~Exception() {

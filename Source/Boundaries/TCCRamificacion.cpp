@@ -162,12 +162,12 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 			// Se inicializa con el Pipe 0 de modo arbitrario.
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCRamificacion::AsignaTubos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -186,12 +186,12 @@ void TCCRamificacion::TuboCalculandose(int TuboActual) {
 				}
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCRamificacion::TuboCalculandose en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -379,12 +379,12 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 						FMasaEspecie[FNumeroEspecies - 1] / MasaTotal;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCRamificacion::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -287,12 +287,12 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -306,8 +306,8 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 //	catch(Exception & N) {
 //		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutPresion en la condicion de contorno: " <<
 //			FNumeroCC << std::endl;
-//		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//		throw Exception(N.Message.c_str());
+//		std::cout << "Tipo de error: " << N.what() << std::endl;
+//		throw Exception(N.what());
 //	}
 //}
 
@@ -340,8 +340,8 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 //	catch(Exception & N) {
 //		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " <<
 //			FNumeroCC << std::endl;
-//		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-//		throw Exception(N.Message.c_str());
+//		std::cout << "Tipo de error: " << N.what() << std::endl;
+//		throw Exception(N.what());
 //	}
 //}
 
@@ -421,12 +421,12 @@ void TCCDescargaExtremoAbierto::CalculaCondicionContorno(double Time) {
 
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDescargaExtremoAbierto::CalculaCondicionesContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

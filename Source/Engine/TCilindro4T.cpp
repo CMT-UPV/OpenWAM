@@ -1336,11 +1336,11 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro4T::ActualizaPropiedades en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1360,11 +1360,11 @@ double TCilindro4T::EntalpiaEntrada(double ASonEnt, double VelEnt,
 			ret_val = 0.;
 		}
 		return ret_val;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro4T::EntalpiaEntrada en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1406,12 +1406,12 @@ void TCilindro4T::VariableInicialesCicloACT() {
 			Ftest_variables[17] = FFraccionMasicaEspecie[3] * 1e6;
 			// HC concentration at IVC
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro4T::VariableInicialesCicloACT en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

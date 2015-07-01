@@ -543,11 +543,11 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::LeeMotor en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -563,12 +563,12 @@ void TBloqueMotor::AsignacionTuboRendVol(TTubo **Pipe) {
 
 		FNodoMedio = floor((FTuboRendVol->getNin()) / 2.);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::AsignacionTuboRendVol en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -584,12 +584,12 @@ void TBloqueMotor::IniciaAnguloCalculo() {
 		} else {
 			std::cout << "ERROR: Tipo de motor mal definido" << std::endl;
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::IniciaAnguloCalculo en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -777,12 +777,12 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::ReadAverageResults en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -908,12 +908,12 @@ void TBloqueMotor::HeaderAverageResultsBloqueMotor(stringstream& medoutput) {
 		}
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::HeaderAverageResults en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -982,11 +982,11 @@ void TBloqueMotor::ImprimeResultadosMediosBloqueMotor(stringstream& medoutput) {
 			medoutput << "\t" << FResMediosMotor.SwirlMED;
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::ImprimeResultadosMediosBloqueMotor "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1179,11 +1179,11 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 		}
 
 		FResMediosMotor.TiempoSUM = 0;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::ResultadosMediosBloqueMotor "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1279,11 +1279,11 @@ void TBloqueMotor::AcumulaResultadosMediosBloqueMotor(double TActual,
 
 		FResMediosMotor.TiempoSUM += DeltaT;
 		FResMediosMotor.Tiempo0 = TActual;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::AcumulaResultadosMediosBloqueMotor "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1396,12 +1396,12 @@ void TBloqueMotor::PrestacionesMotor() {
 		std::cout << "INFO:----------------------------------------------"
 				<< std::endl;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::PrestacionesMotor en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1462,12 +1462,12 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::ModeloDeVehiculo en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1477,11 +1477,11 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 TCilindro* TBloqueMotor::GetCilindro(int i) {
 	try {
 		return FCilindro[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::GetCilindro en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1491,11 +1491,11 @@ TCilindro* TBloqueMotor::GetCilindro(int i) {
 double TBloqueMotor::GetDesfase(int i) {
 	try {
 		return FDesfase[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::GetCilindro en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1508,8 +1508,8 @@ double TBloqueMotor::GetDesfase(int i) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. " << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -1521,11 +1521,11 @@ void TBloqueMotor::PutATCAdm(double valor) {
 
 		FAjusteTranCalAdm = valor;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::PutATCAdm en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1537,11 +1537,11 @@ void TBloqueMotor::PutATCEsc(double valor) {
 
 		FAjusteTranCalEsc = valor;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TBloqueMotor::PutATCEsc en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1556,8 +1556,8 @@ void TBloqueMotor::PutATCEsc(double valor) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. " << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -1572,8 +1572,8 @@ void TBloqueMotor::PutATCEsc(double valor) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. " << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -1587,12 +1587,12 @@ void TBloqueMotor::IniciaVarCilindro() {
 			FCilindro[i]->IniciaVariables();
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::IniciaVarCilindro en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1604,12 +1604,12 @@ double TBloqueMotor::GetComposicionInicial(int i) {
 
 		return FComposicionInicial[i];
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::GetComposicionInicial en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1621,12 +1621,12 @@ double TBloqueMotor::GetComposicionAtmosfera(int i) {
 
 		return FComposicionAtmosfera[i];
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::GetComposicionAtmosfera en el EngineBlock. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -328,13 +328,13 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		}
 
 		FRegimenCorregido = Mapa2T->getRegimenCorregido();
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: CalculaCondicionContorno en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: CalculaCondicionContorno en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -419,13 +419,13 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 			++FCuentaVelIn;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: BuscaErrorCaracteristica en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: BuscaErrorCaracteristica en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -463,13 +463,13 @@ void TCompTubos::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeCompresor en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -548,13 +548,13 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FFraccionMasicaEspecie[i] = FTuboRot->GetFraccionMasicaInicial(i);
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompTubos::RelacionTubos en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -667,13 +667,13 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 			*a2 = a2_local;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: MetodoNewton2D en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -699,13 +699,13 @@ void TCompTubos::Solver(double *a1, double *a2, double *u1, double *u2,
 			*u2 = FunA1.V2;
 			FCoefPresiones = FunA1.CPfin;
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: MetodoNewton2D en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -721,13 +721,13 @@ void TCompTubos::ExtremoCerrado() {
 		*FCarDIn = *FCarCIn;
 		*FCarDOut = *FCarCOut;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompTubos::ExtremoCerrado en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: TCompTubos::ExtremoCerrado en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 

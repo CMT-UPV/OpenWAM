@@ -666,11 +666,11 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 			FValvEsc[i].NITSUM = 0.;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::AsignacionCC en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -862,12 +862,12 @@ void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::ReadAverageResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1031,12 +1031,12 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 
 		// fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::HeaderAverageResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1120,11 +1120,11 @@ void TCilindro::ImprimeResultadosMediosCilindro(stringstream& medoutput) {
 		}
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::ImprimeResultadosMediosCilindro "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1203,11 +1203,11 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 			FResMediosCilindro.TiempoSUM += DeltaT;
 			FResMediosCilindro.Tiempo0 = TActual;
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::AcumulaResultadosMediosCilindro "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1382,11 +1382,11 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 			FResMediosCilindro.TiempoSUM = 0;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaResultadosMediosCilindro "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1582,12 +1582,12 @@ void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::ReadInstantaneousResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1829,12 +1829,12 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 
 		// fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::HeaderInstantaneousResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1984,12 +1984,12 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 		}
 
 		// fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::HeaderInstantaneousResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2151,12 +2151,12 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 				FResInstantCilindro.HeatPisINS = FCalor.TransPiston;
 
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::CalculaResultadosInstantaneosCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2235,11 +2235,11 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 			ret_val += deltaVol;
 		}
 		return ret_val;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaVolumen en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2522,11 +2522,11 @@ void TCilindro::IniciaVariables() {
 		FAngDesplazado = new double[FMotor->getLeyQuemadoBD().size()];
 		FPrimeraCombustion = true;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::IniciaVariables en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2646,11 +2646,11 @@ void TCilindro::InicioFinCombustion() {
 				}
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: AnguloInicioCombustion en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2723,11 +2723,11 @@ double TCilindro::CalculaCalorLiberado(double x) {
 			Result = Numerador / Denominador;
 		}
 		return Result;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: CalculaCalorLiberado en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2747,11 +2747,11 @@ double TCilindro::fql(double x, int ley) {
 
 		return ret_val;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::fql en cilindro: " << FNumeroCilindro
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2780,11 +2780,11 @@ double TCilindro::fun_wiebe(double x, int ley, int wiebe) {
 			}
 		}
 		return ret_val;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro:fun_wiebe en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2811,11 +2811,11 @@ double TCilindro::FuncionGamma(double T, double X) {
 		Result = R / cv + 1.;
 		return Result;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::FuncionGamma en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3176,13 +3176,13 @@ void TCilindro::CalculaTemperaturasPared() {
 		if (TPAnt != NULL)
 			delete TPAnt;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		if (TPAnt != NULL)
 			delete TPAnt;
 		std::cout << "ERROR: TCilindro::CalculaTemperaturasPared en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3207,8 +3207,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutMasaFuel en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3223,8 +3223,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutPresionInyeccion en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3240,8 +3240,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutNumeroInyecciones en el cilindro: " << FNumeroCilindro <<
 // std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3256,8 +3256,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutInicioComb en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3272,8 +3272,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutFinComb en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3288,8 +3288,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutFQL en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3304,8 +3304,8 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutModComb en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3331,11 +3331,11 @@ void TCilindro::DefineCombustion() {
 				FCalcComb = nmFQL;
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::PutModComb en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3350,8 +3350,8 @@ void TCilindro::DefineCombustion() {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutCalculadoPaso en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3366,8 +3366,8 @@ void TCilindro::DefineCombustion() {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TCilindro::PutHayDLL en el cilindro: " << FNumeroCilindro << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -3390,11 +3390,11 @@ double TCilindro::CalculaCTorbAdmProm() {
 
 		return retval;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaCTorbAdmProm en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3404,11 +3404,11 @@ double TCilindro::CalculaCTorbAdmProm() {
 double TCilindro::CalculaCm() {
 	try {
 		return 2 * FMotor->getRegimen() * FMotor->getGeometria().Carrera / 60.;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaCm en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3437,11 +3437,11 @@ void TCilindro::CalculoNIT() {
 		}
 		FNIT = FNIT * massflow;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculoNIT en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3462,11 +3462,11 @@ void TCilindro::CalculaMomentoAngular() {
 		FMomentoAngular = (FMomentoAngularAdm + FMomentoAngularEsc) * FDeltaT;
 		/* . Se multiplica por el tiempo */
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3549,11 +3549,11 @@ void TCilindro::SalidaGeneralCilindros() {
 						<< std::endl;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::SalidaGeneralCilindros en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3573,11 +3573,11 @@ void TCilindro::CalculaVariablesResultados() {
 			CalculaSWIRL();
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3600,11 +3600,11 @@ void TCilindro::CalculaSWIRL() {
 
 		FSwirlSUM += FSwirl * FDeltaT;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::CalculaSWIRL en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3614,11 +3614,11 @@ void TCilindro::CalculaSWIRL() {
 TCondicionContorno* TCilindro::GetCCValvulaAdm(int i) {
 	try {
 		return FCCValvulaAdm[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::GetCCValvulaAdm en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3628,11 +3628,11 @@ TCondicionContorno* TCilindro::GetCCValvulaAdm(int i) {
 TCondicionContorno* TCilindro::GetCCValvulaEsc(int i) {
 	try {
 		return FCCValvulaEsc[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro::GetCCValvulaEsc en el cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3645,12 +3645,12 @@ double TCilindro::GetAireFresco() {
 		ret_val = FComposicionCicloCerrado[2];
 		return ret_val;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::GetAireFresco en la condicion de contorno: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 // ---------------------------------------------------------------------------
@@ -3659,12 +3659,12 @@ double TCilindro::GetAireFresco() {
 double TCilindro::GetComposicionSaliente(int i) {
 	try {
 		return FComposicionSaliente[i];
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::GetComposicionSaliente en la condicion de contorno: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

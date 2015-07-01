@@ -108,12 +108,12 @@ void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -132,12 +132,12 @@ void TCCUnionEntreDepositos::AsignaDepositos(TDeposito **Plenum) {
 			FFraccionMasicaEspecie[i] = FDeposito1->GetFraccionMasicaEspecie(i); // Se inicializa con el Deposito1 de modo arbitrario.
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::AsignaDepositos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -203,12 +203,12 @@ void TCCUnionEntreDepositos::AsignaTipoValvula(TTipoValvula **Origen, int Valv,
 				FValvula->AsignaCRecuperacion(0.);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::AsignaTipoValvula en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -367,12 +367,12 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 							+ std::to_string(FCDSalida) + ", en "
 							+ std::to_string(FAnguloActual) + " grados ");
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -395,12 +395,12 @@ double TCCUnionEntreDepositos::InterpolaDeposito(double vizq, double vder,
 			throw Exception(" ");
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::InterpolaDeposito en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -608,12 +608,12 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			}
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -726,12 +726,12 @@ void TCCUnionEntreDepositos::CalculaUED() {
 		FRDep2SUM = 0.;
 		FTiempoDep2SUM = 0.;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::CalculaUED en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -759,12 +759,12 @@ void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::LeeResultadosInstantUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -783,12 +783,12 @@ void TCCUnionEntreDepositos::CabeceraResultadosInstantUED(
 		}
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::CabeceraResultadosInstantUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -800,12 +800,12 @@ void TCCUnionEntreDepositos::ResultadosInstantUED() {
 		if (FResInstantUED.Massflow)
 			FResInstantUED.GastoINS = FGastoImpreso;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ResultadosInstantUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -821,12 +821,12 @@ void TCCUnionEntreDepositos::ImprimeResultadosInstantUED(
 			insoutput << "\t" << FResInstantUED.GastoINS;
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ImprimeResultadosInstantUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -854,12 +854,12 @@ void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ReadAverageResultsUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -878,12 +878,12 @@ void TCCUnionEntreDepositos::HeaderAverageResultsUED(stringstream& medoutput) {
 		}
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::HeaderAverageResultsUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -900,12 +900,12 @@ void TCCUnionEntreDepositos::AcumulaResultadosMediosUED(double Actual) {
 		}
 		FResMediosUED.TiempoSUM += Delta;
 		FResMediosUED.Tiempo0 = Actual;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::AcumulaResultadosMediosUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -921,12 +921,12 @@ void TCCUnionEntreDepositos::ResultadosMediosUED() {
 		}
 
 		FResMediosUED.TiempoSUM = 0;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ResultadosMediosUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //---------------------------------------------------------------------------
@@ -941,12 +941,12 @@ void TCCUnionEntreDepositos::ImprimeResultadosMediosUED(
 			medoutput << "\t" << FResMediosUED.GastoMED;
 
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ImprimeResultadosMediosUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -96,12 +96,12 @@ void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,
 		FVolumenMuerto = (Pi * FDiametro * FDiametro * FCarrera / 4.)
 				/ (FRelCompre - 1.);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: "
 				<< FNumeroCompresor << std::endl;
-//std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -228,12 +228,12 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 			FAngulo -= 360.;
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumetrico: "
 				<< FNumeroCompresorVol << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -256,12 +256,12 @@ double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 		ret_val += vol_muerto;
 		return ret_val;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumetrico: "
 				<< FNumeroCompresorVol << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -275,12 +275,12 @@ void TDepVolVariable::IniciaVolumen(double Theta) {
 				FVolumenMuerto);
 		FMasa = FVolumen * FGamma * FPressure * 1e5 / pow2(FAsonido * ARef);
 		FVolumen0 = FVolumen;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumetrico: "
 				<< FNumeroCompresorVol << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -98,12 +98,12 @@ void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 
 		FValvula->putDiametroTubo(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::AsignaTipoValvula en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -151,12 +151,12 @@ void TCCCilindro::LeeCCValvula(const char *FileWAM, fpos_t &filepos,
 
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::AsignaTubos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -186,12 +186,12 @@ void TCCCilindro::ObtencionValoresInstantaneos() {
 		 throw Exception("ERROR: en calculo coeficiente descarga saliente: "+std::to_string(FCDSalida)+", en "+std::to_string(Angulo)+" grados ");
 		 }
 		 */
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::ObtencionValoresInstantaneos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -288,12 +288,12 @@ void TCCCilindro::CalculaCondicionContorno() {
 			FRelacionPresionGarganta = 0.;
 			FSeccionEficaz = 0.;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -345,12 +345,12 @@ void TCCCilindro::FlujoEntranteCilindro() {
 		FVelocidadGarganta = -FSigno * velocidad_garganta;
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::FlujoEntranteCilindro en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -461,12 +461,12 @@ void TCCCilindro::FlujoSalienteCilindro() {
 		FGastoGarganta = FGasto / (FCDSalida * FSeccionValvula);
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::FlujoSalienteCilindro en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -561,12 +561,12 @@ void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 		}
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::Resolucion en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -602,12 +602,12 @@ void TCCCilindro::FESubcritico(double vel_son_supuesta, double *u2_1,
 
 			*u2_2 = (vel_son_supuesta - *FCC) * FSigno / Gamma3;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::FESubcritico en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -629,12 +629,12 @@ void TCCCilindro::FESupercritico(double mach_supuesto, double *miembro1,
 		*miembro1 = xx - yy + 1.;     // Miembro 1 de la ecuacion (21)
 		*miembro2 = 0;            // Miembro 2 de la ecuacion (21)
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::FESupercritico en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -658,12 +658,12 @@ void TCCCilindro::FSSubcritico(double vel_son_supuesta, double *error,
 		u1 = Fk * u2 * pow2(a1) / pow2(vel_son_supuesta);
 		*error = pow2(a1) + Gamma3 * pow2(u1) - pow2(FVelSonidoCil);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::FSSubcritico en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -685,12 +685,12 @@ void TCCCilindro::FSSupercritico(double vel_supuesta, double *a2_1,
 										/ FTuboExtremo[0].Entropia, Gamma4)
 						/ Fcc); // Si vel_supuesta < 0, Fcc tambien lo es.
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCCilindro::FSSupercritico en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -141,12 +141,12 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCPerdidadePresion::LecturaPerdidaPresion en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -156,12 +156,12 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 void TCCPerdidadePresion::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCPerdidadePresion::TuboCalculandose en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -367,12 +367,12 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 		}
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout
 				<< "ERROR: TCCPerdidadePresion::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

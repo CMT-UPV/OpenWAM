@@ -102,12 +102,12 @@ public:
 			}
 			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep)
 					/ ARef;
-		} catch (Exception & N) {
+		} catch (exception & N) {
 			std::cout
 					<< "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: "
 					<< FNumeroCC << std::endl;
-			std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-			throw Exception(N.Message.c_str());
+			std::cout << "Tipo de error: " << N.what() << std::endl;
+			throw Exception(N.what());
 		}
 	}
 

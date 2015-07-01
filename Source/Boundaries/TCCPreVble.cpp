@@ -146,12 +146,12 @@ void TCCPreVble::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCPreVble::LecturaPulso en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -213,12 +213,12 @@ void TCCPreVble::CalculaCondicionContorno(double Time) {
 		/* La ultima opcion es que *FCC=*FCD. En este caso el flujo esta parado y la fraccion masica
 		 de las especies permanece constante en dicho instante */
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCPreVble::CalculaCondicionesContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

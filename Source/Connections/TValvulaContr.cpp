@@ -100,10 +100,10 @@ void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales ValvulaContr" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -164,10 +164,10 @@ void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 			printf("ERROR: in hysteresis valve (EGR,Swirl...");
 			throw Exception("ERROR: in hysteresis valve (EGR,Swirl...)");
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaCD ValvulaContr" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

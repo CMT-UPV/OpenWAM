@@ -74,10 +74,10 @@ void TTipoValvula::AsignaParametros(int Pipe, int Nodo, int Tipo, int Valvula,
 		FValvula = Valvula;
 		FDiamTubo = dTubo;
 		FSentido = sentido;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: AsignaParametros TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -92,10 +92,10 @@ double TTipoValvula::LeeDiametro() {
 		} else {
 			return FDiamTubo;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDiametro TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -146,10 +146,10 @@ void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -173,10 +173,10 @@ void TTipoValvula::CabeceraGraficaINS(stringstream& insoutput, int nodo) {
 			}
 		}
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CabeceraGrafica TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -194,10 +194,10 @@ void TTipoValvula::ImprimeGraficaINS(stringstream& insoutput) {
 				insoutput << "\t" << FCDVolTub;
 		}
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeGrafica TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -218,10 +218,10 @@ void TTipoValvula::AcumulaCDMedio(double TiempoActual) {
 				FSumCDS += FCDVolTub * DeltaT;
 			FSumTime += DeltaT;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: AcumulaCDMedio TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -251,10 +251,10 @@ void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -278,10 +278,10 @@ void TTipoValvula::CabeceraGraficaMED(stringstream& medoutput, int nodo) {
 			}
 		}
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CabeceraGrafica TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -306,10 +306,10 @@ void TTipoValvula::ImprimeGraficaMED(stringstream& medoutput) {
 			FSumTime = 0;
 		}
 //fclose(fich);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: ImprimeGrafica TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

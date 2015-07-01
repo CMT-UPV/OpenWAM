@@ -66,13 +66,13 @@ void TCompresorDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompresorDep::LeeCompresor en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -89,13 +89,13 @@ void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot,
 		FDepositoRot->AsignaCompresor(this, -1);
 		FDepositoEst->AsignaCompresor(this, 1);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompTubos::RelacionTubos en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -261,13 +261,13 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 		FDeltaTPaso += FDeltaTiempo;
 		FRegimenCorregido = Mapa->getRegimenCorregido();
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCompresorDep::CalculaGasto en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: CalculaGasto en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 

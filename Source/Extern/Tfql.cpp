@@ -188,10 +188,10 @@ void Tfql::lee_leylib(char *Ruta, FILE *fich) {
 			}
 		}
 		fclose(Fichfql);
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: lee_leylib (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -250,10 +250,10 @@ double Tfql::fql(double x, int j, int i) {
 
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout << "ERROR: fql (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -284,10 +284,10 @@ double Tfql::fun_wiebe(double x, double m, double c, double ia, double a0)
 		return ret_val;
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout << "ERROR: fun_wiebe (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -360,10 +360,10 @@ void Tfql::calcula_angulos_combustion(double *parametros, int i) {
 		}
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout << "ERROR: fql (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -403,10 +403,10 @@ double Tfql::calcula_fql(double *parametros, double x, int i) {
 
 	}
 
-	catch (Exception &N) {
+	catch (exception &N) {
 		std::cout << "ERROR: calcula_fql (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -227,10 +227,10 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -259,10 +259,10 @@ void TValvula4T::CalculaCD(double Angulo) {
 			FCTorb = fun_Torb->interp(FApertura);
 
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

@@ -289,11 +289,11 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 			FTemperature = pow2(FAsonido * ARef) / FGamma / FRMezcla - 273.;
 		}
 		FTime = TimeCalculo;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::ActualizaPropiedades en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -313,13 +313,13 @@ void TTurbina::CalculoPotenciaPaso() {
 			FDeltaPaso = 0.;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::CalculoPotenciaPaso en el compresor: "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: TTurbina::CalculoPotenciaPaso en la turbina: "
-						+ std::to_string(FNumeroTurbina) + N.Message.c_str());
+						+ std::to_string(FNumeroTurbina) + N.what());
 	}
 }
 // ---------------------------------------------------------------------------
@@ -337,11 +337,11 @@ void TTurbina::TransformaContorno(double *L, double *B, double *E, double *a,
 			*v = (*L - *B) / Gamma1(Gamma);
 			*p = pow(*a / *E, Gamma4(Gamma));
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::TransformaContorno en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -440,11 +440,11 @@ void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::LeeRendimientoTurbina en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -464,8 +464,8 @@ void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TTurbina::PutNumeroTurbina en la turbina " << FNumeroTurbina << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -480,8 +480,8 @@ void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 // }
 // catch(Exception & N) {
 // std::cout << "ERROR: TTurbina::PutRegimen en la turbina " << FNumeroTurbina << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message.c_str());
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 
@@ -495,11 +495,11 @@ void TTurbina::AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo,
 		FTuboSalida = tubsaltur;
 		FExtremoSalida = extremo;
 		FSentidoSalida = sentido;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::AsignaDatosSalida en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -517,11 +517,11 @@ double TTurbina::GetRelacionCinematica(int i) {
 					<< std::endl;
 			return 0.;
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::GetRelacionCinematica en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -535,11 +535,11 @@ void TTurbina::AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo,
 		FTuboEntrada[n] = tubsaltur;
 		FExtremoEntrada[n] = extremo;
 		FSentidoEntrada[n] = sentido;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::AsignaDatosEntrada en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

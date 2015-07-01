@@ -1349,11 +1349,11 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro2T::ActualizaPropiedades en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1373,11 +1373,11 @@ double TCilindro2T::EntalpiaEntrada(double ASonEnt, double VelEnt,
 			ret_val = 0.;
 		}
 		return ret_val;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TCilindro2T::EntalpiaEntrada en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1440,12 +1440,12 @@ void TCilindro2T::VariableInicialesCicloACT() {
 				<< " (Pa)" << std::endl;
 		std::cout << "____________________________________________________"
 				<< std::endl;
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro2T::VariableInicialesCicloACT en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

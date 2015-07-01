@@ -114,10 +114,10 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 			fclose(FichEGRV);
 		}
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TEGRV::LeeDatosEntrada (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -166,8 +166,8 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
  catch(Exception &N)
  {
  std::cout << "ERROR: Calculo de la EGRV (DLL)" << std::endl;
- std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
- throw Exception(N.Message.c_str());
+ std::cout << "Tipo de error: " << N.what() << std::endl;
+ throw Exception(N.what());
  }
  } */
 
@@ -187,10 +187,10 @@ double TEGRV::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //---------------------------------------------------------------------------
@@ -212,11 +212,11 @@ nmTipoControl TEGRV::DeterminacionTipoControl(double Regimen, double MasaFuel) {
 
 		return FTipoControl;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TEGRV::DeterminacionTipoControl (DLL)"
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -260,10 +260,10 @@ void TEGRV::CalculaEGRV(double MasaFuel, double Regimen,
 		FCDSaliente = FCDEntrante;
 		FCTorbellino = 0.;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TEGRV::CalculaEGRV (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -278,10 +278,10 @@ void TEGRV::IniciaEGRV(double cdEGR, int CicloCerrado) {
 		FCDSaliente = cdEGR;
 		FCicloCerrado = CicloCerrado;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: IniciaEGRV (DLL)" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

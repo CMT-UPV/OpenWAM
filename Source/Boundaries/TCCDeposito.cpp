@@ -224,12 +224,12 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 #endif
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::LeeCCDeposito en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -242,12 +242,12 @@ void TCCDeposito::AsignaDeposito(TDeposito **Plenum) {
 		FDeposito = Plenum[FNumeroDeposito - 1];
 		FValvula->PutPlenum(FDeposito);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::AsignaDeposito en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -323,12 +323,12 @@ void TCCDeposito::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 				FValvula->AsignaCRecuperacion(0.);
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::AsignaTipoValvula en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -490,12 +490,12 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual,
 							+ std::to_string(FCDSalida) + ", en "
 							+ std::to_string(FAnguloActual) + " grados ");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::CalculaCoeficientesDescarga en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -519,12 +519,12 @@ void TCCDeposito::IniciaGamma() {
 		}
 		FSeccionValvula = FSeccionTubo;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -638,12 +638,12 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 			// La composicion se mantiene, al estar el flujo parado.
 		}
 		FValvula->AcumulaCDMedio(Time);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::CalculaCondicionContorno en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -685,12 +685,12 @@ void TCCDeposito::FEDRecuperacionEnergiaCinetica() {
 				/ (FValvula->getCRecuperacion() * FSeccionValvula);
 		FMachGarganta = FVelocidadGarganta / a1; // En valor absoluto.
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::FEDRecuperacionEnergiaCinetica en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -749,12 +749,12 @@ void TCCDeposito::FlujoEntranteDeposito() {
 
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::FlujoEntranteDeposito en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -878,12 +878,12 @@ void TCCDeposito::FlujoSalienteDeposito() {
 		FRelacionPresionGarganta = pow(d1, FGamma4);
 		FMachGarganta = FVelocidadGarganta / a1; // En valor absoluto.
 		FGastoGarganta = FGasto / (FCDSalida * FSeccionValvula);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::FlujoSalienteDeposito en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 // ---------------------------------------------------------------------------
@@ -923,12 +923,12 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 		}
 	}
 
-	catch (Exception & N) {
+	catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDeposito::Resolucion en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -962,8 +962,8 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // catch(Exception &N)
 // {
 // std::cout << "ERROR: TCCDeposito::FESubcritico en la condicion de contorno: " << FNumeroCC << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 //
@@ -991,8 +991,8 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // catch(Exception &N)
 // {
 // std::cout << "ERROR: TCCDeposito::FESupercritico en la condicion de contorno: " << FNumeroCC << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 //
@@ -1019,8 +1019,8 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // catch(Exception &N)
 // {
 // std::cout << "ERROR: TCCDeposito::FSSubcritico en la condicion de contorno: " << FNumeroCC << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 //
@@ -1043,8 +1043,8 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // catch(Exception &N)
 // {
 // std::cout << "ERROR: TCCDeposito::FSSupercritico en la condicion de contorno: " << FNumeroCC << std::endl;
-// std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-// throw Exception(N.Message);
+// std::cout << "Tipo de error: " << N.what() << std::endl;
+// throw Exception(N.what());
 // }
 // }
 //

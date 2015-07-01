@@ -84,10 +84,10 @@ void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales StatorTurbine" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -100,10 +100,10 @@ void TEstatorTurbina::TipodeEstator(nmTipoEstator TipoEstator) {
 
 		FTipoEstator = TipoEstator;
 
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: TEstatorTurbina::TipodeEstator " << std::endl;
-//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -136,10 +136,10 @@ void TEstatorTurbina::CalculaCD() {
 		} else if (FCDVolTub <= 0) {
 			FCDVolTub = 0.001;
 		}
-	} catch (Exception &N) {
+	} catch (exception &N) {
 		std::cout << "ERROR: CalculaCD StatorTurbine" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

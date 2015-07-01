@@ -548,10 +548,12 @@ void TOpenWAM::ReadDataDLL() {
 		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
+		stringstream err;
 		std::cout << "ERROR: ReadDataDLL" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception("ERROR: ReadDataDLL" + N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		err << "ERROR: ReadDataDLL" << N.what();
+		throw Exception(err.str());
 	}
 }
 
@@ -776,10 +778,10 @@ void TOpenWAM::ReadGeneralData() {
 
 		AtmosphericComposition = CompAtmosfera;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadGeneralData" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -802,10 +804,10 @@ void TOpenWAM::ReadEngine()
 			fsetpos(FileInput, &filepos);
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadEngine " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -839,10 +841,10 @@ void TOpenWAM::ReadPipes() {
 
 		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadPipes" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -867,10 +869,10 @@ void TOpenWAM::ReadDPF() {
 		FileInput = fopen ( fileinput.c_str(), "r" );
 		fsetpos ( FileInput, &filepos );
 #endif
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadDPF" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -911,10 +913,10 @@ void TOpenWAM::ReadConcentric() {
 			fsetpos ( FileInput, &filepos );
 		}
 #endif
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadConcentric" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1011,10 +1013,12 @@ void TOpenWAM::ReadValves() {
 			fsetpos(FileInput, &filepos);
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
+		stringstream err;
 		std::cout << "ERROR: ReadValves" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception("ERROR: Actuators" + N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		err << "ERROR: ReadValves" << N.what();
+		throw Exception(err.str());
 	}
 }
 
@@ -1158,10 +1162,10 @@ void TOpenWAM::ReadPlenums() {
 				}
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadPlenums " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1215,10 +1219,10 @@ void TOpenWAM::ReadCompressors() {
 		}
 		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadCompressors " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1752,10 +1756,10 @@ void TOpenWAM::ReadConnections() {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : ReadConnections " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1785,10 +1789,10 @@ void TOpenWAM::ReadTurbochargerAxis() {
 
 		FileInput = fopen(fileinput.c_str(), "r");
 		fsetpos(FileInput, &filepos);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : ReadTurbochargerAxis " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2030,10 +2034,10 @@ void TOpenWAM::RunningControl() {
 			grmax = thmax - Engine[0]->getAngTotalCiclo();
 
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : RunningControl " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2052,10 +2056,10 @@ void TOpenWAM::InitializeRunningAngles() {
 		CrankAngle = Theta;
 		Theta0 = 0.;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : InitizalizeRunningAngles " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2137,10 +2141,12 @@ void TOpenWAM::AllocateVGTData() {
 				}
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
+		stringstream err;
 		std::cout << " ERROR : AllocateVGTData " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(" ERROR : dimensionado_tgvwam " + N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		err << " ERROR : dimensionado_tgvwam " << N.what();
+		throw Exception(err.str());
 	}
 }
 
@@ -2431,10 +2437,10 @@ void TOpenWAM::CalculateNewHeatPositions()
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : CalculateNewHeatPositions " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2580,10 +2586,10 @@ void TOpenWAM::CalculateDistance(int LNodoOrigen, int LNodoFin,
 
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : CalculateDistance " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2866,10 +2872,10 @@ void TOpenWAM::StudyInflowOutflowMass() {
 				}
 			}
 		} while (!masacil || !masadep || (cociente >= 2.));
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : StudyInflowOutflowMass " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2944,10 +2950,10 @@ void TOpenWAM::SearchMinimumTime(int LNumDepInicial, double *LTMinimo,
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : SearchMinimumTime : " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3016,11 +3022,11 @@ void TOpenWAM::SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito,
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : SearchMinimumTime en el deposito : "
 				<< std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3783,10 +3789,10 @@ void TOpenWAM::SolveAdjacentElements(int OneDEnd, double TiempoActual) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : SolveAdjacentElements " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3913,10 +3919,10 @@ void TOpenWAM::SolveBranch(int NumDeposito, double TiempoActual) {
 
 		Plenum[NumDeposito - 1]->UpdateProperties0DModel(TiempoActual);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : SolveBranch " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
