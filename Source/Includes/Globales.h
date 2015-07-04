@@ -53,7 +53,7 @@
 
 #define vers 1102 /*n. de version de WAM*/
 
-#define usetry 1
+//#define usetry 1
 //#define WriteINS 1
 //#define ConcentricElement 1
 //#define ParticulateFilter 1
