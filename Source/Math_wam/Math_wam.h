@@ -76,13 +76,83 @@ typedef std::vector<std::vector<bool> > bMatrix; ///< 2-dimensional boolean matr
 
 
 
-template<class T>
-inline T Sqrt(T x)
+/**
+ * @brief Computes a square root of a double.
+ *
+ * Computes @f$ \sqrt{x} @f$, x being a double.
+ *
+ * @param x The value.
+ * @return @f$ x ^ 2 @f$
+ */
+inline double Sqrt(double x)
 {
+#ifdef usetry
 	if (x < 0.)
 	{
 		throw(Exception("Sqrt of negative number."));
 	}
+#endif
+	return std::sqrt(x);
+}
+
+
+/**
+ * @brief Computes a square root of a float.
+ *
+ * Computes @f$ \sqrt{x} @f$, x being a float.
+ *
+ * @param x The value.
+ * @return @f$ x ^ 2 @f$
+ */
+inline float Sqrt(float x)
+{
+#ifdef usetry
+	if (x < 0.)
+	{
+		throw(Exception("Sqrt of negative number."));
+	}
+#endif
+	return std::sqrt(x);
+}
+
+
+/**
+ * @brief Computes a square root of a long double.
+ *
+ * Computes @f$ \sqrt{x} @f$, x being a long double.
+ *
+ * @param x The value.
+ * @return @f$ x ^ 2 @f$
+ */
+inline long double Sqrt(long double x)
+{
+#ifdef usetry
+	if (x < 0.)
+	{
+		throw(Exception("Sqrt of negative number."));
+	}
+#endif
+	return std::sqrt(x);
+}
+
+
+/**
+ * @brief Computes a square root of an integer type.
+ *
+ * Computes @f$ \sqrt{x} @f$, x being of integer type.
+ *
+ * @param x The value.
+ * @return @f$ x ^ 2 @f$
+ */
+template<class T>
+inline double Sqrt(T x)
+{
+#ifdef usetry
+	if (x < 0.)
+	{
+		throw(Exception("Sqrt of negative number."));
+	}
+#endif
 	return std::sqrt(x);
 }
 

@@ -44,8 +44,10 @@ TOpenWAM* Aplication = NULL;
 
 int main(int argc, char *argv[]) {
 
+#ifdef usetry
 	try
 	{
+#endif
 		init_labels();
 
 		Aplication = new TOpenWAM();
@@ -98,11 +100,13 @@ int main(int argc, char *argv[]) {
 		Aplication->ProgressEnd();
 
 		delete Aplication;
+#ifdef usetry
 	}
 	catch (std::exception & N)
 	{
 		std::cout << N.what() << std::endl;
 	}
+#endif
 
 	return 0;
 
