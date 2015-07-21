@@ -357,12 +357,12 @@ void TDeposito::LeeDatosGeneralesDepositosXML(xml_node node_plenum) {
 			ReadInstantaneousResultsDepXML(node_plenum);
 		if(node_plenum.child("Plm:AvgOutput"))
 			ReadAverageResultsDepXML(node_plenum);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::LeeDatosGeneralesDepositos en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1032,12 +1032,12 @@ void TDeposito::ReadInstantaneousResultsDepXML(xml_node node_plenum) {
 						<< FNumeroDeposito << " does not exist " << std::endl;
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TDeposito::ReadInstantaneousResultsDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1100,11 +1100,11 @@ void TDeposito::ReadAverageResultsDepXML(xml_node node_plenum) {
 		}
 
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TDeposito::ReadAverageResultsDep en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1393,7 +1393,7 @@ TCondicionContorno* TDeposito::GetCCDeposito(int i) {
 //		FCalculadoPaso = valor;
 //
 //	}
-//	catch(Exception & N) {
+//	catch(exception & N) {
 //		std::cout << "ERROR: TDeposito::PutCalculadoPaso en el deposito: " << FNumeroDeposito << std::endl;
 //		std::cout << "Tipo de error: " << N.what() << std::endl;
 //		throw Exception(N.what());

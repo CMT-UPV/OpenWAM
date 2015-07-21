@@ -825,11 +825,11 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 
 
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::LeeDatosGeneralesTubo en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1019,11 +1019,11 @@ void TTubo::LeeDatosGeometricosTuboXML(xml_node node_pipe, double ene,
 			FCapExt = new double[FNin];
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::LeeDatosGeometricoTubo en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -1196,7 +1196,7 @@ void TTubo::ComunicacionDPF ( TCondicionContorno **CC, TDeposito **Deposito ) {
 			}
 		}
 
-	} catch ( Exception & N ) {
+	} catch ( exception & N ) {
 		std::cout << "ERROR: TTubo::ComunicacionDPF en el Tubo " <<
 		FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
@@ -3072,11 +3072,11 @@ void TTubo::ReadAverageResultsTuboXML(xml_node node_pipe) {
 
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ReadAverageResults en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }
@@ -3444,11 +3444,11 @@ void TTubo::ReadInstantaneousResultsTuboXML(xml_node node_pipe) {
 			i++;
 		}
 #ifdef usetry
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::ReadInstantaneousResults en el tubo: "
 				<< FNumeroTubo << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 #endif
 }

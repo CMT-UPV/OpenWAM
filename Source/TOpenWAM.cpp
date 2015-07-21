@@ -1045,10 +1045,10 @@ void TOpenWAM::ReadGeneralDataXML() {
 
 		AtmosphericComposition = CompAtmosfera;
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadGeneralData" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1120,10 +1120,10 @@ void TOpenWAM::ReadEngineXML()
 
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadEngine " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1202,10 +1202,10 @@ void TOpenWAM::ReadPipesXML() {
 			printf("INFO: Pipe n. %d - N. of cells %d - Mesh size = %g m.\n",
 					id + 1, Pipe[id]->getNin(), Pipe[id]->getMallado());
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadPipes" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1481,10 +1481,10 @@ void TOpenWAM::ReadValvesXML() {
 
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadValves" << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception("ERROR: Actuators" + N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1756,10 +1756,10 @@ void TOpenWAM::ReadPlenumsXML() {
 				}
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadPlenums " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1861,10 +1861,10 @@ void TOpenWAM::ReadCompressorsXML() {
 			Compressor[ID]->ReadCompressorOutputXML(node_compressor);
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: ReadCompressors " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2922,10 +2922,10 @@ void TOpenWAM::ReadConnectionsXML() {
 			}
 		}
 	}
-	catch(Exception & N) {
+	catch(exception & N) {
 		std::cout << " ERROR : ReadConnections " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2993,10 +2993,10 @@ void TOpenWAM::ReadTurbochargerAxisXML() {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << " ERROR : ReadTurbochargerAxis " << std::endl;
-		std::cout << " Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << " Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

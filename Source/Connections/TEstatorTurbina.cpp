@@ -107,8 +107,8 @@ void TEstatorTurbina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 	} catch (Exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales StatorTurbine" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

@@ -117,12 +117,12 @@ void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect) {
 			FNumeroDepositoEst = GetAttributeAsInt(node_comp,"Outlet_ID");
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCCompresor::LeeCompresor en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

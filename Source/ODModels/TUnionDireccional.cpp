@@ -174,12 +174,12 @@ void TUnionDireccional::LeeDatosUnionDireccionalXML(xml_node node_junction) {
 		FCoefB[1] = FCDSalidaInicial[1]
 				/ (FVelocidadCorte[1] - FVelocidadFin[1]);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -139,8 +139,8 @@ void TCCUnionEntreDepositos::LeeUEDepositosXML(xml_node node_connect, bool Indep
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -815,8 +815,8 @@ void TCCUnionEntreDepositos::LeeResultadosInstantUEDXML(xml_node nodo_con) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::LeeResultadosInstantUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -934,8 +934,8 @@ void TCCUnionEntreDepositos::ReadAverageResultsUEDXML(xml_node node_con) {
 		std::cout
 				<< "ERROR: TCCUnionEntreDepositos::ReadAverageResultsUED en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

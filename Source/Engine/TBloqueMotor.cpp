@@ -1057,11 +1057,11 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		}
 		if(node_engine.child("Eng:AvgOutput"))
 			ReadAverageResultsBloqueMotorXML(node_engine);
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR : TBloqueMotor::LeeMotor en el Bloque Engine."
 				<< std::endl;
-		std::cout << "Tipo de error : " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error : " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1446,12 +1446,12 @@ void TBloqueMotor::ReadAverageResultsBloqueMotorXML(xml_node node_engine) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TBloqueMotor::ReadAverageResults en el Bloque Engine. "
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -2202,7 +2202,7 @@ double TBloqueMotor::GetDesfase(int i) {
 // try {
 // FTheta = valor;
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. " << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -2250,7 +2250,7 @@ void TBloqueMotor::PutATCEsc(double valor) {
 // FRegimen = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. " << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -2266,7 +2266,7 @@ void TBloqueMotor::PutATCEsc(double valor) {
 // FCiclo = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. " << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());

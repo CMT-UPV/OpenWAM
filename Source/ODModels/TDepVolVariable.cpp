@@ -150,8 +150,8 @@ void TDepVolVariable::LeeDatosDepVolVariableXML(xml_node node_plenum,
 		std::cout
 				<< "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: "
 				<< FNumeroCompresor << std::endl;
-//std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+//std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //---------------------------------------------------------------------------

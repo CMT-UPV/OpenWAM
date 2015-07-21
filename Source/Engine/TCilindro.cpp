@@ -1019,12 +1019,12 @@ void TCilindro::ReadAverageResultsCilindroXML(xml_node node_cyl) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::ReadAverageResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -1923,12 +1923,12 @@ void TCilindro::ReadInstantaneousResultsCilindroXML(xml_node node_cyl) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCilindro::ReadInstantaneousResultsCilindro en cilindro: "
 				<< FNumeroCilindro << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -3594,7 +3594,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FMasaFuel = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutMasaFuel en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3610,7 +3610,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FMotor->getInjectionSys().InjectPressure = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutPresionInyeccion en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3626,7 +3626,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FIN = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutNumeroInyecciones en el cilindro: " << FNumeroCilindro <<
 // std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
@@ -3643,7 +3643,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FIniComb = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutInicioComb en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3659,7 +3659,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FFinComb = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutFinComb en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3675,7 +3675,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FCalor.FQL = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutFQL en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3691,7 +3691,7 @@ void TCilindro::CalculaFuelMEP(double MasaAire) {
 // FModComb = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutModComb en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3737,7 +3737,7 @@ void TCilindro::DefineCombustion() {
 // FCalculadoPaso = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutCalculadoPaso en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -3753,7 +3753,7 @@ void TCilindro::DefineCombustion() {
 // FHaydll = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TCilindro::PutHayDLL en el cilindro: " << FNumeroCilindro << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());

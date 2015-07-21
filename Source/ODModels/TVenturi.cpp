@@ -124,11 +124,11 @@ void TVenturi::LeeDatosVenturiXML(xml_node node_venturi) {
 		if(node_venturi.child("Vtr:AvgOutput"))
 			ReadAverageResultsVenturiXML(node_venturi);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TVenturi::LeeDatosVenturi en el deposito: "
 				<< FNumeroDeposito << std::endl;
-		// std::cout << "Tipo de error: " << N.Message << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -413,7 +413,7 @@ void TVenturi::CalculaVenturi() {
 //			throw Exception("");
 //		}
 //	}
-//	catch(Exception & N) {
+//	catch(exception & N) {
 //		std::cout << "ERROR: TVenturi::PutNumeroVenturi en la Venturi " << FNumeroVenturi << std::endl;
 //		std::cout << "Tipo de error: " << N.what() << std::endl;
 //		throw Exception(N.what());
@@ -507,12 +507,12 @@ void TVenturi::LeeResultadosInstantVenturiXML(xml_node node_venturi) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TVenturi::LeeResultadosInstantVenturi en el venturi: "
 				<< FNumeroVenturi << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -785,12 +785,12 @@ void TVenturi::ReadAverageResultsVenturiXML(xml_node node_venturi) {
 						<< " no implementados " << std::endl;
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TVenturi::ReadAverageResultsVenturi en el venturi: "
 				<< FNumeroVenturi << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

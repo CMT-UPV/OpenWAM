@@ -552,12 +552,12 @@ void TTurbinaTwin::ReadAverageResultsTurbXML(xml_node node_trb) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTurbinaSimple::ReadAverageResultsTurb en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -868,12 +868,12 @@ void TTurbinaTwin::LeeResultadosInstantTurbXML(xml_node node_trb) {
 						<< std::endl;
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TTurbinaSimple::LeeResultadosInstantTurb en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

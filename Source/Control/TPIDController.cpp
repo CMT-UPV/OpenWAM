@@ -287,12 +287,12 @@ void TPIDController::LeeResultadosMedControladorXML(xml_node node_ctrl) {
 						<< " no implementados " << std::endl;
 			}
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosControlador en el controlador "
 				<< fID << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -367,12 +367,12 @@ void TPIDController::LeeResultadosInsControladorXML(xml_node node_ctrl) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosInsControlador en el controlador "
 				<< fID << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

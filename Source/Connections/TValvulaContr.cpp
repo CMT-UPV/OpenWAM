@@ -134,10 +134,10 @@ void TValvulaContr::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FCDInicial = GetAttributeAsDouble(node_controlled, "DCini");
 		FCDFinal = GetAttributeAsDouble(node_controlled, "DCfin");
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales ValvulaContr" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

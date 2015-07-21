@@ -480,12 +480,12 @@ void TCCDescargaExtremoAbierto::ReadBoundaryDataXML(xml_node node_connect,
 			printf(
 					"ERROR:TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto.Asignacion Tipo BC\n");
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCDescargaExtremoAbierto::LeeDescargaExtremoAbierto en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -496,7 +496,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryDataXML(xml_node node_connect,
 //	try {
 //		FPressure = valor;
 //	}
-//	catch(Exception & N) {
+//	catch(exception & N) {
 //		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutPresion en la condicion de contorno: " <<
 //			FNumeroCC << std::endl;
 //		std::cout << "Tipo de error: " << N.what() << std::endl;
@@ -530,7 +530,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryDataXML(xml_node node_connect,
 //		}
 //		FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / ARef;
 //	}
-//	catch(Exception & N) {
+//	catch(exception & N) {
 //		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " <<
 //			FNumeroCC << std::endl;
 //		std::cout << "Tipo de error: " << N.what() << std::endl;

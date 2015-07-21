@@ -354,12 +354,12 @@ void TSensor::LeeResultadosMedSensorXML(xml_node node_sens) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosMedSensor en el controlador "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -413,12 +413,12 @@ void TSensor::LeeResultadosInsSensorXML(xml_node node_sens) {
 			}
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TPIDController::LeeResultadosInsSensor en el Sensor "
 				<< FNumeroSensor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

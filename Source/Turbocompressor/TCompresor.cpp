@@ -309,10 +309,10 @@ void TCompresor::LeeDatosGraficasMediasXML(xml_node node_comp) {
 	} catch (Exception &N) {
 		std::cout << "ERROR: LeeDatosGraficasMedias en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeDatosGraficasMedias en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -474,10 +474,10 @@ void TCompresor::LeeDatosGraficasInstantaneasXML(xml_node node_comp) {
 	} catch (Exception &N) {
 		std::cout << "ERROR: LeeDatosGraficasMedias en el compresor: "
 				<< FNumeroCompresor << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeDatosGraficasMedias en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 

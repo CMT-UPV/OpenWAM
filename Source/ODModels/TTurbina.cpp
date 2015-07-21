@@ -523,11 +523,11 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 		if(node_turb.child("Trb:AvgOutput"))
 			ReadAverageResultsTurbXML(node_turb);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TTurbina::LeeRendimientoTurbina en la turbina "
 				<< FNumeroTurbina << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 // ---------------------------------------------------------------------------
@@ -544,7 +544,7 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 // throw Exception("");
 // }
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TTurbina::PutNumeroTurbina en la turbina " << FNumeroTurbina << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());
@@ -560,7 +560,7 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 // FRegimen = valor;
 //
 // }
-// catch(Exception & N) {
+// catch(exception & N) {
 // std::cout << "ERROR: TTurbina::PutRegimen en la turbina " << FNumeroTurbina << std::endl;
 // std::cout << "Tipo de error: " << N.what() << std::endl;
 // throw Exception(N.what());

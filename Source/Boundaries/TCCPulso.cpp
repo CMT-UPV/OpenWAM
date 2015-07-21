@@ -241,8 +241,8 @@ void TCCPulso::ReadBoundaryDataXML(xml_node node_connection,
 		std::cout
 				<< "ERROR: TCCPulso::LecturaPulso en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

@@ -350,12 +350,12 @@ void TCCUnionEntreTubos::ReadBoundaryDataXML(xml_node node_connect,
 		FEspesor = GetXMLLength(node_junction,"Thickness");
 		FConductividad = GetXMLConductivity(node_junction,"Conductivity");
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout
 				<< "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message.c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

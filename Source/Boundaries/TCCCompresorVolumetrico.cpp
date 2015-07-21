@@ -313,8 +313,8 @@ void TCCCompresorVolumetrico::ReadBoundaryDataXML(xml_node node_connect,
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condicion de contorno: "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 
 }
@@ -509,8 +509,8 @@ void TCCCompresorVolumetrico::ReadAverageResultsCVXML(xml_node node_root) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::ReadAverageResultsCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 
@@ -715,8 +715,8 @@ void TCCCompresorVolumetrico::LeeResultadosInstantCVXML(xml_node node_root) {
 		std::cout
 				<< "ERROR: TCCCompresorVolumetrico::LeeResultadosInstantCV en la BC "
 				<< FNumeroCC << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(N.Message);
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 //---------------------------------------------------------------------------

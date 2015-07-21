@@ -172,8 +172,8 @@ void TTipoValvula::LeeDatosGraficasINSXML(xml_node node_con) {
 
 	} catch (Exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
@@ -301,8 +301,8 @@ void TTipoValvula::LeeDatosGraficasMEDXML(xml_node node_con) {
 		}
 	} catch (Exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
-		//std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

@@ -121,11 +121,10 @@ void TEntradaPulso::LeeEntradaPulsoXML(xml_node node_pulse,nmTypeBC FTipoCC) {
 					<< "WARNING: El primer instante de tiempo deberia ser 0 para evitar problemas"
 					<< std::endl;
 		}
-	} catch (Exception &N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: TEntradaPulso::LeeEntradaPulso " << std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
-		throw Exception(
-				("ERROR: TEntradaPulso::LeeEntradaPulso " + N.Message).c_str());
+		std::cout << "Tipo de error: " << N.what() << std::endl;
+		throw Exception(N.what());
 	}
 }
 

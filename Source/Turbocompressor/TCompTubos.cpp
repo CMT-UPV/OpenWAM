@@ -492,13 +492,13 @@ void TCompTubos::LeeCompresorXML(xml_node node_compressor) {
 
 		Mapa2T->LeeMapaXML(node_compressor);
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeCompresor en el compresor: " << FNumeroCompresor
 				<< std::endl;
-		std::cout << "Tipo de error: " << N.Message.c_str() << std::endl;
+		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(
 				"ERROR: LeeCompresor en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.Message.c_str());
+						+ std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 // ---------------------------------------------------------------------------

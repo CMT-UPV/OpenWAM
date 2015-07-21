@@ -116,10 +116,10 @@ void TCDFijo::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		if (FActivaDiamRef) {
 			FDiametroRef = GetAttributeAsDouble(node_fixdc, "RefDiameter");
 		}
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales CDFijo" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }

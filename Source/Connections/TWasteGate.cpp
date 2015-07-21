@@ -108,7 +108,7 @@ void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		fclose(fich);
 	} catch (exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales WasteGate" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
+		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
 
 	}
@@ -148,10 +148,10 @@ void TWasteGate::LeeDatosInicialesXML(xml_node node_valve, int norden,
 			break;
 		}
 
-	} catch (Exception & N) {
+	} catch (exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales WasteGate" << std::endl;
-		// std::cout << "Tipo de error: " << N.Message.scr() << std::endl;
-		throw Exception(N.Message);
+		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
+		throw Exception(N.what());
 
 	}
 }
