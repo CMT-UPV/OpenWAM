@@ -76,6 +76,7 @@ protected:
 	RowVector FR12; ///< Gas constant at half time-step. [J / (kg * K)]
 	RowVector FGamma1_12; ///< Gamma - 1.
 	RowVector FDerLinArea_12; ///< Area derivative at half time-step. [m]
+	RowVector FArea_12; ///< Area at half cell. [m ** 2]
 	RowArray Fx1;
 	RowArray Fx2;
 	RowArray Fx3;
@@ -118,6 +119,17 @@ public:
 	 */
 	void ComputeFlux(const RowArray & U, RowArray & W,
 		const RowArray & Gamma, const RowArray & Gamma1);
+
+	/**
+	 * @brief Computes the source terms due to area change.
+	 * 
+	 * @param U State vector.
+	 * @param V Source terms.
+	 * @param A Area. [m ** 2]
+	 * @param Gamma1 Gamma - 1.
+	 */
+	void ComputeSource1(const RowArray & U, RowArray & V,
+		const RowArray & A, const RowArray & Gamma1);
 
 	/**
 	 * @brief Connects the Lax Wendroff integrator to a pipe.

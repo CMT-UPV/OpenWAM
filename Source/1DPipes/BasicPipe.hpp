@@ -68,6 +68,7 @@ protected:
 	RowArray FU0; ///< State vector at current time.
 	double FDeltaTime; ///< Time step. [s]
 	double FXref; ///< Cell size. [m]
+	RowVector FArea; ///< Cell area. [m ** 2]
 	RowVector Fhi; ///< Interior heat transfer coefficient. [W / (m ** 2 * K)]
 	RowVector Frho; ///< Density. [kg / m ** 3]
 	RowVector FRe; ///< Reynolds number.
