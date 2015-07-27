@@ -26,7 +26,7 @@
  \*--------------------------------------------------------------------------------*/
 
 /**
- * @file PipePropagator.hpp
+ * @file PipeSolver.cpp
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
  * @author Luis Miguel Garcia-Cuevas Gonzalez <farnau@mot.upv.es>
  *
@@ -48,55 +48,13 @@
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @section DESCRIPTION
- * This file declares a basic pipe propagator.
+ * This file defines a basic pipe solver.
  */
 
-#ifndef BasicPipePropagator_hpp
-#define BasicPipePropagator_hpp
+#include "PipeSolver.hpp"
 
-#include "BasicPipe.hpp"
-#include "Math_wam.h"
-
-/**
- * @brief A pipe propagator prototype.
- * 
- * It is used for time-integrating the flow inside a pipe.
- */
-class TBasicPipePropagator
+void TPipeSolver::Connect(TBasicPipe * pipe)
 {
-protected:
-	TBasicPipe * FPipe; ///< Pipe that uses the propagator.
-public:
-	/**
-	 * @brief Default constructor.
-	 * 
-	 * Initialises the propagator with default values.
-	 */
-	TBasicPipePropagator();
-
-	/**
-	 * @brief Constructor.
-	 * 
-	 * Initialises the propagator and attaches it to a pipe.
-	 * 
-	 * @param pipe Pipe to attach to.
-	 */
-	TBasicPipePropagator(TBasicPipe * pipe);
-
-
-	/**
-	 * @brief Connects the propagator to a pipe.
-	 * 
-	 * @param pipe Pipe to connect to.
-	 */
-	virtual void Connect(TBasicPipe * pipe);
-
-	/**
-	 * @brief Integrate the flow.
-	 * 
-	 * Integrates the flow evolution inside the duct.
-	 */
-	virtual void Propagate() = 0;
-};
-
-#endif
+	FPipe = pipe;
+	pipe->FSolver = this;
+}

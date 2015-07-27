@@ -26,7 +26,7 @@
  \*--------------------------------------------------------------------------------*/
 
 /**
- * @file BasicPipe.hpp
+ * @file PipeSolver.hpp
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
  * @author Luis Miguel Garcia-Cuevas Gonzalez <farnau@mot.upv.es>
  *
@@ -48,27 +48,55 @@
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @section DESCRIPTION
- * This file declares a basic one-dimensional pipe.
+ * This file declares a basic pipe solver.
  */
 
-#ifndef BasicPipe_hpp
-#define BasicPipe_hpp
+#ifndef PipeSolver_hpp
+#define PipeSolver_hpp
 
+#include "BasicPipe.hpp"
 #include "Math_wam.h"
 
-class TPipeSolver;
-class TLaxWendroff;
-
-
-class TBasicPipe
+/**
+ * @brief A pipe solver prototype.
+ * 
+ * It is used for time-integrating the flow inside a pipe.
+ */
+class TPipeSolver
 {
-friend class TPipeSolver;
-friend class TLaxWendroff;
 protected:
-	RowArray FU0; ///< State vector at current time.
-	TPipeSolver * FSolver; ///< Pipe solver.
+	TBasicPipe * FPipe; ///< Pipe that uses the propagator.
 public:
-    TBasicPipe();
+	/**
+	 * @brief Default constructor.
+	 * 
+	 * Initialises the solver with default values.
+	 */
+	TPipeSolver();
+
+	/**
+	 * @brief Constructor.
+	 * 
+	 * Initialises the solver and attaches it to a pipe.
+	 * 
+	 * @param pipe Pipe to attach to.
+	 */
+	TPipeSolver(TBasicPipe * pipe);
+
+
+	/**
+	 * @brief Connects the solver to a pipe.
+	 * 
+	 * @param pipe Pipe to connect to.
+	 */
+	virtual void Connect(TBasicPipe * pipe);
+
+	/**
+	 * @brief Integrate the flow.
+	 * 
+	 * Integrates the flow evolution inside the duct.
+	 */
+	virtual void Solve() = 0;
 };
 
 #endif

@@ -56,7 +56,7 @@
 #define LaxWendroff_hpp
 
 #include "BasicPipe.hpp"
-#include "BasicPipePropagator.hpp"
+#include "PipeSolver.hpp"
 #include "Math_wam.h"
 
 /**
@@ -65,7 +65,7 @@
  * A two-steps Lax Wendroff integrator.  It is second order-accurate in both
  * time and space.
  */
-class TLaxWendroff: public TBasicPipePropagator
+class TLaxWendroff: public TPipeSolver
 {
 protected:
 	RowVector Fhi12;
@@ -83,6 +83,7 @@ protected:
 	RowArray Fx2_12;
 	RowArray Fx3_12;
 	RowArray Fx4_12;
+	RowArray FU_12;
 public:
 	/**
 	 * @brief Default constructor.
@@ -112,7 +113,7 @@ public:
 	 * 
 	 * Integrates the flow evolution inside the duct.
 	 */
-	virtual void Propagate();
+	void Solve();
 };
 
 #endif

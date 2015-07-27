@@ -63,9 +63,8 @@ TLaxWendroff::TLaxWendroff(TBasicPipe * pipe)
 }
 
 
-void TLaxWendroff::Connect(TBasicPipe * pipe)
-{
-	TBasicPipePropagator::Connect(pipe);
+void TLaxWendroff::Connect(TBasicPipe * pipe) {
+	TPipeSolver::Connect(pipe);
 	int m = pipe->FU0.rows();
 	int n = pipe->FU0.cols();
 	n -= 1;
@@ -80,6 +79,7 @@ void TLaxWendroff::Connect(TBasicPipe * pipe)
 	Fx2.setZero(m, n);
 	Fx3.setZero(m, n);
 	Fx4.setZero(m, n);
+	FU_12.setZero(m, n);
 	n -= 1;
 	Fx1_12.setZero(m, n);
 	Fx2_12.setZero(m, n);
@@ -88,4 +88,5 @@ void TLaxWendroff::Connect(TBasicPipe * pipe)
 }
 
 
-void TLaxWendroff::Propagate() {}
+void TLaxWendroff::Solve() {
+}

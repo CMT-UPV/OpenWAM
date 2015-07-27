@@ -2,5 +2,5 @@ add_library(
   1DPipes
   TTubo.cpp
   BasicPipe.cpp
-  BasicPipePropagator.cpp
+  PipeSolver.cpp
   LaxWendroff.cpp)
