@@ -68,13 +68,14 @@
 class TLaxWendroff: public TPipeSolver
 {
 protected:
-	RowVector Fhi12;
-	RowVector Frho12;
-	RowVector FRe12;
-	RowVector FTPTubo12;
-	RowVector FGamma12;
-	RowVector FRmezcla12;
-	RowVector FGamma1_12;
+	RowVector Fhi12; ///< Internal heat transfer coefficient at half time-step.
+	RowVector Frho12; ///< Density at half time-step. [kg / m ** 3]
+	RowVector FRe12; ///< Reynolds number at half time-step.
+	RowVector FTWPipe12; ///< Wall temperature at half time-step. [K]
+	RowVector FGamma12; ///< Heat capacities ratio at half time-step.
+	RowVector FR12; ///< Gas constant at half time-step. [J / (kg * K)]
+	RowVector FGamma1_12; ///< Gamma - 1.
+	RowVector FDerLinArea_12; ///< Area derivative at half time-step. [m]
 	RowArray Fx1;
 	RowArray Fx2;
 	RowArray Fx3;
@@ -83,7 +84,13 @@ protected:
 	RowArray Fx2_12;
 	RowArray Fx3_12;
 	RowArray Fx4_12;
-	RowArray FU_12;
+	RowArray FW; ///< Flux vector;
+	RowArray FV1; ///< Source terms due to area.
+	RowArray FV2; ///< Source terms due to friction and heat.
+	RowArray FU_12; ///< State vector at half time-step.
+	RowArray FW_12; ///< Flux vector at half time-step.
+	RowArray FV1_12; ///< Source terms due to area at half time-step.
+	RowArray FV2_12; ///< Source terms due to friction and heat at half time-step.
 public:
 	/**
 	 * @brief Default constructor.

@@ -66,6 +66,17 @@ friend class TPipeSolver;
 friend class TLaxWendroff;
 protected:
 	RowArray FU0; ///< State vector at current time.
+	double FDeltaTime; ///< Time step. [s]
+	double FXref; ///< Cell size. [m]
+	RowVector Fhi; ///< Interior heat transfer coefficient. [W / (m ** 2 * K)]
+	RowVector Frho; ///< Density. [kg / m ** 3]
+	RowVector FRe; ///< Reynolds number.
+	RowVector FDerLinArea; ///< First derivative of the area. [m]
+	RowArray FTWPipe; ///< Pipe wall temperature. [K]
+	RowArray FGamma; ///< Specific heat capacities ratio.
+	RowArray FR; ///< Gas constant. [J / (kg * K)]
+	RowArray FGamma1; ///< Gamma - 1.
+	RowArray FU1; ///< State vector at next time-step.
 	TPipeSolver * FSolver; ///< Pipe solver.
 public:
     TBasicPipe();
