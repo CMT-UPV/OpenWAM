@@ -81,7 +81,7 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 		{
 			W(0, i) = 0.;
 			W(2, i) = 0.;
-			W.block(3, i, m - 3, 1) = 0.;
+			W.block(3, i, m - 3, 1).setZero();
 		}
 	}
 }
