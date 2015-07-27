@@ -63,8 +63,11 @@
 #include <limits>
 #include <iostream>
 #include "Globales.h"
+#include <Eigen/Dense>
+
 
 using namespace std;
+using namespace Eigen;
 
 typedef unsigned int Uint; ///< Unsigned integer
 typedef std::vector<double> dVector; ///< Double vector
@@ -73,6 +76,11 @@ typedef std::vector<int> iVector; ///< Integer vector
 typedef std::vector<std::vector<int> > iMatrix; ///< 2-dimensional integer matrix
 typedef std::vector<bool> bVector; ///< Boolean vector
 typedef std::vector<std::vector<bool> > bMatrix; ///< 2-dimensional boolean matrix
+typedef Array<double, Dynamic, 1, ColMajor, 200, 1> ColVector; ///< Column vector.
+typedef Array<double, 1, Dynamic, RowMajor, 1, 200> RowVector; ///< Row vector.
+typedef Array<double, Dynamic, Dynamic, ColMajor, 100, 100> ColArray; ///< Column major array.
+typedef Array<double, Dynamic, Dynamic, RowMajor, 100, 100> RowArray; ///< Row major array.
+typedef RowArray dArray;
 
 double Interpola(double vizq, double vder, double axid, double xif);
 
@@ -779,6 +787,134 @@ struct LUdcmp {
 
 	dMatrix &aref;
 };
+
+
+/**
+ * @brief Computes pow element-wise.
+ * 
+ * Computes pow element-wise for ArrayXd inputs.
+ * 
+ * @param X The base.
+ * @param Y The exponent.
+ * @return The value of computing @f$ X ^ Y @f$ element-wise.
+ */
+ArrayXd pow(const ArrayXd &X, const ArrayXd &Y);
+
+
+/**
+ * @brief One-dimensional linear interpolator.
+ * 
+ * Returns the one-dimensional piecewise linear interpolation to a function
+ * with given values at discrete data-points.
+ * 
+ * @param X The known data points.
+ * @param Y The values for the known data points.
+ * @param x The point where a value is required.
+ * @return The interpolated value.
+ */
+double linear_interp(const dVector& X, const dVector& Y, double x);
+
+
+/**
+ * @brief One-dimensional periodic linear interpolator.
+ * 
+ * Returns the one-dimensional piecewise linear interpolation to a function
+ * with given values at discrete data-points.  The function is supposed to
+ * behave periodic.
+ * 
+ * @param X The known data points.
+ * @param Y The values for the known data points.
+ * @param x The point where a value is required.
+ * @return The interpolated value.
+ */
+double periodic_linear_interp(const dVector& X, const dVector& Y,
+	double x);
+
+/**
+ * @brief Copy the data from an Eigen ArrayXd to a dVector.
+ * 
+ * Copies the data from an Eigen ArrayXd to a dVector.  Useful for using
+ * an Eigen array with the dVector interpolators.
+ * 
+ * @param X The ArrayXd to copy.
+ * @return dVector with the copied data.
+ */
+dVector CopyArrayXdTodVector(const ArrayXd & X);
+
+
+/**
+ * @brief Copy the data from a dVector to an Eigen ArrayXd.
+ * 
+ * Copies the data from a dVector to an Eigen ArrayXd.  Useful for using
+ * an Eigen array with the dVector interpolators.
+ * 
+ * @param X The dVector to copy.
+ * @return Eigen ArrayXd with the copied data.
+ */
+ArrayXd CopydVectorToArrayXd(const dVector & X);
+
+
+/**
+ * @brief Copy the data from a raw array to an Eigen ArrayXd.
+ * 
+ * Copies the data from a raw array to an Eigen ArrayXd.
+ * 
+ * @param X The raw array to copy.
+ * @param size Array size.
+ * @return Eigen ArrayXd with the copied data.
+ */
+ArrayXd CopyRawArrayToArrayXd(double *X, int size);
+
+
+/**
+ * @brief Copy the data from a raw array to a ColVector.
+ * 
+ * Copies the data from a raw array to a ColVector.
+ * 
+ * @param X The raw array to copy.
+ * @param size Array size.
+ * @return ColVector with the copied data.
+ */
+ColVector CopyRawArrayToColVector(double *X, int size);
+
+
+/**
+ * @brief Copy the data from a raw array to a RowVector.
+ * 
+ * Copies the data from a raw array to RowVector.
+ * 
+ * @param X The raw array to copy.
+ * @param size Array size.
+ * @return RowVector with the copied data.
+ */
+RowVector CopyRawArrayToRowVector(double *X, int size);
+
+
+/**
+ * @brief Copy the data from a raw array to an Eigen ArrayXXd.
+ * 
+ * Copies the data from a raw array to an Eigen ArrayXd.
+ * 
+ * @param X The raw array to copy.
+ * @param x_size First axis size.
+ * @param y_size Second axis size.
+ * @return Eigen ArrayXXd with the copied data.
+ */
+ArrayXXd CopyRawArrayToArrayXXd(double **X, int x_size, int y_size);
+
+
+/**
+ * @brief Copy the data from a raw array to a dArray.
+ * 
+ * Copies the data from a raw array to a dArray.
+ * 
+ * @param X The raw array to copy.
+ * @param x_size First axis size.
+ * @param y_size Second axis size.
+ * @return dArray with the copied data.
+ */
+dArray CopyRawArrayTodArray(double **X, int x_size, int y_size);
+
 
 #endif
 
