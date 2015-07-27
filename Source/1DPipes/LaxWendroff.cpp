@@ -63,6 +63,20 @@ TLaxWendroff::TLaxWendroff(TBasicPipe * pipe)
 }
 
 
+void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
+	const RowArray & Gamma, const RowArray & Gamma1)
+{
+	int m = U.rows();
+	RowVector U1U0 = U.row(1) / (U.row(0) + 1E-10);
+
+	W.row(0) = U.row(1);
+	W.row(1) = U.row(2) * Gamma1 - (Gamma - 3.) * U.row(1) * U1U0 / 2.;
+	W.row(2) = Gamma * U.row(2) * U1U0 - Gamma1 * U.row(1) * pow2(U1U0) / 2.;
+	W.bottomRows(m - 3) = U.bottomRows(m - 3).rowwise() * U1U0;
+}
+
+
+
 void TLaxWendroff::Connect(TBasicPipe * pipe) {
 	TPipeSolver::Connect(pipe);
 	int m = pipe->FU0.rows();
@@ -100,6 +114,8 @@ void TLaxWendroff::Solve() {
 	double dtdx = FPipe->FDeltaTime / FPipe->FXref;
 	double dt2 = FPipe->FDeltaTime / 2.;
 
+	ComputeFlux(FPipe->FU0, FW, FPipe->FGamma, FPipe->FGamma1);
+
 	Fx1 = FPipe->FU0.leftCols(n) + FPipe->FU0.rightCols(n);
 	Fx2 = -dtdx * (FW.rightCols(n) - FW.leftCols(n));
 	Fx3 = (FV1.rightCols(n) + FV1.leftCols(n)).rowwise() * FPipe->FDerLinArea * (-dt2);
@@ -115,7 +131,9 @@ void TLaxWendroff::Solve() {
 	FR12 = (FPipe->FR.leftCols(n) + FPipe->FR.rightCols(n)) / 2.;
 	FGamma1_12 = (FPipe->FGamma1.leftCols(n) + FPipe->FGamma1.rightCols(n)) / 2.;
 
+	ComputeFlux(FU_12, FW_12, FGamma12, FGamma1_12);
 	n -= 1;
+
 	Fx1_12 = FPipe->FU0.block(0, 1, m, n);
 	Fx2_12 = -dtdx * (FW_12.rightCols(n) - FW_12.leftCols(n));
 	Fx3_12 = (FV1_12.rightCols(n) + FV1_12.leftCols(n)).rowwise()

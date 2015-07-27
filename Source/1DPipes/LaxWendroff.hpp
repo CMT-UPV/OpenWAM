@@ -109,6 +109,17 @@ public:
 	TLaxWendroff(TBasicPipe * pipe);
 
 	/**
+	 * @brief Computes the flux vector.
+	 * 
+	 * @param U State vector.
+	 * @param W Flux vector.
+	 * @param Gamma Specific heat capacities ratio.
+	 * @param Gamma1 Specific heat capacities ratio minus 1.
+	 */
+	void ComputeFlux(const RowArray & U, RowArray & W,
+		const RowArray & Gamma, const RowArray & Gamma1);
+
+	/**
 	 * @brief Connects the Lax Wendroff integrator to a pipe.
 	 * 
 	 * @param pipe Pipe to connect to.
