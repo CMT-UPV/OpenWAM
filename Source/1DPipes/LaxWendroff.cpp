@@ -67,12 +67,23 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 	const RowArray & Gamma, const RowArray & Gamma1)
 {
 	int m = U.rows();
+	int n = U.cols();
 	RowVector U1U0 = U.row(1) / (U.row(0) + 1E-10);
 
 	W.row(0) = U.row(1);
 	W.row(1) = U.row(2) * Gamma1 - (Gamma - 3.) * U.row(1) * U1U0 / 2.;
 	W.row(2) = Gamma * U.row(2) * U1U0 - Gamma1 * U.row(1) * pow2(U1U0) / 2.;
 	W.bottomRows(m - 3) = U.bottomRows(m - 3).rowwise() * U1U0;
+
+	for (int i = 0; i < n; i++)
+	{
+		if (DoubEqZero(U(1, i)))
+		{
+			W(0, i) = 0.;
+			W(2, i) = 0.;
+			W.block(3, i, m - 3, 1) = 0.;
+		}
+	}
 }
 
 
