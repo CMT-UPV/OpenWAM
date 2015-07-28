@@ -132,6 +132,24 @@ public:
 		const RowVector & A, const RowVector & Gamma1);
 
 	/**
+	 * @brief Computes the source terms due to friction and heat transfer.
+	 * 
+	 * @param U State vector.
+	 * @param V Source terms.
+	 * @param A Area. [m ** 2]
+	 * @param h Internal heat transfer coefficient. [W / (m ** 2 * K)]
+	 * @param rho Density. [kg / (m ** 3)]
+	 * @param Re Reynolds number.
+	 * @param Twall Wall temperature. [K]
+	 * @param Gamma Specific heat capacities ratio.
+	 * @param R Gas constant. [J / (kg * K)]
+	 * @param Gamma1 Gamma - 1.
+	 */
+	void ComputeSource2(const RowArray & U, RowArray & V,
+		const RowVector & A, const RowVector & h, const RowVector & rho,
+		const RowVector & Re, const RowVector & TWall, const RowVector & Gamma1);
+
+	/**
 	 * @brief Connects the Lax Wendroff integrator to a pipe.
 	 * 
 	 * @param pipe Pipe to connect to.

@@ -87,6 +87,36 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 }
 
 
+void TLaxWendroff::ComputeSource2(const RowArray & U, RowArray & V,
+	const RowVector & A, const RowVector & h,
+	const RowVector & rho, const RowVector & Re,
+	const RowVector & TWall, const RowVector & Gamma1)
+{
+	V.setZero();
+	if (!DoubEqZero(FPipe->FCoefAjusFric))
+	{
+		double v = 0.;
+		double d = 0.;
+		double f = 0.;
+		for (int i = 0; i < U.cols(); i++)
+		{
+			v = U(1, i) / U(0, i);
+			if (!DoubEqZero(v))
+			{
+				d = sqrt(A(i) * 4. / Pi);
+				f = FPipe->Colebrook(FPipe->FFriction, d, Re(i));
+				V(1, i) = U(0, i) * v * v * v / fabs(v) * 2 / d
+					* FPipe->FCoefAjusFric;
+			}
+		}
+	}
+	if (!DoubEqZero(FPipe->FCoefAjusTC))
+	{
+	}
+}
+
+
+
 void TLaxWendroff::ComputeSource1(const RowArray & U, RowArray & V,
 	const RowVector & A, const RowVector & Gamma1)
 {
