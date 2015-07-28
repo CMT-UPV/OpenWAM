@@ -72,7 +72,7 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 
 	W.row(0) = U.row(1);
 	W.row(1) = U.row(2) * Gamma1 - (Gamma - 3.) * U.row(1) * U1U0 / 2.;
-	W.row(2) = Gamma * U.row(2) * U1U0 - Gamma1 * U.row(1) * pow2(U1U0) / 2.;
+	W.row(2) = Gamma * U.row(2) * U1U0 - Gamma1 * U.row(1) * U1U0.square() / 2.;
 	W.bottomRows(m - 3) = U.bottomRows(m - 3).rowwise() * U1U0;
 
 	for (int i = 0; i < n; i++)
@@ -86,11 +86,12 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 	}
 }
 
+
 void TLaxWendroff::ComputeSource1(const RowArray & U, RowArray & V,
 			     const RowArray & A, const RowArray & Gamma1)
 {
 	V.setZero();
-	V.row(1) = - (U.row(2) - U.row(1) * U.row(1) / (U.row(0) + 1E-10) / 2.)
+	V.row(1) = - (U.row(2) - U.row(1).square() / (U.row(0) + 1E-10) / 2.)
 		* Gamma1 / A;
 	for (int i = 0; i < U.cols(); i++)
 	{
