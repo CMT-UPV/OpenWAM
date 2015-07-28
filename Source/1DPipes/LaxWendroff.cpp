@@ -64,7 +64,7 @@ TLaxWendroff::TLaxWendroff(TBasicPipe * pipe)
 
 
 void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
-	const RowArray & Gamma, const RowArray & Gamma1)
+	const RowVector & Gamma, const RowVector & Gamma1)
 {
 	int m = U.rows();
 	int n = U.cols();
@@ -88,7 +88,7 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 
 
 void TLaxWendroff::ComputeSource1(const RowArray & U, RowArray & V,
-			     const RowArray & A, const RowArray & Gamma1)
+	const RowVector & A, const RowVector & Gamma1)
 {
 	V.setZero();
 	V.row(1) = - (U.row(2) - U.row(1).square() / (U.row(0) + 1E-10) / 2.)

@@ -118,7 +118,7 @@ public:
 	 * @param Gamma1 Specific heat capacities ratio minus 1.
 	 */
 	void ComputeFlux(const RowArray & U, RowArray & W,
-		const RowArray & Gamma, const RowArray & Gamma1);
+		const RowVector & Gamma, const RowVector & Gamma1);
 
 	/**
 	 * @brief Computes the source terms due to area change.
@@ -129,7 +129,7 @@ public:
 	 * @param Gamma1 Gamma - 1.
 	 */
 	void ComputeSource1(const RowArray & U, RowArray & V,
-		const RowArray & A, const RowArray & Gamma1);
+		const RowVector & A, const RowVector & Gamma1);
 
 	/**
 	 * @brief Connects the Lax Wendroff integrator to a pipe.
