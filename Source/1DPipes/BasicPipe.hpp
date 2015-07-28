@@ -78,9 +78,22 @@ protected:
 	RowArray FR; ///< Gas constant. [J / (kg * K)]
 	RowArray FGamma1; ///< Gamma - 1.
 	RowArray FU1; ///< State vector at next time-step.
+	double FCoefAjusFric; ///< Friction fitting coefficient.
+	double FCoefAjusTC; ///< Heat transfer fitting coefficient.
+	double FFriction; ///< Pipe friction.
 	TPipeSolver * FSolver; ///< Pipe solver.
 public:
     TBasicPipe();
+
+	/**
+	 * @brief Colebrook friction coefficient.
+	 * 
+	 * @param rug Pipe rugosity.
+	 * @param d Pipe diameter.
+	 * @param Re Reynolds number.
+	 * @return Colebrook friction coefficient.
+	 */
+	double Colebrook(double rug, double d, double Re) const;
 };
 
 #endif
