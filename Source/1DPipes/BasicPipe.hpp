@@ -118,7 +118,7 @@ public:
 	 * @param T Temperature. [K]
 	 * @param u Flow speed. [m / s]
 	 */
-	virtual void set_pTu(double p, double T, double u);
+	virtual void SetPTU(double p, double T, double u);
 
 	/**
 	 * @brief Gets the pipe pressure vector.

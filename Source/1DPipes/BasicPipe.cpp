@@ -99,7 +99,7 @@ double TBasicPipe::Colebrook(double rug, double d, double Re) const
 }
 
 
-void TBasicPipe::set_pTu(double p, double T, double u)
+void TBasicPipe::SetPTU(double p, double T, double u)
 {
 	FMethod->SetPTU(p, T, u);
 }
