@@ -26,9 +26,9 @@
  \*--------------------------------------------------------------------------------*/
 
 /**
- * @file PipeSolver.cpp
+ * @file PipeMethod.hpp
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
- * @author Luis Miguel Garcia-Cuevas Gonzalez <farnau@mot.upv.es>
+ * @author Luis Miguel Garcia-Cuevas Gonzalez <luismiguelgcg@mot.upv.es>
  *
  * @section LICENSE
  *
@@ -48,13 +48,43 @@
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @section DESCRIPTION
- * This file defines a basic pipe solver.
+ * This file declares a pipe computation method.
  */
 
-#include "PipeSolver.hpp"
+#ifndef PipeMethod_hpp
+#define PipeMethod_hpp
 
-void TPipeSolver::Connect(TBasicPipe * pipe)
+#include "BasicPipeMethod.hpp"
+#include "BasicPipe.hpp"
+
+
+/**
+ * @brief A pipe computation method prototype.
+ * 
+ * It is used for time-integrating the flow inside a pipe, and for computing
+ * some of the flow properties.
+ */
+class TPipeMethod: public TBasicPipeMethod
 {
-	FPipe = pipe;
-	pipe->FSolver = this;
-}
+public:
+	/**
+	 * @brief Default constructor for the pipe computation method.
+	 */
+	TPipeMethod();
+
+	/**
+	 * @brief Connects the method to a pipe.
+	 * 
+	 * @param pipe Pipe to connect to.
+	 */
+	virtual void Connect(TBasicPipe * pipe);
+
+	/**
+	 * @brief Integrate the flow.
+	 * 
+	 * Integrates the flow evolution inside the duct.
+	 */
+	virtual void Solve();
+};
+
+#endif

@@ -55,14 +55,14 @@
 #define BasicPipe_hpp
 
 #include "Math_wam.h"
+#include "BasicPipeMethod.hpp"
 
-class TPipeSolver;
 class TLaxWendroff;
 
 
 class TBasicPipe
 {
-friend class TPipeSolver;
+friend class TBasicPipeMethod;
 friend class TLaxWendroff;
 protected:
 	RowArray FU0; ///< State vector at current time.
@@ -76,14 +76,21 @@ protected:
 	RowArray FTWPipe; ///< Pipe wall temperature. [K]
 	RowArray FGamma; ///< Specific heat capacities ratio.
 	RowArray FR; ///< Gas constant. [J / (kg * K)]
+	RowArray Fcv; ///< Specific heat capacity at constant volume. [J / (kg * K)]
+	RowArray Fcp; ///< Specific heat capacity at constant pressure. [J / (kg * K)]
 	RowArray FGamma1; ///< Gamma - 1.
 	RowArray FU1; ///< State vector at next time-step.
+	RowVector Fpressure; ///< Pressure vector. [Pa]
+	RowVector Ftemperature; ///< Temperature vector. [K]
+	RowVector Fspeed; ///< Flow speed vector. [m / s]
 	double FCoefAjusFric; ///< Friction fitting coefficient.
 	double FCoefAjusTC; ///< Heat transfer fitting coefficient.
 	double FFriction; ///< Pipe friction.
-	TPipeSolver * FSolver; ///< Pipe solver.
 public:
     TBasicPipe();
+	
+	TBasicPipe(const RowVector & Area, const RowVector & rho,
+		const RowVector & p, const RowVector & u);
 
 	/**
 	 * @brief Colebrook friction coefficient.
@@ -94,6 +101,50 @@ public:
 	 * @return Colebrook friction coefficient.
 	 */
 	double Colebrook(double rug, double d, double Re) const;
+
+	/**
+	 * @brief Integrate the flow.
+	 * 
+	 * Integrates the flow evolution inside the duct.
+	 */
+	virtual void Solve();
+
+	/**
+	 * @brief Sets the state vector.
+	 * 
+	 * Sets the state vector with a given pressure, temperature and flow speed.
+	 * 
+	 * @param p Pressure. [Pa]
+	 * @param T Temperature. [K]
+	 * @param u Flow speed. [m / s]
+	 */
+	virtual void set_pTu(double p, double T, double u);
+
+	/**
+	 * @brief Gets the pipe pressure vector.
+	 * 
+	 * @return The pipe pressure vector. [Pa]
+	 */
+	RowVector getPressure() const;
+
+	/**
+	 * @brief Gets the pipe pressure at a given cell.
+	 * 
+	 * @param i Cell number.
+	 * @return The pipe pressure at a given cell. [Pa]
+	 */
+	double getPressure(unsigned int i) const;
+
+	/**
+	 * @brief Gets the pipe pressure at a given distance from the inlet.
+	 * 
+	 * @param x Distance from the inlet. [m]
+	 * @return The pipe pressure at a given point. [Pa]
+	 */
+	double getPressure(double x) const;
+
+	TBasicPipeMethod * FMethod; ///< Pipe computation method.
 };
+
 
 #endif

@@ -56,7 +56,7 @@
 #define LaxWendroff_hpp
 
 #include "BasicPipe.hpp"
-#include "PipeSolver.hpp"
+#include "PipeMethod.hpp"
 #include "Math_wam.h"
 
 /**
@@ -65,7 +65,7 @@
  * A two-steps Lax Wendroff integrator.  It is second order-accurate in both
  * time and space.
  */
-class TLaxWendroff: public TPipeSolver
+class TLaxWendroff: public TPipeMethod
 {
 protected:
 	RowVector Fhi12; ///< Internal heat transfer coefficient at half time-step.
@@ -162,6 +162,22 @@ public:
 	 * Integrates the flow evolution inside the duct.
 	 */
 	void Solve();
+
+	/**
+	 * @brief Sets the state vector.
+	 * 
+	 * Sets the state vector with a given pressure, temperature and flow speed.
+	 * 
+	 * @param p Pressure. [Pa]
+	 * @param T Temperature. [K]
+	 * @param u Flow speed. [m / s]
+	 */
+	virtual void SetPTU(double p, double T, double u);
+
+	/**
+	 * @brief Updates the flow variables with the current state vector values.
+	 */
+	virtual void UpdateFlowVariables();
 };
 
 #endif

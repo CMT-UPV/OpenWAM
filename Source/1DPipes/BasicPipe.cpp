@@ -97,3 +97,34 @@ double TBasicPipe::Colebrook(double rug, double d, double Re) const
 
 	return f;
 }
+
+
+void TBasicPipe::set_pTu(double p, double T, double u)
+{
+	FMethod->SetPTU(p, T, u);
+}
+
+
+RowVector TBasicPipe::getPressure() const
+{
+	return Fpressure;
+}
+
+
+double TBasicPipe::getPressure(unsigned int i) const
+{
+	if (i < Fpressure.size())
+	{
+		return Fpressure(i);
+	}
+	else
+	{
+		return Fpressure.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getPressure(double x) const
+{
+
+}

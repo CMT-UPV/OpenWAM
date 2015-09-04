@@ -26,9 +26,9 @@
  \*--------------------------------------------------------------------------------*/
 
 /**
- * @file PipeSolver.hpp
+ * @file BasicPipeMethod.hpp
  * @author Francisco Jose Arnau <farnau@mot.upv.es>
- * @author Luis Miguel Garcia-Cuevas Gonzalez <farnau@mot.upv.es>
+ * @author Luis Miguel Garcia-Cuevas Gonzalez <luismiguelgcg@mot.upv.es>
  *
  * @section LICENSE
  *
@@ -48,48 +48,34 @@
  * along with OpenWAM.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @section DESCRIPTION
- * This file declares a basic pipe solver.
+ * This file declares a pure virtual pipe computation method.
  */
 
-#ifndef PipeSolver_hpp
-#define PipeSolver_hpp
+#ifndef BasicPipeMethod_hpp
+#define BasicPipeMethod_hpp
 
-#include "BasicPipe.hpp"
 #include "Math_wam.h"
 
+
+class TBasicPipe;
+
 /**
- * @brief A pipe solver prototype.
+ * @brief A pure virtual pipe computation method prototype.
  * 
- * It is used for time-integrating the flow inside a pipe.
+ * It is used for time-integrating the flow inside a pipe, and for computing
+ * some of the flow properties.
  */
-class TPipeSolver
+class TBasicPipeMethod
 {
 protected:
-	TBasicPipe * FPipe; ///< Pipe that uses the propagator.
+	TBasicPipe * FPipe; ///< Pipe that uses the method.
 public:
 	/**
-	 * @brief Default constructor.
-	 * 
-	 * Initialises the solver with default values.
-	 */
-	TPipeSolver();
-
-	/**
-	 * @brief Constructor.
-	 * 
-	 * Initialises the solver and attaches it to a pipe.
-	 * 
-	 * @param pipe Pipe to attach to.
-	 */
-	TPipeSolver(TBasicPipe * pipe);
-
-
-	/**
-	 * @brief Connects the solver to a pipe.
+	 * @brief Connects the method to a pipe.
 	 * 
 	 * @param pipe Pipe to connect to.
 	 */
-	virtual void Connect(TBasicPipe * pipe);
+	virtual void Connect(TBasicPipe * pipe) = 0;
 
 	/**
 	 * @brief Integrate the flow.
@@ -97,6 +83,22 @@ public:
 	 * Integrates the flow evolution inside the duct.
 	 */
 	virtual void Solve() = 0;
+
+	/**
+	 * @brief Sets the state vector.
+	 * 
+	 * Sets the state vector with a given pressure, temperature and flow speed.
+	 * 
+	 * @param p Pressure. [Pa]
+	 * @param T Temperature. [K]
+	 * @param u Flow speed. [m / s]
+	 */
+	virtual void SetPTU(double p, double T, double u) = 0;
+
+	/**
+	 * @brief Updates the flow variables with the current state vector values.
+	 */
+	virtual void UpdateFlowVariables() = 0;
 };
 
 #endif

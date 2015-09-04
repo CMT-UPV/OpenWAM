@@ -134,7 +134,7 @@ void TLaxWendroff::ComputeSource1(const RowArray & U, RowArray & V,
 
 
 void TLaxWendroff::Connect(TBasicPipe * pipe) {
-	TPipeSolver::Connect(pipe);
+	TPipeMethod::Connect(pipe);
 	int m = pipe->FU0.rows();
 	int n = pipe->FU0.cols();
 	FW.setZero(m, n);
@@ -201,4 +201,13 @@ void TLaxWendroff::Solve() {
 		* FDerLinArea_12 * (-dt2);
 	Fx4_12 = -dt2 * (FV2_12.rightCols(n) + FV2_12.leftCols(n));
 	FPipe->FU1.block(0, 1, m, n) = Fx1_12 + Fx2_12 + Fx3_12 + Fx4_12;
+}
+
+
+void TLaxWendroff::SetPTU(double p, double T, double u)
+{
+	RowVector rhoA = p / (FPipe->FR * T) * FPipe->FArea;
+	FPipe->FU0.row(0) = rhoA;
+	FPipe->FU0.row(1) = rhoA * u;
+	FPipe->FU0.row(2) = rhoA * FPipe->Fcv * T + rhoA * u * u / 2.;
 }
