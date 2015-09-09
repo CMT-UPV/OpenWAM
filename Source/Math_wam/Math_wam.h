@@ -816,6 +816,20 @@ double linear_interp(const dVector& X, const dVector& Y, double x);
 
 
 /**
+ * @brief One-dimensional linear interpolator.
+ * 
+ * Returns the one-dimensional piecewise linear interpolation to a function
+ * with given values at discrete data-points. RowVector version.
+ * 
+ * @param X The known data points.
+ * @param Y The values for the known data points.
+ * @param x The point where a value is required.
+ * @return The interpolated value.
+ */
+double linear_interp(const RowVector & X, const RowVector & Y, double x);
+
+
+/**
  * @brief One-dimensional periodic linear interpolator.
  * 
  * Returns the one-dimensional piecewise linear interpolation to a function

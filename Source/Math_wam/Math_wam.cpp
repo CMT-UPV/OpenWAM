@@ -428,6 +428,24 @@ double linear_interp(const dVector& X, const dVector& Y, double x)
 }
 
 
+double linear_interp(const RowVector& X, const RowVector& Y, double x)
+{
+	Uint n, i_0 = 0, i_1 = 0;
+	double x_0 = 0, x_1 = 0, y_0 = 0, y_1 = 0;
+	n = X.size();
+
+	i_1 = std::distance(&X(0),
+		std::upper_bound(&X(0), &X(n), x));
+	i_0 = i_1 - 1;
+	y_0 = Y[i_0];
+	y_1 = Y[i_1];
+	x_0 = X[i_0];
+	x_1 = X[i_1];
+	return y_0 + (x - x_0) / (x_1 - x_0) * (y_1 - y_0);
+}
+
+
+
 double periodic_linear_interp(const dVector& X, const dVector& Y,
 	double x)
 {
