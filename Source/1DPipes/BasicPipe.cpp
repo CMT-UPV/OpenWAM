@@ -126,7 +126,7 @@ double TBasicPipe::getPressure(unsigned int i) const
 
 double TBasicPipe::getPressure(double x) const
 {
-
+	return linear_interp(Fx, Fpressure, x);
 }
 
 RowVector TBasicPipe::getTemperature() const
@@ -150,7 +150,7 @@ double TBasicPipe::getTemperature(unsigned int i) const
 
 double TBasicPipe::getTemperature(double x) const
 {
-
+	return linear_interp(Fx, Ftemperature, x);
 }
 
 
@@ -175,5 +175,5 @@ double TBasicPipe::getSpeed(unsigned int i) const
 
 double TBasicPipe::getSpeed(double x) const
 {
-
+	return linear_interp(Fx, Fspeed, x);
 }
