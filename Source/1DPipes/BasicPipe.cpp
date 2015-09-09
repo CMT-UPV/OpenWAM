@@ -128,3 +128,52 @@ double TBasicPipe::getPressure(double x) const
 {
 
 }
+
+RowVector TBasicPipe::getTemperature() const
+{
+	return Ftemperature;
+}
+
+
+double TBasicPipe::getTemperature(unsigned int i) const
+{
+	if (i < Ftemperature.size())
+	{
+		return Ftemperature(i);
+	}
+	else
+	{
+		return Ftemperature.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getTemperature(double x) const
+{
+
+}
+
+
+RowVector TBasicPipe::getSpeed() const
+{
+	return Fspeed;
+}
+
+
+double TBasicPipe::getSpeed(unsigned int i) const
+{
+	if (i < Fspeed.size())
+	{
+		return Fspeed(i);
+	}
+	else
+	{
+		return Fspeed.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getSpeed(double x) const
+{
+
+}
