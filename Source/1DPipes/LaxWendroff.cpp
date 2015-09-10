@@ -215,6 +215,7 @@ void TLaxWendroff::SetPTU(double p, double T, double u)
 
 void TLaxWendroff::UpdateFlowVariables()
 {
+	/* TODO: BCs */
 	FPipe->Frho = FPipe->FU0.row(0) / FPipe->FArea;
 	FPipe->Fspeed = FPipe->FU0.row(1) / FPipe->FU0.row(0);
 	FPipe->Fpressure = (FPipe->FU0.row(2) - FPipe->FU0.row(1)
