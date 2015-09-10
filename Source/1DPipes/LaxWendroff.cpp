@@ -211,3 +211,21 @@ void TLaxWendroff::SetPTU(double p, double T, double u)
 	FPipe->FU0.row(1) = rhoA * u;
 	FPipe->FU0.row(2) = rhoA * FPipe->Fcv * T + rhoA * u * u / 2.;
 }
+
+
+void TLaxWendroff::UpdateFlowVariables()
+{
+	FPipe->Frho = FPipe->FU0.row(0) / FPipe->FArea;
+	FPipe->Fspeed = FPipe->FU0.row(1) / FPipe->FU0.row(0);
+	FPipe->Fpressure = (FPipe->FU0.row(2) - FPipe->FU0.row(1)
+		* FPipe->Fspeed / 2.) * (FPipe->FGamma - 1.);
+	FPipe->Ftemperature = FPipe->Fpressure / FPipe->Frho / FPipe->FR;
+	FPipe->Fa = (FPipe->FGamma * FPipe->FR * FPipe->Ftemperature).sqrt();
+	UpdateGasProperties();
+}
+
+
+void TLaxWendroff::UpdateGasProperties()
+{
+	/* TODO */
+}

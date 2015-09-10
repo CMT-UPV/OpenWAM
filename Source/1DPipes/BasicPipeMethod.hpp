@@ -99,6 +99,11 @@ public:
 	 * @brief Updates the flow variables with the current state vector values.
 	 */
 	virtual void UpdateFlowVariables() = 0;
+
+	/**
+	 * @brief Updates R, gamma and company.
+	 */
+	virtual void UpdateGasProperties() = 0;
 };
 
 #endif
