@@ -445,6 +445,17 @@ double linear_interp(const RowVector& X, const RowVector& Y, double x)
 }
 
 
+RowVector linear_interp(const RowVector& X, const RowVector& Y,
+	const RowVector& x)
+{
+	RowVector y(x.size());
+	for (auto i = 0; i < x.size(); i++)
+	{
+		y(i) = linear_interp(X, Y, x(i));
+	}
+	return y;
+}
+
 
 double periodic_linear_interp(const dVector& X, const dVector& Y,
 	double x)
