@@ -116,7 +116,6 @@ void TLaxWendroff::ComputeSource2(const RowArray & U, RowArray & V,
 }
 
 
-
 void TLaxWendroff::ComputeSource1(const RowArray & U, RowArray & V,
 	const RowVector & A, const RowVector & Gamma1)
 {

@@ -69,7 +69,7 @@ protected:
 	double FDeltaTime; ///< Time step. [s]
 	double FXref; ///< Cell size. [m]
 	RowVector Fa; ///< Speed of sound. [m / s]
-	RowVector FArea; ///< Cell area. [m ** 2]
+	RowVector FArea; ///< Node or cell interface area. [m ** 2]
 	RowVector Fhi; ///< Interior heat transfer coefficient. [W / (m ** 2 * K)]
 	RowVector Frho; ///< Density. [kg / m ** 3]
 	RowVector FRe; ///< Reynolds number.
@@ -79,12 +79,16 @@ protected:
 	RowArray FR; ///< Gas constant. [J / (kg * K)]
 	RowArray Fcv; ///< Specific heat capacity at constant volume. [J / (kg * K)]
 	RowArray Fcp; ///< Specific heat capacity at constant pressure. [J / (kg * K)]
+	RowArray Fdx; ///< Distance between nodes or cell length. [m]
 	RowArray FGamma1; ///< Gamma - 1.
+	RowVector FMArea; ///< Cell center or in-between node area. [m ** 2]
+	RowVector FMx; ///< Cell center or in-between node position. [m]
 	RowArray FU1; ///< State vector at next time-step.
 	RowVector Fpressure; ///< Pressure vector. [Pa]
 	RowVector Ftemperature; ///< Temperature vector. [K]
 	RowVector Fspeed; ///< Flow speed vector. [m / s]
-	RowVector Fx; ///< Cell center position. [m]
+	RowVector FVolume; ///< Cell volume. [m ** 2]
+	RowVector Fx; ///< Node or cell interface position. [m]
 	double FCoefAjusFric; ///< Friction fitting coefficient.
 	double FCoefAjusTC; ///< Heat transfer fitting coefficient.
 	double FFriction; ///< Pipe friction.
@@ -109,7 +113,21 @@ public:
 	 * 
 	 * Integrates the flow evolution inside the duct.
 	 */
-	virtual void Solve();
+	void Solve();
+
+	/**
+	 * @brief Sets the pipe geometry.
+	 * 
+	 * Sets the pipe geometry, using several sections with linear variations
+	 * of area. Tries to keep the objective distance between nodes, or cell length
+	 * (when using a finite-volume method), keeping a minimum of 3 nodes (or 2
+	 * cells). The final node distance will be rounded to keep the pipe length.
+	 * 
+	 * @param x Known node (or cell interface) positions. [m]
+	 * @param dx Node distance (or cell length) objective. [m]
+	 * @param A Known node (or cell interface) areas. [m ** 2]
+	 */
+	void setGeometry(const RowVector & x, double dx, const RowVector & A);
 
 	/**
 	 * @brief Sets the state vector.

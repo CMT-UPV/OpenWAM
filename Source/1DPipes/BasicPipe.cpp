@@ -99,6 +99,23 @@ double TBasicPipe::Colebrook(double rug, double d, double Re) const
 }
 
 
+void TBasicPipe::setGeometry(const RowVector& x, double dx, const RowVector& A)
+{
+	double n_nodes = round(x.tail(1)(0) / dx) + 1;
+	if (n_nodes < 3)
+	{
+		n_nodes = 3;
+	}
+	dx = x.tail(1)(0) / n_nodes;
+	Fdx.setConstant(1, n_nodes - 1, dx);
+	Fx.setLinSpaced(n_nodes, 0, x.tail(1)(0));
+	FMx = (Fx.head(n_nodes - 1) + Fx.tail(n_nodes - 1)) / 2.;
+	FArea = linear_interp(x, A, Fx);
+	FMArea = (FArea.head(n_nodes - 1) + FArea.tail(n_nodes - 1)) / 2.;
+	FVolume = FMArea * dx;
+}
+
+
 void TBasicPipe::SetPTU(double p, double T, double u)
 {
 	FMethod->SetPTU(p, T, u);
