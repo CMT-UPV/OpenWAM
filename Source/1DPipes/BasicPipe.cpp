@@ -120,9 +120,16 @@ void TBasicPipe::setGeometry(const RowVector& x, double dx, const RowVector& A)
 }
 
 
-void TBasicPipe::SetPTU(double p, double T, double u)
+void TBasicPipe::setPTU(double p, double T, double u)
 {
-	FMethod->SetPTU(p, T, u);
+	FMethod->setPTU(p, T, u);
+}
+
+
+void TBasicPipe::setPTU(const RowVector& p, const RowVector& T,
+	const RowVector& u)
+{
+	FMethod->setPTU(p, T, u);
 }
 
 

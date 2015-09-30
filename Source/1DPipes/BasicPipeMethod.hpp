@@ -93,7 +93,7 @@ public:
 	 * @param T Temperature. [K]
 	 * @param u Flow speed. [m / s]
 	 */
-	virtual void SetPTU(double p, double T, double u) = 0;
+	virtual void setPTU(double p, double T, double u) = 0;
 
 	/**
 	 * @brief Updates the flow variables with the current state vector values.

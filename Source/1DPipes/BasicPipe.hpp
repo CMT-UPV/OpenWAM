@@ -138,7 +138,19 @@ public:
 	 * @param T Temperature. [K]
 	 * @param u Flow speed. [m / s]
 	 */
-	virtual void SetPTU(double p, double T, double u);
+	void setPTU(double p, double T, double u);
+
+	/**
+	 * @brief Sets the state vector.
+	 * 
+	 * Sets the state vector with a given pressure, temperature and flow speed,
+	 * one set of values for each node/cell.
+	 * 
+	 * @param p Pressure. [Pa]
+	 * @param T Temperature. [K]
+	 * @param u Flow speed. [m / s]
+	 */
+	void setPTU(const RowVector& p, const RowVector& T, const RowVector& u);
 
 	/**
 	 * @brief Gets the pipe pressure vector.

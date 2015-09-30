@@ -241,7 +241,7 @@ void TLaxWendroff::Solve() {
 }
 
 
-void TLaxWendroff::SetPTU(double p, double T, double u)
+void TLaxWendroff::setPTU(double p, double T, double u)
 {
 	auto n_nodes = FPipe->Fx.size();
 	FPipe->FU0.setZero(3, n_nodes);
@@ -261,6 +261,30 @@ void TLaxWendroff::SetPTU(double p, double T, double u)
 	FPipe->FRe.setZero(1, n_nodes);
 	FPipe->FTWPipe.setZero(1, n_nodes);
 	UpdateFlowVariables();
+}
+
+
+void TLaxWendroff::setPTU(const RowVector& p, const RowVector& T,
+	const RowVector& u)
+{
+	auto n_nodes = FPipe->Fx.size();
+	if ((p.size() == n_nodes) & (T.size() == n_nodes) & (u.size() == n_nodes))
+	{
+		FPipe->FU0.setZero(3, n_nodes);
+		FPipe->FU1.setZero(3, n_nodes);
+		FPipe->FR.setConstant(1, n_nodes, 287.);
+		FPipe->FGamma.setConstant(1, n_nodes, 1.4);
+		FPipe->Fcv.setConstant(1, n_nodes, 287. / (1.4 - 1.));
+		FPipe->Fcp.setConstant(1, n_nodes, 287. * 1.4 / (1.4 - 1.));
+		FPipe->FU0.row(0) = p / FPipe->R / T * FPipe->FArea;
+		FPipe->FU0.row(1) = FPipe->FU0.row(0) * u;
+		FPipe->FU0.row(2) = FPipe->FU0.row(0) * (FPipe->Fcv * T
+			+ u.square() / 2.);
+		FPipe->Fhi.setZero(1, n_nodes);
+		FPipe->FRe.setZero(1, n_nodes);
+		FPipe->FTWPipe.setZero(1, n_nodes);
+		UpdateFlowVariables(); //TODO
+	}
 }
 
 
