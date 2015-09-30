@@ -68,11 +68,6 @@ class TPipeMethod: public TBasicPipeMethod
 {
 public:
 	/**
-	 * @brief Default constructor for the pipe computation method.
-	 */
-	TPipeMethod();
-
-	/**
 	 * @brief Connects the method to a pipe.
 	 * 
 	 * @param pipe Pipe to connect to.
@@ -84,7 +79,7 @@ public:
 	 * 
 	 * Integrates the flow evolution inside the duct.
 	 */
-	virtual void Solve();
+	virtual void Solve() = 0;
 };
 
 #endif
