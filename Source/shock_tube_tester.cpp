@@ -1,6 +1,7 @@
 #include "Globales.h"
 #include "BasicPipe.hpp"
 #include "LaxWendroff.hpp"
+#include <chrono>
 
 
 int main()
@@ -29,6 +30,14 @@ int main()
 	pipe.setGeometry(x, dx, A);
 	method.Connect(&pipe);
 	pipe.setPTU(p, T, u);
+	auto start = chrono::steady_clock::now();
+	for (int i = 0; i < 1000000; i++)
+	{
+		pipe.Solve();
+	}
+	auto end = chrono::steady_clock::now();
+	auto diff = end - start;
+	cout << chrono::duration <double, milli> (diff).count() << " ms" << endl;
 
 	return EXIT_SUCCESS;
 }

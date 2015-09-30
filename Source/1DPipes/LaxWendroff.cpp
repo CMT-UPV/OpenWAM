@@ -201,27 +201,14 @@ void TLaxWendroff::Solve() {
 // 		-dt2 * (FV2.rightCols(n) + FV2.leftCols(n));
 	for (int i = 0; i < n; i++)
 	{
-		Fhi12(i) = (FPipe->Fhi(i) + FPipe->Fhi(i + 1)) / 2.;
-		Frho12(i) = (FPipe->Frho(i) + FPipe->Frho(i + 1)) / 2.;
-		FRe12(i) = (FPipe->FRe(i) + FPipe->FRe(i + 1)) / 2.;
 		FTWPipe12(i) = (FPipe->FTWPipe(0, i) + FPipe->FTWPipe(0, i + 1)) / 2.;
-		FGamma12(i) = (FPipe->FGamma(i) + FPipe->FGamma(i + 1)) / 2.;
-		FR12(i) = (FPipe->FR(i) + FPipe->FR(i + 1)) / 2.;
-		FGamma1_12(i) = (FPipe->FGamma1(i) + FPipe->FGamma1(i + 1)) / 2.;
 	}
-// // 	Fhi12.noalias() = FPipe->Fhi.matrix() * FMid;
-// // 	Frho12.noalias() = FPipe->Frho.matrix() * FMid;
-// // 	FRe12.noalias() = FPipe->FRe.matrix() * FMid;
-// 	Fhi12 = (FPipe->Fhi.head(n) + FPipe->Fhi.tail(n)) / 2.;
-// 	Frho12 = (FPipe->Frho.leftCols(n) + FPipe->Frho.rightCols(n)) / 2.;
-// 	FRe12 = (FPipe->FRe.leftCols(n) + FPipe->FRe.rightCols(n)) / 2.;
-// 	FTWPipe12 = (FPipe->FTWPipe.row(0).leftCols(n)
-// 		+ FPipe->FTWPipe.row(0).rightCols(n)) / 2.;
-// 	FGamma12 = (FPipe->FGamma.leftCols(n) + FPipe->FGamma.rightCols(n)) / 2.;
-// 	FR12 = (FPipe->FR.leftCols(n) + FPipe->FR.rightCols(n)) / 2.;
-// 	FGamma1_12 = (FPipe->FGamma1.leftCols(n) + FPipe->FGamma1.rightCols(n))
-// 		/ 2.;
-// 
+	Fhi12 = (FPipe->Fhi.head(n) + FPipe->Fhi.tail(n)) / 2.;
+	Frho12 = (FPipe->Frho.head(n) + FPipe->Frho.tail(n)) / 2.;
+	FRe12 = (FPipe->FRe.head(n) + FPipe->FRe.tail(n)) / 2.;
+	FGamma12 = (FPipe->FGamma.head(n) + FPipe->FGamma.tail(n)) / 2.;
+	FGamma1_12 = (FPipe->FGamma1.head(n) + FPipe->FGamma1.tail(n)) / 2.;
+
 // 	ComputeFlux(FU_12, FW_12, FGamma12, FGamma1_12);
 // 	ComputeSource1(FU_12, FV1_12, FArea_12, FGamma1_12);
 // 	n -= 1;
