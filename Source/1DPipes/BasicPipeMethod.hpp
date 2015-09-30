@@ -96,6 +96,19 @@ public:
 	virtual void setPTU(double p, double T, double u) = 0;
 
 	/**
+	 * @brief Sets the state vector.
+	 * 
+	 * Sets the state vector with a given pressure, temperature and flow speed,
+	 * one set of values for each node/cell.
+	 * 
+	 * @param p Pressure. [Pa]
+	 * @param T Temperature. [K]
+	 * @param u Flow speed. [m / s]
+	 */
+	virtual void setPTU(const RowVector& p, const RowVector& T,
+		const RowVector& u) = 0;
+
+	/**
 	 * @brief Updates the flow variables with the current state vector values.
 	 */
 	virtual void UpdateFlowVariables() = 0;

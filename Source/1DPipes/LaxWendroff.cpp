@@ -158,12 +158,6 @@ void TLaxWendroff::Connect(TBasicPipe * pipe) {
 	FW_12.setZero(m, n);
 	FV1_12.setZero(m, n);
 	FV2_12.setZero(m, n);
-	FMid.setZero(n + 1, n);
-	for (auto i = 0; i < n; i++)
-	{
-		FMid(i, i) = 0.5;
-		FMid(i + 1, i) = 0.5;
-	}
 	n -= 1;
 	Fx1_12.setZero(m, n);
 	Fx2_12.setZero(m, n);
@@ -215,9 +209,9 @@ void TLaxWendroff::Solve() {
 		FR12(i) = (FPipe->FR(i) + FPipe->FR(i + 1)) / 2.;
 		FGamma1_12(i) = (FPipe->FGamma1(i) + FPipe->FGamma1(i + 1)) / 2.;
 	}
-	Fhi12.noalias() = FPipe->Fhi.matrix() * FMid;
-	Frho12.noalias() = FPipe->Frho.matrix() * FMid;
-	FRe12.noalias() = FPipe->FRe.matrix() * FMid;
+// // 	Fhi12.noalias() = FPipe->Fhi.matrix() * FMid;
+// // 	Frho12.noalias() = FPipe->Frho.matrix() * FMid;
+// // 	FRe12.noalias() = FPipe->FRe.matrix() * FMid;
 // 	Fhi12 = (FPipe->Fhi.head(n) + FPipe->Fhi.tail(n)) / 2.;
 // 	Frho12 = (FPipe->Frho.leftCols(n) + FPipe->Frho.rightCols(n)) / 2.;
 // 	FRe12 = (FPipe->FRe.leftCols(n) + FPipe->FRe.rightCols(n)) / 2.;
@@ -276,7 +270,7 @@ void TLaxWendroff::setPTU(const RowVector& p, const RowVector& T,
 		FPipe->FGamma.setConstant(1, n_nodes, 1.4);
 		FPipe->Fcv.setConstant(1, n_nodes, 287. / (1.4 - 1.));
 		FPipe->Fcp.setConstant(1, n_nodes, 287. * 1.4 / (1.4 - 1.));
-		FPipe->FU0.row(0) = p / FPipe->R / T * FPipe->FArea;
+		FPipe->FU0.row(0) = p / FPipe->FR / T * FPipe->FArea;
 		FPipe->FU0.row(1) = FPipe->FU0.row(0) * u;
 		FPipe->FU0.row(2) = FPipe->FU0.row(0) * (FPipe->Fcv * T
 			+ u.square() / 2.);
