@@ -78,8 +78,8 @@ typedef std::vector<bool> bVector; ///< Boolean vector
 typedef std::vector<std::vector<bool> > bMatrix; ///< 2-dimensional boolean matrix
 typedef Array<double, Dynamic, 1, ColMajor, 200, 1> ColVector; ///< Column vector.
 typedef Array<double, 1, Dynamic, RowMajor, 1, 200> RowVector; ///< Row vector.
-typedef Array<double, Dynamic, Dynamic, ColMajor, 100, 100> ColArray; ///< Column major array.
-typedef Array<double, Dynamic, Dynamic, RowMajor, 100, 100> RowArray; ///< Row major array.
+typedef Array<double, Dynamic, Dynamic, ColMajor, 200, 50> ColArray; ///< Column major array.
+typedef Array<double, Dynamic, Dynamic, RowMajor, 50, 200> RowArray; ///< Row major array.
 typedef RowArray dArray;
 
 double Interpola(double vizq, double vder, double axid, double xif);

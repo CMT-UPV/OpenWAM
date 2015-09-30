@@ -75,12 +75,12 @@ protected:
 	RowVector FRe; ///< Reynolds number.
 	RowVector FDerLinArea; ///< First derivative of the area. [m]
 	RowArray FTWPipe; ///< Pipe wall temperature. [K]
-	RowArray FGamma; ///< Specific heat capacities ratio.
-	RowArray FR; ///< Gas constant. [J / (kg * K)]
-	RowArray Fcv; ///< Specific heat capacity at constant volume. [J / (kg * K)]
-	RowArray Fcp; ///< Specific heat capacity at constant pressure. [J / (kg * K)]
-	RowArray Fdx; ///< Distance between nodes or cell length. [m]
-	RowArray FGamma1; ///< Gamma - 1.
+	RowVector FGamma; ///< Specific heat capacities ratio.
+	RowVector FR; ///< Gas constant. [J / (kg * K)]
+	RowVector Fcv; ///< Specific heat capacity at constant volume. [J / (kg * K)]
+	RowVector Fcp; ///< Specific heat capacity at constant pressure. [J / (kg * K)]
+	RowVector Fdx; ///< Distance between nodes or cell length. [m]
+	RowVector FGamma1; ///< Gamma - 1.
 	RowVector FMArea; ///< Cell center or in-between node area. [m ** 2]
 	RowVector FMx; ///< Cell center or in-between node position. [m]
 	RowArray FU1; ///< State vector at next time-step.
