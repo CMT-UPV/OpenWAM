@@ -49,3 +49,13 @@ target_link_libraries(
   Turbocompressor
   Wrappers
 )
+
+add_executable(shock_tube_tester
+  shock_tube_tester.cpp
+)
+
+target_link_libraries(
+  shock_tube_tester
+  1DPipes
+  Math_wam
+)
