@@ -2,6 +2,8 @@
 
 TBasicPipe::TBasicPipe()
 {
+	FXref = 1;
+	FDeltaTime = 1;
 }
 
 
@@ -113,6 +115,8 @@ void TBasicPipe::setGeometry(const RowVector& x, double dx, const RowVector& A)
 	FArea = linear_interp(x, A, Fx);
 	FMArea = (FArea.head(n_nodes - 1) + FArea.tail(n_nodes - 1)) / 2.;
 	FVolume = FMArea * dx;
+	FDerLinArea = (FArea.tail(n_nodes - 1) - FArea.head(n_nodes - 1)) / Fdx;
+	FU0.setZero(3, n_nodes);
 }
 
 
@@ -193,4 +197,10 @@ double TBasicPipe::getSpeed(unsigned int i) const
 double TBasicPipe::getSpeed(double x) const
 {
 	return linear_interp(Fx, Fspeed, x);
+}
+
+
+void TBasicPipe::Solve()
+{
+	FMethod->Solve();
 }
