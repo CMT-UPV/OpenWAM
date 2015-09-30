@@ -435,7 +435,7 @@ double linear_interp(const RowVector& X, const RowVector& Y, double x)
 	n = X.size();
 
 	i_1 = std::distance(&X(0),
-		std::upper_bound(&X(0), &X(n), x));
+		std::upper_bound(&X(0), &X(n - 1), x));
 	i_0 = i_1 - 1;
 	y_0 = Y[i_0];
 	y_1 = Y[i_1];
