@@ -161,7 +161,7 @@ public:
 	 * 
 	 * Integrates the flow evolution inside the duct.
 	 */
-	void Solve();
+	virtual void Solve();
 
 	/**
 	 * @brief Sets the state vector.

@@ -137,9 +137,11 @@ void TLaxWendroff::Connect(TBasicPipe * pipe) {
 	int m = pipe->FU0.rows();
 	int n = pipe->FU0.cols();
 	FW.setZero(m, n);
+	FV1.setZero(m, n);
+	FV2.setZero(m, n);
 	n -= 1;
-	FDerLinArea_12 = (pipe->FDerLinArea.rightCols(n)
-		- pipe->FDerLinArea.leftCols(n)) / pipe->FXref;
+	FDerLinArea_12 = (pipe->FDerLinArea.tail(n)
+		- pipe->FDerLinArea.head(n)) / pipe->FXref;
 	FArea_12 = (pipe->FArea.rightCols(n) + pipe->FArea.leftCols(n)) / 2.;
 	Fhi12.setZero(n);
 	Frho12.setZero(n);
@@ -156,6 +158,12 @@ void TLaxWendroff::Connect(TBasicPipe * pipe) {
 	FW_12.setZero(m, n);
 	FV1_12.setZero(m, n);
 	FV2_12.setZero(m, n);
+	FMid.setZero(n + 1, n);
+	for (auto i = 0; i < n; i++)
+	{
+		FMid(i, i) = 0.5;
+		FMid(i + 1, i) = 0.5;
+	}
 	n -= 1;
 	Fx1_12.setZero(m, n);
 	Fx2_12.setZero(m, n);
@@ -171,44 +179,88 @@ void TLaxWendroff::Solve() {
 	double dt2 = FPipe->FDeltaTime / 2.;
 
 	ComputeFlux(FPipe->FU0, FW, FPipe->FGamma, FPipe->FGamma1);
-	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
-	
-	Fx1 = FPipe->FU0.leftCols(n) + FPipe->FU0.rightCols(n);
-	Fx2 = -dtdx * (FW.rightCols(n) - FW.leftCols(n));
-	Fx3 = (FV1.rightCols(n) + FV1.leftCols(n)).rowwise()
-		* FPipe->FDerLinArea * (-dt2);
-	Fx4 = -dt2 * (FV2.rightCols(n) + FV2.leftCols(n));
-	FU_12 = (Fx1 + Fx2 + Fx3 + Fx4) / 2.;
-
-	Fhi12 = (FPipe->Fhi.leftCols(n) + FPipe->Fhi.rightCols(n)) / 2.;
-	Frho12 = (FPipe->Frho.leftCols(n) + FPipe->Frho.rightCols(n)) / 2.;
-	FRe12 = (FPipe->FRe.leftCols(n) + FPipe->FRe.rightCols(n)) / 2.;
-	FTWPipe12 = (FPipe->FTWPipe.row(0).leftCols(n)
-		+ FPipe->FTWPipe.row(0).rightCols(n)) / 2.;
-	FGamma12 = (FPipe->FGamma.leftCols(n) + FPipe->FGamma.rightCols(n)) / 2.;
-	FR12 = (FPipe->FR.leftCols(n) + FPipe->FR.rightCols(n)) / 2.;
-	FGamma1_12 = (FPipe->FGamma1.leftCols(n) + FPipe->FGamma1.rightCols(n))
-		/ 2.;
-
-	ComputeFlux(FU_12, FW_12, FGamma12, FGamma1_12);
-	ComputeSource1(FU_12, FV1_12, FArea_12, FGamma1_12);
-	n -= 1;
-
-	Fx1_12 = FPipe->FU0.block(0, 1, m, n);
-	Fx2_12 = -dtdx * (FW_12.rightCols(n) - FW_12.leftCols(n));
-	Fx3_12 = (FV1_12.rightCols(n) + FV1_12.leftCols(n)).rowwise()
-		* FDerLinArea_12 * (-dt2);
-	Fx4_12 = -dt2 * (FV2_12.rightCols(n) + FV2_12.leftCols(n));
-	FPipe->FU1.block(0, 1, m, n) = Fx1_12 + Fx2_12 + Fx3_12 + Fx4_12;
+// 	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
+// 	
+// 	double x1, x2, x3, x4;
+// 	for (int i = 0; i < m; i++)
+// 	{
+// 		for (int j = 0; j < n; j++)
+// 		{
+// 			x1 = FPipe->FU0(i, j) + FPipe->FU0(i, j + 1);
+// 			x2 = -dtdx * (FW(i, j + 1) - FW(i, j));
+// // 			x3 = (FV1(i, j + 1) + FV1(i, j) * FPipe->FDerLinArea(j)) * (-dt2);
+// // 			x4 = -dt2 * (FV2(i, j + 1) + FV2(i, j));
+// // 			FU_12(i, j) = (x1 + x2 + x3 + x4) / 2.;
+// 		}
+// 	}
+// 	Fx1 = FPipe->FU0.array() * FMid.array();
+// 	Fx1 = (FPipe->FU0.leftCols(n) + FPipe->FU0.rightCols(n)) / 2.;
+// 	Fx2 = -dtdx * (FW.rightCols(n) - FW.leftCols(n));
+// 	Fx3 = (FV1.rightCols(n) + FV1.leftCols(n)).rowwise()
+// 		* FPipe->FDerLinArea * (-dt2);
+// 	Fx4 = -dt2 * (FV2.rightCols(n) + FV2.leftCols(n));
+// 	FU_12 = (Fx1 + Fx2 + Fx3 + Fx4) / 2.;
+// 	FU_12 = (FPipe->FU0.leftCols(n) + FPipe->FU0.rightCols(n))
+// 		- dtdx * (FW.rightCols(n) - FW.leftCols(n))
+// 		- dt2 * ((FV1.rightCols(n) + FV1.leftCols(n)).rowwise()
+// 		* FPipe->FDerLinArea)
+// 		-dt2 * (FV2.rightCols(n) + FV2.leftCols(n));
+	for (int i = 0; i < n; i++)
+	{
+		Fhi12(i) = (FPipe->Fhi(i) + FPipe->Fhi(i + 1)) / 2.;
+		Frho12(i) = (FPipe->Frho(i) + FPipe->Frho(i + 1)) / 2.;
+		FRe12(i) = (FPipe->FRe(i) + FPipe->FRe(i + 1)) / 2.;
+		FTWPipe12(i) = (FPipe->FTWPipe(0, i) + FPipe->FTWPipe(0, i + 1)) / 2.;
+		FGamma12(i) = (FPipe->FGamma(i) + FPipe->FGamma(i + 1)) / 2.;
+		FR12(i) = (FPipe->FR(i) + FPipe->FR(i + 1)) / 2.;
+		FGamma1_12(i) = (FPipe->FGamma1(i) + FPipe->FGamma1(i + 1)) / 2.;
+	}
+	Fhi12.noalias() = FPipe->Fhi.matrix() * FMid;
+	Frho12.noalias() = FPipe->Frho.matrix() * FMid;
+	FRe12.noalias() = FPipe->FRe.matrix() * FMid;
+// 	Fhi12 = (FPipe->Fhi.head(n) + FPipe->Fhi.tail(n)) / 2.;
+// 	Frho12 = (FPipe->Frho.leftCols(n) + FPipe->Frho.rightCols(n)) / 2.;
+// 	FRe12 = (FPipe->FRe.leftCols(n) + FPipe->FRe.rightCols(n)) / 2.;
+// 	FTWPipe12 = (FPipe->FTWPipe.row(0).leftCols(n)
+// 		+ FPipe->FTWPipe.row(0).rightCols(n)) / 2.;
+// 	FGamma12 = (FPipe->FGamma.leftCols(n) + FPipe->FGamma.rightCols(n)) / 2.;
+// 	FR12 = (FPipe->FR.leftCols(n) + FPipe->FR.rightCols(n)) / 2.;
+// 	FGamma1_12 = (FPipe->FGamma1.leftCols(n) + FPipe->FGamma1.rightCols(n))
+// 		/ 2.;
+// 
+// 	ComputeFlux(FU_12, FW_12, FGamma12, FGamma1_12);
+// 	ComputeSource1(FU_12, FV1_12, FArea_12, FGamma1_12);
+// 	n -= 1;
+// 
+// 	Fx1_12 = FPipe->FU0.block(0, 1, m, n);
+// 	Fx2_12 = -dtdx * (FW_12.rightCols(n) - FW_12.leftCols(n));
+// 	Fx3_12 = (FV1_12.rightCols(n) + FV1_12.leftCols(n)).rowwise()
+// 		* FDerLinArea_12 * (-dt2);
+// 	Fx4_12 = -dt2 * (FV2_12.rightCols(n) + FV2_12.leftCols(n));
+// 	FPipe->FU1.block(0, 1, m, n) = Fx1_12 + Fx2_12 + Fx3_12 + Fx4_12;
 }
 
 
 void TLaxWendroff::SetPTU(double p, double T, double u)
 {
+	auto n_nodes = FPipe->Fx.size();
+	FPipe->FU0.setZero(3, n_nodes);
+	FPipe->FU1.setZero(3, n_nodes);
+	FPipe->FR.setConstant(1, n_nodes, 287.);
+	FPipe->FGamma.setConstant(1, n_nodes, 1.4);
+	FPipe->Fcv.setConstant(1, n_nodes, 287. / (1.4 - 1.));
+	FPipe->Fcp.setConstant(1, n_nodes, 287. * 1.4 / (1.4 - 1.));
 	RowVector rhoA = p / (FPipe->FR * T) * FPipe->FArea;
+	FPipe->FGamma.setConstant(1.4);
+	FPipe->Fcp = FPipe->FR * FPipe->FGamma / (FPipe->FGamma - 1.);
+	FPipe->Fcv = FPipe->Fcp / FPipe->FGamma;
 	FPipe->FU0.row(0) = rhoA;
 	FPipe->FU0.row(1) = rhoA * u;
 	FPipe->FU0.row(2) = rhoA * FPipe->Fcv * T + rhoA * u * u / 2.;
+	FPipe->Fhi.setZero(1, n_nodes);
+	FPipe->FRe.setZero(1, n_nodes);
+	FPipe->FTWPipe.setZero(1, n_nodes);
+	UpdateFlowVariables();
 }
 
 
@@ -228,4 +280,5 @@ void TLaxWendroff::UpdateFlowVariables()
 void TLaxWendroff::UpdateGasProperties()
 {
 	/* TODO */
+	FPipe->FGamma1 = FPipe->FGamma - 1.;
 }
