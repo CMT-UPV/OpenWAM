@@ -9,6 +9,7 @@ int main()
 	RowVector A(2);
 	double dx;
 	TBasicPipe pipe;
+	TLaxWendroff method;
 	int n_nodes = 200;
 	RowVector p(n_nodes);
 	RowVector T(n_nodes);
@@ -26,6 +27,7 @@ int main()
 	T.tail(n_nodes / 2).setConstant(1E4 / 287. / 0.125);
 
 	pipe.setGeometry(x, dx, A);
+	method.Connect(&pipe);
 	pipe.setPTU(p, T, u);
 
 	return EXIT_SUCCESS;
