@@ -155,6 +155,15 @@ public:
 	void setPTU(const RowVector& p, const RowVector& T, const RowVector& u);
 
 	/**
+	 * @brief Returns the maximum allowable time-step.
+	 *
+	 * Returns the maximum allowable time-step due to stability criteria.
+	 *
+	 * @return Maximum allowable time-step. [s]
+	 */
+	double getMaxTimeStep();
+
+	/**
 	 * @brief Gets the pipe pressure vector.
 	 * 
 	 * @return The pipe pressure vector. [Pa]

@@ -92,6 +92,11 @@ protected:
 	RowArray FW_12; ///< Flux vector at half time-step.
 	RowArray FV1_12; ///< Source terms due to area at half time-step.
 	RowArray FV2_12; ///< Source terms due to friction and heat at half time-step.
+
+	/**
+	 * @brief Computes the maximum allowable time-step.
+	 */
+	virtual void ComputeMaxTimeStep();
 public:
 	/**
 	 * @brief Default constructor.

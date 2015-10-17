@@ -58,3 +58,13 @@ void TPipeMethod::Connect(TBasicPipe * pipe)
 	FPipe = pipe;
 	pipe->FMethod = this;
 }
+
+
+double TPipeMethod::getMaxTimeStep()
+{
+	if (FPipe->FIsIntegrated == false)
+	{
+		ComputeMaxTimeStep();
+	}
+	return FMaxTimeStep;
+}

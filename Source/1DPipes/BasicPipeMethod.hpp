@@ -69,6 +69,11 @@ class TBasicPipeMethod
 {
 protected:
 	TBasicPipe * FPipe; ///< Pipe that uses the method.
+
+	/**
+	 * @brief Computes the maximum allowable time-step.
+	 */
+	virtual void ComputeMaxTimeStep() = 0;
 public:
 	/**
 	 * @brief Connects the method to a pipe.
@@ -76,6 +81,16 @@ public:
 	 * @param pipe Pipe to connect to.
 	 */
 	virtual void Connect(TBasicPipe * pipe) = 0;
+
+	/**
+	 * @brief Returns the maximum allowable time-step.
+	 *
+	 * Returns the maximum allowable time-step due to stability criteria,
+	 * probably due to the Courant-Friedrichs-Lewy condition.
+	 *
+	 * @return Maximum allowable time-step. [s]
+	 */
+	virtual double getMaxTimeStep() = 0;
 
 	/**
 	 * @brief Integrate the flow.

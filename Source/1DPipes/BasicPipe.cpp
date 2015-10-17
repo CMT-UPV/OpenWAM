@@ -4,6 +4,7 @@ TBasicPipe::TBasicPipe()
 {
 	FXref = 1;
 	FDeltaTime = 1;
+	FIsIntegrated = true;
 }
 
 
@@ -101,6 +102,12 @@ double TBasicPipe::Colebrook(double rug, double d, double Re) const
 }
 
 
+double TBasicPipe::getMaxTimeStep()
+{
+	return FMethod->getMaxTimeStep();
+}
+
+
 void TBasicPipe::setGeometry(const RowVector& x, double dx, const RowVector& A)
 {
 	double n_nodes = round(x.tail(1)(0) / dx) + 1;
@@ -157,9 +164,29 @@ double TBasicPipe::getPressure(double x) const
 	return linear_interp(Fx, Fpressure, x);
 }
 
-RowVector TBasicPipe::getTemperature() const
+
+RowVector TBasicPipe::getSpeed() const
 {
-	return Ftemperature;
+	return Fspeed;
+}
+
+
+double TBasicPipe::getSpeed(unsigned int i) const
+{
+	if (i < Fspeed.size())
+	{
+		return Fspeed(i);
+	}
+	else
+	{
+		return Fspeed.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getSpeed(double x) const
+{
+	return linear_interp(Fx, Fspeed, x);
 }
 
 
@@ -186,6 +213,12 @@ double TBasicPipe::getSpeedOfSound(unsigned int i) const
 double TBasicPipe::getSpeedOfSound(double x) const
 {
 	return linear_interp(Fx, Fa, x);
+}
+
+
+RowVector TBasicPipe::getTemperature() const
+{
+	return Ftemperature;
 }
 
 

@@ -54,11 +54,15 @@
 
 #include "LaxWendroff.hpp"
 
-TLaxWendroff::TLaxWendroff() {}
+TLaxWendroff::TLaxWendroff()
+{
+	FMaxCourant = 1.;
+}
 
 
 TLaxWendroff::TLaxWendroff(TBasicPipe * pipe)
 {
+	FMaxCourant = 1.;
 	Connect(pipe);
 }
 
@@ -84,6 +88,13 @@ void TLaxWendroff::ComputeFlux(const RowArray & U, RowArray & W,
 			W.block(3, i, m - 3, 1).setZero();
 		}
 	}
+}
+
+
+void TLaxWendroff::ComputeMaxTimeStep()
+{
+	FMaxTimeStep = FMaxCourant * (FPipe->Fdx(0) /
+		(FPipe->getSpeed().abs() + FPipe->getSpeedOfSound())).maxCoeff();
 }
 
 
@@ -172,6 +183,7 @@ void TLaxWendroff::Solve() {
 	double dtdx = FPipe->FDeltaTime / FPipe->FXref;
 	double dt2 = FPipe->FDeltaTime / 2.;
 
+	FPipe->FIsIntegrated = false;
 	ComputeFlux(FPipe->FU0, FW, FPipe->FGamma, FPipe->FGamma1);
 // 	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
 // 	
@@ -219,6 +231,9 @@ void TLaxWendroff::Solve() {
 // 		* FDerLinArea_12 * (-dt2);
 // 	Fx4_12 = -dt2 * (FV2_12.rightCols(n) + FV2_12.leftCols(n));
 // 	FPipe->FU1.block(0, 1, m, n) = Fx1_12 + Fx2_12 + Fx3_12 + Fx4_12;
+
+	ComputeMaxTimeStep();
+	FPipe->FIsIntegrated = true;
 }
 
 
