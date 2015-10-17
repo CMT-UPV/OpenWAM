@@ -163,6 +163,32 @@ RowVector TBasicPipe::getTemperature() const
 }
 
 
+
+RowVector TBasicPipe::getSpeedOfSound() const
+{
+	return Fa;
+}
+
+
+double TBasicPipe::getSpeedOfSound(unsigned int i) const
+{
+	if (i < Fa.size())
+	{
+		return Fa(i);
+	}
+	else
+	{
+		return Fa.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getSpeedOfSound(double x) const
+{
+	return linear_interp(Fx, Fa, x);
+}
+
+
 double TBasicPipe::getTemperature(unsigned int i) const
 {
 	if (i < Ftemperature.size())
@@ -179,31 +205,6 @@ double TBasicPipe::getTemperature(unsigned int i) const
 double TBasicPipe::getTemperature(double x) const
 {
 	return linear_interp(Fx, Ftemperature, x);
-}
-
-
-RowVector TBasicPipe::getSpeed() const
-{
-	return Fspeed;
-}
-
-
-double TBasicPipe::getSpeed(unsigned int i) const
-{
-	if (i < Fspeed.size())
-	{
-		return Fspeed(i);
-	}
-	else
-	{
-		return Fspeed.tail(1)(0);
-	}
-}
-
-
-double TBasicPipe::getSpeed(double x) const
-{
-	return linear_interp(Fx, Fspeed, x);
 }
 
 

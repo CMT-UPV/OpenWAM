@@ -176,30 +176,6 @@ public:
 	double getPressure(double x) const;
 
 	/**
-	 * @brief Gets the pipe temperature vector.
-	 * 
-	 * @return The pipe temperature vector. [K]
-	 */
-	RowVector getTemperature() const;
-
-	/**
-	 * @brief Gets the pipe temperature at a given cell.
-	 * 
-	 * @param i Cell number.
-	 * @return The pipe temperature at a given cell. [K]
-	 */
-	double getTemperature(unsigned int i) const;
-
-	/**
-	 * @brief Gets the pipe temperature at a given distance from the inlet.
-	 * 
-	 * @param x Distance from the inlet. [m]
-	 * @return The pipe temperature at a given point. [K]
-	 */
-	double getTemperature(double x) const;
-
-
-	/**
 	 * @brief Gets the pipe speed vector.
 	 * 
 	 * @return The pipe speed vector. [m / s]
@@ -221,6 +197,52 @@ public:
 	 * @return The pipe speed at a given point. [m / s]
 	 */
 	double getSpeed(double x) const;
+
+	/**
+	 * @brief Gets the pipe speed of sound vector.
+	 * 
+	 * @return The pipe speed vector. [m / s]
+	 */
+	RowVector getSpeedOfSound() const;
+
+	/**
+	 * @brief Gets the pipe speed of sound at a given cell.
+	 * 
+	 * @param i Cell number.
+	 * @return The pipe speed of sound at a given cell. [m / s]
+	 */
+	double getSpeedOfSound(unsigned int i) const;
+
+	/**
+	 * @brief Gets the pipe speed of sound at a given distance from the inlet.
+	 * 
+	 * @param x Distance from the inlet. [m]
+	 * @return The pipe speed of sound at a given point. [m / s]
+	 */
+	double getSpeedOfSound(double x) const;
+
+	/**
+	 * @brief Gets the pipe temperature vector.
+	 * 
+	 * @return The pipe temperature vector. [K]
+	 */
+	RowVector getTemperature() const;
+
+	/**
+	 * @brief Gets the pipe temperature at a given cell.
+	 * 
+	 * @param i Cell number.
+	 * @return The pipe temperature at a given cell. [K]
+	 */
+	double getTemperature(unsigned int i) const;
+
+	/**
+	 * @brief Gets the pipe temperature at a given distance from the inlet.
+	 * 
+	 * @param x Distance from the inlet. [m]
+	 * @return The pipe temperature at a given point. [K]
+	 */
+	double getTemperature(double x) const;
 
 	TBasicPipeMethod * FMethod; ///< Pipe computation method.
 };
