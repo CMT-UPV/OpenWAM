@@ -63,6 +63,7 @@ class TLaxWendroff;
 class TBasicPipe
 {
 friend class TBasicPipeMethod;
+friend class TPipeMethod;
 friend class TLaxWendroff;
 protected:
 	RowArray FU0; ///< State vector at current time.
@@ -92,6 +93,7 @@ protected:
 	double FCoefAjusFric; ///< Friction fitting coefficient.
 	double FCoefAjusTC; ///< Heat transfer fitting coefficient.
 	double FFriction; ///< Pipe friction.
+	bool FIsIntegrated; ///< Whether or not the pipe is already integrated.
 public:
     TBasicPipe();
 	
