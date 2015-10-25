@@ -185,32 +185,20 @@ void TLaxWendroff::Solve() {
 
 	FPipe->FIsIntegrated = false;
 	ComputeFlux(FPipe->FU0, FW, FPipe->FGamma, FPipe->FGamma1);
-// 	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
-// 	
-// 	double x1, x2, x3, x4;
-// 	for (int i = 0; i < m; i++)
-// 	{
-// 		for (int j = 0; j < n; j++)
-// 		{
-// 			x1 = FPipe->FU0(i, j) + FPipe->FU0(i, j + 1);
-// 			x2 = -dtdx * (FW(i, j + 1) - FW(i, j));
-// // 			x3 = (FV1(i, j + 1) + FV1(i, j) * FPipe->FDerLinArea(j)) * (-dt2);
-// // 			x4 = -dt2 * (FV2(i, j + 1) + FV2(i, j));
-// // 			FU_12(i, j) = (x1 + x2 + x3 + x4) / 2.;
-// 		}
-// 	}
-// 	Fx1 = FPipe->FU0.array() * FMid.array();
-// 	Fx1 = (FPipe->FU0.leftCols(n) + FPipe->FU0.rightCols(n)) / 2.;
-// 	Fx2 = -dtdx * (FW.rightCols(n) - FW.leftCols(n));
-// 	Fx3 = (FV1.rightCols(n) + FV1.leftCols(n)).rowwise()
-// 		* FPipe->FDerLinArea * (-dt2);
-// 	Fx4 = -dt2 * (FV2.rightCols(n) + FV2.leftCols(n));
-// 	FU_12 = (Fx1 + Fx2 + Fx3 + Fx4) / 2.;
-// 	FU_12 = (FPipe->FU0.leftCols(n) + FPipe->FU0.rightCols(n))
-// 		- dtdx * (FW.rightCols(n) - FW.leftCols(n))
-// 		- dt2 * ((FV1.rightCols(n) + FV1.leftCols(n)).rowwise()
-// 		* FPipe->FDerLinArea)
-// 		-dt2 * (FV2.rightCols(n) + FV2.leftCols(n));
+	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
+	
+	double x1, x2, x3, x4;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			x1 = FPipe->FU0(i, j) + FPipe->FU0(i, j + 1);
+			x2 = -dtdx * (FW(i, j + 1) - FW(i, j));
+			x3 = (FV1(i, j + 1) + FV1(i, j) * FPipe->FDerLinArea(j)) * (-dt2);
+			x4 = -dt2 * (FV2(i, j + 1) + FV2(i, j));
+			FU_12(i, j) = (x1 + x2 + x3 + x4) / 2.;
+		}
+	}
 	for (int i = 0; i < n; i++)
 	{
 		FTWPipe12(i) = (FPipe->FTWPipe(0, i) + FPipe->FTWPipe(0, i + 1)) / 2.;
@@ -221,16 +209,21 @@ void TLaxWendroff::Solve() {
 	FGamma12 = (FPipe->FGamma.head(n) + FPipe->FGamma.tail(n)) / 2.;
 	FGamma1_12 = (FPipe->FGamma1.head(n) + FPipe->FGamma1.tail(n)) / 2.;
 
-// 	ComputeFlux(FU_12, FW_12, FGamma12, FGamma1_12);
-// 	ComputeSource1(FU_12, FV1_12, FArea_12, FGamma1_12);
-// 	n -= 1;
-// 
-// 	Fx1_12 = FPipe->FU0.block(0, 1, m, n);
-// 	Fx2_12 = -dtdx * (FW_12.rightCols(n) - FW_12.leftCols(n));
-// 	Fx3_12 = (FV1_12.rightCols(n) + FV1_12.leftCols(n)).rowwise()
-// 		* FDerLinArea_12 * (-dt2);
-// 	Fx4_12 = -dt2 * (FV2_12.rightCols(n) + FV2_12.leftCols(n));
-// 	FPipe->FU1.block(0, 1, m, n) = Fx1_12 + Fx2_12 + Fx3_12 + Fx4_12;
+	ComputeFlux(FU_12, FW_12, FGamma12, FGamma1_12);
+	ComputeSource1(FU_12, FV1_12, FArea_12, FGamma1_12);
+
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 1; j < n; j++)
+		{
+			x1 = FPipe->FU0(i, j);
+			x2 = -dtdx * (FW_12(i, j) - FW_12(i, j - 1));
+			x3 = (FV1_12(i, j) + FV1_12(i, j - 1)
+				* FDerLinArea_12(j)) * (-dt2);
+			x4 = -dt2 * (FV2_12(i, j) + FV2_12(i, j - 1));
+			FPipe->FU1(i, j) = (x1 + x2 + x3 + x4) / 2.;
+		}
+	}
 
 	ComputeMaxTimeStep();
 	FPipe->FIsIntegrated = true;

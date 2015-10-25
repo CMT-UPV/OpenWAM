@@ -123,6 +123,7 @@ void TBasicPipe::setGeometry(const RowVector& x, double dx, const RowVector& A)
 	FMArea = (FArea.head(n_nodes - 1) + FArea.tail(n_nodes - 1)) / 2.;
 	FVolume = FMArea * dx;
 	FDerLinArea = (FArea.tail(n_nodes - 1) - FArea.head(n_nodes - 1)) / Fdx;
+	
 	FU0.setZero(3, n_nodes);
 }
 
