@@ -64,6 +64,7 @@ TLaxWendroff::TLaxWendroff(TBasicPipe * pipe)
 {
 	FMaxCourant = 1.;
 	Connect(pipe);
+	setPTU(1E5, 300, 0.);
 }
 
 
@@ -181,7 +182,6 @@ void TLaxWendroff::Solve() {
 	FPipe->FIsIntegrated = false;
 	FPipe->FCurrentTime += FPipe->FDeltaTime;
 	SolveCentralNodes();
-	ComputeMaxTimeStep();
 	FPipe->FU0 = FPipe->FU1;
 	UpdateFlowVariables();
 	FPipe->FIsIntegrated = true;
@@ -295,6 +295,7 @@ void TLaxWendroff::UpdateFlowVariables()
 	FPipe->Ftemperature = FPipe->Fpressure / FPipe->Frho / FPipe->FR;
 	FPipe->Fa = (FPipe->FGamma * FPipe->FR * FPipe->Ftemperature).sqrt();
 	UpdateGasProperties();
+	ComputeMaxTimeStep();
 }
 
 
