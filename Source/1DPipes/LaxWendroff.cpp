@@ -178,12 +178,22 @@ void TLaxWendroff::Connect(TBasicPipe * pipe) {
 
 
 void TLaxWendroff::Solve() {
+	FPipe->FIsIntegrated = false;
+	SolveCentralNodes();
+	ComputeMaxTimeStep();
+	FPipe->FU0 = FPipe->FU1;
+	UpdateFlowVariables();
+	FPipe->FIsIntegrated = true;
+}
+
+
+void TLaxWendroff::SolveCentralNodes()
+{
 	int m = FPipe->FU0.rows();
 	int n = FPipe->FU0.cols() - 1;
 	double dtdx = FPipe->FDeltaTime / FPipe->FXref;
 	double dt2 = FPipe->FDeltaTime / 2.;
 
-	FPipe->FIsIntegrated = false;
 	ComputeFlux(FPipe->FU0, FW, FPipe->FGamma, FPipe->FGamma1);
 	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
 	
@@ -224,9 +234,6 @@ void TLaxWendroff::Solve() {
 			FPipe->FU1(i, j) = (x1 + x2 + x3 + x4) / 2.;
 		}
 	}
-
-	ComputeMaxTimeStep();
-	FPipe->FIsIntegrated = true;
 }
 
 

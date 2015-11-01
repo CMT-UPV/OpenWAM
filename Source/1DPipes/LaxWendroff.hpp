@@ -169,6 +169,11 @@ public:
 	virtual void Solve();
 
 	/**
+	 * @brief Integrates the central nodes of the pipe.
+	 */
+	void SolveCentralNodes();
+
+	/**
 	 * @brief Sets the state vector.
 	 * 
 	 * Sets the state vector with a given pressure, temperature and flow speed.
