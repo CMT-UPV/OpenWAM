@@ -33,7 +33,9 @@ int main()
 	auto start = chrono::steady_clock::now();
 	for (int i = 0; i < 1000000; i++)
 	{
+		pipe.setDeltaTime(pipe.getMaxTimeStep());
 		pipe.Solve();
+		cout << pipe.getCurrentTime() << " s" << endl;
 	}
 	auto end = chrono::steady_clock::now();
 	auto diff = end - start;

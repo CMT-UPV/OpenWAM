@@ -108,6 +108,12 @@ double TBasicPipe::getMaxTimeStep()
 }
 
 
+void TBasicPipe::setDeltaTime(double dt)
+{
+	FDeltaTime = dt;
+}
+
+
 void TBasicPipe::setGeometry(const RowVector& x, double dx, const RowVector& A)
 {
 	double n_nodes = round(x.tail(1)(0) / dx) + 1;
@@ -138,6 +144,12 @@ void TBasicPipe::setPTU(const RowVector& p, const RowVector& T,
 	const RowVector& u)
 {
 	FMethod->setPTU(p, T, u);
+}
+
+
+double TBasicPipe::getCurrentTime() const
+{
+	return FCurrentTime;
 }
 
 

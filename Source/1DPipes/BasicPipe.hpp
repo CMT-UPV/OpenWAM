@@ -67,6 +67,7 @@ friend class TPipeMethod;
 friend class TLaxWendroff;
 protected:
 	RowArray FU0; ///< State vector at current time.
+	double FCurrentTime; ///< Current time for the pipe. [s]
 	double FDeltaTime; ///< Time step. [s]
 	double FXref; ///< Cell size. [m]
 	RowVector Fa; ///< Speed of sound. [m / s]
@@ -118,6 +119,13 @@ public:
 	void Solve();
 
 	/**
+	 * @brief Sets the time-step for the integration of this pipe.
+	 * 
+	 * @param dt Time-step. [s]
+	 */
+	void setDeltaTime(double dt);
+
+	/**
 	 * @brief Sets the pipe geometry.
 	 * 
 	 * Sets the pipe geometry, using several sections with linear variations
@@ -153,6 +161,13 @@ public:
 	 * @param u Flow speed. [m / s]
 	 */
 	void setPTU(const RowVector& p, const RowVector& T, const RowVector& u);
+
+	/**
+	 * @brief Returns the current time for this pipe.
+	 * 
+	 * @returns The current time for this pipe. [s]
+	 */
+	double getCurrentTime() const;
 
 	/**
 	 * @brief Returns the maximum allowable time-step.

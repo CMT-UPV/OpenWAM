@@ -179,6 +179,7 @@ void TLaxWendroff::Connect(TBasicPipe * pipe) {
 
 void TLaxWendroff::Solve() {
 	FPipe->FIsIntegrated = false;
+	FPipe->FCurrentTime += FPipe->FDeltaTime;
 	SolveCentralNodes();
 	ComputeMaxTimeStep();
 	FPipe->FU0 = FPipe->FU1;
