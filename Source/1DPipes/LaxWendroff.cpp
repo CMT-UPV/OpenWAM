@@ -197,7 +197,7 @@ void TLaxWendroff::SolveCentralNodes()
 
 	ComputeFlux(FPipe->FU0, FW, FPipe->FGamma, FPipe->FGamma1);
 	ComputeSource1(FPipe->FU0, FV1, FPipe->FArea, FPipe->FGamma1);
-	
+
 	double x1, x2, x3, x4;
 	for (int i = 0; i < m; i++)
 	{
@@ -232,7 +232,7 @@ void TLaxWendroff::SolveCentralNodes()
 			x3 = (FV1_12(i, j) + FV1_12(i, j - 1)
 				* FDerLinArea_12(j)) * (-dt2);
 			x4 = -dt2 * (FV2_12(i, j) + FV2_12(i, j - 1));
-			FPipe->FU1(i, j) = (x1 + x2 + x3 + x4) / 2.;
+			FPipe->FU1(i, j) = (x1 + x2 + x3 + x4);
 		}
 	}
 }
