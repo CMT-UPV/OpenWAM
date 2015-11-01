@@ -108,6 +108,13 @@ double TBasicPipe::getMaxTimeStep()
 }
 
 
+void TBasicPipe::setBCs(TCondicionContorno* leftBC, TCondicionContorno* rightBC)
+{
+	FLeftBC = leftBC;
+	FRightBC = rightBC;
+}
+
+
 void TBasicPipe::setDeltaTime(double dt)
 {
 	FDeltaTime = dt;

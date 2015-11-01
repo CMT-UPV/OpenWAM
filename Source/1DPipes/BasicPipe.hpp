@@ -54,6 +54,7 @@
 #ifndef BasicPipe_hpp
 #define BasicPipe_hpp
 
+#include "TCondicionContorno.h"
 #include "Math_wam.h"
 #include "BasicPipeMethod.hpp"
 
@@ -95,6 +96,8 @@ protected:
 	double FCoefAjusTC; ///< Heat transfer fitting coefficient.
 	double FFriction; ///< Pipe friction.
 	bool FIsIntegrated; ///< Whether or not the pipe is already integrated.
+	TCondicionContorno * FLeftBC; ///< Left boundary condition.
+	TCondicionContorno * FRightBC; ///< Right boundary condition.
 public:
     TBasicPipe();
 	
@@ -117,6 +120,15 @@ public:
 	 * Integrates the flow evolution inside the duct.
 	 */
 	void Solve();
+
+	/**
+	 * @brief Sets the boundary conditions of the pipe.
+	 * 
+	 * @param leftBC Left end boundary condition.
+	 * @param rightBC Right end boundary condition.
+	 */
+	void setBCs(TCondicionContorno * leftBC,
+				TCondicionContorno * rightBC);
 
 	/**
 	 * @brief Sets the time-step for the integration of this pipe.
