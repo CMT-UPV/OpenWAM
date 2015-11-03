@@ -130,7 +130,7 @@ void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect) {
 // ---------------------------------------------------------------------------
 
 void TCCCompresor::AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum,
-		char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
+		const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
 		TCondicionContorno **BC, int numCC, double AmbientTemperature,
 		double AmbientPressure, double *AtmosphericComposition) {
 	try {
@@ -365,11 +365,11 @@ void TCCCompresor::TuboCalculandose(int TuboActual) {
 	}
 }
 
-void TCCCompresor::ReadCompressorData(const char *FileWAM, fpos_t &filepos) {
+void TCCCompresor::ReadCompressorData(const char *FileWAM, fpos_t &filepos, TCompresor **Compressor) {
 
 	int tipoentrada = 0;
 
-	if (FCompresor->getModeloCompresor() == nmCompOriginal) {
+	if (Compressor[FNumeroCompresor-1]->getModeloCompresor() == nmCompOriginal) {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
@@ -389,7 +389,7 @@ void TCCCompresor::ReadCompressorData(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
+	} else if (Compressor[FNumeroCompresor-1]->getModeloCompresor() == nmCompPlenums) {
 		// Posee dos depositos. Hay que asignarselos a la BC.
 
 		FILE *fich = fopen(FileWAM, "r");
