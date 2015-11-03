@@ -396,7 +396,7 @@ private:
 	double Oil_Heat_Flow();
 
 public:
-	TTC_HTM();
+	TTC_HTM(stHTMoil *Oil);
 
 	~TTC_HTM();
 

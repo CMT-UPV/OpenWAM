@@ -136,7 +136,7 @@ public:
 	void LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos);
 
 	void AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum,
-			char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
+			const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
 			TCondicionContorno **BC, int numCC, double AmbientTemperature,
 			double AmbientPressure, double *AtmosphericComposition);
 
@@ -146,11 +146,11 @@ public:
 
 	void TuboCalculandose(int TuboActual);
 
-	void ReadCompressorData(TCompresor** Compressor, const char* FileWAM,
-			fpos_t& filepos, double AmbientTemperature, double AmbientPressure);
+	void ReadCompressorData(const char *FileWAM, fpos_t &filepos, TCompresor **Compressor);
 
 	void AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe,
-			TCondicionContorno **BC, int numCC, double *AtmosphericComposition);
+			TCondicionContorno **BC, int numCC, double *AtmosphericComposition,
+			TCompresor **Compressor,double AmbientTemperature, double AmbientPressure);
 };
 
 #endif

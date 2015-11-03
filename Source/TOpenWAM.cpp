@@ -477,9 +477,8 @@ void TOpenWAM::ReadInputData(char* FileName) {
 
 	for (int i = 0; i < NumberOfConnections; i++) {
 		if (BC[i]->getTipoCC() == nmCompresor) {
-			dynamic_cast<TCCCompresor*>(BC[i])->ReadCompressorData(Compressor,
-					fileinput.c_str(), fileposition, AmbientTemperature,
-					AmbientPressure);
+			dynamic_cast<TCCCompresor*>(BC[i])->ReadCompressorData(fileinput.c_str(),
+					fileposition, Compressor);
 		}
 	}
 
@@ -2166,6 +2165,14 @@ void TOpenWAM::ConnectFlowElements() {
 		}
 	}
 
+	for (int i = 0; i < NumberOfConnections; i++) {
+		if (BC[i]->getTipoCC() == nmCompresor) {
+			dynamic_cast<TCCCompresor*>(BC[i])->AsignData(Plenum, NumberOfPipes,
+					Pipe, BC, NumberOfConnections, AtmosphericComposition,Compressor,
+					AmbientTemperature,AmbientPressure);
+		}
+	}
+
 	for (int i = 0; i < NumberOfPlenums; i++) {
 		Plenum[i]->AsignacionCC(BC, NumberOfConnections);
 		if (Plenum[i]->getTipoDeposito() == nmTurbinaSimple
@@ -2184,13 +2191,6 @@ void TOpenWAM::ConnectFlowElements() {
 		} else if (BC[i]->getTipoCC() == nmUnionEntreDepositos) {
 			dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->AsignaDepositos(
 					Plenum);
-		}
-	}
-
-	for (int i = 0; i < NumberOfConnections; i++) {
-		if (BC[i]->getTipoCC() == nmCompresor) {
-			dynamic_cast<TCCCompresor*>(BC[i])->AsignData(Plenum, NumberOfPipes,
-					Pipe, BC, NumberOfConnections, AtmosphericComposition);
 		}
 	}
 

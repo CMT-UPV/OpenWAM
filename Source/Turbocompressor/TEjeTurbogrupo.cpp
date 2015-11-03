@@ -192,7 +192,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 			fscanf ( fich, "%lf %lf ", &FTwater, &FMwater );
 			FWater = new stHTMwater();
 
-			FHTM = new TTC_HTM();
+			FHTM = new TTC_HTM(FOil);
 
 			FMechLosses = new TurboBearings ( FOil, FJournalBLengh, FDShaft / 2,
 					FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
