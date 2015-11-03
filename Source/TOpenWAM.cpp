@@ -1662,7 +1662,7 @@ void TOpenWAM::ReadPlenumsXML() {
 					node_plenum = node_plenum.next_sibling("Bod:Plenum")) {
 
 				PlenumType = node_plenum.attribute("Type").value();
-				id = GetAttributeAsInt(node_plenum, "Plenum_ID");
+				id = GetAttributeAsInt(node_plenum, "Plenum_ID") - 1;
 
 				if (PlenumType == "ConstantVolume") {
 
@@ -1825,7 +1825,7 @@ void TOpenWAM::ReadCompressorsXML() {
 
 		int TipoCompresor;
 
-		const char_t* CompressorType;
+		std::string CompressorType;
 		int ID;
 
 		xml_node node_openwam = FileInputXML.child("OpenWAM");
@@ -2408,13 +2408,14 @@ void TOpenWAM::ReadConnections() {
 void TOpenWAM::ReadConnectionsXML() {
 	try {
 
-		const char_t* ConnectionType;
+		std::string ConnectionType;
 		int ID;
 
 		xml_node node_openwam = FileInputXML.child("OpenWAM");
 		xml_node node_conblock = GetNodeChild(node_openwam, "BlockOfConnections");
+		xml_node node_condata;
 
-		NumberOfConnections = CountNodes(node_conblock,"Boc:Connection");
+		NumberOfConnections = CountNodes(node_conblock, "Boc:Connection");
 		BC = new TCondicionContorno*[NumberOfConnections];
 		printf("Number of boundary condition: %d\n", NumberOfConnections);
 
@@ -2423,34 +2424,35 @@ void TOpenWAM::ReadConnectionsXML() {
 		int numerocv, contador;
 		int NumTCCDescargaExtremoAbierto = 0;
 		int NumTCCExtremoCerrado = 0,
-		NumTCCExtremoAnecoico = 0, NumTCCPulso = 0, NumTCCUnionEntreTubos = 0,
-		NumTCCCilindro = 0, NumTCCDeposito = 0, NumTCCRamificacion = 0,
-		NumTCCEntradaCompresor = 0, NumTCCPreVble = 0;
+			NumTCCExtremoAnecoico = 0, NumTCCPulso = 0, NumTCCUnionEntreTubos = 0,
+			NumTCCCilindro = 0, NumTCCDeposito = 0, NumTCCRamificacion = 0,
+			NumTCCEntradaCompresor = 0, NumTCCPreVble = 0;
 		NumTCCPerdidaPresion = 0;
 
 		int numerovalvula = 0, quevalv;
 		int NumTCCExternalConnection = 0;
 
 		for (xml_node node_connect = GetNodeChild(node_conblock, "Boc:Connection"); node_connect;
-				node_connect = node_connect.next_sibling("Boc:Connection")) {
+			node_connect = node_connect.next_sibling("Boc:Connection")) {
 			ConnectionType = node_connect.attribute("BoundaryType").value();
-			ID = GetAttributeAsInt(node_connect,"Boundary_ID");
+			ID = GetAttributeAsInt(node_connect, "Boundary_ID") - 1;
 
-			if(ConnectionType == "OpenEndAmbient"){
+			if (ConnectionType == "OpenEndAmbient"){
 				BC[ID] = new TCCDescargaExtremoAbierto(nmOpenEndAtmosphere,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
 				NumTCCDescargaExtremoAbierto++;
 #ifdef ParticulateFilter
-					BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
-						Pipe, NumberOfDPF, DPF);
+				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
+					Pipe, NumberOfDPF, DPF);
 #else
-					BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
-						Pipe, NumberOfDPF, NULL);
+				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
+					Pipe, NumberOfDPF, NULL);
 #endif
-					BC[ID]->AsignAmbientConditions(AmbientTemperature,
-						AmbientPressure, AtmosphericComposition);
-			}else if(ConnectionType == "OpenEndReservoir"){
+				BC[ID]->AsignAmbientConditions(AmbientTemperature,
+					AmbientPressure, AtmosphericComposition);
+			}
+			else if (ConnectionType == "OpenEndReservoir"){
 				BC[ID] = new TCCDescargaExtremoAbierto(nmOpenEndReservoir,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2462,7 +2464,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "OpenEndExternal"){
+			}
+			else if (ConnectionType == "OpenEndExternal"){
 				BC[ID] = new TCCDescargaExtremoAbierto(nmOpenEndCalcExtern,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2475,18 +2478,21 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "CloseEnd"){
+			}
+			else if (ConnectionType == "CloseEnd"){
 				BC[ID] = new TCCExtremoCerrado(nmClosedEnd, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumTCCExtremoCerrado++;
 				BC[ID]->AsignaTubos(NumberOfPipes, Pipe);
-			}else if(ConnectionType == "AnechoicEnd"){
+			}
+			else if (ConnectionType == "AnechoicEnd"){
 				BC[ID] = new TCCExtremoAnecoico(nmAnechoicEnd, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
 				NumTCCExtremoAnecoico++;
 				BC[ID]->AsignaTubos(NumberOfPipes, Pipe);
-			}else if(ConnectionType == "PulseEnd"){
+			}
+			else if (ConnectionType == "PulseEnd"){
 				BC[ID] = new TCCPulso(nmIncidentPressurWave, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2498,7 +2504,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "PipeJunction"){
+			}
+			else if (ConnectionType == "PipeJunction"){
 				BC[ID] = new TCCUnionEntreTubos(nmPipesConnection, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2510,7 +2517,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "IntakeValve"){
+			}
+			else if (ConnectionType == "IntakeValve"){
 				BC[ID] = new TCCCilindro(nmIntakeValve, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumTCCCilindro++;
@@ -2522,7 +2530,9 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "ExhaustValve"){
+				node_condata = GetNodeChild(node_connect, "Con:PipeToCylinder");
+			}
+			else if (ConnectionType == "ExhaustValve"){
 				BC[ID] = new TCCCilindro(nmExhaustValve, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumTCCCilindro++;
@@ -2534,7 +2544,9 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "LinearPressureLoss"){
+				node_condata = GetNodeChild(node_connect, "Con:PipeToCylinder");
+			}
+			else if (ConnectionType == "LinearPressureLoss"){
 				BC[ID] = new TCCPerdidadePresion(nmLinearPressureLoss, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2546,7 +2558,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "QuadraticPressureLoss"){
+			}
+			else if (ConnectionType == "QuadraticPressureLoss"){
 				BC[ID] = new TCCPerdidadePresion(nmQuadraticPressureLoss, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2558,7 +2571,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "PipeToPlenum"){
+			}
+			else if (ConnectionType == "PipeToPlenum"){
 				BC[ID] = new TCCDeposito(nmPipeToPlenumConnection, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2570,12 +2584,15 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "Branch"){
+				node_condata = GetNodeChild(node_connect, "Con:PipeToPlenum");
+			}
+			else if (ConnectionType == "Branch"){
 				BC[ID] = new TCCRamificacion(nmBranch, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumTCCRamificacion++;
 				BC[ID]->AsignaTubos(NumberOfPipes, Pipe);
-			}else if(ConnectionType == "VolumetricCompressor"){
+			}
+			else if (ConnectionType == "VolumetricCompressor"){
 
 				BC[ID] = new TCCCompresorVolumetrico(nmVolumetricCompressor,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
@@ -2588,7 +2605,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "Injector"){
+			}
+			else if (ConnectionType == "Injector"){
 				BC[ID] = new TCCExtremoInyeccion(nmInjectionEnd, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2600,7 +2618,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "CompressorInlet"){
+			}
+			else if (ConnectionType == "CompressorInlet"){
 				BC[ID] = new TCCEntradaCompresor(nmEntradaCompre, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2612,21 +2631,24 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "PlenumsConnection"){
+			}
+			else if (ConnectionType == "PlenumsConnection"){
 				BC[ID] = new TCCUnionEntreDepositos(nmUnionEntreDepositos,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
 				NumberOfConectionsBetweenPlenums++;
 				dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->LeeUEDepositosXML
 					(node_connect, Independent);
-			}else if(ConnectionType == "Compressor"){
+				node_condata = GetNodeChild(node_connect, "Con:PlenumsConnection");
+			}
+			else if (ConnectionType == "Compressor"){
 				BC[ID] = new TCCCompresor(nmCompresor, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumberOfCompressorsConnections++;
 				dynamic_cast<TCCCompresor*>(BC[ID])->LeeDatosCompresorXML
-					(node_connect);
-				break;
-			}else if(ConnectionType == "StaticPressure"){
+					(node_connect, node_openwam);
+			}
+			else if (ConnectionType == "StaticPressure"){
 				BC[ID] = new TCCPreVble(nmPresionVble, ID, SpeciesModel,
 					SpeciesNumber, GammaCalculation, ThereIsEGR);
 				NumTCCPreVble++;
@@ -2637,7 +2659,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "CFDConnection"){
+			}
+			else if (ConnectionType == "CFDConnection"){
 				BC[ID] = new TCFDConnection(nmCFDConnection, ID,
 					SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2648,7 +2671,8 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-			}else if(ConnectionType == "ExternalConnection"){
+			}
+			else if (ConnectionType == "ExternalConnection"){
 				BC[ID] = new TCCExternalConnectionVol(nmExternalConnection,
 					ID, SpeciesModel, SpeciesNumber, GammaCalculation,
 					ThereIsEGR);
@@ -2665,26 +2689,24 @@ void TOpenWAM::ReadConnectionsXML() {
 				== nmExhaustValve || BC[ID]->getTipoCC()
 				== nmPipeToPlenumConnection || BC[ID]->getTipoCC()
 				== nmUnionEntreDepositos) {
-				quevalv = GetAttributeAsInt(node_connect,"Valve_ID");
+				quevalv = GetAttributeAsInt(node_condata, "Valve_ID");
 
 				if (BC[ID]->getTipoCC() == nmIntakeValve || BC[ID]->getTipoCC
 					() == nmExhaustValve) {
 					dynamic_cast<TCCCilindro*>(BC[ID])->AsignaTipoValvula
 						(TypeOfValve, quevalv, numerovalvula);
-					xml_node node_tocyl = GetNodeChild(node_connect,"");
-					if(node_tocyl.child("Con:AvgOutput"))
-						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_tocyl);
-					if(node_tocyl.child("Con:InsOutput"))
-						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_tocyl);
+					if (node_condata.child("Con:AvgOutput"))
+						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_condata);
+					if (node_condata.child("Con:InsOutput"))
+						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_condata);
 				}
 				else if (BC[ID]->getTipoCC() == nmPipeToPlenumConnection) {
 					dynamic_cast<TCCDeposito*>(BC[ID])->AsignaTipoValvula
 						(TypeOfValve, quevalv, numerovalvula);
-					xml_node node_tople = GetNodeChild(node_connect,"");
-					if(node_tople.child("Con:AvgOutput"))
-						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_tople);
-					if(node_tople.child("Con:InsOutput"))
-						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_tople);
+					if (node_condata.child("Con:AvgOutput"))
+						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_condata);
+					if (node_condata.child("Con:InsOutput"))
+						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_condata);
 
 					if (TypeOfValve[quevalv - 1]->getTypeOfValve()
 						== nmLamina)
@@ -2703,11 +2725,10 @@ void TOpenWAM::ReadConnectionsXML() {
 					dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])
 						->AsignaTipoValvula(TypeOfValve, quevalv,
 						numerovalvula);
-					xml_node node_beple = GetNodeChild(node_connect,"");
-					if(node_beple.child("Con:AvgOutput"))
-						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_beple);
-					if(node_beple.child("Con:InsOutput"))
-						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_beple);
+					if (node_condata.child("Con:AvgOutput"))
+						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_condata);
+					if (node_condata.child("Con:InsOutput"))
+						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_condata);
 
 					if (TypeOfValve[quevalv - 1]->getTypeOfValve()
 						== nmLamina)
@@ -2726,6 +2747,8 @@ void TOpenWAM::ReadConnectionsXML() {
 			}
 
 		}
+
+	
 
 		if (NumberOfIntakeValves > 0) {
 			BCIntakeValve = new TCondicionContorno*[NumberOfIntakeValves];
@@ -2918,6 +2941,7 @@ void TOpenWAM::ReadConnectionsXML() {
 					}
 					BCExtConnectionVol[ID] =
 						dynamic_cast<TCCExternalConnectionVol*>(BC[i]);
+
 				}
 			}
 		}
@@ -2987,7 +3011,7 @@ void TOpenWAM::ReadTurbochargerAxisXML() {
 				} else
 					Axis[ID] = new TEjeTurbogrupo(ID, 0);
 
-				Axis[ID]->ReadTurbochargerAxisXML(node_tchblock,
+				Axis[ID]->ReadTurbochargerAxisXML(node_tch,
 						Compressor, Turbine);
 				Axis[ID]->IniciaMedias();
 			}
@@ -3077,7 +3101,7 @@ void TOpenWAM::ReadControllers() {
 
 void TOpenWAM::ReadControllersXML() {
 
-	const char_t* Type;
+	std::string Type;
 
 	xml_node node_openwam = FileInputXML.child("OpenWAM");
 	if(node_openwam.child("BlockOfControllers")){
@@ -3092,7 +3116,7 @@ void TOpenWAM::ReadControllersXML() {
 				"Bct:Controller"); node_ctrl; node_ctrl =
 						node_ctrl.next_sibling("Bct:Controller")){
 
-				Type = node_ctrl.attribute("Type").value();
+				Type = node_ctrl.attribute("Type").as_string();
 				i = GetAttributeAsInt(node_ctrl,"Controller_ID") - 1;
 				if(Type == "PID"){
 					Controller[i] = new TPIDController(i);

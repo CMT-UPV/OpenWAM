@@ -91,15 +91,17 @@ void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 	}
 }
 
-void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect) {
+void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect, xml_node node_openwam) {
 	try {
 
 		xml_node node_comp = GetNodeChild(node_connect,"Con:Compressor");
 		FNumeroCompresor = GetAttributeAsInt(node_comp,"Compressor_ID");
 
-		if (FCompresor->getModeloCompresor() == nmCompOriginal) {
+		std::string Type = node_openwam.child("BlockOfCompressors").find_child_by_attribute("Boc:Compressor", "ID", node_comp.attribute("Compressor_ID").value()).attribute("Type").as_string();
 
-			const char* InletType = node_comp.attribute("InletType").value();
+		if (Type == "Volume-Pipe") {
+
+			std::string InletType = node_comp.attribute("InletType").as_string();
 
 			if(InletType == "Atmosphere"){
 				FEntradaCompresor = nmAtmosphere;
@@ -110,7 +112,7 @@ void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect) {
 				FNumeroDeposito = GetAttributeAsInt(node_comp,"Inlet_ID");
 			}
 
-		} else if (FCompresor->getModeloCompresor() == nmCompPlenums) {
+		} else if (Type == "Volume-Volume") {
 			// Posee dos depositos. Hay que asignarselos a la BC.
 
 			FNumeroDepositoRot = GetAttributeAsInt(node_comp,"Inlet_ID");

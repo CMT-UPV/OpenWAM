@@ -135,7 +135,7 @@ public:
 
 	void LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos);
 
-	void LeeDatosCompresorXML(xml_node node_connect);
+	void LeeDatosCompresorXML(xml_node node_connect, xml_node node_openwam);
 
 	void AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum,
 			const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,

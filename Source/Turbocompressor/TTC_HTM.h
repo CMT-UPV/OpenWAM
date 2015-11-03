@@ -98,8 +98,8 @@ enum nmRePrmu {
 	nmmuW_C = 28,
 	nmReWater = 29,
 	nmPrWater = 30,
-	nmReMassComIn = 31,
-	nmPrComIn = 32,
+	nmReMassCom2 = 31,
+	nmPrCom2 = 32,
 	nmReOilH1 = 33,
 	nmReOilH2 = 34,
 	nmReOilH3 = 35,
@@ -116,6 +116,9 @@ struct stTurbomachinery {
 	double IT_C; // Inlet temperature (degC)
 	double IT_K; // Inlet temperature (K)
 	double IP; // Inlet pressure (bar)
+	double OP; // Outlet pressure (bar)
+	double IP0; // Total inlet pressure (bar)
+	double OP0; // Total outlet pressure (bar)
 	double PR; // Pressure ratio (-)
 	double RTC_C; // Corrected speed (rpm)
 	double TISO_K; // Isoentropic outlet temperature (K)
@@ -126,9 +129,15 @@ struct stTurbomachinery {
 	double EFF; // Efficiency
 	double T0_K; // Stagnation temperature (K)
 	double SecIn; // Inlet section (m^2)
+	double SecOut; // Outlet section (m^2)
 	double DIn;
+	double DOut;
 	stHTMair *Fluid;
 	double OT_K; // Outlet temperature (K)
+	double OT0_K; // Total outlet temperature (K)
+	double IT0_K; // Total inlet temperature (K)
+	double EFFMAX;
+	double Power;
 
 	double funCORRMass() {
 		return MassFlow * sqrt(IT_K / TREF_K) / (IP / PREF);
@@ -151,14 +160,28 @@ struct stTurbomachinery {
 	;
 
 	double funTiso(double sig) {
-		return IT_K * pow(PR, sig * (Fluid->g - 1) / Fluid->g);
+		return funT0_in() * pow(PR, sig * (Fluid->g - 1) / Fluid->g);
 	}
 	;
 
-	double funT0() {
-		return IT_K + pow2(MassFlow * 287 * IT_K / IP / SecIn) / 2 / Fluid->Cp;
+	double funP_toTotal(double P,double T, double T0){
+		return P / pow(T / T0, Fluid->g / (Fluid->g - 1));
 	}
 	;
+
+	double funP_toStatic(double P0, double T, double T0){
+		return P0 * pow(T / T0, Fluid->g / (Fluid->g - 1));
+	}
+	;
+
+	double funT0_in() {
+		return IT_K + pow2(MassFlow * 287 * IT_K / (IP * 1e5) / SecIn) / 2 / Fluid->Cp;
+	}
+	;
+
+	double funtT0_out() {
+		return OT_K + pow2(MassFlow * 287 * OT_K / (OP * 1e5) / SecOut) / 2 / Fluid->Cp;
+	};
 
 	double funP0() {
 		return IP * pow(T0_K / IT_K, (Fluid->g - 1) / Fluid->g);
@@ -166,9 +189,23 @@ struct stTurbomachinery {
 	;
 
 	double funIsoPower(double sig) {
-		return sig * MassFlow * Fluid->Cp * (TISO_K - IT_K);
+		return sig * MassFlow * Fluid->Cp * (TISO_K - IT0_K);
 	}
 	;
+
+	double funT_toStatic(double T0, double P0, double M){
+		OT_K = T0;
+		OP = P0;
+		double error = 1;
+		int iter = 0;
+		do{
+			OT_K = T0 - pow2(M * 287 * OT_K / (OP * 1e5) / SecOut) / 2 / Fluid->Cp;
+			error = funP_toStatic(P0, OT_K, T0) - OP;
+			OP = OP + error;
+			iter++;
+		} while (iter < 100 && fabs(error) < 0.001);
+		return OT_K;
+	};
 };
 
 struct stNodesHTM {
@@ -184,6 +221,7 @@ struct stNodesHTM {
 	// int OilNm;
 	// int OilOut;
 	int AirIn;
+	int AirOut;
 	int Amb;
 	int O_H1;
 	int O_H3;
@@ -206,11 +244,10 @@ struct stConductivities {
 };
 
 struct stOilTemps {
-	double In;
-	double _1;
-	double _2;
-	double _3;
-	double Out;
+	double OI;
+	double OIH1;
+	double OOH2;
+	double OO;
 };
 
 // struct stConvectivities {
@@ -243,9 +280,11 @@ struct stConvectivities {
 	stConvCorrelation GAS_H1;
 	stConvCorrelation WAT_H2;
 	stConvCorrelation OIL_H1;
-	stConvCorrelation OIL_H2;
+	stConvCorrelation OIL_H2_C;
+	stConvCorrelation OIL_H2_H;
 	stConvCorrelation OIL_H3;
-	stConvCorrelation AIR_H3;
+	stConvCorrelation AIR_H3_C;
+	stConvCorrelation AIR_H3_H;
 	stConvCorrelation AIR_C_C;
 	stConvCorrelation AIR_C_H;
 	stConvCorrelation AMB_T_N;
@@ -303,6 +342,28 @@ struct stCompressorPower {
 
 };
 
+struct stViewFactor {
+	double C_T;
+	double T_C;
+	double H1_T;
+	double T_H1;
+	double H2_T;
+	double T_H2;
+	double H3_T;
+	double T_H3;
+	double T_Amb;
+	double H1_C;
+	double C_H1;
+	double H2_C;
+	double C_H2;
+	double H3_C;
+	double C_H3;
+	double C_Amb;
+	double H1_Amb;
+	double H2_Amb;
+	double H3_Amb;
+};
+
 class TTC_HTM {
 private:
 
@@ -311,9 +372,41 @@ private:
 
 	stNodesHTM FNode;
 
+	stViewFactor FVF;
+
 	std::vector<std::string> FNodeLabel;
 
 	double FTime0;
+
+	bool FExternalRadiation;
+	bool FTurbineShielded;
+	bool FIsWaterCooled;
+
+	double FDiamExtTurb;
+	double FLengExtTurb;
+	double FEmisExtTurb;
+	double FAreaExtTurb;
+	double FDiamExtHous;
+	double FLengExtHous;
+	double FEmisExtHous;
+	double FAreaExtHous;
+	double FDiamExtComp;
+	double FLengExtComp;
+	double FEmisExtComp;
+	double FAreaExtComp;
+	double FEmisExtShie;
+	double FAlpha1;
+	double FAlpha2;
+	double FAlpha3;
+
+	double FFitRadiation;
+
+	bool FExternalConvection;
+
+	double FExtVelocity;
+	double FFitConvection;
+
+	double FFitTurbExtHeat;
 
 	// Input oil data
 	double FO_MassFlow; // Oil mass flow (kg/s)
@@ -335,6 +428,7 @@ private:
 	stOilTemps FOilTemps;
 
 	stHTMwater *FWater;
+	stHTMair *FAmbient;
 
 	double FDShaft;
 	double FHD;
@@ -353,6 +447,8 @@ private:
 	dMatrix FMatrix_KS;
 	dMatrix FMatrix_C;
 	dMatrix FMatrix_KC;
+	dMatrix FMatrix_Kh;
+	dMatrix FMatrix_Kr;
 
 	dVector FNode_Temp_K;
 	dVector FNode_Temp_K_Tr;
@@ -393,7 +489,26 @@ private:
 	}
 	;
 
-	double Oil_Heat_Flow();
+	void View_Factors(double Dt, double Dc, double Dh, double L);
+
+	double ViewFactorDiskDisk(double r1, double r2, double rc, double h);
+
+	double ViewFactorDiskCylinder(double r1, double r2, double h);
+
+	double KRadiationSurfaces(double A1, double A2, double e1, double e2,
+			double F12, double T1, double T2);
+
+	double KRadiationExternal(double L, double D, double e, double F, double T,
+			double Tamb);
+
+	double KRadiationExternalHous(double A, double e, double F, double T,
+			double Tamb);
+
+	double NusseltFreeConv(double Gr, double Pr);
+
+	double NusseltForcConv(double Re, double Pr);
+
+	void AddKConvRad(dMatrix& K, dMatrix K2);
 
 public:
 	TTC_HTM(stHTMoil *Oil);
@@ -405,17 +520,20 @@ public:
 			double C_MassFlow, double C_IT_C, double C_IP, double C_PR,
 			double O_MassFlow, double O_IT_C, double O_IP, double RTC);
 
-	void TurbochargerData(double DShaft, double HD, double Doil, double DWater);
+	void TurbochargerData(double DShaft, double HD, double Doil, double DWater,
+			double DT, double LT, double DC, double LC, double DH, double LH);
 
 	void TurbochargerWorkingPoint(double RTC, double MechEff, double O_MassFlow,
 			double O_IT, double O_IP, double W_IT, double W_MassFlow);
 
-	void CompressorData(double PREF, double TREF, double TMAP_K, double Din);
+	void CompressorData(double PREF, double TREF, double TMAP_K, double Din,
+			double Dout);
 
 	void CompressorWorkingPoint(double C_Humidity, double C_MassFlow,
 			double C_IT_C, double C_IP, double C_PR, double EFF);
 
-	void TurbineData(double PREF, double TREF, double TMAP_K, double Din);
+	void TurbineData(double PREF, double TREF, double TMAP_K, double Din,
+			double Dout);
 
 	void TurbineWorkingPoint(double T_AF, double T_Humidity, double T_MassFlow,
 			double T_IT_C, double T_IP, double T_PR, double EFF);
@@ -440,10 +558,10 @@ public:
 	double AdiabaticEff(nmSide Case);
 
 	double CorrectCompressorMap(double m, double cr, double eff, double TinC,
-			double TinT, double Rtc);
+			double TinT, double Rtc, double mt = 0);
 
 	double CorrectTurbineMap(double m, double er, double eff, double TinC,
-			double TinT, double Rtc);
+			double TinT, double Rtc, double mc = 0);
 
 	void AsignTCMechLosses(TurboBearings *MechLosses) {
 		FMechLosses = MechLosses;
@@ -452,14 +570,28 @@ public:
 
 	void Read_HTM(FILE *fich);
 
+	void Read_HTMXML(xml_node node_htm);
+
 	void InitializeTemp(double TIT, double COT, double CIT, double OIT,
 			double WIT, double TAMB);
+
+	void InitializeHeatFlow();
 
 	double Turb_Heat_Flow();
 
 	double Comp_Heat_Flow();
 
+	double Comp_Heat_Flow_1();
+
+	double Comp_Heat_Flow_2();
+
 	double Comp_Heat_Flow_In();
+
+	double Ambient_Heat_Flow();
+
+	double Oil_Heat_Flow();
+
+	double Water_Heat_Flow();
 
 	double NodeTemperature(int i) {
 		return FNode_Temp_K_Tr[i];
@@ -468,13 +600,43 @@ public:
 
 	void PrintInsTemperatures(stringstream & insoutput);
 
-	void HeaderInsTemperatures(stringstream & insoutput);
+	void HeaderInsTemperatures(stringstream & insoutput, int i);
 
 	void PrintInsHeatFlow(stringstream & insoutput);
 
-	void HeaderInsHeatFlow(stringstream & insoutput);
+	void HeaderInsHeatFlow(stringstream & insoutput, int i);
 
 	void SolveDeltaTempTr();
+
+	void PutHeatC(double HeatC1, double HeatC2);
+
+	void PutEffTurbMax(double EffMax);
+
+	double TemperatureNode(int node) {
+		return FNode_Temp_K_Tr[node];
+	}
+	;
+
+	void PrintTemperatures();
+
+	void PrintHeatFlows();
+
+	void PrintKs();
+
+	void PrintTs();
+
+	void PrintTsTr();
+
+
+	void Put_ExternalVelocity(double val){
+		FExtVelocity = val;
+	};
+
+	void Put_ExternalHeat(double val){
+		FFitRadiation = val;
+		FFitConvection = val;
+	};
+
 
 };
 // ---------------------------------------------------------------------------

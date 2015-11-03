@@ -134,9 +134,11 @@ void TCompTubDep::LeeCompresorXML(xml_node node_compressor) {
 
 			FAcComp = new TAcousticCompressor ( InID, VolID, OutID, RotID, StaID );
 		}
+		FDelay = 0.;
+		FDelay = GetXMLTime(node_comptubdep,"Delay");
 
 #endif
-		const char_t* Format = node_compressor.attribute("MapFormat").value();
+		std::string Format = node_compressor.attribute("MapFormat").value();
 
 		if (Format == "SAE") {
 			FCompressorMapFormat = nmSAMmap;

@@ -250,7 +250,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 				"Tch:Turbine"); node_cmp; node_cmp =
 						node_cmp.next_sibling("Tch:Turbine")) {
 			FNumeroTurbina[i] = GetAttributeAsInt(node_cmp,"Turbine_ID");
-			FTurbina[i] = Turbine[FNumeroCompresor[i] - 1];
+			FTurbina[i] = Turbine[FNumeroTurbina[i] - 1];
 			FTurbina[i]->PutRegimen(FRegimenEje);
 		}
 
@@ -325,10 +325,6 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FCAC = GetAttributeAsDouble(node_ml,"CAC");
 			FCAT = GetAttributeAsDouble(node_ml,"CAT");
 
-			FMechLosses = new TurboBearings ( FOil, FJournalBLengh, FDShaft / 2,
-					FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
-					FTthrustBRmin, FTthrustBRmax, Fk_tb );
-
 			xml_node node_geom = GetNodeChild(node_htm,"Htm:Geometry");
 
 			FCWArea = GetXMLArea(node_geom,"CompWheelArea");
@@ -342,6 +338,10 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			double DH = 0., LH = 0.;
 			DH = GetXMLLength(node_geom,"HousExtDiameter");
 			LH = GetXMLLength(node_geom,"HousExtLength");
+
+			FMechLosses = new TurboBearings(FOil, FJournalBLengh, FDShaft / 2,
+				FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
+				FTthrustBRmin, FTthrustBRmax, Fk_tb);
 
 
 			FHTM = new TTC_HTM(FOil);
