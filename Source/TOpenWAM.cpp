@@ -887,7 +887,7 @@ void TOpenWAM::ReadGeneralDataXML() {
 		AmbientPressure = GetAttributeAsDouble(node_general, "pamb");
 		AmbientTemperature = GetAttributeAsDouble(node_general, "tamb");
 
-		const char_t* GmMod = node_general.attribute("GammaModel").value();
+		std:string GmMod = node_general.attribute("GammaModel").value();
 		if (GmMod == "Constant") {
 			GammaCalculation = nmGammaConstante;
 		} else if (GmMod == "Composition") {
@@ -899,7 +899,7 @@ void TOpenWAM::ReadGeneralDataXML() {
 		// Lectura modelo especies
 		xml_node node_species = GetNodeChild(node_general, "SpeciesModel");
 
-		const char_t* SpMod = node_species.attribute("Type").value();
+		std::string SpMod = node_species.attribute("Type").value();
 		if (SpMod == "Simple") {
 			SpeciesModel = nmCalculoSimple;
 		} else {
@@ -907,7 +907,7 @@ void TOpenWAM::ReadGeneralDataXML() {
 		}
 		ThereIsFuel = GetAttributeAsBool(node_species, "ThereIsFuel");
 		if (ThereIsFuel) {
-			const char_t* Ftype = node_species.attribute("FuelType").value();
+			std::string Ftype = node_species.attribute("FuelType").value();
 			if (Ftype == "Diesel") {
 				FuelType = nmDiesel;
 			} else {
@@ -1036,7 +1036,7 @@ void TOpenWAM::ReadGeneralDataXML() {
 
 		CompAtmosfera = new double[SpeciesNumber - IntEGR];
 		for (int i = 0; i < SpeciesNumber - IntEGR; i++) {
-			CompAtmosfera = 0;
+			CompAtmosfera[i] = 0;
 		}
 		xml_node node_compatm = GetNodeChild(node_species, "Composition");
 
@@ -1408,15 +1408,15 @@ void TOpenWAM::ReadValvesXML() {
 		int NumberOfButerflyValves = 0;
 		int tipval;
 
-		const char_t* ValveType;
+		std::string ValveType;
 
 		for (xml_node node_valve = GetNodeChild(node_valveblock, "Bov:Valve");
 				node_valve; node_valve = node_valve.next_sibling("Bov:Valve")) {
 
 			ValveType = node_valve.attribute("Valve_type").value();
-			id = GetAttributeAsInt(node_valve, "Valve_ID");
+			id = GetAttributeAsInt(node_valve, "Valve_ID") - 1;
 
-			if (id > NumberOfValves) {
+			if (id >= NumberOfValves) {
 				std::cout
 						<< "ERROR: The valves are not correctly ordered. Valve: "
 						<< id << std::endl;
@@ -1655,7 +1655,7 @@ void TOpenWAM::ReadPlenumsXML() {
 			Plenum = new TDeposito*[NumberOfPlenums];
 		}
 		if (NumberOfPlenums != 0) {
-			const char_t* PlenumType;
+			std::string PlenumType;
 			int id;
 			for (xml_node node_plenum = GetNodeChild(node_plenumblock,
 					"Bod:Plenum"); node_plenum;
@@ -1678,7 +1678,7 @@ void TOpenWAM::ReadPlenumsXML() {
 							node_plenum, EngineBlock);
 					NumberOfVariableVol++;
 				} else if (PlenumType == "Turbine") {
-					xml_node node_turb = GetNodeChild(node_turb, "Plm:Turbine");
+					xml_node node_turb = GetNodeChild(node_plenum, "Plm:Turbine");
 					numeroturbina = GetAttributeAsInt(node_turb, "Turbine_ID");
 					Plenum[id] = new TTurbinaSimple(id, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);

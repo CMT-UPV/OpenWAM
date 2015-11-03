@@ -278,14 +278,14 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCin");
 				node_dcin; node_dcin = node_dcin.next_sibling("RdV:DCin")) {
 			FLiftCDin[j] = (double) j * FIncrLev;
-			FDatosCDEntrada[j] = GetAttributeAsDouble(node_dcin, "DCin");
+			FDatosCDEntrada[j] = GetAttributeAsDouble(node_dcin, "DC_in");
 			++j;
 		}
 		j = 0;
 		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCout");
 				node_dcin; node_dcin = node_dcin.next_sibling("RdV:DCout")) {
 			FLiftCDout[j] = (double) j * FIncrLev;
-			FDatosCDSalida[j] = GetAttributeAsDouble(node_dcin, "DCout");
+			FDatosCDSalida[j] = GetAttributeAsDouble(node_dcin, "DC_out");
 			++j;
 		}
 	} catch (exception & N) {

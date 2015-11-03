@@ -690,7 +690,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 		FNodoIzq = GetAttributeAsInt(node_pipe, "NodeL_ID");
 		FNodoDer = GetAttributeAsInt(node_pipe, "NodeR_ID");
 
-		FNodoDer = GetAttributeAsInt(node_pipe, "ParallelPipes");
+		FNumeroConductos = GetAttributeAsInt(node_pipe, "ParallelPipes");
 
 		xml_node node_prop = GetNodeChild(node_pipe, "GasProperties");
 		FPini = GetAttributeAsDouble(node_prop, "Pressure");
@@ -721,15 +721,15 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 
 		xml_node node_nummet = GetNodeChild(node_pipe, "Pip:NumericalMethod");
 		FMallado = GetAttributeAsDouble(node_nummet, "MeshSize");
-		FMallado = GetAttributeAsDouble(node_nummet, "Courant");
-		const char_t* TypeScheme = node_nummet.attribute("Scheme").value();
+		FCourant = GetAttributeAsDouble(node_nummet, "Courant");
+		std::string TypeScheme = node_nummet.attribute("Scheme").value();
 		FMod.FormulacionLeyes = nmConArea;
 		if (TypeScheme == "LaxWendroff") {
 			FMod.Modelo = nmLaxWendroff;
 			bool FCT = GetAttributeAsBool(node_nummet, "FCT");
 			if (FCT) {
 				FMod.SubModelo = nmFCT;
-				const char_t* FCT_Opt =
+				std::string FCT_Opt =
 						node_nummet.attribute("FCT_Opt").value();
 				if (FCT_Opt == "DDNAD") {
 					FMod.OpcionSubModelo = nmDDNAD;
@@ -768,7 +768,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 		xml_node node_ht = GetNodeChild(node_pipe, "Pip:HeatTransfer");
 		FCoefAjusTC = GetAttributeAsDouble(node_ht, "FittingCoef");
 
-		const char_t* HTType = node_ht.attribute("HT_Type").value();
+		std::string HTType = node_ht.attribute("HT_Type").value();
 		if (HTType == "IntakePipe") {
 			FTipoTransCal = nmTuboAdmision;
 		} else if (HTType == "ExhaustPipe") {
@@ -778,7 +778,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 		} else if (HTType == "IntakePort") {
 			FTipoTransCal = nmPipaAdmision;
 		}
-		const char_t* WallCalc = node_ht.attribute("WallCalculation").value();
+		std::string WallCalc = node_ht.attribute("WallCalculation").value();
 		FTIniParedTub = GetAttributeAsDouble(node_ht, "WallTemperature");
 		if (WallCalc == "Constant") {
 			FTipoCalcTempPared = nmTempConstante;
@@ -794,7 +794,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 				FCoefExt = GetAttributeAsDouble(node_ht, "FitExternalHT");
 				FEmisividad = GetAttributeAsDouble(node_ht, "Emisivity");
 
-				const char_t* Coolant = node_ht.attribute("Coolant").value();
+				std::string Coolant = node_ht.attribute("Coolant").value();
 
 				if (Coolant == "Air") {
 					FTipRefrig = nmAire;
@@ -1003,7 +1003,7 @@ void TTubo::LeeDatosGeometricosTuboXML(xml_node node_pipe, double ene,
 						<< FNumeroTubo << std::endl;
 				throw Exception("");
 			}
-			FLTramo[id] = GetAttributeAsDouble(node_stretch, "Lenght");
+			FLTramo[id] = GetAttributeAsDouble(node_stretch, "Length");
 			FDExtTramo[id] = GetAttributeAsDouble(node_stretch, "Diameter");
 		}
 

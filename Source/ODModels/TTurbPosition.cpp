@@ -86,8 +86,8 @@ void TTurbPosition::ReadTurbinPositionXML(xml_node node_map) {
 	//FAngle = GetXMLAngle(node_map, "BladeAngle");
 
 	xml_node node_unit = GetNodeChild(node_map, "Unis");
-	const char_t* RedSpeedUnit = node_unit.attribute("ReducedSpeed").value();
-	const char_t* RedMassUnit = node_unit.attribute("ReducedMassFlow").value();
+	std::string RedSpeedUnit = node_unit.attribute("ReducedSpeed").value();
+	std::string RedMassUnit = node_unit.attribute("ReducedMassFlow").value();
 
 	int i = 0;
 

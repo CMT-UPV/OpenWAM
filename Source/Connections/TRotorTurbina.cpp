@@ -104,8 +104,8 @@ void TRotorTurbina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FNumeroOrden = norden;
 
 		xml_node node_rt = GetNodeChild(node_valve, "Val:Rotor");
-		FCDEInicial = GetAttributeAsDouble(node_rt, "DCin");
-		FCDSInicial = GetAttributeAsDouble(node_rt, "DCout");
+		FCDEInicial = GetAttributeAsDouble(node_rt, "DC_in");
+		FCDSInicial = GetAttributeAsDouble(node_rt, "DC_out");
 		FDiametroRef = GetXMLLength(node_rt, "RefDiameter");
 
 	} catch (Exception &N) {

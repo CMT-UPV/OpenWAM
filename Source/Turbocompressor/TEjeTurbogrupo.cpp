@@ -352,7 +352,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FConvTemp.FastConvergence = GetAttributeAsBool(node_set,"FastConvergence");
 			if(FConvTemp.FastConvergence){
 				FConvTemp.TimeStep = GetXMLTime(node_set,"TimeStep");
-				FConvTemp.MaxTime = GetXMLTime(node_set,"MatTime");
+				FConvTemp.MaxTime = GetXMLTime(node_set,"MaxTime");
 			}
 
 			//FHTM->Read_HTMXML ( fich );

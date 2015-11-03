@@ -125,8 +125,8 @@ void TMariposa::LeeDatosInicialesXML(xml_node node_valve, int norden,
 	for (xml_node node_lift = GetNodeChild(node_throttle, "Thr:Lift");
 			node_lift; node_lift = node_lift.next_sibling("Thr:Lift")) {
 		FLevantamiento[i] = GetXMLLength(node_lift, "Lift", LengthUnits);
-		FDatosCDEntrada[i] = GetAttributeAsDouble(node_lift, "DCin");
-		FDatosCDSalida[i] = GetAttributeAsDouble(node_lift, "DCin");
+		FDatosCDEntrada[i] = GetAttributeAsDouble(node_lift, "DC_in");
+		FDatosCDSalida[i] = GetAttributeAsDouble(node_lift, "DC_in");
 		i++;
 	}
 	ctrl = CountNodes(node_throttle, "Actuator");

@@ -454,7 +454,7 @@ void TTurbina::LeeTurbina(const char *FileWAM, fpos_t &filepos) {
 void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 	try {
 
-		const char_t* tipoturb = node_turb.attribute("Turbine_type").value();
+		std::string tipoturb = node_turb.attribute("Turbine_type").value();
 
 		if (tipoturb == "FixedDC") {
 			FTipoTurbina = nmFixedTurbine;
@@ -474,7 +474,7 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 			FMapa->LoadTurbineMapXML(node_turb);
 
 			int numctrl = CountNodes(node_turb, "Actuator");
-			const char_t* ctrl;
+			std::string ctrl;
 			for (xml_node node_ctrl = GetNodeChild(node_turb, "Actuator");
 					node_ctrl; node_ctrl = node_ctrl.next_sibling("Actuator")) {
 
@@ -500,7 +500,7 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 
 #endif
 		} else {
-			const char_t* rdturb = node_turb.attribute("Eff_type").value();
+			std::string rdturb = node_turb.attribute("Eff_type").value();
 			if (rdturb == "Watson") {
 				FCalRendTurbina = nmWatson;
 			} else if (rdturb == "Polinomy") {

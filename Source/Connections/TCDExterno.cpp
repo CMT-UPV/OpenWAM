@@ -91,8 +91,8 @@ void TCDExterno::LeeDatosInicialesXML(xml_node node_valve, int norden,
 	try {
 
 		xml_node node_ext = GetNodeChild(node_valve, "Val:ExternalDC");
-		FCDEInicial = GetAttributeAsDouble(node_ext, "DCin");
-		FCDSInicial = GetAttributeAsDouble(node_ext, "DCout");
+		FCDEInicial = GetAttributeAsDouble(node_ext, "DC_in");
+		FCDSInicial = GetAttributeAsDouble(node_ext, "DC_out");
 		FCTorbInicial = GetAttributeAsDouble(node_ext, "CTorb");
 
 	} catch (Exception &N) {

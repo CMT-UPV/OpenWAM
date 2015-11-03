@@ -131,8 +131,8 @@ void TValvulaContr::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FLimiteInf2 = GetAttributeAsDouble(node_controlled, "LimitDown1");
 		FLimiteSup1 = GetAttributeAsDouble(node_controlled, "LimitUp1");
 		FLimiteSup2 = GetAttributeAsDouble(node_controlled, "LimitUp2");
-		FCDInicial = GetAttributeAsDouble(node_controlled, "DCini");
-		FCDFinal = GetAttributeAsDouble(node_controlled, "DCfin");
+		FCDInicial = GetAttributeAsDouble(node_controlled, "DC_ini");
+		FCDFinal = GetAttributeAsDouble(node_controlled, "DC_fin");
 
 	} catch (exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales ValvulaContr" << std::endl;

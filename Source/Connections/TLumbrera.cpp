@@ -160,8 +160,8 @@ void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden,
 				node_flowc;
 				node_flowc = node_flowc.next_sibling("P2s:FlowCoef")) {
 			FApertura[j] = GetXMLLength(node_flowc, "Opening");
-			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flowc, "DCin");
-			FDatosCDSalida[j] = GetAttributeAsDouble(node_flowc, "DCout");
+			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flowc, "DC_in");
+			FDatosCDSalida[j] = GetAttributeAsDouble(node_flowc, "DC_out");
 			j++;
 		}
 	} catch (exception & N) {

@@ -212,8 +212,8 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		for (xml_node node_flow = GetNodeChild(node_rotary, "RtV:FlowCoef");
 				node_flow; node_flow = node_flow.next_sibling("RtV:FlowCoef")) {
 			FAngulo[j] = GetAttributeAsDouble(node_flow, "Angle");
-			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flow, "DCin");
-			FDatosCDSalida[j] = GetAttributeAsDouble(node_flow, "DCout");
+			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flow, "DC_in");
+			FDatosCDSalida[j] = GetAttributeAsDouble(node_flow, "DC_out");
 			j++;
 		}
 

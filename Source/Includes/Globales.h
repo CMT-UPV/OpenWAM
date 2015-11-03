@@ -2236,38 +2236,46 @@ inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 
 inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR,
 		bool Fuel, nmTipoCalculoEspecies SpeciesModel) {
-	double fracciontotal;
+	double fracciontotal = 0.;
 
 	if (SpeciesModel == nmCalculoCompleto) {
 		for (xml_node Specie = node_comp.child("Specie"); Specie; Specie =
 				Specie.next_sibling("Specie")) {
-			if (Specie.attribute("Name").value() == "O2") {
+			if (std::string(Specie.attribute("Name").value()) == "O2") {
 				Comp[0] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[0];
-			} else if (Specie.attribute("Name").value() == "CO2") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "CO2") {
 				Comp[1] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[1];
-			} else if (Specie.attribute("Name").value() == "H2O") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "H2O") {
 				Comp[2] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[2];
-			} else if (Specie.attribute("Name").value() == "HC") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "HC") {
 				Comp[3] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[3];
-			} else if (Specie.attribute("Name").value() == "Soot") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "Soot") {
 				Comp[4] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[4];
-			} else if (Specie.attribute("Name").value() == "NOx") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "NOx") {
 				Comp[5] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[5];
-			} else if (Specie.attribute("Name").value() == "CO") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "CO") {
 				Comp[6] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[6];
-			} else if (Specie.attribute("Name").value() == "Fuel") {
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "Fuel") {
 				if (Fuel) {
 					Comp[7] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[7];
 				}
-			} else if (Specie.attribute("Name").value() == "N2")
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "N2")
 				if (Fuel) {
 					Comp[8] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[8];
@@ -2275,7 +2283,7 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR,
 					Comp[7] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[7];
 				}
-			else if (Specie.attribute("Name").value() == "EGR")
+			else if (std::string(Specie.attribute("Name").value()) == "EGR")
 				if (EGR)
 					if (Fuel) {
 						Comp[9] = GetAttributeAsDouble(Specie, "Value");
@@ -2289,10 +2297,11 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR,
 	} else {
 		for (xml_node Specie = node_comp.child("Specie"); Specie; Specie =
 				Specie.next_sibling("Specie")) {
-			if (Specie.attribute("Name").value() == "Gas") {
+			if (std::string(Specie.attribute("Name").value()) == "Gas") {
 				Comp[0] = GetAttributeAsDouble(Specie, "Value");
 				fracciontotal += Comp[0];
-			} else if (Specie.attribute("Name").value() == "Air")
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "Air")
 				if (Fuel) {
 					Comp[2] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[2];
@@ -2300,12 +2309,13 @@ inline void ImposeCompositionXML(xml_node node_comp, double* Comp, bool EGR,
 					Comp[1] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[1];
 				}
-			else if (Specie.attribute("Name").value() == "Fuel") {
+			else if (std::string(Specie.attribute("Name").value()) == "Fuel") {
 				if (Fuel) {
 					Comp[1] = GetAttributeAsDouble(Specie, "Value");
 					fracciontotal += Comp[1];
 				}
-			} else if (Specie.attribute("Name").value() == "EGR")
+			}
+			else if (std::string(Specie.attribute("Name").value()) == "EGR")
 				if (EGR)
 					if (Fuel) {
 						Comp[3] = GetAttributeAsDouble(Specie, "Value");
