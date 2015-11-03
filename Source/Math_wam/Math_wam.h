@@ -220,7 +220,7 @@ inline void Swap(T &a, T &b) {
 }
 
 template<class T>
-inline T MaxComponent(std::vector<T> x) {
+inline T MaxComponent(std::vector<T> &x) {
 	T max = x[0];
 	for (Uint i = 1; i < x.size(); i++) {
 		if (x[i] > max)
@@ -230,7 +230,7 @@ inline T MaxComponent(std::vector<T> x) {
 }
 
 template<class T>
-inline T MinComponent(std::vector<T> x) {
+inline T MinComponent(std::vector<T> &x) {
 	T min = x[0];
 	for (Uint i = 1; i < x.size(); i++) {
 		if (x[i] < min)
