@@ -329,8 +329,8 @@ void TSAEMap::LeeMapa(FILE *fich) {
 	FTempRef += unCToK;
 	FPresionRef *= unBarToPa;
 
-//	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
-//			&FEffMultiplier);
+	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
+			&FEffMultiplier);
 #ifdef tchtm
 	fscanf ( fich, "%d ", &Adiab );
 	if ( Adiab == 0 ) {
