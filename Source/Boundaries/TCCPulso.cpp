@@ -192,7 +192,7 @@ void TCCPulso::ReadBoundaryDataXML(xml_node node_connection,
 			i++;
 		}
 
-		xml_node node_pulse = GetNodeChild(node_connection,"Con:IncidentPressure");
+		xml_node node_pulse = GetNodeChild(node_connection,"Con_IncidentPressure");
 
 		FPulso = new TEntradaPulso();
 		FPulso->LeeEntradaPulsoXML(node_pulse,FTipoCC);

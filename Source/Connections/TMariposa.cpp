@@ -108,22 +108,22 @@ void TMariposa::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 	FNumeroOrden = norden;
 
-	xml_node node_throttle = GetNodeChild(node_valve, "Val:RotaryValve");
+	xml_node node_throttle = GetNodeChild(node_valve, "Val_RotaryValve");
 	xml_node node_units = GetNodeChild(node_throttle, "Units");
 	const char_t* LengthUnits = node_units.attribute("Length").value();
 
 	FDiametroRef = GetXMLLength(node_throttle, "RefDiameter");
 	FLevActual = GetXMLLength(node_throttle, "Lift");
 
-	FNumLev = CountNodes(node_throttle, "Thr:Lift");
+	FNumLev = CountNodes(node_throttle, "Thr_Lift");
 
 	FLevantamiento.resize(FNumLev);
 	FDatosCDEntrada.resize(FNumLev);
 	FDatosCDSalida.resize(FNumLev);
 
 	int i = 0;
-	for (xml_node node_lift = GetNodeChild(node_throttle, "Thr:Lift");
-			node_lift; node_lift = node_lift.next_sibling("Thr:Lift")) {
+	for (xml_node node_lift = GetNodeChild(node_throttle, "Thr_Lift");
+			node_lift; node_lift = node_lift.next_sibling("Thr_Lift")) {
 		FLevantamiento[i] = GetXMLLength(node_lift, "Lift", LengthUnits);
 		FDatosCDEntrada[i] = GetAttributeAsDouble(node_lift, "DC_in");
 		FDatosCDSalida[i] = GetAttributeAsDouble(node_lift, "DC_in");

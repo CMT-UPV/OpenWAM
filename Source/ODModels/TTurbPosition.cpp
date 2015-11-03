@@ -91,8 +91,8 @@ void TTurbPosition::ReadTurbinPositionXML(xml_node node_map) {
 
 	int i = 0;
 
-	for (xml_node node_mpt = GetNodeChild(node_map, "Tmp:TurbineMapPoint");
-			node_mpt; node_mpt = node_mpt.next_sibling("Tmp:TurbineMapPoint")) {
+	for (xml_node node_mpt = GetNodeChild(node_map, "Tmp_TurbineMapPoint");
+			node_mpt; node_mpt = node_mpt.next_sibling("Tmp_TurbineMapPoint")) {
 
 		SP = GetXMLReducedSpeed(node_mpt, "Speed", RedSpeedUnit);
 		MF = GetXMLReducedMassFlow(node_mpt, "Mass", RedMassUnit);

@@ -218,7 +218,7 @@ void TCCCompresorVolumetrico::ReadBoundaryDataXML(xml_node node_connect,
 			i++;
 		}
 
-		xml_node node_cv = GetNodeChild(node_connect,"Con:VolCompressor");
+		xml_node node_cv = GetNodeChild(node_connect,"Con_VolCompressor");
 
 		FNumeroCV = GetAttributeAsInt(node_cv,"VolComp_ID");
 		asgNumeroCV = true;
@@ -300,9 +300,9 @@ void TCCCompresorVolumetrico::ReadBoundaryDataXML(xml_node node_connect,
 					<< FNumeroCC << std::endl;
 			throw Exception(" ");
 		}
-		if(node_cv.child("Con:AvgOutput"))
+		if(node_cv.child("Con_AvgOutput"))
 			ReadAverageResultsCVXML(node_cv);
-		if(node_cv.child("Con:InsOutput"))
+		if(node_cv.child("Con_InsOutput"))
 			LeeResultadosInstantCVXML(node_cv);
 
 		IniciaMedias();
@@ -491,7 +491,7 @@ void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,
 void TCCCompresorVolumetrico::ReadAverageResultsCVXML(xml_node node_root) {
 	try {
 
-		xml_node node_avg=GetNodeChild(node_root,"Con:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_root,"Con_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "Power"){
@@ -697,7 +697,7 @@ void TCCCompresorVolumetrico::LeeResultadosInstantCVXML(xml_node node_root) {
 
 	try {
 
-		xml_node node_ins=GetNodeChild(node_root,"Con:InsOutput");
+		xml_node node_ins=GetNodeChild(node_root,"Con_InsOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "Power"){

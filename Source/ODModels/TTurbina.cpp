@@ -518,9 +518,9 @@ void TTurbina::LeeTurbinaXML(xml_node node_turb) {
 		}
 		FAjustRendTurb = GetAttributeAsDouble(node_turb, "FitEfficiency");
 
-		if(node_turb.child("Trb:InsOutput"))
+		if(node_turb.child("Trb_InsOutput"))
 			LeeResultadosInstantTurbXML(node_turb);
-		if(node_turb.child("Trb:AvgOutput"))
+		if(node_turb.child("Trb_AvgOutput"))
 			ReadAverageResultsTurbXML(node_turb);
 
 	} catch (exception & N) {

@@ -353,9 +353,9 @@ void TDeposito::LeeDatosGeneralesDepositosXML(xml_node node_plenum) {
 			}
 
 		}
-		if(node_plenum.child("Plm:InsOutput"))
+		if(node_plenum.child("Plm_InsOutput"))
 			ReadInstantaneousResultsDepXML(node_plenum);
-		if(node_plenum.child("Plm:AvgOutput"))
+		if(node_plenum.child("Plm_AvgOutput"))
 			ReadAverageResultsDepXML(node_plenum);
 	} catch (exception & N) {
 		std::cout
@@ -1011,7 +1011,7 @@ void TDeposito::ReadInstantaneousResultsDepXML(xml_node node_plenum) {
 	int nvars, var;
 	try {
 
-		xml_node node_ins = GetNodeChild(node_plenum,"Plm:InsOutput");
+		xml_node node_ins = GetNodeChild(node_plenum,"Plm_InsOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 
@@ -1083,7 +1083,7 @@ void TDeposito::ReadAverageResultsDepXML(xml_node node_plenum) {
 	int nvars, var;
 	try {
 
-		xml_node node_avg = GetNodeChild(node_plenum,"Plm:AvgOutput");
+		xml_node node_avg = GetNodeChild(node_plenum,"Plm_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 

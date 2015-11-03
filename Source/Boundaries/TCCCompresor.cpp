@@ -94,10 +94,10 @@ void TCCCompresor::LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos) {
 void TCCCompresor::LeeDatosCompresorXML(xml_node node_connect, xml_node node_openwam) {
 	try {
 
-		xml_node node_comp = GetNodeChild(node_connect,"Con:Compressor");
+		xml_node node_comp = GetNodeChild(node_connect,"Con_Compressor");
 		FNumeroCompresor = GetAttributeAsInt(node_comp,"Compressor_ID");
 
-		std::string Type = node_openwam.child("BlockOfCompressors").find_child_by_attribute("Boc:Compressor", "ID", node_comp.attribute("Compressor_ID").value()).attribute("Type").as_string();
+		std::string Type = node_openwam.child("BlockOfCompressors").find_child_by_attribute("Boc_Compressor", "ID", node_comp.attribute("Compressor_ID").value()).attribute("Type").as_string();
 
 		if (Type == "Volume-Pipe") {
 

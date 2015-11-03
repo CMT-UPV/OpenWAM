@@ -288,7 +288,7 @@ void TCompresor::LeeDatosGraficasMediasXML(xml_node node_comp) {
 
 		FMedias.GraficaMedias = true;
 
-		xml_node node_avg=GetNodeChild(node_comp,"Com:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_comp,"Com_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 
@@ -452,7 +452,7 @@ void TCompresor::LeeDatosGraficasInstantaneasXML(xml_node node_comp) {
 	try {
 
 		FInstant.GraficaInstantaneas = true;
-		xml_node node_ins=GetNodeChild(node_comp,"Com:InsOutput");
+		xml_node node_ins=GetNodeChild(node_comp,"Com_InsOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "CompressionRatio"){
@@ -483,10 +483,10 @@ void TCompresor::LeeDatosGraficasInstantaneasXML(xml_node node_comp) {
 
 void TCompresor::ReadCompressorOutputXML(xml_node node_comp){
 
-	if(node_comp.child("Com:AvgOutput")){
+	if(node_comp.child("Com_AvgOutput")){
 		LeeDatosGraficasMediasXML(node_comp);
 	}
-	if(node_comp.child("Com:InsOutput")){
+	if(node_comp.child("Com_InsOutput")){
 		LeeDatosGraficasInstantaneasXML(node_comp);
 	}
 }

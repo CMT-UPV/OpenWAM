@@ -231,24 +231,24 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FVariacionRegimen = nmVariable;
 			FMomentoInercia = GetXMLInertia(node_tch,"Inertia");
 		}
-		FNumCompresoresAcoplados = CountNodes(node_tch, "Tch:Compressor");
+		FNumCompresoresAcoplados = CountNodes(node_tch, "Tch_Compressor");
 		FCompresor = new TCompresor*[FNumCompresoresAcoplados];
 		FNumeroCompresor = new int[FNumCompresoresAcoplados];
 		i = 0;
 		for (xml_node node_cmp = GetNodeChild(node_tch,
-				"Tch:Compressor"); node_cmp; node_cmp =
-						node_cmp.next_sibling("Tch:Compressor")) {
+				"Tch_Compressor"); node_cmp; node_cmp =
+						node_cmp.next_sibling("Tch_Compressor")) {
 			FNumeroCompresor[i] = GetAttributeAsInt(node_cmp,"Compressor_ID");
 			FCompresor[i] = Compressor[FNumeroCompresor[i] - 1];
 			FCompresor[i]->IniciaMedias();
 		}
-		FNumTurbinasAcopladas = CountNodes(node_tch, "Tch:Turbine");
+		FNumTurbinasAcopladas = CountNodes(node_tch, "Tch_Turbine");
 		FTurbina = new TTurbina*[FNumTurbinasAcopladas];
 		FNumeroTurbina = new int[FNumTurbinasAcopladas];
 		i = 0;
 		for (xml_node node_cmp = GetNodeChild(node_tch,
-				"Tch:Turbine"); node_cmp; node_cmp =
-						node_cmp.next_sibling("Tch:Turbine")) {
+				"Tch_Turbine"); node_cmp; node_cmp =
+						node_cmp.next_sibling("Tch_Turbine")) {
 			FNumeroTurbina[i] = GetAttributeAsInt(node_cmp,"Turbine_ID");
 			FTurbina[i] = Turbine[FNumeroTurbina[i] - 1];
 			FTurbina[i]->PutRegimen(FRegimenEje);
@@ -270,9 +270,9 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 
 #ifdef tchtm
 
-		if (node_openwam.child("BlockOfTurbochargers")) {
+		if (node_tch.child("Tch_HTML")) {
 
-			xml_node node_htm = GetNodeChild(node_tch,"Tch:HeatTransfer")
+			xml_node node_htm = GetNodeChild(node_tch,"Tch_HTML");
 			if ( FNumTurbinasAcopladas != 1 || FNumCompresoresAcoplados != 1 ) {
 				std::cout <<
 				"ERROR: Turbocharger heat transfer model is not adapted for more than one turbine" << std::endl;
@@ -282,14 +282,14 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			}
 			FThereIsHTM = true;
 
-			xml_node node_bear = GetNodeChild(node_htm,"Htm:Bearings");
+			xml_node node_bear = GetNodeChild(node_htm,"Htm_Bearings");
 			FDShaft = GetXMLLength(node_bear,"ShaftDiameter");
 			FJournalBLengh = GetXMLLength(node_bear,"JournalBearingLength");
 			FHD = GetXMLLength(node_bear,"Clearence");
 			FTthrustBRmin = GetXMLLength(node_bear,"ThrustBearingMinR");
 			FTthrustBRmax = GetXMLLength(node_bear,"ThrustBearingMaxR");
 
-			xml_node node_flu = GetNodeChild(node_htm,"Htm:Fluids");
+			xml_node node_flu = GetNodeChild(node_htm,"Htm_Fluids");
 			xml_node node_oil = GetNodeChild(node_flu,"Flu:Oil");
 
 			FDoil = GetXMLLength(node_oil,"PortDiameter");
@@ -317,7 +317,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 				FWater = new stHTMwater();
 			}
 
-			xml_node node_ml = GetNodeChild(node_htm,"Htm:MechLosses");
+			xml_node node_ml = GetNodeChild(node_htm,"Htm_MechLosses");
 
 			FJournalB_K = GetAttributeAsDouble(node_ml,"JournalB_K");
 			Fk_m = GetAttributeAsDouble(node_ml,"K_m");
@@ -325,7 +325,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FCAC = GetAttributeAsDouble(node_ml,"CAC");
 			FCAT = GetAttributeAsDouble(node_ml,"CAT");
 
-			xml_node node_geom = GetNodeChild(node_htm,"Htm:Geometry");
+			xml_node node_geom = GetNodeChild(node_htm,"Htm_Geometry");
 
 			FCWArea = GetXMLArea(node_geom,"CompWheelArea");
 			FTWArea = GetXMLArea(node_geom,"TurbWheelArea");
@@ -346,9 +346,9 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 
 			FHTM = new TTC_HTM(FOil);
 
-			xml_node node_ht = GetNodeChild(node_htm,"Htm:HeatTransfer");
+			xml_node node_ht = GetNodeChild(node_htm,"Htm_HeatTransfer");
 
-			xml_node node_set = GetNodeChild(node_ht,"Htr:Settings");
+			xml_node node_set = GetNodeChild(node_ht,"Htr_Settings");
 			FConvTemp.FastConvergence = GetAttributeAsBool(node_set,"FastConvergence");
 			if(FConvTemp.FastConvergence){
 				FConvTemp.TimeStep = GetXMLTime(node_set,"TimeStep");
@@ -363,9 +363,9 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 		}
 #endif
 
-		if(node_tch.child("Tch:AvgOutput"))
+		if(node_tch.child("Tch_AvgOutput"))
 			ReadAverageResultsEjeXML(node_tch);
-		if(node_tch.child("Tch:InsOutput"))
+		if(node_tch.child("Tch_InsOutput"))
 			ReadInstantaneousResultsEjeXML(node_tch);
 
 	} catch (exception & N) {
@@ -597,7 +597,7 @@ void TEjeTurbogrupo::ReadAverageResultsEjeXML(xml_node node_shaft) {
 
 		FResMediosEje.Regimen = false;
 
-		xml_node node_avg = node_shaft.child("Tch:AvgOutput");
+		xml_node node_avg = node_shaft.child("Tch_AvgOutput");
 
 		for(xml_attribute parameter = node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
@@ -786,7 +786,7 @@ void TEjeTurbogrupo::ReadInstantaneousResultsEjeXML(xml_node node_shaft) {
 		FResInstantEje.NodeTemp = false;
 		FResInstantEje.HeatFlow = false;
 
-		xml_node node_ins = node_shaft.child("Tch:InsOutput");
+		xml_node node_ins = node_shaft.child("Tch_InsOutput");
 
 		for(xml_attribute parameter = node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){

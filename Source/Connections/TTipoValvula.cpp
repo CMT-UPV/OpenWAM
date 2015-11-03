@@ -160,7 +160,7 @@ void TTipoValvula::LeeDatosGraficasINSXML(xml_node node_con) {
 
 		FGraficasINS = true;
 
-		xml_node node_avg=GetNodeChild(node_con,"Val:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_con,"Val_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "InletDC"){
@@ -290,7 +290,7 @@ void TTipoValvula::LeeDatosGraficasMEDXML(xml_node node_con) {
 
 		FGraficasMED = true;
 
-		xml_node node_avg=GetNodeChild(node_con,"Val:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_con,"Val_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "InletDC"){

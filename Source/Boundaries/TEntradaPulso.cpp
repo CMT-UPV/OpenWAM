@@ -88,7 +88,7 @@ void TEntradaPulso::LeeEntradaPulso(FILE *fich) {
 void TEntradaPulso::LeeEntradaPulsoXML(xml_node node_pulse,nmTypeBC FTipoCC) {
 	try {
 
-		FNumeroDatos = CountNodes(node_pulse,"Pvb:Pulse");
+		FNumeroDatos = CountNodes(node_pulse,"Pvb_Pulse");
 		FTiempo = new double[FNumeroDatos];
 		FPresionRelativa = new double[FNumeroDatos];
 		FNivelEntropia = new double[FNumeroDatos];
@@ -100,16 +100,16 @@ void TEntradaPulso::LeeEntradaPulsoXML(xml_node node_pulse,nmTypeBC FTipoCC) {
 		int i = 0;
 		if(FTipoCC==nmPresionVble){
 			std::string unittemp = unit_node.attribute("Temperature").value();
-			for(xml_node node = GetNodeChild(node_pulse,"Pvb:Pulse"); node;
-					node = node.next_sibling("Pvb:Pulse")){
+			for(xml_node node = GetNodeChild(node_pulse,"Pvb_Pulse"); node;
+					node = node.next_sibling("Pvb_Pulse")){
 				FTiempo[i] = GetXMLTime(node,"Time",unittime);
 				FPresionRelativa[i] = GetXMLPressure(node,"Pressure",unitpres);
 				FNivelEntropia[i] = GetXMLTemperature(node,"Entropy",unittemp);
 				++i;
 			}
 		}else if(FTipoCC==nmIncidentPressurWave)
-			for(xml_node node = GetNodeChild(node_pulse,"Pvb:Pulse"); node;
-					node = node.next_sibling("Pvb:Pulse")){
+			for(xml_node node = GetNodeChild(node_pulse,"Pvb_Pulse"); node;
+					node = node.next_sibling("Pvb_Pulse")){
 				FTiempo[i] = GetXMLTime(node,"Time",unittime);
 				FPresionRelativa[i] = GetXMLPressure(node,"Pressure",unitpres);
 				FNivelEntropia[i] = GetAttributeAsDouble(node,"Entropy");

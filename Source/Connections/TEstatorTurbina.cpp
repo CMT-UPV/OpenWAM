@@ -100,7 +100,7 @@ void TEstatorTurbina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 	try {
 		FNumeroOrden = norden;
 
-		xml_node node_st = GetNodeChild(node_valve, "Val:Stator");
+		xml_node node_st = GetNodeChild(node_valve, "Val_Stator");
 		FCDEInicial = GetAttributeAsDouble(node_st, "DC_in");
 		FCDSInicial = GetAttributeAsDouble(node_st, "DC_out");
 		FDiametroRef = GetXMLLength(node_st, "RefDiameter");

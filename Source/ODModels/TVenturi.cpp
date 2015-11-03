@@ -119,9 +119,9 @@ void TVenturi::LeeDatosVenturiXML(xml_node node_venturi) {
 		FRendimientoVenturi = GetAttributeAsDouble(node_venturi, "Efficiency");
 		FPerdidasCalor = GetAttributeAsDouble(node_venturi, "HeatLosses");
 
-		if(node_venturi.child("Vtr:InsOutput"))
+		if(node_venturi.child("Vtr_InsOutput"))
 			LeeResultadosInstantVenturiXML(node_venturi);
-		if(node_venturi.child("Vtr:AvgOutput"))
+		if(node_venturi.child("Vtr_AvgOutput"))
 			ReadAverageResultsVenturiXML(node_venturi);
 
 	} catch (exception & N) {
@@ -482,7 +482,7 @@ void TVenturi::LeeResultadosInstantVenturiXML(xml_node node_venturi) {
 	try {
 
 
-		xml_node node_ins=GetNodeChild(node_venturi,"Vtr:InsOutput");
+		xml_node node_ins=GetNodeChild(node_venturi,"Vtr_InsOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "InletPressure"){
@@ -761,7 +761,7 @@ void TVenturi::ReadAverageResultsVenturiXML(xml_node node_venturi) {
 
 	try {
 
-		xml_node node_avg=GetNodeChild(node_venturi,"Vtr:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_venturi,"Vtr_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "InletPressure"){

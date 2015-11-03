@@ -113,7 +113,7 @@ void TCFDConnection::ReadBoundaryDataXML(xml_node node_connect,
 		i++;
 	}
 
-	xml_node node_cfd = GetNodeChild(node_connect,"Con:CFD");
+	xml_node node_cfd = GetNodeChild(node_connect,"Con_CFD");
 	//const char_t* TMP(node_cfd.attribute("ModelName").value());
 	//TMP = node_cfd.attribute("ModelName");
 	FCFDModel = node_cfd.attribute("ModelName").value();

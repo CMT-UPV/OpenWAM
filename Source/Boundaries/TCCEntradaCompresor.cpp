@@ -153,7 +153,7 @@ void TCCEntradaCompresor::ReadBoundaryDataXML(xml_node node_connect,
 			i++;
 		}
 
-		xml_node node_compin = GetNodeChild(node_connect,"Con:CompressorInlet");
+		xml_node node_compin = GetNodeChild(node_connect,"Con_CompressorInlet");
 		FNumeroCompresor = GetAttributeAsInt(node_compin,"Compressor_ID");
 
 // Inicializacion del transporte de especies quimicas.

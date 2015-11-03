@@ -202,7 +202,7 @@ void TCCPerdidadePresion::ReadBoundaryDataXML(xml_node node_connect,
 					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
-		xml_node node_ploss = GetNodeChild(node_connect,"Con:PressureLoss");
+		xml_node node_ploss = GetNodeChild(node_connect,"Con_PressureLoss");
 		FK = GetAttributeAsDouble(node_ploss,"PressureCte");
 
 	} catch (Exception &N) {

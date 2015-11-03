@@ -196,7 +196,7 @@ void TCCExternalConnectionVol::ReadBoundaryDataXML(xml_node node_connect, int Nu
 				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 	}
 
-	xml_node node_ext = GetNodeChild(node_connect,"Con:ExternalConnection");
+	xml_node node_ext = GetNodeChild(node_connect,"Con_ExternalConnection");
 	FID = GetAttributeAsDouble(node_ext,"Connection_ID");
 
 }

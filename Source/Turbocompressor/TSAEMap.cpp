@@ -120,7 +120,7 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 	FCRMultiplier = GetAttributeAsDouble(node_map, "CRMultiplier");
 	FEffMultiplier = GetAttributeAsDouble(node_map, "EffMultiplier");
 
-	int points = CountNodes(node_map, "Cmp:CompMapPoint");
+	int points = CountNodes(node_map, "Cmp_CompMapPoint");
 	FSpeed.resize(i + 1);
 	FMass.resize(i + 1);
 	FPres.resize(i + 1);
@@ -129,9 +129,9 @@ void TSAEMap::ReadSAECompressorMapXML(xml_node node_map) {
 	std::string unitspeed = unit_node.attribute("RotationalSpeed").value();
 	std::string unitmass = unit_node.attribute("MassFlow").value();
 
-	for (xml_node node_mappoint = GetNodeChild(node_map, "Cmp:CompMapPoint");
+	for (xml_node node_mappoint = GetNodeChild(node_map, "Cmp_CompMapPoint");
 			node_mappoint;
-			node_mappoint = node_mappoint.next_sibling("Cmp:CompMapPoint")) {
+			node_mappoint = node_mappoint.next_sibling("Cmp_CompMapPoint")) {
 		speed = GetXMLRotationalSpeed(node_mappoint, "CorSpeed", unitspeed);
 		mass = GetXMLMassFlow(node_mappoint, "CorMassFlow", unitmass)
 				* FMassMultiplier;
@@ -344,7 +344,7 @@ void TSAEMap::LeeMapa(FILE *fich) {
 
 void TSAEMap::LeeMapaXML(xml_node node_compressor) {
 
-	xml_node node_map = GetNodeChild(node_compressor, "Com:SAE_Map");
+	xml_node node_map = GetNodeChild(node_compressor, "Com_SAE_Map");
 	FPresionRef = GetXMLPressure(node_map, "PressureRef");
 	FTempRef = GetXMLTemperature(node_map, "TemperatureRef");
 

@@ -112,7 +112,7 @@ void TDepVolVariable::LeeDatosDepVolVariableXML(xml_node node_plenum,
 		bool HayMotor) {
 	try {
 
-		xml_node node_vblvol = GetNodeChild(node_plenum, "Plm:VariableVolume");
+		xml_node node_vblvol = GetNodeChild(node_plenum, "Plm_VariableVolume");
 
 		FLBiela = GetXMLLength(node_vblvol, "ConnectionRod");
 		FCarrera = GetXMLLength(node_vblvol, "Stroke");

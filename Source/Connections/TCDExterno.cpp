@@ -90,7 +90,7 @@ void TCDExterno::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		bool HayMotor, TBloqueMotor *Engine) {
 	try {
 
-		xml_node node_ext = GetNodeChild(node_valve, "Val:ExternalDC");
+		xml_node node_ext = GetNodeChild(node_valve, "Val_ExternalDC");
 		FCDEInicial = GetAttributeAsDouble(node_ext, "DC_in");
 		FCDSInicial = GetAttributeAsDouble(node_ext, "DC_out");
 		FCTorbInicial = GetAttributeAsDouble(node_ext, "CTorb");

@@ -435,7 +435,7 @@ void TMapaComp2Tub::LeeMapaXML(xml_node node_compressor) {
 		std::cout << "LECTURA MAPA COMPRESOR" << std::endl;
 		std::cout << "______________________" << std::endl;
 
-		xml_node node_map = GetNodeChild(node_compressor, "Com:OW_Map");
+		xml_node node_map = GetNodeChild(node_compressor, "Com_OW_Map");
 		FPresionRef = GetXMLPressure(node_map, "PressureRef");
 		FTempRef = GetXMLTemperature(node_map, "TemperatureRef");
 		FTempRef += 273.;
@@ -455,7 +455,7 @@ void TMapaComp2Tub::LeeMapaXML(xml_node node_compressor) {
 		FIncReg = GetXMLRotationalSpeed(node_map, "SpeedStep");
 
 		FNumCurvasReg = floor(((FRegMax - FRegMin) / FIncReg) + 0.5) + 1;
-		int ncurv = CountNodes(node_map, "Cmp:SpeedLine");
+		int ncurv = CountNodes(node_map, "Cmp_SpeedLine");
 		if (FNumCurvasReg != ncurv)
 			cout
 					<< "ERROR: The number of iso-speed lines provided to the compressor map is not correct"
@@ -507,9 +507,9 @@ void TMapaComp2Tub::LeeMapaXML(xml_node node_compressor) {
 		int i = 0;
 		int j = 0;
 
-		for (xml_node node_spline = GetNodeChild(node_map, "Cmp:SpeedLine");
+		for (xml_node node_spline = GetNodeChild(node_map, "Cmp_SpeedLine");
 				node_spline;
-				node_spline = node_spline.next_sibling("Cmp:SpeedLine")) {
+				node_spline = node_spline.next_sibling("Cmp_SpeedLine")) {
 			FRegimenCurva[i] = FRegMin + FIncReg * (double) i;
 			FGastoRelComp1[i] = (GetXMLMassFlow(node_spline, "MassCR1",
 					unitmass) - 1) * FCRMultiplier + 1;
@@ -520,16 +520,16 @@ void TMapaComp2Tub::LeeMapaXML(xml_node node_compressor) {
 
 			j = 0;
 			for (xml_node node_crpoint = GetNodeChild(node_spline,
-					"Spl:CRPoint"); node_crpoint;
-					node_crpoint = node_crpoint.next_sibling("Spl:CRPoint")) {
+					"Spl_CRPoint"); node_crpoint;
+					node_crpoint = node_crpoint.next_sibling("Spl_CRPoint")) {
 				FRelComp[i][j] = (GetAttributeAsDouble(node_crpoint,
 						"CompRatio") - 1) * FCRMultiplier + 1;
 				j++;
 			}
 			FNumCurvasRen[i] = 0;
 			for (xml_node node_effpoint = GetNodeChild(node_spline,
-					"Spl:EFFPoint"); node_effpoint; node_effpoint =
-					node_effpoint.next_sibling("Spl:EFFPoint")) {
+					"Spl_EFFPoint"); node_effpoint; node_effpoint =
+					node_effpoint.next_sibling("Spl_EFFPoint")) {
 				FGastoRend[i][j] = GetXMLMassFlow(node_effpoint, "MassFlow",
 						unitmass) * FMassMultiplier;
 				FRend[i][j] = GetAttributeAsDouble(node_effpoint, "Efficiency")

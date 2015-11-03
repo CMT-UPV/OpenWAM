@@ -185,7 +185,7 @@ void TCCExtremoInyeccion::ReadBoundaryDataXML(xml_node node_connect,
 			i++;
 		}
 
-		xml_node node_inj = GetNodeChild(node_connect,"Con:Injector");
+		xml_node node_inj = GetNodeChild(node_connect,"Con_Injector");
 
 		FGastoIny = GetXMLMassFlow(node_inj,"MassFlow");
 		FTemperaturaIny = GetXMLTemperature(node_inj,"Temperature");

@@ -330,10 +330,10 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 		int PipeID;
 		xml_node node_blockpipes = GetNodeChild(node_openwam, "BlockOfPipes");
 
-		for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop:Pipe");
+		for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop_Pipe");
 			node_pipe;
-			node_pipe = node_pipe.next_sibling("Bop:Pipe")){
-			if (node_pipe.child("Pip:AvgOutput")){
+			node_pipe = node_pipe.next_sibling("Bop_Pipe")){
+			if (node_pipe.child("Pip_AvgOutput")){
 				PipeID = GetAttributeAsInt(node_pipe, "Pipe_ID");
 				AvgPipe.push_back(Pipe[PipeID - 1]);
 			}
@@ -342,16 +342,16 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 		int CylinderID;
 		xml_node node_engine = GetNodeChild(node_openwam, "EngineBlock");
 
-		for (xml_node node_cyl = GetNodeChild(node_engine, "Eng:Cylinder");
+		for (xml_node node_cyl = GetNodeChild(node_engine, "Eng_Cylinder");
 			node_cyl;
-			node_cyl = node_cyl.next_sibling("Eng:Cylinder")){
-			if (node_cyl.child("Cyl:AvgOutput")){
+			node_cyl = node_cyl.next_sibling("Eng_Cylinder")){
+			if (node_cyl.child("Cyl_AvgOutput")){
 				CylinderID = GetAttributeAsInt(node_cyl, "Cyl_ID");
 				AvgCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
 			}
 		}
 
-		if (node_engine.child("Eng:AvgOutput")){
+		if (node_engine.child("Eng_AvgOutput")){
 			AvgEngine = Engine[0];
 		}
 
@@ -359,23 +359,23 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 		xml_node node_blockplenum = GetNodeChild(node_openwam, "BlockOfPlenums");
 		xml_node node_venturi;
 
-		for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod:Plenum");
+		for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod_Plenum");
 			node_plenum;
-			node_plenum = node_plenum.next_sibling("Bod:Plenum")){
-			if (node_plenum.child("Plm:AvgOutput")){
+			node_plenum = node_plenum.next_sibling("Bod_Plenum")){
+			if (node_plenum.child("Plm_AvgOutput")){
 				int PlenumID = GetAttributeAsInt(node_plenum, "Plenum_ID");
 				AvgPlenum.push_back(Plenum[PlenumID - 1]);
 			}
-			if (node_plenum.child("Plm:Venturi")){
-				node_venturi = GetNodeChild(node_plenum, "Plm:Venturi");
-				if (node_venturi.child("Vtr:AvgOutput")){
+			if (node_plenum.child("Plm_Venturi")){
+				node_venturi = GetNodeChild(node_plenum, "Plm_Venturi");
+				if (node_venturi.child("Vtr_AvgOutput")){
 					int VenturiID = GetAttributeAsInt(node_venturi, "Venturi_ID");
 					AvgVenturi.push_back(Venturi[VenturiID - 1]);
 				}
 			}
-			if (node_plenum.child("Plm:Turbine")){
-				node_venturi = GetNodeChild(node_plenum, "Plm:Turbine");
-				if (node_venturi.child("Trb:AvgOutput")){
+			if (node_plenum.child("Plm_Turbine")){
+				node_venturi = GetNodeChild(node_plenum, "Plm_Turbine");
+				if (node_venturi.child("Trb_AvgOutput")){
 					int TurbineID = GetAttributeAsInt(node_venturi, "Turbine_ID");
 					AvgTurbine.push_back(Turbine[TurbineID - 1]);
 				}
@@ -385,10 +385,10 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 
 		int AxisID;
 		xml_node node_blocktch = GetNodeChild(node_openwam, "BlockOfTurbochargers");
-		for (xml_node node_tch = GetNodeChild(node_blockplenum, "Bot:Turbocharger");
+		for (xml_node node_tch = GetNodeChild(node_blockplenum, "Bot_Turbocharger");
 			node_tch;
-			node_tch = node_tch.next_sibling("Bot:Turbocharger")){
-			if (node_tch.child("Tch:AvgOutput")){
+			node_tch = node_tch.next_sibling("Bot_Turbocharger")){
+			if (node_tch.child("Tch_AvgOutput")){
 				AxisID = GetAttributeAsInt(node_tch, "Turbocharger_ID");
 				AvgAxis.push_back(Axis[AxisID - 1]);
 			}
@@ -396,10 +396,10 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 
 		int CompressorID;
 		xml_node node_blockcmp = GetNodeChild(node_openwam, "BlockOfCompressor");
-		for (xml_node node_cmp = GetNodeChild(node_blockcmp, "Boc:Compressor");
+		for (xml_node node_cmp = GetNodeChild(node_blockcmp, "Boc_Compressor");
 			node_cmp;
-			node_cmp = node_cmp.next_sibling("Boc:Compressor")){
-			if (node_cmp.child("Com:AvgOutput")){
+			node_cmp = node_cmp.next_sibling("Boc_Compressor")){
+			if (node_cmp.child("Com_AvgOutput")){
 				CompressorID = GetAttributeAsInt(node_cmp, "ID");
 				AvgCompressor.push_back(Compressor[CompressorID - 1]);
 			}
@@ -408,42 +408,42 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 		xml_node node_blockcon = GetNodeChild(node_openwam, "BlockOfConnections");
 		TTipoValvula* Valve;
 
-		for (xml_node node_con = GetNodeChild(node_blockcon, "Bob:Connection");
-			node_con; node_con = node_con.next_sibling("Bob:Connection")){
-			if (node_con.child("Con:PipeToCylinder")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:PipeToCylinder");
-				if (node_pc.child("Val:AvgOutput")){
+		for (xml_node node_con = GetNodeChild(node_blockcon, "Bob_Connection");
+			node_con; node_con = node_con.next_sibling("Bob_Connection")){
+			if (node_con.child("Con_PipeToCylinder")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_PipeToCylinder");
+				if (node_pc.child("Val_AvgOutput")){
 					int ValveID = GetAttributeAsInt(node_con, "Boundary_ID");
 					Valve = dynamic_cast<TCCCilindro*>(BC[ValveID - 1])->getValvula();
 					AvgValveNode.push_back(ValveID);
 					AvgValve.push_back(Valve);
 				}
 			}
-			else if (node_con.child("Con:PlenumToPlenum")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:PlenumToPlenum");
-				if (node_pc.child("Val:AvgOutput")){
+			else if (node_con.child("Con_PlenumToPlenum")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_PlenumToPlenum");
+				if (node_pc.child("Val_AvgOutput")){
 					int ValveID = GetAttributeAsInt(node_con, "Boundary_ID");
 					Valve = dynamic_cast<TCCUnionEntreDepositos*>(BC[ValveID - 1])->getValvula();
 					AvgValveNode.push_back(ValveID);
 					AvgValve.push_back(Valve);
 				}
-				if (node_pc.child("Con:AvgOutput")){
+				if (node_pc.child("Con_AvgOutput")){
 					int Con_ID = GetAttributeAsInt(node_con, "Boundary_ID");
 					AvgConnection.push_back(dynamic_cast<TCCUnionEntreDepositos*>(BC[Con_ID - 1]));
 				}
 			}
-			else if (node_con.child("Con:PipeToPlenum")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:PipeToPlenum");
-				if (node_pc.child("Val:AvgOutput")){
+			else if (node_con.child("Con_PipeToPlenum")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_PipeToPlenum");
+				if (node_pc.child("Val_AvgOutput")){
 					int ValveID = GetAttributeAsInt(node_con, "Boundary_ID");
 					Valve = dynamic_cast<TCCDeposito*>(BC[ValveID - 1])->getValvula();
 					AvgValveNode.push_back(ValveID);
 					AvgValve.push_back(Valve);
 				}
 			}
-			else if (node_con.child("Con:VolCompressor")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:VolCompressor");
-				if (node_pc.child("Con:AvgOutput")){
+			else if (node_con.child("Con_VolCompressor")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_VolCompressor");
+				if (node_pc.child("Con_AvgOutput")){
 					int RootID = GetAttributeAsInt(node_pc, "VolComp_ID");
 					AvgRoot.push_back(Root[RootID - 1]);
 				}
@@ -471,7 +471,7 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 		for (xml_node node_sen = GetNodeChild(node_blocksen, "Bos:Sensor");
 			node_sen;
 			node_sen = node_sen.next_sibling("Bos:Sensor")){
-			if (node_sen.child("Sen:AvgOutput")){
+			if (node_sen.child("Sen_AvgOutput")){
 				SensorID = GetAttributeAsInt(node_sen, "Sensor_ID");
 				InsSensor.push_back(Sensor[SensorID - 1]);
 			}
@@ -479,10 +479,10 @@ void TOutputResults::ReadAverageResultsXML(xml_node node_openwam,
 
 		int ControllerID;
 		xml_node node_blockctr = GetNodeChild(node_openwam, "BlockOfControllers");
-		for (xml_node node_ctrl = GetNodeChild(node_blockctr, "Bct:Controller");
+		for (xml_node node_ctrl = GetNodeChild(node_blockctr, "Bct_Controller");
 			node_ctrl;
-			node_ctrl = node_ctrl.next_sibling("Bct:Controller")){
-			if (node_ctrl.child("Ctr:AvgOutput")){
+			node_ctrl = node_ctrl.next_sibling("Bct_Controller")){
+			if (node_ctrl.child("Ctr_AvgOutput")){
 				ControllerID = GetAttributeAsInt(node_ctrl, "Controller_ID");
 				InsController.push_back(Controller[ControllerID - 1]);
 			}
@@ -1051,10 +1051,10 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 
 		xml_node node_engine = GetNodeChild(node_openwam, "EngineBlock");
 
-		for (xml_node node_cyl = GetNodeChild(node_engine, "Eng:Cylinder");
+		for (xml_node node_cyl = GetNodeChild(node_engine, "Eng_Cylinder");
 			node_cyl;
-			node_cyl = node_cyl.next_sibling("Eng:Cylinder")){
-			if (node_cyl.child("Cyl:InsOutput")){
+			node_cyl = node_cyl.next_sibling("Eng_Cylinder")){
+			if (node_cyl.child("Cyl_InsOutput")){
 				CylinderID = GetAttributeAsInt(node_cyl, "Cyl_ID");
 				InsCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
 			}
@@ -1064,23 +1064,23 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 		xml_node node_venturi;
 		xml_node node_trb;
 
-		for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod:Plenum");
+		for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod_Plenum");
 			node_plenum;
-			node_plenum = node_plenum.next_sibling("Bod:Plenum")){
-			if (node_plenum.child("Plm:InsOutput")){
+			node_plenum = node_plenum.next_sibling("Bod_Plenum")){
+			if (node_plenum.child("Plm_InsOutput")){
 				int PlenumID = GetAttributeAsInt(node_plenum, "Plenum_ID");
 				InsPlenum.push_back(Plenum[PlenumID - 1]);
 			}
-			if (node_plenum.child("Plm:Venturi")){
-				node_venturi = GetNodeChild(node_plenum, "Plm:Venturi");
-				if (node_venturi.child("Vtr:InsOutput")){
+			if (node_plenum.child("Plm_Venturi")){
+				node_venturi = GetNodeChild(node_plenum, "Plm_Venturi");
+				if (node_venturi.child("Vtr_InsOutput")){
 					int VenturiID = GetAttributeAsInt(node_venturi, "Venturi_ID");
 					InsVenturi.push_back(Venturi[VenturiID - 1]);
 				}
 			}
-			if (node_plenum.child("Plm:Turbine")){
-				node_venturi = GetNodeChild(node_plenum, "Plm:Turbine");
-				if (node_venturi.child("Trb:InsOutput")){
+			if (node_plenum.child("Plm_Turbine")){
+				node_venturi = GetNodeChild(node_plenum, "Plm_Turbine");
+				if (node_venturi.child("Trb_InsOutput")){
 					int TurbineID = GetAttributeAsInt(node_venturi, "Turbine_ID");
 					InsTurbine.push_back(Turbine[TurbineID - 1]);
 				}
@@ -1091,10 +1091,10 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 		int PipeID;
 		xml_node node_blockpipes = GetNodeChild(node_openwam, "BlockOfPipes");
 
-		for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop:Pipe");
+		for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop_Pipe");
 			node_pipe;
-			node_pipe = node_pipe.next_sibling("Bop:Pipe")){
-			if (node_pipe.child("Pip:InsOutput")){
+			node_pipe = node_pipe.next_sibling("Bop_Pipe")){
+			if (node_pipe.child("Pip_InsOutput")){
 				PipeID = GetAttributeAsInt(node_pipe, "Pipe_ID");
 				InsPipe.push_back(Pipe[PipeID - 1]);
 			}
@@ -1103,43 +1103,43 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 		xml_node node_blockcon = GetNodeChild(node_openwam, "BlockOfConnections");
 		TTipoValvula* Valve;
 
-		for (xml_node node_con = GetNodeChild(node_blockcon, "Bob:Connection");
-			node_con; node_con = node_con.next_sibling("Bob:Connection")){
-			if (node_con.child("Con:PipeToCylinder")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:PipeToCylinder");
-				if (node_pc.child("Val:InsOutput")){
+		for (xml_node node_con = GetNodeChild(node_blockcon, "Bob_Connection");
+			node_con; node_con = node_con.next_sibling("Bob_Connection")){
+			if (node_con.child("Con_PipeToCylinder")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_PipeToCylinder");
+				if (node_pc.child("Val_InsOutput")){
 					int ValveID = GetAttributeAsInt(node_con, "Boundary_ID");
 					Valve = dynamic_cast<TCCCilindro*>(BC[ValveID - 1])->getValvula();
 					InsValveNode.push_back(ValveID);
 					InsValve.push_back(Valve);
 				}
 			}
-			else if (node_con.child("Con:PipeToPlenum")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:PipeToPlenum");
-				if (node_pc.child("Val:InsOutput")){
+			else if (node_con.child("Con_PipeToPlenum")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_PipeToPlenum");
+				if (node_pc.child("Val_InsOutput")){
 					int ValveID = GetAttributeAsInt(node_con, "Boundary_ID");
 					Valve = dynamic_cast<TCCDeposito*>(BC[ValveID - 1])->getValvula();
 					InsValveNode.push_back(ValveID);
 					InsValve.push_back(Valve);
 				}
 			}
-			else if (node_con.child("Con:PlenumToPlenum")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:PlenumToPlenum");
-				if (node_pc.child("Val:InsOutput")){
+			else if (node_con.child("Con_PlenumToPlenum")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_PlenumToPlenum");
+				if (node_pc.child("Val_InsOutput")){
 					int ValveID = GetAttributeAsInt(node_con, "Boundary_ID");
 					Valve = dynamic_cast<TCCUnionEntreDepositos*>(BC[ValveID - 1])->getValvula();
 					InsValveNode.push_back(ValveID);
 					InsValve.push_back(Valve);
 				}
-				if (node_pc.child("Con:InsOutput")){
+				if (node_pc.child("Con_InsOutput")){
 					int ConnectionID = GetAttributeAsInt(node_con, "Boundary_ID");
 					InsConnection.push_back(dynamic_cast<TCCUnionEntreDepositos*>(BC[ConnectionID - 1]));
 				}
 
 			}
-			else if (node_con.child("Con:VolCompressor")){
-				xml_node node_pc = GetNodeChild(node_con, "Con:VolCompressor");
-				if (node_pc.child("Con:InsOutput")){
+			else if (node_con.child("Con_VolCompressor")){
+				xml_node node_pc = GetNodeChild(node_con, "Con_VolCompressor");
+				if (node_pc.child("Con_InsOutput")){
 					int RootID = GetAttributeAsInt(node_pc, "VolComp_ID");
 					InsRoot.push_back(Root[RootID - 1]);
 				}
@@ -1148,10 +1148,10 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 
 		int TurboID;
 		xml_node node_blocktch = GetNodeChild(node_openwam, "BlockOfTurbochargers");
-		for (xml_node node_tch = GetNodeChild(node_blocktch, "Bot:Turbocharger");
+		for (xml_node node_tch = GetNodeChild(node_blocktch, "Bot_Turbocharger");
 			node_tch;
-			node_tch = node_tch.next_sibling("Bot:Turbocharger")){
-			if (node_tch.child("Tch:InsOutput")){
+			node_tch = node_tch.next_sibling("Bot_Turbocharger")){
+			if (node_tch.child("Tch_InsOutput")){
 				TurboID = GetAttributeAsInt(node_tch, "Turbocharger_ID");
 				InsTurbo.push_back(Turbo[TurboID - 1]);
 			}
@@ -1159,10 +1159,10 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 
 		int CompressorID;
 		xml_node node_blockcmp = GetNodeChild(node_openwam, "BlockOfTurbochargers");
-		for (xml_node node_cmp = GetNodeChild(node_blockcmp, "Boc:Compressor");
+		for (xml_node node_cmp = GetNodeChild(node_blockcmp, "Boc_Compressor");
 			node_cmp;
-			node_cmp = node_cmp.next_sibling("Boc:Compressor")){
-			if (node_cmp.child("Com:InsOutput")){
+			node_cmp = node_cmp.next_sibling("Boc_Compressor")){
+			if (node_cmp.child("Com_InsOutput")){
 				CompressorID = GetAttributeAsInt(node_cmp, "ID");
 				InsCompressor.push_back(Compressor[CompressorID - 1]);
 			}
@@ -1257,7 +1257,7 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 		for (xml_node node_sen = GetNodeChild(node_blocksen, "Bos:Sensor");
 			node_sen;
 			node_sen = node_sen.next_sibling("Bos:Sensor")){
-			if (node_sen.child("Sen:InsOutput")){
+			if (node_sen.child("Sen_InsOutput")){
 				SensorID = GetAttributeAsInt(node_sen, "Sensor_ID");
 				InsSensor.push_back(Sensor[SensorID - 1]);
 			}
@@ -1265,10 +1265,10 @@ void TOutputResults::ReadInstantaneousResultsXML(xml_node node_openwam,
 
 		int ControllerID;
 		xml_node node_blockctr = GetNodeChild(node_openwam, "BlockOfControllers");
-		for (xml_node node_ctrl = GetNodeChild(node_blockctr, "Bct:Controller");
+		for (xml_node node_ctrl = GetNodeChild(node_blockctr, "Bct_Controller");
 			node_ctrl;
-			node_ctrl = node_ctrl.next_sibling("Bct:Controller")){
-			if (node_ctrl.child("Ctr:InsOutput")){
+			node_ctrl = node_ctrl.next_sibling("Bct_Controller")){
+			if (node_ctrl.child("Ctr_InsOutput")){
 				ControllerID = GetAttributeAsInt(node_ctrl, "Controller_ID");
 				InsController.push_back(Controller[ControllerID - 1]);
 			}
@@ -1335,9 +1335,9 @@ void TOutputResults::ReadSpaceTimeResultsXML(xml_node node_openwam,
 
 	xml_node node_engine = GetNodeChild(node_openwam,"EngineBlock");
 
-	for (xml_node node_cyl = GetNodeChild(node_engine, "Eng:Cylinder");
+	for (xml_node node_cyl = GetNodeChild(node_engine, "Eng_Cylinder");
 			node_cyl;
-			node_cyl = node_cyl.next_sibling("Eng:Cylinder")){
+			node_cyl = node_cyl.next_sibling("Eng_Cylinder")){
 		if(node_cyl.attribute("SpaceTimeOut").as_bool()){
 			CylinderID = GetAttributeAsInt(node_cyl,"Cyl_ID");
 			STCylinder.push_back(Engine[0]->GetCilindro(CylinderID - 1));
@@ -1345,9 +1345,9 @@ void TOutputResults::ReadSpaceTimeResultsXML(xml_node node_openwam,
 	}
 	xml_node node_blockplenum = GetNodeChild(node_openwam,"BlockOfPlenums");
 
-	for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod:Plenum");
+	for (xml_node node_plenum = GetNodeChild(node_blockplenum, "Bod_Plenum");
 			node_plenum;
-			node_plenum = node_plenum.next_sibling("Bod:Plenum")){
+			node_plenum = node_plenum.next_sibling("Bod_Plenum")){
 		if(node_plenum.attribute("SpaceTimeOut").as_bool()){
 			int PlenumID = GetAttributeAsInt(node_plenum,"Plenum_ID");
 			STPlenum.push_back(Plenum[PlenumID - 1]);
@@ -1358,9 +1358,9 @@ void TOutputResults::ReadSpaceTimeResultsXML(xml_node node_openwam,
 	int PipeID;
 	xml_node node_blockpipes = GetNodeChild(node_openwam,"BlockOfPipes");
 
-	for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop:Pipe");
+	for (xml_node node_pipe = GetNodeChild(node_blockpipes, "Bop_Pipe");
 			node_pipe;
-			node_pipe = node_pipe.next_sibling("Bop:Pipe")){
+			node_pipe = node_pipe.next_sibling("Bop_Pipe")){
 		if(node_pipe.attribute("SpaceTimeOut").as_bool()){
 			PipeID = GetAttributeAsInt(node_pipe,"Pipe_ID");
 			STPipe.push_back(Pipe[PipeID - 1]);

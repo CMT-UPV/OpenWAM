@@ -103,13 +103,13 @@ void TTurbineMap::LoadTurbineMapXML(xml_node node_turb) {
 	}
 #endif
 
-	FNumPositions = CountNodes(node_turb, "Trb:TurbineMap");
+	FNumPositions = CountNodes(node_turb, "Trb_TurbineMap");
 
 	FTurbPosition.resize(FNumPositions);
 	int id = 0;
 
-	for (xml_node node_map = GetNodeChild(node_turb, "Trb:TurbineMap");
-			node_map; node_map = node_map.next_sibling("Trb:TurbineMap")) {
+	for (xml_node node_map = GetNodeChild(node_turb, "Trb_TurbineMap");
+			node_map; node_map = node_map.next_sibling("Trb_TurbineMap")) {
 
 		rows = CountNodes(node_map, "TurbineMapPoint");
 		pos = GetAttributeAsInt(node_map, "RackPos");

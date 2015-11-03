@@ -192,7 +192,7 @@ void TCCPreVble::ReadBoundaryDataXML(xml_node node_connect,
 			i++;
 		}
 
-		xml_node node_pvble = GetNodeChild(node_connect,"Con:StaticPressure");
+		xml_node node_pvble = GetNodeChild(node_connect,"Con_StaticPressure");
 
 
 		FPulso = new TEntradaPulso();

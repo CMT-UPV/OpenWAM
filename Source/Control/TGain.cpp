@@ -69,7 +69,7 @@ void TGain::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 void TGain::LeeControllerXML(xml_node node_ctrl) {
 
-	xml_node node_gain = GetNodeChild(node_ctrl,"Ctr:Gain");
+	xml_node node_gain = GetNodeChild(node_ctrl,"Ctr_Gain");
 
 	FGain = GetAttributeAsDouble(node_gain,"Gain");
 	FObjectID = GetAttributeAsInt(node_gain,"Object_ID");
@@ -81,9 +81,9 @@ void TGain::LeeControllerXML(xml_node node_ctrl) {
 		FInObject = nmInSensor;
 	}
 
-	if(node_ctrl.child("Ctr:AvgOutput"))
+	if(node_ctrl.child("Ctr_AvgOutput"))
 		LeeResultadosMedControladorXML(node_ctrl);
-	if(node_ctrl.child("Ctr:InsOutput"))
+	if(node_ctrl.child("Ctr_InsOutput"))
 		LeeResultadosInsControladorXML(node_ctrl);
 
 }

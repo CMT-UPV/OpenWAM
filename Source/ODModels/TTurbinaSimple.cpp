@@ -545,7 +545,7 @@ void TTurbinaSimple::ReadAverageResultsTurbXML(xml_node node_trb) {
 	try {
 		int nvars, var;
 
-		xml_node node_ins=GetNodeChild(node_trb,"Trb:AvgOutput");
+		xml_node node_ins=GetNodeChild(node_trb,"Trb_AvgOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "Work"){
@@ -861,7 +861,7 @@ void TTurbinaSimple::LeeResultadosInstantTurbXML(xml_node node_trb) {
 
 	try {
 
-		xml_node node_ins=GetNodeChild(node_trb,"Trb:InsOutput");
+		xml_node node_ins=GetNodeChild(node_trb,"Trb_InsOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "Power"){

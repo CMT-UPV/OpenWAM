@@ -1173,13 +1173,13 @@ void TOpenWAM::ReadPipesXML() {
 		xml_node node_openwam = FileInputXML.child("OpenWAM");
 		xml_node node_pipeblock = GetNodeChild(node_openwam, "BlockOfPipes");
 
-		NumberOfPipes = CountNodes(node_pipeblock, "Bop:Pipe");
+		NumberOfPipes = CountNodes(node_pipeblock, "Bop_Pipe");
 
 		Pipe = new TTubo*[NumberOfPipes];
 		printf("Number of pipes: %d\n", NumberOfPipes);
 
-		for (xml_node node_pipe = node_pipeblock.child("Bop:Pipe"); node_pipe;
-				node_pipe = node_pipe.next_sibling("Bop:Pipe")) {
+		for (xml_node node_pipe = node_pipeblock.child("Bop_Pipe"); node_pipe;
+				node_pipe = node_pipe.next_sibling("Bop_Pipe")) {
 
 			id = GetAttributeAsInt(node_pipe, "Pipe_ID") - 1;
 			if (id > NumberOfPipes) {
@@ -1391,7 +1391,7 @@ void TOpenWAM::ReadValvesXML() {
 		xml_node node_openwam = FileInputXML.child("OpenWAM");
 		xml_node node_valveblock = GetNodeChild(node_openwam, "BlockOfValves");
 
-		NumberOfValves = CountNodes(node_valveblock, "Bov:Valve");
+		NumberOfValves = CountNodes(node_valveblock, "Bov_Valve");
 
 		TypeOfValve = new TTipoValvula*[NumberOfValves];
 		int val;
@@ -1410,8 +1410,8 @@ void TOpenWAM::ReadValvesXML() {
 
 		std::string ValveType;
 
-		for (xml_node node_valve = GetNodeChild(node_valveblock, "Bov:Valve");
-				node_valve; node_valve = node_valve.next_sibling("Bov:Valve")) {
+		for (xml_node node_valve = GetNodeChild(node_valveblock, "Bov_Valve");
+				node_valve; node_valve = node_valve.next_sibling("Bov_Valve")) {
 
 			ValveType = node_valve.attribute("Valve_type").value();
 			id = GetAttributeAsInt(node_valve, "Valve_ID") - 1;
@@ -1645,7 +1645,7 @@ void TOpenWAM::ReadPlenumsXML() {
 		xml_node node_plenumblock = GetNodeChild(node_openwam,
 				"BlockOfPlenums");
 
-		NumberOfPlenums = CountNodes(node_plenumblock, "Bod:Plenum");
+		NumberOfPlenums = CountNodes(node_plenumblock, "Bod_Plenum");
 
 		int NumberOfVariableVol = 0;
 		NumberOfTurbines = 0;
@@ -1658,8 +1658,8 @@ void TOpenWAM::ReadPlenumsXML() {
 			std::string PlenumType;
 			int id;
 			for (xml_node node_plenum = GetNodeChild(node_plenumblock,
-					"Bod:Plenum"); node_plenum;
-					node_plenum = node_plenum.next_sibling("Bod:Plenum")) {
+					"Bod_Plenum"); node_plenum;
+					node_plenum = node_plenum.next_sibling("Bod_Plenum")) {
 
 				PlenumType = node_plenum.attribute("Type").value();
 				id = GetAttributeAsInt(node_plenum, "Plenum_ID") - 1;
@@ -1678,7 +1678,7 @@ void TOpenWAM::ReadPlenumsXML() {
 							node_plenum, EngineBlock);
 					NumberOfVariableVol++;
 				} else if (PlenumType == "Turbine") {
-					xml_node node_turb = GetNodeChild(node_plenum, "Plm:Turbine");
+					xml_node node_turb = GetNodeChild(node_plenum, "Plm_Turbine");
 					numeroturbina = GetAttributeAsInt(node_turb, "Turbine_ID");
 					Plenum[id] = new TTurbinaSimple(id, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
@@ -1691,7 +1691,7 @@ void TOpenWAM::ReadPlenumsXML() {
 					NumberOfTurbines = NumberOfTurbines + 1;
 				} else if (PlenumType == "TwinTurbine") {
 					xml_node node_turb = GetNodeChild(node_plenum,
-							"Plm:Turbine");
+							"Plm_Turbine");
 					numeroturbina = GetAttributeAsInt(node_turb, "Turbine_ID");
 					Plenum[id] = new TTurbinaTwin(id, SpeciesModel,
 							SpeciesNumber, GammaCalculation, ThereIsEGR);
@@ -1704,7 +1704,7 @@ void TOpenWAM::ReadPlenumsXML() {
 					NumberOfTurbines = NumberOfTurbines + 1;
 				} else if (PlenumType == "Venturi") {
 					xml_node node_venturi = GetNodeChild(node_plenum,
-							"Plm:Venturi");
+							"Plm_Venturi");
 					numeroventuri = GetAttributeAsInt(node_venturi,
 							"Venturi_ID");
 					Plenum[id] = new TVenturi(id, SpeciesModel, SpeciesNumber,
@@ -1717,7 +1717,7 @@ void TOpenWAM::ReadPlenumsXML() {
 							node_venturi);
 				} else if (PlenumType == "DirectionalJuction") {
 					xml_node node_junction = GetNodeChild(node_plenum,
-							"Plm:Junction");
+							"Plm_Junction");
 					NumberOfDirectionalJunctions = NumberOfDirectionalJunctions
 							+ 1;
 					Plenum[id] = new TUnionDireccional(id,
@@ -1832,12 +1832,12 @@ void TOpenWAM::ReadCompressorsXML() {
 		xml_node node_compblock = GetNodeChild(node_openwam,
 				"BlockOfCompressors");
 
-		NumberOfCompressors = CountNodes(node_compblock, "Boc:Compressor");
+		NumberOfCompressors = CountNodes(node_compblock, "Boc_Compressor");
 		Compressor = new TCompresor*[NumberOfCompressors];
 
 		for (xml_node node_compressor = GetNodeChild(node_compblock,
-				"Boc:Compressor"); node_compressor; node_compressor =
-				node_compressor.next_sibling("Boc:Compressor")) {
+				"Boc_Compressor"); node_compressor; node_compressor =
+				node_compressor.next_sibling("Boc_Compressor")) {
 
 			CompressorType = node_compressor.attribute("Type").value();
 			ID = GetAttributeAsInt(node_compressor, "ID")-1;
@@ -2415,7 +2415,7 @@ void TOpenWAM::ReadConnectionsXML() {
 		xml_node node_conblock = GetNodeChild(node_openwam, "BlockOfConnections");
 		xml_node node_condata;
 
-		NumberOfConnections = CountNodes(node_conblock, "Boc:Connection");
+		NumberOfConnections = CountNodes(node_conblock, "Bob_Connection");
 		BC = new TCondicionContorno*[NumberOfConnections];
 		printf("Number of boundary condition: %d\n", NumberOfConnections);
 
@@ -2432,8 +2432,8 @@ void TOpenWAM::ReadConnectionsXML() {
 		int numerovalvula = 0, quevalv;
 		int NumTCCExternalConnection = 0;
 
-		for (xml_node node_connect = GetNodeChild(node_conblock, "Boc:Connection"); node_connect;
-			node_connect = node_connect.next_sibling("Boc:Connection")) {
+		for (xml_node node_connect = GetNodeChild(node_conblock, "Bob_Connection"); node_connect;
+			node_connect = node_connect.next_sibling("Bob_Connection")) {
 			ConnectionType = node_connect.attribute("BoundaryType").value();
 			ID = GetAttributeAsInt(node_connect, "Boundary_ID") - 1;
 
@@ -2530,7 +2530,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-				node_condata = GetNodeChild(node_connect, "Con:PipeToCylinder");
+				node_condata = GetNodeChild(node_connect, "Con_PipeToCylinder");
 			}
 			else if (ConnectionType == "ExhaustValve"){
 				BC[ID] = new TCCCilindro(nmExhaustValve, ID, SpeciesModel,
@@ -2544,7 +2544,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-				node_condata = GetNodeChild(node_connect, "Con:PipeToCylinder");
+				node_condata = GetNodeChild(node_connect, "Con_PipeToCylinder");
 			}
 			else if (ConnectionType == "LinearPressureLoss"){
 				BC[ID] = new TCCPerdidadePresion(nmLinearPressureLoss, ID,
@@ -2584,7 +2584,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				BC[ID]->ReadBoundaryDataXML(node_connect, NumberOfPipes,
 					Pipe, NumberOfDPF, NULL);
 #endif
-				node_condata = GetNodeChild(node_connect, "Con:PipeToPlenum");
+				node_condata = GetNodeChild(node_connect, "Con_PipeToPlenum");
 			}
 			else if (ConnectionType == "Branch"){
 				BC[ID] = new TCCRamificacion(nmBranch, ID, SpeciesModel,
@@ -2639,7 +2639,7 @@ void TOpenWAM::ReadConnectionsXML() {
 				NumberOfConectionsBetweenPlenums++;
 				dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->LeeUEDepositosXML
 					(node_connect, Independent);
-				node_condata = GetNodeChild(node_connect, "Con:PlenumsConnection");
+				node_condata = GetNodeChild(node_connect, "Con_PlenumsConnection");
 			}
 			else if (ConnectionType == "Compressor"){
 				BC[ID] = new TCCCompresor(nmCompresor, ID, SpeciesModel,
@@ -2695,17 +2695,17 @@ void TOpenWAM::ReadConnectionsXML() {
 					() == nmExhaustValve) {
 					dynamic_cast<TCCCilindro*>(BC[ID])->AsignaTipoValvula
 						(TypeOfValve, quevalv, numerovalvula);
-					if (node_condata.child("Con:AvgOutput"))
+					if (node_condata.child("Con_AvgOutput"))
 						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_condata);
-					if (node_condata.child("Con:InsOutput"))
+					if (node_condata.child("Con_InsOutput"))
 						dynamic_cast<TCCCilindro*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_condata);
 				}
 				else if (BC[ID]->getTipoCC() == nmPipeToPlenumConnection) {
 					dynamic_cast<TCCDeposito*>(BC[ID])->AsignaTipoValvula
 						(TypeOfValve, quevalv, numerovalvula);
-					if (node_condata.child("Con:AvgOutput"))
+					if (node_condata.child("Con_AvgOutput"))
 						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_condata);
-					if (node_condata.child("Con:InsOutput"))
+					if (node_condata.child("Con_InsOutput"))
 						dynamic_cast<TCCDeposito*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_condata);
 
 					if (TypeOfValve[quevalv - 1]->getTypeOfValve()
@@ -2725,9 +2725,9 @@ void TOpenWAM::ReadConnectionsXML() {
 					dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])
 						->AsignaTipoValvula(TypeOfValve, quevalv,
 						numerovalvula);
-					if (node_condata.child("Con:AvgOutput"))
+					if (node_condata.child("Con_AvgOutput"))
 						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasMEDXML(node_condata);
-					if (node_condata.child("Con:InsOutput"))
+					if (node_condata.child("Con_InsOutput"))
 						dynamic_cast<TCCUnionEntreDepositos*>(BC[ID])->getValvula()->LeeDatosGraficasINSXML(node_condata);
 
 					if (TypeOfValve[quevalv - 1]->getTypeOfValve()
@@ -2995,13 +2995,13 @@ void TOpenWAM::ReadTurbochargerAxisXML() {
 		if(node_openwam.child("BlockOfTurbochargers")){
 			xml_node node_tchblock = GetNodeChild(node_openwam, "BlockOfTurbochargers");
 
-			NumberOfAxis = CountNodes(node_tchblock, "Bot:Turbocharger");
+			NumberOfAxis = CountNodes(node_tchblock, "Bot_Turbocharger");
 
 			Axis = new TEjeTurbogrupo*[NumberOfAxis];
 
 			for (xml_node node_tch = GetNodeChild(node_tchblock,
-					"Bot:Turbocharger"); node_tch; node_tch =
-							node_tch.next_sibling("Bot:Turbocharger")) {
+					"Bot_Turbocharger"); node_tch; node_tch =
+							node_tch.next_sibling("Bot_Turbocharger")) {
 
 				ID = GetAttributeAsInt(node_tch,"Turbocharger_ID") - 1;
 
@@ -3107,14 +3107,14 @@ void TOpenWAM::ReadControllersXML() {
 	if(node_openwam.child("BlockOfControllers")){
 		xml_node node_ctrlblock = GetNodeChild(node_openwam,"BlockOfControllers");
 
-		NumberOfControllers = CountNodes(node_ctrlblock,"Bct:Controller");
+		NumberOfControllers = CountNodes(node_ctrlblock,"Bct_Controller");
 
 		Controller = new TController*[NumberOfControllers];
 
 		int i;
 		for (xml_node node_ctrl = GetNodeChild(node_ctrlblock,
-				"Bct:Controller"); node_ctrl; node_ctrl =
-						node_ctrl.next_sibling("Bct:Controller")){
+				"Bct_Controller"); node_ctrl; node_ctrl =
+						node_ctrl.next_sibling("Bct_Controller")){
 
 				Type = node_ctrl.attribute("Type").as_string();
 				i = GetAttributeAsInt(node_ctrl,"Controller_ID") - 1;

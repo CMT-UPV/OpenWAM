@@ -574,7 +574,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		FACT = GetAttributeAsBool(node_engine, "ACT");
 
 		if (FACT) {
-			xml_node node_act = GetNodeChild(node_engine, "Eng:ACTModel");
+			xml_node node_act = GetNodeChild(node_engine, "Eng_ACTModel");
 			FMixtureProcessCte = GetAttributeAsDouble(node_act,
 					"MixtureProcessCte");
 			if (!FHayEGR) {
@@ -593,7 +593,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		}
 
 		FGeom.NCilin = 0;
-		for (xml_node node_cylinder = node_engine.child("Eng:Cylinder");
+		for (xml_node node_cylinder = node_engine.child("Eng_Cylinder");
 				node_cylinder;
 				node_cylinder = node_cylinder.next_sibling("Specie")) {
 			FGeom.NCilin++;
@@ -616,7 +616,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		// INITIAL CONDITIONS
 		// ----------------------
 
-		xml_node node_enginitial = GetNodeChild(node_engine, "Eng:Initial");
+		xml_node node_enginitial = GetNodeChild(node_engine, "Eng_Initial");
 		FRegimen = GetAttributeAsDouble(node_enginitial, "Speed");
 		FPresionInicialRCA = GetAttributeAsDouble(node_enginitial,
 				"PressureIC");
@@ -658,7 +658,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 			FCalculoDePAAE = nmPAAEImpuesta;
 			FPresionAAE = GetAttributeAsInt(node_enginitial, "PressureEO");
 		}
-		xml_node node_comb = GetNodeChild(node_engine, "Eng:Combustion");
+		xml_node node_comb = GetNodeChild(node_engine, "Eng_Combustion");
 		const char_t* TypeComp = node_comb.attribute("Type").value();
 		if (TypeComp == "MEP") {
 			FCombustible = nmMEP;
@@ -674,7 +674,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		}
 		FRendimientoCombustion = GetAttributeAsDouble(node_comb, "Efficiency");
 
-		xml_node node_fuel = GetNodeChild(node_comb, "Com:Fuel");
+		xml_node node_fuel = GetNodeChild(node_comb, "Com_Fuel");
 		FPoderCalorifico = GetAttributeAsDouble(node_comb, "HeatCapacity");
 		FDensidadCombustible = GetAttributeAsDouble(node_comb, "Density");
 
@@ -686,9 +686,9 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 
 		FNumeroCiclosSinInerciaTermica = CiclosSinInerciaTermica;
 
-		xml_node node_heattr = GetNodeChild(node_engine, "Eng:HeatTransfer");
-		for (xml_node node_wall = node_heattr.child("Htr:Wall"); node_wall;
-				node_wall = node_wall.next_sibling("Htr:Wall")) {
+		xml_node node_heattr = GetNodeChild(node_engine, "Eng_HeatTransfer");
+		for (xml_node node_wall = node_heattr.child("Htr_Wall"); node_wall;
+				node_wall = node_wall.next_sibling("Htr_Wall")) {
 			if (node_wall.attribute("Type").value() == "Piston") {
 				FTempInicial.Piston = GetAttributeAsDouble(node_wall,
 						"Temperature");
@@ -754,7 +754,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		// GEOMETRICAL PARAMETERS
 		// -----------------------
 
-		xml_node node_geom = GetNodeChild(node_engine, "Eng:Geometry");
+		xml_node node_geom = GetNodeChild(node_engine, "Eng_Geometry");
 
 		FGeom.Biela = GetAttributeAsDouble(node_geom, "ConnectingRod");
 		FGeom.Carrera = GetAttributeAsDouble(node_geom, "Stroke");
@@ -790,7 +790,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 		// MECHANICAL LOSSES
 		// --------------------
 
-		xml_node node_mechlos = GetNodeChild(node_engine, "Eng:MechLosses");
+		xml_node node_mechlos = GetNodeChild(node_engine, "Eng_MechLosses");
 		FPerMec.Coef0 = GetAttributeAsDouble(node_mechlos, "Coef0");
 		FPerMec.Coef1 = GetAttributeAsDouble(node_mechlos, "Coef1");
 		FPerMec.Coef2 = GetAttributeAsDouble(node_mechlos, "Coef2");
@@ -805,7 +805,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 			double Imc, Ict, Itr;
 
 			xml_node node_vehicle = GetNodeChild(node_engine,
-					"Eng:VehicleModel");
+					"Eng_VehicleModel");
 			// Lectura de las masas
 			mv = GetAttributeAsDouble(node_vehicle, "MassVehicle");
 			mt = GetAttributeAsDouble(node_vehicle, "MassTransmission");
@@ -859,7 +859,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 
 		if (FACT) {
 			xml_node node_injsys = GetNodeChild(node_engine,
-					"Eng:InjectionSystem");
+					"Eng_InjectionSystem");
 
 			FInjectionSys.HoleNumber = GetAttributeAsInt(node_injsys,
 					"HoleNumber");
@@ -888,9 +888,9 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 
 			FInjectionSys.NumPulsos = 0;
 			stInjecPulse aux2;
-			for (xml_node node_pulse = node_injsys.child("Inj:Pulse");
+			for (xml_node node_pulse = node_injsys.child("Inj_Pulse");
 					node_pulse;
-					node_pulse = node_pulse.next_sibling("Inj:Pulse")) {
+					node_pulse = node_pulse.next_sibling("Inj_Pulse")) {
 
 				FInjectionSys.NumPulsos++;
 
@@ -925,9 +925,9 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 
 			FNumeroLeyesQuemado = 0;
 
-			xml_node node_hrldb = GetNodeChild(node_engine, "Eng:HRL_DB");
-			for (xml_node node_hrl = node_hrldb.child("Hdb:HRL"); node_hrl;
-					node_hrl = node_hrl.next_sibling("Hdb:HRL")) {
+			xml_node node_hrldb = GetNodeChild(node_engine, "Eng_HRL_DB");
+			for (xml_node node_hrl = node_hrldb.child("Hdb_HRL"); node_hrl;
+					node_hrl = node_hrl.next_sibling("Hdb_HRL")) {
 
 				LeyQuemadoSimple.ma = GetAttributeAsDouble(node_hrl, "Air");
 				LeyQuemadoSimple.mf = GetAttributeAsDouble(node_hrl, "Fuel");
@@ -940,9 +940,9 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 				if (LeyQuemadoSimple.n > FLQRegMax)
 					FLQRegMax = LeyQuemadoSimple.n;
 
-				for (xml_node node_wiebe = node_hrl.child("Hrl:Wiebe");
+				for (xml_node node_wiebe = node_hrl.child("Hrl_Wiebe");
 						node_wiebe;
-						node_wiebe = node_wiebe.next_sibling("Hrl:Wiebe")) {
+						node_wiebe = node_wiebe.next_sibling("Hrl_Wiebe")) {
 
 					WiebeSimple.m = GetAttributeAsDouble(node_wiebe, "m");
 					WiebeSimple.C = GetAttributeAsDouble(node_wiebe, "C");
@@ -975,9 +975,9 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 			}
 
 			if (FTipoDesfase == nmPersonalizado) {
-				for (xml_node node_cyl = node_engine.child("Eng:Cylinder");
+				for (xml_node node_cyl = node_engine.child("Eng_Cylinder");
 						node_cyl;
-						node_cyl = node_cyl.next_sibling("Eng:Cylinder")) {
+						node_cyl = node_cyl.next_sibling("Eng_Cylinder")) {
 
 					int i = GetAttributeAsInt(node_cyl, "Cyl_ID") - 1;
 					FDesfase[i] = GetAttributeAsInt(node_cyl, "PhaseShift");
@@ -987,7 +987,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 					} else {
 						FCilindro[i] = new TCilindro4T(this, i + 1, FHayEGR);
 					}
-					if(node_cyl.child("Cyl:AvgOutput")){
+					if(node_cyl.child("Cyl_AvgOutput")){
 						FCilindro[i]->ReadAverageResultsCilindroXML(node_cyl);
 					}
 					if(node_cyl.child("Ins:AvgOutput")){
@@ -996,9 +996,9 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 				}
 			} else {
 				int cil = 0;
-				for (xml_node node_cyl = node_engine.child("Eng:Cylinder");
+				for (xml_node node_cyl = node_engine.child("Eng_Cylinder");
 						node_cyl;
-						node_cyl = node_cyl.next_sibling("Eng:Cylinder")) {
+						node_cyl = node_cyl.next_sibling("Eng_Cylinder")) {
 
 					cil = GetAttributeAsInt(node_cyl, "Cyl_ID");
 					int i = GetAttributeAsInt(node_cyl, "FireOrder") - 1;
@@ -1038,8 +1038,8 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 			}
 		}
 
-		for (xml_node node_cyl = node_engine.child("Eng:Cylinder"); node_cyl;
-				node_cyl = node_cyl.next_sibling("Eng:Cylinder")) {
+		for (xml_node node_cyl = node_engine.child("Eng_Cylinder"); node_cyl;
+				node_cyl = node_cyl.next_sibling("Eng_Cylinder")) {
 
 			int i = GetAttributeAsInt(node_cyl, "Cyl_ID") - 1;
 
@@ -1055,7 +1055,7 @@ void TBloqueMotor::LeeMotorXML(xml_node node_openwam,
 			}
 
 		}
-		if(node_engine.child("Eng:AvgOutput"))
+		if(node_engine.child("Eng_AvgOutput"))
 			ReadAverageResultsBloqueMotorXML(node_engine);
 	} catch (exception & N) {
 		std::cout << "ERROR : TBloqueMotor::LeeMotor en el Bloque Engine."
@@ -1381,7 +1381,7 @@ void TBloqueMotor::ReadAverageResultsBloqueMotorXML(xml_node node_engine) {
 		FResMediosMotor.TiempoSUM = 0.;
 		FResMediosMotor.Tiempo0 = 0.;
 
-		xml_node node_avg=GetNodeChild(node_engine,"Eng:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_engine,"Eng_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "NetTorque"){

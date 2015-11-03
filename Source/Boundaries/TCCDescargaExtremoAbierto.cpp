@@ -308,7 +308,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryDataXML(xml_node node_connect,
 		int modeladoescape;
 
 		xml_node open_end;
-		open_end = GetNodeChild(node_connect,"Con:OpenEnd");
+		open_end = GetNodeChild(node_connect,"Con_OpenEnd");
 
 		FTuboExtremo = new stTuboExtremo[1];
 		FTuboExtremo[0].Pipe = NULL;

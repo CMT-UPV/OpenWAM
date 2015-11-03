@@ -120,7 +120,7 @@ void TValvulaContr::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FEngine = Engine;
 
-		xml_node node_controlled = GetNodeChild(node_valve, "Val:Controlled");
+		xml_node node_controlled = GetNodeChild(node_valve, "Val_Controlled");
 		const char_t* Mode = node_controlled.attribute("ControlMode").value();
 		if (Mode == "Angle") {
 			FTipoContr = nmContrAngulo;

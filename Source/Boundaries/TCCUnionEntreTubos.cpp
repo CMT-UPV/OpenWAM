@@ -345,7 +345,7 @@ void TCCUnionEntreTubos::ReadBoundaryDataXML(xml_node node_connect,
 					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
-		xml_node node_junction = GetNodeChild(node_connect,"Con:Junction");
+		xml_node node_junction = GetNodeChild(node_connect,"Con_Junction");
 
 		FEspesor = GetXMLLength(node_junction,"Thickness");
 		FConductividad = GetXMLConductivity(node_junction,"Conductivity");

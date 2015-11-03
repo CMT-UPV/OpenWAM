@@ -124,7 +124,7 @@ void TWasteGate::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FNumeroOrden = norden;
 
-		xml_node node_wg = GetNodeChild(node_valve, "Val:WasteGate");
+		xml_node node_wg = GetNodeChild(node_valve, "Val_WasteGate");
 		FTuboControl = GetAttributeAsDouble(node_wg, "ControlPipe_ID");
 		FDistancia = GetXMLLength(node_wg, "Distance");
 		FPresCapMando = GetXMLPressure(node_wg, "PresControl");

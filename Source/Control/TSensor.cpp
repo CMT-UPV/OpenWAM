@@ -180,9 +180,9 @@ void TSensor::ReadSensorXML(xml_node node_sensor) {
 	FDelay = GetAttributeAsDouble(node_sensor,"Delay");
 	FGain = GetAttributeAsDouble(node_sensor,"Gain");
 
-	if(node_sensor.child("Sen:AvgOutput"))
+	if(node_sensor.child("Sen_AvgOutput"))
 		LeeResultadosMedSensorXML(node_sensor);
-	if(node_sensor.child("Sen:InsOutput"))
+	if(node_sensor.child("Sen_InsOutput"))
 		LeeResultadosInsSensorXML(node_sensor);
 }
 
@@ -341,7 +341,7 @@ void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 void TSensor::LeeResultadosMedSensorXML(xml_node node_sens) {
 	try {
 
-		xml_node node_avg=GetNodeChild(node_sens,"Sen:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_sens,"Sen_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "Output"){
@@ -400,7 +400,7 @@ void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 void TSensor::LeeResultadosInsSensorXML(xml_node node_sens) {
 	try {
 
-		xml_node node_avg=GetNodeChild(node_sens,"Sen:InsOutput");
+		xml_node node_avg=GetNodeChild(node_sens,"Sen_InsOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "Output"){

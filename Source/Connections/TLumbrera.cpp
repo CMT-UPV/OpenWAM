@@ -140,7 +140,7 @@ void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FNumeroOrden = norden;
 
-		xml_node node_2sport = GetNodeChild(node_valve, "Val:2SPort");
+		xml_node node_2sport = GetNodeChild(node_valve, "Val_2SPort");
 
 		FAltura = GetXMLLength(node_2sport, "Height");
 		FAnchura = GetXMLLength(node_2sport, "Width");
@@ -149,16 +149,16 @@ void TLumbrera::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FPosicionPMI = GetXMLLength(node_2sport, "BDCRef");
 		FDiametroRef = GetXMLLength(node_2sport, "RefDiameter");
 
-		FNumCD = CountNodes(node_2sport, "RtV:FlowCoef");
+		FNumCD = CountNodes(node_2sport, "RtV_FlowCoef");
 
 		FApertura.resize(FNumCD);
 		FDatosCDEntrada.resize(FNumCD);
 		FDatosCDSalida.resize(FNumCD);
 
 		int j = 0;
-		for (xml_node node_flowc = GetNodeChild(node_2sport, "P2s:FlowCoef");
+		for (xml_node node_flowc = GetNodeChild(node_2sport, "P2s_FlowCoef");
 				node_flowc;
-				node_flowc = node_flowc.next_sibling("P2s:FlowCoef")) {
+				node_flowc = node_flowc.next_sibling("P2s_FlowCoef")) {
 			FApertura[j] = GetXMLLength(node_flowc, "Opening");
 			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flowc, "DC_in");
 			FDatosCDSalida[j] = GetAttributeAsDouble(node_flowc, "DC_out");

@@ -165,7 +165,7 @@ void TPIDController::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 void TPIDController::LeeControllerXML(xml_node node_ctrl) {
 
-	xml_node node_pid = GetNodeChild(node_ctrl,"Ctr:PID");
+	xml_node node_pid = GetNodeChild(node_ctrl,"Ctr_PID");
 
 	fKP_pos = GetAttributeAsDouble(node_pid,"P_pos");
 	fKI_pos = GetAttributeAsDouble(node_pid,"I_pos");
@@ -201,9 +201,9 @@ void TPIDController::LeeControllerXML(xml_node node_ctrl) {
 	FSensorID.resize(1);
 	FSensorID[0] = GetAttributeAsInt(node_pid,"Sensor_ID");
 
-	if(node_ctrl.child("Ctr:AvgOutput"))
+	if(node_ctrl.child("Ctr_AvgOutput"))
 		LeeResultadosMedControladorXML(node_ctrl);
-	if(node_ctrl.child("Ctr:InsOutput"))
+	if(node_ctrl.child("Ctr_InsOutput"))
 		LeeResultadosInsControladorXML(node_ctrl);
 
 }

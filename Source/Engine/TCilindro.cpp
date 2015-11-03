@@ -954,7 +954,7 @@ void TCilindro::ReadAverageResultsCilindroXML(xml_node node_cyl) {
 		FResMediosCilindro.Tiempo0 = 0.;
 		FResMediosCilindro.TiempoSUM = 0.;
 
-		xml_node node_avgout = GetNodeChild(node_cyl,"Cyl:AvgOutput");
+		xml_node node_avgout = GetNodeChild(node_cyl,"Cyl_AvgOutput");
 		for(xml_attribute parameter = node_avgout.attribute("Parameter"); parameter; parameter = parameter.next_attribute()){
 
 			if(parameter.value() == "NetWork"){
@@ -1849,7 +1849,7 @@ void TCilindro::ReadInstantaneousResultsCilindroXML(xml_node node_cyl) {
 		FResInstantCilindro.HeatPis = false;
 		FResInstantCilindro.HeatPisINS = 0;
 
-		xml_node node_insout = GetNodeChild(node_cyl,"Cyl:InsOutput");
+		xml_node node_insout = GetNodeChild(node_cyl,"Cyl_InsOutput");
 		for(xml_attribute parameter = node_insout.attribute("Parameter"); parameter; parameter = parameter.next_attribute()){
 
 			if(parameter.value() == "Pressure"){

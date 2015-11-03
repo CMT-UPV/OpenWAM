@@ -126,13 +126,13 @@ void TCCUnionEntreDepositos::LeeUEDepositosXML(xml_node node_connect, bool Indep
 
 		FIndependiente = Independent;
 
-		xml_node node_orif = GetNodeChild(node_connect,"Con:PlenumToPlenum");
+		xml_node node_orif = GetNodeChild(node_connect,"Con_PlenumToPlenum");
 		FNumeroDeposito1 = GetAttributeAsInt(node_orif,"Plenum1_ID");
 		FNumeroDeposito2 = GetAttributeAsInt(node_orif,"Plenum2_ID");
 
-		if(node_orif.child("Con:AvgOutput"))
+		if(node_orif.child("Con_AvgOutput"))
 			ReadAverageResultsUEDXML(node_orif);
-		if(node_orif.child("Con:InsOutput"))
+		if(node_orif.child("Con_InsOutput"))
 			LeeResultadosInstantUEDXML(node_orif);
 
 	} catch (Exception &N) {
@@ -800,7 +800,7 @@ void TCCUnionEntreDepositos::LeeResultadosInstantUEDXML(xml_node nodo_con) {
 	int nvars, var;
 	try {
 
-		xml_node node_ins=GetNodeChild(nodo_con,"Con:InsOutput");
+		xml_node node_ins=GetNodeChild(nodo_con,"Con_InsOutput");
 		for(xml_attribute parameter=node_ins.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "MassFlow"){
@@ -920,7 +920,7 @@ void TCCUnionEntreDepositos::ReadAverageResultsUEDXML(xml_node node_con) {
 	int nvars, var;
 	try {
 
-		xml_node node_avg=GetNodeChild(node_con,"Con:AvgOutput");
+		xml_node node_avg=GetNodeChild(node_con,"Con_AvgOutput");
 		for(xml_attribute parameter=node_avg.attribute("Parameter"); parameter;
 				parameter.next_attribute()){
 			if(parameter.value() == "MassFlow"){

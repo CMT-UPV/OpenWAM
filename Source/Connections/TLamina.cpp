@@ -225,7 +225,7 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FNumeroOrden = norden;
 
-		xml_node node_reed = GetNodeChild(node_valve, "Val:ReedValve");
+		xml_node node_reed = GetNodeChild(node_valve, "Val_ReedValve");
 
 		const char_t* Type = node_reed.attribute("Type").value();
 		if (Type == "0D") {
@@ -246,13 +246,13 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		}
 
 		if (FTipoLamina == nmLamina1D) {
-			xml_node node_1d = GetNodeChild(node_reed, "RdV:Valve1D");
+			xml_node node_1d = GetNodeChild(node_reed, "RdV_Valve1D");
 			FMasa = GetAttributeAsDouble(node_1d, "Mass");
 			FAmortiguamiento = GetAttributeAsDouble(node_1d, "Damping");
 			FRigidez = GetAttributeAsDouble(node_1d, "Stiffness");
 			FArea = GetAttributeAsDouble(node_1d, "Area");
 		} else if (FTipoLamina == nmLamina2D) {
-			xml_node node_2d = GetNodeChild(node_reed, "RdV:Valve2D");
+			xml_node node_2d = GetNodeChild(node_reed, "RdV_Valve2D");
 			FDensidad = GetAttributeAsDouble(node_2d, "Density");
 			FAmortiguamiento = GetAttributeAsDouble(node_2d, "Damping");
 			FModuloYoung = GetAttributeAsDouble(node_2d, "Stiffness");
@@ -262,8 +262,8 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 			FLongitud = GetAttributeAsDouble(node_2d, "Length");
 			FLongReal = GetAttributeAsDouble(node_2d, "RealLEngth");
 		}
-		FNumLevCDE = CountNodes(node_reed, "RdV:DCin");
-		FNumLevCDS = CountNodes(node_reed, "RdV:DCout");
+		FNumLevCDE = CountNodes(node_reed, "RdV_DCin");
+		FNumLevCDS = CountNodes(node_reed, "RdV_DCout");
 
 		FLiftCDin.resize(FNumLevCDE);
 		FDatosCDEntrada.resize(FNumLevCDE);
@@ -275,15 +275,15 @@ void TLamina::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FKCDS = GetAttributeAsDouble(node_reed, "MultDCout");
 
 		int j = 0;
-		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCin");
-				node_dcin; node_dcin = node_dcin.next_sibling("RdV:DCin")) {
+		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV_DCin");
+				node_dcin; node_dcin = node_dcin.next_sibling("RdV_DCin")) {
 			FLiftCDin[j] = (double) j * FIncrLev;
 			FDatosCDEntrada[j] = GetAttributeAsDouble(node_dcin, "DC_in");
 			++j;
 		}
 		j = 0;
-		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV:DCout");
-				node_dcin; node_dcin = node_dcin.next_sibling("RdV:DCout")) {
+		for (xml_node node_dcin = GetNodeChild(node_reed, "RdV_DCout");
+				node_dcin; node_dcin = node_dcin.next_sibling("RdV_DCout")) {
 			FLiftCDout[j] = (double) j * FIncrLev;
 			FDatosCDSalida[j] = GetAttributeAsDouble(node_dcin, "DC_out");
 			++j;

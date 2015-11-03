@@ -108,7 +108,7 @@ void TCDFijo::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FNumeroOrden = norden;
 
-		xml_node node_fixdc = GetNodeChild(node_valve, "Val:FixDC");
+		xml_node node_fixdc = GetNodeChild(node_valve, "Val_FixDC");
 		FCDEntrada = GetAttributeAsDouble(node_fixdc, "DC_in");
 		FCDSalida = GetAttributeAsDouble(node_fixdc, "DC_out");
 

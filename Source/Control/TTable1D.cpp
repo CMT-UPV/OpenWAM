@@ -124,7 +124,7 @@ void TTable1D::LeeControllerXML(xml_node node_ctrl) {
 
 	int xnum, tip, fromfile;
 
-	xml_node node_table = GetNodeChild(node_ctrl,"Ctr:Table1D");
+	xml_node node_table = GetNodeChild(node_ctrl,"Ctr_Table1D");
 
 	bool FromFile = GetAttributeAsBool(node_table,"FromFile");
 
@@ -145,8 +145,8 @@ void TTable1D::LeeControllerXML(xml_node node_ctrl) {
 	} else {
 		// fscanf(fich,"%d ",&fDimensiones);
 		for (xml_node node_pt = GetNodeChild(node_table,
-				"Bot:Turbocharger"); node_pt; node_pt =
-						node_pt.next_sibling("Bot:Turbocharger")) {
+				"Bot_Turbocharger"); node_pt; node_pt =
+						node_pt.next_sibling("Bot_Turbocharger")) {
 
 			fX_map.push_back(GetAttributeAsDouble(node_pt,"X"));
 			fY_map.push_back(GetAttributeAsDouble(node_pt,"Y"));
@@ -170,9 +170,9 @@ void TTable1D::LeeControllerXML(xml_node node_ctrl) {
 	FSensorID.resize(1);
 	FSensorID[0] = GetAttributeAsInt(node_table,"Sensor_ID");
 
-	if(node_ctrl.child("Ctr:AvgOutput"))
+	if(node_ctrl.child("Ctr_AvgOutput"))
 		LeeResultadosMedControladorXML(node_ctrl);
-	if(node_ctrl.child("Ctr:InsOutput"))
+	if(node_ctrl.child("Ctr_InsOutput"))
 		LeeResultadosInsControladorXML(node_ctrl);
 
 }

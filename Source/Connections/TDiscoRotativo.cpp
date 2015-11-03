@@ -184,7 +184,7 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FEngine = Engine;
 
-		xml_node node_rotary = GetNodeChild(node_valve, "Val:RotaryValve");
+		xml_node node_rotary = GetNodeChild(node_valve, "Val_RotaryValve");
 		FDiametroRef = GetAttributeAsDouble(node_rotary, "RefDiameter");
 		FDCMultiplier = GetAttributeAsDouble(node_rotary, "DCMultiplier");
 		FShift = GetAttributeAsDouble(node_rotary, "Shift");
@@ -202,15 +202,15 @@ void TDiscoRotativo::LeeDatosInicialesXML(xml_node node_valve, int norden,
 			FRelacionVelocidades = 1;
 		}
 
-		FNumeroPuntos = CountNodes(node_rotary, "RtV:FlowCoef");
+		FNumeroPuntos = CountNodes(node_rotary, "RtV_FlowCoef");
 
 		FAngulo.resize(FNumeroPuntos);
 		FDatosCDEntrada.resize(FNumeroPuntos);
 		FDatosCDSalida.resize(FNumeroPuntos);
 
 		int j = 0;
-		for (xml_node node_flow = GetNodeChild(node_rotary, "RtV:FlowCoef");
-				node_flow; node_flow = node_flow.next_sibling("RtV:FlowCoef")) {
+		for (xml_node node_flow = GetNodeChild(node_rotary, "RtV_FlowCoef");
+				node_flow; node_flow = node_flow.next_sibling("RtV_FlowCoef")) {
 			FAngulo[j] = GetAttributeAsDouble(node_flow, "Angle");
 			FDatosCDEntrada[j] = GetAttributeAsDouble(node_flow, "DC_in");
 			FDatosCDSalida[j] = GetAttributeAsDouble(node_flow, "DC_out");

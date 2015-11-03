@@ -235,7 +235,7 @@ void TCCCilindro::ReadBoundaryDataXML(xml_node node_connect,
 			i++;
 		}
 
-		xml_node node_tocyl = GetNodeChild(node_connect,"Con:PipeToCylinder");
+		xml_node node_tocyl = GetNodeChild(node_connect,"Con_PipeToCylinder");
 		FNumeroCilindro = GetAttributeAsInt(node_tocyl,"Cylinder_ID");
 
 		// Inicializacion del transporte de especies quimicas

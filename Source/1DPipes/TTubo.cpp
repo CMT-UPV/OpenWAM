@@ -719,7 +719,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 			}
 		}
 
-		xml_node node_nummet = GetNodeChild(node_pipe, "Pip:NumericalMethod");
+		xml_node node_nummet = GetNodeChild(node_pipe, "Pip_NumericalMethod");
 		FMallado = GetAttributeAsDouble(node_nummet, "MeshSize");
 		FCourant = GetAttributeAsDouble(node_nummet, "Courant");
 		std::string TypeScheme = node_nummet.attribute("Scheme").value();
@@ -761,11 +761,11 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 			FMod.Modelo = nmTVD;
 		}
 
-		xml_node node_friction = GetNodeChild(node_pipe, "Pip:Friction");
+		xml_node node_friction = GetNodeChild(node_pipe, "Pip_Friction");
 		FFriccion = GetAttributeAsDouble(node_friction, "Rugosity");
 		FCoefAjusFric = GetAttributeAsDouble(node_friction, "FitCoefficient");
 
-		xml_node node_ht = GetNodeChild(node_pipe, "Pip:HeatTransfer");
+		xml_node node_ht = GetNodeChild(node_pipe, "Pip_HeatTransfer");
 		FCoefAjusTC = GetAttributeAsDouble(node_ht, "FittingCoef");
 
 		std::string HTType = node_ht.attribute("HT_Type").value();
@@ -807,7 +807,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 				FCoefExt = 1.;
 				FEmisividad = 0.5;
 			}
-			FNumCapas = CountNodes(node_ht, "Pht:Layer");
+			FNumCapas = CountNodes(node_ht, "Pht_Layer");
 
 			if (WallCalc == "WithThermalInertia") {
 				FTipoCalcTempPared = nmVariableConInerciaTermica;
@@ -816,10 +816,10 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 			}
 		}
 
-		if(node_pipe.child("Pip:AvgOutput")){
+		if(node_pipe.child("Pip_AvgOutput")){
 			ReadAverageResultsTuboXML(node_pipe);
 		}
-		if(node_pipe.child("Pip:InsOutput")){
+		if(node_pipe.child("Pip_InsOutput")){
 			ReadInstantaneousResultsTuboXML(node_pipe);
 		}
 
@@ -984,8 +984,8 @@ void TTubo::LeeDatosGeometricosTuboXML(xml_node node_pipe, double ene,
 			throw Exception("");
 		}
 
-		xml_node node_geometry = GetNodeChild(node_pipe, "Pip:Geometry");
-		FNTramos = CountNodes(node_geometry, "Geo:Stretch");
+		xml_node node_geometry = GetNodeChild(node_pipe, "Pip_Geometry");
+		FNTramos = CountNodes(node_geometry, "Geo_Stretch");
 
 		FDExtTramo = new double[FNTramos + 1];
 		FLTramo = new double[FNTramos + 1];
@@ -993,9 +993,9 @@ void TTubo::LeeDatosGeometricosTuboXML(xml_node node_pipe, double ene,
 		FDExtTramo[0] = GetAttributeAsDouble(node_geometry, "Diameter");
 
 		int id = 0;
-		for (xml_node node_stretch = GetNodeChild(node_geometry, "Geo:Stretch");
+		for (xml_node node_stretch = GetNodeChild(node_geometry, "Geo_Stretch");
 				node_stretch;
-				node_stretch = node_stretch.next_sibling("Geo:Stretch")) {
+				node_stretch = node_stretch.next_sibling("Geo_Stretch")) {
 			id = GetAttributeAsInt(node_stretch, "Stretch_ID");
 			if (id > FNTramos) {
 				std::cout
@@ -2983,8 +2983,8 @@ void TTubo::ReadAverageResultsTuboXML(xml_node node_pipe) {
 	try {
 #endif
 
-		xml_node node_res = GetNodeChild(node_pipe,"Pip:AvgOutput");
-		FNumResMedios = CountNodes(node_res,"Opi:Point");
+		xml_node node_res = GetNodeChild(node_pipe,"Pip_AvgOutput");
+		FNumResMedios = CountNodes(node_res,"Opi_Point");
 
 		ResultadosMedios = new stResMediosTubo[FNumResMedios];
 		FTiempoMedSUM = 0.;
@@ -2992,9 +2992,9 @@ void TTubo::ReadAverageResultsTuboXML(xml_node node_pipe) {
 
 		int i = 0;
 
-		for (xml_node node_point = GetNodeChild(node_res, "Opi:Point");
+		for (xml_node node_point = GetNodeChild(node_res, "Opi_Point");
 				node_point;
-				node_point = node_point.next_sibling("Opi:Point")) {
+				node_point = node_point.next_sibling("Opi_Point")) {
 
 			ResultadosMedios[i].TemperaturaGas = false;
 			ResultadosMedios[i].TemperaturaGasSUM = 0.;
@@ -3354,16 +3354,16 @@ void TTubo::ReadInstantaneousResultsTuboXML(xml_node node_pipe) {
 	try {
 #endif
 
-		xml_node node_res = GetNodeChild(node_pipe,"Pip:AvgOutput");
-		FNumResInstant = CountNodes(node_res,"Opi:Point");
+		xml_node node_res = GetNodeChild(node_pipe,"Pip_AvgOutput");
+		FNumResInstant = CountNodes(node_res,"Opi_Point");
 
 		ResultInstantaneos = new stResInstantTubo[FNumResInstant];
 
 		int i=0;
 
-		for (xml_node node_point = GetNodeChild(node_res, "Opi:Point");
+		for (xml_node node_point = GetNodeChild(node_res, "Opi_Point");
 				node_point;
-				node_point = node_point.next_sibling("Opi:Point")) {
+				node_point = node_point.next_sibling("Opi_Point")) {
 			ResultInstantaneos[i].Pressure = false;
 			ResultInstantaneos[i].PresionINS = 0.;
 			ResultInstantaneos[i].Velocity = false;

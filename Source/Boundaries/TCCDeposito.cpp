@@ -335,7 +335,7 @@ void TCCDeposito::ReadBoundaryDataXML(xml_node node_connect,
 			FUnionDPF=true;
 		}
 #endif
-		xml_node node_toplen = GetNodeChild(node_connect,"Con:PipeToPlenum");
+		xml_node node_toplen = GetNodeChild(node_connect,"Con_PipeToPlenum");
 		FNumeroDeposito = GetAttributeAsInt(node_toplen,"Plenum_ID");
 
 		// Inicializacion del transporte de especies quimicas

@@ -244,7 +244,7 @@ void TValvula4T::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		FNumeroOrden = norden;
 
-		xml_node node_4svalve = GetNodeChild(node_valve, "Val:Valve4S");
+		xml_node node_4svalve = GetNodeChild(node_valve, "Val_Valve4S");
 		FDiametro = GetAttributeAsDouble(node_4svalve, "Diameter");
 		FIncrAng = GetAttributeAsDouble(node_4svalve, "AngleInterval");
 		FAnguloApertura = GetAttributeAsDouble(node_4svalve, "OpeningAngle");
@@ -252,7 +252,7 @@ void TValvula4T::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FCoefTorbMedio = GetAttributeAsDouble(node_4svalve, "MEanSwirlCoef");
 		FIncrLev = GetAttributeAsDouble(node_4svalve, "LiftInterval");
 
-		NumLev = CountNodes(node_4svalve, "V4s:Profile");
+		NumLev = CountNodes(node_4svalve, "V4s_Profile");
 
 		FAnguloApertura0 = FAnguloApertura;
 
@@ -263,15 +263,15 @@ void TValvula4T::LeeDatosInicialesXML(xml_node node_valve, int norden,
 		FAngle.resize(NumLev);
 
 		int i = 0;
-		for (xml_node node_profile = GetNodeChild(node_4svalve, "V4s:Profile");
+		for (xml_node node_profile = GetNodeChild(node_4svalve, "V4s_Profile");
 				node_profile;
-				node_profile = node_profile.next_sibling("V4s:Profile")) {
+				node_profile = node_profile.next_sibling("V4s_Profile")) {
 			FAngle[i] = (double) i * FIncrAng;
 			FLevantamiento[i] = GetAttributeAsDouble(node_profile, "Lift");
 			i++;
 		}
 
-		NumCD = CountNodes(node_4svalve, "V4s:FlowCoef");
+		NumCD = CountNodes(node_4svalve, "V4s_FlowCoef");
 
 		FLiftCD.resize(NumCD);
 		FDatosCDEntrada.resize(NumCD);
@@ -280,8 +280,8 @@ void TValvula4T::LeeDatosInicialesXML(xml_node node_valve, int norden,
 
 		i = 0;
 		for (xml_node node_flowcoef = GetNodeChild(node_4svalve,
-				"V4s:FlowCoef"); node_flowcoef;
-				node_flowcoef = node_flowcoef.next_sibling("V4s:FlowCoef")) {
+				"V4s_FlowCoef"); node_flowcoef;
+				node_flowcoef = node_flowcoef.next_sibling("V4s_FlowCoef")) {
 			FLiftCD[i] = (double) i * FIncrLev;
 			FDatosTorbellino[i] = GetAttributeAsDouble(node_flowcoef,
 					"SwirlCoef");
