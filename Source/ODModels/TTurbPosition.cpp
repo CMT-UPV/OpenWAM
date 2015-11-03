@@ -83,7 +83,7 @@ void TTurbPosition::ReadTurbinPositionXML(xml_node node_map) {
 
 	//rows = CountNodes(node_map,"TurbineMapPoint");
 	FPosition = GetAttributeAsInt(node_map, "RackPos");
-	FAngle = GetXMLAngle(node_map, "BladeAngle");
+	//FAngle = GetXMLAngle(node_map, "BladeAngle");
 
 	xml_node node_unit = GetNodeChild(node_map, "Unis");
 	const char_t* RedSpeedUnit = node_unit.attribute("ReducedSpeed").value();

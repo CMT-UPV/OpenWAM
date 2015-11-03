@@ -695,7 +695,7 @@ void TTubo::LeeDatosGeneralesTuboXML(xml_node node_pipe,
 		xml_node node_prop = GetNodeChild(node_pipe, "GasProperties");
 		FPini = GetAttributeAsDouble(node_prop, "Pressure");
 		FTini = GetAttributeAsDouble(node_prop, "Temperature");
-		FVelMedia = GetAttributeAsDouble(node_prop, "FVelMedia");
+		FVelMedia = GetAttributeAsDouble(node_prop, "Velocity");
 
 		xml_node nod_compini = GetNodeChild(node_prop, "Composition");
 		FComposicionInicial = new double[FNumeroEspecies - FIntEGR];

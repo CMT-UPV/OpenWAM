@@ -283,11 +283,11 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FThereIsHTM = true;
 
 			xml_node node_bear = GetNodeChild(node_htm,"Htm:Bearings");
-			FDShaft = GetXMLLength(xml_bear,"ShaftDiameter");
-			FJournalBLengh = GetXMLLength(xml_bear,"JournalBearingLength");
-			FHD = GetXMLLength(xml_bear,"Clearence");
-			FTthrustBRmin = GetXMLLength(xml_bear,"ThrustBearingMinR");
-			FTthrustBRmax = GetXMLLength(xml_bear,"ThrustBearingMaxR");
+			FDShaft = GetXMLLength(node_bear,"ShaftDiameter");
+			FJournalBLengh = GetXMLLength(node_bear,"JournalBearingLength");
+			FHD = GetXMLLength(node_bear,"Clearence");
+			FTthrustBRmin = GetXMLLength(node_bear,"ThrustBearingMinR");
+			FTthrustBRmax = GetXMLLength(node_bear,"ThrustBearingMaxR");
 
 			xml_node node_flu = GetNodeChild(node_htm,"Htm:Fluids");
 			xml_node node_oil = GetNodeChild(node_flu,"Flu:Oil");
@@ -297,6 +297,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FToil = GetXMLTemperature(node_oil,"Temperature");
 			FPoil = GetXMLPressure(node_oil,"Pressure");
 
+			double K1 = 0., K2 = 0., K3 = 0.;
 			K1 = GetAttributeAsDouble(node_oil,"VoeguelK1");
 			K2 = GetAttributeAsDouble(node_oil,"VoeguelK2");
 			K3 = GetAttributeAsDouble(node_oil,"VoeguelK3");
@@ -307,7 +308,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FOil->mu_c3 = K3;
 
 			if(node_flu.child("Flu:Water")){
-				xml_node node_water GetNodeChild(node_flu,"Flu:Water");
+				xml_node node_water=GetNodeChild(node_flu,"Flu:Water");
 
 				FDwater = GetXMLLength(node_water,"PortDiameter");
 				FMwater = GetXMLMassFlow(node_water,"MassFlow");
@@ -324,25 +325,37 @@ void TEjeTurbogrupo::ReadTurbochargerAxisXML(xml_node node_tch,
 			FCAC = GetAttributeAsDouble(node_ml,"CAC");
 			FCAT = GetAttributeAsDouble(node_ml,"CAT");
 
+			FMechLosses = new TurboBearings ( FOil, FJournalBLengh, FDShaft / 2,
+					FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
+					FTthrustBRmin, FTthrustBRmax, Fk_tb );
+
 			xml_node node_geom = GetNodeChild(node_htm,"Htm:Geometry");
 
 			FCWArea = GetXMLArea(node_geom,"CompWheelArea");
 			FTWArea = GetXMLArea(node_geom,"TurbWheelArea");
+			double DT = 0., LT = 0.;
 			DT = GetXMLLength(node_geom,"TurbExtDiameter");
 			LT = GetXMLLength(node_geom,"TurbExtLength");
+			double DC = 0., LC = 0.;
 			DC = GetXMLLength(node_geom,"CompExtDiameter");
 			LC = GetXMLLength(node_geom,"CompExtLength");
+			double DH = 0., LH = 0.;
 			DH = GetXMLLength(node_geom,"HousExtDiameter");
 			LH = GetXMLLength(node_geom,"HousExtLength");
 
 
 			FHTM = new TTC_HTM(FOil);
 
-			FMechLosses = new TurboBearings ( FOil, FJournalBLengh, FDShaft / 2,
-					FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
-					FTthrustBRmin, FTthrustBRmax, Fk_tb );
+			xml_node node_ht = GetNodeChild(node_htm,"Htm:HeatTransfer");
 
-			//FHTM->Read_HTM ( fich );
+			xml_node node_set = GetNodeChild(node_ht,"Htr:Settings");
+			FConvTemp.FastConvergence = GetAttributeAsBool(node_set,"FastConvergence");
+			if(FConvTemp.FastConvergence){
+				FConvTemp.TimeStep = GetXMLTime(node_set,"TimeStep");
+				FConvTemp.MaxTime = GetXMLTime(node_set,"MatTime");
+			}
+
+			//FHTM->Read_HTMXML ( fich );
 
 			FHTM->TurbochargerData ( FDShaft, FHD, FDoil, FDwater, DT, LT, DC,
 					LC, DH, LH );

@@ -1840,7 +1840,7 @@ void TOpenWAM::ReadCompressorsXML() {
 				node_compressor.next_sibling("Boc:Compressor")) {
 
 			CompressorType = node_compressor.attribute("Type").value();
-			ID = GetAttributeAsInt(node_compressor, "ID");
+			ID = GetAttributeAsInt(node_compressor, "ID")-1;
 
 			if (CompressorType == "Volume-Pipe") {
 				Compressor[ID] = new TCompTubDep(ID, SpeciesModel,
@@ -2979,7 +2979,7 @@ void TOpenWAM::ReadTurbochargerAxisXML() {
 					"Bot:Turbocharger"); node_tch; node_tch =
 							node_tch.next_sibling("Bot:Turbocharger")) {
 
-				ID = GetAttributeAsInt(node_tch,"Turbocharger_ID");
+				ID = GetAttributeAsInt(node_tch,"Turbocharger_ID") - 1;
 
 				if (EngineBlock) {
 					Axis[ID] = new TEjeTurbogrupo(ID,
@@ -3093,7 +3093,7 @@ void TOpenWAM::ReadControllersXML() {
 						node_ctrl.next_sibling("Bct:Controller")){
 
 				Type = node_ctrl.attribute("Type").value();
-				i = GetAttributeAsInt(node_ctrl,"Controller_ID");
+				i = GetAttributeAsInt(node_ctrl,"Controller_ID") - 1;
 				if(Type == "PID"){
 					Controller[i] = new TPIDController(i);
 				}else if(Type == "Table1D"){
