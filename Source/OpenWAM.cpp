@@ -24,6 +24,25 @@
  |
  \*--------------------------------------------------------------------------------*/
 
+/** \mainpage OpenWAM source code documentation
+ *
+ * OpenWAM is a free, open source 1-dimensional gas-dynamic code produced by
+ * CMT-Motores Termicos of the Universitat Politecnica de Valencia.
+ * This code is specially developed to solve the thermo- and fluid-dynamics of
+ * compressible flow in different elements that can be considered as 0 and
+ * 1-dimensional.
+ *
+ * It can be used to predict the flow motion through the elements of an internal
+ * combustion engine or in other facilities involving compressible flow.
+ *
+ * OpenWAM is offered under the GNU General Public License. OpenWAM will always
+ * be free of charge and open source.
+ *
+ * For more information, see <http://www.cmt.upv.es/OpenWam.aspx>
+ *
+ * Also, see <http://openwam.webs.upv.es/docs/> for more documentation.
+ */
+
 // ---------------------------------------------------------------------------
 #ifdef __BORLANDC__
 #include <vcl.h>
