@@ -109,10 +109,10 @@ protected:
 	TCondicionContorno * FLeftBC; ///< Left boundary condition.
 	TCondicionContorno * FRightBC; ///< Right boundary condition.
 public:
+	/**
+	 * @brief Creates a pipe object, with some default parameters.
+	 */
     TBasicPipe();
-	
-	TBasicPipe(const RowVector & Area, const RowVector & rho,
-		const RowVector & p, const RowVector & u);
 
 	/**
 	 * @brief Colebrook friction coefficient.
@@ -194,7 +194,7 @@ public:
 	 * ^ \frac{\gamma - 1}{2 \cdot \gamma}
 	 * @f]
 	 *
-	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
+	 * where @f$ A_A @f$ is the entropy level, @f$ a @f$ is the speed of
 	 * sound, @f$ a_0 @f$ is the reference speed of sound #ARef,
 	 * @f$ p @f$ is the flow pressure, @f$ p_0 @f$ is the reference pressure
 	 * #PRef and @f$ \gamma @f$ is the specific heat capacities ratio.
@@ -215,7 +215,7 @@ public:
 	 * ^ \frac{\gamma - 1}{2 \cdot \gamma}
 	 * @f]
 	 *
-	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
+	 * where @f$ A_A @f$ is the entropy level, @f$ a @f$ is the speed of
 	 * sound, @f$ a_0 @f$ is the reference speed of sound #ARef,
 	 * @f$ p @f$ is the flow pressure, @f$ p_0 @f$ is the reference pressure
 	 * #PRef and @f$ \gamma @f$ is the specific heat capacities ratio.
@@ -237,7 +237,7 @@ public:
 	 * ^ \frac{\gamma - 1}{2 \cdot \gamma}
 	 * @f]
 	 *
-	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
+	 * where @f$ A_A @f$ is the entropy level, @f$ a @f$ is the speed of
 	 * sound, @f$ a_0 @f$ is the reference speed of sound #ARef,
 	 * @f$ p @f$ is the flow pressure, @f$ p_0 @f$ is the reference pressure
 	 * #PRef and @f$ \gamma @f$ is the specific heat capacities ratio.
