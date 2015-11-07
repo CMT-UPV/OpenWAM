@@ -205,7 +205,7 @@ void TLaxWendroff::SolveCentralNodes()
 		{
 			x1 = FPipe->FU0(i, j) + FPipe->FU0(i, j + 1);
 			x2 = -dtdx * (FW(i, j + 1) - FW(i, j));
-			x3 = (FV1(i, j + 1) + FV1(i, j) * FPipe->FDerLinArea(j)) * (-dt2);
+			x3 = (FV1(i, j + 1) + FV1(i, j)) * FPipe->FDerLinArea(j) * (-dt2);
 			x4 = -dt2 * (FV2(i, j + 1) + FV2(i, j));
 			FU_12(i, j) = (x1 + x2 + x3 + x4) / 2.;
 		}
@@ -229,8 +229,8 @@ void TLaxWendroff::SolveCentralNodes()
 		{
 			x1 = FPipe->FU0(i, j);
 			x2 = -dtdx * (FW_12(i, j) - FW_12(i, j - 1));
-			x3 = (FV1_12(i, j) + FV1_12(i, j - 1)
-				* FDerLinArea_12(j)) * (-dt2);
+			x3 = (FV1_12(i, j) + FV1_12(i, j - 1))
+				* FDerLinArea_12(j) * (-dt2);
 			x4 = -dt2 * (FV2_12(i, j) + FV2_12(i, j - 1));
 			FPipe->FU1(i, j) = (x1 + x2 + x3 + x4);
 		}
