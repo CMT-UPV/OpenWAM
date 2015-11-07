@@ -60,7 +60,14 @@
 
 class TLaxWendroff;
 
-
+/**
+ * @brief A one-dimensional pipe.
+ *
+ * This class implements a pipe, including its geometry, state vector and
+ * variables such as its pressure or entropy level.  It also owns a flow
+ * integration method object of class TBasicPipeMethod, as well as boundary
+ * condition objects of class TCondicionContorno.
+ */
 class TBasicPipe
 {
 friend class TBasicPipeMethod;
@@ -188,9 +195,9 @@ public:
 	 * @f]
 	 *
 	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
-	 * sound, @f$ a_0 @f$ is the reference speed of sound, @f$ p @f$ is the
-	 * flow pressure, @f$ p_0 @f$ is the reference pressure and
-	 * @f$ \gamma @f$ is the specific heat capacities ratio.
+	 * sound, @f$ a_0 @f$ is the reference speed of sound #ARef,
+	 * @f$ p @f$ is the flow pressure, @f$ p_0 @f$ is the reference pressure
+	 * #PRef and @f$ \gamma @f$ is the specific heat capacities ratio.
 	 *
 	 * Its value is returned for each node/cell of the pipe.
 	 *
@@ -209,9 +216,9 @@ public:
 	 * @f]
 	 *
 	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
-	 * sound, @f$ a_0 @f$ is the reference speed of sound, @f$ p @f$ is the
-	 * flow pressure, @f$ p_0 @f$ is the reference pressure and
-	 * @f$ \gamma @f$ is the specific heat capacities ratio.
+	 * sound, @f$ a_0 @f$ is the reference speed of sound #ARef,
+	 * @f$ p @f$ is the flow pressure, @f$ p_0 @f$ is the reference pressure
+	 * #PRef and @f$ \gamma @f$ is the specific heat capacities ratio.
 	 *
 	 * Its value is returned for ith node/cell of the pipe.
 	 *
@@ -231,9 +238,9 @@ public:
 	 * @f]
 	 *
 	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
-	 * sound, @f$ a_0 @f$ is the reference speed of sound, @f$ p @f$ is the
-	 * flow pressure, @f$ p_0 @f$ is the reference pressure and
-	 * @f$ \gamma @f$ is the specific heat capacities ratio.
+	 * sound, @f$ a_0 @f$ is the reference speed of sound #ARef,
+	 * @f$ p @f$ is the flow pressure, @f$ p_0 @f$ is the reference pressure
+	 * #PRef and @f$ \gamma @f$ is the specific heat capacities ratio.
 	 *
 	 * Its value is returned for a node/cell that is at a distance @f$ x @f$
 	 * of the pipe inlet.
@@ -254,7 +261,7 @@ public:
 	 *
 	 * where @f$ \beta @f$ is the non-dimensional characteristic,
 	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
-	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * sound #ARef, @f$ \gamma @f$ is the specific heat capacities ratio and
 	 * @f$ u @f$ is the flow speed.
 	 *
 	 * Its value is returned for each node/cell of the pipe.
@@ -274,7 +281,7 @@ public:
 	 *
 	 * where @f$ \beta @f$ is the non-dimensional characteristic,
 	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
-	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * sound #ARef, @f$ \gamma @f$ is the specific heat capacities ratio and
 	 * @f$ u @f$ is the flow speed.
 	 *
 	 * Its value is returned for ith node/cell of the pipe.
@@ -295,7 +302,7 @@ public:
 	 *
 	 * where @f$ \beta @f$ is the non-dimensional characteristic,
 	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
-	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * sound #ARef, @f$ \gamma @f$ is the specific heat capacities ratio and
 	 * @f$ u @f$ is the flow speed.
 	 *
 	 * Its value is returned for a node/cell that is at a distance @f$ x @f$
@@ -324,7 +331,7 @@ public:
 	 *
 	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
 	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
-	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * sound #ARef, @f$ \gamma @f$ is the specific heat capacities ratio and
 	 * @f$ u @f$ is the flow speed.
 	 *
 	 * Its value is returned for each node/cell of the pipe.
@@ -344,7 +351,7 @@ public:
 	 *
 	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
 	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
-	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * sound #ARef, @f$ \gamma @f$ is the specific heat capacities ratio and
 	 * @f$ u @f$ is the flow speed.
 	 *
 	 * Its value is returned for ith node/cell of the pipe.
@@ -365,7 +372,7 @@ public:
 	 *
 	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
 	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
-	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * sound #ARef, @f$ \gamma @f$ is the specific heat capacities ratio and
 	 * @f$ u @f$ is the flow speed.
 	 *
 	 * Its value is returned for a node/cell that is at a distance @f$ x @f$
