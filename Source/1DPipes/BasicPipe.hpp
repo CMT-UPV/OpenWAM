@@ -73,12 +73,14 @@ protected:
 	double FXref; ///< Cell size. [m]
 	RowVector Fa; ///< Speed of sound. [m / s]
 	RowVector FArea; ///< Node or cell interface area. [m ** 2]
+	RowVector Fbeta; ///< Left-travelling non-dimensional characteristic. [-]
 	RowVector Fhi; ///< Interior heat transfer coefficient. [W / (m ** 2 * K)]
 	RowVector Frho; ///< Density. [kg / m ** 3]
 	RowVector FRe; ///< Reynolds number.
 	RowVector FDerLinArea; ///< First derivative of the area. [m]
 	RowArray FTWPipe; ///< Pipe wall temperature. [K]
 	RowVector FGamma; ///< Specific heat capacities ratio.
+	RowVector Flambda; ///< Right-travelling non-dimensional characteristic. [-]
 	RowVector FR; ///< Gas constant. [J / (kg * K)]
 	RowVector Fcv; ///< Specific heat capacity at constant volume. [J / (kg * K)]
 	RowVector Fcp; ///< Specific heat capacity at constant pressure. [J / (kg * K)]
@@ -175,11 +177,137 @@ public:
 	void setPTU(const RowVector& p, const RowVector& T, const RowVector& u);
 
 	/**
+	 * @brief Gets the pipe beta vector.
+	 *
+	 * Gets the left-travelling non-dimensional characteristic:
+	 *
+	 * @f[
+	 * \beta = \cfrac{a}{a_0} - \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * @f]
+	 *
+	 * where @f$ \beta @f$ is the non-dimensional characteristic,
+	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
+	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * @f$ u @f$ is the flow speed.
+	 *
+	 * Its value is returned for each node/cell of the pipe.
+	 *
+	 * @return The pipe beta vector. [-]
+	 */
+	RowVector getBeta() const;
+
+	/**
+	 * @brief Gets the pipe beta at a given cell.
+	 *
+	 * Gets the left-travelling non-dimensional characteristic:
+	 *
+	 * @f[
+	 * \beta = \cfrac{a}{a_0} - \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * @f]
+	 *
+	 * where @f$ \beta @f$ is the non-dimensional characteristic,
+	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
+	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * @f$ u @f$ is the flow speed.
+	 *
+	 * Its value is returned for ith node/cell of the pipe.
+	 *
+	 * @param i Cell number.
+	 * @return The pipe beta at a given cell. [-]
+	 */
+	double getBeta(unsigned int i) const;
+
+	/**
+	 * @brief Gets the pipe beta at a given distance from the inlet.
+	 *
+	 * Gets the left-travelling non-dimensional characteristic:
+	 *
+	 * @f[
+	 * \beta = \cfrac{a}{a_0} - \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * @f]
+	 *
+	 * where @f$ \beta @f$ is the non-dimensional characteristic,
+	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
+	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * @f$ u @f$ is the flow speed.
+	 *
+	 * Its value is returned for a node/cell that is at a distance @f$ x @f$
+	 * of the pipe inlet.
+	 *
+	 * @param x Distance from the inlet. [m]
+	 * @return The pipe beta at a given point. [-]
+	 */
+	double getBeta(double x) const;
+
+	/**
 	 * @brief Returns the current time for this pipe.
 	 * 
 	 * @returns The current time for this pipe. [s]
 	 */
 	double getCurrentTime() const;
+
+	/**
+	 * @brief Gets the pipe lambda vector.
+	 *
+	 * Gets the right-travelling non-dimensional characteristic:
+	 *
+	 * @f[
+	 * \lambda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * @f]
+	 *
+	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
+	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
+	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * @f$ u @f$ is the flow speed.
+	 *
+	 * Its value is returned for each node/cell of the pipe.
+	 *
+	 * @return The pipe lambda vector. [-]
+	 */
+	RowVector getLambda() const;
+
+	/**
+	 * @brief Gets the pipe lambda at a given cell.
+	 *
+	 * Gets the right-travelling non-dimensional characteristic:
+	 *
+	 * @f[
+	 * \lamnda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * @f]
+	 *
+	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
+	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
+	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * @f$ u @f$ is the flow speed.
+	 *
+	 * Its value is returned for ith node/cell of the pipe.
+	 *
+	 * @param i Cell number.
+	 * @return The pipe lambda at a given cell. [-]
+	 */
+	double getLambda(unsigned int i) const;
+
+	/**
+	 * @brief Gets the pipe lambda at a given distance from the inlet.
+	 *
+	 * Gets the right-travelling non-dimensional characteristic:
+	 *
+	 * @f[
+	 * \lamnda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * @f]
+	 *
+	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
+	 * @f$ a @f$ is the speed of sound, @f$ a_0 @f$ is the reference speed of
+	 * sound, @f$ \gamma @f$ is the specific heat capacities ratio and
+	 * @f$ u @f$ is the flow speed.
+	 *
+	 * Its value is returned for a node/cell that is at a distance @f$ x @f$
+	 * of the pipe inlet.
+	 *
+	 * @param x Distance from the inlet. [m]
+	 * @return The pipe lambda at a given point. [-]
+	 */
+	double getLambda(double x) const;
 
 	/**
 	 * @brief Returns the maximum allowable time-step.

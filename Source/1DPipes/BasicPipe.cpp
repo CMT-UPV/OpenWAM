@@ -154,9 +154,59 @@ void TBasicPipe::setPTU(const RowVector& p, const RowVector& T,
 }
 
 
+RowVector TBasicPipe::getBeta() const
+{
+	return Fbeta;
+}
+
+
+double TBasicPipe::getBeta(unsigned int i) const
+{
+	if (i < Fbeta.size())
+	{
+		return Fbeta(i);
+	}
+	else
+	{
+		return Fbeta.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getBeta(double x) const
+{
+	return linear_interp(Fx, Fbeta, x);
+}
+
+
 double TBasicPipe::getCurrentTime() const
 {
 	return FCurrentTime;
+}
+
+
+RowVector TBasicPipe::getLambda() const
+{
+	return Flambda;
+}
+
+
+double TBasicPipe::getLambda(unsigned int i) const
+{
+	if (i < Flambda.size())
+	{
+		return Flambda(i);
+	}
+	else
+	{
+		return Flambda.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getLambda(double x) const
+{
+	return linear_interp(Fx, Flambda, x);
 }
 
 

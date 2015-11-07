@@ -132,13 +132,13 @@ void TLaxWendroff::ComputeSource1(const RowArray & U, RowArray & V,
 	const RowVector & A, const RowVector & Gamma1)
 {
 	V.setZero();
-	V.row(1) = - (U.row(2) - U.row(1).square() / (U.row(0) + 1E-10) / 2.)
+	V.row(1) = -(U.row(2) - U.row(1).square() / (U.row(0) + 1E-10) / 2.)
 		* Gamma1 / A;
 	for (int i = 0; i < U.cols(); i++)
 	{
 		if (DoubEqZero(U(1, i)))
 		{
-			V(1, i) = U(2, i) * Gamma1(i) / A(i);
+			V(1, i) = -U(2, i) * Gamma1(i) / A(i);
 		}
 	}
 }
@@ -294,6 +294,10 @@ void TLaxWendroff::UpdateFlowVariables()
 		* FPipe->Fspeed / 2.) * (FPipe->FGamma - 1.);
 	FPipe->Ftemperature = FPipe->Fpressure / FPipe->Frho / FPipe->FR;
 	FPipe->Fa = (FPipe->FGamma * FPipe->FR * FPipe->Ftemperature).sqrt();
+	FPipe->Fbeta = (FPipe->Fa - (FPipe->FGamma - 1.) / 2. * FPipe->Fspeed)
+		/ ARef;
+	FPipe->Flambda = (FPipe->Fa + (FPipe->FGamma - 1.) / 2. * FPipe->Fspeed)
+		/ ARef;
 	UpdateGasProperties();
 	ComputeMaxTimeStep();
 }
