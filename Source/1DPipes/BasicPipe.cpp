@@ -154,6 +154,31 @@ void TBasicPipe::setPTU(const RowVector& p, const RowVector& T,
 }
 
 
+RowVector TBasicPipe::getA_A() const
+{
+	return FA_A;
+}
+
+
+double TBasicPipe::getA_A(unsigned int i) const
+{
+	if (i < FA_A.size())
+	{
+		return FA_A(i);
+	}
+	else
+	{
+		return FA_A.tail(1)(0);
+	}
+}
+
+
+double TBasicPipe::getA_A(double x) const
+{
+	return linear_interp(Fx, FA_A, x);
+}
+
+
 RowVector TBasicPipe::getBeta() const
 {
 	return Fbeta;

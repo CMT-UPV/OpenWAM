@@ -294,6 +294,12 @@ void TLaxWendroff::UpdateFlowVariables()
 		* FPipe->Fspeed / 2.) * (FPipe->FGamma - 1.);
 	FPipe->Ftemperature = FPipe->Fpressure / FPipe->Frho / FPipe->FR;
 	FPipe->Fa = (FPipe->FGamma * FPipe->FR * FPipe->Ftemperature).sqrt();
+	for (auto i = 0; i < FPipe->FA_A.size(); i++)
+	{
+		FPipe->FA_A(i) = (FPipe->Fa(i) / ARef)
+			/ pow(FPipe->Fpressure(i) / PRef / 1E5,
+				FPipe->FGamma1(i) / 2. / FPipe->FGamma(i));
+	}
 	FPipe->Fbeta = (FPipe->Fa - (FPipe->FGamma - 1.) / 2. * FPipe->Fspeed)
 		/ ARef;
 	FPipe->Flambda = (FPipe->Fa + (FPipe->FGamma - 1.) / 2. * FPipe->Fspeed)

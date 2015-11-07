@@ -73,6 +73,7 @@ protected:
 	double FXref; ///< Cell size. [m]
 	RowVector Fa; ///< Speed of sound. [m / s]
 	RowVector FArea; ///< Node or cell interface area. [m ** 2]
+	RowVector FA_A; ///< Non-dimensional entropy level. [-]
 	RowVector Fbeta; ///< Left-travelling non-dimensional characteristic. [-]
 	RowVector Fhi; ///< Interior heat transfer coefficient. [W / (m ** 2 * K)]
 	RowVector Frho; ///< Density. [kg / m ** 3]
@@ -175,6 +176,72 @@ public:
 	 * @param u Flow speed. [m / s]
 	 */
 	void setPTU(const RowVector& p, const RowVector& T, const RowVector& u);
+
+	/**
+	 * @brief Gets the pipe entropy level vector.
+	 *
+	 * Gets the entropy level inside the pipe:
+	 *
+	 * @f[
+	 * A_A = \cfrac{a}{a_0} / \left( \cfrac{p}{p_0} \right)
+	 * ^ \frac{\gamma - 1}{2 \cdot \gamma}
+	 * @f]
+	 *
+	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
+	 * sound, @f$ a_0 @f$ is the reference speed of sound, @f$ p @f$ is the
+	 * flow pressure, @f$ p_0 @f$ is the reference pressure and
+	 * @f$ \gamma @f$ is the specific heat capacities ratio.
+	 *
+	 * Its value is returned for each node/cell of the pipe.
+	 *
+	 * @return The pipe entropy level vector. [-]
+	 */
+	RowVector getA_A() const;
+
+	/**
+	 * @brief Gets the pipe entropy level at a given cell.
+	 *
+	 * Gets the entropy level inside the pipe:
+	 *
+	 * @f[
+	 * A_A = \cfrac{a}{a_0} / \left( \cfrac{p}{p_0} \right)
+	 * ^ \frac{\gamma - 1}{2 \cdot \gamma}
+	 * @f]
+	 *
+	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
+	 * sound, @f$ a_0 @f$ is the reference speed of sound, @f$ p @f$ is the
+	 * flow pressure, @f$ p_0 @f$ is the reference pressure and
+	 * @f$ \gamma @f$ is the specific heat capacities ratio.
+	 *
+	 * Its value is returned for ith node/cell of the pipe.
+	 *
+	 * @param i Cell number.
+	 * @return The pipe entropy level at a given cell. [-]
+	 */
+	double getA_A(unsigned int i) const;
+
+	/**
+	 * @brief Gets the pipe entropy level at a given distance from the inlet.
+	 *
+	 * Gets the entropy level inside the pipe:
+	 *
+	 * @f[
+	 * A_A = \cfrac{a}{a_0} / \left( \cfrac{p}{p_0} \right)
+	 * ^ \frac{\gamma - 1}{2 \cdot \gamma}
+	 * @f]
+	 *
+	 * where @f$ A_A @f$ is the entropy level, * @f$ a @f$ is the speed of
+	 * sound, @f$ a_0 @f$ is the reference speed of sound, @f$ p @f$ is the
+	 * flow pressure, @f$ p_0 @f$ is the reference pressure and
+	 * @f$ \gamma @f$ is the specific heat capacities ratio.
+	 *
+	 * Its value is returned for a node/cell that is at a distance @f$ x @f$
+	 * of the pipe inlet.
+	 *
+	 * @param x Distance from the inlet. [m]
+	 * @return The pipe entropy level at a given point. [-]
+	 */
+	double getA_A(double x) const;
 
 	/**
 	 * @brief Gets the pipe beta vector.
