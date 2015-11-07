@@ -339,7 +339,7 @@ public:
 	 * Gets the right-travelling non-dimensional characteristic:
 	 *
 	 * @f[
-	 * \lamnda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * \lambda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
 	 * @f]
 	 *
 	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
@@ -360,7 +360,7 @@ public:
 	 * Gets the right-travelling non-dimensional characteristic:
 	 *
 	 * @f[
-	 * \lamnda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
+	 * \lambda = \cfrac{a}{a_0} + \cfrac{\gamma - 1}{2} \cdot \cfrac{u}{a_0}
 	 * @f]
 	 *
 	 * where @f$ \lambda @f$ is the non-dimensional characteristic,
