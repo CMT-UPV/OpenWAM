@@ -1,3 +1,4 @@
+include_directories(../submodules/eigen/Eigen)
 include_directories(1DPipes)
 include_directories(Act)
 include_directories(Boundaries)
