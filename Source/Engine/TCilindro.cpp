@@ -103,7 +103,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		Fengine_parameters[7] = FMotor->getGeometria().DiametroBowl;
 		// Maximum Diameter of Bowl
 		Fengine_parameters[8] = FMotor->getGeometria().DiametroBowl
-				* FMotor->getGeometria().DiametroBowl * Pi / 4
+				* FMotor->getGeometria().DiametroBowl * __CTE.Pi_4
 				* FMotor->getGeometria().AlturaBowl;
 		// Volume of Bowl
 		Fengine_parameters[9] = FMotor->getGeometria().MasaBiela;
@@ -176,7 +176,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		Ftest_variables[7] = 188300; // Exhaust pressure
 		Ftest_variables[8] = FMotor->getGeometria().CDBlowBy;
 		// Blow-by coefficient
-		Ftest_variables[9] = FMotor->getPresionAmb() * 1e5;
+		Ftest_variables[9] = __UN.BarToPa(FMotor->getPresionAmb());
 		// Atmosphere pressure
 		Ftest_variables[10] = 318.15; // Fuel injection temperature
 		Ftest_variables[11] = 390.85; // Cylinder head temperature
@@ -1138,10 +1138,10 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 			double DeltaT = TActual - FResMediosCilindro.Tiempo0;
 			// double DeltaAngulo=360.*FMotor->PutRegimen(360.*FMotor->getRegimen()/60.*DeltaT);
 
-			FResMediosCilindro.TrabajoNetoSUM += FPreMed * 1e5
+			FResMediosCilindro.TrabajoNetoSUM += __UN.BarToPa(FPreMed)
 					* (FVolumen - FVolumen0);
 			if (FAnguloActual > 180. && FAnguloActual < 540.) {
-				FResMediosCilindro.TrabajoBombeoSUM += FPreMed * 1e5
+				FResMediosCilindro.TrabajoBombeoSUM += __UN.BarToPa(FPreMed)
 						* (FVolumen - FVolumen0);
 			}
 
@@ -1227,10 +1227,9 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 			}
 			if (FResMediosCilindro.PresionMediaNeta
 					|| FResMediosCilindro.PresionMediaIndicada) {
-				FResMediosCilindro.PresionMediaNetaMED =
+				FResMediosCilindro.PresionMediaNetaMED = __UN.PaToBar(
 						FResMediosCilindro.TrabajoNetoMED
-								/ FMotor->getGeometria().CilindradaUnitaria
-								/ 1e5;
+								/ FMotor->getGeometria().CilindradaUnitaria);
 			}
 			if (FResMediosCilindro.TrabajoBombeo
 					|| FResMediosCilindro.PresionMediaBombeo
@@ -1241,10 +1240,9 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 			}
 			if (FResMediosCilindro.PresionMediaBombeo
 					|| FResMediosCilindro.PresionMediaIndicada) {
-				FResMediosCilindro.PresionMediaBombeoMED =
+				FResMediosCilindro.PresionMediaBombeoMED = __UN.PaToBar(
 						-FResMediosCilindro.TrabajoBombeoMED
-								/ FMotor->getGeometria().CilindradaUnitaria
-								/ 1e5;
+								/ FMotor->getGeometria().CilindradaUnitaria);
 			}
 			if (FResMediosCilindro.CalorCombustion) {
 				FResMediosCilindro.CalorCombustionMED =
@@ -2168,11 +2166,11 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 		double tt = 0., ttt = 0., xxx = 0.;
 		double ret_val, deltaVol, acel = 0., c;
 
-		double a = AnguloActual * Pi / 180.;
+		double a = __UN.DegToRad(AnguloActual);
 		double b = FMotor->getGeometria().Biela;
 		double m = FMotor->getGeometria().Carrera / 2.;
 		double e = FMotor->getGeometria().Excentricidad / 1000;
-		double area = Pi * pow2(FMotor->getGeometria().Diametro) / 4.;
+		double area = Seccion(FMotor->getGeometria().Diametro);
 
 		double Lact = m * sqrt(pow2(1. + b / m) - pow2(e / m))
 				- m * (cos(a) + sqrt(pow2((b / m)) - pow2(sin(a) - e / m)));
@@ -2189,35 +2187,13 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 					* (FMotor->getGeometria().AlturaCoronaPiston + b + m);
 
 			if (FDeltaAngulo != 0) {
-				double Lant =
-						m * sqrt(pow2(1. + b / m) - pow2(e / m))
-								- m
-										* (cos(a - FDeltaAngulo * Pi / 180.)
-												+ sqrt(
-														pow2((b / m))
-																- pow2(
-																		sin(
-																				a
-																						- FDeltaAngulo
-																								* Pi
-																								/ 180.)
-																				- e
-																						/ m)));
+				double Lant = m * sqrt(pow2(1. + b / m) - pow2(e / m))
+					- m	* (cos(a - __UN.DegToRad(FDeltaAngulo)) + sqrt(
+					pow2((b / m)) - pow2(sin(a - __UN.DegToRad(FDeltaAngulo)) - e	/ m)));
 
-				double Lpos =
-						m * sqrt(pow2(1. + b / m) - pow2(e / m))
-								- m
-										* (cos(a + FDeltaAngulo * Pi / 180.)
-												+ sqrt(
-														pow2((b / m))
-																- pow2(
-																		sin(
-																				a
-																						+ FDeltaAngulo
-																								* Pi
-																								/ 180.)
-																				- e
-																						/ m)));
+				double Lpos = m * sqrt(pow2(1. + b / m) - pow2(e / m)) - m
+					* (cos(a + __UN.DegToRad(FDeltaAngulo)) + sqrt(pow2((b / m))
+					- pow2(sin(a + __UN.DegToRad(FDeltaAngulo)) - e / m)));
 
 				c = Lant + Lpos - Lact * 2.;
 				if (c < 1e-5)
@@ -2227,9 +2203,9 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 				double Msist = 0.33 * FMotor->getGeometria().MasaBiela
 						+ FMotor->getGeometria().MasaPistonSegmentosBulon;
 
-				deltaVol = (area * FPressure * 1e5 + Msist * acel) * aux;
+				deltaVol = (area * __UN.BarToPa(FPressure) + Msist * acel) * aux;
 			} else {
-				deltaVol = area * FPressure * 1e5 * aux;
+				deltaVol = area * __UN.BarToPa(FPressure) * aux;
 			}
 
 			ret_val += deltaVol;
@@ -2322,22 +2298,22 @@ void TCilindro::IniciaVariables() {
 
 		if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 			RAtmosfera =
-					FMotor->GetComposicionAtmosfera(0) * RO2
-							+ FMotor->GetComposicionAtmosfera(2) * RH2O
+					FMotor->GetComposicionAtmosfera(0) * __R.O2
+							+ FMotor->GetComposicionAtmosfera(2) * __R.H2O
 							+ (FMotor->GetComposicionAtmosfera(7)
 									- 0.01292
 											* (1
 													- FMotor->GetComposicionAtmosfera(
-															2))) * RN2
-							+ FMotor->GetComposicionAtmosfera(1) * RCO2
+															2))) * __R.N2
+							+ FMotor->GetComposicionAtmosfera(1) * __R.CO2
 							+ (0.01292
 									* (1 - FMotor->GetComposicionAtmosfera(2)))
-									* RArgon;
-			PMAtmosfera = Runiversal / RAtmosfera;
+									* __R.Ar;
+			PMAtmosfera = __R.Universal / RAtmosfera;
 			FraccionMolarO2 = FMotor->GetComposicionAtmosfera(0) * PMAtmosfera
-					/ PMO2;
+					/ __PM.O2;
 			FraccionMolarH2O = FMotor->GetComposicionAtmosfera(2) * PMAtmosfera
-					/ PMH2O;
+					/ __PM.H2O;
 			FraccionMolarN2 = 1 - FraccionMolarO2 - FraccionMolarH2O;
 			// FRelacionMolarH2O_O2=FraccionMolarH2O/FraccionMolarO2;
 			FRelacionMolarN2_O2 = FraccionMolarN2 / FraccionMolarO2;
@@ -2353,11 +2329,11 @@ void TCilindro::IniciaVariables() {
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
 					FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(),
 					FMotor->getCombustible());
-			TemperaturaInicial = FMotor->getPresionInicial() * 1e5 * FVolumen
-					/ FMotor->getMasaInicial() / FRMezcla - 273.;
+			TemperaturaInicial = __UN.KTodegC(__UN.BarToPa(FMotor->getPresionInicial())* FVolumen
+					/ FMotor->getMasaInicial() / FRMezcla);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FFraccionMasicaEspecieFuel, TemperaturaInicial + 273.,
+					FFraccionMasicaEspecieFuel, __UN.degCToK(TemperaturaInicial),
 					FMotor->getGammaCalculation(), FMotor->getCombustible());
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 					FMotor->getGammaCalculation());
@@ -2366,9 +2342,9 @@ void TCilindro::IniciaVariables() {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], 0,
 					FMotor->getGammaCalculation(), FMotor->getCombustible());
-			TemperaturaInicial = FMotor->getPresionInicial() * 1e5 * FVolumen
-					/ FMotor->getMasaInicial() / FRMezcla - 273.;
-			FCvMezcla = CalculoSimpleCvMezcla(TemperaturaInicial + 273.,
+			TemperaturaInicial = __UN.KTodegC(__UN.BarToPa(FMotor->getPresionInicial()) * FVolumen
+					/ FMotor->getMasaInicial() / FRMezcla);
+			FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(TemperaturaInicial),
 					FFraccionMasicaEspecie[0], 0, FMotor->getGammaCalculation(),
 					FMotor->getCombustible());
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
@@ -2384,9 +2360,9 @@ void TCilindro::IniciaVariables() {
 			FCicloCerrado = false;
 			FPressure = FMotor->getPresionInicial();
 			FTemperature = 60;
-			FMasa = FPressure * 1e5 * FVolumen / (FTemperature + 273)
+			FMasa = __UN.BarToPa(FPressure) * FVolumen / __UN.degCToK(FTemperature)
 					/ FRMezcla;
-			FMasaAtrapada = FPressure * 1e5 * FVolumen / (FTemperature + 273)
+			FMasaAtrapada = __UN.BarToPa(FPressure) * FVolumen / __UN.degCToK(FTemperature)
 					/ FRMezcla;
 			for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
@@ -2395,7 +2371,7 @@ void TCilindro::IniciaVariables() {
 				FMasaEspecieCicloCerrado[j] = FMasa
 						* FComposicionCicloCerrado[j];
 			}
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
+			FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature));
 		} else {
 			// Ciclo cerrado. Compresion Isoentropica.
 			if (FAnguloActual < 180. || FAnguloActual > 540.) {
@@ -2403,8 +2379,8 @@ void TCilindro::IniciaVariables() {
 				FPressure = FMotor->getPresionInicial()
 						* pow((FVolumenCA / FVolumen), FGamma);
 				//FMasa = FMotor->getMasaInicial();
-				FMasa = FMotor->getPresionInicial() * 1e5 * FVolumenCA
-						/ (60 + 273) / FRMezcla;
+				FMasa = __UN.BarToPa(FMotor->getPresionInicial()) * FVolumenCA
+						/ __UN.degCToK(60) / FRMezcla;
 				FMasaAtrapada = FMasa;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
@@ -2414,8 +2390,7 @@ void TCilindro::IniciaVariables() {
 							* FComposicionCicloCerrado[j];
 				}
 
-				FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla
-						- 273.;
+				FTemperature = __UN.KTodegC(__UN.BarToPa(FPressure) * FVolumen / FMasa / FRMezcla);
 				// Como cambia la Temperature, cambia Cp o Cv y por tanto cambia el valor de Gamma.
 				if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 					if (FMotor->getSpeciesNumber() == 9) {
@@ -2427,7 +2402,7 @@ void TCilindro::IniciaVariables() {
 							FFraccionMasicaEspecie[0],
 							FFraccionMasicaEspecie[1],
 							FFraccionMasicaEspecie[2],
-							FFraccionMasicaEspecieFuel, FTemperature + 273.,
+							FFraccionMasicaEspecieFuel, __UN.degCToK(FTemperature),
 							FMotor->getGammaCalculation(),
 							FMotor->getCombustible());
 					FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
@@ -2435,7 +2410,7 @@ void TCilindro::IniciaVariables() {
 
 				} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-					FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+					FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 							FFraccionMasicaEspecie[0], 0,
 							FMotor->getGammaCalculation(),
 							FMotor->getCombustible());
@@ -2443,16 +2418,16 @@ void TCilindro::IniciaVariables() {
 							FMotor->getGammaCalculation());
 
 				}
-				FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
+				FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature));
 				// Ciclo abierto. Density constante.
 			} else {
 				FCicloCerrado = false;
 				FPressure = FMotor->getPresionInicial();
 				FTemperature = 60;
-				FMasa = FPressure * 1e5 * FVolumen / (FTemperature + 273)
+				FMasa = __UN.BarToPa(FPressure) * FVolumen / __UN.degCToK(FTemperature)
 						/ FRMezcla;
-				FMasaAtrapada = FPressure * 1e5 * FVolumen
-						/ (FTemperature + 273) / FRMezcla;
+				FMasaAtrapada = __UN.BarToPa(FPressure) * FVolumen
+						/ __UN.degCToK(FTemperature) / FRMezcla;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 				}
@@ -2460,7 +2435,7 @@ void TCilindro::IniciaVariables() {
 					FMasaEspecieCicloCerrado[j] = FMasa
 							* FComposicionCicloCerrado[j];
 				}
-				FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.));
+				FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature));
 			}
 		}
 		FMasa0 = FMasa;
@@ -2489,7 +2464,7 @@ void TCilindro::IniciaVariables() {
 
 		if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 			FDosadoEstequiometrico = 1
-					/ ((FXComb + FYComb / 4 - FZComb / 2) * PMO2)
+					/ ((FXComb + FYComb / 4 - FZComb / 2) * __PM.O2)
 					* (FXComb * 12.01 + FYComb * 1.01 + FZComb * 16) * 0.23136;
 		} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 			if (FMotor->getCombustible() == nmMEC) {
@@ -2808,7 +2783,7 @@ double TCilindro::FuncionGamma(double T, double X) {
 		if (cv <= 700.) {
 			cv = 700.;
 		}
-		Result = R / cv + 1.;
+		Result = __R.Air / cv + 1.;
 		return Result;
 
 	} catch (exception & N) {
@@ -2859,7 +2834,7 @@ void TCilindro::CalculaTemperaturasPared() {
 				/ FMotor->getParedCilindro().Conductividad;
 
 		for (int i = 0; i < 3; i++) {
-			TPAnt[i] = FTempPared[i].Cylinder + 273.;
+			TPAnt[i] = __UN.degCToK(FTempPared[i].Cylinder);
 		}
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
@@ -2871,26 +2846,26 @@ void TCilindro::CalculaTemperaturasPared() {
 		if (FMotor->getCalculoPared() == nmConInercia
 				&& FMotor->getTheta() / 720.
 						> FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Cylinder = 2 * Fo
-					* (TPAnt[1] + Bie * (FMotor->getTempRefrigerante() + 273.))
-					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2] - 273.;
-			FTempPared[1].Cylinder = Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1] - 273.;
-			FTempPared[0].Cylinder = 2 * Fo
-					* (TPAnt[1] + Bii * (FTemperature + 273.))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0] - 273.;
+			FTempPared[2].Cylinder = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bie * __UN.degCToK(FMotor->getTempRefrigerante()))
+					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
+			FTempPared[1].Cylinder = __UN.KTodegC(Fo * (TPAnt[0] + TPAnt[2])
+					+ (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Cylinder = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bii * __UN.degCToK(FTemperature))
+					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 		} else if (FMotor->getCalculoPared() == nmSinInercia
 				|| FMotor->getTheta() / 720.
 						<= FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Cylinder = 2 * Fo
-					* (TPAnt[1] + Bie * (FMotor->getTempRefrigerante() + 273.))
-					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2] - 273.;
-			FTempPared[1].Cylinder = Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1] - 273.;
-			FTempPared[0].Cylinder = 2 * Fo
-					* (TPAnt[1] + Bii * (FTemperature + 273.))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0] - 273.;
+			FTempPared[2].Cylinder = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bie * __UN.degCToK(FMotor->getTempRefrigerante()))
+					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
+			FTempPared[1].Cylinder = __UN.KTodegC(Fo * (TPAnt[0] + TPAnt[2])
+					+ (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Cylinder = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bii * __UN.degCToK(FTemperature))
+					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 			if (Fh > 0.) {
 				hi2 =
@@ -2904,13 +2879,13 @@ void TCilindro::CalculaTemperaturasPared() {
 								/ (1. / Fh
 										+ FMotor->getParedCilindro().Espesor
 												/ FMotor->getParedCilindro().Conductividad);
-				FTempPared[0].CilindroSUMup += hi3 * (FTemperature + 273.)
+				FTempPared[0].CilindroSUMup += hi3 * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[0].CilindroSUMdown += hi3 * FDeltaT;
-				FTempPared[1].CilindroSUMup += hi2 * (FTemperature + 273.)
+				FTempPared[1].CilindroSUMup += hi2 * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[1].CilindroSUMdown += hi2 * FDeltaT;
-				FTempPared[2].CilindroSUMup += Fh * (FTemperature + 273.)
+				FTempPared[2].CilindroSUMup += Fh * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[2].CilindroSUMdown += Fh * FDeltaT;
 			}
@@ -2926,21 +2901,18 @@ void TCilindro::CalculaTemperaturasPared() {
 								/ (1 / hExt
 										+ FMotor->getParedCilindro().Espesor
 												/ FMotor->getParedCilindro().Conductividad);
-				FTempPared[2].Cylinder = (FTiempoCiclo * hExt
-						* (FMotor->getTempRefrigerante() + 273.)
+				FTempPared[2].Cylinder = __UN.KTodegC((FTiempoCiclo * hExt
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[2].CilindroSUMup)
-						/ (FTiempoCiclo * hExt + FTempPared[2].CilindroSUMdown)
-						- 273.;
-				FTempPared[1].Cylinder = (FTiempoCiclo * ho2
-						* (FMotor->getTempRefrigerante() + 273.)
+						/ (FTiempoCiclo * hExt + FTempPared[2].CilindroSUMdown));
+				FTempPared[1].Cylinder = __UN.KTodegC((FTiempoCiclo * ho2
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[1].CilindroSUMup)
-						/ (FTiempoCiclo * ho2 + FTempPared[1].CilindroSUMdown)
-						- 273.;
-				FTempPared[0].Cylinder = (FTiempoCiclo * ho1
-						* (FMotor->getTempRefrigerante() + 273.)
+						/ (FTiempoCiclo * ho2 + FTempPared[1].CilindroSUMdown));
+				FTempPared[0].Cylinder = __UN.KTodegC((FTiempoCiclo * ho1
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[0].CilindroSUMup)
-						/ (FTiempoCiclo * ho1 + FTempPared[0].CilindroSUMdown)
-						- 273.;
+						/ (FTiempoCiclo * ho1 + FTempPared[0].CilindroSUMdown));
 				for (int i = 0; i < 3; i++) {
 					FTempPared[i].CilindroSUMup = 0.;
 					FTempPared[i].CilindroSUMdown = 0.;
@@ -2972,7 +2944,7 @@ void TCilindro::CalculaTemperaturasPared() {
 				/ FMotor->getParedPiston().Conductividad;
 
 		for (int i = 0; i < 3; i++) {
-			TPAnt[i] = FTempPared[i].Piston + 273.;
+			TPAnt[i] = __UN.degCToK(FTempPared[i].Piston);
 		}
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
@@ -2984,26 +2956,26 @@ void TCilindro::CalculaTemperaturasPared() {
 		if (FMotor->getCalculoPared() == nmConInercia
 				&& FMotor->getTheta() / 720.
 						> FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Piston = 2 * Fo
-					* (TPAnt[1] + Bie * (FMotor->getTempRefrigerante() + 273.))
-					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2] - 273.;
-			FTempPared[1].Piston = Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1] - 273.;
-			FTempPared[0].Piston = 2 * Fo
-					* (TPAnt[1] + Bii * (FTemperature + 273.))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0] - 273.;
+			FTempPared[2].Piston = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bie * __UN.degCToK(FMotor->getTempRefrigerante()))
+					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
+			FTempPared[1].Piston = __UN.KTodegC(Fo * (TPAnt[0] + TPAnt[2])
+					+ (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Piston = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bii * __UN.degCToK(FTemperature))
+					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 		} else if (FMotor->getCalculoPared() == nmSinInercia
 				|| FMotor->getTheta() / 720.
 						<= FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Piston = 2 * Fo
-					* (TPAnt[1] + Bie * (FMotor->getTempRefrigerante() + 273.))
-					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2] - 273.;
-			FTempPared[1].Piston = Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1] - 273;
-			FTempPared[0].Piston = 2 * Fo
-					* (TPAnt[1] + Bii * (FTemperature + 273.))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0] - 273.;
+			FTempPared[2].Piston = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bie * __UN.degCToK(FMotor->getTempRefrigerante()))
+					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
+			FTempPared[1].Piston = __UN.KTodegC(Fo * (TPAnt[0] + TPAnt[2])
+					+ (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Piston = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bii * __UN.degCToK(FTemperature))
+					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 			if (Fh > 0.) {
 				hi2 = 1.
@@ -3016,13 +2988,13 @@ void TCilindro::CalculaTemperaturasPared() {
 								/ (1. / Fh
 										+ FMotor->getParedPiston().Espesor
 												/ FMotor->getParedPiston().Conductividad);
-				FTempPared[0].PistonSUMup += hi3 * (FTemperature + 273.)
+				FTempPared[0].PistonSUMup += hi3 * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[0].PistonSUMdown += hi3 * FDeltaT;
-				FTempPared[1].PistonSUMup += hi2 * (FTemperature + 273.)
+				FTempPared[1].PistonSUMup += hi2 * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[1].PistonSUMdown += hi2 * FDeltaT;
-				FTempPared[2].PistonSUMup += Fh * (FTemperature + 273.)
+				FTempPared[2].PistonSUMup += Fh * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[2].PistonSUMdown += Fh * FDeltaT;
 			}
@@ -3037,21 +3009,18 @@ void TCilindro::CalculaTemperaturasPared() {
 								/ (1 / hExt
 										+ FMotor->getParedPiston().Espesor
 												/ FMotor->getParedPiston().Conductividad);
-				FTempPared[2].Piston = (FTiempoCiclo * hExt
-						* (FMotor->getTempRefrigerante() + 273.)
+				FTempPared[2].Piston = __UN.KTodegC((FTiempoCiclo * hExt
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[2].PistonSUMup)
-						/ (FTiempoCiclo * hExt + FTempPared[2].PistonSUMdown)
-						- 273.;
-				FTempPared[1].Piston = (FTiempoCiclo * ho2
-						* (FMotor->getTempRefrigerante() + 273.)
+						/ (FTiempoCiclo * hExt + FTempPared[2].PistonSUMdown));
+				FTempPared[1].Piston = __UN.KTodegC((FTiempoCiclo * ho2
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[1].PistonSUMup)
-						/ (FTiempoCiclo * ho2 + FTempPared[1].PistonSUMdown)
-						- 273.;
-				FTempPared[0].Piston = (FTiempoCiclo * ho1
-						* (FMotor->getTempRefrigerante() + 273.)
+						/ (FTiempoCiclo * ho2 + FTempPared[1].PistonSUMdown));
+				FTempPared[0].Piston = __UN.KTodegC((FTiempoCiclo * ho1
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[0].PistonSUMup)
-						/ (FTiempoCiclo * ho1 + FTempPared[0].PistonSUMdown)
-						- 273.;
+						/ (FTiempoCiclo * ho1 + FTempPared[0].PistonSUMdown));
 				for (int i = 0; i < 3; i++) {
 					FTempPared[i].PistonSUMup = 0.;
 					FTempPared[i].PistonSUMdown = 0.;
@@ -3085,7 +3054,7 @@ void TCilindro::CalculaTemperaturasPared() {
 				/ FMotor->getParedCulata().Conductividad;
 
 		for (int i = 0; i < 3; i++) {
-			TPAnt[i] = FTempPared[i].Culata + 273.;
+			TPAnt[i] = __UN.degCToK(FTempPared[i].Culata);
 		}
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
@@ -3097,26 +3066,26 @@ void TCilindro::CalculaTemperaturasPared() {
 		if (FMotor->getCalculoPared() == nmConInercia
 				&& FMotor->getTheta() / 720.
 						> FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Culata = 2 * Fo
-					* (TPAnt[1] + Bie * (FMotor->getTempRefrigerante() + 273.))
-					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2] - 273.;
-			FTempPared[1].Culata = Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1] - 273.;
-			FTempPared[0].Culata = 2 * Fo
-					* (TPAnt[1] + Bii * (FTemperature + 273.))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0] - 273.;
+			FTempPared[2].Culata = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bie * __UN.degCToK(FMotor->getTempRefrigerante()))
+					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
+			FTempPared[1].Culata = __UN.KTodegC(Fo * (TPAnt[0] + TPAnt[2])
+					+ (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Culata = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bii * __UN.degCToK(FTemperature))
+					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 		} else if (FMotor->getCalculoPared() == nmSinInercia
 				|| FMotor->getTheta() / 720.
 						<= FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Culata = 2 * Fo
-					* (TPAnt[1] + Bie * (FMotor->getTempRefrigerante() + 273.))
-					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2] - 273.;
-			FTempPared[1].Culata = Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1] - 273.;
-			FTempPared[0].Culata = 2 * Fo
-					* (TPAnt[1] + Bii * (FTemperature + 273.))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0] - 273.;
+			FTempPared[2].Culata = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bie * __UN.degCToK(FMotor->getTempRefrigerante()))
+					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
+			FTempPared[1].Culata = __UN.KTodegC(Fo * (TPAnt[0] + TPAnt[2])
+					+ (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Culata = __UN.KTodegC(2 * Fo
+					* (TPAnt[1] + Bii * __UN.degCToK(FTemperature))
+					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 			if (Fh > 0.) {
 				hi2 = 1.
@@ -3129,13 +3098,13 @@ void TCilindro::CalculaTemperaturasPared() {
 								/ (1. / Fh
 										+ FMotor->getParedCulata().Espesor
 												/ FMotor->getParedCulata().Conductividad);
-				FTempPared[0].CulataSUMup += hi3 * (FTemperature + 273.)
+				FTempPared[0].CulataSUMup += hi3 * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[0].CulataSUMdown += hi3 * FDeltaT;
-				FTempPared[1].CulataSUMup += hi2 * (FTemperature + 273.)
+				FTempPared[1].CulataSUMup += hi2 * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[1].CulataSUMdown += hi2 * FDeltaT;
-				FTempPared[2].CulataSUMup += Fh * (FTemperature + 273.)
+				FTempPared[2].CulataSUMup += Fh * __UN.degCToK(FTemperature)
 						* FDeltaT;
 				FTempPared[2].CulataSUMdown += Fh * FDeltaT;
 			}
@@ -3150,21 +3119,18 @@ void TCilindro::CalculaTemperaturasPared() {
 								/ (1 / hExt
 										+ FMotor->getParedCulata().Espesor
 												/ FMotor->getParedCulata().Conductividad);
-				FTempPared[2].Culata = (FTiempoCiclo * hExt
-						* (FMotor->getTempRefrigerante() + 273.)
+				FTempPared[2].Culata = __UN.KTodegC((FTiempoCiclo * hExt
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[2].CulataSUMup)
-						/ (FTiempoCiclo * hExt + FTempPared[2].CulataSUMdown)
-						- 273.;
-				FTempPared[1].Culata = (FTiempoCiclo * ho2
-						* (FMotor->getTempRefrigerante() + 273.)
+						/ (FTiempoCiclo * hExt + FTempPared[2].CulataSUMdown));
+				FTempPared[1].Culata = __UN.KTodegC((FTiempoCiclo * ho2
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[1].CulataSUMup)
-						/ (FTiempoCiclo * ho2 + FTempPared[1].CulataSUMdown)
-						- 273.;
-				FTempPared[0].Culata = (FTiempoCiclo * ho1
-						* (FMotor->getTempRefrigerante() + 273.)
+						/ (FTiempoCiclo * ho2 + FTempPared[1].CulataSUMdown));
+				FTempPared[0].Culata = __UN.KTodegC((FTiempoCiclo * ho1
+						* __UN.degCToK(FMotor->getTempRefrigerante())
 						+ FTempPared[0].CulataSUMup)
-						/ (FTiempoCiclo * ho1 + FTempPared[0].CulataSUMdown)
-						- 273.;
+						/ (FTiempoCiclo * ho1 + FTempPared[0].CulataSUMdown));
 				for (int i = 0; i < 3; i++) {
 					FTempPared[i].CulataSUMup = 0.;
 					FTempPared[i].CulataSUMdown = 0.;
@@ -3424,7 +3390,7 @@ void TCilindro::CalculoNIT() {
 			FCpMezcla = FCvMezcla + FRMezcla;
 		}
 		arriba = -FRMezcla / FCpMezcla;
-		FNIT = FCpMezcla * (FTemperature + 273.) * (1 - pow(FPressure, arriba));
+		FNIT = FCpMezcla * __UN.degCToK(FTemperature) * (1 - pow(FPressure, arriba));
 		massflow = 0.;
 		for (int j = 0; j < FNumeroUnionesEsc; ++j) {
 			massflow +=
@@ -3588,7 +3554,7 @@ void TCilindro::CalculaSWIRL() {
 	try {
 		double wctcc = 0.;
 
-		wctcc = Pi * pow2(FMotor->getGeometria().DiametroBowl) / 4.
+		wctcc = __CTE.Pi_4 * pow2(FMotor->getGeometria().DiametroBowl)
 				* FMotor->getGeometria().AlturaBowl;
 		wctcc = (pow2(FMotor->getGeometria().Diametro)
 				* (FMotor->getGeometria().VCC - wctcc)
@@ -3596,7 +3562,7 @@ void TCilindro::CalculaSWIRL() {
 				/ FMotor->getGeometria().VCC / 8.;
 
 		FWoma = FMomentoAngular / pow2(wctcc);
-		FSwirl = FWoma * 60 / (2. * Pi * FMotor->getRegimen());
+		FSwirl = FWoma / __UN.RPMToRad_s(FMotor->getRegimen());
 
 		FSwirlSUM += FSwirl * FDeltaT;
 

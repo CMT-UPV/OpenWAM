@@ -194,10 +194,10 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			} else
 				SentidoSalida = 0; /* Flujo parado */
 
-			FTempSalida = pow2(FAsonidoSalida * ARef)
+			FTempSalida = pow2(FAsonidoSalida * __CTE.ARef)
 					/ (FCCSalida[0]->getGamma() * FCCSalida[0]->getR());
-			FVelocidadSalida *= ARef * SentidoSalida;
-			FRhoSalida = 1e5 * FPresionSalida / FTempSalida
+			FVelocidadSalida *= __CTE.ARef * SentidoSalida;
+			FRhoSalida = __UN.BarToPa(FPresionSalida) / FTempSalida
 					/ FCCSalida[0]->getR();
 
 			FGastoSalida =
@@ -222,12 +222,12 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 				SentidoEntrada = -1;
 			} else
 				SentidoEntrada = 0; /* Flujo parado */
-			FTempEntrada[0] = pow2(FAsonidoEntrada[0] * ARef)
+			FTempEntrada[0] = pow2(FAsonidoEntrada[0] * __CTE.ARef)
 					/ (FCCEntrada[0]->getGamma() * FCCEntrada[0]->getR());
 			// Esta en Kelvin
 
-			FVelocidadEntrada[0] = FVelocidadEntrada[0] * ARef * SentidoEntrada;
-			FRhoEntrada[0] = 1e5 * FPresionEntrada[0] / FTempEntrada[0]
+			FVelocidadEntrada[0] = FVelocidadEntrada[0] * __CTE.ARef * SentidoEntrada;
+			FRhoEntrada[0] = __UN.BarToPa(FPresionEntrada[0]) / FTempEntrada[0]
 					/ FCCEntrada[0]->getR();
 			FGastoEntrada[0] =
 					FRhoEntrada[0] * FVelocidadEntrada[0]
@@ -291,7 +291,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			}
 
 			FVelocidadEntrada[0] = FGastoEntrada[0] * FRMezcla * FTempEntrada
-			[0] / ( FPresionEntrada[0] * 1e5 * FAcTurb->SIn() );
+			[0] / ( __UN.BarToPa(FPresionEntrada[0]) * FAcTurb->SIn() );
 
 			FTemp0Entrada[0] = FTempEntrada[0] + pow2 ( FVelocidadEntrada[0] ) /
 			( 2. * cpte );
@@ -343,7 +343,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 				FMapa->CurrentEffectiveSection(FRegimenCorregido[0] / 60.,
 						FRelacionExpansion[0], FRack,
-						(FTemperature + 273) / FTemp0Entrada[0]);
+						__UN.degCToK(FTemperature) / FTemp0Entrada[0]);
 
 				dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->PutAreaEff(
 						FMapa->StatorEF());
@@ -358,8 +358,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 					&& (FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) >= 0.) {
 
 				if ((FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) > 0.) {
-					FRelacionCinematica[0] = FRegimen * Pi * FDiametroRodete
-							/ 60.
+					FRelacionCinematica[0] = __UN.RPMToRPS(FRegimen) * __CTE.Pi * FDiametroRodete
 							/ sqrt(
 									2
 											* (FEntalpia0Entrada[0]

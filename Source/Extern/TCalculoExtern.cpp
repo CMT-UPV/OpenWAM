@@ -607,10 +607,9 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos,
 
 					switch (FSensorTubo[cont].tipo) {
 					case nmTempTubo:
-						temp = Pipe[t]->GetAsonido(0) * ARef;
-						FSensorTubo[cont].valreal = temp * temp
-								/ Pipe[t]->GetGamma(0) / Pipe[t]->GetRMezcla(0)
-								- 273.; // Como es el instante inicial da igual el nodo a que se hace referencia
+						temp = Pipe[t]->GetAsonido(0) * __CTE.ARef;
+						FSensorTubo[cont].valreal = __UN.KTodegC(temp * temp
+								/ Pipe[t]->GetGamma(0) / Pipe[t]->GetRMezcla(0)); // Como es el instante inicial da igual el nodo a que se hace referencia
 						FSensorTubo[cont].valact = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valant = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valrealant =
@@ -633,14 +632,14 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos,
 								FSensorTubo[cont].valreal;
 						break;
 					case nmGastoTubo:
-						temp = Pipe[t]->GetAsonido(0) * ARef; // Como es el instante inicial el nodo es arbitrario
-						T = temp * temp / Pipe[t]->GetGamma(0)
-								/ Pipe[t]->GetRMezcla(0) - 273.;
-						den = Pipe[t]->getPresionInicial() * 1e5
-								/ Pipe[t]->GetRMezcla(0) / (T + 273.);
+						temp = Pipe[t]->GetAsonido(0) * __CTE.ARef; // Como es el instante inicial el nodo es arbitrario
+						T = __UN.KTodegC(temp * temp / Pipe[t]->GetGamma(0)
+								/ Pipe[t]->GetRMezcla(0));
+						den = __UN.BarToPa(Pipe[t]->getPresionInicial())
+								/ Pipe[t]->GetRMezcla(0) / __UN.degCToK(T);
 						v1 = Pipe[t]->getVelocidadMedia();
 						FSensorTubo[cont].valreal = (pow2(
-								Pipe[t]->GetDiametro(n1)) * Pi / 4.) * v1 * den;
+								Pipe[t]->GetDiametro(n1)) * __CTE.Pi_4) * v1 * den;
 						FSensorTubo[cont].valact = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valant = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valrealant =
@@ -1518,7 +1517,7 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos,
 						}
 						velent =
 								dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getVelocity()
-										* signo * ARef;
+										* signo * __CTE.ARef;
 						FSensorVent[cont].valreal = velent;
 						FSensorVent[cont].valact = FSensorVent[cont].valreal;
 						FSensorVent[cont].valant = FSensorVent[cont].valreal;
@@ -1528,7 +1527,7 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos,
 					case nmVelLatVent:
 						vellat =
 								dynamic_cast<TCCDeposito *>(Venturi[v]->getCCLateral())->getVelocity()
-										* ARef;
+										* __CTE.ARef;
 						FSensorVent[cont].valreal = vellat;
 						FSensorVent[cont].valact = FSensorVent[cont].valreal;
 						FSensorVent[cont].valant = FSensorVent[cont].valreal;
@@ -1741,9 +1740,9 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 			if (n1 == FSensorTubo[i].nodos - 1) {
 				switch (FSensorTubo[i].tipo) {
 				case nmTempTubo:
-					temp = Pipe[j]->GetAsonido(n1) * ARef;
-					FSensorTubo[i].valreal = temp * temp / Pipe[j]->GetGamma(n1)
-							/ Pipe[j]->GetRMezcla(n1) - 273.;
+					temp = Pipe[j]->GetAsonido(n1) * __CTE.ARef;
+					FSensorTubo[i].valreal = __UN.KTodegC(temp * temp / Pipe[j]->GetGamma(n1)
+							/ Pipe[j]->GetRMezcla(n1));
 					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo
 							- deltaT) * FSensorTubo[i].valant
 							+ deltaT * FSensorTubo[i].ganancia
@@ -1765,7 +1764,7 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmVelTubo:
-					FSensorTubo[i].valreal = Pipe[j]->GetVelocidad(n1) * ARef;
+					FSensorTubo[i].valreal = Pipe[j]->GetVelocidad(n1) * __CTE.ARef;
 					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo
 							- deltaT) * FSensorTubo[i].valant
 							+ deltaT * FSensorTubo[i].ganancia
@@ -1776,14 +1775,14 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmGastoTubo:
-					temp = Pipe[j]->GetAsonido(n1) * ARef;
-					T = temp * temp / Pipe[j]->GetGamma(n1)
-							/ Pipe[j]->GetRMezcla(n1) - 273.;
-					den = Pipe[j]->GetPresion(n1) * 1e5
-							/ Pipe[j]->GetRMezcla(n1) / (T + 273.);
-					v1 = Pipe[j]->GetVelocidad(n1) * ARef;
+					temp = Pipe[j]->GetAsonido(n1) * __CTE.ARef;
+					T = __UN.KTodegC(temp * temp / Pipe[j]->GetGamma(n1)
+							/ Pipe[j]->GetRMezcla(n1));
+					den = __UN.BarToPa(Pipe[j]->GetPresion(n1))
+							/ Pipe[j]->GetRMezcla(n1) / __UN.degCToK(T);
+					v1 = Pipe[j]->GetVelocidad(n1) * __CTE.ARef;
 					FSensorTubo[i].valreal = (pow2(Pipe[j]->GetDiametro(n1))
-							* Pi / 4.) * v1 * den;
+							* __CTE.Pi) * v1 * den;
 					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo
 							- deltaT) * FSensorTubo[i].valant
 							+ deltaT * FSensorTubo[i].ganancia
@@ -1944,13 +1943,12 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 				switch (FSensorTubo[i].tipo) {
 				case nmTempTubo:
 					temp = xit_(Pipe[j]->GetAsonido(n1),
-							Pipe[j]->GetAsonido(n2), 1.0, d) * ARef;
+							Pipe[j]->GetAsonido(n2), 1.0, d) * __CTE.ARef;
 					gamma = xit_(Pipe[j]->GetGamma(n1), Pipe[j]->GetGamma(n2),
 							1.0, d);
 					Rmezcla = xit_(Pipe[j]->GetRMezcla(n1),
 							Pipe[j]->GetRMezcla(n2), 1.0, d);
-					FSensorTubo[i].valreal = temp * temp / gamma / Rmezcla
-							- 273.;
+					FSensorTubo[i].valreal = __UN.KTodegC(temp * temp / gamma / Rmezcla);
 					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo
 							- deltaT) * FSensorTubo[i].valant
 							+ deltaT * FSensorTubo[i].ganancia
@@ -1974,7 +1972,7 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					break;
 				case nmVelTubo:
 					FSensorTubo[i].valreal = xit_(Pipe[j]->GetVelocidad(n1),
-							Pipe[j]->GetVelocidad(n2), 1.0, d) * ARef;
+							Pipe[j]->GetVelocidad(n2), 1.0, d) * __CTE.ARef;
 					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo
 							- deltaT) * FSensorTubo[i].valant
 							+ deltaT * FSensorTubo[i].ganancia
@@ -1986,19 +1984,19 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					break;
 				case nmGastoTubo:
 					temp = xit_(Pipe[j]->GetAsonido(n1),
-							Pipe[j]->GetAsonido(n2), 1.0, d) * ARef;
+							Pipe[j]->GetAsonido(n2), 1.0, d) * __CTE.ARef;
 					gamma = xit_(Pipe[j]->GetGamma(n1), Pipe[j]->GetGamma(n2),
 							1.0, d);
 					Rmezcla = xit_(Pipe[j]->GetRMezcla(n1),
 							Pipe[j]->GetRMezcla(n2), 1.0, d);
-					T = temp * temp / gamma / Rmezcla - 273.;
+					T = __UN.KTodegC(temp * temp / gamma / Rmezcla);
 					p = xit_(Pipe[j]->GetPresion(n1), Pipe[j]->GetPresion(n2),
 							1.0, d);
-					den = p * 1e5 / Rmezcla / (T + 273);
-					v1 = Pipe[j]->GetVelocidad(n1) * ARef;
-					v2 = Pipe[j]->GetVelocidad(n2) * ARef;
-					gto1 = pow2(Pipe[j]->GetDiametro(n1)) * Pi / 4.;
-					gto2 = pow2(Pipe[j]->GetDiametro(n2)) * Pi / 4.;
+					den = __UN.BarToPa(p) / Rmezcla / __UN.degCToK(T);
+					v1 = Pipe[j]->GetVelocidad(n1) * __CTE.ARef;
+					v2 = Pipe[j]->GetVelocidad(n2) * __CTE.ARef;
+					gto1 = pow2(Pipe[j]->GetDiametro(n1)) * __CTE.Pi_4;
+					gto2 = pow2(Pipe[j]->GetDiametro(n2)) * __CTE.Pi_4;
 					gto1 *= v1;
 					gto2 *= v2;
 					FSensorTubo[i].valreal = xit_(gto1, gto2, 1.0, d) * den;
@@ -2586,7 +2584,7 @@ void TCalculoExtern::Calculo_Sensores_Venturi(double deltaT,
 				velent =
 						dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi
 								- 1]->getCCEntrada())->getVelocity() * signo
-								* ARef;
+								* __CTE.ARef;
 				FSensorVent[i].valreal = velent;
 				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT)
 						* FSensorVent[i].valant
@@ -2600,7 +2598,7 @@ void TCalculoExtern::Calculo_Sensores_Venturi(double deltaT,
 			case nmVelLatVent:
 				vellat =
 						dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi
-								- 1]->getCCLateral())->getVelocity() * ARef;
+								- 1]->getCCLateral())->getVelocity() * __CTE.ARef;
 				FSensorVent[i].valreal = vellat;
 				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT)
 						* FSensorVent[i].valant

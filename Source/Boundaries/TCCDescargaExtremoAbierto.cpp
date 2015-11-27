@@ -89,7 +89,7 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 		RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1],
 				FComposicion[2], 0, FCalculoGamma, nmMEP);
 		CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1],
-				FComposicion[2], 0, FTemperaturaDep + 273., FCalculoGamma,
+				FComposicion[2], 0, __UN.degCToK(FTemperaturaDep), FCalculoGamma,
 				nmMEP);
 		GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
@@ -97,13 +97,13 @@ void TCCDescargaExtremoAbierto::AsignAmbientConditions(double Tamb, double Pamb,
 
 		RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0, FCalculoGamma,
 				nmMEP);
-		CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273.,
+		CvMezclaDep = CalculoSimpleCvMezcla(__UN.degCToK(FTemperaturaDep),
 				FComposicion[0], 0, FCalculoGamma, nmMEP);
 		GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 	}
-	FVelocidadSonidoDep = sqrt((FTemperaturaDep + 273.) * GammaDep * RMezclaDep)
-			/ ARef;
+	FVelocidadSonidoDep = sqrt(__UN.degCToK(FTemperaturaDep) * GammaDep * RMezclaDep)
+			/ __CTE.ARef;
 
 }
 
@@ -199,7 +199,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 						nmMEP);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0],
 						FComposicion[1], FComposicion[2], 0,
-						FTemperaturaDep + 273., FCalculoGamma, nmMEP);
+						__UN.degCToK(FTemperaturaDep), FCalculoGamma, nmMEP);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep,
 						FCalculoGamma);
 
@@ -207,14 +207,14 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 
 				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0,
 						FCalculoGamma, nmMEP);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273.,
+				CvMezclaDep = CalculoSimpleCvMezcla(__UN.degCToK(FTemperaturaDep),
 						FComposicion[0], 0, FCalculoGamma, nmMEP);
 				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep,
 						FCalculoGamma);
 
 			}
 			FVelocidadSonidoDep = sqrt(
-					(FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
+					__UN.degCToK(FTemperaturaDep) * GammaDep * RMezclaDep) / __CTE.ARef;
 
 		} else if (FTipoDescarga == nmDescargaRemansoMatlab) {
 			fscanf(fich, "%lf %lf %lf ", &FPressure, &FTemperaturaDep,
@@ -263,7 +263,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 						nmMEP);
 				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0],
 						FComposicion[1], FComposicion[2], 0,
-						FTemperaturaDep + 273., FCalculoGamma, nmMEP);
+						__UN.degCToK(FTemperaturaDep), FCalculoGamma, nmMEP);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep,
 						FCalculoGamma);
 
@@ -271,14 +271,14 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 
 				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0,
 						FCalculoGamma, nmMEP);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep + 273.,
+				CvMezclaDep = CalculoSimpleCvMezcla(__UN.degCToK(FTemperaturaDep),
 						FComposicion[0], 0, FCalculoGamma, nmMEP);
 				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep,
 						FCalculoGamma);
 
 			}
 			FVelocidadSonidoDep = sqrt(
-					(FTemperaturaDep + 273.) * GammaDep * RMezclaDep) / ARef;
+					__UN.degCToK(FTemperaturaDep) * GammaDep * RMezclaDep) / __CTE.ARef;
 
 		} else
 			printf(
@@ -335,7 +335,7 @@ void TCCDescargaExtremoAbierto::ReadBoundaryData(const char *FileWAM,
 //			GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 //
 //		}
-//		FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / ARef;
+//		FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / __CTE.ARef;
 //	}
 //	catch(Exception & N) {
 //		std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " <<

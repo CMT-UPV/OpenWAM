@@ -247,10 +247,8 @@ void TMapaComp2Tub::LeeMapa(FILE *fich) {
 		std::cout << "LECTURA MAPA COMPRESOR" << std::endl;
 		std::cout << "______________________" << std::endl;
 		fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
-		FTempRef += 273.;
-		FPresionRef *= 1e5;
-		//	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
-		//			&FEffMultiplier);
+		FTempRef = __UN.degCToK(FTempRef);
+		FPresionRef = __UN.BarToPa(FPresionRef);
 
 		std::cout << "Datos de Referencia:" << std::endl;
 		std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;
@@ -1355,7 +1353,7 @@ double TMapaComp2Tub::BuscaRegimen(double RC, double Massflow,
 			inf = sup;
 			sup = inf + 1;
 			RCInf = RCSup;
-			InterpolaMapa(FRegimenCurva[sup], AmbientTemperature + 273);
+			InterpolaMapa(FRegimenCurva[sup], __UN.degCToK(AmbientTemperature));
 			RCSup = EvaluaRCHermite(Massflow);
 			val1 = (RC - RCInf) / (RCSup - RCInf)
 					* (FRegimenCurva[sup] - FRegimenCurva[inf])
@@ -1437,14 +1435,14 @@ void TMapaComp2Tub::Cambio_Mapa(double radtip, double radhub,
 			Fnegrc[0] = FRelCompBombeo[i];
 			Fnegrc[1] = pow(
 					1
-							+ (Gamma - 1) / (2 * Gamma * R * (FTempRef))
-									* pow2((FRegMin + i * FIncReg) * Pi / 30)
+							+ (Gamma - 1) / (2 * Gamma * __R.Air * (FTempRef))
+									* pow2(__UN.RPMToRad_s(FRegMin + i * FIncReg))
 									* (pow2(radrodete) - pow2(r1)),
 					Gamma / (Gamma - 1));
 			Fnegrc[2] = pow(
 					1
-							+ (Gamma - 1) / (2 * Gamma * R * (FTempRef))
-									* pow2((FRegMin + i * FIncReg) * Pi / 30)
+							+ (Gamma - 1) / (2 * Gamma * __R.Air * (FTempRef))
+									* pow2(__UN.RPMToRad_s(FRegMin + i * FIncReg))
 									* (pow2(radrodete) - pow2(r1)),
 					Gamma / (Gamma - 1));
 			Fnegrc[3] = FRelCompBombeo[i];
@@ -1600,7 +1598,7 @@ void TMapaComp2Tub::ReadGTPowerMap(FILE *fich, int correct) {
 		else
 			FCorrect = false;
 		fscanf(fich, "%lf %lf", &FPresionRef, &FTempRef);
-		FPresionRef = FPresionRef * 1e5;
+		FPresionRef = __UN.BarToPa(FPresionRef);
 		FGTSpeed.resize(i + 1);
 		FGTMass.resize(i + 1);
 		FGTPres.resize(i + 1);

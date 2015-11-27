@@ -96,9 +96,9 @@ void TControlK::CalculaK(double velocidad, double temperatura, double presion,
 		double viscgas = 0., rho = 0., deltaRe = 0., VariacionRe = 0., K_Actual = 0.;
 		int i = 0;
 
-		viscgas = 1.4615e-6 * pow150(temperatura + 273.)
-				/ (temperatura + 273. + 110.4);
-		rho = presion * 1e5 / (temperatura + 273.) / R_mezcla;
+		viscgas = 1.4615e-6 * pow150(__UN.degCToK(temperatura))
+				/ (__UN.degCToK(temperatura) + 110.4);
+		rho = __UN.BarToPa(presion) / __UN.degCToK(temperatura) / R_mezcla;
 		FRe = rho * velocidad * FDiametro / viscgas;
 
 		FK = Interp1(FRe, FVector_Re, FVector_K, FNumeroDatos);

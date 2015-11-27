@@ -202,9 +202,8 @@ void TCCCilindro::CalculaCondicionContorno() {
 	try {
 		double rel_CCon_Entropia = 0., coef = 0.;
 
-		FSeccionValvula = Pi * pow2(FValvula->getDiametro()) / 4.;
-		FSeccionTubo = Pi * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin))
-				/ 4.;
+		FSeccionValvula = __CTE.Pi_4 * pow2(FValvula->getDiametro());
+		FSeccionTubo = __CTE.Pi_4 * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 
 		FAd = pow(FPresionCil / FPref, 1. / Gamma4);
 		rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
@@ -222,7 +221,7 @@ void TCCCilindro::CalculaCondicionContorno() {
 					} else {
 						coef = FCTorbellino;
 					}
-					FMomento = coef * pow2(ARef * FGasto)
+					FMomento = coef * pow2(__CTE.ARef * FGasto)
 							/ (200000 * FCarrera * Gamma * FPresionCil)
 							* (pow2(*FCC + *FCD) / 4.
 									+ Gamma3 * pow2((*FCD - *FCC) / Gamma1));
@@ -333,9 +332,9 @@ void TCCCilindro::FlujoEntranteCilindro() {
 //Fin caso de salto supercritico
 
 		xaa2 = pow(FTuboExtremo[0].Entropia, Gamma4);
-		FGasto = -fabs(
-				Gamma * FSeccionTubo * pow(FSonido, 2 * Gamma6) * FVelocity
-						* 1e5 / (ARef * xaa2)); // Massflow entrante al cilindro negativo
+		FGasto = -fabs(__UN.BarToPa(
+				Gamma * FSeccionTubo * pow(FSonido, 2 * Gamma6) * FVelocity)
+				 / (__CTE.ARef * xaa2)); // Massflow entrante al cilindro negativo
 		*FCD = FSonido + Gamma3 * FVelocity * FSigno;
 		*FCC = FSonido - Gamma3 * FVelocity * FSigno;
 		FRelacionPresionGarganta = pow(
@@ -403,8 +402,8 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			// Calcula del massflow. Como es saliente del cilindro, siempre es positivo.
 			xx = pow(sqrt(2. / Gamma2), (Gamma2 / Gamma1));
 			yy = pow(FAd, Gamma4);
-			FGasto = FCDSalida * FSeccionValvula * Gamma * xx * yy * 1e5
-					/ (FVelSonidoCil * ARef);
+			FGasto = __UN.BarToPa(FCDSalida * FSeccionValvula * Gamma * xx * yy)
+					/ (FVelSonidoCil * __CTE.ARef);
 
 			/* Reduccion a flujo subsonico mediante onda de choque plana en el caso
 			 de que se hayan obtenido condiciones supersonicas en el extremo del
@@ -446,10 +445,10 @@ void TCCCilindro::FlujoSalienteCilindro() {
 					/ (FTuboExtremo[0].Entropia * FAd);
 			FVelocidadGarganta = Fk * pow2(a1) * FVelocity / pow2(FSonido);
 			FGasto = fabs(
-					FCDSalida * FSeccionValvula * Gamma
+					FCDSalida * __UN.BarToPa(FSeccionValvula * Gamma
 							* pow(FAd / FVelSonidoCil, Gamma4)
-							* FVelocidadGarganta * pow(a1, 2. / Gamma1) * 1e5
-							/ ARef);
+							* FVelocidadGarganta * pow(a1, 2. / Gamma1))
+							/ __CTE.ARef);
 			xx = *FCC + Gamma3 * FVelocity * FSigno;
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx; // Ecuacion de la caracteristica incidente.
 		}

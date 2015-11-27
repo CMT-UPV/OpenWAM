@@ -131,14 +131,14 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 					FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					FTemperature + 273., FCalculoGamma, nmMEP);
+					__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+			FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 					FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
@@ -216,9 +216,9 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 				Converge = true;
 			}
 		}
-		FTemperature = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
-		FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen
-				* FMasa * 1e-5;
+		FTemperature = __UN.KTodegC(pow2(FAsonido * __CTE.ARef) / (FGamma * FRMezcla));
+		FPressure = __UN.PaToBar(pow2(__CTE.ARef * FAsonido) / FGamma / FVolumen
+				* FMasa);
 		FPresionIsen = pow(FPressure / FPresRef, FGamma5);
 		FTime = TimeCalculo;
 	} catch (exception & N) {
@@ -272,7 +272,7 @@ void TVenturi::CalculaVenturi() {
 		double TempGarganta = 0., TempEntrada = 0.;
 		int SentidoEntrada = 0, SentidoSalida = 0;
 
-		TempEntrada = FTemperature + 273.;
+		TempEntrada = __UN.degCToK(FTemperature);
 
 		if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
 				== nmEntrante) {
@@ -318,7 +318,7 @@ void TVenturi::CalculaVenturi() {
 		FCpMezcla = FGamma * FRMezcla / FGamma1;
 
 		TempGarganta = TempEntrada
-				- pow((FRelacionSecciones - 1.) * Velocity * ARef, 2.)
+				- pow((FRelacionSecciones - 1.) * Velocity * __CTE.ARef, 2.)
 						/ (2. * FCpMezcla);
 
 		Converge = 0.;
@@ -332,7 +332,7 @@ void TVenturi::CalculaVenturi() {
 					printf(
 							"N. de Mach en el venturi situado en el deposito %d = 1. ",
 							FNumeroDeposito);
-					printf("Velocity = %g (m/s) \t", VelGarganta1 * ARef);
+					printf("Velocity = %g (m/s) \t", VelGarganta1 * __CTE.ARef);
 					printf("Temperature = %g (degC)\n", TempGarganta);
 				} else if (Mach1 == 1.) {
 					VelGarganta1 = sqrt(
@@ -345,10 +345,10 @@ void TVenturi::CalculaVenturi() {
 				}
 
 				TempGarganta = TempEntrada
-						- (pow2(VelGarganta1 * ARef) - pow2(Velocity * ARef))
+						- (pow2(VelGarganta1 * __CTE.ARef) - pow2(Velocity * __CTE.ARef))
 								/ (2. * FCpMezcla);
 
-				Mach1 = VelGarganta1 * ARef
+				Mach1 = VelGarganta1 * __CTE.ARef
 						/ sqrt(FGamma * FRMezcla * TempGarganta);
 				Converge = VelGarganta1 / VelGarganta0;
 				VelGarganta0 = VelGarganta1;
@@ -356,9 +356,9 @@ void TVenturi::CalculaVenturi() {
 			VelGarganta0 = sqrt(
 					(FRendimientoVenturi * pow2(VelGarganta0)
 							- FPerdidasCalor * 2.));
-// dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = (VelGarganta0  * ARef)/pow(FGamma*FRMezcla*TempGarganta,0.5);
+// dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = (VelGarganta0  * __CTE.ARef)/pow(FGamma*FRMezcla*TempGarganta,0.5);
 			dynamic_cast<TCCDeposito*>(FCCLateral)->putMachVenturi(
-					(VelGarganta0 * ARef)
+					(VelGarganta0 * __CTE.ARef)
 							/ pow(FGamma * FRMezcla * TempGarganta, 0.5));
 		} else {
 // dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = 0.;
@@ -587,7 +587,7 @@ void TVenturi::CalculaResultadosVenturi() {
 						== nmSaliente) {
 					SentidoEntrada = -1;
 				}
-				FResInstantVenturi.VelEntradaINS = SentidoEntrada * ARef
+				FResInstantVenturi.VelEntradaINS = SentidoEntrada * __CTE.ARef
 						* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
 			} else {
 				if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo()
@@ -597,7 +597,7 @@ void TVenturi::CalculaResultadosVenturi() {
 						== nmSaliente) {
 					SentidoSalida = -1;
 				}
-				FResInstantVenturi.VelEntradaINS = SentidoSalida * ARef
+				FResInstantVenturi.VelEntradaINS = SentidoSalida * __CTE.ARef
 						* dynamic_cast<TCCDeposito*>(FCCSalida)->getVelocity();
 			}
 		}
@@ -610,7 +610,7 @@ void TVenturi::CalculaResultadosVenturi() {
 					== nmSaliente) {
 				SentidoLateral = -1;
 			}
-			FResInstantVenturi.VelLateralINS = SentidoLateral * ARef
+			FResInstantVenturi.VelLateralINS = SentidoLateral * __CTE.ARef
 					* dynamic_cast<TCCDeposito*>(FCCLateral)->getVelocity();
 		}
 		if (FResInstantVenturi.GastoEntrada) {
@@ -788,7 +788,7 @@ void TVenturi::AcumulaResultadosMediosVenturi(double Actual) {
 					== nmSaliente) {
 				SentidoEntrada = -1;
 			}
-			FResMediosVenturi.VelEntradaSUM += SentidoEntrada * ARef * Delta
+			FResMediosVenturi.VelEntradaSUM += SentidoEntrada * __CTE.ARef * Delta
 					* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
 		}
 		if (FResMediosVenturi.VelLateral) {
@@ -799,7 +799,7 @@ void TVenturi::AcumulaResultadosMediosVenturi(double Actual) {
 					== nmSaliente) {
 				SentidoLateral = -1;
 			}
-			FResMediosVenturi.VelLateralSUM += SentidoLateral * ARef * Delta
+			FResMediosVenturi.VelLateralSUM += SentidoLateral * __CTE.ARef * Delta
 					* dynamic_cast<TCCDeposito*>(FCCLateral)->getVelocity();
 
 		}

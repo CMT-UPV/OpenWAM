@@ -81,7 +81,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccion = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FSeccion = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -91,7 +91,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccion = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FSeccion = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			i++;
@@ -184,14 +184,14 @@ void TCCExtremoInyeccion::CalculaCondicionContorno(double Time) {
 		FGamma5 = Gamma5(FGamma);
 
 		if (FAngap < FDuracionIny && FTheta > 720.) {
-			FSonido = sqrt(FGamma * FRMezcla * (FTemperaturaIny + 273.)) / ARef;
+			FSonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperaturaIny)) / __CTE.ARef;
 			FVelocity = (FSonido - *FCC) / FGamma3;
-			FPressure = FGastoIny * FRMezcla * (FTemperaturaIny + 273.)
-					/ (FVelocity * ARef * FSeccion * 1e5); // Cociente entre presion y la presion de referencia(1e5);
+			FPressure = __UN.PaToBar(FGastoIny * FRMezcla * __UN.degCToK(FTemperaturaIny)
+					/ (FVelocity * __CTE.ARef * FSeccion)); // Cociente entre presion y la presion de referencia(1e5);
 			if (FPressure < 0.0) {
 				printf(
 						"ERROR: TCCExtremoInyeccion::CalculaCondicionContorno Velocity negativa en inyector %lf,Theta= %lf\n en la condicion de contorno: %d",
-						FVelocity * ARef, FTheta, FNumeroCC);
+						FVelocity * __CTE.ARef, FTheta, FNumeroCC);
 				printf(
 						"       TCCExtremoInyeccion::CalculaCondicionContorno Presion negativa en inyector %lf\n",
 						FPressure);

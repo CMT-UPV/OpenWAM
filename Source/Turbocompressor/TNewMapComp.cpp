@@ -51,7 +51,7 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 		FCorrect = false;
 	fscanf(fich, "%lf %lf", &FPresionRef, &FTempRef);
 	fscanf(fich, "%d ", &filas);
-	FPresionRef = FPresionRef * 1e5;
+	FPresionRef = __UN.BarToPa(FPresionRef);
 
 	dMatrix locSpeed;
 	dMatrix locMass;
@@ -100,14 +100,14 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 		PreExtra[0] = locPre[k][0];
 		PreExtra[1] = pow(
 				1
-						+ (Gamma - 1) / (2 * Gamma * R * (FTempRef))
-								* pow2((locSpeed[k][0]) * Pi / 30)
+						+ (Gamma - 1) / (2 * Gamma * __R.Air * (FTempRef))
+								* pow2(__UN.RPMToRad_s(locSpeed[k][0]))
 								* (pow2(FRadWheel) - pow2(r1)),
 				Gamma / (Gamma - 1));
 		PreExtra[2] = pow(
 				1
-						+ (Gamma - 1) / (2 * Gamma * R * (FTempRef))
-								* pow2((locSpeed[k][0]) * Pi / 30)
+						+ (Gamma - 1) / (2 * Gamma * __R.Air * (FTempRef))
+								* pow2(__UN.RPMToRad_s(locSpeed[k][0]))
 								* (pow2(FRadWheel) - pow2(r1)),
 				Gamma / (Gamma - 1));
 		EffExtra[0] = locEff[k][0];

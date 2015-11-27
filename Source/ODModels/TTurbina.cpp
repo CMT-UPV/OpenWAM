@@ -181,7 +181,7 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 						FCalculoGamma, nmMEP);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-						FTemperature + 273., FCalculoGamma, nmMEP);
+						__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 						FCalculoGamma);
 
@@ -189,7 +189,7 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 						FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 						FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
@@ -201,8 +201,8 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 			double Error = 0.;
 			double Ason1 = FAsonido;
 			double Ason0 = FAsonido;
-			double MTemp0 = 1 / (FMasa0 * FRMezcla * (FTemperature + 273));
-			double MTemp1 = 1 / (FMasa0 * FRMezcla * (FTemperature + 273));
+			double MTemp0 = 1 / (FMasa0 * FRMezcla * __UN.degCToK(FTemperature));
+			double MTemp1 = 1 / (FMasa0 * FRMezcla * __UN.degCToK(FTemperature));
 			double MTemp = 0.;
 			double H0 = 0;
 			double Diff = 0.;
@@ -245,7 +245,7 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 					}
 
 				}
-				MTemp1 = FGamma / (pow2(Ason1 * ARef) * FMasa);
+				MTemp1 = FGamma / (pow2(Ason1 * __CTE.ARef) * FMasa);
 
 				if (FirstStep) {
 					FMasa = FMasa0 + MasaEntrante;
@@ -282,11 +282,11 @@ void TTurbina::ActualizaPropiedades(double TimeCalculo) {
 			}
 
 			FAsonido = Ason1;
-			// FTemperature = pow(FAsonido, 2) / (FGamma * FRMezcla) * pow(ARef, 2);
-			FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen
-					* FMasa * 1e-5;
+			// FTemperature = pow(FAsonido, 2) / (FGamma * FRMezcla) * pow(__CTE.ARef, 2);
+			FPressure = __UN.PaToBar(pow2(__CTE.ARef * FAsonido) / FGamma / FVolumen
+					* FMasa);
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FTemperature = pow2(FAsonido * ARef) / FGamma / FRMezcla - 273.;
+			FTemperature = __UN.KTodegC(pow2(FAsonido * __CTE.ARef) / FGamma / FRMezcla);
 		}
 		FTime = TimeCalculo;
 	} catch (exception & N) {
@@ -581,7 +581,7 @@ void TTurbina::AllocateDatosTGV(stDatosTGV *DatosTGV) {
 
 double TTurbina::CpTurbineSimple(double Temperature, double YBurnt) {
 
-	double R = RBurnt * YBurnt + (RAir * (1 - YBurnt - 0.0164) + 0.0164 * RH2O);
+	double R = __R.Burnt * YBurnt + (__R.Air * (1 - YBurnt - 0.0164) + 0.0164 * __R.H2O);
 	double RaizdeT = sqrt(Temperature);
 
 	double CvAir = -10.4199 * RaizdeT + 2522.88
@@ -594,7 +594,7 @@ double TTurbina::CpTurbineSimple(double Temperature, double YBurnt) {
 									* (-0.0001125 + Temperature * 8.979e-9));
 	double CvH2O = (22.605 - 0.09067 * RaizdeT
 			+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT) / Temperature)
-			* RH2O - RH2O;
+			* __R.H2O - __R.H2O;
 
 	double CpMezcla = CvBurnt * YBurnt
 			+ (CvAir * (1 - YBurnt - 0.0164) + 0.0164 * CvH2O) + R;
@@ -610,16 +610,16 @@ double TTurbina::CpTurbineComplete(double YO2, double YCO2, double YH2O,
 	// Temperature en Kelvin. Calculado segun la correlacion de JANAF.
 	double CpN2 = (12.531 - 0.05932 * RaizdeT
 			+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT) / Temperature)
-			* RN2;
+			* __R.N2;
 	double CpO2 = (-0.112 + 0.0479 * RaizdeT
 			+ (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT) / Temperature)
-			* RO2;
+			* __R.O2;
 	double CpCO2 = (12.019 - 0.03566 * RaizdeT
 			+ (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT) / Temperature)
-			* RCO2;
+			* __R.CO2;
 	double CpH2O = (22.605 - 0.09067 * RaizdeT
 			+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT) / Temperature)
-			* RH2O;
+			* __R.H2O;
 
 	double CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O
 			+ CpN2 * (YN2 - 0.01292) + 520.32 * 0.01292;

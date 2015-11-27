@@ -118,8 +118,8 @@ void TEstatorTurbina::CalculaCD() {
 			FCDVolTub = FCDSInicial * FSectionRatio;
 			break;
 		case nmStMapa:
-			FCDTubVol = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
-			FCDVolTub = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+			FCDTubVol = FAreaEff / (pow2(FDiamTubo) * __CTE.Pi_4);
+			FCDVolTub = FAreaEff / (pow2(FDiamTubo) * __CTE.Pi_4);
 			break;
 		case nmStVariable:
 			FCDTubVol = FCDVbl * FSectionRatio;
@@ -151,7 +151,7 @@ void TEstatorTurbina::GetCDin(double Time) {
 		FCDTubVol = FCDEInicial * FSectionRatio;
 		break;
 	case nmStMapa:
-		FCDTubVol = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+		FCDTubVol = FAreaEff / (pow2(FDiamTubo) * __CTE.Pi_4);
 		break;
 	case nmStVariable:
 		FCDTubVol = FCDVbl * FSectionRatio;
@@ -171,7 +171,7 @@ void TEstatorTurbina::GetCDout(double Time) {
 		FCDVolTub = FCDSInicial * FSectionRatio;
 		break;
 	case nmStMapa:
-		FCDVolTub = FAreaEff / (pow2(FDiamTubo) * 3.14159 / 4);
+		FCDVolTub = FAreaEff / (pow2(FDiamTubo) * __CTE.Pi_4);
 		break;
 	case nmStVariable:
 		FCDVolTub = FCDVbl * FSectionRatio;

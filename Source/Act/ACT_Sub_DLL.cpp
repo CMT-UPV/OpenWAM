@@ -1,4 +1,5 @@
 #include"ACT_Sub_DLL.h"
+#include "Constantes.h"
 
 /** ************     FUNCTION min      ************** */
 
@@ -2294,7 +2295,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double realelementmfreac = 0.; // Auxiliar variable
 
 	// General constants
-	double PI = 3.1415926;
+	double PI = __CTE.Pi;
 	double Runiv = 8314.;
 	FILE *fich, *foculto, *foculto2;
 	double FRLOL = 0.; // Dosado en el lift-off del instante considerado

@@ -116,6 +116,9 @@ struct stTurbomachinery {
 	double IT_C; // Inlet temperature (degC)
 	double IT_K; // Inlet temperature (K)
 	double IP; // Inlet pressure (bar)
+	double OP; // Outlet pressure (bar)
+	double IP0; // Total inlet pressure (bar)
+	double OP0; // Total outlet pressure (bar)
 	double PR; // Pressure ratio (-)
 	double RTC_C; // Corrected speed (rpm)
 	double TISO_K; // Isoentropic outlet temperature (K)
@@ -126,9 +129,15 @@ struct stTurbomachinery {
 	double EFF; // Efficiency
 	double T0_K; // Stagnation temperature (K)
 	double SecIn; // Inlet section (m^2)
+	double SecOut; // Outlet section (m^2)
 	double DIn;
+	double DOut;
 	stHTMair *Fluid;
 	double OT_K; // Outlet temperature (K)
+	double OT0_K; // Total outlet temperature (K)
+	double IT0_K; // Total inlet temperature (K)
+	double EFFMAX;
+	double Power;
 
 	double funCORRMass() {
 		return MassFlow * sqrt(IT_K / TREF_K) / (IP / PREF);
@@ -151,14 +160,28 @@ struct stTurbomachinery {
 	;
 
 	double funTiso(double sig) {
-		return IT_K * pow(PR, sig * (Fluid->g - 1) / Fluid->g);
+		return funT0_in() * pow(PR, sig * (Fluid->g - 1) / Fluid->g);
 	}
 	;
 
-	double funT0() {
-		return IT_K + pow2(MassFlow * 287 * IT_K / IP / SecIn) / 2 / Fluid->Cp;
+	double funP_toTotal(double P,double T, double T0){
+		return P / pow(T / T0, Fluid->g / (Fluid->g - 1));
 	}
 	;
+
+	double funP_toStatic(double P0, double T, double T0){
+		return P0 * pow(T / T0, Fluid->g / (Fluid->g - 1));
+	}
+	;
+
+	double funT0_in() {
+		return IT_K + pow2(MassFlow * 287 * IT_K / __UN.BarToPa(IP) / SecIn) / 2 / Fluid->Cp;
+	}
+	;
+
+	double funtT0_out() {
+		return OT_K + pow2(MassFlow * 287 * OT_K / __UN.BarToPa(OP) / SecOut) / 2 / Fluid->Cp;
+	};
 
 	double funP0() {
 		return IP * pow(T0_K / IT_K, (Fluid->g - 1) / Fluid->g);
@@ -166,9 +189,23 @@ struct stTurbomachinery {
 	;
 
 	double funIsoPower(double sig) {
-		return sig * MassFlow * Fluid->Cp * (TISO_K - IT_K);
+		return sig * MassFlow * Fluid->Cp * (TISO_K - IT0_K);
 	}
 	;
+
+	double funT_toStatic(double T0, double P0, double M){
+		OT_K = T0;
+		OP = P0;
+		double error = 1;
+		int iter = 0;
+		do{
+			OT_K = T0 - pow2(M * 287 * OT_K / __UN.BarToPa(OP) / SecOut) / 2 / Fluid->Cp;
+			error = funP_toStatic(P0, OT_K, T0) - OP;
+			OP = OP + error;
+			iter++;
+		} while (iter < 100 && fabs(error) < 0.001);
+		return OT_K;
+	};
 };
 
 struct stNodesHTM {

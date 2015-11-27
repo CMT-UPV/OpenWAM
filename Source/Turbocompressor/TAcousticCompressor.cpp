@@ -52,8 +52,8 @@ TAcousticCompressor::~TAcousticCompressor() {
 double TAcousticCompressor::P10() {
 
 	double p = FInletPipe->GetPresion(0);
-	double a = FInletPipe->GetAsonido(0) * ARef;
-	double v = FInletPipe->GetVelocidad(0) * ARef;
+	double a = FInletPipe->GetAsonido(0) * __CTE.ARef;
+	double v = FInletPipe->GetVelocidad(0) * __CTE.ARef;
 	double g = FInletPipe->GetGamma(0);
 
 	double p0 = p * pow(1 + (g - 1) / 2 * pow2(v / a), g / (g - 1));
@@ -72,8 +72,8 @@ double TAcousticCompressor::P20() {
 	int n = FOutletPipe->getNin() - 1;
 
 	double p = FOutletPipe->GetPresion(n);
-	double a = FOutletPipe->GetAsonido(n) * ARef;
-	double v = FOutletPipe->GetVelocidad(n) * ARef;
+	double a = FOutletPipe->GetAsonido(n) * __CTE.ARef;
+	double v = FOutletPipe->GetVelocidad(n) * __CTE.ARef;
 	double g = FOutletPipe->GetGamma(n);
 
 	double p0 = p * pow(1 + (g - 1) / 2 * pow2(v / a), g / (g - 1));
@@ -92,8 +92,8 @@ double TAcousticCompressor::P2() {
 double TAcousticCompressor::T10() {
 
 	double p = FInletPipe->GetPresion(0);
-	double a = FInletPipe->GetAsonido(0) * ARef;
-	double v = FInletPipe->GetVelocidad(0) * ARef;
+	double a = FInletPipe->GetAsonido(0) * __CTE.ARef;
+	double v = FInletPipe->GetVelocidad(0) * __CTE.ARef;
 	double g = FInletPipe->GetGamma(0);
 	double R = FInletPipe->GetRMezcla(0);
 
@@ -107,7 +107,7 @@ double TAcousticCompressor::T2() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	double a = FOutletPipe->GetAsonido(n) * ARef;
+	double a = FOutletPipe->GetAsonido(n) * __CTE.ARef;
 	double g = FOutletPipe->GetGamma(n);
 	double R = FOutletPipe->GetRMezcla(n);
 
@@ -119,9 +119,9 @@ double TAcousticCompressor::T20() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	double a = FOutletPipe->GetAsonido(n) * ARef;
+	double a = FOutletPipe->GetAsonido(n) * __CTE.ARef;
 	double g = FOutletPipe->GetGamma(n);
-	double v = FOutletPipe->GetVelocidad(n) * ARef;
+	double v = FOutletPipe->GetVelocidad(n) * __CTE.ARef;
 	double R = FOutletPipe->GetRMezcla(n);
 
 	double T0 = (pow2(a) + (g - 1) / 2 * pow2(v)) / g / R;
@@ -132,7 +132,7 @@ double TAcousticCompressor::T20() {
 
 double TAcousticCompressor::T1() {
 
-	double a = FInletPipe->GetAsonido(0) * ARef;
+	double a = FInletPipe->GetAsonido(0) * __CTE.ARef;
 	double g = FInletPipe->GetGamma(0);
 	double R = FInletPipe->GetRMezcla(0);
 
@@ -165,8 +165,8 @@ void TAcousticCompressor::AsignElementsID(int InletPipeID, int VoluteID,
 double TAcousticCompressor::CRCorrector() {
 
 	double p = FVolute->GetPresion(0);
-	double a = FVolute->GetAsonido(0) * ARef;
-	double v = FVolute->GetVelocidad(0) * ARef;
+	double a = FVolute->GetAsonido(0) * __CTE.ARef;
+	double v = FVolute->GetVelocidad(0) * __CTE.ARef;
 	double g = FVolute->GetGamma(0);
 
 	double p20out = p * pow(1 + (g - 1) / 2 * pow2(v / a), 2 * g / (g - 1));
@@ -185,7 +185,7 @@ double TAcousticCompressor::EFCorrector(double rcorr, double rorig) {
 		return 1;
 	}
 
-	double Correction = (FRotorVolume->getTemperature() + 273) / T10()
+	double Correction = __UN.degCToK(FRotorVolume->getTemperature()) / T10()
 			* (pow(rorig * rcorr, (g - 1) / g) - 1)
 			/ (pow(rorig, (g - 1) / g) - 1);
 
@@ -196,12 +196,12 @@ double TAcousticCompressor::EFCorrector(double rcorr, double rorig) {
 double TAcousticCompressor::MassFlow() {
 
 	double p = FVolute->GetPresion(0);
-	double a = FVolute->GetAsonido(0) * ARef;
-	double v = FVolute->GetVelocidad(0) * ARef;
+	double a = FVolute->GetAsonido(0) * __CTE.ARef;
+	double v = FVolute->GetVelocidad(0) * __CTE.ARef;
 	double g = FVolute->GetGamma(0);
 	double S = FVolute->GetArea(0);
 
-	double Mass = p * 1e5 * g * v * S / a / a;
+	double Mass = __UN.BarToPa(p) * g * v * S / a / a;
 
 	return Mass;
 

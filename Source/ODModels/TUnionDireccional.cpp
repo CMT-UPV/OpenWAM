@@ -189,14 +189,14 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 					FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					FTemperature + 273., FCalculoGamma, nmMEP);
+					__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+			FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 					FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
@@ -268,9 +268,9 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 				Converge = true;
 			}
 		}
-		FTemperature = pow2(FAsonido * ARef) / (FGamma * FRMezcla) - 273.;
-		FPressure = ARef * ARef * FAsonido * FAsonido / FGamma / FVolumen
-				* FMasa * 1e-5;
+		FTemperature = __UN.KTodegC(pow2(FAsonido * __CTE.ARef) / (FGamma * FRMezcla));
+		FPressure = __UN.PaToBar(pow2(__CTE.ARef * FAsonido) / FGamma / FVolumen
+				* FMasa);
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
 		FTime = TimeCalculo;
 	} catch (exception & N) {
@@ -302,7 +302,7 @@ void TUnionDireccional::CalculoUnionDireccional() {
 				FSentidoEntrada[i] = 0; // Flujo parado
 			FVelocity[i] = FSentidoEntrada[i]
 					* dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getVelocity()
-					* ARef;
+					* __CTE.ARef;
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 0 */

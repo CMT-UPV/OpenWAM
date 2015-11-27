@@ -193,7 +193,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 						FCalculoGamma, nmMEP);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-						FTemperature + 273., FCalculoGamma, nmMEP);
+						__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 						FCalculoGamma);
 
@@ -201,15 +201,15 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 						FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 						FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 			}
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
-			FMasa = FVolumen * FGamma * FPressure * 1e5 / pow2(FAsonido * ARef);
+			FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature)) / __CTE.ARef;
+			FMasa = FVolumen * FGamma * __UN.BarToPa(FPressure) / pow2(FAsonido * __CTE.ARef);
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -222,7 +222,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 						FCalculoGamma, nmMEP);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-						FTemperature + 273., FCalculoGamma, nmMEP);
+						__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 						FCalculoGamma);
 
@@ -230,14 +230,14 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 						FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 						FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 			}
 			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273.)) / ARef;
+			FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature)) / __CTE.ARef;
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -760,8 +760,8 @@ void TDeposito::ResultadosInstantaneosDep() {
 		if (FResInstantDep.Pressure)
 			FResInstantDep.PresionINS = FPressure;
 		if (FResInstantDep.Temperature)
-			FResInstantDep.TemperaturaINS = pow2(FAsonido * ARef)
-					/ (FGamma * FRMezcla) - 273.;
+			FResInstantDep.TemperaturaINS = __UN.KTodegC(pow2(FAsonido * __CTE.ARef)
+					/ (FGamma * FRMezcla));
 		if (FResInstantDep.Volumen)
 			FResInstantDep.VolumenINS = FVolumen;
 		if (FResInstantDep.Masa)
@@ -793,8 +793,8 @@ void TDeposito::AcumulaResultadosMedios(double Actual) {
 			FResMediosDep.PresionSUM += FPressure * Delta;
 		}
 		if (FResMediosDep.Temperature) {
-			FResMediosDep.TemperaturaSUM += (pow2(FAsonido * ARef)
-					/ (FGamma * FRMezcla) - 273.) * Delta;
+			FResMediosDep.TemperaturaSUM += __UN.KTodegC(pow2(FAsonido * __CTE.ARef)
+					/ (FGamma * FRMezcla)) * Delta;
 		}
 		if (FResMediosDep.FraccionMasicaEspecies) {
 			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {

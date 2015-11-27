@@ -28,6 +28,9 @@
 #pragma hdrstop
 
 #include "TOpenWAM.h"
+#ifdef _WIN32
+	#include <Windows.h>
+#endif
 
 TOpenWAM::TOpenWAM() {
 
@@ -4396,8 +4399,8 @@ void TOpenWAM::Actuadores()
 	if (nematlab != 0) {
 		for (int i = 0; i < nematlab; ++i) {
 			MatlabDischarge[i]->PutPresion(EXTERN->GetOutput_dll(compo));
-			MatlabDischarge[i]->PutTemperatura(
-					EXTERN->GetOutput_dll(compo + 1) + 273.);
+			MatlabDischarge[i]->PutTemperatura(__UN.degCToK(
+					EXTERN->GetOutput_dll(compo + 1)));
 			compo += 2;
 		}
 	}

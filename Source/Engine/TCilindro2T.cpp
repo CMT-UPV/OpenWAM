@@ -230,7 +230,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FMotor->getCombustible());
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-						FFraccionMasicaEspecieFuel, FTemperature + 273.,
+						FFraccionMasicaEspecieFuel, __UN.degCToK(FTemperature),
 						nmComposicionTemperatura, FMotor->getCombustible());
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 						nmComposicionTemperatura);
@@ -241,7 +241,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FMotor->getGammaCalculation(),
 						FMotor->getCombustible());
 				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
-				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 						FComposicionCicloCerrado[0],
 						FComposicionCicloCerrado[1], nmComposicionTemperatura,
 						FMotor->getCombustible());
@@ -264,7 +264,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FMotor->getCombustible());
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-						FFraccionMasicaEspecieFuel, FTemperature + 273.,
+						FFraccionMasicaEspecieFuel, __UN.degCToK(FTemperature),
 						FMotor->getGammaCalculation(),
 						FMotor->getCombustible());
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
@@ -278,7 +278,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 						FMotor->getCombustible());
 				//FRMezcla =  287*FComposicionCicloCerrado[2] + 55.95*FComposicionCicloCerrado[1] + 285.4*FComposicionCicloCerrado[0];
 
-				FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 						FComposicionCicloCerrado[0],
 						FComposicionCicloCerrado[1],
 						FMotor->getGammaCalculation(),
@@ -416,8 +416,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 									- pow(FPresionCarter / FPressure,
 											FGamma2 / FGamma));
 			FGastoBlowBy = FMotor->getGeometria().CDBlowBy * 3.5e-5
-					* FMotor->getGeometria().Diametro * FPressure * 1e5
-					* sqrt(z / FRMezcla / (FTemperature + 273.));
+					* FMotor->getGeometria().Diametro * __UN.BarToPa(FPressure)
+					* sqrt(z / FRMezcla / __UN.degCToK(FTemperature));
 		} else {
 			FGastoBlowBy = 0.;
 		}
@@ -613,9 +613,9 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			// Spark Ignition Engine:
 			// Design and Simulation of 2S engines - G.P.Blair, page 306
 			// (not exactly the same; radiation is neglected)
-			double tcil = FTemperature + 273.;
+			double tcil = __UN.degCToK(FTemperature);
 			double visc = 7.457e-6 + 4.1547e-8 * tcil - 7.4793e-12 * pow2(tcil);
-			double dens = FPressure * 1e5 / FRMezcla / tcil;
+			double dens = __UN.BarToPa(FPressure) / FRMezcla / tcil;
 			double reyn = dens * FCm * FMotor->getGeometria().Diametro / visc;
 			double nuss = 0.26 * pow(reyn, 0.7);
 			double condk = 6.1944e-3 + 7.3814e-5 * tcil
@@ -638,7 +638,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			} else {
 				Fequis = 0.;
 			}
-			FCu = (2. * Pi * FMotor->getRegimen() / 60) * Fequis * Fctorbadmp
+			FCu = __UN.RPMToRad_s(FMotor->getRegimen()) * Fequis * Fctorbadmp
 					* FKctm * pow2(FMotor->getGeometria().Diametro)
 					/ (2. * FMotor->getGeometria().DiametroBowl);
 
@@ -651,15 +651,15 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				Fc2 = 0.001; // antes 3.24e-3  (ahora 0.001)MOTOR DE CAMARA ABIERTA ;  6.22e-3  MOTOR DE CAMARA DIVIDIDA
 			}
 			// COEFICIENTE DE PELICULA DE WOSCHNI
-			double deltaP = (FPressure
-					- FPresionRCA * pow(FVolumenCA / FVolumen, 1.36)) * 1e5;
+			double deltaP = __UN.BarToPa(FPressure
+					- FPresionRCA * pow(FVolumenCA / FVolumen, 1.36));
 			if (deltaP < 0.)
 				deltaP = 0.;
 			if (FAnguloActual >= 90. && FAnguloActual <= 180.) {
 				// CARRERA DE ESCAPE
 				Fh =
-						1.2e-2 * pow(FPressure * 1e5, 0.8)
-								* pow(FTemperature + 273., -0.53)
+						1.2e-2 * pow(__UN.BarToPa(FPressure), 0.8)
+								* pow(__UN.degCToK(FTemperature), -0.53)
 								* pow(FMotor->getGeometria().Diametro, -0.2)
 								* pow(
 										(6.18 * FCm + 0.417 * FCu)
@@ -671,8 +671,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			} else if (FAnguloActual >= 180. && FAnguloActual <= 270.) {
 				// CARRERA DE ADMISION
 				Fh =
-						1.2e-2 * pow(FPressure * 1e5, 0.8)
-								* pow(FTemperature + 273., -0.53)
+						1.2e-2 * pow(__UN.BarToPa(FPressure), 0.8)
+								* pow(__UN.degCToK(FTemperature), -0.53)
 								* pow(FMotor->getGeometria().Diametro, -0.2)
 								* pow(
 										(6.18 * FCm + 0.417 * FCu)
@@ -683,8 +683,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 														/ FRMezcla, 0.8);
 			} else { // CARRERAS DE COMPRESION Y EXPANSION
 				Fh =
-						1.2e-2 * pow(FPressure * 1e5, 0.8)
-								* pow(FTemperature + 273., -0.53)
+						1.2e-2 * pow(__UN.BarToPa(FPressure), 0.8)
+								* pow(__UN.degCToK(FTemperature), -0.53)
 								* pow(FMotor->getGeometria().Diametro, -0.2)
 								* pow(
 										(FMotor->getWoschni().cw1 * FCm
@@ -905,18 +905,18 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 											+ FZComb * 16); // Moles de combustible quemado en el incremento temporal calculado
 						}
 						FMasaO2Reactivos = FMolesCombQuemado
-								* (FYComb / 4 + FXComb - FZComb / 2) * PMO2;
+								* (FYComb / 4 + FXComb - FZComb / 2) * __PM.O2;
 						FMasaN2Reactivos = FMolesCombQuemado
 								* (FYComb / 4 + FXComb - FZComb / 2)
-								* FRelacionMolarN2_O2 * PMN2;
-						// FMasaH2OReactivos=FMolesCombQuemado*(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2*PMH2O;
-						FMasaCO2Productos = FMolesCombQuemado * FXComb * PMCO2;
+								* FRelacionMolarN2_O2 * __PM.N2;
+						// FMasaH2OReactivos=FMolesCombQuemado*(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2*__PM.H2O;
+						FMasaCO2Productos = FMolesCombQuemado * FXComb * __PM.CO2;
 						FMasaH2OProductos = FMolesCombQuemado * (FYComb / 2
 						/* +(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2 */
-						) * PMH2O;
+						) * __PM.H2O;
 						FMasaN2Productos = FMolesCombQuemado
 								* (FYComb / 4 + FXComb - FZComb / 2)
-								* FRelacionMolarN2_O2 * PMN2;
+								* FRelacionMolarN2_O2 * __PM.N2;
 
 						FFraccionMasicaEspecie[0] = (FMasaEspecie[0]
 								- FMasaO2Reactivos
@@ -957,18 +957,18 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 											+ FZComb * 16); // Moles de combustible quemado en el incremento temporal calculado
 						}
 						FMasaO2Reactivos = FMolesCombQuemado
-								* (FYComb / 4 + FXComb - FZComb / 2) * PMO2;
+								* (FYComb / 4 + FXComb - FZComb / 2) * __PM.O2;
 						FMasaN2Reactivos = FMolesCombQuemado
 								* (FYComb / 4 + FXComb - FZComb / 2)
-								* FRelacionMolarN2_O2 * PMN2;
-						// FMasaH2OReactivos=FMolesCombQuemado*(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2*PMH2O;
-						FMasaCO2Productos = FMolesCombQuemado * FXComb * PMCO2;
+								* FRelacionMolarN2_O2 * __PM.N2;
+						// FMasaH2OReactivos=FMolesCombQuemado*(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2*__PM.H2O;
+						FMasaCO2Productos = FMolesCombQuemado * FXComb * __PM.CO2;
 						FMasaH2OProductos = FMolesCombQuemado * (FYComb / 2
 						/* +(FYComb/4+FXComb-FZComb/2)*FRelacionMolarH2O_O2 */
-						) * PMH2O;
+						) * __PM.H2O;
 						FMasaN2Productos = FMolesCombQuemado
 								* (FYComb / 4 + FXComb - FZComb / 2)
-								* FRelacionMolarN2_O2 * PMN2;
+								* FRelacionMolarN2_O2 * __PM.N2;
 
 						FFraccionMasicaEspecie[0] = (FMasaEspecie[0]
 								- FMasaO2Reactivos
@@ -1089,8 +1089,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		double ASon1 = FAsonido;
 		double Temp0 = FTemperature;
 		double Temp1 = FTemperature;
-		double MasTemp0 = 1 / (FTemperature + 273.) / FMasa0;
-		double MasTemp1 = 1 / (FTemperature + 273.) / FMasa0;
+		double MasTemp0 = 1 / __UN.degCToK(FTemperature) / FMasa0;
+		double MasTemp1 = 1 / __UN.degCToK(FTemperature) / FMasa0;
 		double MasTempMed = 0.;
 		bool CotaError = false;
 		double H1 = 0.;
@@ -1114,7 +1114,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 										dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getSpeedsound(),
 										dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getVelocity(),
 										-dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMassflow()
-												* FDeltaT, ASon1 / ARef,
+												* FDeltaT, ASon1 / __CTE.ARef,
 										FMasa0);
 					} else {
 						H1 +=
@@ -1122,7 +1122,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 										dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getSpeedsound(),
 										dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getVelocity(),
 										-dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMassflow()
-												* FDeltaT, ASon1 / ARef, FMasa);
+												* FDeltaT, ASon1 / __CTE.ARef, FMasa);
 					}
 				}
 			}
@@ -1138,7 +1138,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 										dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getSpeedsound(),
 										dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getVelocity(),
 										-dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMassflow()
-												* FDeltaT, ASon1 / ARef,
+												* FDeltaT, ASon1 / __CTE.ARef,
 										FMasa0);
 					} else {
 						H1 +=
@@ -1146,7 +1146,7 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 										dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getSpeedsound(),
 										dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getVelocity(),
 										-dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMassflow()
-												* FDeltaT, ASon1 / ARef, FMasa);
+												* FDeltaT, ASon1 / __CTE.ARef, FMasa);
 					}
 				}
 			}
@@ -1161,10 +1161,10 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 									+ (FCalor.TransTotal + FCalor.Liberado
 											+ FecgInt)
 											* (MasTempMed / FRMezcla));
-			Temp1 = (FTemperature + 273) * pow(Energia, FGamma1) - 273;
+			Temp1 = __UN.KTodegC(__UN.degCToK(FTemperature) * pow(Energia, FGamma1));
 			Error = (Diff = Temp1 - Temp0, fabs(Diff)) / Temp1;
 			if (Error > 1e-6) {
-				MasTemp1 = 1. / ((Temp1 + 273) * FMasa);
+				MasTemp1 = 1. / (__UN.degCToK(Temp1) * FMasa);
 				Temp0 = Temp1;
 			} else {
 				CotaError = true;
@@ -1181,10 +1181,10 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		FTemperature = Temp1;
 
 		FAsonido0 = FAsonido;
-		FAsonido = sqrt(FGamma * FRMezcla * (FTemperature + 273));
+		FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature));
 
 		FPresion0 = FPressure;
-		FPressure = (FTemperature + 273) * FMasa * FRMezcla / FVolumen * 1e-5;
+		FPressure = __UN.PaToBar(__UN.degCToK(FTemperature) * FMasa * FRMezcla / FVolumen);
 		if (FAnguloActual > FDistribucion.AE
 				&& FAnguloAnterior <= FDistribucion.AE) {
 			std::cout << "INFO: Begin gas-exchange process in cylinder "
@@ -1197,9 +1197,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 					<< FTemperature << " (\260C)" << std::endl;
 			if (FMotor->getCalculoDePAAE() == nmPAAEImpuesta) {
 				FPressure = FMotor->getPresionAAE();
-				FTemperature = FPressure * 1e5 * FVolumen / FMasa / FRMezcla
-						- 273.;
-				FAsonido = sqrt(FRMezcla * FGamma * (FTemperature + 273.));
+				FTemperature = __UN.KTodegC(__UN.BarToPa(FPressure) * FVolumen / FMasa / FRMezcla);
+				FAsonido = sqrt(FRMezcla * FGamma * __UN.degCToK(FTemperature));
 				std::cout << "INFO: Imposed pressure at E.O.:     " << FPressure
 						<< " (bar)" << std::endl;
 				std::cout << "INFO: Imposed temperature at E.O.:  "
@@ -1219,43 +1218,41 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 		 } */
 
 		// CALCULA EL PAR INSTANTANEO PRODUCIDO POR EL CILINDRO
-		double a = FAnguloActual * Pi / 180.;
+		double a = __UN.DegToRad(FAnguloActual);
 		double L = FMotor->getGeometria().Biela;
 		double R = FMotor->getGeometria().Carrera / 2.;
 		double e = FMotor->getGeometria().Excentricidad / 1000;
-		double area = Pi * pow2(FMotor->getGeometria().Diametro) / 4.;
+		double area = __CTE.Pi_4 * pow2(FMotor->getGeometria().Diametro);
 
 		double b = asin((e - R * sin(a)) / L);
 
 		// CALCULO TRABAJO Y PAR
-		FParInstantaneo = (FPressure - FMotor->getPresionAmb()) * 1e5 * area * R
+		FParInstantaneo = __UN.BarToPa(FPressure - FMotor->getPresionAmb()) * area * R
 				* sin(a - b) / cos(b);
 
 		FPreMed = (FPressure + FPresion0) / 2.;
 
-		FTrabajoNetoACUM += FPreMed * (FVolumen - FVolumen0) * 1e5;
+		FTrabajoNetoACUM += __UN.BarToPa(FPreMed) * (FVolumen - FVolumen0);
 		if (FAnguloActual > 180 && FAnguloActual <= 540) {
-			FTrabajoBombeoACUM += FPreMed * (FVolumen - FVolumen0) * 1e5;
+			FTrabajoBombeoACUM += __UN.BarToPa(FPreMed) * (FVolumen - FVolumen0);
 		}
 		if (FAnguloActual < FAnguloAnterior) {
 			FTrabajoNeto = FTrabajoNetoACUM;
 			FTrabajoNetoACUM = 0.;
-			FPMN = FTrabajoNeto * 1e-5
-					/ FMotor->getGeometria().CilindradaUnitaria;
+			FPMN = __UN.PaToBar(FTrabajoNeto
+					/ FMotor->getGeometria().CilindradaUnitaria);
 			FTrabajoBombeo = FTrabajoBombeoACUM;
 			FTrabajoBombeoACUM = 0.;
-			FPMB = FTrabajoBombeo * 1e-5
-					/ FMotor->getGeometria().CilindradaUnitaria;
+			FPMB = __UN.PaToBar(FTrabajoBombeo
+					/ FMotor->getGeometria().CilindradaUnitaria);
 			FPMI = FPMN - FPMB;
 		}
 
 		FDensidadReferencia = FMotor->getTuboRendVol()->GetGamma(
 				FMotor->getNodoMedio())
-				* FMotor->getTuboRendVol()->GetPresion(FMotor->getNodoMedio())
-				* 1e5
-				/ pow2(
-						FMotor->getTuboRendVol()->GetAsonido(
-								FMotor->getNodoMedio()) * ARef);
+				* __UN.BarToPa(FMotor->getTuboRendVol()->GetPresion(FMotor->getNodoMedio()))
+				/ pow2(FMotor->getTuboRendVol()->GetAsonido(
+				FMotor->getNodoMedio()) * __CTE.ARef);
 
 		/* ================================= */
 		/* MODELO DE CORTOCIRCUITO */
@@ -1265,9 +1262,9 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 				&& FAnguloActual < FDistribucion.CE) {
 			if (MasaAdmInstante > 0. && MasaEscInstante < 0.) {
 				// Cortocircuito con sentido Admision hacia Escape.    (massflow positivo)
-				MasaCortocircuitoAdm = MasaAdmInstante * FAlphaEscape / Pi;
+				MasaCortocircuitoAdm = MasaAdmInstante * FAlphaEscape / __CTE.Pi;
 				MasaCortocircuitoEsc = MasaEscInstante
-						* (Pi / 2. - FAlphaEscape) / Pi;
+						* (__CTE.Pi_2 - FAlphaEscape) / __CTE.Pi;
 				if (fabs(MasaCortocircuitoAdm) < fabs(MasaCortocircuitoEsc)) {
 					FMasaCortocircuito = fabs(MasaCortocircuitoAdm);
 				} else {
@@ -1300,8 +1297,8 @@ void TCilindro2T::ActualizaPropiedades(double TiempoActual) {
 			} else if (MasaAdmInstante < 0. && MasaEscInstante > 0.) {
 				// Cortocircuito con sentido Escape hacia Admision.   (massflow negativo)
 				MasaCortocircuitoAdm = MasaAdmInstante
-						* (Pi / 2. - FAlphaAdmision) / Pi;
-				MasaCortocircuitoEsc = MasaEscInstante * FAlphaAdmision / Pi;
+						* (__CTE.Pi_2 - FAlphaAdmision) / __CTE.Pi;
+				MasaCortocircuitoEsc = MasaEscInstante * FAlphaAdmision / __CTE.Pi;
 				if (fabs(MasaCortocircuitoAdm) < fabs(MasaCortocircuitoEsc)) {
 					FMasaCortocircuito = -fabs(MasaCortocircuitoAdm);
 				} else {
@@ -1395,20 +1392,20 @@ void TCilindro2T::VariableInicialesCicloACT() {
 			Ftest_variables[1] = (FMasaPorAdmision - FMasaEGR) * 1000;
 		// Measured air mass
 		Ftest_variables[2] = FMasaAtrapada * 1000; // In-cylinder air mass at inlet valve closing
-		Ftest_variables[3] = FTemperature + 273; // In-cylinder temperature at inlet valve closing
+		Ftest_variables[3] = __UN.degCToK(FTemperature); // In-cylinder temperature at inlet valve closing
 		Ftest_variables[4] = FMasaFuel * 1e6; // Fuel injected mass
 		Ftest_variables[5] = FMotor->getInjectionSys().InjectPressure;
 		// Injection pressure
-		Ftest_variables[6] = FPresionMedAdm * 1e5; // Inlet pressure
-		Ftest_variables[7] = FPresionMedEsc * 1e5; // Exhaust pressure
+		Ftest_variables[6] = __UN.BarToPa(FPresionMedAdm); // Inlet pressure
+		Ftest_variables[7] = __UN.BarToPa(FPresionMedEsc); // Exhaust pressure
 		// Ftest_variables[8]=FMotor->getGeometria().CDBlowBy;          //Blow-by coefficient
 		// Ftest_variables[9]=FMotor->getPresionAmb()*1e5;              //Atmosphere pressure
 		Ftest_variables[10] = 318.15; // Fuel injection temperature
-		Ftest_variables[11] = FTempPared[0].Culata + 273;
+		Ftest_variables[11] = __UN.degCToK(FTempPared[0].Culata);
 		// Cylinder head temperature
-		Ftest_variables[12] = FTempPared[0].Cylinder + 273;
+		Ftest_variables[12] = __UN.degCToK(FTempPared[0].Cylinder);
 		// Cylinder temperature
-		Ftest_variables[13] = FTempPared[0].Piston + 273; // Piston temperature
+		Ftest_variables[13] = __UN.degCToK(FTempPared[0].Piston); // Piston temperature
 		if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
 			Ftest_variables[14] = FFraccionMasicaEspecie[5] * 1e6 * 1.587;
 			// NOx concentration at IVC

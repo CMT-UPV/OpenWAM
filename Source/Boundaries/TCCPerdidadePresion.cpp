@@ -216,7 +216,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				ed = *FCC[0];
 
 				stPerdPresAdL PPAL(*FCC[0], *FCC[1], FK, FGamma,
-						FRelacionEntropia, ARef);
+						FRelacionEntropia, __CTE.ARef);
 				vel_sonido_Out = FindRoot(PPAL, ei, ed);
 				vel_sonido_In = PPAL.A2;
 				vel_In = PPAL.U2;
@@ -298,7 +298,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				ed = *FCC[1];
 
 				stPerdPresAdL PPAL(*FCC[1], *FCC[0], FK, FGamma,
-						FRelacionEntropia, ARef);
+						FRelacionEntropia, __CTE.ARef);
 				vel_sonido_Out = FindRoot(PPAL, ei, ed);
 				vel_sonido_In = PPAL.A2;
 				vel_In = PPAL.U1;

@@ -132,9 +132,8 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
 				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo[FNumeroTubosCC] = Pi
-						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2)
-						/ 4;
+				FSeccionTubo[FNumeroTubosCC] = __CTE.Pi_4
+						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2);
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -145,9 +144,8 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
 				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo[FNumeroTubosCC] = Pi
-						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2)
-						/ 4;
+				FSeccionTubo[FNumeroTubosCC] = __CTE.Pi_4
+						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2);
 				FNumeroTubosCC++;
 			}
 			i++;

@@ -193,8 +193,8 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		std::cout << "LECTURA MAPA COMPRESOR" << std::endl;
 		std::cout << "______________________" << std::endl;
 		fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
-		FTempRef += 273.;
-		FPresionRef *= 1e5;
+		FTempRef = __UN.degCToK(FTempRef);;
+		FPresionRef = __UN.BarToPa(FPresionRef);
 		fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
 				&FEffMultiplier);
 
@@ -1024,7 +1024,7 @@ double TMapaComp::BuscaRegimen(double RC, double Massflow,
 			inf = sup;
 			sup = inf + 1;
 			RCInf = RCSup;
-			InterpolaMapa(FRegimenCurva[sup], AmbientTemperature + 273);
+			InterpolaMapa(FRegimenCurva[sup], __UN.degCToK(AmbientTemperature));
 			RCSup = EvaluaRCSplines(Massflow);
 			val1 = (RC - RCInf) / (RCSup - RCInf)
 					* (FRegimenCurva[sup] - FRegimenCurva[inf])

@@ -205,10 +205,10 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 			} else
 				SentidoSalida = 0; /* Flujo parado */
 
-			FTempSalida = pow2(FAsonidoSalida * ARef)
+			FTempSalida = pow2(FAsonidoSalida * __CTE.ARef)
 					/ (FCCSalida[0]->getGamma() * FCCSalida[0]->getR());
-			FVelocidadSalida *= ARef * SentidoSalida;
-			FRhoSalida = 1e5 * FPresionSalida / FTempSalida
+			FVelocidadSalida *= __CTE.ARef * SentidoSalida;
+			FRhoSalida = __UN.BarToPa(FPresionSalida) / FTempSalida
 					/ FCCSalida[0]->getR();
 			FGastoSalida =
 					FRhoSalida * FVelocidadSalida
@@ -234,10 +234,10 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				} else
 					SentidoEntrada[i] = 0; /* Flujo parado */
 
-				FTempEntrada[i] = pow2(FAsonidoEntrada[i] * ARef)
+				FTempEntrada[i] = pow2(FAsonidoEntrada[i] * __CTE.ARef)
 						/ (FCCEntrada[i]->getGamma() * FCCEntrada[i]->getR());
-				FVelocidadEntrada[i] *= ARef * SentidoEntrada[i];
-				FRhoEntrada[i] = 1e5 * FPresionEntrada[i] / FTempEntrada[i]
+				FVelocidadEntrada[i] *= __CTE.ARef * SentidoEntrada[i];
+				FRhoEntrada[i] = __UN.BarToPa(FPresionEntrada[i]) / FTempEntrada[i]
 						/ FCCEntrada[i]->getR();
 				FGastoEntrada[i] =
 						FRhoEntrada[i] * FVelocidadEntrada[i]
@@ -328,7 +328,7 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 
 					FMapa->CurrentEffectiveSection(FRegimenCorregido[i] / 60.,
 							FRelacionExpansion[i], FRack,
-							(FTemperature + 273) / FTemp0Entrada[i]);
+							__UN.degCToK(FTemperature) / FTemp0Entrada[i]);
 
 					dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getValvula())->PutAreaEff(
 							FMapa->StatorEF() / 2.);
@@ -356,12 +356,9 @@ void TTurbinaTwin::CalculaCondicionTurbina(double TimeCalculo) {
 				for (int i = 0; i < 2; i++) {
 
 					if ((FEntalpia0Entrada[i] - FEntalpiaIsenSalida[i]) > 0.) {
-						FRelacionCinematica[i] =
-								FRegimen * Pi * FDiametroRodete / 60.
-										/ sqrt(
-												2
-														* (FEntalpia0Entrada[i]
-																- FEntalpiaIsenSalida[i]));
+						FRelacionCinematica[i] = __UN.RPMToRPS(FRegimen) * __CTE.Pi
+								* FDiametroRodete / sqrt(2 * (FEntalpia0Entrada[i]
+								- FEntalpiaIsenSalida[i]));
 					} else {
 						FRelacionCinematica[i] = 0.;
 					}

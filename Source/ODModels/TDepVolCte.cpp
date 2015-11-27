@@ -79,14 +79,14 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 					FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					FTemperature + 273., FCalculoGamma, nmMEP);
+					__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(FTemperature + 273.,
+			FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
 					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 					FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
@@ -101,7 +101,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		double Error = 0.;
 		double Diff = 0.;
 		double Heat = 0.;
-		double MTemp = FGamma / (pow2(FAsonido * ARef) * FMasa0);
+		double MTemp = FGamma / (pow2(FAsonido * __CTE.ARef) * FMasa0);
 
 		while (!Converge) {
 			H = 0.;
@@ -173,7 +173,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 					v =
 							(double) SignoFlujoED
 									* dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getVelocity()
-									/ ARef;
+									/ __CTE.ARef;
 					if (FirstStep) {
 						MasaEntrante += m;
 						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
@@ -222,7 +222,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 				H0 = H;
 			}
 			Heat = FHeatPower * DeltaT
-					* (MTemp + FGamma / (pow2(Asonido1 * ARef) * FMasa)) / 2.;
+					* (MTemp + FGamma / (pow2(Asonido1 * __CTE.ARef) * FMasa)) / 2.;
 			Energia = pow(FMasa / FMasa0 * exp((H0 + H) / 2 - Heat),
 					Gamma1(FGamma));
 
@@ -235,10 +235,10 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 				FAsonido = Asonido1;
 			}
 		}
-		double A2 = ARef * ARef * FAsonido * FAsonido;
-		FPressure = A2 / FGamma / FVolumen * FMasa * 1e-5;
+		double A2 = pow2(__CTE.ARef * FAsonido);
+		FPressure = __UN.PaToBar(A2 / FGamma / FVolumen * FMasa);
 		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-		FTemperature = A2 / FGamma / FRMezcla - 273.;
+		FTemperature = __UN.KTodegC(A2 / FGamma / FRMezcla);
 		FTime = TimeCalculo;
 	} catch (exception & N) {
 		std::cout << "ERROR: TDepVolCte::ActualizaPropiedades en el deposito: "

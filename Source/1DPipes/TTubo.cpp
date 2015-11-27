@@ -59,9 +59,7 @@
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TTubo::TTubo(int SpeciesNumber, int j, double SimulationDuration,
-		TBloqueMotor **Engine, nmTipoCalculoEspecies SpeciesModel,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
+TTubo::TTubo(int SpeciesNumber, int j, double SimulationDuration, TBloqueMotor **Engine, nmTipoCalculoEspecies SpeciesModel, nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
 
 	if (Engine != NULL) {
 		FAnguloTotalCiclo = Engine[0]->getAngTotalCiclo();
@@ -544,11 +542,9 @@ void TTubo::LeeDatosGeneralesTubo(const char *FileWAM, fpos_t &filepos) {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		fscanf(fich, "%d %d %d %d", &FNodoIzq, &FNodoDer, &FNTramos,
-				&FNumeroConductos);
+		fscanf(fich, "%d %d %d %d", &FNodoIzq, &FNodoDer, &FNTramos, &FNumeroConductos);
 		fscanf(fich, "%lf ", &FFriccion);
-		fscanf(fich, "%lf %lf %lf %lf ", &FTIniParedTub, &FTini, &FPini,
-				&FVelMedia);
+		fscanf(fich, "%lf %lf %lf %lf ", &FTIniParedTub, &FTini, &FPini, &FVelMedia);
 		fscanf(fich, "%d %lf %lf ", &TipTC, &FCoefAjusTC, &FCoefAjusFric);
 
 		switch (TipTC) {
@@ -586,9 +582,7 @@ void TTubo::LeeDatosGeneralesTubo(const char *FileWAM, fpos_t &filepos) {
 		}
 
 		if (fracciontotal > 1 + 1.e-10 && fracciontotal < 1 - 1e-10) {
-			std::cout
-					<< "ERROR: Total mass fraction must be equal to 1. Check input data for pipe  "
-					<< FNumeroTubo << std::endl;
+			std::cout << "ERROR: Total mass fraction must be equal to 1. Check input data for pipe  " << FNumeroTubo << std::endl;
 			throw Exception(" ");
 		}
 
@@ -673,8 +667,7 @@ void TTubo::LeeDatosGeneralesTubo(const char *FileWAM, fpos_t &filepos) {
 		fclose(fich);
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::LeeDatosGeneralesTubo en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::LeeDatosGeneralesTubo en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -684,8 +677,7 @@ void TTubo::LeeDatosGeneralesTubo(const char *FileWAM, fpos_t &filepos) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
-		double ene, int tipomallado, TBloqueMotor **Engine) {
+void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos, double ene, int tipomallado, TBloqueMotor **Engine) {
 	double EspesorPrin = 0.;
 	int EsPrincipal = 0, refrigerante = 0, EsFluida = 0;
 	int datoWAMer = 0;
@@ -709,9 +701,7 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 		}
 
 		if (FTipoMallado == nmAngular && ene < 0.) {
-			std::cout
-					<< "ERROR: El mallado no puede ser angular al no existir motor.Pipe: "
-					<< FNumeroTubo << std::endl;
+			std::cout << "ERROR: El mallado no puede ser angular al no existir motor.Pipe: " << FNumeroTubo << std::endl;
 			throw Exception("");
 		}
 
@@ -731,14 +721,11 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 			FCapExt = new double[FNin];
 
 			if (Engine == NULL) {
-				fscanf(fich, "%lf %d ", &FDuracionCiclo,
-						&FNumCiclosSinInerciaTermica);
+				fscanf(fich, "%lf %d ", &FDuracionCiclo, &FNumCiclosSinInerciaTermica);
 			}
 
-			if (FTipoTransCal != nmPipaEscape
-					&& FTipoTransCal != nmPipaAdmision) {
-				fscanf(fich, "%lf %lf %d ", &FCoefExt, &FEmisividad,
-						&refrigerante);
+			if (FTipoTransCal != nmPipaEscape && FTipoTransCal != nmPipaAdmision) {
+				fscanf(fich, "%lf %lf %d ", &FCoefExt, &FEmisividad, &refrigerante);
 				switch (refrigerante) {
 				case 0:
 					FTipRefrig = nmAire;
@@ -760,20 +747,13 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 			EspesorPrin = 0.;
 			for (int i = 0; i < FNumCapas; i++) {
 				fscanf(fich, "%d %d ", &EsPrincipal, &EsFluida);
-				EsPrincipal == 0 ?
-						FCapa[i].EsPrincipal = false : FCapa[i].EsPrincipal =
-								true;
-				EsFluida == 0 ?
-						FCapa[i].EsFluida = false : FCapa[i].EsFluida == true;
+				EsPrincipal == 0 ? FCapa[i].EsPrincipal = false : FCapa[i].EsPrincipal = true;
+				EsFluida == 0 ? FCapa[i].EsFluida = false : FCapa[i].EsFluida == true;
 				if (FCapa[i].EsFluida) {
-					fscanf(fich, "%lf %lf ", &FCapa[i].EmisividadInterior,
-							&FCapa[i].EmisividadExterior);
+					fscanf(fich, "%lf %lf ", &FCapa[i].EmisividadInterior, &FCapa[i].EmisividadExterior);
 				} else {
-					fscanf(fich, "%lf %lf %lf %lf ", &FCapa[i].Density,
-							&FCapa[i].CalorEspecifico, &FCapa[i].Conductividad,
-							&FCapa[i].Espesor);
-					fscanf(fich, "%lf %lf ", &FCapa[i].EmisividadInterior,
-							&FCapa[i].EmisividadExterior);
+					fscanf(fich, "%lf %lf %lf %lf ", &FCapa[i].Density, &FCapa[i].CalorEspecifico, &FCapa[i].Conductividad, &FCapa[i].Espesor);
+					fscanf(fich, "%lf %lf ", &FCapa[i].EmisividadInterior, &FCapa[i].EmisividadExterior);
 				}
 				if (FCapa[i].EsPrincipal) {
 					FEspesorIntPrin = EspesorPrin;
@@ -788,8 +768,7 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 			}
 			// }
 			FEspesorExtPrin = EspesorPrin;
-		} else if (FTipoTransCal == nmPipaEscape
-				|| FTipoTransCal == nmPipaAdmision) {
+		} else if (FTipoTransCal == nmPipaEscape || FTipoTransCal == nmPipaAdmision) {
 			fscanf(fich, "%d", &datoWAMer);
 		}
 
@@ -797,8 +776,7 @@ void TTubo::LeeDatosGeometricosTubo(const char *FileWAM, fpos_t &filepos,
 		fclose(fich);
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::LeeDatosGeometricoTubo en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::LeeDatosGeometricoTubo en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -829,9 +807,7 @@ void TTubo::CalculoPuntosMalla(double ene) {
 		if (FTipoMallado == nmAngular)
 			xx = FLongitudTotal / 650. / FMallado * 6. * ene + 0.5;
 		if (FTipoMallado != nmDistancia && FTipoMallado != nmAngular) {
-			std::cout
-					<< "WARNING: No se ha definido una forma correcta de mallado en el tubo: "
-					<< FNumeroTubo << std::endl;
+			std::cout << "WARNING: No se ha definido una forma correcta de mallado en el tubo: " << FNumeroTubo << std::endl;
 		}
 
 		FNin = (int) xx + 1;
@@ -849,31 +825,27 @@ void TTubo::CalculoPuntosMalla(double ene) {
 			} while (FLTotalTramo[ii] < i * FXref);
 			ii = ii - 1;
 			double r1 = i * FXref - FLTotalTramo[ii];
-			FDiametroTubo[i] = Interpola(FDExtTramo[ii], FDExtTramo[ii + 1],
-					FLTramo[ii + 1], r1);
-			FArea[i] = Pi * FDiametroTubo[i] * FDiametroTubo[i] / 4.;
+			FDiametroTubo[i] = Interpola(FDExtTramo[ii], FDExtTramo[ii + 1], FLTramo[ii + 1], r1);
+			FArea[i] = __CTE.Pi_4 * FDiametroTubo[i] * FDiametroTubo[i];
 		}
 		FDiametroTubo[0] = FDExtTramo[0];
-		FArea[0] = Pi * FDiametroTubo[0] * FDiametroTubo[0] / 4.;
+		FArea[0] = __CTE.Pi_4 * FDiametroTubo[0] * FDiametroTubo[0];
 		FDiametroTubo[FNin - 1] = FDExtTramo[FNTramos];
-		FArea[FNin - 1] = Pi * FDiametroTubo[FNin - 1] * FDiametroTubo[FNin - 1]
-				/ 4.;
+		FArea[FNin - 1] = __CTE.Pi_4 * FDiametroTubo[FNin - 1] * FDiametroTubo[FNin - 1];
 
 		FDiametroD12 = new double[FNin];
 		FDiametroS12 = new double[FNin];
 		FArea12 = new double[FNin];
 		for (int i = 0; i < FNin - 1; i++) {
 			FDiametroD12[i] = (FDiametroTubo[i + 1] + FDiametroTubo[i]) / 2.;
-			FDiametroS12[i] = sqrt(
-					(pow2(FDiametroTubo[i + 1]) + pow2(FDiametroTubo[i])) / 2.);
+			FDiametroS12[i] = sqrt((pow2(FDiametroTubo[i + 1]) + pow2(FDiametroTubo[i])) / 2.);
 			FArea12[i] = (FArea[i + 1] + FArea[i]) / 2.;
 		}
 
 		delete[] FLTotalTramo;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculoPuntosMalla en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculoPuntosMalla en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -889,15 +861,13 @@ void TTubo::ComunicacionTubo_CC(TCondicionContorno **BC) {
 #endif
 
 		for (int i = 0; i < BC[FNodoIzq - 1]->getNumeroTubosCC(); i++) {
-			if (FNumeroTubo
-					== BC[FNodoIzq - 1]->GetTuboExtremo(i).Pipe->getNumeroTubo()) {
+			if (FNumeroTubo == BC[FNodoIzq - 1]->GetTuboExtremo(i).Pipe->getNumeroTubo()) {
 				FTuboCCNodoIzq = i;
 			}
 		}
 
 		for (int i = 0; i < BC[FNodoDer - 1]->getNumeroTubosCC(); i++) {
-			if (FNumeroTubo
-					== BC[FNodoDer - 1]->GetTuboExtremo(i).Pipe->getNumeroTubo()) {
+			if (FNumeroTubo == BC[FNodoDer - 1]->GetTuboExtremo(i).Pipe->getNumeroTubo()) {
 				FTuboCCNodoDer = i;
 			}
 		}
@@ -905,8 +875,7 @@ void TTubo::ComunicacionTubo_CC(TCondicionContorno **BC) {
 	}
 
 	catch (exception & N) {
-		std::cout << "ERROR: TTubo::ComunicacionTubo_CC en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ComunicacionTubo_CC en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -978,7 +947,7 @@ void TTubo::ComunicacionDPF ( TCondicionContorno **CC, TDeposito **Deposito ) {
 		std::cout << "ERROR: TTubo::ComunicacionDPF en el Tubo " <<
 		FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception ( N.what() );
+		throw Exception(N.what());
 	}
 }
 
@@ -1115,24 +1084,15 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 		// Calculo de Gamma y R para la composicion inicial.
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
-			RMezclaIni = CalculoCompletoRMezcla(FComposicionInicial[0],
-					FComposicionInicial[1], FComposicionInicial[2], 0,
-					FCalculoGamma, nmMEP);
-			CpMezclaIni = CalculoCompletoCpMezcla(FComposicionInicial[0],
-					FComposicionInicial[1], FComposicionInicial[2], 0,
-					FTini + 273., FCalculoGamma, nmMEP);
-			GammaIni = CalculoCompletoGamma(RMezclaIni, CpMezclaIni,
-					FCalculoGamma);
+			RMezclaIni = CalculoCompletoRMezcla(FComposicionInicial[0], FComposicionInicial[1], FComposicionInicial[2], 0, FCalculoGamma, nmMEP);
+			CpMezclaIni = CalculoCompletoCpMezcla(FComposicionInicial[0], FComposicionInicial[1], FComposicionInicial[2], 0, __UN.degCToK(FTini), FCalculoGamma, nmMEP);
+			GammaIni = CalculoCompletoGamma(RMezclaIni, CpMezclaIni, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
-			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0],
-					FComposicionInicial[1], FCalculoGamma, nmMEP);
-			CvMezclaIni = CalculoSimpleCvMezcla(FTini + 273.,
-					FComposicionInicial[0], FComposicionInicial[1],
-					FCalculoGamma, nmMEP);
-			GammaIni = CalculoSimpleGamma(RMezclaIni, CvMezclaIni,
-					FCalculoGamma);
+			RMezclaIni = CalculoSimpleRMezcla(FComposicionInicial[0], FComposicionInicial[1], FCalculoGamma, nmMEP);
+			CvMezclaIni = CalculoSimpleCvMezcla(__UN.degCToK(FTini), FComposicionInicial[0], FComposicionInicial[1], FCalculoGamma, nmMEP);
+			GammaIni = CalculoSimpleGamma(RMezclaIni, CvMezclaIni, FCalculoGamma);
 
 		}
 
@@ -1141,8 +1101,7 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 			FFraccionMasicaCC[1][j] = FComposicionInicial[j];
 		}
 
-		double viscgas = 1.4615e-6 * pow150(FTini + 273.)
-				/ (FTini + 273. + 110.4);
+		double viscgas = 1.4615e-6 * pow150(__UN.degCToK(FTini)) / (__UN.degCToK(FTini) + 110.4);
 
 		for (int i = 0; i < FNin; i++) {
 
@@ -1158,50 +1117,39 @@ void TTubo::IniciaVariablesFundamentalesTubo() {
 			FGamma6[i] = Gamma6(FGamma[i]);
 
 			FPresion0[i] = FPini;
-			FTemperature[i] = FTini + 273.;
-			FAsonidoDim[i] = sqrt((FTini + 273.) * FGamma[i] * FRMezcla[i]);
-			FAsonido0[i] = FAsonidoDim[i] / ARef;
+			FTemperature[i] = __UN.degCToK(FTini);
+			FAsonidoDim[i] = sqrt(__UN.degCToK(FTini) * FGamma[i] * FRMezcla[i]);
+			FAsonido0[i] = FAsonidoDim[i] / __CTE.ARef;
 			FVelocidadDim[i] = FVelMedia;
-			FVelocidad0[i] = FVelMedia / ARef;
+			FVelocidad0[i] = FVelMedia / __CTE.ARef;
 			FPresion1[i] = FPini;
 			FAsonido1[i] = FAsonido0[i];
 			FVelocidad1[i] = FVelocidad0[i];
-			FFlowMass[i] = FArea[i] * FVelocidadDim[i] * 1e5 * FPresion0[i]
-					/ FRMezcla[i] / FTemperature[i];
+			FFlowMass[i] = FArea[i] * FVelocidadDim[i] * __UN.BarToPa(FPresion0[i]) / FRMezcla[i] / FTemperature[i];
 
 			if (FMod.FormulacionLeyes == nmSinArea) {
-				Transforma1(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU0,
-						FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
+				Transforma1(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU0, FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
 
-				Transforma1(FVelocidad1[i], FAsonido1[i], FPresion1[i], FU1,
-						FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
+				Transforma1(FVelocidad1[i], FAsonido1[i], FPresion1[i], FU1, FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
 
 				Frho[i] = FU0[0][i];
 			} else if (FMod.FormulacionLeyes == nmConArea) {
-				Transforma1Area(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU0,
-						FArea[i], FGamma[i], FGamma1[i],
-						FFraccionMasicaEspecie[i], i);
+				Transforma1Area(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU0, FArea[i], FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
 
-				Transforma1Area(FVelocidad1[i], FAsonido1[i], FPresion1[i], FU1,
-						FArea[i], FGamma[i], FGamma1[i],
-						FFraccionMasicaEspecie[i], i);
+				Transforma1Area(FVelocidad1[i], FAsonido1[i], FPresion1[i], FU1, FArea[i], FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
 
 				Frho[i] = FU0[0][i] / FArea[i];
 			}
 
 			else {
-				std::cout
-						<< "ERROR: El tipo de formulacion de las leyes de conservacion no esta bien definido"
-						<< std::endl;
+				std::cout << "ERROR: El tipo de formulacion de las leyes de conservacion no esta bien definido" << std::endl;
 				throw Exception("");
 			}
 			FRe[i] = Frho[i] * FVelocidadDim[i] * FDiametroTubo[i] / viscgas;
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TTubo::IniciaVariableFundamentalesTubo en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::IniciaVariableFundamentalesTubo en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1221,12 +1169,9 @@ void TTubo::ActualizaPropiedadesGas() {
 			// Calculo de Gamma y R a partir de la composicion en cada nodo.
 			if (FCalculoEspecies == nmCalculoSimple) {
 
-				FRMezcla[i] = CalculoSimpleRMezcla(FFraccionMasicaEspecie[i][0],
-						0, FCalculoGamma, nmMEP);
-				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i],
-						FFraccionMasicaEspecie[i][0], 0, FCalculoGamma, nmMEP);
-				FGammaN = CalculoSimpleGamma(FRMezcla[i], CvMezcla,
-						FCalculoGamma);
+				FRMezcla[i] = CalculoSimpleRMezcla(FFraccionMasicaEspecie[i][0], 0, FCalculoGamma, nmMEP);
+				double CvMezcla = CalculoSimpleCvMezcla(FTemperature[i], FFraccionMasicaEspecie[i][0], 0, FCalculoGamma, nmMEP);
+				FGammaN = CalculoSimpleGamma(FRMezcla[i], CvMezcla, FCalculoGamma);
 				if (abs(FGammaN - FGamma[i]) > 0.025) {
 					FGamma[i];
 				} else {
@@ -1234,17 +1179,9 @@ void TTubo::ActualizaPropiedadesGas() {
 				}
 			} else {
 
-				FRMezcla[i] = CalculoCompletoRMezcla(
-						FFraccionMasicaEspecie[i][0],
-						FFraccionMasicaEspecie[i][1],
-						FFraccionMasicaEspecie[i][2], 0, FCalculoGamma, nmMEP);
-				double CpMezcla = CalculoCompletoCpMezcla(
-						FFraccionMasicaEspecie[i][0],
-						FFraccionMasicaEspecie[i][1],
-						FFraccionMasicaEspecie[i][2], 0, FTemperature[i],
-						FCalculoGamma, nmMEP);
-				FGammaN = CalculoCompletoGamma(FRMezcla[i], CpMezcla,
-						FCalculoGamma);
+				FRMezcla[i] = CalculoCompletoRMezcla(FFraccionMasicaEspecie[i][0], FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2], 0, FCalculoGamma, nmMEP);
+				double CpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[i][0], FFraccionMasicaEspecie[i][1], FFraccionMasicaEspecie[i][2], 0, FTemperature[i], FCalculoGamma, nmMEP);
+				FGammaN = CalculoCompletoGamma(FRMezcla[i], CpMezcla, FCalculoGamma);
 				if (abs(FGammaN - FGamma[i]) > 0.025) {
 					FGamma[i];
 				} else {
@@ -1259,12 +1196,11 @@ void TTubo::ActualizaPropiedadesGas() {
 			FGamma5[i] = Gamma5(FGamma[i]);
 			FGamma6[i] = Gamma6(FGamma[i]);
 
-			Frho[i] = FPresion0[i] * 1e5 / FRMezcla[i] / FTemperature[i];
+			Frho[i] = __UN.BarToPa(FPresion0[i]) / FRMezcla[i] / FTemperature[i];
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculoPropiedadesGas en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculoPropiedadesGas en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1274,28 +1210,24 @@ void TTubo::ActualizaPropiedadesGas() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Transforma1(const double& v, const double& a, const double& p,
-		double **U, const double& Gamma, const double& Gamma1, double *Yespecie,
-		const int& i) {
+void TTubo::Transforma1(const double& v, const double& a, const double& p, double **U, const double& Gamma, const double& Gamma1, double *Yespecie, const int& i) {
 #ifdef usetry
 	try {
 #endif
-		double V = v * ARef;
-		double Ppa = p * 1e5;
+		double V = v * __CTE.ARef;
+		double Ppa = __UN.BarToPa(p);
 
-		U[0][i] = Gamma * Ppa / pow2(a * ARef);
+		U[0][i] = Gamma * Ppa / pow2(a * __CTE.ARef);
 		U[1][i] = U[0][i] * V;
 		U[2][i] = Ppa / Gamma1 + U[1][i] * V / 2.0;
 		for (int j = 3; j < 3 + (FNumeroEspecies - 2); j++) {
 			U[j][i] = U[0][i] * Yespecie[j - 3];
 		}
 		if (FHayEGR)
-			U[3 + (FNumeroEspecies - 2)][i] = U[0][i]
-					* Yespecie[FNumeroEspecies - 1];
+			U[3 + (FNumeroEspecies - 2)][i] = U[0][i] * Yespecie[FNumeroEspecies - 1];
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Transforma1 en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Transforma1 en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1305,31 +1237,27 @@ void TTubo::Transforma1(const double& v, const double& a, const double& p,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Transforma1Area(const double& v, const double& a, const double& p,
-		double **U, const double& area, const double& Gamma,
-		const double& Gamma1, double *Yespecie, const int& i) {
+void TTubo::Transforma1Area(const double& v, const double& a, const double& p, double **U, const double& area, const double& Gamma, const double& Gamma1, double *Yespecie, const int& i) {
 #ifdef usetry
 	try {
 #endif
-		double APpa = area * p * 1e5;
-		double V = v * ARef;
+		double APpa = area * __UN.BarToPa(p);
+		double V = v * __CTE.ARef;
 
-		U[0][i] = Gamma * APpa / pow2(a * ARef);
+		U[0][i] = Gamma * APpa / pow2(a * __CTE.ARef);
 		U[1][i] = U[0][i] * V;
 		U[2][i] = APpa / Gamma1 + U[1][i] * V / 2.0;
 		for (int j = 3; j < 3 + (FNumeroEspecies - 2); j++) {
 			U[j][i] = U[0][i] * Yespecie[j - 3];
 		}
 		if (FHayEGR)
-			U[3 + (FNumeroEspecies - 2)][i] = U[0][i]
-					* Yespecie[FNumeroEspecies - 1];
+			U[3 + (FNumeroEspecies - 2)][i] = U[0][i] * Yespecie[FNumeroEspecies - 1];
 
 #ifdef usetry
 	}
 
 	catch (exception & N) {
-		std::cout << "ERROR: TTubo::Transforma1Area en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Transforma1Area en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1339,30 +1267,26 @@ void TTubo::Transforma1Area(const double& v, const double& a, const double& p,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Transforma2(double& v, double& a, double& p, double **U,
-		const double& Gamma, const double& Gamma1, double *Yespecie,
-		const int& i) {
+void TTubo::Transforma2(double& v, double& a, double& p, double **U, const double& Gamma, const double& Gamma1, double *Yespecie, const int& i) {
 #ifdef usetry
 	try {
 #endif
 		double fraccionmasicaacum = 0.;
 		double V = U[1][i] / U[0][i];
-		v = V / ARef;
+		v = V / __CTE.ARef;
 		double P = (U[2][i] - U[1][i] * V / 2.0) * Gamma1;
-		p = P / 1e5;
-		a = sqrt(Gamma * P / U[0][i] / ARef2);
+		p = __UN.PaToBar(P);
+		a = sqrt(Gamma * P / U[0][i] / __CTE.ARef2);
 		if (v > 1e200 || v < -1e200) {
 			std::cout << "ERROR: Valor de velocidad no valido" << std::endl;
 			throw Exception("Error Velociad");
 		}
 		if (p > 1e200 || p < 0) {
-			std::cout << "ERROR: Valor de presion no valido en el tubo "
-					<< FNumeroTubo << " nodo " << i << std::endl;
+			std::cout << "ERROR: Valor de presion no valido en el tubo " << FNumeroTubo << " nodo " << i << std::endl;
 			throw Exception("Error presion");
 		}
 		if (a > 1e200 || a < 0) {
-			std::cout << "ERROR: Valor de velocidad del sonido no valido"
-					<< std::endl;
+			std::cout << "ERROR: Valor de velocidad del sonido no valido" << std::endl;
 			throw Exception("Error velocidad del sonido");
 		}
 
@@ -1373,12 +1297,10 @@ void TTubo::Transforma2(double& v, double& a, double& p, double **U,
 		}
 		Yespecie[FNumeroEspecies - 2] = 1. - fraccionmasicaacum;
 		if (FHayEGR)
-			Yespecie[FNumeroEspecies - 1] = U[FNumeroEspecies - 2 + 3][i]
-					/ U[0][i];
+			Yespecie[FNumeroEspecies - 1] = U[FNumeroEspecies - 2 + 3][i] / U[0][i];
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Transforma2 en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Transforma2 en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1388,19 +1310,15 @@ void TTubo::Transforma2(double& v, double& a, double& p, double **U,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Transforma2Area(double& v, double& a, double& p, double **U,
-		const double& area, const double& Gamma, const double& Gamma1,
-		double *Yespecie, const int& i) {
+void TTubo::Transforma2Area(double& v, double& a, double& p, double **U, const double& area, const double& Gamma, const double& Gamma1, double *Yespecie, const int& i) {
 #ifdef usetry
 	try {
 #endif
 		double fraccionmasicaacum = 0.;
 		if (U[0][i] < 0) {
-			std::cout << "ERROR: Calculation in pipe " << FNumeroTubo
-					<< " is unstable" << std::endl;
+			std::cout << "ERROR: Calculation in pipe " << FNumeroTubo << " is unstable" << std::endl;
 			if (FMod.Modelo == nmLaxWendroff)
-				std::cout << "       Try to use TVD scheme for this pipe"
-						<< std::endl;
+				std::cout << "       Try to use TVD scheme for this pipe" << std::endl;
 			else
 				std::cout << "       Check the input data" << std::endl;
 			throw Exception("ERROR: the pipe calculation is unstable");
@@ -1409,9 +1327,9 @@ void TTubo::Transforma2Area(double& v, double& a, double& p, double **U,
 		double V = U[1][i] / U[0][i];
 		double P = (U[2][i] - U[1][i] * V / 2.0) * Gamma1;
 
-		v = V / ARef;
-		p = P / 1e5 / area;
-		a = sqrt(Gamma * P / U[0][i] / ARef2);
+		v = V / __CTE.ARef;
+		p = __UN.PaToBar(P) / area;
+		a = sqrt(Gamma * P / U[0][i] / __CTE.ARef2);
 
 		for (int j = 0; j < FNumeroEspecies - 2; j++) {
 			Yespecie[j] = U[j + 3][i] / U[0][i];
@@ -1419,12 +1337,10 @@ void TTubo::Transforma2Area(double& v, double& a, double& p, double **U,
 		}
 		Yespecie[FNumeroEspecies - 2] = 1. - fraccionmasicaacum;
 		if (FHayEGR)
-			Yespecie[FNumeroEspecies - 1] = U[FNumeroEspecies - 2 + 3][i]
-					/ U[0][i];
+			Yespecie[FNumeroEspecies - 1] = U[FNumeroEspecies - 2 + 3][i] / U[0][i];
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Transforma2Area en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Transforma2Area en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1434,26 +1350,14 @@ void TTubo::Transforma2Area(double& v, double& a, double& p, double **U,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Transforma3Area(double **Ufct, double **U, double Area,
-		double Gamma, double Gamma1, double Gamma6, int i) {
+void TTubo::Transforma3Area(double **Ufct, double **U, double Area, double Gamma, double Gamma1, double Gamma6, int i) {
 #ifdef usetry
 	try {
 #endif
 
 		Ufct[0][i] = U[1][i]; // Massflow
-		Ufct[1][i] = Gamma * U[2][i] / U[0][i]
-				- pow2(U[1][i]) * Gamma1 / 2. / U[0][i] / U[0][i];
-		Ufct[2][i] = ((U[2][i] - pow2(U[1][i]) / U[0][i] / 2.) * Gamma1)
-				* pow(
-						(1.
-								+ (Gamma1 / 2.) * pow2(U[1][i]) / U[0][i]
-										/ U[0][i]
-										/ (Gamma
-												* ((U[2][i]
-														- pow2(U[1][i])
-																/ U[0][i] / 2.)
-														* Gamma1) / U[0][i])),
-						Gamma * Gamma6) / Area;
+		Ufct[1][i] = Gamma * U[2][i] / U[0][i] - pow2(U[1][i]) * Gamma1 / 2. / U[0][i] / U[0][i];
+		Ufct[2][i] = ((U[2][i] - pow2(U[1][i]) / U[0][i] / 2.) * Gamma1) * pow((1. + (Gamma1 / 2.) * pow2(U[1][i]) / U[0][i] / U[0][i] / (Gamma * ((U[2][i] - pow2(U[1][i]) / U[0][i] / 2.) * Gamma1) / U[0][i])), Gamma * Gamma6) / Area;
 
 		for (int j = 3; j < FNumEcuaciones; j++) {
 			Ufct[j][i] = U[j][i] * U[1][i] / U[0][i];
@@ -1461,8 +1365,7 @@ void TTubo::Transforma3Area(double **Ufct, double **U, double Area,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Transforma3Area en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Transforma3Area en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1472,9 +1375,7 @@ void TTubo::Transforma3Area(double **Ufct, double **U, double Area,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
-		double Gamma, double Gamma1, double Gamma3, double Gamma4,
-		double Gamma6, int i) {
+void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area, double Gamma, double Gamma1, double Gamma3, double Gamma4, double Gamma6, int i) {
 	double error = 0., fu = 0., dfu = 0., vel = 0., vel1 = 0.;
 	double v, a, p, *Y;
 	bool peta = false;
@@ -1491,16 +1392,9 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 		// Newton Raphson
 		while (error > 0.00000001) {
 
-			fu = vel
-					- Ufctd[0][i] / (Area * Ufctd[2][i] * Gamma4)
-							* pow(2. * Ufctd[1][i], (Gamma / Gamma1))
-							* pow((2. * Ufctd[1][i] - pow2(vel)), -Gamma6);
+			fu = vel - Ufctd[0][i] / (Area * Ufctd[2][i] * Gamma4) * pow(2. * Ufctd[1][i], (Gamma / Gamma1)) * pow((2. * Ufctd[1][i] - pow2(vel)), -Gamma6);
 
-			dfu = 1.
-					- Ufctd[0][i] * vel / (Area * Ufctd[2][i] * Gamma)
-							* pow(2. * Ufctd[1][i], (Gamma / Gamma1))
-							* pow((2. * Ufctd[1][i] - pow2(vel)),
-									-Gamma / Gamma1);
+			dfu = 1. - Ufctd[0][i] * vel / (Area * Ufctd[2][i] * Gamma) * pow(2. * Ufctd[1][i], (Gamma / Gamma1)) * pow((2. * Ufctd[1][i] - pow2(vel)), -Gamma / Gamma1);
 
 			vel1 = vel - fu / dfu;
 			error = fabs(vel1 - vel);
@@ -1508,10 +1402,9 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 		}
 
 		if (!peta) {
-			v = vel / ARef;
-			a = sqrt(Gamma1 * (Ufctd[1][i] - (vel * vel) / 2.)) / ARef;
-			p = Ufctd[2][i] / pow((1 + Gamma3 * pow2(v / a)), Gamma / Gamma1)
-					/ 1.e5;
+			v = vel / __CTE.ARef;
+			a = sqrt(Gamma1 * (Ufctd[1][i] - (vel * vel) / 2.)) / __CTE.ARef;
+			p = Ufctd[2][i] / pow((1 + Gamma3 * pow2(v / a)), Gamma / Gamma1) / 1.e5;
 			for (int j = 0; j < FNumeroEspecies - 1 - FIntEGR; j++) {
 				if (Ufctd[0][i] != 0.) {
 					Y[j] = Ufctd[j + 3][i] / Ufctd[0][i];
@@ -1527,8 +1420,7 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 		delete[] Y;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Transforma4Area en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Transforma4Area en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1538,8 +1430,7 @@ void TTubo::Transforma4Area(double **U1, double **Ufctd, double Area,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC,
-		TBloqueMotor **Engine, double AmbientTemperature) {
+void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC, TBloqueMotor **Engine, double AmbientTemperature) {
 	double dist1 = 0., dist2 = 0.;
 #ifdef usetry
 	try {
@@ -1566,16 +1457,11 @@ void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC,
 
 		for (int i = 0; i < FNin; i++) {
 			dist1 = FXref * (double) i + BC[FNodoIzq - 1]->getPosicionNodo();
-			dist2 = FXref * (double) (FNin - 1 - i)
-					+ BC[FNodoDer - 1]->getPosicionNodo();
+			dist2 = FXref * (double) (FNin - 1 - i) + BC[FNodoDer - 1]->getPosicionNodo();
 			if (Minimo(dist1, dist2) >= 10000.)
 				FCoefTurbulencia[i] = 1.;
 			else
-				FCoefTurbulencia[i] = 1.
-						+ 3.
-								* exp(
-										-Minimo(dist1, dist2)
-												/ (4 * FDiametroTubo[i]));
+				FCoefTurbulencia[i] = 1. + 3. * exp(-Minimo(dist1, dist2) / (4 * FDiametroTubo[i]));
 			for (int j = 0; j < 3; j++) {
 				FTPTubo[j][i] = FTIniParedTub;
 				FTParedAnt[j][i] = FTIniParedTub;
@@ -1591,21 +1477,18 @@ void TTubo::IniciaVariablesTransmisionCalor(TCondicionContorno **BC,
 
 		}
 		if (FTipoCalcTempPared != nmTempConstante) {
-			if (FTipoTransCal == nmPipaAdmision
-					|| FTipoTransCal == nmPipaEscape) {
-				FTExt = Engine[0]->getTempRefrigerante() + 273.;
+			if (FTipoTransCal == nmPipaAdmision || FTipoTransCal == nmPipaEscape) {
+				FTExt = __UN.degCToK(Engine[0]->getTempRefrigerante());
 			} else {
 				if (FTipRefrig == nmAgua)
-					FTExt = FTRefrigerante + 273.;
+					FTExt = __UN.degCToK(FTRefrigerante);
 				else
-					FTExt = AmbientTemperature + 273.;
+					FTExt = __UN.degCToK(AmbientTemperature);
 			}
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TTubo::IniciaVariablesTransmisionCalor en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::IniciaVariablesTransmisionCalor en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1636,8 +1519,7 @@ void TTubo::EstabilidadMetodoCalculo() {
 		FTime1 = FTime0 + FDeltaTime;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::EstabilidadMetodoCalculo en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::EstabilidadMetodoCalculo en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1652,8 +1534,7 @@ void TTubo::CalculaVariablesFundamentales() {
 #endif
 		if (FMod.Modelo == nmLaxWendroff && FMod.FormulacionLeyes == nmSinArea)
 			LaxWendroff();
-		else if (FMod.Modelo == nmLaxWendroff
-				&& FMod.FormulacionLeyes == nmConArea) {
+		else if (FMod.Modelo == nmLaxWendroff && FMod.FormulacionLeyes == nmConArea) {
 			LaxWendroffArea();
 			if (FMod.SubModelo == nmFCT) {
 				// ReduccionFlujoSubsonicoFCT();
@@ -1662,14 +1543,12 @@ void TTubo::CalculaVariablesFundamentales() {
 		} else if (FMod.Modelo == nmTVD) {
 			TVD_Limitador();
 		} else {
-			std::cout << "ERROR: Metodo de calculo no implementado"
-					<< std::endl;
+			std::cout << "ERROR: Metodo de calculo no implementado" << std::endl;
 			throw Exception("");
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaVariablesFundamentales en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaVariablesFundamentales en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1684,8 +1563,7 @@ void TTubo::LaxWendroff() {
 	try {
 #endif
 		int Nodos = 0;
-		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12,
-				*Rmezcla12, *Gamma1_12;
+		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12, *Rmezcla12, *Gamma1_12;
 
 		hi12 = new double[FNin - 1];
 		rho12 = new double[FNin - 1];
@@ -1705,8 +1583,7 @@ void TTubo::LaxWendroff() {
 
 		CalculaFuente1(FU0, FV1, FGamma, FGamma1, Nodos);
 
-		CalculaFuente2(FU0, FV2, FDiametroTubo, Fhi, Frho, FRe, FTPTubo[0],
-				FGamma, FRMezcla, FGamma1, Nodos);
+		CalculaFuente2(FU0, FV2, FDiametroTubo, Fhi, Frho, FRe, FTPTubo[0], FGamma, FRMezcla, FGamma1, Nodos);
 
 		for (int i = 0; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -1733,8 +1610,7 @@ void TTubo::LaxWendroff() {
 
 		CalculaFuente1(FU12, FV1, Gamma12, Gamma1_12, Nodos);
 
-		CalculaFuente2(FU12, FV2, FDiametroD12, hi12, rho12, Re12, TPTubo12,
-				Gamma12, Rmezcla12, Gamma1_12, Nodos);
+		CalculaFuente2(FU12, FV2, FDiametroD12, hi12, rho12, Re12, TPTubo12, Gamma12, Rmezcla12, Gamma1_12, Nodos);
 
 		for (int i = 1; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -1756,8 +1632,7 @@ void TTubo::LaxWendroff() {
 		delete[] Gamma1_12;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::LaxWendrof en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::LaxWendrof en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1779,11 +1654,9 @@ void TTubo::FluxCorrectedTransport() {
 			}
 			// Transformacion de variables
 			for (int i = 0; i < FNin; i++) {
-				Transforma3Area(FUfct0, FU0, FArea[i], FGamma[i], FGamma1[i],
-						FGamma6[i], i);
+				Transforma3Area(FUfct0, FU0, FArea[i], FGamma[i], FGamma1[i], FGamma6[i], i);
 
-				Transforma3Area(FUfct1, FU1, FArea[i], FGamma[i], FGamma1[i],
-						FGamma6[i], i);
+				Transforma3Area(FUfct1, FU1, FArea[i], FGamma[i], FGamma1[i], FGamma6[i], i);
 
 			}
 
@@ -1801,9 +1674,7 @@ void TTubo::FluxCorrectedTransport() {
 					}
 				}
 			} else {
-				std::cout
-						<< "ERROR: Metodo de Difusion mal definido para el FCT en el tubo n. "
-						<< FNumeroTubo << std::endl;
+				std::cout << "ERROR: Metodo de Difusion mal definido para el FCT en el tubo n. " << FNumeroTubo << std::endl;
 				throw Exception("");
 			}
 
@@ -1839,9 +1710,7 @@ void TTubo::FluxCorrectedTransport() {
 					}
 				}
 			} else {
-				std::cout
-						<< "ERROR: Metodo de Antidifusion mal definido para el FCT en el tubo n. "
-						<< FNumeroTubo << std::endl;
+				std::cout << "ERROR: Metodo de Antidifusion mal definido para el FCT en el tubo n. " << FNumeroTubo << std::endl;
 				throw Exception("");
 			}
 
@@ -1914,15 +1783,13 @@ void TTubo::FluxCorrectedTransport() {
 					FaU[k][i] = -FflU[k][i] + FflU[k][i - 1];
 					FUfctad[k][i] = FUfctd[k][i] + FaU[k][i];
 				}
-				Transforma4Area(FU1, FUfctad, FArea[i], FGamma[i], FGamma1[i],
-						FGamma3[i], FGamma4[i], FGamma6[i], i);
+				Transforma4Area(FU1, FUfctad, FArea[i], FGamma[i], FGamma1[i], FGamma3[i], FGamma4[i], FGamma6[i], i);
 			}
 
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::FluxCorrectedTransport en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::FluxCorrectedTransport en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1937,8 +1804,7 @@ void TTubo::LaxWendroffArea() {
 	try {
 #endif
 		int Nodos = 0;
-		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12,
-				*Rmezcla12, *Gamma1_12;
+		double x1, x2, x3, x4, *hi12, *rho12, *Re12, *TPTubo12, *Gamma12, *Rmezcla12, *Gamma1_12;
 
 		hi12 = new double[FNin - 1];
 		rho12 = new double[FNin - 1];
@@ -1958,8 +1824,7 @@ void TTubo::LaxWendroffArea() {
 
 		CalculaFuente1Area(FU0, FV1, FArea, FGamma1, Nodos);
 
-		CalculaFuente2Area(FU0, FV2, FArea, Fhi, Frho, FRe, FTPTubo[0], FGamma,
-				FRMezcla, FGamma1, Nodos);
+		CalculaFuente2Area(FU0, FV2, FArea, Fhi, Frho, FRe, FTPTubo[0], FGamma, FRMezcla, FGamma1, Nodos);
 
 		for (int i = 0; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -1986,8 +1851,7 @@ void TTubo::LaxWendroffArea() {
 
 		CalculaFuente1Area(FU12, FV1, FArea12, Gamma1_12, Nodos);
 
-		CalculaFuente2Area(FU12, FV2, FArea12, hi12, rho12, Re12, TPTubo12,
-				Gamma12, Rmezcla12, Gamma1_12, Nodos);
+		CalculaFuente2Area(FU12, FV2, FArea12, hi12, rho12, Re12, TPTubo12, Gamma12, Rmezcla12, Gamma1_12, Nodos);
 
 		for (int i = 1; i < FNin - 1; i++) {
 			for (int j = 0; j < FNumEcuaciones; j++) {
@@ -2009,8 +1873,7 @@ void TTubo::LaxWendroffArea() {
 		delete[] Gamma1_12;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::LaxWendroffArea en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::LaxWendroffArea en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2020,8 +1883,7 @@ void TTubo::LaxWendroffArea() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
-		int Nodos) {
+void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1, int Nodos) {
 #ifdef usetry
 	try
 
@@ -2034,10 +1896,8 @@ void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
 				U1U0 = U[1][i] / U[0][i];
 
 				W[0][i] = U[1][i];
-				W[1][i] = U[2][i] * Gamma1[i]
-						- (Gamma[i] - 3.0) * U[1][i] * U1U0 / 2.;
-				W[2][i] = Gamma[i] * U[2][i] * U1U0
-						- Gamma1[i] * U[1][i] * pow2(U1U0) / 2.;
+				W[1][i] = U[2][i] * Gamma1[i] - (Gamma[i] - 3.0) * U[1][i] * U1U0 / 2.;
+				W[2][i] = Gamma[i] * U[2][i] * U1U0 - Gamma1[i] * U[1][i] * pow2(U1U0) / 2.;
 				for (int j = 3; j < FNumEcuaciones; j++) {
 					W[j][i] = U[j][i] * U1U0;
 				}
@@ -2052,8 +1912,7 @@ void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaFlujo en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaFlujo en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2063,8 +1922,7 @@ void TTubo::CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma,
-		double *Gamma1, int Nodos) {
+void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma, double *Gamma1, int Nodos) {
 #ifdef usetry
 	try {
 #endif
@@ -2074,16 +1932,14 @@ void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma,
 
 			V1[0][i] = U[1][i];
 			V1[1][i] = U[1][i] * U1U0;
-			V1[2][i] = Gamma[i] * U[2][i] * U1U0
-					- Gamma1[i] * U[1][i] * pow2(U1U0) / 2.;
+			V1[2][i] = Gamma[i] * U[2][i] * U1U0 - Gamma1[i] * U[1][i] * pow2(U1U0) / 2.;
 			for (int j = 3; j < FNumEcuaciones; j++) {
 				V1[j][i] = U[j][i] * U1U0;
 			}
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2093,8 +1949,7 @@ void TTubo::CalculaFuente1(double **U, double **V1, double *Gamma,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
-		double *Gamma1, int Nodos) {
+void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area, double *Gamma1, int Nodos) {
 	double p = 0.;
 #ifdef usetry
 	try {
@@ -2103,8 +1958,7 @@ void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
 			if (DoubEqZero(U[1][i])) {
 				p = (U[2][i]) * Gamma1[i] / Area[i];
 			} else {
-				p = (U[2][i] - pow2(U[1][i]) / U[0][i] / 2.0) * Gamma1[i]
-						/ Area[i];
+				p = (U[2][i] - pow2(U[1][i]) / U[0][i] / 2.0) * Gamma1[i] / Area[i];
 			}
 
 			V1[0][i] = 0.;
@@ -2116,8 +1970,7 @@ void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaFuente1Area en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaFuente1Area en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2127,9 +1980,7 @@ void TTubo::CalculaFuente1Area(double **U, double **V1, double *Area,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
-		double *rho, double *Re, double *TempParedTubo, double *Gamma,
-		double *Rmezcla, double *Gamma1, int Nodos) {
+void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi, double *rho, double *Re, double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, int Nodos) {
 	double v = 0, a = 0., p = 0., tgas = 0., g = 0., q = 0., f = 0.;
 #ifdef usetry
 	try {
@@ -2144,13 +1995,11 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
 				throw Exception("Error Velociad");
 			}
 			if (p > 1e200 || p < 0) {
-				std::cout << "ERROR: Valor de presion no valido en el tubo "
-						<< FNumeroTubo << " nodo " << i << std::endl;
+				std::cout << "ERROR: Valor de presion no valido en el tubo " << FNumeroTubo << " nodo " << i << std::endl;
 				throw Exception("Error presion");
 			}
 			if (a > 1e200 || a < 0) {
-				std::cout << "ERROR: Valor de velocidad del sonido no valido"
-						<< std::endl;
+				std::cout << "ERROR: Valor de velocidad del sonido no valido" << std::endl;
 				throw Exception("Error velocidad del sonido");
 			}
 
@@ -2167,8 +2016,7 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
 				q = 0.;
 			} else {
 				tgas = a * a / (Gamma[i] * Rmezcla[i]);
-				TransmisionCalor(tgas, diame[i], q, hi[i], rho[i],
-						TempParedTubo[i]);
+				TransmisionCalor(tgas, diame[i], q, hi[i], rho[i], TempParedTubo[i]);
 				q = q * FCoefAjusTC;
 			}
 
@@ -2182,8 +2030,7 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2193,9 +2040,7 @@ void TTubo::CalculaFuente2(double **U, double **V2, double *diame, double *hi,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
-		double *hi, double *rho, double *Re, double *TempParedTubo,
-		double *Gamma, double *Rmezcla, double *Gamma1, int Nodos) {
+void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area, double *hi, double *rho, double *Re, double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, int Nodos) {
 	double v = 0., a = 0., pA = 0., tgas = 0., g = 0., q = 0., f = 0.;
 	double diame = 0.;
 #ifdef usetry
@@ -2207,7 +2052,7 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 			pA = (U[2][i] - U[1][i] * v / 2.0) * Gamma1[i];
 			a = sqrt(Gamma[i] * pA / U[0][i]);
 
-			diame = sqrt(Area[i] * 4 / Pi);
+			diame = sqrt(Area[i] * __CTE._4_Pi);
 			/* calculo factor friccion */
 			if (DoubEqZero(v) || DoubEqZero(FCoefAjusFric)) {
 				g = 0.;
@@ -2221,8 +2066,7 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 				q = 0.;
 			} else {
 				tgas = a * a / (Gamma[i] * Rmezcla[i]);
-				TransmisionCalor(tgas, diame, q, hi[i], rho[i],
-						TempParedTubo[i]);
+				TransmisionCalor(tgas, diame, q, hi[i], rho[i], TempParedTubo[i]);
 				q = q * FCoefAjusTC;
 			}
 
@@ -2236,8 +2080,7 @@ void TTubo::CalculaFuente2Area(double **U, double **V2, double *Area,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaFuente1 en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2258,26 +2101,22 @@ void TTubo::Colebrook(double rug, double dia, double& f, double Re) {
 		} else if (Re > 50000.) {
 			// pow(Re, 0.9) approximation between Re = 50000 and Re = 130000
 			// with less than 0.015 % of error.
-			pow_approx = 7.04596786e-13 * pow3(Re) - 3.55878012e-07 * pow2(Re)
-					+ 3.34536053e-01 * Re + 1.02365893e+03;
+			pow_approx = 7.04596786e-13 * pow3(Re) - 3.55878012e-07 * pow2(Re) + 3.34536053e-01 * Re + 1.02365893e+03;
 			temp = rug / (3700.0 * dia) + 5.74 / pow_approx;
 		} else if (Re > 20000.) {
 			// pow(Re, 0.9) approximation between Re = 20000 and Re = 50000
 			// with less than 0.015 % of error.
-			pow_approx = 5.09028031e-12 * pow3(Re) - 1.00134262e-06 * pow2(Re)
-					+ 3.67476796e-01 * Re + 4.40171892e+02;
+			pow_approx = 5.09028031e-12 * pow3(Re) - 1.00134262e-06 * pow2(Re) + 3.67476796e-01 * Re + 4.40171892e+02;
 			temp = rug / (3700.0 * dia) + 5.74 / pow_approx;
 		} else if (Re > 10000.) {
 			// pow(Re, 0.9) approximation between Re = 10000 and Re = 20000
 			// with less than 0.015 % of error.
-			pow_approx = 2.92727184e-11 * pow3(Re) - 2.48693415e-06 * pow2(Re)
-					+ 3.98901290e-01 * Re + 2.11628209e+02;
+			pow_approx = 2.92727184e-11 * pow3(Re) - 2.48693415e-06 * pow2(Re) + 3.98901290e-01 * Re + 2.11628209e+02;
 			temp = rug / (3700.0 * dia) + 5.74 / pow_approx;
 		} else if (Re > 4000.) {
 			// pow(Re, 0.9) approximation between Re = 4000 and Re = 10000
 			// with less than 0.015 % of error.
-			pow_approx = 1.49478492e-10 * pow3(Re) - 5.88098006e-06 * pow2(Re)
-					+ 4.31645206e-01 * Re + 1.03406848e+02;
+			pow_approx = 1.49478492e-10 * pow3(Re) - 5.88098006e-06 * pow2(Re) + 4.31645206e-01 * Re + 1.03406848e+02;
 			temp = rug / (3700.0 * dia) + 5.74 / pow_approx;
 		} else {
 			temp = rug / (3700.0 * dia) + 0.00328895476345;
@@ -2287,45 +2126,31 @@ void TTubo::Colebrook(double rug, double dia, double& f, double Re) {
 		} else if (temp > 0.019) {
 			// pow2(log10(temp)) approximation between temp = 0.019 and
 			// temp = 0.042 with less than 0.02 % of error.
-			temp2 = 6.76495011e+05 * pow4(temp) - 1.07370937e+05 * pow3(temp)
-					+ 6.95435632e+03 * pow2(temp) - 2.44427511e+02 * temp
-					+ 5.74410691e+00;
+			temp2 = 6.76495011e+05 * pow4(temp) - 1.07370937e+05 * pow3(temp) + 6.95435632e+03 * pow2(temp) - 2.44427511e+02 * temp + 5.74410691e+00;
 		} else if (temp > 0.008) {
 			// pow2(log10(temp)) approximation between temp = 0.008 and
 			// temp = 0.019 with less than 0.02 % of error.
-			temp2 = 2.08516955e+07 * pow4(temp) - 1.46552875e+06 * pow3(temp)
-					+ 4.20051994e+04 * pow2(temp) - 6.58067557e+02 * temp
-					+ 7.63733377e+00;
+			temp2 = 2.08516955e+07 * pow4(temp) - 1.46552875e+06 * pow3(temp) + 4.20051994e+04 * pow2(temp) - 6.58067557e+02 * temp + 7.63733377e+00;
 		} else if (temp > 0.00329) {
 			// pow2(log10(temp)) approximation between temp = 0.00329 and
 			// temp = 0.008 with less than 0.02 % of error.
-			temp2 = 7.84991530e+08 * pow4(temp) - 2.30952512e+07 * pow3(temp)
-					+ 2.77321091e+05 * pow2(temp) - 1.83296385e+03 * temp
-					+ 9.92239603e+00;
+			temp2 = 7.84991530e+08 * pow4(temp) - 2.30952512e+07 * pow3(temp) + 2.77321091e+05 * pow2(temp) - 1.83296385e+03 * temp + 9.92239603e+00;
 		} else if (temp > 0.0013) {
 			// pow2(log10(temp)) approximation between temp = 0.0013 and
 			// temp = 0.00329 with less than 0.02 % of error.
-			temp2 = 3.29050277e+10 * pow4(temp) - 3.93727194e+08 * pow3(temp)
-					+ 1.92219159e+06 * pow2(temp) - 5.18844300e+03 * temp
-					+ 1.25952908e+01;
+			temp2 = 3.29050277e+10 * pow4(temp) - 3.93727194e+08 * pow3(temp) + 1.92219159e+06 * pow2(temp) - 5.18844300e+03 * temp + 1.25952908e+01;
 		} else if (temp > 0.0005) {
 			// pow2(log10(temp)) approximation between temp = 0.0005 and
 			// temp = 0.0013 with less than 0.02 % of error.
-			temp2 = 1.57146781e+12 * pow4(temp) - 7.37699295e+09 * pow3(temp)
-					+ 1.41288296e+07 * pow2(temp) - 1.50182432e+04 * temp
-					+ 1.56956366e+01;
+			temp2 = 1.57146781e+12 * pow4(temp) - 7.37699295e+09 * pow3(temp) + 1.41288296e+07 * pow2(temp) - 1.50182432e+04 * temp + 1.56956366e+01;
 		} else if (temp > 0.00019) {
 			// pow2(log10(temp)) approximation between temp = 0.00019 and
 			// temp = 0.0005 with less than 0.02 % of error.
-			temp2 = 8.09890844e+13 * pow4(temp) - 1.45825030e+11 * pow3(temp)
-					+ 1.07169184e+08 * pow2(temp) - 4.38671762e+04 * temp
-					+ 1.92059658e+01;
+			temp2 = 8.09890844e+13 * pow4(temp) - 1.45825030e+11 * pow3(temp) + 1.07169184e+08 * pow2(temp) - 4.38671762e+04 * temp + 1.92059658e+01;
 		} else if (temp > 0.00007) {
 			// pow2(log10(temp)) approximation between temp = 0.00007 and
 			// temp = 0.00019 with less than 0.02 % of error.
-			temp2 = 4.47104917e+15 * pow4(temp) - 3.03334424e+12 * pow3(temp)
-					+ 8.39454836e+08 * pow2(temp) - 1.29630353e+05 * temp
-					+ 2.31540981e+01;
+			temp2 = 4.47104917e+15 * pow4(temp) - 3.03334424e+12 * pow3(temp) + 8.39454836e+08 * pow2(temp) - 1.29630353e+05 * temp + 2.31540981e+01;
 		} else {
 			temp2 = pow2(log10(temp));
 		}
@@ -2340,20 +2165,18 @@ void TTubo::Colebrook(double rug, double dia, double& f, double Re) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::TransmisionCalor(double tgas, double diametro, double& q, double hi,
-		double rho, double Tw) {
+void TTubo::TransmisionCalor(double tgas, double diametro, double& q, double hi, double rho, double Tw) {
 #ifdef usetry
 	try {
 #endif
 
 		if (hi != 0) {
-			q = 4. * hi * (Tw + 273. - tgas) / rho / diametro;
+			q = 4. * hi * (__UN.degCToK(Tw) - tgas) / rho / diametro;
 		} else
 			q = 0.;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::TransmisionCalor en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::TransmisionCalor en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2373,8 +2196,7 @@ inline double TTubo::DerLinF(double d1, double d2, double xref) {
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::DerLinF en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::DerLinF en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2393,8 +2215,7 @@ inline double TTubo::DerLinFArea(double area1, double area2, double xref) {
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::DerLinFArea en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::DerLinFArea en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2421,8 +2242,7 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 		BetaIzq = BC[FNodoIzq - 1]->GetTuboExtremo(FTuboCCNodoIzq).Beta;
 		EntropiaIzq = BC[FNodoIzq - 1]->GetTuboExtremo(FTuboCCNodoIzq).Entropia;
 
-		TransformaContorno(LandaIzq, BetaIzq, EntropiaIzq, a, v, p, 1,
-				FGamma1[0], FGamma3[0], FGamma4[0], FGamma5[0]);
+		TransformaContorno(LandaIzq, BetaIzq, EntropiaIzq, a, v, p, 1, FGamma1[0], FGamma3[0], FGamma4[0], FGamma5[0]);
 		if (BC[FNodoIzq - 1]->getTipoCC() == nmBranch) {
 			if (v < 0.) {
 				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
@@ -2442,16 +2262,13 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 		if (FMod.FormulacionLeyes == nmSinArea)
 			Transforma1(v, a, p, FU1, FGamma[0], FGamma1[0], YIzq, 0);
 		else if (FMod.FormulacionLeyes == nmConArea)
-			Transforma1Area(v, a, p, FU1, FArea[0], FGamma[0], FGamma1[0], YIzq,
-					0);
+			Transforma1Area(v, a, p, FU1, FArea[0], FGamma[0], FGamma1[0], YIzq, 0);
 
 		LandaDer = BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).Landa;
 		BetaDer = BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).Beta;
 		EntropiaDer = BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).Entropia;
 
-		TransformaContorno(LandaDer, BetaDer, EntropiaDer, a, v, p, 1,
-				FGamma1[FNin - 1], FGamma3[FNin - 1], FGamma4[FNin - 1],
-				FGamma5[FNin - 1]);
+		TransformaContorno(LandaDer, BetaDer, EntropiaDer, a, v, p, 1, FGamma1[FNin - 1], FGamma3[FNin - 1], FGamma4[FNin - 1], FGamma5[FNin - 1]);
 		if (BC[FNodoDer - 1]->getTipoCC() == nmBranch) {
 			if (v > 0.) {
 				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
@@ -2469,37 +2286,31 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 		}
 
 		if (FMod.FormulacionLeyes == nmSinArea)
-			Transforma1(v, a, p, FU1, FGamma[FNin - 1], FGamma1[FNin - 1], YDer,
-					FNin - 1);
+			Transforma1(v, a, p, FU1, FGamma[FNin - 1], FGamma1[FNin - 1], YDer, FNin - 1);
 		else if (FMod.FormulacionLeyes == nmConArea)
-			Transforma1Area(v, a, p, FU1, FArea[FNin - 1], FGamma[FNin - 1],
-					FGamma1[FNin - 1], YDer, FNin - 1);
+			Transforma1Area(v, a, p, FU1, FArea[FNin - 1], FGamma[FNin - 1], FGamma1[FNin - 1], YDer, FNin - 1);
 
 		if (FMod.FormulacionLeyes == nmSinArea) {
 			for (int i = 0; i < FNin; i++) {
-				Transforma2(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU1,
-						FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
+				Transforma2(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU1, FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
 				for (int k = 0; k < FNumEcuaciones; k++) {
 					FU0[k][i] = FU1[k][i];
 				}
-				FVelocidadDim[i] = FVelocidad0[i] * ARef;
-				FAsonidoDim[i] = FAsonido0[i] * ARef;
+				FVelocidadDim[i] = FVelocidad0[i] * __CTE.ARef;
+				FAsonidoDim[i] = FAsonido0[i] * __CTE.ARef;
 				FFlowMass[i] = FU0[1][i] * FArea[i];
 			}
 		} else if (FMod.FormulacionLeyes == nmConArea) {
 			for (int i = 0; i < FNin; i++) {
-				Transforma2Area(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU1,
-						FArea[i], FGamma[i], FGamma1[i],
-						FFraccionMasicaEspecie[i], i);
+				Transforma2Area(FVelocidad0[i], FAsonido0[i], FPresion0[i], FU1, FArea[i], FGamma[i], FGamma1[i], FFraccionMasicaEspecie[i], i);
 				for (int k = 0; k < FNumEcuaciones; k++) {
 					FU0[k][i] = FU1[k][i];
 				}
-				FVelocidadDim[i] = FVelocidad0[i] * ARef;
-				FAsonidoDim[i] = FAsonido0[i] * ARef;
+				FVelocidadDim[i] = FVelocidad0[i] * __CTE.ARef;
+				FAsonidoDim[i] = FAsonido0[i] * __CTE.ARef;
 				FFlowMass[i] = FU0[1][i];
 				if (FVelocidadDim[i] > FAsonidoDim[i] + 1.0e-10) {
-					printf("Supersonic flow in pipe: %d node: %d, Mach = %lf\n",
-							FNumeroTubo, i, FVelocidadDim[i] / FAsonidoDim[i]);
+					printf("Supersonic flow in pipe: %d node: %d, Mach = %lf\n", FNumeroTubo, i, FVelocidadDim[i] / FAsonidoDim[i]);
 				}
 
 			}
@@ -2511,8 +2322,7 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 	}
 
 	catch (exception & N) {
-		std::cout << "ERROR: TTubo::ValoresDeContorno tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::ValoresDeContorno tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2521,9 +2331,7 @@ void TTubo::ActualizaValoresNuevos(TCondicionContorno **BC) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::TransformaContorno(double& L, double& B, double& E, double& a,
-		double& v, double& p, const int& modo, const double& Gamma1,
-		const double& Gamma3, const double& Gamma4, const double& Gamma5) {
+void TTubo::TransformaContorno(double& L, double& B, double& E, double& a, double& v, double& p, const int& modo, const double& Gamma1, const double& Gamma3, const double& Gamma4, const double& Gamma5) {
 #ifdef usetry
 	try {
 #endif
@@ -2538,8 +2346,7 @@ void TTubo::TransformaContorno(double& L, double& B, double& E, double& a,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::TransformaContorno en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::TransformaContorno en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2558,14 +2365,8 @@ void TTubo::ReduccionFlujoSubsonico() {
 		for (int i = 0; i < FNin; i++) {
 			Machx = FVelocidad0[i] / FAsonido0[i];
 			if (-1. >= Machx || Machx > 1.) {
-				Machy = Machx / fabs(Machx)
-						* sqrt(
-								(pow2(Machx) + 2. / FGamma1[i])
-										/ (FGamma4[i] * pow2(Machx) - 1.));
-				Sonidoy = FAsonido0[i]
-						* sqrt(
-								(FGamma1[i] / 2. * pow2(Machx) + 1.)
-										/ (FGamma1[i] / 2. * pow2(Machy) + 1.));
+				Machy = Machx / fabs(Machx) * sqrt((pow2(Machx) + 2. / FGamma1[i]) / (FGamma4[i] * pow2(Machx) - 1.));
+				Sonidoy = FAsonido0[i] * sqrt((FGamma1[i] / 2. * pow2(Machx) + 1.) / (FGamma1[i] / 2. * pow2(Machy) + 1.));
 
 				Velocidady = Sonidoy * Machy;
 				FAsonido0[i] = Sonidoy;
@@ -2574,8 +2375,7 @@ void TTubo::ReduccionFlujoSubsonico() {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::ReduccionFlujoSubsonico en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ReduccionFlujoSubsonico en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2593,38 +2393,26 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 #endif
 
 		for (int i = 1; i < FNin - 1; i++) {
-			velocidad = FU1[1][i] / FU1[0][i] / ARef;
-			presion = (FU1[2][i] - FU1[1][i] * velocidad * ARef / 2.0)
-					* FGamma1[i] / 1e5 / FArea[i];
-			asonido = sqrt(
-					FGamma[i] * presion * 1e5 * FArea[i] / FU1[0][i] / ARef
-							/ ARef);
+			velocidad = FU1[1][i] / FU1[0][i] / __CTE.ARef;
+			presion = __UN.PaToBar((FU1[2][i] - FU1[1][i] * velocidad * __CTE.ARef / 2.0) * FGamma1[i] / FArea[i]);
+			asonido = sqrt(FGamma[i] * __UN.BarToPa(presion) * FArea[i] / FU1[0][i] / __CTE.ARef2);
 			Machx = velocidad / asonido;
 			if (-1. >= Machx || Machx > 1.) {
-				Machy = Machx / fabs(Machx)
-						* sqrt(
-								(pow2(Machx) + 2. / FGamma1[i])
-										/ (FGamma4[i] * pow2(Machx) - 1.));
-				Sonidoy = asonido
-						* sqrt(
-								(FGamma1[i] / 2. * pow2(Machx) + 1.)
-										/ (FGamma1[i] / 2. * pow2(Machy) + 1.));
+				Machy = Machx / fabs(Machx) * sqrt((pow2(Machx) + 2. / FGamma1[i]) / (FGamma4[i] * pow2(Machx) - 1.));
+				Sonidoy = asonido * sqrt((FGamma1[i] / 2. * pow2(Machx) + 1.) / (FGamma1[i] / 2. * pow2(Machy) + 1.));
 
 				Velocidady = Sonidoy * Machy;
 				asonido = Sonidoy;
 				velocidad = Velocidady;
-				FU1[0][i] = FGamma[i] * presion * 1e5 / pow2(asonido * ARef)
-						* FArea[i];
-				FU1[1][i] = FU1[0][i] * velocidad * ARef;
-				FU1[2][i] = FArea[i] * presion * 1e5 / FGamma1[i]
-						+ FU1[1][i] * velocidad * ARef / 2.0;
+				FU1[0][i] = FGamma[i] * __UN.BarToPa(presion) / pow2(asonido * __CTE.ARef) * FArea[i];
+				FU1[1][i] = FU1[0][i] * velocidad * __CTE.ARef;
+				FU1[2][i] = FArea[i] * __UN.BarToPa(presion) / FGamma1[i] + FU1[1][i] * velocidad * __CTE.ARef / 2.0;
 
 			}
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::ReduccionFlujoSubsonicoFCT en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ReduccionFlujoSubsonicoFCT en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2634,8 +2422,7 @@ void TTubo::ReduccionFlujoSubsonicoFCT() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
-		bool HayMotor) {
+void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos, bool HayMotor) {
 	int NumVars = 0, TipoVar = 0;
 #ifdef usetry
 	try {
@@ -2678,10 +2465,8 @@ void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 			ResultadosMedios[i].CoefPelInteriorSUM = 0.;
 			ResultadosMedios[i].CoefPelInteriorMED = 0.;
 			ResultadosMedios[i].FraccionMasicaEspecies = false;
-			ResultadosMedios[i].FraccionSUM = new double[FNumeroEspecies
-					- FIntEGR];
-			ResultadosMedios[i].FraccionMED = new double[FNumeroEspecies
-					- FIntEGR];
+			ResultadosMedios[i].FraccionSUM = new double[FNumeroEspecies - FIntEGR];
+			ResultadosMedios[i].FraccionMED = new double[FNumeroEspecies - FIntEGR];
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				ResultadosMedios[i].FraccionSUM[j] = 0.;
 				ResultadosMedios[i].FraccionMED[j] = 0.;
@@ -2718,9 +2503,7 @@ void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 				case 7:
 					ResultadosMedios[i].NITmedio = true;
 					if (!HayMotor) {
-						std::cout
-								<< "ERROR: No puedes pedir el NIT como resultado si no hay motor"
-								<< std::endl;
+						std::cout << "ERROR: No puedes pedir el NIT como resultado si no hay motor" << std::endl;
 						throw Exception(" ");
 					}
 					break;
@@ -2731,9 +2514,7 @@ void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 					ResultadosMedios[i].FraccionMasicaEspecies = true;
 					break;
 				default:
-					std::cout
-							<< "WARNING: El tipo de variable seleccionada para la salida de resultados medios no es valida"
-							<< std::endl;
+					std::cout << "WARNING: El tipo de variable seleccionada para la salida de resultados medios no es valida" << std::endl;
 				};
 
 			}
@@ -2744,8 +2525,7 @@ void TTubo::ReadAverageResultsTubo(const char *FileWAM, fpos_t &filepos,
 		fclose(fich);
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::ReadAverageResults en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ReadAverageResults en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2835,8 +2615,7 @@ void TTubo::HeaderAverageResults(stringstream& medoutput,
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::HeaderAverageResults en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::HeaderAverageResults en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2855,8 +2634,7 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput) const {
 
 		for (int i = 0; i < FNumResMedios; i++) {
 			if (ResultadosMedios[i].TemperaturaGas)
-				medoutput << "\t"
-						<< ResultadosMedios[i].TemperaturaGasMED - 273.;
+				medoutput << "\t" << __UN.KTodegC(ResultadosMedios[i].TemperaturaGasMED);
 			if (ResultadosMedios[i].Pressure)
 				medoutput << "\t" << ResultadosMedios[i].PresionMED;
 			if (ResultadosMedios[i].Velocity)
@@ -2864,14 +2642,11 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput) const {
 			if (ResultadosMedios[i].Massflow)
 				medoutput << "\t" << ResultadosMedios[i].GastoMED;
 			if (ResultadosMedios[i].TemperaturaInternaPared)
-				medoutput << "\t"
-						<< ResultadosMedios[i].TemperaturaInternaParedMED;
+				medoutput << "\t" << ResultadosMedios[i].TemperaturaInternaParedMED;
 			if (ResultadosMedios[i].TemperaturaIntermediaPared)
-				medoutput << "\t"
-						<< ResultadosMedios[i].TemperaturaIntermediaParedMED;
+				medoutput << "\t" << ResultadosMedios[i].TemperaturaIntermediaParedMED;
 			if (ResultadosMedios[i].TemperaturaExternaPared)
-				medoutput << "\t"
-						<< ResultadosMedios[i].TemperaturaExternaParedMED;
+				medoutput << "\t" << ResultadosMedios[i].TemperaturaExternaParedMED;
 			if (ResultadosMedios[i].NITmedio)
 				medoutput << "\t" << ResultadosMedios[i].NITmedioMED;
 			if (ResultadosMedios[i].CoefPelInterior)
@@ -2885,8 +2660,7 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput) const {
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::ResultadosMedios en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ResultadosMedios en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2895,8 +2669,7 @@ void TTubo::ImprimeResultadosMedios(stringstream& medoutput) const {
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
-		bool HayMotor) {
+void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos, bool HayMotor) {
 	int NumVars = 0, TipoVar = 0;
 #ifdef usetry
 	try {
@@ -2936,8 +2709,7 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 			ResultInstantaneos[i].CoefPelInterior = false;
 			ResultInstantaneos[i].CoefPelInteriorINS = 0.;
 			ResultInstantaneos[i].FraccionMasicaEspecies = false;
-			ResultInstantaneos[i].FraccionINS = new double[FNumeroEspecies
-					- FIntEGR];
+			ResultInstantaneos[i].FraccionINS = new double[FNumeroEspecies - FIntEGR];
 			ResultInstantaneos[i].Gamma = false;
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				ResultInstantaneos[i].FraccionINS[j] = 0.;
@@ -2975,9 +2747,7 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 				case 8:
 					ResultInstantaneos[i].NIT = true;
 					if (!HayMotor) {
-						std::cout
-								<< "ERROR: No puedes pedir el NIT como resultado si no hay motor"
-								<< std::endl;
+						std::cout << "ERROR: No puedes pedir el NIT como resultado si no hay motor" << std::endl;
 						throw Exception(" ");
 					}
 					break;
@@ -3000,9 +2770,7 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 					ResultInstantaneos[i].Gamma = true;
 					break;
 				default:
-					std::cout
-							<< "WARNING: El tipo de variable seleccionada para la salida de resultados instantaneos no es valida"
-							<< std::endl;
+					std::cout << "WARNING: El tipo de variable seleccionada para la salida de resultados instantaneos no es valida" << std::endl;
 				}
 			}
 		}
@@ -3011,8 +2779,7 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 		fclose(fich);
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::ReadInstantaneousResults en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ReadInstantaneousResults en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3022,8 +2789,7 @@ void TTubo::ReadInstantaneousResultsTubo(const char *FileWAM, fpos_t &filepos,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
-		stEspecies *DatosEspecies) const {
+void TTubo::HeaderInstantaneousResults(stringstream& insoutput, stEspecies *DatosEspecies) const {
 #ifdef usetry
 	try {
 #endif
@@ -3131,8 +2897,7 @@ void TTubo::HeaderInstantaneousResults(stringstream& insoutput,
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::HeaderInstantaneousResults en el tubo nº: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::HeaderInstantaneousResults en el tubo nº: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3159,8 +2924,7 @@ void TTubo::ImprimeResultadosInstantaneos(stringstream& insoutput) const {
 			if (ResultInstantaneos[i].VelocidadDerecha)
 				insoutput << "\t" << ResultInstantaneos[i].VelocidadDerechaINS;
 			if (ResultInstantaneos[i].VelocidadIzquierda)
-				insoutput << "\t"
-						<< ResultInstantaneos[i].VelocidadIzquierdaINS;
+				insoutput << "\t" << ResultInstantaneos[i].VelocidadIzquierdaINS;
 			if (ResultInstantaneos[i].PresionDerecha)
 				insoutput << "\t" << ResultInstantaneos[i].PresionDerechaINS;
 			if (ResultInstantaneos[i].PresionIzquierda)
@@ -3168,14 +2932,11 @@ void TTubo::ImprimeResultadosInstantaneos(stringstream& insoutput) const {
 			if (ResultInstantaneos[i].NIT)
 				insoutput << "\t" << ResultInstantaneos[i].NITINS;
 			if (ResultInstantaneos[i].TemperaturaInternaPared)
-				insoutput << "\t"
-						<< ResultInstantaneos[i].TemperaturaInternaParedINS;
+				insoutput << "\t" << ResultInstantaneos[i].TemperaturaInternaParedINS;
 			if (ResultInstantaneos[i].TemperaturaIntermediaPared)
-				insoutput << "\t"
-						<< ResultInstantaneos[i].TemperaturaIntermediaParedINS;
+				insoutput << "\t" << ResultInstantaneos[i].TemperaturaIntermediaParedINS;
 			if (ResultInstantaneos[i].TemperaturaExternaPared)
-				insoutput << "\t"
-						<< ResultInstantaneos[i].TemperaturaExternaParedINS;
+				insoutput << "\t" << ResultInstantaneos[i].TemperaturaExternaParedINS;
 			if (ResultInstantaneos[i].CoefPelInterior)
 				insoutput << "\t" << ResultInstantaneos[i].CoefPelInteriorINS;
 			if (ResultInstantaneos[i].FraccionMasicaEspecies) {
@@ -3190,8 +2951,7 @@ void TTubo::ImprimeResultadosInstantaneos(stringstream& insoutput) const {
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::ResultadosInstantaneos en el tubo nº: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::ResultadosInstantaneos en el tubo nº: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3214,77 +2974,58 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 			dist = ResultadosMedios[i].Distancia / FXref;
 			n1 = (int) floor(dist);
 			if (n1 >= FNin - 1) {
-				if (ResultadosMedios[i].TemperaturaGas
-						|| ResultadosMedios[i].FraccionMasicaEspecies) {
+				if (ResultadosMedios[i].TemperaturaGas || ResultadosMedios[i].FraccionMasicaEspecies) {
 					GastoPonderacion = fabs(FFlowMass[FNin - 1]);
-					ResultadosMedios[i].PonderacionSUM += FFlowMass[FNin - 1]
-							* FDeltaTime;
+					ResultadosMedios[i].PonderacionSUM += FFlowMass[FNin - 1] * FDeltaTime;
 					ResultadosMedios[i].GastoPonderacionSUM += GastoPonderacion;
 				}
 				if (ResultadosMedios[i].TemperaturaGas)
-					ResultadosMedios[i].TemperaturaGasSUM += (FTemperature[FNin
-							- 1]) * GastoPonderacion;
+					ResultadosMedios[i].TemperaturaGasSUM += (FTemperature[FNin - 1]) * GastoPonderacion;
 				if (ResultadosMedios[i].Pressure)
-					ResultadosMedios[i].PresionSUM += FPresion0[FNin - 1]
-							* FDeltaTime;
+					ResultadosMedios[i].PresionSUM += FPresion0[FNin - 1] * FDeltaTime;
 				if (ResultadosMedios[i].Velocity)
-					ResultadosMedios[i].VelocidadSUM += FVelocidadDim[FNin - 1]
-							* FDeltaTime;
+					ResultadosMedios[i].VelocidadSUM += FVelocidadDim[FNin - 1] * FDeltaTime;
 				if (ResultadosMedios[i].Massflow) {
 					ResultadosMedios[i].GastoSUM += FFlowMass[i] * FDeltaTime;
 				}
 				if (ResultadosMedios[i].TemperaturaInternaPared)
-					ResultadosMedios[i].TemperaturaInternaParedSUM +=
-							FTPTubo[0][FNin - 1] * FDeltaTime;
+					ResultadosMedios[i].TemperaturaInternaParedSUM += FTPTubo[0][FNin - 1] * FDeltaTime;
 				if (ResultadosMedios[i].TemperaturaIntermediaPared)
-					ResultadosMedios[i].TemperaturaIntermediaParedSUM +=
-							FTPTubo[1][FNin - 1] * FDeltaTime;
+					ResultadosMedios[i].TemperaturaIntermediaParedSUM += FTPTubo[1][FNin - 1] * FDeltaTime;
 				if (ResultadosMedios[i].TemperaturaExternaPared)
-					ResultadosMedios[i].TemperaturaExternaParedSUM +=
-							FTPTubo[2][FNin - 1] * FDeltaTime;
+					ResultadosMedios[i].TemperaturaExternaParedSUM += FTPTubo[2][FNin - 1] * FDeltaTime;
 				if (ResultadosMedios[i].NITmedio) {
-					double nit = CalculaNIT(FAsonido0[FNin - 1],
-							FVelocidad0[FNin - 1], FPresion0[FNin - 1],
-							FDiametroTubo[FNin - 1], FGamma[FNin - 1],
-							FRMezcla[FNin - 1]);
+					double nit = CalculaNIT(FAsonido0[FNin - 1], FVelocidad0[FNin - 1], FPresion0[FNin - 1], FDiametroTubo[FNin - 1], FGamma[FNin - 1], FRMezcla[FNin - 1]);
 					ResultadosMedios[i].NITmedioSUM += nit * FDeltaTime;
 				}
 				if (ResultadosMedios[i].CoefPelInterior) {
-					ResultadosMedios[i].CoefPelInteriorSUM += Fhi[FNin - 1]
-							* FDeltaTime;
+					ResultadosMedios[i].CoefPelInteriorSUM += Fhi[FNin - 1] * FDeltaTime;
 				}
 				if (ResultadosMedios[i].FraccionMasicaEspecies) {
 					for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-						ResultadosMedios[i].FraccionSUM[j] +=
-								FFraccionMasicaEspecie[FNin - 1][j]
-										* GastoPonderacion * FDeltaTime;
+						ResultadosMedios[i].FraccionSUM[j] += FFraccionMasicaEspecie[FNin - 1][j] * GastoPonderacion * FDeltaTime;
 					}
 				}
 			} else {
 				n2 = n1 + 1;
 				d = dist - (double) n1;
 
-				if (ResultadosMedios[i].TemperaturaGas
-						|| ResultadosMedios[i].FraccionMasicaEspecies) {
-					GastoPonderacion = fabs(
-							Interpola(FFlowMass[n1], FFlowMass[n2], 1., d));
+				if (ResultadosMedios[i].TemperaturaGas || ResultadosMedios[i].FraccionMasicaEspecies) {
+					GastoPonderacion = fabs(Interpola(FFlowMass[n1], FFlowMass[n2], 1., d));
 					ResultadosMedios[i].GastoPonderacionSUM += GastoPonderacion;
-					ResultadosMedios[i].PonderacionSUM += GastoPonderacion
-							* FDeltaTime;
+					ResultadosMedios[i].PonderacionSUM += GastoPonderacion * FDeltaTime;
 				}
 
 				if (ResultadosMedios[i].TemperaturaGas)
 					Vble = Interpola(FTemperature[n1], FTemperature[n2], 1., d);
-				ResultadosMedios[i].TemperaturaGasSUM += Vble
-						* GastoPonderacion;
+				ResultadosMedios[i].TemperaturaGasSUM += Vble * GastoPonderacion;
 				if (ResultadosMedios[i].Pressure) {
 					Vble = Interpola(FPresion0[n1], FPresion0[n2], 1., d);
 					ResultadosMedios[i].PresionSUM += Vble * FDeltaTime;
 				}
 				if (ResultadosMedios[i].Velocity) {
 					Vble = Interpola(FVelocidad0[n1], FVelocidad0[n2], 1., d);
-					ResultadosMedios[i].VelocidadSUM += Vble * ARef
-							* FDeltaTime;
+					ResultadosMedios[i].VelocidadSUM += Vble * __CTE.ARef * FDeltaTime;
 				}
 				if (ResultadosMedios[i].Massflow) {
 					Vble = Interpola(FFlowMass[n1], FFlowMass[n2], 1., d);
@@ -3292,26 +3033,21 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 				}
 				if (ResultadosMedios[i].TemperaturaInternaPared) {
 					Vble = Interpola(FTPTubo[0][n1], FTPTubo[0][n2], 2., d);
-					ResultadosMedios[i].TemperaturaInternaParedSUM += Vble
-							* FDeltaTime;
+					ResultadosMedios[i].TemperaturaInternaParedSUM += Vble * FDeltaTime;
 				}
 				if (ResultadosMedios[i].TemperaturaIntermediaPared) {
 					Vble = Interpola(FTPTubo[1][n1], FTPTubo[1][n2], 2., d);
-					ResultadosMedios[i].TemperaturaIntermediaParedSUM += Vble
-							* FDeltaTime;
+					ResultadosMedios[i].TemperaturaIntermediaParedSUM += Vble * FDeltaTime;
 				}
 				if (ResultadosMedios[i].TemperaturaExternaPared) {
 					Vble = Interpola(FTPTubo[2][n1], FTPTubo[2][n2], 2., d);
-					ResultadosMedios[i].TemperaturaExternaParedSUM += Vble
-							* FDeltaTime;
+					ResultadosMedios[i].TemperaturaExternaParedSUM += Vble * FDeltaTime;
 				}
 				if (ResultadosMedios[i].NITmedio) {
 					double a = Interpola(FAsonido0[n1], FAsonido0[n2], 1., d);
-					double v = Interpola(FVelocidad0[n1], FVelocidad0[n2], 1.,
-							d);
+					double v = Interpola(FVelocidad0[n1], FVelocidad0[n2], 1., d);
 					double p = Interpola(FPresion0[n1], FPresion0[n2], 1., d);
-					double diam = Interpola(FDiametroTubo[n1],
-							FDiametroTubo[n2], 1., d);
+					double diam = Interpola(FDiametroTubo[n1], FDiametroTubo[n2], 1., d);
 					Gamma = Interpola(FGamma[n1], FGamma[n2], 1., d);
 					Rmezcla = Interpola(FRMezcla[n1], FRMezcla[n2], 1., d);
 					double nit = CalculaNIT(a, v, p, diam, Gamma, Rmezcla);
@@ -3323,10 +3059,8 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 				}
 				if (ResultadosMedios[i].FraccionMasicaEspecies) {
 					for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-						Vble = Interpola(FFraccionMasicaEspecie[n1][j],
-								FFraccionMasicaEspecie[n2][j], 1., d);
-						ResultadosMedios[i].FraccionSUM[j] += Vble
-								* GastoPonderacion * FDeltaTime;
+						Vble = Interpola(FFraccionMasicaEspecie[n1][j], FFraccionMasicaEspecie[n2][j], 1., d);
+						ResultadosMedios[i].FraccionSUM[j] += Vble * GastoPonderacion * FDeltaTime;
 					}
 				}
 
@@ -3337,57 +3071,43 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 
 			for (int i = 0; i < FNumResMedios; i++) {
 				if (ResultadosMedios[i].Pressure) {
-					ResultadosMedios[i].PresionMED =
-							ResultadosMedios[i].PresionSUM / FTiempoMedSUM;
+					ResultadosMedios[i].PresionMED = ResultadosMedios[i].PresionSUM / FTiempoMedSUM;
 					ResultadosMedios[i].PresionSUM = 0.;
 				}
 				if (ResultadosMedios[i].TemperaturaGas) {
 					if (ResultadosMedios[i].GastoPonderacionSUM != 0)
-						ResultadosMedios[i].TemperaturaGasMED =
-								ResultadosMedios[i].TemperaturaGasSUM
-										/ ResultadosMedios[i].GastoPonderacionSUM;
+						ResultadosMedios[i].TemperaturaGasMED = ResultadosMedios[i].TemperaturaGasSUM / ResultadosMedios[i].GastoPonderacionSUM;
 					else
 						ResultadosMedios[i].TemperaturaGasMED = 0;
 					ResultadosMedios[i].TemperaturaGasSUM = 0.;
 					ResultadosMedios[i].GastoPonderacionSUM = 0.;
 				}
 				if (ResultadosMedios[i].Velocity) {
-					ResultadosMedios[i].VelocidadMED =
-							ResultadosMedios[i].VelocidadSUM / FTiempoMedSUM;
+					ResultadosMedios[i].VelocidadMED = ResultadosMedios[i].VelocidadSUM / FTiempoMedSUM;
 					ResultadosMedios[i].VelocidadSUM = 0.;
 				}
 				if (ResultadosMedios[i].Massflow) {
-					ResultadosMedios[i].GastoMED = ResultadosMedios[i].GastoSUM
-							/ FTiempoMedSUM;
+					ResultadosMedios[i].GastoMED = ResultadosMedios[i].GastoSUM / FTiempoMedSUM;
 					ResultadosMedios[i].GastoSUM = 0.;
 				}
 				if (ResultadosMedios[i].TemperaturaInternaPared) {
-					ResultadosMedios[i].TemperaturaInternaParedMED =
-							ResultadosMedios[i].TemperaturaInternaParedSUM
-									/ FTiempoMedSUM;
+					ResultadosMedios[i].TemperaturaInternaParedMED = ResultadosMedios[i].TemperaturaInternaParedSUM / FTiempoMedSUM;
 					ResultadosMedios[i].TemperaturaInternaParedSUM = 0.;
 				}
 				if (ResultadosMedios[i].TemperaturaIntermediaPared) {
-					ResultadosMedios[i].TemperaturaIntermediaParedMED =
-							ResultadosMedios[i].TemperaturaIntermediaParedSUM
-									/ FTiempoMedSUM;
+					ResultadosMedios[i].TemperaturaIntermediaParedMED = ResultadosMedios[i].TemperaturaIntermediaParedSUM / FTiempoMedSUM;
 					ResultadosMedios[i].TemperaturaIntermediaParedSUM = 0.;
 				}
 				if (ResultadosMedios[i].TemperaturaExternaPared) {
-					ResultadosMedios[i].TemperaturaExternaParedMED =
-							ResultadosMedios[i].TemperaturaExternaParedSUM
-									/ FTiempoMedSUM;
+					ResultadosMedios[i].TemperaturaExternaParedMED = ResultadosMedios[i].TemperaturaExternaParedSUM / FTiempoMedSUM;
 					ResultadosMedios[i].TemperaturaExternaParedSUM = 0.;
 				}
 				if (ResultadosMedios[i].NITmedio) {
-					ResultadosMedios[i].NITmedioMED =
-							ResultadosMedios[i].NITmedioSUM / FTiempoMedSUM;
+					ResultadosMedios[i].NITmedioMED = ResultadosMedios[i].NITmedioSUM / FTiempoMedSUM;
 					ResultadosMedios[i].NITmedioSUM = 0.;
 				}
 				if (ResultadosMedios[i].CoefPelInterior) {
-					ResultadosMedios[i].CoefPelInteriorMED =
-							ResultadosMedios[i].CoefPelInteriorSUM
-									/ FTiempoMedSUM;
+					ResultadosMedios[i].CoefPelInteriorMED = ResultadosMedios[i].CoefPelInteriorSUM / FTiempoMedSUM;
 					ResultadosMedios[i].CoefPelInteriorSUM = 0.;
 				}
 				if (ResultadosMedios[i].FraccionMasicaEspecies) {
@@ -3395,9 +3115,7 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 						if (DoubEqZero(ResultadosMedios[i].PonderacionSUM)) {
 							ResultadosMedios[i].FraccionMED[j] = 0.;
 						} else {
-							ResultadosMedios[i].FraccionMED[j] =
-									ResultadosMedios[i].FraccionSUM[j]
-											/ ResultadosMedios[i].PonderacionSUM;
+							ResultadosMedios[i].FraccionMED[j] = ResultadosMedios[i].FraccionSUM[j] / ResultadosMedios[i].PonderacionSUM;
 						}
 						ResultadosMedios[i].FraccionSUM[j] = 0.;
 					}
@@ -3409,8 +3127,7 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaResultadosMedios en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaResultadosMedios en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3421,7 +3138,8 @@ void TTubo::CalculaResultadosMedios(double Theta) {
 // ---------------------------------------------------------------------------
 
 void TTubo::CalculaResultadosInstantaneos() {
-	double dist = 0., d = 0., ason = 0., vel = 0., Aa = 0., ason1 = 0., vel1 = 0., Aa1 = 0., ason2 = 0., vel2 = 0., Aa2 = 0.;
+	double dist = 0., d = 0., ason = 0., vel = 0., Aa = 0., ason1 = 0., vel1 = 0., Aa1 = 0.,
+	ason2 = 0., vel2 = 0., Aa2 = 0.;
 	int n1 = 0, n2 = 0;
 #ifdef usetry
 	try {
@@ -3435,22 +3153,15 @@ void TTubo::CalculaResultadosInstantaneos() {
 					if (ResultInstantaneos[i].Pressure)
 						ResultInstantaneos[i].PresionINS = FPresion0[FNin - 1];
 					if (ResultInstantaneos[i].Velocity)
-						ResultInstantaneos[i].VelocidadINS = FVelocidad0[FNin
-								- 1] * ARef;
+						ResultInstantaneos[i].VelocidadINS = FVelocidad0[FNin - 1] * __CTE.ARef;
 					if (ResultInstantaneos[i].TemperaturaGas) {
-						double temp = pow2(FAsonido0[FNin - 1] * ARef)
-								/ (FGamma[FNin - 1] * FRMezcla[FNin - 1])
-								- 273.;
+						double temp = __UN.KTodegC(pow2(FAsonido0[FNin - 1] * __CTE.ARef) / (FGamma[FNin - 1] * FRMezcla[FNin - 1]));
 						ResultInstantaneos[i].TemperaturaGasINS = temp;
 					}
 					if (ResultInstantaneos[i].FlujoMasico) {
-						ResultInstantaneos[i].FlujoMasicoINS = FFlowMass[FNin
-								- 1];
+						ResultInstantaneos[i].FlujoMasicoINS = FFlowMass[FNin - 1];
 					}
-					if (ResultInstantaneos[i].VelocidadDerecha
-							|| ResultInstantaneos[i].VelocidadIzquierda
-							|| ResultInstantaneos[i].PresionDerecha
-							|| ResultInstantaneos[i].PresionIzquierda) {
+					if (ResultInstantaneos[i].VelocidadDerecha || ResultInstantaneos[i].VelocidadIzquierda || ResultInstantaneos[i].PresionDerecha || ResultInstantaneos[i].PresionIzquierda) {
 						ason = FAsonidoDim[FNin - 1];
 						vel = FGamma1[FNin - 1] / 2 * FVelocidadDim[FNin - 1];
 						Aa = ason / pow(FPresion0[FNin - 1], FGamma5[FNin - 1]);
@@ -3460,43 +3171,32 @@ void TTubo::CalculaResultadosInstantaneos() {
 						ResultInstantaneos[i].VelocidadDerechaINS = VelDer;
 					}
 					if (ResultInstantaneos[i].VelocidadIzquierda) {
-						double VelIzq = -((ason - vel) - Aa)
-								/ FGamma1[FNin - 1];
+						double VelIzq = -((ason - vel) - Aa) / FGamma1[FNin - 1];
 						ResultInstantaneos[i].VelocidadIzquierdaINS = VelIzq;
 					}
 					if (ResultInstantaneos[i].PresionDerecha) {
-						double PreDer = pow(((ason + vel) / Aa + 1) / 2.,
-								FGamma4[FNin - 1]);
+						double PreDer = pow(((ason + vel) / Aa + 1) / 2., FGamma4[FNin - 1]);
 						ResultInstantaneos[i].PresionDerechaINS = PreDer;
 					}
 					if (ResultInstantaneos[i].PresionIzquierda) {
-						double PreIzq = pow(((ason - vel) / Aa + 1) / 2.,
-								FGamma4[FNin - 1]);
+						double PreIzq = pow(((ason - vel) / Aa + 1) / 2., FGamma4[FNin - 1]);
 						ResultInstantaneos[i].PresionIzquierdaINS = PreIzq;
 					}
 					if (ResultInstantaneos[i].NIT) {
-						double nit = CalculaNIT(FAsonido0[FNin - 1],
-								FVelocidad0[FNin - 1], FPresion0[FNin - 1],
-								FDiametroTubo[FNin - 1], FGamma[FNin - 1],
-								FRMezcla[FNin - 1]);
+						double nit = CalculaNIT(FAsonido0[FNin - 1], FVelocidad0[FNin - 1], FPresion0[FNin - 1], FDiametroTubo[FNin - 1], FGamma[FNin - 1], FRMezcla[FNin - 1]);
 						ResultInstantaneos[i].NITINS = nit;
 					}
 					if (ResultInstantaneos[i].TemperaturaInternaPared)
-						ResultInstantaneos[i].TemperaturaInternaParedINS =
-								FTPTubo[0][FNin - 1];
+						ResultInstantaneos[i].TemperaturaInternaParedINS = FTPTubo[0][FNin - 1];
 					if (ResultInstantaneos[i].TemperaturaIntermediaPared)
-						ResultInstantaneos[i].TemperaturaIntermediaParedINS =
-								FTPTubo[1][FNin - 1];
+						ResultInstantaneos[i].TemperaturaIntermediaParedINS = FTPTubo[1][FNin - 1];
 					if (ResultInstantaneos[i].TemperaturaExternaPared)
-						ResultInstantaneos[i].TemperaturaExternaParedINS =
-								FTPTubo[2][FNin - 1];
+						ResultInstantaneos[i].TemperaturaExternaParedINS = FTPTubo[2][FNin - 1];
 					if (ResultInstantaneos[i].CoefPelInterior)
-						ResultInstantaneos[i].CoefPelInteriorINS =
-								Fhi[FNin - 1];
+						ResultInstantaneos[i].CoefPelInteriorINS = Fhi[FNin - 1];
 					if (ResultInstantaneos[i].FraccionMasicaEspecies) {
 						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-							ResultInstantaneos[i].FraccionINS[j] =
-									FFraccionMasicaEspecie[FNin - 1][j];
+							ResultInstantaneos[i].FraccionINS[j] = FFraccionMasicaEspecie[FNin - 1][j];
 						}
 					}
 					if (ResultInstantaneos[i].Gamma)
@@ -3505,35 +3205,30 @@ void TTubo::CalculaResultadosInstantaneos() {
 					n2 = n1 + 1;
 					d = dist - (double) n1;
 					if (ResultInstantaneos[i].Pressure) {
-						double pres = Interpola(FPresion0[n1], FPresion0[n2],
-								1., d);
+						double pres = Interpola(FPresion0[n1], FPresion0[n2], 1., d);
 						ResultInstantaneos[i].PresionINS = pres;
 					}
 					if (ResultInstantaneos[i].Velocity) {
-						double vel = Interpola(FVelocidadDim[n1],
-								FVelocidadDim[n2], 1., d);
+						double vel = Interpola(FVelocidadDim[n1], FVelocidadDim[n2], 1., d);
 						ResultInstantaneos[i].VelocidadINS = vel;
 					}
 					if (ResultInstantaneos[i].TemperaturaGas) {
 						double temp1 = FTemperature[n1];
 						double temp2 = FTemperature[n2];
 						double temp = Interpola(temp1, temp2, 1., d);
-						ResultInstantaneos[i].TemperaturaGasINS = temp - 273.;
+						ResultInstantaneos[i].TemperaturaGasINS = __UN.KTodegC(temp);
 					}
 					if (ResultInstantaneos[i].FlujoMasico) {
-						// double area1=pow(FDiametroTubo[n1],2)*Pi/4.;
-						// double dens1=FGamma[n1]*FPresion0[n1]*1e5/pow(FAsonido0[n1]*ARef,2.);
+						// double area1=pow(FDiametroTubo[n1],2)*__CTE.Pi_4;
+						// double dens1=FGamma[n1]*FPresion0[n1]*1e5/pow(FAsonido0[n1]*__CTE.ARef,2.);
 						double gto1 = FFlowMass[n1];
-						// double area2=pow(FDiametroTubo[n2],2)*Pi/4.;
-						// double dens2=FGamma[n2]*FPresion0[n2]*1e5/pow(FAsonido0[n2]*ARef,2.);
+						// double area2=pow(FDiametroTubo[n2],2)*__CTE.Pi_4;
+						// double dens2=FGamma[n2]*FPresion0[n2]*1e5/pow(FAsonido0[n2]*__CTE.ARef,2.);
 						double gto2 = FFlowMass[n2];
 						double gto = Interpola(gto1, gto2, 1., d);
 						ResultInstantaneos[i].FlujoMasicoINS = gto;
 					}
-					if (ResultInstantaneos[i].VelocidadDerecha
-							|| ResultInstantaneos[i].VelocidadIzquierda
-							|| ResultInstantaneos[i].PresionDerecha
-							|| ResultInstantaneos[i].PresionIzquierda) {
+					if (ResultInstantaneos[i].VelocidadDerecha || ResultInstantaneos[i].VelocidadIzquierda || ResultInstantaneos[i].PresionDerecha || ResultInstantaneos[i].PresionIzquierda) {
 						ason1 = FAsonidoDim[n1];
 						vel1 = FGamma1[n1] / 2 * FVelocidadDim[n1];
 						Aa1 = ason1 / pow(FPresion0[n1], FGamma5[n1]);
@@ -3554,45 +3249,33 @@ void TTubo::CalculaResultadosInstantaneos() {
 						ResultInstantaneos[i].VelocidadIzquierdaINS = VelIzq;
 					}
 					if (ResultInstantaneos[i].PresionDerecha) {
-						double PreDer1 = pow(((ason1 + vel1) / Aa1 + 1) / 2.,
-								FGamma4[n1]);
-						double PreDer2 = pow(((ason2 + vel2) / Aa2 + 1) / 2.,
-								FGamma4[n2]);
+						double PreDer1 = pow(((ason1 + vel1) / Aa1 + 1) / 2., FGamma4[n1]);
+						double PreDer2 = pow(((ason2 + vel2) / Aa2 + 1) / 2., FGamma4[n2]);
 						double PreDer = Interpola(PreDer1, PreDer2, 1., d);
 						ResultInstantaneos[i].PresionDerechaINS = PreDer;
 					}
 					if (ResultInstantaneos[i].PresionIzquierda) {
-						double PreIzq1 = pow(((ason1 - vel1) / Aa1 + 1) / 2.,
-								FGamma4[n1]);
-						double PreIzq2 = pow(((ason2 - vel2) / Aa2 + 1) / 2.,
-								FGamma4[n2]);
+						double PreIzq1 = pow(((ason1 - vel1) / Aa1 + 1) / 2., FGamma4[n1]);
+						double PreIzq2 = pow(((ason2 - vel2) / Aa2 + 1) / 2., FGamma4[n2]);
 						double PreIzq = Interpola(PreIzq1, PreIzq2, 1., d);
 						ResultInstantaneos[i].PresionIzquierdaINS = PreIzq;
 					}
 					if (ResultInstantaneos[i].NIT) {
-						double nit1 = CalculaNIT(FAsonido0[n1], FVelocidad0[n1],
-								FPresion0[n1], FDiametroTubo[n1], FGamma[n1],
-								FRMezcla[n1]);
-						double nit2 = CalculaNIT(FAsonido0[n2], FVelocidad0[n2],
-								FPresion0[n2], FDiametroTubo[n2], FGamma[n2],
-								FRMezcla[n2]);
+						double nit1 = CalculaNIT(FAsonido0[n1], FVelocidad0[n1], FPresion0[n1], FDiametroTubo[n1], FGamma[n1], FRMezcla[n1]);
+						double nit2 = CalculaNIT(FAsonido0[n2], FVelocidad0[n2], FPresion0[n2], FDiametroTubo[n2], FGamma[n2], FRMezcla[n2]);
 						double nit = Interpola(nit1, nit2, 1., d);
 						ResultInstantaneos[i].NITINS = nit;
 					}
 					if (ResultInstantaneos[i].TemperaturaInternaPared) {
-						double TP = Interpola(FTPTubo[0][n1], FTPTubo[0][n2],
-								1., d);
+						double TP = Interpola(FTPTubo[0][n1], FTPTubo[0][n2], 1., d);
 						ResultInstantaneos[i].TemperaturaInternaParedINS = TP;
 					}
 					if (ResultInstantaneos[i].TemperaturaIntermediaPared) {
-						double TP = Interpola(FTPTubo[1][n1], FTPTubo[1][n2],
-								1., d);
-						ResultInstantaneos[i].TemperaturaIntermediaParedINS =
-								TP;
+						double TP = Interpola(FTPTubo[1][n1], FTPTubo[1][n2], 1., d);
+						ResultInstantaneos[i].TemperaturaIntermediaParedINS = TP;
 					}
 					if (ResultInstantaneos[i].TemperaturaExternaPared) {
-						double TP = Interpola(FTPTubo[2][n1], FTPTubo[2][n2],
-								1., d);
+						double TP = Interpola(FTPTubo[2][n1], FTPTubo[2][n2], 1., d);
 						ResultInstantaneos[i].TemperaturaExternaParedINS = TP;
 					}
 					if (ResultInstantaneos[i].CoefPelInterior) {
@@ -3601,9 +3284,7 @@ void TTubo::CalculaResultadosInstantaneos() {
 					}
 					if (ResultInstantaneos[i].FraccionMasicaEspecies) {
 						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-							double Fraccion = Interpola(
-									FFraccionMasicaEspecie[n1][j],
-									FFraccionMasicaEspecie[n2][j], 1., d);
+							double Fraccion = Interpola(FFraccionMasicaEspecie[n1][j], FFraccionMasicaEspecie[n2][j], 1., d);
 							ResultInstantaneos[i].FraccionINS[j] = Fraccion;
 						}
 					}
@@ -3617,8 +3298,7 @@ void TTubo::CalculaResultadosInstantaneos() {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaResultadosInstantaneos en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaResultadosInstantaneos en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3628,29 +3308,28 @@ void TTubo::CalculaResultadosInstantaneos() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-double TTubo::CalculaNIT(double a, double v, double p, double d, double Gamma,
-		double R) {
+double TTubo::CalculaNIT(double a, double v, double p, double d, double Gamma, double R) {
 #ifdef usetry
 	try {
 #endif
 		double kp = 0.;
-		double tem0 = 0., pre0 = 0., area = 0., gto = 0., nit = 0., V = 0., A = 0., V2 = 0., A2 = 0.;
+		double tem0 = 0., pre0 = 0., area = 0., gto = 0., nit = 0., V = 0., A = 0., V2 = 0.,
+		A2 = 0.;
 
 		kp = Gamma * R / (Gamma - 1);
-		V = v * ARef;
+		V = v * __CTE.ARef;
 		V2 = V * V;
-		A = a * ARef;
+		A = a * __CTE.ARef;
 		A2 = A * A;
 		tem0 = A2 / (Gamma * R) + V2 / 2. / kp;
-		pre0 = p * 1e5 * pow((1 + V2 / 2. / kp / A2), (kp / 287.));
-		area = pow2(d) * Pi / 4.;
-		gto = Gamma * p * 1e5 * area * V / A2;
+		pre0 = __UN.BarToPa(p) * pow((1 + V2 / 2. / kp / A2), (kp / 287.));
+		area = pow2(d) * __CTE.Pi_4;
+		gto = Gamma * __UN.BarToPa(p) * area * V / A2;
 		nit = gto * kp * tem0 * (1 - pow(pre0 / 100000., (-287. / kp)));
 		return nit;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaNIT en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaNIT en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3660,22 +3339,19 @@ double TTubo::CalculaNIT(double a, double v, double p, double d, double Gamma,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
-		double AmbientPressure, double AmbientTemperature) {
+void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine, double AmbientPressure, double AmbientTemperature) {
 #ifdef usetry
 	try {
 #endif
 
-		double dtem, temed, rhog, viscext, Re, Pr, cond, viscpared, vel, n1, n2,
-				L;
+		double dtem, temed, rhog, viscext, Re, Pr, cond, viscpared, vel, n1, n2, L;
 
 		if (FTipoCalcTempPared != nmTempConstante && FCoefAjusTC != 0) {
 
-			if (FTipoTransCal == nmTuboAdmision
-					|| FTipoTransCal == nmTuboEscape) {
+			if (FTipoTransCal == nmTuboAdmision || FTipoTransCal == nmTuboEscape) {
 				for (int i = 0; i < FNin; i++) {
-					dtem = fabs(FTPTubo[2][i] + 273. - FTExt);
-					temed = (FTPTubo[2][i] + 273. + FTExt) / 2.;
+					dtem = fabs(__UN.degCToK(FTPTubo[2][i]) - FTExt);
+					temed = (__UN.degCToK(FTPTubo[2][i]) + FTExt) / 2.;
 
 					// Calculo del coeficiente de pelicula exterior
 
@@ -3683,19 +3359,12 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 					switch (FTipRefrig) {
 					case nmAire:
 						// Condiciones del aire a temperatura media (temed) y 1m/s
-						rhog = AmbientPressure * 1e5 / RAir / temed;
+						rhog = __UN.BarToPa(AmbientPressure) / __R.Air / temed;
 						// Density del aire atmosferico (se considera R=cte=287)
 						viscext = 1.4615e-6 * pow150(temed) / (temed + 110.4);
 						Pr = 0.7;
-						cond = (-8.39061e-09 * temed + 7.05256e-05) * temed
-								+ 6.51528e-03;
-						Re = rhog * 1.
-								* (FDiametroTubo[i]
-										+ 2
-												* (FEspesorIntPrin
-														+ FEspesorPrin
-														+ FEspesorExtPrin))
-								/ viscext;
+						cond = (-8.39061e-09 * temed + 7.05256e-05) * temed + 6.51528e-03;
+						Re = rhog * 1. * (FDiametroTubo[i] + 2 * (FEspesorIntPrin + FEspesorPrin + FEspesorExtPrin)) / viscext;
 						break;
 					case nmAgua:
 						// Condiciones de agua saturada a (temed) y 1m/s
@@ -3705,27 +3374,14 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 							Pr = 1.76;
 							cond = 0.6775;
 						} else {
-							viscext = ((-2.632351E-09 * temed + 2.737629E-06)
-									* temed - 9.530709E-04) * temed
-									+ 1.114642E-01;
-							Pr = ((-2.022269E-05 * temed + 2.106518E-02) * temed
-									- 7.340298E+00) * temed + 8.581110E+02;
-							cond = ((9.496332E-09 * temed - 1.707697E-05)
-									* temed + 9.183462E-03) * temed
-									- 8.626578E-01;
+							viscext = ((-2.632351E-09 * temed + 2.737629E-06) * temed - 9.530709E-04) * temed + 1.114642E-01;
+							Pr = ((-2.022269E-05 * temed + 2.106518E-02) * temed - 7.340298E+00) * temed + 8.581110E+02;
+							cond = ((9.496332E-09 * temed - 1.707697E-05) * temed + 9.183462E-03) * temed - 8.626578E-01;
 						}
-						Re = rhog * 1.
-								* (FDiametroTubo[i]
-										+ 2
-												* (FEspesorIntPrin
-														+ FEspesorPrin
-														+ FEspesorExtPrin))
-								/ viscext;
+						Re = rhog * 1. * (FDiametroTubo[i] + 2 * (FEspesorIntPrin + FEspesorPrin + FEspesorExtPrin)) / viscext;
 						break;
 					default:
-						std::cout
-								<< "WARNING: Tipo de refrigeracion mal definida en el tubo: "
-								<< FNumeroTubo << std::endl;
+						std::cout << "WARNING: Tipo de refrigeracion mal definida en el tubo: " << FNumeroTubo << std::endl;
 					}
 					// Termino de conveccion de Churchill Bernstein
 					if ((2e4 < Re) && (Re < 4e5)) {
@@ -3735,36 +3391,24 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 						n1 = 0.625;
 						n2 = 0.8;
 					}
-					Fhe[i] = 0.3
-							+ 0.62 * sqrt(Re) * cbrt(Pr)
-									/ pow025(1 + pow(0.4 / Pr, 0.666666))
-									* pow(1 + pow(Re / 282000, n1), n2) * cond
-									/ FDiametroTubo[i];
+					Fhe[i] = 0.3 + 0.62 * sqrt(Re) * cbrt(Pr) / pow025(1 + pow(0.4 / Pr, 0.666666)) * pow(1 + pow(Re / 282000, n1), n2) * cond / FDiametroTubo[i];
 
 					// Termino de radiacion
 					if (dtem != 0.) {
-						Fhe[i] = Fhe[i]
-								+ 5.669e-8 * FEmisividad
-										* (pow4(FTPTubo[2][i] + 273.)
-												- pow4(FTExt)) / dtem;
+						Fhe[i] = Fhe[i] + __CTE.Sigma * FEmisividad * (pow4(__UN.degCToK(FTPTubo[2][i])) - pow4(FTExt)) / dtem;
 					}
 					Fhe[i] = Fhe[i] * FCoefExt;
 				}
 			} else {
-				temed = Engine[0]->getTempRefrigerante() + 273.;
+				temed = __UN.degCToK(Engine[0]->getTempRefrigerante());
 				rhog = 980.;
-				viscext = ((-2.632351E-09 * temed + 2.737629E-06) * temed
-						- 9.530709E-04) * temed + 1.114642E-01;
+				viscext = ((-2.632351E-09 * temed + 2.737629E-06) * temed - 9.530709E-04) * temed + 1.114642E-01;
 				L = 1.5 * Engine[0]->getGeometria().Diametro;
 				// Longitud caracteristica del conducto refrigerante.
-				vel = 5.64268e-7 * Engine[0]->getRegimen() / 60.
-						* Engine[0]->getParPotMax()
-						/ Engine[0]->getGeometria().NCilin / pow(L, 2.);
+				vel = 5.64268e-7 * Engine[0]->getRegimen() / 60. * Engine[0]->getParPotMax() / Engine[0]->getGeometria().NCilin / pow(L, 2.);
 				Re = rhog * fabs(vel) * L / 2.3 / viscext;
-				Pr = ((-2.022269E-05 * temed + 2.106518E-02) * temed
-						- 7.340298E+00) * temed + 8.581110E+02;
-				cond = ((9.496332E-09 * temed - 1.707697E-05) * temed
-						+ 9.183462E-03) * temed - 8.626578E-01;
+				Pr = ((-2.022269E-05 * temed + 2.106518E-02) * temed - 7.340298E+00) * temed + 8.581110E+02;
+				cond = ((9.496332E-09 * temed - 1.707697E-05) * temed + 9.183462E-03) * temed - 8.626578E-01;
 
 				for (int i = 0; i < FNin; i++) {
 					// Condiciones del agua de refrigerante del motor.
@@ -3773,22 +3417,17 @@ void TTubo::CalculaCoeficientePeliculaExterior(TBloqueMotor **Engine,
 					if (FTPTubo[2][i] > 100.) {
 						viscpared = 0.000282;
 					} else {
-						double Tp2 = FTPTubo[2][i] + 273.;
-						viscpared = ((-2.632351E-09 * Tp2 + 2.737629E-06) * Tp2
-								- 9.530709E-04) * Tp2 + 1.114642E-01;
+						double Tp2 = __UN.degCToK(FTPTubo[2][i]);
+						viscpared = ((-2.632351E-09 * Tp2 + 2.737629E-06) * Tp2 - 9.530709E-04) * Tp2 + 1.114642E-01;
 					}
 
-					Fhe[i] = 0.027 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re))
-							* pow(Re, 0.8) * cbrt(Pr)
-							* pow(viscext / viscpared, 0.14) * cond / (L / 2.3);
+					Fhe[i] = 0.027 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re, 0.8) * cbrt(Pr) * pow(viscext / viscpared, 0.14) * cond / (L / 2.3);
 				}
 			}
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TTubo::CalculaCoeficientePeliculaExterior en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaCoeficientePeliculaExterior en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3802,12 +3441,11 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 #ifdef usetry
 	try {
 #endif
-		double Dext, Dint, DIntPrin /* ,Tmed */, Text, Tint, Rcond, Rrad,
-				UnionEspes, UnionConduct, Cap;
+		double Dext, Dint, DIntPrin /* ,Tmed */, Text, Tint, Rcond, Rrad, UnionEspes, UnionConduct,
+		Cap;
 		bool EsInterior;
 
-		if (FTipoCalcTempPared != nmTempConstante && FCoefAjusTC != 0
-				&& !FConcentrico) {
+		if (FTipoCalcTempPared != nmTempConstante && FCoefAjusTC != 0 && !FConcentrico) {
 			for (int i = 0; i < FNin; i++) {
 				// Calculo de las resistencias termicas radiales.
 				EsInterior = true;
@@ -3817,28 +3455,17 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 				for (int j = 0; j < FNumCapas; j++) {
 					Dext = Dint + 2 * FCapa[j].Espesor;
 					if (FCapa[j].EsPrincipal == false) {
-						Rcond = log(Dext / Dint) / 2 / Pi
-								/ FCapa[j].Conductividad / FXref;
+						Rcond = log(Dext / Dint) / __CTE.Pi_x_2 / FCapa[j].Conductividad / FXref;
 						if (EsInterior) {
 							// Calculo de la resistencia termica radial interior.
 							if (FCapa[j].EsFluida) {
 								// Capa de camara de fluido.
-								Text = FTPTubo[1][i] + 273;
-								Tint = FTPTubo[0][i] + 273;
+								Text = __UN.degCToK(FTPTubo[1][i]);
+								Tint = __UN.degCToK(FTPTubo[0][i]);
 								// Tmed=(Text+Tint)/2;
 								if (Tint != Text) {
-									Rrad =
-											(1 / FCapa[j].EmisividadInterior
-													+ Dint / Dext
-															* (1
-																	/ FCapa[j].EmisividadExterior
-																	- 1))
-													/ (5.67e-8 * Pi * Dint
-															* FXref)
-													* (Tint - Text)
-													/ (pow4(Tint) - pow4(Text));
-									FResistRadInt[i] += 1
-											/ (1 / Rcond + 1 / Rrad);
+									Rrad = (1 / FCapa[j].EmisividadInterior + Dint / Dext * (1 / FCapa[j].EmisividadExterior - 1)) / (__CTE.Sigma * __CTE.Pi * Dint * FXref) * (Tint - Text) / (pow4(Tint) - pow4(Text));
+									FResistRadInt[i] += 1 / (1 / Rcond + 1 / Rrad);
 								} else {
 									FResistRadInt[i] += Rcond;
 								}
@@ -3851,21 +3478,11 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 							// Calculo de la resistencia termica radial interior.
 							if (FCapa[j].EsFluida) {
 								// Capa de camara de fluido.
-								Text = FTPTubo[2][i] + 273;
-								Tint = FTPTubo[1][i] + 273;
+								Text = __UN.degCToK(FTPTubo[2][i]);
+								Tint = __UN.degCToK(FTPTubo[1][i]);
 								if (Tint != Text) {
-									Rrad =
-											(1 / FCapa[j].EmisividadInterior
-													+ Dint / Dext
-															* (1
-																	/ FCapa[j].EmisividadExterior
-																	- 1))
-													/ (5.67e-8 * Pi * Dint
-															* FXref)
-													* (Tint - Text)
-													/ (pow4(Tint) - pow4(Text));
-									FResistRadExt[i] += 1
-											/ (1 / Rcond + 1 / Rrad);
+									Rrad = (1 / FCapa[j].EmisividadInterior + Dint / Dext * (1 / FCapa[j].EmisividadExterior - 1)) / (__CTE.Sigma * __CTE.Pi * Dint * FXref) * (Tint - Text) / (pow4(Tint) - pow4(Text));
+									FResistRadExt[i] += 1 / (1 / Rcond + 1 / Rrad);
 								} else {
 									FResistRadExt[i] += Rcond;
 								}
@@ -3876,12 +3493,8 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 						}
 					} else {
 						// Calculo de la resistencia termica radial exterior e interior de la capa principal.
-						FResistRadInt[i] += log(
-								(Dint + FCapa[j].Espesor) / Dint) / 2 / Pi
-								/ FCapa[j].Conductividad / FXref;
-						FResistRadExt[i] += log(
-								Dext / (Dint + FCapa[j].Espesor)) / 2 / Pi
-								/ FCapa[j].Conductividad / FXref;
+						FResistRadInt[i] += log((Dint + FCapa[j].Espesor) / Dint) / __CTE.Pi_x_2 / FCapa[j].Conductividad / FXref;
+						FResistRadExt[i] += log(Dext / (Dint + FCapa[j].Espesor)) / __CTE.Pi_x_2 / FCapa[j].Conductividad / FXref;
 						EsInterior = false;
 					}
 					Dint = Dext;
@@ -3893,20 +3506,13 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 				DIntPrin = FDiametroTubo[i] + 2 * FEspesorIntPrin;
 				if (i == 0) {
 					if (BC[FNodoIzq - 1]->getTipoCC() == nmPipesConnection) {
-						UnionEspes =
-								dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq
-										- 1])->getEspesor();
-						UnionConduct =
-								dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq
-										- 1])->getConductividad();
+						UnionEspes = dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getEspesor();
+						UnionConduct = dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad();
 						if (UnionConduct > 0) {
-							FResistAxiAnt[i] = UnionEspes / UnionConduct
-									/ (Pi * (DIntPrin + FEspesorPrin)
-											* FEspesorPrin);
+							FResistAxiAnt[i] = UnionEspes / UnionConduct / (__CTE.Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
 						}
 					}
-					FResistAxiPos[i] = FXref / FConductPrin
-							/ (Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
+					FResistAxiPos[i] = FXref / FConductPrin / (__CTE.Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
 				}
 #ifdef ParticulateFilter
 				else if ( BC[FNodoIzq - 1]->getTipoCC()
@@ -3936,19 +3542,12 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 				}
 #endif
 				else if (i == FNin - 1) {
-					FResistAxiAnt[i] = FXref / FConductPrin
-							/ (Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
+					FResistAxiAnt[i] = FXref / FConductPrin / (__CTE.Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
 					if (BC[FNodoDer - 1]->getTipoCC() == nmPipesConnection) {
-						UnionEspes =
-								dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer
-										- 1])->getEspesor();
-						UnionConduct =
-								dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer
-										- 1])->getConductividad();
+						UnionEspes = dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getEspesor();
+						UnionConduct = dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad();
 						if (UnionConduct > 0) {
-							FResistAxiPos[i] = UnionEspes / UnionConduct
-									/ (Pi * (DIntPrin + FEspesorPrin)
-											* FEspesorPrin);
+							FResistAxiPos[i] = UnionEspes / UnionConduct / (__CTE.Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
 						}
 					}
 #ifdef ParticulateFilter
@@ -3981,10 +3580,8 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 					}
 #endif
 				} else {
-					FResistAxiAnt[i] = FXref / FConductPrin
-							/ (Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
-					FResistAxiPos[i] = FXref / FConductPrin
-							/ (Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
+					FResistAxiAnt[i] = FXref / FConductPrin / (__CTE.Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
+					FResistAxiPos[i] = FXref / FConductPrin / (__CTE.Pi * (DIntPrin + FEspesorPrin) * FEspesorPrin);
 				}
 
 				// Calculo de las capacidades termicas.
@@ -4000,34 +3597,22 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 							// Calculo de la capacidad termica interior.
 							if (!FCapa[j].EsFluida) {
 								// Capa de material.
-								Cap = FCapa[j].Density
-										* FCapa[j].CalorEspecifico * Pi / 4
-										* (pow2(Dext) - pow2(Dint)) * FXref;
+								Cap = FCapa[j].Density * FCapa[j].CalorEspecifico * __CTE.Pi_4 * (pow2(Dext) - pow2(Dint)) * FXref;
 								FCapInt[i] += Cap;
 							}
 						} else {
 							// Calculo de la capacidad termica exterior.
 							if (!FCapa[j].EsFluida) {
 								// Capa de material.
-								Cap = FCapa[j].Density
-										* FCapa[j].CalorEspecifico * Pi / 4
-										* (pow2(Dext) - pow2(Dint)) * FXref;
+								Cap = FCapa[j].Density * FCapa[j].CalorEspecifico * __CTE.Pi_4 * (pow2(Dext) - pow2(Dint)) * FXref;
 								FCapExt[i] += Cap;
 							}
 						}
 					} else {
 						// Calculo de la capacidad termica exterior, media e interior de la capa principal.
-						FCapInt[i] += FDensidadPrin * FCalEspPrin * Pi / 4
-								* (pow2(DIntPrin + 0.5 * FEspesorPrin)
-										- pow2(DIntPrin)) * FXref;
-						FCapMed[i] = FDensidadPrin * FCalEspPrin * Pi / 4
-								* (pow2(DIntPrin + 1.5 * FEspesorPrin)
-										- pow2(DIntPrin + 0.5 * FEspesorPrin))
-								* FXref;
-						FCapExt[i] += FDensidadPrin * FCalEspPrin * Pi / 4
-								* (pow2(DIntPrin + 2 * FEspesorPrin)
-										- pow2(DIntPrin + 1.5 * FEspesorPrin))
-								* FXref;
+						FCapInt[i] += FDensidadPrin * FCalEspPrin * __CTE.Pi_4 * (pow2(DIntPrin + 0.5 * FEspesorPrin) - pow2(DIntPrin)) * FXref;
+						FCapMed[i] = FDensidadPrin * FCalEspPrin * __CTE.Pi_4 * (pow2(DIntPrin + 1.5 * FEspesorPrin) - pow2(DIntPrin + 0.5 * FEspesorPrin)) * FXref;
+						FCapExt[i] += FDensidadPrin * FCalEspPrin * __CTE.Pi * (pow2(DIntPrin + 2 * FEspesorPrin) - pow2(DIntPrin + 1.5 * FEspesorPrin)) * FXref;
 						EsInterior = false;
 					}
 					Dint = Dext;
@@ -4036,8 +3621,7 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaResistenciasdePared en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaResistenciasdePared en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -4078,21 +3662,15 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 					break;
 				case nmTuboEscape:
 					// Termino de conveccion correlacion M. Reyes
-					Fhi[i] = 1.6 * pow(FRe[i], 0.4) * cond / FDiametroTubo[i]
-							* FCoefTurbulencia[i];
+					Fhi[i] = 1.6 * pow(FRe[i], 0.4) * cond / FDiametroTubo[i] * FCoefTurbulencia[i];
 					break;
 				case nmPipaEscape:
 					// Termino de conveccion correlacion de Caton + M. Reyes
-					viscpared = 1.4615e-6 * pow150(FTPTubo[0][i] + 273.)
-							/ (FTPTubo[0][i] + 273. + 110.4);
-					Fhi[i] = 0.1 * pow(FRe[i], 0.8) * 0.709
-							* pow(viscgas / viscpared, 0.14) * cond
-							/ FDiametroTubo[i];
+					viscpared = 1.4615e-6 * pow150(__UN.degCToK(FTPTubo[0][i])) / (__UN.degCToK(FTPTubo[0][i]) + 110.4);
+					Fhi[i] = 0.1 * pow(FRe[i], 0.8) * 0.709 * pow(viscgas / viscpared, 0.14) * cond / FDiametroTubo[i];
 					break;
 				default:
-					std::cout
-							<< "WARNING: Transmision de calor mal definida en el tubo: "
-							<< FNumeroTubo << std::endl;
+					std::cout << "WARNING: Transmision de calor mal definida en el tubo: " << FNumeroTubo << std::endl;
 				}
 			}
 		} else if (FCoefAjusFric != 0) {
@@ -4104,9 +3682,7 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TTubo::CalculaCoeficientePeliculaInterior en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaCoeficientePeliculaInterior en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -4116,12 +3692,12 @@ void TTubo::CalculaCoeficientePeliculaInterior(TCondicionContorno **BC) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
-		double CrankAngle, TCondicionContorno **BC) {
+void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta, double CrankAngle, TCondicionContorno **BC) {
 	double Tg = 0.;
 	double zzz = 0., czz = 0., cz1 = 0., uq1 = 0.;
 	double DeltaTTPared = 0.;
-	double Tpant0 = 0., Tpant1 = 0., Tpant2 = 0., Tpantant = 0., Tpantpos = 0., Text = 0., Ri = 0., Re = 0., ErrorTp = 0.;
+	double Tpant0 = 0., Tpant1 = 0., Tpant2 = 0., Tpantant = 0., Tpantpos = 0., Text = 0., Ri = 0.,
+	Re = 0., ErrorTp = 0.;
 	bool EsPrimeraVez;
 	int extremo = 0, nodo = 0;
 #ifdef usetry
@@ -4155,11 +3731,10 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 				Tg = FTemperature[i];
 
 				// Establece la temperatura del fluido en el exterior del conducto.
-				if (FTipoTransCal == nmTuboAdmision
-						|| FTipoTransCal == nmTuboEscape) {
+				if (FTipoTransCal == nmTuboAdmision || FTipoTransCal == nmTuboEscape) {
 					Text = FTExt;
 				} else {
-					Text = Engine[0]->getTempRefrigerante() + 273.;
+					Text = __UN.degCToK(Engine[0]->getTempRefrigerante());
 				}
 
 				// Establece la temperatura de la pared en el instante de calculo anterior...
@@ -4168,164 +3743,107 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 				// Tpantpos=FTParedAnt[1][i]+273.;
 				if (i == 0) {
 					if (BC[FNodoIzq - 1]->getTipoCC() == nmPipesConnection) {
-						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad()
-								> 0) {
-							if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-									== FNumeroTubo) {
+						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad() > 0) {
+							if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
-								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							} else {
 								extremo = 0;
-								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							}
-							Tpantant =
-									BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(
-											1, nodo) + 273.;
+							Tpantant = __UN.degCToK(BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 						}
 					}
 #ifdef ParticulateFilter
 					else if ( BC[FNodoIzq - 1]->getTipoCC() == nmPipeToPlenumConnection ) {
 						if ( FHayDPFNodoIzq ) {
-							Tpantant = FDPFEntradaTubo->GetTSuperficie
-							( FNodoDPFEntrada, 2 ) + 273.;
+							Tpantant = __UN.degCToK(FDPFEntradaTubo->GetTSuperficie
+							( FNodoDPFEntrada, 2 ));
 						}
 					}
 #endif
-					Tpantpos = FTParedAnt[1][i + 1] + 273.;
+					Tpantpos = __UN.degCToK(FTParedAnt[1][i + 1]);
 				} else if (i == FNin - 1) {
-					Tpantant = FTParedAnt[1][i - 1] + 273.;
+					Tpantant = __UN.degCToK(FTParedAnt[1][i - 1]);
 					if (BC[FNodoDer - 1]->getTipoCC() == nmPipesConnection) {
-						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad()
-								> 0) {
-							if (BC[getNodoDer() - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-									== FNumeroTubo) {
+						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad() > 0) {
+							if (BC[getNodoDer() - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
-								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoDer - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							} else {
 								extremo = 0;
-								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoDer - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							}
-							Tpantpos =
-									BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(
-											1, nodo) + 273.;
+							Tpantpos = __UN.degCToK(BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 						}
 					}
 #ifdef ParticulaFilter
 					else if ( BC[FNodoDer - 1]->getTipoCC() == nmPlenum ) {
 						if ( FHayDPFNodoDer ) {
-							Tpantpos = FDPFSalidaTubo->GetTSuperficie
-							( FNodoDPFSalida, 2 ) + 273.;
+							Tpantpos = __UN.degCToK(FDPFSalidaTubo->GetTSuperficie
+							( FNodoDPFSalida, 2 ));
 						}
 					}
 #endif
 				} else {
-					Tpantant = FTParedAnt[1][i - 1] + 273.;
-					Tpantpos = FTParedAnt[1][i + 1] + 273.;
+					Tpantant = __UN.degCToK(FTParedAnt[1][i - 1]);
+					Tpantpos = __UN.degCToK(FTParedAnt[1][i + 1]);
 				}
 				// ...en los nodos interior, medio y exterior.
-				Tpant0 = FTParedAnt[0][i] + 273.;
-				Tpant1 = FTParedAnt[1][i] + 273.;
-				Tpant2 = FTParedAnt[2][i] + 273.;
+				Tpant0 = __UN.degCToK(FTParedAnt[0][i]);
+				Tpant1 = __UN.degCToK(FTParedAnt[1][i]);
+				Tpant2 = __UN.degCToK(FTParedAnt[2][i]);
 
 				// Resistencias termicas interior y exterior.
 				if (DoubEqZero(Fhi[i])) {
 					Ri = 100000000.;
 				} else {
-					Ri = 1 / Pi / FDiametroTubo[i] / Fhi[i] / FCoefAjusTC
-							/ FXref;
+					Ri = 1 / __CTE.Pi / FDiametroTubo[i] / Fhi[i] / FCoefAjusTC / FXref;
 				}
 				if (DoubEqZero(Fhe[i])) {
 					Re = 100000000.;
 				} else {
-					Re = 1 / Pi
-							/ (FDiametroTubo[i]
-									+ 2
-											* (FEspesorIntPrin + FEspesorPrin
-													+ FEspesorExtPrin)) / Fhe[i]
-							/ FXref;
+					Re = 1 / __CTE.Pi / (FDiametroTubo[i] + 2 * (FEspesorIntPrin + FEspesorPrin + FEspesorExtPrin)) / Fhe[i] / FXref;
 				}
 				// Calculo de las temperaturas de pared.
-				FTPTubo[2][i] = DeltaTTPared / FCapExt[i]
-						* (1 / FResistRadExt[i] * (Tpant1 - Tpant2)
-								+ 1 / Re * (Text - Tpant2)) + Tpant2;
+				FTPTubo[2][i] = DeltaTTPared / FCapExt[i] * (1 / FResistRadExt[i] * (Tpant1 - Tpant2) + 1 / Re * (Text - Tpant2)) + Tpant2;
 				if (FResistAxiAnt[i] > 0. && FResistAxiPos[i] > 0.) {
-					FTPTubo[1][i] =
-							DeltaTTPared / FCapMed[i]
-									* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-											+ 1 / FResistRadExt[i]
-													* (Tpant2 - Tpant1)
-											+ 1 / FResistAxiAnt[i]
-													* (Tpantant - Tpant1)
-											+ 1 / FResistAxiPos[i]
-													* (Tpantpos - Tpant1))
-									+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1) + 1 / FResistAxiAnt[i] * (Tpantant - Tpant1) + 1 / FResistAxiPos[i] * (Tpantpos - Tpant1)) + Tpant1;
 				} else if (FResistAxiAnt[i] > 0.) {
-					FTPTubo[1][i] =
-							DeltaTTPared / FCapMed[i]
-									* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-											+ 1 / FResistRadExt[i]
-													* (Tpant2 - Tpant1)
-											+ 1 / FResistAxiAnt[i]
-													* (Tpantant - Tpant1))
-									+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1) + 1 / FResistAxiAnt[i] * (Tpantant - Tpant1)) + Tpant1;
 				} else if (FResistAxiPos[i] > 0.) {
-					FTPTubo[1][i] =
-							DeltaTTPared / FCapMed[i]
-									* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-											+ 1 / FResistRadExt[i]
-													* (Tpant2 - Tpant1)
-											+ 1 / FResistAxiPos[i]
-													* (Tpantpos - Tpant1))
-									+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1) + 1 / FResistAxiPos[i] * (Tpantpos - Tpant1)) + Tpant1;
 				} else {
-					FTPTubo[1][i] = DeltaTTPared / FCapMed[i]
-							* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-									+ 1 / FResistRadExt[i] * (Tpant2 - Tpant1))
-							+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1)) + Tpant1;
 				}
-				FTPTubo[0][i] = DeltaTTPared / FCapInt[i]
-						* (1 / Ri * (Tg - Tpant0)
-								+ 1 / FResistRadInt[i] * (Tpant1 - Tpant0))
-						+ Tpant0;
+				FTPTubo[0][i] = DeltaTTPared / FCapInt[i] * (1 / Ri * (Tg - Tpant0) + 1 / FResistRadInt[i] * (Tpant1 - Tpant0)) + Tpant0;
 				for (int k = 0; k < 3; k++) {
-					FTPTubo[k][i] = FTPTubo[k][i] - 273.;
+					FTPTubo[k][i] = __UN.degCToK(FTPTubo[k][i]);
 				}
 
 				// Si el tipo de calculo es sin inercia termica o lleva menos de "NumCiclosSinInerciaTermica" ciclos calculando...
-				if (FTipoCalcTempPared == nmVariableSinInerciaTermica
-						|| Theta / FAnguloTotalCiclo
-								<= Engine[0]->getNumCiclosSinInerciaTermica()) {
+				if (FTipoCalcTempPared == nmVariableSinInerciaTermica || Theta / FAnguloTotalCiclo <= Engine[0]->getNumCiclosSinInerciaTermica()) {
 					if (Fhi[i] != 0. && Theta > FAnguloTotalCiclo) {
 						// Sumatorio de h*Tg*incrt intermedio(para el calculo de la integral).
-						FSUMTPTuboPro[0][1][i] += 1 / (Ri + FResistRadInt[i])
-								* Tg * DeltaTTPared;
+						FSUMTPTuboPro[0][1][i] += 1 / (Ri + FResistRadInt[i]) * Tg * DeltaTTPared;
 						// Sumatorio de h*incrt intermedio(para el calculo de la integral).
-						FSUMTPTuboPro[1][1][i] += 1 / (Ri + FResistRadInt[i])
-								* DeltaTTPared;
+						FSUMTPTuboPro[1][1][i] += 1 / (Ri + FResistRadInt[i]) * DeltaTTPared;
 						// Sumatorio de h*Tg*incrt interior(para el calculo de la integral).
 						FSUMTPTuboPro[0][0][i] += 1 / Ri * Tg * DeltaTTPared;
 						// Sumatorio de h*incrt interior(para el calculo de la integral).
@@ -4338,10 +3856,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 			// Si esta al final del ciclo...
 			if (FCicloTubo != Engine[0]->getCiclo() && FSUMTime > 0.) {
 				// ...si (el tipo de calculo es sin inercia termica o lleva menos de "NumCiclosSinInerciaTermica" ciclos calculando) y esta en el segundo ciclo, calcula la temperatura de convergencia
-				if ((FTipoCalcTempPared == nmVariableSinInerciaTermica
-						|| Theta / FAnguloTotalCiclo
-								<= Engine[0]->getNumCiclosSinInerciaTermica())
-						&& Theta > FAnguloTotalCiclo + 1) {
+				if ((FTipoCalcTempPared == nmVariableSinInerciaTermica || Theta / FAnguloTotalCiclo <= Engine[0]->getNumCiclosSinInerciaTermica()) && Theta > FAnguloTotalCiclo + 1) {
 					ErrorTp = 1.;
 					EsPrimeraVez = true;
 					while (ErrorTp >= 1) { // Itera hasta conseguir una diferencia entre las temperaturas de pared menor a 1degC entre Steps.
@@ -4349,43 +3864,27 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 						for (int i = 0; i < FNin; i++) {
 							// Establece la temperatura de la pared en el instante de calculo anterior...
 							// ...en los nosdos anterior y posterior.
-							Tpantant = FTPTubo[1][i] + 273.;
-							Tpantpos = FTPTubo[1][i] + 273.;
+							Tpantant = __UN.degCToK(FTPTubo[1][i]);
+							Tpantpos = __UN.degCToK(FTPTubo[1][i]);
 							if (i == 0) {
-								if (BC[FNodoIzq - 1]->getTipoCC()
-										== nmPipesConnection) {
-									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq
-											- 1])->getConductividad() > 0) {
-										if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-												== FNumeroTubo) {
+								if (BC[FNodoIzq - 1]->getTipoCC() == nmPipesConnection) {
+									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad() > 0) {
+										if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 											extremo = 1;
-											if (BC[FNodoIzq - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoIzq - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										} else {
 											extremo = 0;
-											if (BC[FNodoIzq - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoIzq - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										}
-										Tpantant =
-												BC[FNodoIzq - 1]->GetTuboExtremo(
-														extremo).Pipe->GetTPTuboAnt(
-														1, nodo) + 273.;
+										Tpantant = __UN.degCToK(BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 									}
 								}
 #ifdef ParticulateFilter
@@ -4394,48 +3893,32 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 										== nmPipeToPlenumConnection ) {
 									if ( FHayDPFNodoIzq ) {
 										Tpantant =
-										FDPFEntradaTubo->GetTSuperficie
-										( FNodoDPFEntrada, 2 ) + 273.;
+										__UN.degCToK(FDPFEntradaTubo->GetTSuperficie
+										( FNodoDPFEntrada, 2 ));
 									}
 								}
 #endif
-								Tpantpos = FTPTubo[1][i + 1] + 273.;
+								Tpantpos = __UN.degCToK(FTPTubo[1][i + 1]);
 							} else if (i == FNin - 1) {
-								Tpantant = FTPTubo[1][i - 1] + 273.;
-								if (BC[FNodoDer - 1]->getTipoCC()
-										== nmPipesConnection) {
-									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer
-											- 1])->getConductividad() > 0) {
-										if (BC[FNodoDer - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-												== FNumeroTubo) {
+								Tpantant = __UN.degCToK(FTPTubo[1][i - 1]);
+								if (BC[FNodoDer - 1]->getTipoCC() == nmPipesConnection) {
+									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad() > 0) {
+										if (BC[FNodoDer - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 											extremo = 1;
-											if (BC[FNodoDer - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoDer - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										} else {
 											extremo = 0;
-											if (BC[FNodoDer - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoDer - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										}
-										Tpantpos =
-												BC[FNodoDer - 1]->GetTuboExtremo(
-														extremo).Pipe->GetTPTuboAnt(
-														1, nodo) + 273.;
+										Tpantpos = __UN.degCToK(BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 									}
 								}
 #ifdef ParticulateFilter
@@ -4444,118 +3927,41 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 										== nmPipeToPlenumConnection ) {
 									if ( FHayDPFNodoDer ) {
 										Tpantpos =
-										FDPFSalidaTubo->GetTSuperficie
-										( FNodoDPFSalida, 2 ) + 273.;
+										__UN.degCToK(FDPFSalidaTubo->GetTSuperficie
+										( FNodoDPFSalida, 2 ));
 									}
 								}
 #endif
 							} else {
-								Tpantant = FTPTubo[1][i - 1] + 273.;
-								Tpantpos = FTPTubo[1][i + 1] + 273.;
+								Tpantant = __UN.degCToK(FTPTubo[1][i - 1]);
+								Tpantpos = __UN.degCToK(FTPTubo[1][i + 1]);
 							}
 
 							// ...en los nodos interior, medio y exterior.
-							Tpant0 = FTPTubo[0][i] + 273.;
-							Tpant1 = FTPTubo[1][i] + 273.;
-							Tpant2 = FTPTubo[2][i] + 273.;
+							Tpant0 = __UN.degCToK(FTPTubo[0][i]);
+							Tpant1 = __UN.degCToK(FTPTubo[1][i]);
+							Tpant2 = __UN.degCToK(FTPTubo[2][i]);
 
 							if (EsPrimeraVez) {
-								FTPTubo[1][i] = (FSUMTime * 1
-										/ (Re + FResistRadExt[i]) * Text
-										+ FSUMTPTuboPro[0][1][i])
-										/ (FSUMTime * 1
-												/ (Re + FResistRadExt[i])
-												+ FSUMTPTuboPro[1][1][i]);
+								FTPTubo[1][i] = (FSUMTime * 1 / (Re + FResistRadExt[i]) * Text + FSUMTPTuboPro[0][1][i]) / (FSUMTime * 1 / (Re + FResistRadExt[i]) + FSUMTPTuboPro[1][1][i]);
 							} else {
-								if (FResistAxiAnt[i] > 0.
-										&& FResistAxiPos[i] > 0.) {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text
-															+ 1
-																	/ FResistAxiAnt[i]
-																	* Tpantant
-															+ 1
-																	/ FResistAxiPos[i]
-																	* Tpantpos)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i])
-																	+ 1
-																			/ FResistAxiAnt[i]
-																	+ 1
-																			/ FResistAxiPos[i])
-															+ FSUMTPTuboPro[1][1][i]);
+								if (FResistAxiAnt[i] > 0. && FResistAxiPos[i] > 0.) {
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text + 1 / FResistAxiAnt[i] * Tpantant + 1 / FResistAxiPos[i] * Tpantpos) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i]) + 1 / FResistAxiAnt[i] + 1 / FResistAxiPos[i]) + FSUMTPTuboPro[1][1][i]);
 								} else if (FResistAxiAnt[i] > 0.) {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text
-															+ 1
-																	/ FResistAxiAnt[i]
-																	* Tpantant)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i])
-																	+ 1
-																			/ FResistAxiAnt[i])
-															+ FSUMTPTuboPro[1][1][i]);
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text + 1 / FResistAxiAnt[i] * Tpantant) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i]) + 1 / FResistAxiAnt[i]) + FSUMTPTuboPro[1][1][i]);
 								} else if (FResistAxiPos[i] > 0.) {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text
-															+ 1
-																	/ FResistAxiPos[i]
-																	* Tpantpos)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i])
-																	+ 1
-																			/ FResistAxiPos[i])
-															+ FSUMTPTuboPro[1][1][i]);
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text + 1 / FResistAxiPos[i] * Tpantpos) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i]) + 1 / FResistAxiPos[i]) + FSUMTPTuboPro[1][1][i]);
 								} else {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i]))
-															+ FSUMTPTuboPro[1][1][i]);
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i])) + FSUMTPTuboPro[1][1][i]);
 								}
 							}
-							FTPTubo[0][i] = ((FSUMTime * 1 / FResistRadInt[i]
-									* Tpant1 + FSUMTPTuboPro[0][0][i])
-									/ (FSUMTime * 1 / FResistRadInt[i]
-											+ FSUMTPTuboPro[1][0][i]));
-							FTPTubo[2][i] = (FSUMTime
-									* (1 / Re * Text
-											+ 1 / FResistRadExt[i] * Tpant1))
-									/ (FSUMTime
-											* (1 / Re + 1 / FResistRadExt[i]));
+							FTPTubo[0][i] = ((FSUMTime * 1 / FResistRadInt[i] * Tpant1 + FSUMTPTuboPro[0][0][i]) / (FSUMTime * 1 / FResistRadInt[i] + FSUMTPTuboPro[1][0][i]));
+							FTPTubo[2][i] = (FSUMTime * (1 / Re * Text + 1 / FResistRadExt[i] * Tpant1)) / (FSUMTime * (1 / Re + 1 / FResistRadExt[i]));
 							if (ErrorTp < fabs(Tpant1 - FTPTubo[1][i])) {
 								ErrorTp = fabs(Tpant1 - FTPTubo[1][i]);
 							}
 							for (int k = 0; k < 3; k++) {
-								FTPTubo[k][i] = FTPTubo[k][i] - 273;
+								FTPTubo[k][i] = __UN.degCToK(FTPTubo[k][i]);
 							}
 						}
 						EsPrimeraVez = false;
@@ -4579,8 +3985,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta,
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaTemperaturaPared en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaTemperaturaPared en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -4594,7 +3999,8 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 	double Tg = 0.;
 	double zzz = 0., czz = 0., cz1 = 0., uq1 = 0.;
 	double DeltaTTPared = 0.;
-	double Tpant0 = 0., Tpant1 = 0., Tpant2 = 0., Tpantant = 0., Tpantpos = 0., Text = 0., Ri = 0., Re = 0., ErrorTp = 0.;
+	double Tpant0 = 0., Tpant1 = 0., Tpant2 = 0., Tpantant = 0., Tpantpos = 0., Text = 0., Ri = 0.,
+	Re = 0., ErrorTp = 0.;
 	bool EsPrimeraVez;
 	int extremo = 0, nodo = 0;
 
@@ -4638,163 +4044,107 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 				// Tpantpos=FTParedAnt[1][i]+273.;
 				if (i == 0) {
 					if (BC[FNodoIzq - 1]->getTipoCC() == nmPipesConnection) {
-						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad()
-								> 0) {
-							if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-									== FNumeroTubo) {
+						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad() > 0) {
+							if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
-								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							} else {
 								extremo = 0;
-								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							}
-							Tpantant =
-									BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(
-											1, nodo) + 273.;
+							Tpantant = __UN.degCToK(BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 						}
 					}
 #ifdef ParticulateFilter
 					else if ( BC[FNodoIzq - 1]->getTipoCC() == nmPipeToPlenumConnection ) {
 						if ( FHayDPFNodoIzq ) {
-							Tpantant = FDPFEntradaTubo->GetTSuperficie
-							( FNodoDPFEntrada, 2 ) + 273.;
+							Tpantant = __UN.degCToK(FDPFEntradaTubo->GetTSuperficie
+							( FNodoDPFEntrada, 2 ));
 						}
 					}
 #endif
-					Tpantpos = FTParedAnt[1][i + 1] + 273.;
+					Tpantpos = __UN.degCToK(FTParedAnt[1][i + 1]);
 				} else if (i == FNin - 1) {
-					Tpantant = FTParedAnt[1][i - 1] + 273.;
+					Tpantant = __UN.degCToK(FTParedAnt[1][i - 1]);
 					if (BC[FNodoDer - 1]->getTipoCC() == nmPipesConnection) {
-						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad()
-								> 0) {
-							if (BC[getNodoDer() - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-									== FNumeroTubo) {
+						if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad() > 0) {
+							if (BC[getNodoDer() - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 								extremo = 1;
-								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoDer - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							} else {
 								extremo = 0;
-								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo
-										== nmLeft) {
+								if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 									nodo = 0;
 								} else {
-									nodo = BC[FNodoDer - 1]->GetTuboExtremo(
-											extremo).Pipe->getNin() - 1;
+									nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 								}
 							}
-							Tpantpos =
-									BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(
-											1, nodo) + 273.;
+							Tpantpos = __UN.degCToK(BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 						}
 					}
 #ifdef ParticulateFilter
 					else if ( BC[FNodoDer - 1]->getTipoCC() == nmPipeToPlenumConnection ) {
 						if ( FHayDPFNodoDer ) {
-							Tpantpos = FDPFSalidaTubo->GetTSuperficie
-							( FNodoDPFSalida, 2 ) + 273.;
+							Tpantpos = __UN.degCToK(FDPFSalidaTubo->GetTSuperficie
+							( FNodoDPFSalida, 2 ));
 						}
 					}
 #endif
 				} else {
-					Tpantant = FTParedAnt[1][i - 1] + 273.;
-					Tpantpos = FTParedAnt[1][i + 1] + 273.;
+					Tpantant = __UN.degCToK(FTParedAnt[1][i - 1]);
+					Tpantpos = __UN.degCToK(FTParedAnt[1][i + 1]);
 				}
 				// ...en los nodos interior, medio y exterior.
-				Tpant0 = FTParedAnt[0][i] + 273.;
-				Tpant1 = FTParedAnt[1][i] + 273.;
-				Tpant2 = FTParedAnt[2][i] + 273.;
+				Tpant0 = __UN.degCToK(FTParedAnt[0][i]);
+				Tpant1 = __UN.degCToK(FTParedAnt[1][i]);
+				Tpant2 = __UN.degCToK(FTParedAnt[2][i]);
 
 				// Resistencias termicas interior y exterior.
 				if (DoubEqZero(Fhi[i])) {
 					Ri = 100000000.;
 				} else {
-					Ri = 1 / Pi / FDiametroTubo[i] / Fhi[i] / FCoefAjusTC
-							/ FXref;
+					Ri = 1 / __CTE.Pi / FDiametroTubo[i] / Fhi[i] / FCoefAjusTC / FXref;
 				}
 				if (DoubEqZero(Fhe[i])) {
 					Re = 100000000.;
 				} else {
-					Re = 1 / Pi
-							/ (FDiametroTubo[i]
-									+ 2
-											* (FEspesorIntPrin + FEspesorPrin
-													+ FEspesorExtPrin)) / Fhe[i]
-							/ FXref;
+					Re = 1 / __CTE.Pi / (FDiametroTubo[i] + 2 * (FEspesorIntPrin + FEspesorPrin + FEspesorExtPrin)) / Fhe[i] / FXref;
 				}
 				// Calculo de las temperaturas de pared.
-				FTPTubo[2][i] = DeltaTTPared / FCapExt[i]
-						* (1 / FResistRadExt[i] * (Tpant1 - Tpant2)
-								+ 1 / Re * (Text - Tpant2)) + Tpant2;
+				FTPTubo[2][i] = DeltaTTPared / FCapExt[i] * (1 / FResistRadExt[i] * (Tpant1 - Tpant2) + 1 / Re * (Text - Tpant2)) + Tpant2;
 				if (FResistAxiAnt[i] > 0. && FResistAxiPos[i] > 0.) {
-					FTPTubo[1][i] =
-							DeltaTTPared / FCapMed[i]
-									* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-											+ 1 / FResistRadExt[i]
-													* (Tpant2 - Tpant1)
-											+ 1 / FResistAxiAnt[i]
-													* (Tpantant - Tpant1)
-											+ 1 / FResistAxiPos[i]
-													* (Tpantpos - Tpant1))
-									+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1) + 1 / FResistAxiAnt[i] * (Tpantant - Tpant1) + 1 / FResistAxiPos[i] * (Tpantpos - Tpant1)) + Tpant1;
 				} else if (FResistAxiAnt[i] > 0.) {
-					FTPTubo[1][i] =
-							DeltaTTPared / FCapMed[i]
-									* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-											+ 1 / FResistRadExt[i]
-													* (Tpant2 - Tpant1)
-											+ 1 / FResistAxiAnt[i]
-													* (Tpantant - Tpant1))
-									+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1) + 1 / FResistAxiAnt[i] * (Tpantant - Tpant1)) + Tpant1;
 				} else if (FResistAxiPos[i] > 0.) {
-					FTPTubo[1][i] =
-							DeltaTTPared / FCapMed[i]
-									* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-											+ 1 / FResistRadExt[i]
-													* (Tpant2 - Tpant1)
-											+ 1 / FResistAxiPos[i]
-													* (Tpantpos - Tpant1))
-									+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1) + 1 / FResistAxiPos[i] * (Tpantpos - Tpant1)) + Tpant1;
 				} else {
-					FTPTubo[1][i] = DeltaTTPared / FCapMed[i]
-							* (1 / FResistRadInt[i] * (Tpant0 - Tpant1)
-									+ 1 / FResistRadExt[i] * (Tpant2 - Tpant1))
-							+ Tpant1;
+					FTPTubo[1][i] = DeltaTTPared / FCapMed[i] * (1 / FResistRadInt[i] * (Tpant0 - Tpant1) + 1 / FResistRadExt[i] * (Tpant2 - Tpant1)) + Tpant1;
 				}
-				FTPTubo[0][i] = DeltaTTPared / FCapInt[i]
-						* (1 / Ri * (Tg - Tpant0)
-								+ 1 / FResistRadInt[i] * (Tpant1 - Tpant0))
-						+ Tpant0;
+				FTPTubo[0][i] = DeltaTTPared / FCapInt[i] * (1 / Ri * (Tg - Tpant0) + 1 / FResistRadInt[i] * (Tpant1 - Tpant0)) + Tpant0;
 				for (int k = 0; k < 3; k++) {
-					FTPTubo[k][i] = FTPTubo[k][i] - 273.;
+					FTPTubo[k][i] = __UN.degCToK(FTPTubo[k][i]);
 				}
 
 				// Si el tipo de calculo es sin inercia termica o lleva menos de "NumCiclosSinInerciaTermica" ciclos calculando...
-				if (FTipoCalcTempPared == nmVariableSinInerciaTermica
-						|| FCicloActual <= FNumCiclosSinInerciaTermica) {
+				if (FTipoCalcTempPared == nmVariableSinInerciaTermica || FCicloActual <= FNumCiclosSinInerciaTermica) {
 					if (FTime1 > FDuracionCiclo) {
 						// Sumatorio de h*Tg*incrt intermedio(para el calculo de la integral).
-						FSUMTPTuboPro[0][1][i] += 1 / (Ri + FResistRadInt[i])
-								* Tg * DeltaTTPared;
+						FSUMTPTuboPro[0][1][i] += 1 / (Ri + FResistRadInt[i]) * Tg * DeltaTTPared;
 						// Sumatorio de h*incrt intermedio(para el calculo de la integral).
-						FSUMTPTuboPro[1][1][i] += 1 / (Ri + FResistRadInt[i])
-								* DeltaTTPared;
+						FSUMTPTuboPro[1][1][i] += 1 / (Ri + FResistRadInt[i]) * DeltaTTPared;
 						// Sumatorio de h*Tg*incrt interior(para el calculo de la integral).
 						FSUMTPTuboPro[0][0][i] += 1 / Ri * Tg * DeltaTTPared;
 						// Sumatorio de h*incrt interior(para el calculo de la integral).
@@ -4805,12 +4155,9 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 			}
 
 			// Si esta al final del ciclo...
-			if (FCicloTubo != FCicloActual && FSUMTime > 0.
-					&& FCicloActual > 1) {
+			if (FCicloTubo != FCicloActual && FSUMTime > 0. && FCicloActual > 1) {
 				// ...si (el tipo de calculo es sin inercia termica o lleva menos de "NumCiclosSinInerciaTermica" ciclos calculando) y esta en el segundo ciclo, calcula la temperatura de convergencia
-				if ((FTipoCalcTempPared == nmVariableSinInerciaTermica
-						|| FCicloActual <= FNumCiclosSinInerciaTermica)
-						&& FTime1 > FDuracionCiclo) {
+				if ((FTipoCalcTempPared == nmVariableSinInerciaTermica || FCicloActual <= FNumCiclosSinInerciaTermica) && FTime1 > FDuracionCiclo) {
 					ErrorTp = 1.;
 					EsPrimeraVez = true;
 					while (ErrorTp >= 1) { // Itera hasta conseguir una diferencia entre las temperaturas de pared menor a 1degC entre Steps.
@@ -4818,43 +4165,27 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 						for (int i = 0; i < FNin; i++) {
 							// Establece la temperatura de la pared en el instante de calculo anterior...
 							// ...en los nosdos anterior y posterior.
-							Tpantant = FTPTubo[1][i] + 273.;
-							Tpantpos = FTPTubo[1][i] + 273.;
+							Tpantant = __UN.degCToK(FTPTubo[1][i]);
+							Tpantpos = __UN.degCToK(FTPTubo[1][i]);
 							if (i == 0) {
-								if (BC[FNodoIzq - 1]->getTipoCC()
-										== nmPipesConnection) {
-									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq
-											- 1])->getConductividad() > 0) {
-										if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-												== FNumeroTubo) {
+								if (BC[FNodoIzq - 1]->getTipoCC() == nmPipesConnection) {
+									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoIzq - 1])->getConductividad() > 0) {
+										if (BC[FNodoIzq - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 											extremo = 1;
-											if (BC[FNodoIzq - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoIzq - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										} else {
 											extremo = 0;
-											if (BC[FNodoIzq - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoIzq - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoIzq - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										}
-										Tpantant =
-												BC[FNodoIzq - 1]->GetTuboExtremo(
-														extremo).Pipe->GetTPTuboAnt(
-														1, nodo) + 273.;
+										Tpantant = __UN.degCToK(BC[FNodoIzq - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 									}
 								}
 #ifdef ParticulateFilter
@@ -4863,48 +4194,32 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 										== nmPipeToPlenumConnection ) {
 									if ( FHayDPFNodoIzq ) {
 										Tpantant =
-										FDPFEntradaTubo->GetTSuperficie
-										( FNodoDPFEntrada, 2 ) + 273.;
+										__UN.degCToK(FDPFEntradaTubo->GetTSuperficie
+										( FNodoDPFEntrada, 2 ));
 									}
 								}
 #endif
-								Tpantpos = FTPTubo[1][i + 1] + 273.;
+								Tpantpos = __UN.degCToK(FTPTubo[1][i + 1]);
 							} else if (i == FNin - 1) {
-								Tpantant = FTPTubo[1][i - 1] + 273.;
-								if (BC[FNodoDer - 1]->getTipoCC()
-										== nmPipesConnection) {
-									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer
-											- 1])->getConductividad() > 0) {
-										if (BC[FNodoDer - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo()
-												== FNumeroTubo) {
+								Tpantant = __UN.degCToK(FTPTubo[1][i - 1]);
+								if (BC[FNodoDer - 1]->getTipoCC() == nmPipesConnection) {
+									if (dynamic_cast<TCCUnionEntreTubos*>(BC[FNodoDer - 1])->getConductividad() > 0) {
+										if (BC[FNodoDer - 1]->GetTuboExtremo(0).Pipe->getNumeroTubo() == FNumeroTubo) {
 											extremo = 1;
-											if (BC[FNodoDer - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoDer - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										} else {
 											extremo = 0;
-											if (BC[FNodoDer - 1]->GetTuboExtremo(
-													extremo).TipoExtremo
-													== nmLeft) {
+											if (BC[FNodoDer - 1]->GetTuboExtremo(extremo).TipoExtremo == nmLeft) {
 												nodo = 0;
 											} else {
-												nodo =
-														BC[FNodoDer - 1]->GetTuboExtremo(
-																extremo).Pipe->getNin()
-																- 1;
+												nodo = BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->getNin() - 1;
 											}
 										}
-										Tpantpos =
-												BC[FNodoDer - 1]->GetTuboExtremo(
-														extremo).Pipe->GetTPTuboAnt(
-														1, nodo) + 273.;
+										Tpantpos = __UN.degCToK(BC[FNodoDer - 1]->GetTuboExtremo(extremo).Pipe->GetTPTuboAnt(1, nodo));
 									}
 								}
 #ifdef ParticulateFilter
@@ -4913,117 +4228,41 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 										== nmPipeToPlenumConnection ) {
 									if ( FHayDPFNodoDer ) {
 										Tpantpos =
-										FDPFSalidaTubo->GetTSuperficie
-										( FNodoDPFSalida, 2 ) + 273.;
+										__UN.degCToK(FDPFSalidaTubo->GetTSuperficie
+										( FNodoDPFSalida, 2 ));
 									}
 								}
 #endif
 							} else {
-								Tpantant = FTPTubo[1][i - 1] + 273.;
-								Tpantpos = FTPTubo[1][i + 1] + 273.;
+								Tpantant = __UN.degCToK(FTPTubo[1][i - 1]);
+								Tpantpos = __UN.degCToK(FTPTubo[1][i + 1]);
 							}
 
 							// ...en los nodos interior, medio y exterior.
-							Tpant0 = FTPTubo[0][i] + 273.;
-							Tpant1 = FTPTubo[1][i] + 273.;
-							Tpant2 = FTPTubo[2][i] + 273.;
+							Tpant0 = __UN.degCToK(FTPTubo[0][i]);
+							Tpant1 = __UN.degCToK(FTPTubo[1][i]);
+							Tpant2 = __UN.degCToK(FTPTubo[2][i]);
 
 							if (EsPrimeraVez) {
-								FTPTubo[1][i] = (FSUMTime
-										/ (Re + FResistRadExt[i]) * Text
-										+ FSUMTPTuboPro[0][1][i])
-										/ (FSUMTime / (Re + FResistRadExt[i])
-												+ FSUMTPTuboPro[1][1][i]);
+								FTPTubo[1][i] = (FSUMTime / (Re + FResistRadExt[i]) * Text + FSUMTPTuboPro[0][1][i]) / (FSUMTime / (Re + FResistRadExt[i]) + FSUMTPTuboPro[1][1][i]);
 							} else {
-								if (FResistAxiAnt[i] > 0.
-										&& FResistAxiPos[i] > 0.) {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text
-															+ 1
-																	/ FResistAxiAnt[i]
-																	* Tpantant
-															+ 1
-																	/ FResistAxiPos[i]
-																	* Tpantpos)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i])
-																	+ 1
-																			/ FResistAxiAnt[i]
-																	+ 1
-																			/ FResistAxiPos[i])
-															+ FSUMTPTuboPro[1][1][i]);
+								if (FResistAxiAnt[i] > 0. && FResistAxiPos[i] > 0.) {
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text + 1 / FResistAxiAnt[i] * Tpantant + 1 / FResistAxiPos[i] * Tpantpos) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i]) + 1 / FResistAxiAnt[i] + 1 / FResistAxiPos[i]) + FSUMTPTuboPro[1][1][i]);
 								} else if (FResistAxiAnt[i] > 0.) {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text
-															+ 1
-																	/ FResistAxiAnt[i]
-																	* Tpantant)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i])
-																	+ 1
-																			/ FResistAxiAnt[i])
-															+ FSUMTPTuboPro[1][1][i]);
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text + 1 / FResistAxiAnt[i] * Tpantant) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i]) + 1 / FResistAxiAnt[i]) + FSUMTPTuboPro[1][1][i]);
 								} else if (FResistAxiPos[i] > 0.) {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text
-															+ 1
-																	/ FResistAxiPos[i]
-																	* Tpantpos)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i])
-																	+ 1
-																			/ FResistAxiPos[i])
-															+ FSUMTPTuboPro[1][1][i]);
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text + 1 / FResistAxiPos[i] * Tpantpos) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i]) + 1 / FResistAxiPos[i]) + FSUMTPTuboPro[1][1][i]);
 								} else {
-									FTPTubo[1][i] =
-											(FSUMTime
-													* (1
-															/ (Re
-																	+ FResistRadExt[i])
-															* Text)
-													+ FSUMTPTuboPro[0][1][i])
-													/ (FSUMTime
-															* (1
-																	/ (Re
-																			+ FResistRadExt[i]))
-															+ FSUMTPTuboPro[1][1][i]);
+									FTPTubo[1][i] = (FSUMTime * (1 / (Re + FResistRadExt[i]) * Text) + FSUMTPTuboPro[0][1][i]) / (FSUMTime * (1 / (Re + FResistRadExt[i])) + FSUMTPTuboPro[1][1][i]);
 								}
 							}
-							FTPTubo[0][i] = ((FSUMTime / FResistRadInt[i]
-									* Tpant1 + FSUMTPTuboPro[0][0][i])
-									/ (FSUMTime / FResistRadInt[i]
-											+ FSUMTPTuboPro[1][0][i]));
-							FTPTubo[2][i] = (FSUMTime
-									* (1 / Re * Text
-											+ 1 / FResistRadExt[i] * Tpant1))
-									/ (FSUMTime
-											* (1 / Re + 1 / FResistRadExt[i]));
+							FTPTubo[0][i] = ((FSUMTime / FResistRadInt[i] * Tpant1 + FSUMTPTuboPro[0][0][i]) / (FSUMTime / FResistRadInt[i] + FSUMTPTuboPro[1][0][i]));
+							FTPTubo[2][i] = (FSUMTime * (1 / Re * Text + 1 / FResistRadExt[i] * Tpant1)) / (FSUMTime * (1 / Re + 1 / FResistRadExt[i]));
 							if (ErrorTp < fabs(Tpant1 - FTPTubo[1][i])) {
 								ErrorTp = fabs(Tpant1 - FTPTubo[1][i]);
 							}
 							for (int k = 0; k < 3; k++) {
-								FTPTubo[k][i] = FTPTubo[k][i] - 273;
+								FTPTubo[k][i] = __UN.KTodegC(FTPTubo[k][i]);
 							}
 						}
 						EsPrimeraVez = false;
@@ -5044,9 +4283,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TTubo::CalculaTemperaturaParedSinMotor en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaTemperaturaParedSinMotor en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5065,37 +4302,24 @@ void TTubo::SalidaGeneralTubos(stEspecies *DatosEspecies) const {
 			printf("  AVERAGE RESULTS IN PIPES        \n");
 			printf("__________________________________\n\n\n");
 			for (int i = 0; i < FNumResMedios; i++) {
-				std::cout << "Average results in point " << i
-						<< " place in pipe " << FNumeroTubo;
-				std::cout << " at " << ResultadosMedios[i].Distancia
-						<< " metres from left end" << std::endl;
+				std::cout << "Average results in point " << i << " place in pipe " << FNumeroTubo;
+				std::cout << " at " << ResultadosMedios[i].Distancia << " metres from left end" << std::endl;
 				if (ResultadosMedios[i].TemperaturaGas)
-					std::cout << "Average Temperature = "
-							<< ResultadosMedios[i].TemperaturaGasMED << " C"
-							<< std::endl;
+					std::cout << "Average Temperature = " << ResultadosMedios[i].TemperaturaGasMED << " C" << std::endl;
 				if (ResultadosMedios[i].Pressure)
-					std::cout << "Average Pressure    = "
-							<< ResultadosMedios[i].PresionMED << " bar"
-							<< std::endl;
+					std::cout << "Average Pressure    = " << ResultadosMedios[i].PresionMED << " bar" << std::endl;
 				if (ResultadosMedios[i].Velocity)
-					std::cout << "Average Velocity    = "
-							<< ResultadosMedios[i].VelocidadMED << " m/s"
-							<< std::endl;
+					std::cout << "Average Velocity    = " << ResultadosMedios[i].VelocidadMED << " m/s" << std::endl;
 				if (ResultadosMedios[i].Massflow)
-					std::cout << "Average Massflow    = "
-							<< ResultadosMedios[i].GastoMED << " kg/s"
-							<< std::endl;
+					std::cout << "Average Massflow    = " << ResultadosMedios[i].GastoMED << " kg/s" << std::endl;
 				if (ResultadosMedios[i].NITmedio)
-					std::cout << "NIT Medio         = "
-							<< ResultadosMedios[i].NITmedioMED << " Watts"
-							<< std::endl << std::endl;
+					std::cout << "NIT Medio         = " << ResultadosMedios[i].NITmedioMED << " Watts" << std::endl << std::endl;
 				// std::cout << "Fraccion Masica Media de " << DatosEspecies[i].Nombre << ": " << ResultadosMedios[i].FraccionMED[i] << std::endl;
 			}
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::SalidaGeneralTubos en el tubo nº: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::SalidaGeneralTubos en el tubo nº: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5127,8 +4351,7 @@ void TTubo::AjustaPaso(double TimeEndStep) {
 		FDeltaTime = FTime1 - FTime0;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::AjustaPaso en el tubo: " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::AjustaPaso en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5138,37 +4361,23 @@ void TTubo::AjustaPaso(double TimeEndStep) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::CalculaCaracteristicasExtremos(TCondicionContorno **BC,
-		double DeltaTiempo) {
+void TTubo::CalculaCaracteristicasExtremos(TCondicionContorno **BC, double DeltaTiempo) {
 #ifdef usetry
 	try {
 #endif
 
 		if (FVelocidad0[0] <= 0) {
-			BC[FNodoIzq - 1]->PutEntropia(FTuboCCNodoIzq,
-					Interpola_Entropia(
-							BC[FNodoIzq - 1]->GetTuboExtremo(FTuboCCNodoIzq).TipoExtremo,
-							DeltaTiempo));
+			BC[FNodoIzq - 1]->PutEntropia(FTuboCCNodoIzq, Interpola_Entropia(BC[FNodoIzq - 1]->GetTuboExtremo(FTuboCCNodoIzq).TipoExtremo, DeltaTiempo));
 		}
-		BC[FNodoIzq - 1]->PutBeta(FTuboCCNodoIzq,
-				Interpola_Caracteristica(
-						BC[FNodoIzq - 1]->GetTuboExtremo(FTuboCCNodoIzq).Entropia,
-						1, 0, DeltaTiempo));
+		BC[FNodoIzq - 1]->PutBeta(FTuboCCNodoIzq, Interpola_Caracteristica(BC[FNodoIzq - 1]->GetTuboExtremo(FTuboCCNodoIzq).Entropia, 1, 0, DeltaTiempo));
 
 		if (FVelocidad0[FNin - 1] >= 0) {
-			BC[FNodoDer - 1]->PutEntropia(FTuboCCNodoDer,
-					Interpola_Entropia(
-							BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).TipoExtremo,
-							DeltaTiempo));
+			BC[FNodoDer - 1]->PutEntropia(FTuboCCNodoDer, Interpola_Entropia(BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).TipoExtremo, DeltaTiempo));
 		}
-		BC[FNodoDer - 1]->PutLanda(FTuboCCNodoDer,
-				Interpola_Caracteristica(
-						BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).Entropia,
-						-1, getNin() - 1, DeltaTiempo));
+		BC[FNodoDer - 1]->PutLanda(FTuboCCNodoDer, Interpola_Caracteristica(BC[FNodoDer - 1]->GetTuboExtremo(FTuboCCNodoDer).Entropia, -1, getNin() - 1, DeltaTiempo));
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaCaracteristicasExtremos en el tubo: "
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::CalculaCaracteristicasExtremos en el tubo: " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5178,8 +4387,7 @@ void TTubo::CalculaCaracteristicasExtremos(TCondicionContorno **BC,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
-		double DeltaTiempo) {
+double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo, double DeltaTiempo) {
 #ifdef usetry
 	try {
 #endif
@@ -5201,23 +4409,20 @@ double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 
 		if (DeltaTiempo < 1e-15 || DoubEqZero(FVelocidadDim[extremo])) {
 
-			Calculo_Entropia(entropia, velocidadp, extremo, 0., signo,
-					DeltaTiempo, indiceCC);
+			Calculo_Entropia(entropia, velocidadp, extremo, 0., signo, DeltaTiempo, indiceCC);
 
 		} else {
 			int ind1 = ind + signo;
 
-			stPathOrigin PathOrigin(FU0[0][ind], FU0[1][ind], FU0[0][ind1],
-					FU0[1][ind1], dtdx, signo);
+			stPathOrigin PathOrigin(FU0[0][ind], FU0[1][ind], FU0[0][ind1], FU0[1][ind1], dtdx, signo);
 
 			double dist = zbrent(PathOrigin, 0., 1., 1e-5);
 
-			Calculo_Entropia(entropia, velocidadp, ind, dist, signo,
-					DeltaTiempo, indiceCC);
+			Calculo_Entropia(entropia, velocidadp, ind, dist, signo, DeltaTiempo, indiceCC);
 
 		}
 
-		return entropia / ARef;
+		return entropia / __CTE.ARef;
 #ifdef usetry
 	} catch (exception & N) {
 		std::cout << "ERROR: TTubo::Interpola_Entropia: " << std::endl;
@@ -5230,8 +4435,7 @@ double TTubo::Interpola_Entropia(nmPipeEnd TipoExtremoTubo,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
-		double dist, int signo, double DeltaTiempo, int indiceCC) {
+void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind, double dist, int signo, double DeltaTiempo, int indiceCC) {
 #ifdef usetry
 	try {
 #endif
@@ -5260,19 +4464,15 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 			w2 = Interpola(FU0[2][ind], FU0[2][ind1], 1., dist);
 			gammap = Interpola(FGamma[ind], FGamma[ind1], 1., dist);
 			Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1., dist);
-			diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
-					dist);
+			diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1., dist);
 			if (FCoefAjusTC != 0 || FCoefAjusFric != 0) {
-				tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
-						dist);
+				tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1., dist);
 				hip = Interpola(Fhi[ind], Fhi[ind1], 1., dist);
 				Rep = Interpola(FRe[ind], FRe[ind1], 1., dist);
 			}
 
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FFraccionMasicaCC[indiceCC][j] = Interpola(
-						FFraccionMasicaEspecie[ind][j],
-						FFraccionMasicaEspecie[ind1][j], 1., dist);
+				FFraccionMasicaCC[indiceCC][j] = Interpola(FFraccionMasicaEspecie[ind][j], FFraccionMasicaEspecie[ind1][j], 1., dist);
 			}
 		}
 
@@ -5281,10 +4481,8 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 		double gamma5p = Gamma5(gammap);
 		velocidadp = w1 / w0;
 		rhop = w0 / Seccion(diamep);
-		double asonidop = sqrt(
-				gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2));
-		double presionp = (w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep)
-				* unPaToBar;
+		double asonidop = sqrt(gammap * gamma1p * (w2 / w0 - pow2(velocidadp) / 2));
+		double presionp = __UN.PaToBar((w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep));
 		double entropiap = asonidop / pow(presionp, gamma5p);
 		entropia = entropiap;
 
@@ -5302,8 +4500,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 			TransmisionCalor(tgasp, diamep, q, hip, rhop, tptubop);
 
 			// Las siguientes expresiones estan en la Tesis de Corberan. Pagina 23
-			double dacal = gamma3p * entropiap * q * FCoefAjusTC * DeltaTiempo
-					/ pow2(asonidop);
+			double dacal = gamma3p * entropiap * q * FCoefAjusTC * DeltaTiempo / pow2(asonidop);
 
 			entropia += dacal;
 		}
@@ -5315,16 +4512,14 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 			double f = 0.;
 			double velabs = fabs(velocidadp);
 			Colebrook(FFriccion, diamep, f, Rep);
-			double dafric = gamma1p * FCoefAjusFric * f * entropiap
-					* pow3(velabs) * DeltaTiempo / (diamep * pow2(asonidop));
+			double dafric = gamma1p * FCoefAjusFric * f * entropiap * pow3(velabs) * DeltaTiempo / (diamep * pow2(asonidop));
 			entropia += dafric;
 		}
 #ifdef usetry
 	}
 
 	catch (exception & N) {
-		std::cout << "ERROR: TTubo::Calculo_Entropia " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Calculo_Entropia " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5334,8 +4529,7 @@ void TTubo::Calculo_Entropia(double& entropia, double& velocidadp, int ind,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
-		double DeltaTiempo) {
+double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo, double DeltaTiempo) {
 #ifdef usetry
 	try {
 #endif
@@ -5347,28 +4541,23 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 		double asonidop = 0.;
 
 		if (DeltaTiempo < 1e-15) {
-			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
-					0., signo, entropia, DeltaTiempo);
+			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind, 0., signo, entropia, DeltaTiempo);
 		} else {
 
 			dtdx = DeltaTiempo / FXref;
 
 			int ind1 = ind + signo;
 
-			stCharOrigin CharOrigin(FU0[0][ind], FU0[1][ind], FU0[2][ind],
-					FU0[0][ind1], FU0[1][ind1], FU0[2][ind1], FGamma[ind],
-					FGamma[ind1], dtdx, signo);
+			stCharOrigin CharOrigin(FU0[0][ind], FU0[1][ind], FU0[2][ind], FU0[0][ind1], FU0[1][ind1], FU0[2][ind1], FGamma[ind], FGamma[ind1], dtdx, signo);
 
 			double dist = zbrent(CharOrigin, 0., 1., 1e-5);
 
-			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind,
-					dist, signo, entropia, DeltaTiempo);
+			Calculo_Caracteristica(caracteristica, velocidadp, asonidop, ind, dist, signo, entropia, DeltaTiempo);
 		}
-		return caracteristica / ARef;
+		return caracteristica / __CTE.ARef;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Interpola_Caracteristica " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Interpola_Caracteristica " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5378,9 +4567,7 @@ double TTubo::Interpola_Caracteristica(double entropia, int signo, int extremo,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
-		double& asonidop, int ind, double dist, int signo, double entropia,
-		double DeltaTiempo) {
+void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp, double& asonidop, int ind, double dist, int signo, double entropia, double DeltaTiempo) {
 #ifdef usetry
 	try {
 #endif
@@ -5406,11 +4593,9 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 			w2 = Interpola(FU0[2][ind], FU0[2][ind1], 1., dist);
 			gammap = Interpola(FGamma[ind], FGamma[ind1], 1., dist);
 			Rmezclap = Interpola(FRMezcla[ind], FRMezcla[ind1], 1., dist);
-			diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1.,
-					dist);
+			diamep = Interpola(FDiametroTubo[ind], FDiametroTubo[ind1], 1., dist);
 			if (FCoefAjusTC != 0 || FCoefAjusFric != 0) {
-				tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1.,
-						dist);
+				tptubop = Interpola(FTPTubo[0][ind], FTPTubo[0][ind1], 1., dist);
 				hip = Interpola(Fhi[ind], Fhi[ind1], 1., dist);
 				rhop = Interpola(Frho[ind], Frho[ind1], 1., dist);
 				Rep = Interpola(FRe[ind], FRe[ind1], 1., dist);
@@ -5436,8 +4621,7 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 
 			TransmisionCalor(tgasp, diamep, q, hip, rhop, tptubop);
 
-			double dacal = gamma3p * gamma1p * DeltaTiempo * q * FCoefAjusTC
-					/ asonidop;
+			double dacal = gamma3p * gamma1p * DeltaTiempo * q * FCoefAjusTC / asonidop;
 
 			caracteristica += dacal;
 
@@ -5445,10 +4629,9 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 		/* variacion debida a la variacion entropia */
 		/* ---------------------------------------- */
 
-		double presionp = (w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep)
-				* unPaToBar;
+		double presionp = __UN.PaToBar((w2 - pow2(w1) / 2. / w0) * gamma1p / Seccion(diamep));
 		double entropiap = asonidop / pow(presionp, gamma5p);
-		double increentropia = entropia * ARef - entropiap;
+		double increentropia = entropia * __CTE.ARef - entropiap;
 		double daen = asonidop * increentropia / entropiap;
 		caracteristica += daen;
 
@@ -5457,13 +4640,9 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 		if (FDiametroTubo[ind1] != FDiametroTubo[ind]) {
 			double daar = 0.;
 			if (signo == 1) {
-				daar = -gamma3p * asonidop * velocidadp * 2
-						* (FDiametroTubo[ind1] - FDiametroTubo[ind])
-						* DeltaTiempo / (diamep * FXref);
+				daar = -gamma3p * asonidop * velocidadp * 2 * (FDiametroTubo[ind1] - FDiametroTubo[ind]) * DeltaTiempo / (diamep * FXref);
 			} else if (signo == -1) {
-				daar = -gamma3p * asonidop * velocidadp * 2
-						* (FDiametroTubo[ind] - FDiametroTubo[ind1])
-						* DeltaTiempo / (diamep * FXref);
+				daar = -gamma3p * asonidop * velocidadp * 2 * (FDiametroTubo[ind] - FDiametroTubo[ind1]) * DeltaTiempo / (diamep * FXref);
 			}
 			caracteristica += daar;
 		}
@@ -5478,18 +4657,14 @@ void TTubo::Calculo_Caracteristica(double& caracteristica, double& velocidadp,
 
 			Colebrook(FFriccion, diamep, f, Rep);
 
-			double dafric = signo * gamma1p
-					* (1. + signo * gamma1p * velocidadp / asonidop) * f
-					* FCoefAjusFric * pow3(velocidadp) * DeltaTiempo
-					/ (diamep * velabs);
+			double dafric = signo * gamma1p * (1. + signo * gamma1p * velocidadp / asonidop) * f * FCoefAjusFric * pow3(velocidadp) * DeltaTiempo / (diamep * velabs);
 
 			caracteristica += dafric;
 		}
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::Calculo_Caracteristica " << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5504,26 +4679,16 @@ void TTubo::InicializaCaracteristicas(TCondicionContorno **BC) {
 	try {
 #endif
 
-		BC[FNodoIzq - 1]->PutLanda(FTuboCCNodoIzq,
-				FAsonido0[0] + FGamma3[0] * FVelocidad0[0]);
-		BC[FNodoIzq - 1]->PutBeta(FTuboCCNodoIzq,
-				FAsonido0[0] - FGamma3[0] * FVelocidad0[0]);
-		BC[FNodoIzq - 1]->PutEntropia(FTuboCCNodoIzq,
-				FAsonido0[0] / pow(FPresion0[0], FGamma5[0]));
+		BC[FNodoIzq - 1]->PutLanda(FTuboCCNodoIzq, FAsonido0[0] + FGamma3[0] * FVelocidad0[0]);
+		BC[FNodoIzq - 1]->PutBeta(FTuboCCNodoIzq, FAsonido0[0] - FGamma3[0] * FVelocidad0[0]);
+		BC[FNodoIzq - 1]->PutEntropia(FTuboCCNodoIzq, FAsonido0[0] / pow(FPresion0[0], FGamma5[0]));
 
-		BC[FNodoDer - 1]->PutLanda(FTuboCCNodoDer,
-				FAsonido0[FNin - 1]
-						+ FGamma3[FNin - 1] * FVelocidad0[FNin - 1]);
-		BC[FNodoDer - 1]->PutBeta(FTuboCCNodoDer,
-				FAsonido0[FNin - 1]
-						- FGamma3[FNin - 1] * FVelocidad0[FNin - 1]);
-		BC[FNodoDer - 1]->PutEntropia(FTuboCCNodoDer,
-				FAsonido0[FNin - 1]
-						/ pow(FPresion0[FNin - 1], FGamma5[FNin - 1]));
+		BC[FNodoDer - 1]->PutLanda(FTuboCCNodoDer, FAsonido0[FNin - 1] + FGamma3[FNin - 1] * FVelocidad0[FNin - 1]);
+		BC[FNodoDer - 1]->PutBeta(FTuboCCNodoDer, FAsonido0[FNin - 1] - FGamma3[FNin - 1] * FVelocidad0[FNin - 1]);
+		BC[FNodoDer - 1]->PutEntropia(FTuboCCNodoDer, FAsonido0[FNin - 1] / pow(FPresion0[FNin - 1], FGamma5[FNin - 1]));
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::InicializaCaracteristicas tubo:"
-				<< FNumeroTubo << std::endl;
+		std::cout << "ERROR: TTubo::InicializaCaracteristicas tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5538,8 +4703,8 @@ void TTubo::CalculaB() {
 	try {
 #endif
 		double v = 0., p = 0., f = 0., tgas = 0., g = 0., q = 0., diamemed = 0., Rm = 0., Rm1 = 0.;
-		double Remed, gamma, gamma1, Rmed, himed, rhomed, twallmed, Vmed, H1,
-				H2, Hmed, Amed, rhoAmed;
+		double Remed, gamma, gamma1, Rmed, himed, rhomed, twallmed, Vmed, H1, H2, Hmed, Amed,
+		rhoAmed;
 
 		for (int i = 0; i < FNin - 1; i++) {
 
@@ -5549,8 +4714,7 @@ void TTubo::CalculaB() {
 
 			FTVD.Bvector[2][i] = 0.;
 
-			if (FArea[i] != FArea[i + 1] || FCoefAjusFric != 0
-					|| FCoefAjusTC != 0) {
+			if (FArea[i] != FArea[i + 1] || FCoefAjusFric != 0 || FCoefAjusTC != 0) {
 
 				Rm = sqrtRhoA[i + 1] / sqrtRhoA[i + 1];
 				Rm1 = Rm + 1;
@@ -5562,10 +4726,8 @@ void TTubo::CalculaB() {
 
 				if (FArea[i] != FArea[i + 1] || FCoefAjusTC != 0) {
 
-					H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i]
-							+ FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
-					H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1]
-							+ FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
+					H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i] + FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
+					H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1] + FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
 					Hmed = (Rm * H2 + H1) / Rm1;
 					Amed = sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
 					rhomed = sqrt(Frho[i] * Frho[i + 1]);
@@ -5576,8 +4738,7 @@ void TTubo::CalculaB() {
 				}
 
 				if (FArea[i] != FArea[i + 1]) {
-					FTVD.Bvector[1][i] += rhomed * Amed * Amed / gamma
-							* (FArea[i] - FArea[i + 1]);
+					FTVD.Bvector[1][i] += rhomed * Amed * Amed / gamma * (FArea[i] - FArea[i + 1]);
 				}
 
 				if (FCoefAjusFric != 0) {
@@ -5585,11 +4746,9 @@ void TTubo::CalculaB() {
 					if (Remed > 1e-6) {
 						Colebrook(FFriccion, FDiametroD12[i], f, Remed);
 						if (Vmed >= 0.)
-							g = f * Vmed * Vmed * 2 / FDiametroD12[i]
-									* FCoefAjusFric;
+							g = f * Vmed * Vmed * 2 / FDiametroD12[i] * FCoefAjusFric;
 						else
-							g = -f * Vmed * Vmed * 2 / FDiametroD12[i]
-									* FCoefAjusFric;
+							g = -f * Vmed * Vmed * 2 / FDiametroD12[i] * FCoefAjusFric;
 
 						FTVD.Bvector[1][i] += FXref * g * rhoAmed;
 					}
@@ -5602,8 +4761,7 @@ void TTubo::CalculaB() {
 
 					tgas = Amed * Amed / gamma / Rmed;
 
-					TransmisionCalor(tgas, FDiametroD12[i], q, himed, rhomed,
-							twallmed);
+					TransmisionCalor(tgas, FDiametroD12[i], q, himed, rhomed, twallmed);
 
 					q = q * FCoefAjusTC;
 
@@ -5630,8 +4788,8 @@ void TTubo::CalculaBmen() {
 #ifdef usetry
 	try {
 #endif
-		double v, p, f, tgas, g, q, diamemed, B, Rm, Rm1, gamma, gamma1, Vmed,
-				Amed, H1, H2, Hmed, rhoAmed;
+		double v, p, f, tgas, g, q, diamemed, B, Rm, Rm1, gamma, gamma1, Vmed, Amed, H1, H2, Hmed,
+		rhoAmed;
 		double Remed = 0., Rmed = 0., himed = 0., rhomed = 0., twallmed = 0.;
 
 		for (int i = 1; i < FNin; i++) {
@@ -5642,8 +4800,7 @@ void TTubo::CalculaBmen() {
 
 			FTVD.Bmen[2][i] = 0.;
 
-			if (FArea[i] != FArea12[i - 1] || FCoefAjusFric != 0
-					|| FCoefAjusTC != 0) {
+			if (FArea[i] != FArea12[i - 1] || FCoefAjusFric != 0 || FCoefAjusTC != 0) {
 
 				rhoAmed = sqrt(sqrtRhoA[i - 1] * pow3(sqrtRhoA[i]));
 				B = FU0[0][i] + rhoAmed + sqrtRhoA[i] * sqrtRhoA[i - 1];
@@ -5657,10 +4814,8 @@ void TTubo::CalculaBmen() {
 
 				if (FArea[i] != FArea12[i - 1] || FCoefAjusTC != 0) {
 
-					H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i]
-							+ FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
-					H2 = 0.5 * FVelocidadDim[i - 1] * FVelocidadDim[i - 1]
-							+ FAsonidoDim[i - 1] * FAsonidoDim[i - 1] / gamma1;
+					H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i] + FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
+					H2 = 0.5 * FVelocidadDim[i - 1] * FVelocidadDim[i - 1] + FAsonidoDim[i - 1] * FAsonidoDim[i - 1] / gamma1;
 					Hmed = (Rm * H1 + H2) / Rm1;
 					Amed = sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
 					rhomed = sqrt(Frho[i] * sqrt(Frho[i] * Frho[i - 1]));
@@ -5668,13 +4823,11 @@ void TTubo::CalculaBmen() {
 				}
 				if (FCoefAjusFric != 0 || FCoefAjusTC != 0) {
 
-					diamemed = 0.75 * FDiametroTubo[i]
-							+ 0.25 * FDiametroTubo[i - 1];
+					diamemed = 0.75 * FDiametroTubo[i] + 0.25 * FDiametroTubo[i - 1];
 				}
 
 				if (FArea[i] != FArea12[i - 1]) {
-					FTVD.Bmen[1][i] += rhomed * Amed * Amed / gamma
-							* (FArea12[i - 1] - FArea[i]);
+					FTVD.Bmen[1][i] += rhomed * Amed * Amed / gamma * (FArea12[i - 1] - FArea[i]);
 				}
 
 				if (FCoefAjusFric != 0) {
@@ -5697,8 +4850,7 @@ void TTubo::CalculaBmen() {
 
 					tgas = Amed * Amed / gamma / Rmed;
 
-					TransmisionCalor(tgas, diamemed, q, himed, rhomed,
-							twallmed);
+					TransmisionCalor(tgas, diamemed, q, himed, rhomed, twallmed);
 
 					q = q * FCoefAjusTC;
 
@@ -5711,8 +4863,7 @@ void TTubo::CalculaBmen() {
 
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaBmen tubo:" << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaBmen tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5726,8 +4877,8 @@ void TTubo::CalculaBmas() {
 #ifdef usetry
 	try {
 #endif
-		double v, p, f, tgas, g, q, diamemed, B, Rm, Rm1, gamma, gamma1, Vmed,
-				Amed, H1, H2, Hmed, rhoAmed;
+		double v, p, f, tgas, g, q, diamemed, B, Rm, Rm1, gamma, gamma1, Vmed, Amed, H1, H2, Hmed,
+		rhoAmed;
 		double Remed = 0., Rmed = 0., himed = 0., rhomed = 0., twallmed = 0.;
 
 		for (int i = 0; i < FNin - 1; i++) {
@@ -5738,8 +4889,7 @@ void TTubo::CalculaBmas() {
 
 			FTVD.Bmas[2][i] = 0.;
 
-			if (FArea[i] != FArea12[i] || FCoefAjusFric != 0
-					|| FCoefAjusTC != 0) {
+			if (FArea[i] != FArea12[i] || FCoefAjusFric != 0 || FCoefAjusTC != 0) {
 
 				rhoAmed = sqrt(sqrtRhoA[i + 1] * pow3(sqrtRhoA[i]));
 				B = FU0[0][i] + rhoAmed + sqrtRhoA[i] * sqrtRhoA[i + 1];
@@ -5753,10 +4903,8 @@ void TTubo::CalculaBmas() {
 
 				if (FArea[i] != FArea12[i] || FCoefAjusTC != 0) {
 
-					H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i]
-							+ FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
-					H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1]
-							+ FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
+					H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i] + FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
+					H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1] + FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
 					Hmed = (Rm * H1 + H2) / Rm1;
 					Amed = sqrt(gamma1 * (Hmed - 0.5 * Vmed * Vmed));
 					rhomed = sqrt(Frho[i] * sqrt(Frho[i] * Frho[i + 1]));
@@ -5764,13 +4912,11 @@ void TTubo::CalculaBmas() {
 				}
 				if (FCoefAjusFric != 0 || FCoefAjusTC != 0) {
 
-					diamemed = 0.75 * FDiametroTubo[i]
-							+ 0.25 * FDiametroTubo[i + 1];
+					diamemed = 0.75 * FDiametroTubo[i] + 0.25 * FDiametroTubo[i + 1];
 				}
 
 				if (FArea[i] != FArea12[i]) {
-					FTVD.Bmas[1][i] += rhomed * Amed * Amed / gamma
-							* (FArea[i] - FArea12[i]);
+					FTVD.Bmas[1][i] += rhomed * Amed * Amed / gamma * (FArea[i] - FArea12[i]);
 				}
 
 				if (FCoefAjusFric != 0) {
@@ -5793,8 +4939,7 @@ void TTubo::CalculaBmas() {
 
 					tgas = Amed * Amed / gamma / Rmed;
 
-					TransmisionCalor(tgas, diamemed, q, himed, rhomed,
-							twallmed);
+					TransmisionCalor(tgas, diamemed, q, himed, rhomed, twallmed);
 
 					q = q * FCoefAjusTC;
 
@@ -5807,8 +4952,7 @@ void TTubo::CalculaBmas() {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaBmas tubo:" << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaBmas tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5822,7 +4966,8 @@ void TTubo::CalculaMatrizJacobiana() {
 #ifdef usetry
 	try {
 #endif
-		double Rmed = 0., Vmed = 0., Vmed2 = 0., Hmed = 0., Amed = 0., Amed2 = 0., gamma = 0., H1 = 0., H2 = 0., Rmed1 = 0.;
+		double Rmed = 0., Vmed = 0., Vmed2 = 0., Hmed = 0., Amed = 0., Amed2 = 0., gamma = 0.,
+		H1 = 0., H2 = 0., Rmed1 = 0.;
 		double *Ymed, gamma1, gamma2, gaAmed2;
 
 		Ymed = new double[FNumeroEspecies - 1 - FIntEGR];
@@ -5837,18 +4982,15 @@ void TTubo::CalculaMatrizJacobiana() {
 			gamma = (Rmed * FGamma[i + 1] + FGamma[i]) / Rmed1;
 			gamma1 = gamma - 1;
 			gamma2 = gamma1 / 2;
-			H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i]
-					+ FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
-			H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1]
-					+ FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
+			H1 = 0.5 * FVelocidadDim[i] * FVelocidadDim[i] + FAsonidoDim[i] * FAsonidoDim[i] / gamma1;
+			H2 = 0.5 * FVelocidadDim[i + 1] * FVelocidadDim[i + 1] + FAsonidoDim[i + 1] * FAsonidoDim[i + 1] / gamma1;
 			Vmed = (Rmed * FVelocidadDim[i + 1] + FVelocidadDim[i]) / Rmed1;
 			Vmed2 = Vmed * Vmed;
 			Hmed = (Rmed * H2 + H1) / Rmed1;
 			Amed2 = gamma1 * (Hmed - 0.5 * Vmed2);
 			Amed = sqrt(Amed2);
 			for (int j = 0; j < FNumeroEspecies - 1 - FIntEGR; j++) {
-				Ymed[j] = (Rmed * FFraccionMasicaEspecie[i + 1][j]
-						+ FFraccionMasicaEspecie[i][j]) / Rmed1;
+				Ymed[j] = (Rmed * FFraccionMasicaEspecie[i + 1][j] + FFraccionMasicaEspecie[i][j]) / Rmed1;
 			}
 
 			FTVD.Pmatrix[1][0][i] = Vmed - Amed;
@@ -5886,8 +5028,7 @@ void TTubo::CalculaMatrizJacobiana() {
 		delete[] Ymed;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::CalculaMatrizJacobiana tubo:" << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::CalculaMatrizJacobiana tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5912,21 +5053,9 @@ void TTubo::TVD_Estabilidad() {
 
 		for (int i = 0; i < FNin - 1; i++) {
 			for (int k = 0; k < 3; ++k) {
-				FTVD.DeltaU[k][i] = FTVD.Qmatrix[k][0][i]
-						* (FU0[0][i + 1] - FU0[0][i])
-						+ FTVD.Qmatrix[k][1][i] * (FU0[1][i + 1] - FU0[1][i])
-						+ FTVD.Qmatrix[k][2][i] * (FU0[2][i + 1] - FU0[2][i]);
-				FTVD.DeltaB[k][i] = FTVD.Qmatrix[k][0][i] * FTVD.Bvector[0][i]
-						+ FTVD.Qmatrix[k][1][i] * FTVD.Bvector[1][i]
-						+ FTVD.Qmatrix[k][2][i] * FTVD.Bvector[2][i];
-				FTVD.DeltaW[k][i] = FTVD.Qmatrix[k][0][i]
-						* (FTVD.W[0][i + 1] - FTVD.W[0][i] + FTVD.Bvector[0][i])
-						+ FTVD.Qmatrix[k][1][i]
-								* (FTVD.W[1][i + 1] - FTVD.W[1][i]
-										+ FTVD.Bvector[1][i])
-						+ FTVD.Qmatrix[k][2][i]
-								* (FTVD.W[2][i + 1] - FTVD.W[2][i]
-										+ FTVD.Bvector[2][i]);
+				FTVD.DeltaU[k][i] = FTVD.Qmatrix[k][0][i] * (FU0[0][i + 1] - FU0[0][i]) + FTVD.Qmatrix[k][1][i] * (FU0[1][i + 1] - FU0[1][i]) + FTVD.Qmatrix[k][2][i] * (FU0[2][i + 1] - FU0[2][i]);
+				FTVD.DeltaB[k][i] = FTVD.Qmatrix[k][0][i] * FTVD.Bvector[0][i] + FTVD.Qmatrix[k][1][i] * FTVD.Bvector[1][i] + FTVD.Qmatrix[k][2][i] * FTVD.Bvector[2][i];
+				FTVD.DeltaW[k][i] = FTVD.Qmatrix[k][0][i] * (FTVD.W[0][i + 1] - FTVD.W[0][i] + FTVD.Bvector[0][i]) + FTVD.Qmatrix[k][1][i] * (FTVD.W[1][i + 1] - FTVD.W[1][i] + FTVD.Bvector[1][i]) + FTVD.Qmatrix[k][2][i] * (FTVD.W[2][i + 1] - FTVD.W[2][i] + FTVD.Bvector[2][i]);
 				if (fabs(FTVD.DeltaU[k][i]) < 1e-3) {
 					FTVD.Beta[k][i] = FTVD.DeltaB[k][i] / 1e-3;
 				} else {
@@ -5940,8 +5069,7 @@ void TTubo::TVD_Estabilidad() {
 				// printf("\n ");
 				// }
 				if (FTVD.Alpha[k][i] + FTVD.Beta[k][i] != 0) {
-					if ((VLocal = fabs(FTVD.Alpha[k][i]) + fabs(FTVD.Beta[k][i]))
-							> VTotalMax) {
+					if ((VLocal = fabs(FTVD.Alpha[k][i]) + fabs(FTVD.Beta[k][i])) > VTotalMax) {
 						VTotalMax = VLocal;
 					}
 				}
@@ -5955,8 +5083,7 @@ void TTubo::TVD_Estabilidad() {
 			FDeltaTime = DeltaT_tvd;
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::TVD_Estabilidad tubo:" << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::TVD_Estabilidad tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -5989,11 +5116,8 @@ void TTubo::TVD_Limitador() {
 		}
 		for (int i = 1; i < FNin - 2; ++i) {
 			for (int k = 0; k < 3; k++) {
-				double den = (((double) FTVD.hLandaD[k][i] - FTVD.LandaD[k][i])
-						* FTVD.DeltaW[k][i]);
-				double num = ((double) FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]]
-						- FTVD.LandaD[k][i - FTVD.hLandaD[k][i]])
-						* (FTVD.DeltaW[k][i - FTVD.hLandaD[k][i]]);
+				double den = (((double) FTVD.hLandaD[k][i] - FTVD.LandaD[k][i]) * FTVD.DeltaW[k][i]);
+				double num = ((double) FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]] - FTVD.LandaD[k][i - FTVD.hLandaD[k][i]]) * (FTVD.DeltaW[k][i - FTVD.hLandaD[k][i]]);
 				if (fabs(den) > 1e-10)
 					FTVD.R[k][i] = num / den;
 				else
@@ -6001,12 +5125,8 @@ void TTubo::TVD_Limitador() {
 			}
 
 			for (int k = 3; k < FNumEcuaciones; k++) {
-				double num = ((double) FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]]
-						- FTVD.LandaD[k][i - FTVD.hLandaD[k][i]])
-						* (FTVD.W[k][i + 1 - FTVD.hLandaD[k][i]]
-								- FTVD.W[k][i - FTVD.hLandaD[k][i]]);
-				double den = ((double) FTVD.hLandaD[k][i] - FTVD.LandaD[k][i])
-						* (FTVD.W[k][i + 1] - FTVD.W[k][i]);
+				double num = ((double) FTVD.hLandaD[k][i - FTVD.hLandaD[k][i]] - FTVD.LandaD[k][i - FTVD.hLandaD[k][i]]) * (FTVD.W[k][i + 1 - FTVD.hLandaD[k][i]] - FTVD.W[k][i - FTVD.hLandaD[k][i]]);
+				double den = ((double) FTVD.hLandaD[k][i] - FTVD.LandaD[k][i]) * (FTVD.W[k][i + 1] - FTVD.W[k][i]);
 				if (fabs(den) > 1e-10)
 					FTVD.R[k][i] = num / den;
 				else
@@ -6019,49 +5139,27 @@ void TTubo::TVD_Limitador() {
 		}
 		for (int i = 0; i < FNin - 1; ++i) {
 			for (int k = 0; k < 3; k++) {
-				FTVD.Phi[k][i] = (double) FTVD.hLandaD[k][i]
-						- Limita(FTVD.R[k][i])
-								* ((double) FTVD.hLandaD[k][i]
-										- FTVD.LandaD[k][i]);
+				FTVD.Phi[k][i] = (double) FTVD.hLandaD[k][i] - Limita(FTVD.R[k][i]) * ((double) FTVD.hLandaD[k][i] - FTVD.LandaD[k][i]);
 			}
 		}
 
 		for (int i = 0; i < FNin - 1; ++i) {
 			for (int k = 0; k < 3; ++k) {
-				FTVD.gflux[k][i] = 0.5
-						* (FTVD.W[k][i] + FTVD.W[k][i + 1] - FTVD.Bmas[k][i]
-								+ FTVD.Bmen[k][i + 1]
-								- (FTVD.Pmatrix[k][0][i] * FTVD.Phi[0][i]
-										* FTVD.DeltaW[0][i]
-										+ FTVD.Pmatrix[k][1][i] * FTVD.Phi[1][i]
-												* FTVD.DeltaW[1][i]
-										+ FTVD.Pmatrix[k][2][i] * FTVD.Phi[2][i]
-												* FTVD.DeltaW[2][i]));
+				FTVD.gflux[k][i] = 0.5 * (FTVD.W[k][i] + FTVD.W[k][i + 1] - FTVD.Bmas[k][i] + FTVD.Bmen[k][i + 1] - (FTVD.Pmatrix[k][0][i] * FTVD.Phi[0][i] * FTVD.DeltaW[0][i] + FTVD.Pmatrix[k][1][i] * FTVD.Phi[1][i] * FTVD.DeltaW[1][i] + FTVD.Pmatrix[k][2][i] * FTVD.Phi[2][i] * FTVD.DeltaW[2][i]));
 			}
 			for (int k = 3; k < FNumEcuaciones; k++) {
-				FTVD.gflux[k][i] = 0.5
-						* (FTVD.W[k][i] + FTVD.W[k][i + 1]
-								- (double) FTVD.hLandaD[k][i]
-										* (FTVD.W[k][i + 1] - FTVD.W[k][i]))
-						+ 0.5 * Limita(FTVD.R[k][i])
-								* ((double) FTVD.hLandaD[k][i]
-										- FTVD.LandaD[k][i])
-								* (FTVD.W[k][i + 1] - FTVD.W[k][i]);
+				FTVD.gflux[k][i] = 0.5 * (FTVD.W[k][i] + FTVD.W[k][i + 1] - (double) FTVD.hLandaD[k][i] * (FTVD.W[k][i + 1] - FTVD.W[k][i])) + 0.5 * Limita(FTVD.R[k][i]) * ((double) FTVD.hLandaD[k][i] - FTVD.LandaD[k][i]) * (FTVD.W[k][i + 1] - FTVD.W[k][i]);
 			}
 
 		}
 		for (int i = 1; i < FNin - 1; ++i) {
 			for (int k = 0; k < FNumEcuaciones; k++) {
-				FU1[k][i] = FU0[k][i]
-						- dtdx
-								* ((FTVD.gflux[k][i] - FTVD.gflux[k][i - 1])
-										+ (FTVD.Bmen[k][i] + FTVD.Bmas[k][i]));
+				FU1[k][i] = FU0[k][i] - dtdx * ((FTVD.gflux[k][i] - FTVD.gflux[k][i - 1]) + (FTVD.Bmen[k][i] + FTVD.Bmas[k][i]));
 			}
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::TVD_Limitador tubo:" << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::TVD_Limitador tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -6229,8 +5327,7 @@ void TTubo::DimensionaTVD() {
 		}
 #ifdef usetry
 	} catch (exception & N) {
-		std::cout << "ERROR: TTubo::TVD_Limitador tubo:" << FNumeroTubo
-				<< std::endl;
+		std::cout << "ERROR: TTubo::TVD_Limitador tubo:" << FNumeroTubo << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

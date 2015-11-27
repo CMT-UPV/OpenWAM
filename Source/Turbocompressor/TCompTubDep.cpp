@@ -144,12 +144,12 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 				+ (pow(FRelacionCompresion, FGamma5 * 2.) - 1.) * FTemperatura10
 						/ FRendimiento;
 		FEntropia2 = sqrt(FGamma * FRMezcla * FTemperatura20)
-				/ pow(FPresion20 * 1e5 / 1e5, FGamma5) / ARef;
+				/ pow(FPresion20 / __CTE.PRef, FGamma5) / __CTE.ARef;
 
 		ac = pow2(FEntropia2 * FGamma3 / *FEntro) + FGamma3;
 		bc = -pow2(FEntropia2 / *FEntro) * FGamma1 * *FLanda;
 		cc = pow2(FEntropia2 * *FLanda / *FEntro)
-				- FTemperatura20 * FGamma * FRMezcla / ARef / ARef;
+				- FTemperatura20 * FGamma * FRMezcla / __CTE.ARef2;
 		discr = bc * bc - ac * 4 * cc;
 
 		if (discr < 0.) {
@@ -160,13 +160,13 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 
 		FASonidoSalida = (*FLanda - FGamma3 * FVelocidad2) * FEntropia2
 				/ *FEntro;
-		FDensidad20 = FPresion20 * 1e5 / FRMezcla / FTemperatura20;
-		FTemperatura2 = pow2(FASonidoSalida * ARef) / FGamma / FRMezcla;
+		FDensidad20 = __UN.BarToPa(FPresion20) / FRMezcla / FTemperatura20;
+		FTemperatura2 = pow2(FASonidoSalida * __CTE.ARef) / FGamma / FRMezcla;
 		FDensidad2 = FDensidad20
 				* pow(FTemperatura2 / FTemperatura20, 1. / FGamma1);
-		ret_val = -FDensidad2 * FVelocidad2 * FAreaSalComp * ARef
-				* sqrt(FTemperatura10 / Mapa->getTempRef())
-				* Mapa->getPresionRef() / (FPresion10 * 1e5);
+		ret_val = -FDensidad2 * FVelocidad2 * FAreaSalComp * __CTE.ARef
+				* sqrt(FTemperatura10 / Mapa->getTempRef()) * Mapa->getPresionRef()
+				/ __UN.BarToPa(FPresion10);
 
 		return ret_val;
 	} catch (exception & N) {
@@ -230,12 +230,12 @@ double TCompTubDep::RegulaFalsi() {
 
 				GastoNuevo = Mapa->getGastoRelComp1()
 						/ (sqrt(FTemperatura10 / Mapa->getTempRef())
-								* Mapa->getPresionRef() / (FPresion10 * 1e5));
+								* Mapa->getPresionRef() / __UN.BarToPa(FPresion10));
 				FPresion20 = FPresion10;
 				FTemperatura20 = FTemperatura10;
 
-				double Adep = sqrt(FGamma * FRMezcla * FTemperatura20) / ARef;
-				FEntropia2 = Adep / pow(FPresion20 * 1e5 / 1e5, FGamma5);
+				double Adep = sqrt(FGamma * FRMezcla * FTemperatura20) / __CTE.ARef;
+				FEntropia2 = Adep / pow(FPresion20 / __CTE.PRef, FGamma5);
 
 				double a = pow2(FGamma3 * FEntropia2 / *FEntro) + FGamma3;
 				double b = Gamma1(FGamma) * *FLanda
@@ -248,13 +248,14 @@ double TCompTubDep::RegulaFalsi() {
 				std::cout << "WARNING: El compresor: " << FNumeroCompresor
 						<< " esta trabajando en zona de choque" << std::endl;
 				// FVariacionRegimen=0.95;
-				FDensidad2 = FGamma * 1e5
-						* pow(FASonidoSalida / FEntropia2, FGamma4)
-						/ pow2(FASonidoSalida * ARef);
 
-				GastoNuevo = -FVelocidad2 * ARef * FAreaSalComp * FDensidad2
+				FDensidad2 = FGamma * __UN.BarToPa(
+						pow(FASonidoSalida / FEntropia2, FGamma4)
+						/ pow2(FASonidoSalida * __CTE.ARef));
+
+				GastoNuevo = -FVelocidad2 * __CTE.ARef * FAreaSalComp * FDensidad2
 						* (sqrt(FTemperatura10 / Mapa->getTempRef())
-								/ Mapa->getPresionRef() * (FPresion10 * 1e5));
+								/ Mapa->getPresionRef() * __UN.BarToPa(FPresion10));
 
 				return GastoNuevo;
 			}
@@ -315,9 +316,9 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 	double temp = 0., work = 0.;
 	try {
 
-		temp = pow(*FLanda / *FEntro, FGamma4) * 1e5;
+		temp = __UN.BarToPa(pow(*FLanda / *FEntro, FGamma4));
 		//double P20Surge = Mapa->getRelCompBombeo() * FPresion10 * 1e5;
-		double P20Max = Mapa->getMaxCompRatio() * FPresion10 * 1e5;
+		double P20Max = Mapa->getMaxCompRatio() * __UN.BarToPa(FPresion10);
 
 #ifdef tchtm
 		P20Max = P20Max * FCorrector;
@@ -351,7 +352,7 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		RC_ant = FRelacionCompresion;
 		RC_filt_ant = RC_filt;
 
-		FGasto1 = FGastoCorregido * FPresion10 * 1e5 / Mapa->getPresionRef()
+		FGasto1 = FGastoCorregido * __UN.BarToPa(FPresion10) / Mapa->getPresionRef()
 				/ sqrt(FTemperatura10 / Mapa->getTempRef());
 		FGasto0 = FGasto1;
 		FGasto0Correg = FGastoCorregido;
@@ -459,17 +460,16 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 
 		FEntradaCompresor = EntradaCompresor;
 		if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmLeft) {
-			FAreaSalComp = pow(
-					BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(0),
-					2.) * Pi / 4.;
+			FAreaSalComp = Seccion(
+					BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(0));
 			FExtremoSalida = nmLeft;
 			FNodoFinTuboSalida = 0;
 			FIndiceCC = 0;
 		} else if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmRight) {
-			FAreaSalComp = pow(
+			FAreaSalComp = Seccion(
 					BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(
 							BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->getNin()
-									- 1), 2.) * Pi / 4.;
+									- 1));
 			FExtremoSalida = nmRight;
 			FNodoFinTuboSalida =
 					BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->getNin() - 1;
@@ -479,7 +479,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
 		switch (FEntradaCompresor) {
 
 		case nmAtmosphere:
-			FTemperatura10 = AmbientTemperature + 273.;
+			FTemperatura10 = __UN.degCToK(AmbientTemperature);
 			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
@@ -547,7 +547,7 @@ void TCompTubDep::Initialize() {
 					/ (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) - 1);
 			FNodoFinEntrada = FTuboRotor->getNin() - 1;
 		}
-		FTemperatura10 = FTuboRotor->getTemperaturaInicial() + 273.
+		FTemperatura10 = __UN.degCToK(FTuboRotor->getTemperaturaInicial())
 				+ pow(FTuboRotor->getVelocidadMedia(), 2.) / 2. / Cp;
 
 		// Inicializacion del transporte de especies quimicas.
@@ -558,7 +558,7 @@ void TCompTubDep::Initialize() {
 
 		break;
 	case nmPlenum:
-		FTemperatura10 = FDeposito->getTemperature() + 273.;
+		FTemperatura10 = __UN.degCToK(FDeposito->getTemperature());
 
 		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
@@ -594,7 +594,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 			FGamma5 = Gamma5(FGamma);
 
 			FPresion10 = AmbientPressure;
-			FTemperatura10 = AmbientTemperature + 273.;
+			FTemperatura10 = __UN.degCToK(AmbientTemperature);
 			break;
 		case nmPlenum:
 			// Calculo de Gamma y R en el compresor. Media de valores a la entrada y la salida.
@@ -615,7 +615,8 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 			FGamma5 = Gamma5(FGamma);
 
 			FPresion10 = FDeposito->getPressure();
-			FTemperatura10 = FDeposito->getTemperature() + 273.;
+			FTemperatura10 = __UN.degCToK(FDeposito->getTemperature());
+
 			break;
 		case nmPipe:
 
@@ -635,19 +636,18 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature,
 			FGamma5 = Gamma5(FGamma);
 
 			if (FExtremoTuboRotor == nmLeft) {
-				pentcomp = FTuboRotor->GetPresion(0) * 1e5;
-				ventcomp = FTuboRotor->GetVelocidad(0) * ARef;
-				tentcomp = pow2(FTuboRotor->GetAsonido(0) * ARef) / FGamma
+				pentcomp = __UN.BarToPa(FTuboRotor->GetPresion(0));
+				ventcomp = FTuboRotor->GetVelocidad(0) * __CTE.ARef;
+				tentcomp = pow2(FTuboRotor->GetAsonido(0) * __CTE.ARef) / FGamma
 						/ FRMezcla;
 				Cp = (FTuboRotor->GetGamma(0) * FTuboRotor->GetRMezcla(0))
 						/ (FTuboRotor->GetGamma(0) - 1);
 			} else {
-				pentcomp = FTuboRotor->GetPresion(FTuboRotor->getNin() - 1)
-						* 1e5;
+				pentcomp = __UN.BarToPa(FTuboRotor->GetPresion(FTuboRotor->getNin() - 1));
 				ventcomp = FTuboRotor->GetVelocidad(FTuboRotor->getNin() - 1)
-						* ARef;
+						* __CTE.ARef;
 				tentcomp = pow2(
-						FTuboRotor->GetAsonido(FTuboRotor->getNin() - 1) * ARef)
+						FTuboRotor->GetAsonido(FTuboRotor->getNin() - 1) * __CTE.ARef)
 						/ FGamma / FRMezcla;
 				Cp = (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1)
 						* FTuboRotor->GetRMezcla(FTuboRotor->getNin() - 1))
@@ -694,7 +694,7 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 	FRendimiento = Mapa->EvaluaRendSplines(Mass_filt)
 			* FAcComp->EFCorrector(FCorrector, FRelacionCompresion);
 
-	A10 = sqrt(FGamma * FRMezcla * FTemperatura10) / ARef;
+	A10 = sqrt(FGamma * FRMezcla * FTemperatura10) / __CTE.ARef;
 	AA1 = pow(FPresion10, -FGamma5) * A10;
 
 	A2 = FASonidoSalida;
@@ -703,14 +703,14 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 	AA2Old = AA2;
 	A20 = sqrt(pow2(A2) + FGamma3 * pow2(FVelocidad2));
 
-	// double m2 = FDensidad2 * FVelocidad2 * FAreaSalComp * ARef;
+	// double m2 = FDensidad2 * FVelocidad2 * FAreaSalComp * __CTE.ARef;
 	int step = 0;
 
 	while ((delta > 1e-5 || deltaA > 1e-5) && step < 100) {
 
 		U2 = Mass_filt
-				/ (FGamma * pow(A2 / AA2, FGamma4) * 1e5 * FAreaSalComp
-						/ pow2(A2) / ARef);
+				/ (FGamma * __UN.BarToPa(pow(A2 / AA2, FGamma4)) * FAreaSalComp
+						/ pow2(A2) / __CTE.ARef);
 
 		A2 = (*FLanda + FGamma3 * U2) * AA2 / *FEntro;
 
@@ -744,17 +744,17 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 	FEntropia2 = AA2;
 	FVelocidad2 = -U2;
 	FASonidoSalida = A2;
-	FTemperatura2 = pow(FASonidoSalida * ARef, 2.0) / FGamma / FRMezcla;
-	FTemperatura20 = pow(A20 * ARef, 2.0) / FGamma / FRMezcla;
-	// FPresion2 = pow(A2/AA2, FGamma4) * PRef;
-	FPresion20 = pow(A20 / AA2, FGamma4) * PRef;
+	FTemperatura2 = pow(FASonidoSalida * __CTE.ARef, 2.0) / FGamma / FRMezcla;
+	FTemperatura20 = pow(A20 * __CTE.ARef, 2.0) / FGamma / FRMezcla;
+	// FPresion2 = pow(A2/AA2, FGamma4) * __CTE.PRef;
+	FPresion20 = pow(A20 / AA2, FGamma4) * __CTE.PRef;
 	FRelacionCompresion = FPresion20 / FPresion10;
-	FDensidad20 = FPresion20 * 1e5 / FRMezcla / FTemperatura20;
-	FDensidad2 = FGamma * 1e5 * pow(FASonidoSalida / FEntropia2, FGamma4)
-			/ pow2(FASonidoSalida * ARef);
+	FDensidad20 = __UN.BarToPa(FPresion20) / FRMezcla / FTemperatura20;
+	FDensidad2 = FGamma * __UN.BarToPa(pow(FASonidoSalida / FEntropia2, FGamma4))
+			/ pow2(FASonidoSalida * __CTE.ARef);
 
 	printf("%lf %lf %lf\n", Mass_filt, Mass,
-			-FVelocidad2 * ARef * FDensidad2 * FAreaSalComp);
+			-FVelocidad2 * __CTE.ARef * FDensidad2 * FAreaSalComp);
 
 	// if(conv)
 	// printf("yes %lf %lf ", FTemperatura2, FPresion20);

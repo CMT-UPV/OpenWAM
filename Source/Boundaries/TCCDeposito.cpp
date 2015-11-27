@@ -508,8 +508,8 @@ void TCCDeposito::IniciaGamma() {
 		if (!FUnionDPF) {
 			FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
 			FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
-			FSeccionTubo = Pi
-					* pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin)) / 4.;
+			FSeccionTubo = __CTE.Pi_4
+					* pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 		} else {
 #ifdef ParticulateFilter
 			FRMezcla=FTuboExtremo[0].DPF->GetCanal ( FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal )->GetRMezcla ( FNodoFin );
@@ -677,8 +677,8 @@ void TCCDeposito::FEDRecuperacionEnergiaCinetica() {
 		xaa2 = pow(FTuboExtremo[0].Entropia, FGamma4);
 		*FCD = FSonido - FGamma3 * FVelocity;
 		*FCC = FSonido + FGamma3 * FVelocity;
-		FGasto = -FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity
-				* 1e5 / (ARef * xaa2); // Massflow entrante al deposito negativo.
+		FGasto = __UN.BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
+				/ (__CTE.ARef * xaa2); // Massflow entrante al deposito negativo.
 		FRelacionPresionGarganta = pow(
 				FSonido / (FTuboExtremo[0].Entropia * FAdCr), FGamma4);
 		FGastoGarganta = FGasto
@@ -736,8 +736,8 @@ void TCCDeposito::FlujoEntranteDeposito() {
 		// Fin caso de salto supercritico
 
 		xaa2 = pow(FTuboExtremo[0].Entropia, FGamma4);
-		FGasto = -FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity
-				* 1e5 / (ARef * xaa2); // Massflow entrante al deposito negativo
+		FGasto = __UN.BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
+				/ (__CTE.ARef * xaa2); // Massflow entrante al deposito negativo
 		*FCD = FSonido - FGamma3 * FVelocity;
 		*FCC = FSonido + FGamma3 * FVelocity;
 		FRelacionPresionGarganta = pow(
@@ -821,8 +821,8 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			// Calcula del massflow. Como es saliente del deposito, siempre es positivo.
 			xx = pow(sqrt(2. / FGamma2), (FGamma2 / FGamma1));
 			yy = pow(FAdCr, FGamma4);
-			FGasto = FCDSalida * FSeccionValvula * FGamma * xx * yy * 1e5
-					/ (FDeposito->getSpeedsound() * ARef);
+			FGasto = __UN.BarToPa(FCDSalida * FSeccionValvula * FGamma * xx * yy)
+					/ (FDeposito->getSpeedsound() * __CTE.ARef);
 
 			/* Reduccion a flujo subsonico mediante onda de choque plana en el caso
 			 de que se hayan obtenido condiciones supersonicas en el extremo del
@@ -865,9 +865,9 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			a1 = FDeposito->getSpeedsound() * (*FCC + FGamma3 * FVelocity)
 					/ (FTuboExtremo[0].Entropia * FAd);
 			FVelocidadGarganta = Fk * pow2(a1) * FVelocity / pow2(FSonido);
-			FGasto = FCDSalida * FSeccionValvula * FGamma
+			FGasto = __UN.BarToPa(FCDSalida * FSeccionValvula * FGamma
 					* pow(FAd / FDeposito->getSpeedsound(), FGamma4)
-					* FVelocidadGarganta * pow(a1, 2. / FGamma1) * 1e5 / ARef;
+					* FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __CTE.ARef;
 			xx = *FCC + FGamma3 * FVelocity;
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
 			// Ecuacion de la caracteristica incidente.

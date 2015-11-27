@@ -88,7 +88,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FSeccionTubo = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -98,7 +98,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FSeccionTubo = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			i++;
@@ -222,7 +222,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 				+ FC3Caudal * FRelacionVelocidadesCV * FRegimen;
 
 		/* Calculo del massflow masico (kg/s) */
-		FDensidad = FPresionCV * 1e5 / (FRMezcla * (FTemperaturaCV + 273.));
+		FDensidad = __UN.BarToPa(FPresionCV) / (FRMezcla * __UN.degCToK(FTemperaturaCV ));
 		FGasto = massflow * FDensidad / 1000.;
 
 		/* Temperature del gas entrante en grados centigrados */
@@ -230,7 +230,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 				+ FC2Temperatura * FPressure + FC3Temperatura;
 
 		/* Velocity del sonido en el tubo */
-		FSonido = sqrt(FGamma * (FTemperature + 273.) * FRMezcla) / ARef;
+		FSonido = sqrt(FGamma * __UN.degCToK(FTemperature) * FRMezcla) / __CTE.ARef;
 
 		/* Potencia */
 		FPotencia = FC1Potencia * pow3(FPressure)
@@ -244,7 +244,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 		ed = FSonido;
 
 		stComprVol CV(FTuboExtremo[0].Entropia, *FCC, FGamma, FSonido, FGasto,
-				FSeccionTubo, PRef, ARef);
+				FSeccionTubo, __CTE.PRef, __CTE.ARef);
 		FVelocity = FindRoot(CV, ei, ed);
 
 		/* printf("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volumetrico en la condicion de contorno: %d.\n",FNumeroCC);

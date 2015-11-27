@@ -78,7 +78,7 @@ void TCCEntradaCompresor::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FNodoFin = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FSeccionTubo = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FPressure = Pipe[i]->GetPresion(FNodoFin);
 				FNumeroTubosCC++;
 			}
@@ -88,7 +88,7 @@ void TCCEntradaCompresor::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FNodoFin = Pipe[i]->getNin() - 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo = Pi * pow2(Pipe[i]->GetDiametro(FNodoFin)) / 4;
+				FSeccionTubo = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FPressure = Pipe[i]->GetPresion(FNodoFin);
 				FNumeroTubosCC++;
 			}
@@ -151,7 +151,7 @@ void TCCEntradaCompresor::CalculaCondicionContorno(double Time) {
 
 		FGasto = FCompresor->getMassflow();
 		cte1 = FTuboExtremo[0].Entropia;
-		cte2 = FGamma1 * pow2(FTuboExtremo[0].Entropia) * FGasto * ARef
+		cte2 = FGamma1 * pow2(FTuboExtremo[0].Entropia) * FGasto * __CTE.ARef
 				/ (2 * FGamma * FSeccionTubo * 1e5);
 		ctea = FGamma1 / FGamma;
 

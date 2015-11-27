@@ -47,7 +47,7 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2,
 
 	int rows = 0, Adiab = 0;
 	double pos = 0., ang = 0.;
-	double Area = pow2(Diam4) * Pi / 4;
+	double Area = Seccion(Diam4);
 	double n_limit = 1.165;
 	bool CalculaGR = false;
 
