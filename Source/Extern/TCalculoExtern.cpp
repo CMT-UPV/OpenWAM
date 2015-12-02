@@ -1782,7 +1782,7 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 							/ Pipe[j]->GetRMezcla(n1) / __UN.degCToK(T);
 					v1 = Pipe[j]->GetVelocidad(n1) * __CTE.ARef;
 					FSensorTubo[i].valreal = (pow2(Pipe[j]->GetDiametro(n1))
-							* __CTE.Pi) * v1 * den;
+							* __CTE.Pi_4) * v1 * den;
 					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo
 							- deltaT) * FSensorTubo[i].valant
 							+ deltaT * FSensorTubo[i].ganancia

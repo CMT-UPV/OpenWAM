@@ -1284,7 +1284,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 			} else if (MasaAdmInstante < 0. && MasaEscInstante > 0.) {
 				// Cortocircuito con sentido Escape hacia Admision.   (massflow negativo)
 				MasaCortocircuitoAdm = MasaAdmInstante
-						* (__CTE.Pi - FAlphaAdmision) / __CTE.Pi;
+						* (__CTE.Pi_2 - FAlphaAdmision) / __CTE.Pi;
 				MasaCortocircuitoEsc = MasaEscInstante * FAlphaAdmision / __CTE.Pi;
 				if (fabs(MasaCortocircuitoAdm) < fabs(MasaCortocircuitoEsc)) {
 					FMasaCortocircuito = -fabs(MasaCortocircuitoAdm);

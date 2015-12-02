@@ -3612,7 +3612,7 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 						// Calculo de la capacidad termica exterior, media e interior de la capa principal.
 						FCapInt[i] += FDensidadPrin * FCalEspPrin * __CTE.Pi_4 * (pow2(DIntPrin + 0.5 * FEspesorPrin) - pow2(DIntPrin)) * FXref;
 						FCapMed[i] = FDensidadPrin * FCalEspPrin * __CTE.Pi_4 * (pow2(DIntPrin + 1.5 * FEspesorPrin) - pow2(DIntPrin + 0.5 * FEspesorPrin)) * FXref;
-						FCapExt[i] += FDensidadPrin * FCalEspPrin * __CTE.Pi * (pow2(DIntPrin + 2 * FEspesorPrin) - pow2(DIntPrin + 1.5 * FEspesorPrin)) * FXref;
+						FCapExt[i] += FDensidadPrin * FCalEspPrin * __CTE.Pi_4 * (pow2(DIntPrin + 2 * FEspesorPrin) - pow2(DIntPrin + 1.5 * FEspesorPrin)) * FXref;
 						EsInterior = false;
 					}
 					Dint = Dext;
@@ -3834,7 +3834,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta, double 
 				}
 				FTPTubo[0][i] = DeltaTTPared / FCapInt[i] * (1 / Ri * (Tg - Tpant0) + 1 / FResistRadInt[i] * (Tpant1 - Tpant0)) + Tpant0;
 				for (int k = 0; k < 3; k++) {
-					FTPTubo[k][i] = __UN.degCToK(FTPTubo[k][i]);
+					FTPTubo[k][i] = __UN.KTodegC(FTPTubo[k][i]);
 				}
 
 				// Si el tipo de calculo es sin inercia termica o lleva menos de "NumCiclosSinInerciaTermica" ciclos calculando...
@@ -3961,7 +3961,7 @@ void TTubo::CalculaTemperaturaPared(TBloqueMotor **Engine, double Theta, double 
 								ErrorTp = fabs(Tpant1 - FTPTubo[1][i]);
 							}
 							for (int k = 0; k < 3; k++) {
-								FTPTubo[k][i] = __UN.degCToK(FTPTubo[k][i]);
+								FTPTubo[k][i] = __UN.KTodegC(FTPTubo[k][i]);
 							}
 						}
 						EsPrimeraVez = false;
@@ -4135,7 +4135,7 @@ void TTubo::CalculaTemperaturaParedSinMotor(TCondicionContorno **BC) {
 				}
 				FTPTubo[0][i] = DeltaTTPared / FCapInt[i] * (1 / Ri * (Tg - Tpant0) + 1 / FResistRadInt[i] * (Tpant1 - Tpant0)) + Tpant0;
 				for (int k = 0; k < 3; k++) {
-					FTPTubo[k][i] = __UN.degCToK(FTPTubo[k][i]);
+					FTPTubo[k][i] = __UN.KTodegC(FTPTubo[k][i]);
 				}
 
 				// Si el tipo de calculo es sin inercia termica o lleva menos de "NumCiclosSinInerciaTermica" ciclos calculando...
