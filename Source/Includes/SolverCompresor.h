@@ -125,7 +125,7 @@ struct stCompSolverVIn {
 	}
 	Doub operator()(const Doub AIn) {
 
-//		AIn=__CTE.ARef*CarIn-(double)Sig*0.5*Gam1*VIn;
+//		AIn=__cons::ARef*CarIn-(double)Sig*0.5*Gam1*VIn;
 //		PresIn=1e5*pow(AaIn/AIn,-Gam4);
 //		TempIn=pow(AIn,2.)/Gam/RMezcla;
 //		RhoIn=PresIn/(RMezcla*TempIn);
@@ -142,7 +142,7 @@ struct stCompSolverVIn {
 //			TempTotOut=TempTotInAnt;
 //		}
 //		Doub VOutMin=0.;
-//		Doub VOutMax=(double)Sig*2*__CTE.ARef*CarOut/(3-Gam);
+//		Doub VOutMax=(double)Sig*2*__cons::ARef*CarOut/(3-Gam);
 //
 //		Doub VMax1=-sqrt(2*CpMezcla*TempTotOut);
 //		if(VOutMax < VMax1){
@@ -154,9 +154,9 @@ struct stCompSolverVIn {
 //			VOutMax=VMax1;
 //		}
 
-		PresIn = __UN.BarToPa(pow(AaIn / AIn, -Gam4));
+		PresIn = __units::BarToPa(pow(AaIn / AIn, -Gam4));
 		TempIn = pow2(AIn) / Gam / RMezcla;
-		VIn = 2 * (__CTE.ARef * CarIn - AIn) / Gam1;
+		VIn = 2 * (__cons::ARef * CarIn - AIn) / Gam1;
 		RhoIn = PresIn / (RMezcla * TempIn);
 		TempTotIn = TempIn + pow2(VIn) / 2. / CpMezcla;
 		PresTotIn = PresIn * pow(TempTotIn / TempIn, Gam / Gam1);
@@ -171,8 +171,8 @@ struct stCompSolverVIn {
 			TempTotOut = TempTotInAnt;
 		}
 
-		Doub AOutMin = CarOut * __CTE.ARef;
-		Doub AOutMax = 2 * CarOut * __CTE.ARef / (3 - Gam);
+		Doub AOutMin = CarOut * __cons::ARef;
+		Doub AOutMax = 2 * CarOut * __cons::ARef / (3 - Gam);
 
 		Doub lim = sqrt(Gam * RMezcla * TempTotOut);
 		if (AOutMax > lim)
@@ -190,7 +190,7 @@ struct stCompSolverVIn {
 		}
 
 		//AOut=sqrt(Gam * RMezcla*TempOut);
-		return CarOut * __CTE.ARef - (AOut - (double) Sig * VOut * Gam1 / 2) / __CTE.ARef;
+		return CarOut * __cons::ARef - (AOut - (double) Sig * VOut * Gam1 / 2) / __cons::ARef;
 
 	}
 };

@@ -232,8 +232,8 @@ void TSAEMap::LeeMapa(FILE *fich) {
 	int Adiab = 0;
 
 	fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
-	FTempRef = __UN.degCToK(FTempRef);
-	FPresionRef = __UN.BarToPa(FPresionRef);
+	FTempRef = __units::degCToK(FTempRef);
+	FPresionRef = __units::BarToPa(FPresionRef);
 
 	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
 			&FEffMultiplier);
@@ -303,7 +303,7 @@ void TSAEMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
 	if ( !FIsAdiabatic ) {
 		for ( int i = 0; i < FNumLines; i++ ) {
 			for ( unsigned int j = 0; j < FSpeed[i].size(); j++ ) {
-				m = FMass[i][j] / __UN.PaToBar(FPresionRef) / sqrt
+				m = FMass[i][j] / __units::PaToBar(FPresionRef) / sqrt
 				( FTempMeasure / FTempRef );
 				Rtc = FSpeed[i][j] / sqrt ( FTempRef / FTempMeasure );
 				if ( FPres[i][j] > 1 )

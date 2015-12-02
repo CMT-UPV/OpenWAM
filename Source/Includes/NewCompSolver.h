@@ -64,7 +64,7 @@ struct stCompSolverA2 {
 		RelSec = s1 / s2;
 	}
 	double operator()(const double A2) {
-		V2 = (CC2 * __CTE.ARef - A2) * (-Gaa);
+		V2 = (CC2 * __cons::ARef - A2) * (-Gaa);
 		if (V2 < 0) {
 			AA1new = AA2ini * pow(RelComp, Gae / 2.) / sqrt(1 + CP);
 			AA2new = AA2ini;
@@ -121,22 +121,22 @@ struct stCompSolverA1 {
 	}
 
 	double operator()(const double A1) {
-		V1 = (CC1 * __CTE.ARef - A1) * Gaa;
+		V1 = (CC1 * __cons::ARef - A1) * Gaa;
 		if (V1 < 0) {
 			CPfin = CPAnt + (1 / LCar * 10) * (-CPAnt) * 0.5 * fabs(V1) * Dt;
-			A2Min = CC2 * __CTE.ARef + V1 * RelSec / Gaa;
-			A2Max = CC2 * __CTE.ARef;
-			A2MinLim = CC2 * __CTE.ARef * 2 / (Gam + 1);
-			A2MaxLim = CC2 * __CTE.ARef;
+			A2Min = CC2 * __cons::ARef + V1 * RelSec / Gaa;
+			A2Max = CC2 * __cons::ARef;
+			A2MinLim = CC2 * __cons::ARef * 2 / (Gam + 1);
+			A2MaxLim = CC2 * __cons::ARef;
 		} else if (V1 > 0) {
 			CPfin = CPAnt
 					+ (1 / LCar * 10) * (CP - CPAnt) * 0.5 * fabs(V1) * Dt;
-			A2Min = CC2 * __CTE.ARef;
-			A2Max = CC2 * __CTE.ARef + V1 * RelSec / Gaa;
-			A2MinLim = CC2 * __CTE.ARef;
-			A2MaxLim = CC2 * __CTE.ARef * 2 / (3 - Gam);
+			A2Min = CC2 * __cons::ARef;
+			A2Max = CC2 * __cons::ARef + V1 * RelSec / Gaa;
+			A2MinLim = CC2 * __cons::ARef;
+			A2MaxLim = CC2 * __cons::ARef * 2 / (3 - Gam);
 		} else {
-			A2 = CC2 * __CTE.ARef;
+			A2 = CC2 * __cons::ARef;
 			V2 = 0.;
 			return (A2 * A2) - (A1 * A1) * (1 + CPfin);
 		}

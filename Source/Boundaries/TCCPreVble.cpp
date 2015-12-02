@@ -173,22 +173,22 @@ void TCCPreVble::CalculaCondicionContorno(double Time) {
 		Temp = FPulso->InterpolaEntropia();
 
 		double rel_CCon_entropia = *FCC / FTuboExtremo[0].Entropia;
-		double yyy = pow(Pressure / FPref, Gamma5(FGamma));
+		double yyy = pow(Pressure / FPref, __gamma::G5(FGamma));
 
 		if (rel_CCon_entropia / yyy < 1.0) {
 
-			Ason = sqrt(FGamma * R * __UN.degCToK(Temp)) / __CTE.ARef;
-			double AA = Ason / pow(Pressure, Gamma5(FGamma));
+			Ason = sqrt(FGamma * R * __units::degCToK(Temp)) / __cons::ARef;
+			double AA = Ason / pow(Pressure, __gamma::G5(FGamma));
 			double U = (*FCC - Ason * FTuboExtremo[0].Entropia / AA) / Gamma3;
 			*FCC = Ason + Gamma3 * U;
 			*FCD = Ason - Gamma3 * U;
-			FTuboExtremo[0].Entropia = Ason / pow(Pressure, Gamma5(FGamma));
+			FTuboExtremo[0].Entropia = Ason / pow(Pressure, __gamma::G5(FGamma));
 		} else {
-			Ason = FTuboExtremo[0].Entropia * pow(Pressure, Gamma5(FGamma));
+			Ason = FTuboExtremo[0].Entropia * pow(Pressure, __gamma::G5(FGamma));
 			*FCD = 2 * Ason - *FCC;
 		}
 
-		// *FCD=(2.0*pow((1+Pressure)/FPref,Gamma5(FGamma))-1.0)*Entropia;
+		// *FCD=(2.0*pow((1+Pressure)/FPref,__gamma::G5(FGamma))-1.0)*Entropia;
 		// *FCC=Entropia;
 		// FTuboExtremo[0].Entropia=Entropia;
 

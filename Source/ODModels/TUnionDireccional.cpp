@@ -189,14 +189,14 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 					FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
+					__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
 					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 					FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
@@ -258,7 +258,7 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 				H0 = H;
 			}
 
-			Energia = pow(FMasa / FMasa0 * exp((H + H0) / 2), Gamma1(FGamma));
+			Energia = pow(FMasa / FMasa0 * exp((H + H0) / 2), __gamma::G1(FGamma));
 			Asonido1 = FAsonido * sqrt(Energia);
 			Error = (Diff = Asonido1 - Asonido0, fabs(Diff)) / Asonido1;
 			if (Error > 1e-6) {
@@ -268,10 +268,10 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 				Converge = true;
 			}
 		}
-		FTemperature = __UN.KTodegC(pow2(FAsonido * __CTE.ARef) / (FGamma * FRMezcla));
-		FPressure = __UN.PaToBar(pow2(__CTE.ARef * FAsonido) / FGamma / FVolumen
+		FTemperature = __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla));
+		FPressure = __units::PaToBar(pow2(__cons::ARef * FAsonido) / FGamma / FVolumen
 				* FMasa);
-		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
+		FPresionIsen = pow(FPressure / FPresRef, __gamma::G5(FGamma));
 		FTime = TimeCalculo;
 	} catch (exception & N) {
 		std::cout
@@ -302,7 +302,7 @@ void TUnionDireccional::CalculoUnionDireccional() {
 				FSentidoEntrada[i] = 0; // Flujo parado
 			FVelocity[i] = FSentidoEntrada[i]
 					* dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getVelocity()
-					* __CTE.ARef;
+					* __cons::ARef;
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 0 */

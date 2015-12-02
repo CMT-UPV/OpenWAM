@@ -261,7 +261,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			double p2 = FCompresor[0]->AcousticC()->P2() * 1e5;
 			double p3 = FTurbina[0]->AcousticT()->P3() * 1e5;
 			double p4 = FTurbina[0]->AcousticT()->P4() * 1e5;
-			FMechPower = FMechLosses->P_oil (__UN.degCToK(FToil),
+			FMechPower = FMechLosses->P_oil (__units::degCToK(FToil),
 					Pi * FRegimenEje / 30, p1, p2, p3, p4, FMoil );
 			MechWork = FMechPower * DeltaTime;
 			if ( FSumTrabajoTurbinas > MechWork ) {
@@ -275,20 +275,20 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			double efc = FCompresor[0]->getEfficiency();
 
 			FHTM->CompressorWorkingPoint ( 0, FCompresor[0]->getMassflow(),
-					__UN.KTodegC(T1), p1, cr, efc );
+					__units::KTodegC(T1), p1, cr, efc );
 
 			double T3 = FTurbina[0]->AcousticT()->T3();
 			double er = FTurbina[0]->AcousticT()->ExpRatio();
 			double eft = FTurbina[0]->GetEfficiency();
 
 			FHTM->TurbineWorkingPoint ( 0, 0, FTurbina[0]->AcousticT()->MassIn(),
-					__UN.KTodegC(T3), p3 / 1e5, er, eft );
+					__units::KTodegC(T3), p3 / 1e5, er, eft );
 
 			FHTM->TurbochargerWorkingPoint ( FRegimenEje, FMechEff, FMoil, FToil,
 					FPoil, FTwater, FMwater );
 
-			FHTM->SolveNodeTemperaturesTransient ( T3, T2, T1, __UN.degCToK(FToil),
-					FMoil, FMechPower, __UN.degCToK(FTwater), __UN.degCToK(FTamb), Time );
+			FHTM->SolveNodeTemperaturesTransient ( T3, T2, T1, __units::degCToK(FToil),
+					FMoil, FMechPower, __units::degCToK(FTwater), __units::degCToK(FTamb), Time );
 			FHTM->SolveDeltaTempTr();
 			FHTM->SolveHeatFlowMatix();
 
@@ -319,7 +319,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 								* DeltaTime);
 					}
 
-					FDeltaReg = __UN.Rad_sToRPM(FSumTrabajoTurbinas - FSumTrabajoCompresores
+					FDeltaReg = __units::Rad_sToRPM(FSumTrabajoTurbinas - FSumTrabajoCompresores
 							- MechWork)
 							/ (FMomentoInercia * FRegimenEje);
 					FRegimenEje += FDeltaReg;

@@ -29,7 +29,7 @@ TAcousticTurbine::~TAcousticTurbine() {
 
 double TAcousticTurbine::T3(int i) {
 
-	double a = FInletPipe[i]->GetAsonido(0) * __CTE.ARef;
+	double a = FInletPipe[i]->GetAsonido(0) * __cons::ARef;
 	double g = FInletPipe[i]->GetGamma(0);
 	double R = FInletPipe[i]->GetRMezcla(0);
 
@@ -77,8 +77,8 @@ double TAcousticTurbine::P3() {
 double TAcousticTurbine::P30(int i) {
 
 	double p = FInletPipe[i]->GetPresion(0);
-	double a = FInletPipe[i]->GetAsonido(0) * __CTE.ARef;
-	double v = FInletPipe[i]->GetVelocidad(0) * __CTE.ARef;
+	double a = FInletPipe[i]->GetAsonido(0) * __cons::ARef;
+	double v = FInletPipe[i]->GetVelocidad(0) * __cons::ARef;
 	double g = FInletPipe[i]->GetGamma(0);
 
 	double p3 = p * pow(1 + (g - 1) / 2 * pow2(v / a), g / (g - 1));
@@ -88,8 +88,8 @@ double TAcousticTurbine::P30(int i) {
 
 double TAcousticTurbine::T30(int i) {
 	double p = FInletPipe[i]->GetPresion(0);
-	double a = FInletPipe[i]->GetAsonido(0) * __CTE.ARef;
-	double v = FInletPipe[i]->GetVelocidad(0) * __CTE.ARef;
+	double a = FInletPipe[i]->GetAsonido(0) * __cons::ARef;
+	double v = FInletPipe[i]->GetVelocidad(0) * __cons::ARef;
 	double g = FInletPipe[i]->GetGamma(0);
 	double R = FInletPipe[i]->GetRMezcla(0);
 
@@ -136,14 +136,14 @@ double TAcousticTurbine::T4() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	return pow2(FOutletPipe->GetAsonido(n) * __CTE.ARef) / FOutletPipe->GetGamma(n)
+	return pow2(FOutletPipe->GetAsonido(n) * __cons::ARef) / FOutletPipe->GetGamma(n)
 			/ FOutletPipe->GetRMezcla(0);
 
 }
 
 double TAcousticTurbine::MassIn(int i) {
 
-	return FInletPipe[i]->GetDensidad(0) * FInletPipe[i]->GetVelocidad(0) * __CTE.ARef
+	return FInletPipe[i]->GetDensidad(0) * FInletPipe[i]->GetVelocidad(0) * __cons::ARef
 			* SIn(i);
 }
 
@@ -161,7 +161,7 @@ double TAcousticTurbine::MassOut() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	return FOutletPipe->GetDensidad(n) * FOutletPipe->GetVelocidad(n) * __CTE.ARef
+	return FOutletPipe->GetDensidad(n) * FOutletPipe->GetVelocidad(n) * __cons::ARef
 			* SOut();
 }
 

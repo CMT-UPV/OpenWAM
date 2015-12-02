@@ -188,10 +188,10 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 			FGamma = FTuboExtremo[TuboCalculado].Pipe->GetGamma(
 					FNodoFin[TuboCalculado]);
 		}
-		FGamma1 = Gamma1(FGamma);
-		FGamma3 = Gamma3(FGamma);
-		FGamma2 = Gamma2(FGamma);
-		FGamma5 = Gamma5(FGamma);
+		FGamma1 = __gamma::G1(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma2 = __gamma::G2(FGamma);
+		FGamma5 = __gamma::G5(FGamma);
 
 		flujo = (*FCC[1] / FTuboExtremo[1].Entropia)
 				/ (*FCC[0] / FTuboExtremo[0].Entropia);
@@ -216,7 +216,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				ed = *FCC[0];
 
 				stPerdPresAdL PPAL(*FCC[0], *FCC[1], FK, FGamma,
-						FRelacionEntropia, __CTE.ARef);
+						FRelacionEntropia, __cons::ARef);
 				vel_sonido_Out = FindRoot(PPAL, ei, ed);
 				vel_sonido_In = PPAL.A2;
 				vel_In = PPAL.U2;
@@ -298,7 +298,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				ed = *FCC[1];
 
 				stPerdPresAdL PPAL(*FCC[1], *FCC[0], FK, FGamma,
-						FRelacionEntropia, __CTE.ARef);
+						FRelacionEntropia, __cons::ARef);
 				vel_sonido_Out = FindRoot(PPAL, ei, ed);
 				vel_sonido_In = PPAL.A2;
 				vel_In = PPAL.U1;

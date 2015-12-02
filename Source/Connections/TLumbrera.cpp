@@ -181,7 +181,7 @@ void TLumbrera::GetCDout(double Time) {
 
 inline double TLumbrera::CalculaDistPMI(double x) {
 
-	double c = __UN.DegToRad(x);
+	double c = __units::DegToRad(x);
 
 	return FCarrera
 			- (FBiela + FCarrera * (1. - cos(c)) / 2.

@@ -175,12 +175,12 @@ struct stTurbomachinery {
 	;
 
 	double funT0_in() {
-		return IT_K + pow2(MassFlow * 287 * IT_K / __UN.BarToPa(IP) / SecIn) / 2 / Fluid->Cp;
+		return IT_K + pow2(MassFlow * 287 * IT_K / __units::BarToPa(IP) / SecIn) / 2 / Fluid->Cp;
 	}
 	;
 
 	double funtT0_out() {
-		return OT_K + pow2(MassFlow * 287 * OT_K / __UN.BarToPa(OP) / SecOut) / 2 / Fluid->Cp;
+		return OT_K + pow2(MassFlow * 287 * OT_K / __units::BarToPa(OP) / SecOut) / 2 / Fluid->Cp;
 	};
 
 	double funP0() {
@@ -199,7 +199,7 @@ struct stTurbomachinery {
 		double error = 1;
 		int iter = 0;
 		do{
-			OT_K = T0 - pow2(M * 287 * OT_K / __UN.BarToPa(OP) / SecOut) / 2 / Fluid->Cp;
+			OT_K = T0 - pow2(M * 287 * OT_K / __units::BarToPa(OP) / SecOut) / 2 / Fluid->Cp;
 			error = funP_toStatic(P0, OT_K, T0) - OP;
 			OP = OP + error;
 			iter++;

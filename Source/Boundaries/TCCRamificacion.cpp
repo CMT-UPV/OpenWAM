@@ -132,7 +132,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
 				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo[FNumeroTubosCC] = __CTE.Pi_4
+				FSeccionTubo[FNumeroTubosCC] = __cons::Pi_4
 						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2);
 				FNumeroTubosCC++;
 			}
@@ -144,7 +144,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
 				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo[FNumeroTubosCC] = __CTE.Pi_4
+				FSeccionTubo[FNumeroTubosCC] = __cons::Pi_4
 						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2);
 				FNumeroTubosCC++;
 			}
@@ -224,9 +224,9 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 					FNodoFin[TuboCalculado]);
 		}
 		// FGamma=FTuboExtremo[TuboCalculado].Pipe->GetGamma(FNodoFin[TuboCalculado]);
-		FGamma1 = Gamma1(FGamma);
-		FGamma3 = Gamma3(FGamma);
-		FGamma4 = Gamma4(FGamma);
+		FGamma1 = __gamma::G1(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma4 = __gamma::G4(FGamma);
 
 		for (int i = 0; i < FNumeroTubosCC; i++) {
 			FEntropia[i] = FTuboExtremo[i].Entropia;

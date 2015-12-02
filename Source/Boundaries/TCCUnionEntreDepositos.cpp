@@ -435,30 +435,30 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) {
 				FGamma = FDeposito1->getGamma();
 				FRMezcla = FDeposito1->getR();
-				p0 = __UN.BarToPa(FDeposito1->getPressure());
-				T0 = pow2(FDeposito1->getSpeedsound() * __CTE.ARef)
+				p0 = __units::BarToPa(FDeposito1->getPressure());
+				T0 = pow2(FDeposito1->getSpeedsound() * __cons::ARef)
 						/ (FGamma * FRMezcla);
 				Fa0 = FDeposito1->getSpeedsound();
 				//Fa1=FDeposito2->getSpeedsound();
-				p1 = __UN.BarToPa(FDeposito2->getPressure());
-				//T1=pow(FDeposito2->getSpeedsound()*__CTE.ARef,2)/(FGamma*FRMezcla);
+				p1 = __units::BarToPa(FDeposito2->getPressure());
+				//T1=pow(FDeposito2->getSpeedsound()*__cons::ARef,2)/(FGamma*FRMezcla);
 
 			} else {
 				FGamma = FDeposito2->getGamma();
 				FRMezcla = FDeposito2->getR();
-				p0 = __UN.BarToPa(FDeposito2->getPressure());
-				T0 = pow2(FDeposito2->getSpeedsound() * __CTE.ARef)
+				p0 = __units::BarToPa(FDeposito2->getPressure());
+				T0 = pow2(FDeposito2->getSpeedsound() * __cons::ARef)
 						/ (FGamma * FRMezcla);
 				Fa0 = FDeposito2->getSpeedsound();
 				//Fa1=FDeposito1->getSpeedsound();
-				p1 = __UN.BarToPa(FDeposito1->getPressure());
-				//T1=pow(FDeposito1->getSpeedsound()*__CTE.ARef,2)/(FGamma*FRMezcla);
+				p1 = __units::BarToPa(FDeposito1->getPressure());
+				//T1=pow(FDeposito1->getSpeedsound()*__cons::ARef,2)/(FGamma*FRMezcla);
 			}
 
-			FGamma1 = Gamma1(FGamma);
-			FGamma2 = Gamma2(FGamma);
+			FGamma1 = __gamma::G1(FGamma);
+			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__CTE.Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
@@ -474,7 +474,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) { /* Flujo del deposito 1 al deposito 2 */
 				Massflow = FCDSalida * gasto_isen;
 				FGasto = 0.9 * FGasto + 0.1 * Massflow;
-				FVelocity = FGasto / (__CTE.Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Saliente -1*/
 				FSentidoFlujoED2 = 1; /* Entrante */
@@ -497,7 +497,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			} else { /* Flujo del deposito 2 al deposito 1 */
 				Massflow = FCDEntrada * gasto_isen;
 				FGasto = 0.9 * FGasto - 0.1 * Massflow;
-				FVelocity = FGasto / (__CTE.Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Entrante */
 				FSentidoFlujoED2 = 1; /* Saliente -1*/
@@ -527,30 +527,30 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) {
 				FGamma = FDeposito1->getGamma();
 				FRMezcla = FDeposito1->getR();
-				p0 = __UN.BarToPa(FDeposito1->getPressure());
-				T0 = pow2(FDeposito1->getSpeedsound() * __CTE.ARef)
+				p0 = __units::BarToPa(FDeposito1->getPressure());
+				T0 = pow2(FDeposito1->getSpeedsound() * __cons::ARef)
 						/ (FGamma * FRMezcla);
 				Fa0 = FDeposito1->getSpeedsound();
 				//Fa1=FDeposito2->getSpeedsound();
-				p1 = __UN.BarToPa(FDeposito2->getPressure());
-				//T1=pow(FDeposito2->getSpeedsound()*__CTE.ARef,2)/(FGamma*FRMezcla);
+				p1 = __units::BarToPa(FDeposito2->getPressure());
+				//T1=pow(FDeposito2->getSpeedsound()*__cons::ARef,2)/(FGamma*FRMezcla);
 
 			} else {
 				FGamma = FDeposito2->getGamma();
 				FRMezcla = FDeposito2->getR();
-				p0 = __UN.BarToPa(FDeposito2->getPressure());
-				T0 = pow2(FDeposito2->getSpeedsound() * __CTE.ARef)
+				p0 = __units::BarToPa(FDeposito2->getPressure());
+				T0 = pow2(FDeposito2->getSpeedsound() * __cons::ARef)
 						/ (FGamma * FRMezcla);
 				Fa0 = FDeposito2->getSpeedsound();
 				//Fa1=FDeposito1->getSpeedsound();
-				p1 = __UN.BarToPa(FDeposito1->getPressure());
-				//T1=pow(FDeposito1->getSpeedsound()*__CTE.ARef,2)/(FGamma*FRMezcla);
+				p1 = __units::BarToPa(FDeposito1->getPressure());
+				//T1=pow(FDeposito1->getSpeedsound()*__cons::ARef,2)/(FGamma*FRMezcla);
 			}
 
-			FGamma1 = Gamma1(FGamma);
-			FGamma2 = Gamma2(FGamma);
+			FGamma1 = __gamma::G1(FGamma);
+			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__CTE.Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
@@ -565,7 +565,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) { /* Flujo del deposito 1 al deposito 2 */
 				FGasto = FCDSalida * gasto_isen;
-				FVelocity = FGasto / (__CTE.Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Saliente */
 				FSentidoFlujoED2 = 1; /* Entrante */
@@ -587,7 +587,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			} else { /* Flujo del deposito 2 al deposito 1 */
 				FGasto = FCDEntrada * gasto_isen;
-				FVelocity = FGasto / (__CTE.Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = 1; /* Entrante */
 				FSentidoFlujoED2 = -1; /* Saliente */
@@ -632,16 +632,16 @@ void TCCUnionEntreDepositos::CalculaUED() {
 		if (FPresionDep1 > FPresionDep2) {
 			FGamma = FGammaDep1SUM / FTiempoDep1SUM;
 			FRMezcla = FRDep1SUM / FTiempoDep1SUM;
-			p0 = __UN.BarToPa(FPresionDep1);
+			p0 = __units::BarToPa(FPresionDep1);
 			a0 = FAsonidoDep1SUM / FTiempoDep1SUM;
-			T0 = pow2(a0 * __CTE.ARef) / (FGamma * FRMezcla);
+			T0 = pow2(a0 * __cons::ARef) / (FGamma * FRMezcla);
 			Fa1 = FAsonidoDep2SUM / FTiempoDep2SUM;
-			p1 = __UN.BarToPa(FPresionDep2);
+			p1 = __units::BarToPa(FPresionDep2);
 
-			FGamma1 = Gamma1(FGamma);
-			FGamma2 = Gamma2(FGamma);
+			FGamma1 = __gamma::G1(FGamma);
+			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__CTE.Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
@@ -651,17 +651,17 @@ void TCCUnionEntreDepositos::CalculaUED() {
 		} else if (FPresionDep2 > FPresionDep1) {
 			FGamma = FGammaDep2SUM / FTiempoDep2SUM;
 			FRMezcla = FRDep2SUM / FTiempoDep2SUM;
-			p0 = __UN.BarToPa(FPresionDep2);
+			p0 = __units::BarToPa(FPresionDep2);
 			a0 = FAsonidoDep2SUM / FTiempoDep2SUM;
 			;
-			T0 = pow2(a0 * __CTE.ARef) / (FGamma * FRMezcla);
+			T0 = pow2(a0 * __cons::ARef) / (FGamma * FRMezcla);
 			Fa1 = FAsonidoDep1SUM / FTiempoDep1SUM;
-			p1 = __UN.BarToPa(FPresionDep1);
+			p1 = __units::BarToPa(FPresionDep1);
 
-			FGamma1 = Gamma1(FGamma);
-			FGamma2 = Gamma2(FGamma);
+			FGamma1 = __gamma::G1(FGamma);
+			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__CTE.Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);

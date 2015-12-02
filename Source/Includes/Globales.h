@@ -1608,40 +1608,69 @@ void DestruyeMatriz(T * *pointer, int num) {
 	}
 }
 
-inline double Gamma1(double gamma) {
-	return gamma - 1;
-}
-;
+namespace __gamma{
 
-inline double Gamma2(double gamma) {
-	return gamma + 1;
-}
-;
+	// FOR AIR AT AMBIENT CONDITIONS
+	const double G = 1.4;
+	const double G_1 = 0.4;
+	const double G_2 = 2.4;
+	const double G_3 = 0.2;
+	const double G_4 = 7.0;
+	const double G_5 = 0.14285714285714285;
+	const double G_6 = 2.5;
+	const double G_7 = 0.6666666666666667;
+	const double G_8 = 0.28771428571428575;
+	const double G_9 = 3.5;
+	const double Cp = 1004.5;
+	const double Cp_x2 = 2009.0;
+	const double Cv = 717.5;
+	const double gxR = 401.8;
 
-inline double Gamma3(double gamma) {
-	return (gamma - 1) / 2.;
-}
-;
+	inline double GG(double Cp, double Cv){
+		return Cp / Cv;
+	}
 
-inline double Gamma4(double gamma) {
-	return 2. * gamma / (gamma - 1);
-}
-;
+	inline double G1(double g) {
+		return g - 1;
+	};
 
-inline double Gamma5(double gamma) {
-	return (gamma - 1) / 2. / gamma;
-}
-;
+	inline double G2(double g) {
+		return g + 1;
+	};
 
-inline double Gamma6(double gamma) {
-	return 1 / (gamma - 1);
-}
-;
+	inline double G3(double g) {
+		return (g - 1) * 0.5;
+	};
 
-inline double Gamma7(double gamma) {
-	return (3 - gamma) / (gamma + 1);
+	inline double G4(double g) {
+		return 2. * g / (g - 1);
+	}
+	;
+
+	inline double G5(double g) {
+		return (g - 1) / 2. / g;
+	}
+	;
+
+	inline double G6(double g) {
+		return 1 / (g - 1);
+	}
+	;
+
+	inline double G7(double g) {
+		return (3 - g) / (g + 1);
+	}
+	;
+
+	inline double G8(double g) {
+		return (g - 1) / g;
+	}
+	;
+
+	inline double G9(double g) {
+		return g / (g - 1);
+	}
 }
-;
 
 /**
  * @brief Heat capacities ratio of air.
@@ -1660,7 +1689,7 @@ inline double Gamma7(double gamma) {
  */
 inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
 		nmCalculoGamma GammaCalculation) {
-	double g = Gamma;
+	double g = __gamma::G;
 
 	if (GammaCalculation != nmGammaConstante) {
 		g = 1. + RMezcla / CvMezcla;
@@ -1699,7 +1728,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 	if (TipoCombustible == 0) {
 		TipoCombustible == nmMEC;
 	}
-	double CvMezcla = __R.Air / (Gamma - 1.);
+	double CvMezcla = __gamma::Cv;
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
@@ -1719,7 +1748,7 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 													+ Temperature * 8.979e-9));
 			CvH2O = (22.605 - 0.09067 * RaizdeT
 					+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
-							/ Temperature) * __R.H2O - __R.H2O;
+							/ Temperature) * __R::H2O - __R::H2O;
 			if (TipoCombustible == nmMEC) {
 				//Diesel C10.8H18.7
 				CvCombustible =
@@ -1742,8 +1771,8 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 																* (0.00020168
 																		+ 0.00000006475
 																				* Temperature))
-										+ 580800 * RaizdeT) * __R.Gasoline
-								/ __R.Universal) - __R.Gasoline; //cv = cp - R
+										+ 580800 * RaizdeT) * __R::Gasoline
+								/ __R::Universal) - __R::Gasoline; //cv = cp - R
 			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
@@ -1760,15 +1789,15 @@ inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible,
 	double R = 287;
 	double RFuel = 0;
 	if (TipoCombustible == nmMEP) {
-		RFuel = __R.Gasoline;
+		RFuel = __R::Gasoline;
 	} else {
-		RFuel = __R.Diesel;
+		RFuel = __R::Diesel;
 	}
 	if (GammaCalculation != nmGammaConstante) {
-		//R = __R.Burnt * YQuemados + RFuel * YCombustible + (__R.Air * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * __R.H2O);
+		//R = __R::Burnt * YQuemados + RFuel * YCombustible + (__R::Air * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * __R::H2O);
 		//Sin humedad en aire
-		R = __R.Burnt * YQuemados + RFuel * YCombustible
-				+ (__R.Air * (1 - YQuemados - YCombustible));
+		R = __R::Burnt * YQuemados + RFuel * YCombustible
+				+ (__R::Air * (1 - YQuemados - YCombustible));
 	}
 	return R;
 }
@@ -1800,9 +1829,9 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
 		double CpH2O = 1856.93;
 		double CpCombustible = 0;
 		if (TipoCombustible == nmMEC) {
-			CpCombustible = __R.Diesel + 1496.92;
+			CpCombustible = __R::Diesel + 1496.92;
 		} else {
-			CpCombustible = __R.Gasoline + 1496.92;
+			CpCombustible = __R::Gasoline + 1496.92;
 		}
 
 		if (GammaCalculation == nmComposicionTemperatura) {
@@ -1810,21 +1839,21 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
 			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
 			CpN2 = (12.531 - 0.05932 * RaizdeT
 					+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
-							/ Temperature) * __R.N2;
+							/ Temperature) * __R::N2;
 			CpO2 = (-0.112 + 0.0479 * RaizdeT
 					+ (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
-							/ Temperature) * __R.O2;
+							/ Temperature) * __R::O2;
 			CpCO2 =
 					(12.019 - 0.03566 * RaizdeT
 							+ (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
-									/ Temperature) * __R.CO2;
+									/ Temperature) * __R::CO2;
 			CpH2O = (22.605 - 0.09067 * RaizdeT
 					+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
-							/ Temperature) * __R.H2O;
+							/ Temperature) * __R::H2O;
 			if (TipoCombustible == nmMEC) {
 				//Diesel C10.8H18.7
 				CpCombustible =
-						__R.Diesel
+						__R::Diesel
 								+ (-256.4
 										+ Temperature
 												* (6.95372
@@ -1844,8 +1873,8 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
 																* (0.00020168
 																		+ 0.00000006475
 																				* Temperature))
-										+ 580800 * RaizdeT) * __R.Gasoline
-								/ __R.Universal; //cv = cp - R
+										+ 580800 * RaizdeT) * __R::Gasoline
+								/ __R::Universal; //cv = cp - R
 			}
 
 		}
@@ -1864,13 +1893,13 @@ inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 	double R = 287;
 	double RFuel = 0;
 	if (TipoCombustible == nmMEP) {
-		RFuel = __R.Gasoline;
+		RFuel = __R::Gasoline;
 	} else {
-		RFuel = __R.Diesel;
+		RFuel = __R::Diesel;
 	}
 	if (GammaCalculation != nmGammaConstante) {
-		R = __R.O2 * YO2 + __R.CO2 * YCO2 + __R.H2O * YH2O + RFuel * YCombustible
-				+ __R.N2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
+		R = __R::O2 * YO2 + __R::CO2 * YCO2 + __R::H2O * YH2O + RFuel * YCombustible
+				+ __R::N2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
 				+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
 	}
 	return R;
@@ -1879,17 +1908,12 @@ inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 
 inline double CalculoUfgasoil(double Temperature) {
 	double Ufgasoil = 0.;
-	Ufgasoil = -1234157.8 - 256.4 * __UN.degCToK(Temperature)
-			+ 3.47686 * pow(__UN.degCToK(Temperature), 2)
-			- 0.00134905 * pow(__UN.degCToK(Temperature), 3)
-			+ 0.000000227565 * pow(__UN.degCToK(Temperature), 4)
-			- 1458487. / __UN.degCToK(Temperature);
+	Ufgasoil = -1234157.8 - 256.4 * __units::degCToK(Temperature)
+			+ 3.47686 * pow(__units::degCToK(Temperature), 2)
+			- 0.00134905 * pow(__units::degCToK(Temperature), 3)
+			+ 0.000000227565 * pow(__units::degCToK(Temperature), 4)
+			- 1458487. / __units::degCToK(Temperature);
 	return Ufgasoil;
-}
-;
-
-inline double Seccion(double d) {
-	return d * d * __CTE.Pi_4;
 }
 ;
 

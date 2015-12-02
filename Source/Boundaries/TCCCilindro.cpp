@@ -124,8 +124,8 @@ void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 
 		FValvula->PutPipe(FTuboExtremo[0].Pipe, FNodoFin);
 
-		FSeccionValvula = __CTE.Pi_4 * pow2(FValvula->getDiametro());
-		FSeccionTubo = __CTE.Pi_4 * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
+		FSeccionValvula = __cons::Pi_4 * pow2(FValvula->getDiametro());
+		FSeccionTubo = __cons::Pi_4 * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 
 	} catch (exception & N) {
 		std::cout
@@ -229,12 +229,12 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 		FTime1 = Time;
 
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
-		FGamma1 = Gamma1(FGamma);
-		FGamma2 = Gamma2(FGamma);
-		FGamma3 = Gamma3(FGamma);
-		FGamma4 = Gamma4(FGamma);
-		FGamma5 = Gamma5(FGamma);
-		FGamma6 = Gamma6(FGamma);
+		FGamma1 = __gamma::G1(FGamma);
+		FGamma2 = __gamma::G2(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma4 = __gamma::G4(FGamma);
+		FGamma5 = __gamma::G5(FGamma);
+		FGamma6 = __gamma::G6(FGamma);
 
 		// FSeccionValvula = Pi * pow(FValvula->getDiametro(),2.)/ 4.;
 		// FSeccionTubo=Pi*pow(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin),2.)/4.;
@@ -257,7 +257,7 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 						coef = FCTorbellino;
 					}
 					FMomento =
-							coef * pow2(__CTE.ARef * FGasto)
+							coef * pow2(__cons::ARef * FGasto)
 									/ (200000 * FMotor->getGeometria().Carrera
 											* FGamma * FCilindro->getPressure())
 									* (pow2(*FCC + *FCD) / 4.
@@ -395,8 +395,8 @@ void TCCCilindro::FlujoEntranteCilindro() {
 		// Fin caso de salto supercritico
 
 		xaa2 = pow(FTuboExtremo[0].Entropia, FGamma4);
-		FGasto = __UN.BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
-				/ (__CTE.ARef * xaa2); // Massflow entrante al cilindro negativo
+		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
+				/ (__cons::ARef * xaa2); // Massflow entrante al cilindro negativo
 		*FCD = FSonido - Ga3U;
 		*FCC = FSonido + Ga3U;
 		FRelacionPresionGarganta = pow(
@@ -436,10 +436,10 @@ void TCCCilindro::FlujoSalienteCilindro() {
 
 		/* Calculo del valor de la velocidad del sonido en el extremo del tubo para
 		 el cual el salto es critico. */
-		u2cr = FCilindro->getSpeedsound() / __CTE.ARef * sqrtGa2
+		u2cr = FCilindro->getSpeedsound() / __cons::ARef * sqrtGa2
 				* (sqrt(pow2(Fk) + FGamma1 * FGamma2) - Fk) / FGamma1;
 		a2cr = sqrt(
-				pow2(FCilindro->getSpeedsound() / __CTE.ARef) - FGamma3 * pow2(u2cr));
+				pow2(FCilindro->getSpeedsound() / __cons::ARef) - FGamma3 * pow2(u2cr));
 		// Ecuacion de la energia. Garganta-Cylinder.
 
 		/* A partir  de a2cr se determina el error en el calculo de A2 al suponer salto
@@ -447,7 +447,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 		 es subcritico. */
 		// FSSubcritico(a2cr,&error,&miembro2);
 		stFSSub FSA2(FTuboExtremo[0].Entropia, FAd, FGamma, Fk, *FCC,
-				FCilindro->getSpeedsound() / __CTE.ARef);
+				FCilindro->getSpeedsound() / __cons::ARef);
 
 		error = FSA2(a2cr);
 
@@ -456,21 +456,21 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			/* Determinacion del intervalo de iteracion. Para ello se supone que
 			 en el extremo del tubo se dan las condiciones criticas. Explicado en
 			 los apuntes de Pedro. */
-			a1 = sqrtGa2 * FCilindro->getSpeedsound() / __CTE.ARef;
+			a1 = sqrtGa2 * FCilindro->getSpeedsound() / __cons::ARef;
 			FVelocidadGarganta = a1;
-			xx = pow(FAd / (FCilindro->getSpeedsound() / __CTE.ARef), FGamma4);
+			xx = pow(FAd / (FCilindro->getSpeedsound() / __cons::ARef), FGamma4);
 			yy = pow(a1, 2. / FGamma1);
 			Fcc = FVelocidadGarganta * yy * xx / Fk;
 			// FSSupercritico(FVelocidadGarganta,&val1,&val2);
 
 			stFSSup FU2(FTuboExtremo[0].Entropia, Fcc, FGamma, Fk, *FCC,
-					FCilindro->getSpeedsound() / __CTE.ARef);
+					FCilindro->getSpeedsound() / __cons::ARef);
 			val1 = FU2(FVelocidadGarganta);
 
 			if (val1 < 0.)
 				valde = FVelocidadGarganta;
 			else
-				valde = (FCilindro->getSpeedsound() / __CTE.ARef) / sqrt(FGamma3);
+				valde = (FCilindro->getSpeedsound() / __cons::ARef) / sqrt(FGamma3);
 
 			/* Una vez conocido el intervalo de iteracion, se pasa a la resolucion
 			 del caso flujo saliente salto supercritico. */
@@ -480,7 +480,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			// Calcula del massflow. Como es saliente del cilindro, siempre es positivo.
 			xx = pow(sqrtGa2, (FGamma2 / FGamma1));
 			yy = pow(FAd, FGamma4);
-			FGasto = __UN.BarToPa(FCDSalida * FSeccionValvula * FGamma * xx * yy)
+			FGasto = __units::BarToPa(FCDSalida * FSeccionValvula * FGamma * xx * yy)
 					/ (FCilindro->getSpeedsound());
 
 			/* Reduccion a flujo subsonico mediante onda de choque plana en el caso
@@ -514,14 +514,14 @@ void TCCCilindro::FlujoSalienteCilindro() {
 
 			// Resolucion del caso de flujo saliente salto subcritico.
 			FCaso = nmFlujoSalienteSaltoSubcritico;
-			Resolucion(a2cr, FCilindro->getSpeedsound() / __CTE.ARef, FCaso, &ycal,
+			Resolucion(a2cr, FCilindro->getSpeedsound() / __cons::ARef, FCaso, &ycal,
 					&FSonido);
 			// Aplicando la Ecuacion de la Energia entre el cilindro y la garganta:
-			root_a = pow2(FCilindro->getSpeedsound() / __CTE.ARef) - pow2(FSonido);
+			root_a = pow2(FCilindro->getSpeedsound() / __cons::ARef) - pow2(FSonido);
 			if (root_a > 0) {
 				FVelocity =
 						sqrt(
-								(pow2(FCilindro->getSpeedsound() / __CTE.ARef)
+								(pow2(FCilindro->getSpeedsound() / __cons::ARef)
 										- pow2(FSonido)) / FGamma3);
 			} else if (root_a > -1e12) {
 				FVelocity = 0;
@@ -532,12 +532,12 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			Ga3U = FVelocity * FGamma3;
 			// Calculo del massflow. Como es saliente del cilindro, siempre es positivo.
 			xx = *FCC + Ga3U;
-			a1 = FCilindro->getSpeedsound() / __CTE.ARef * xx
+			a1 = FCilindro->getSpeedsound() / __cons::ARef * xx
 					/ (FTuboExtremo[0].Entropia * FAd);
 			FVelocidadGarganta = Fk * pow2(a1) * FVelocity / pow2(FSonido);
-			FGasto = __UN.BarToPa(FCDSalida * FSeccionValvula * FGamma
-					* pow(FAd / (FCilindro->getSpeedsound() / __CTE.ARef), FGamma4)
-					* FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __CTE.ARef;
+			FGasto = __units::BarToPa(FCDSalida * FSeccionValvula * FGamma
+					* pow(FAd / (FCilindro->getSpeedsound() / __cons::ARef), FGamma4)
+					* FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __cons::ARef;
 
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
 			// Ecuacion de la caracteristica incidente.
@@ -576,12 +576,12 @@ void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 			*u2t = 0.;
 		} else if (Caso == nmFlujoSalienteSaltoSubcritico) {
 			stFSSub FSA2(FTuboExtremo[0].Entropia, FAd, FGamma, Fk, *FCC,
-					FCilindro->getSpeedsound() / __CTE.ARef);
+					FCilindro->getSpeedsound() / __cons::ARef);
 			*a2t = FindRoot(FSA2, ext1, ext2);
 			*u2t = FSA2.U2;
 		} else if (Caso == nmFlujoSalienteSaltoSupercritico) {
 			stFSSup FU2(FTuboExtremo[0].Entropia, Fcc, FGamma, Fk, *FCC,
-					FCilindro->getSpeedsound() / __CTE.ARef);
+					FCilindro->getSpeedsound() / __cons::ARef);
 			*u2t = FindRoot(FU2, ext1, ext2);
 			*a2t = FU2.A2;
 		} else {
@@ -676,10 +676,10 @@ void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 ///* Resolucion del algoritmo de calculo propuesto en la pagina 113 de la tesis
 // de Corberan. */
 //
-// u2 = sqrt((pow(FCilindro->getSpeedsound()/__CTE.ARef,2)-pow(vel_son_supuesta,2))/FGamma3);
-// a1 = FCilindro->getSpeedsound()/__CTE.ARef*(*FCC+FGamma3*u2)/(FTuboExtremo[0].Entropia*FAd);
+// u2 = sqrt((pow(FCilindro->getSpeedsound()/__cons::ARef,2)-pow(vel_son_supuesta,2))/FGamma3);
+// a1 = FCilindro->getSpeedsound()/__cons::ARef*(*FCC+FGamma3*u2)/(FTuboExtremo[0].Entropia*FAd);
 // u1 = Fk*u2*pow(a1,2)/pow(vel_son_supuesta,2);
-// *error=pow(a1,2)+FGamma3*pow(u1,2)-pow(FCilindro->getSpeedsound()/__CTE.ARef,2);
+// *error=pow(a1,2)+FGamma3*pow(u1,2)-pow(FCilindro->getSpeedsound()/__cons::ARef,2);
 //
 // }
 // catch(Exception &N)
@@ -699,7 +699,7 @@ void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 // {
 //
 //// Resolucion de la ecuacion de la energia entre el cilindro y el extremo del tubo.
-// *a2_1 = sqrt(pow(FCilindro->getSpeedsound()/__CTE.ARef,2)-FGamma3*pow(vel_supuesta,2));
+// *a2_1 = sqrt(pow(FCilindro->getSpeedsound()/__cons::ARef,2)-FGamma3*pow(vel_supuesta,2));
 //
 //// Resolucion de la ecuacion 4.20 de la tesis de Corberan.
 // *a2_2 = sqrt(vel_supuesta*pow((*FCC+FGamma3*vel_supuesta)/

@@ -101,7 +101,7 @@ void TCompresorDep::RelacionDepositoCompresor(TDeposito *DepositoRot,
 
 void TCompresorDep::Initialize() {
 
-	FTemperatura10 = __UN.degCToK(FDepositoRot->getTemperature());
+	FTemperatura10 = __units::degCToK(FDepositoRot->getTemperature());
 
 }
 
@@ -142,17 +142,17 @@ void TCompresorDep::CalculaGasto(double TrabajoInsTurbina,
 		// NO ESTAN PUESTAS LAS ESPECIES !!!!!!! SOLO ESTA HECHO PARA QUE COMPILE.
 		FGamma = FDepositoRot->getGamma(); // Se ha de hacer una media de entrada y salida
 		FRMezcla = FDepositoRot->getR();
-		FGamma4 = Gamma4(FGamma);
-		FGamma5 = Gamma5(FGamma);
+		FGamma4 = __gamma::G4(FGamma);
+		FGamma5 = __gamma::G5(FGamma);
 
 		FPresion10 = FDepositoRot->getPressure();
 		FPresion20 = FDepositoEst->getPressure();
-		FTemperatura10 = pow2(FDepositoRot->getSpeedsound() * __CTE.ARef) / FRMezcla
+		FTemperatura10 = pow2(FDepositoRot->getSpeedsound() * __cons::ARef) / FRMezcla
 				/ FGamma;
 		FRelacionCompresion = FPresion20 / FPresion10;
 		FDeltaTiempo = TiempoActual - FTiempo0;
 		FTiempo0 = TiempoActual;
-		DescorrigeGasto = __UN.BarToPa(FPresion10) / Mapa->getPresionRef()
+		DescorrigeGasto = __units::BarToPa(FPresion10) / Mapa->getPresionRef()
 				/ sqrt(FTemperatura10 / Mapa->getTempRef());
 
 		if (FRelacionCompresion <= 1.) {

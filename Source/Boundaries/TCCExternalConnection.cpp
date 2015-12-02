@@ -44,8 +44,8 @@ void TCCExternalConnection::AsignGeometricalData(double D0, double D1,
 
 	FDExt[0] = D0;
 	FDExt[1] = D1;
-	FAExt[0] = D0 * D0 * __CTE.Pi_4;
-	FAExt[1] = D1 * D1 * __CTE.Pi_4;
+	FAExt[0] = D0 * D0 * __cons::Pi_4;
+	FAExt[1] = D1 * D1 * __cons::Pi_4;
 
 	FDeltaX = deltaX;
 }
@@ -56,11 +56,11 @@ void TCCExternalConnection::ExternalCharacteristics(double Time) {
 	double x = 0., Px = 0., Tx = 0., Ux = 0., Ax = 0.;
 	double Deltat = Time - FCurrentTime;
 
-	double g = Gamma;
-	double gg = (g - 1) / 2 / g;
+	double g = __gamma::G;
+	double gg = __gamma::G_5;
 
-	double A0 = sqrt(g * __R.Air * FTExt[0]);
-	double A1 = sqrt(g * __R.Air * FTExt[1]);
+	double A0 = sqrt(g * __R::Air * FTExt[0]);
+	double A1 = sqrt(g * __R::Air * FTExt[1]);
 
 	double AA0 = A0 / pow(FPExt[0], gg);
 	double AA1 = A1 / pow(FPExt[1], gg);
@@ -68,10 +68,10 @@ void TCCExternalConnection::ExternalCharacteristics(double Time) {
 	if (FUExt[0] > 0) {
 		x = FUExt[0] * FDeltaX / (FDeltaX / Deltat + FUExt[0] - FUExt[1]);
 
-		FA_AExt = (AA0 * (FDeltaX - x) + AA1 * x) / FDeltaX / __CTE.ARef;
+		FA_AExt = (AA0 * (FDeltaX - x) + AA1 * x) / FDeltaX / __cons::ARef;
 
 	} else {
-		FA_AExt = AA0 / __CTE.ARef;
+		FA_AExt = AA0 / __cons::ARef;
 	}
 	double UWave0 = A0 + FUExt[0];
 	double UWave1 = A1 + FUExt[1];
@@ -81,9 +81,9 @@ void TCCExternalConnection::ExternalCharacteristics(double Time) {
 	Ux = (FUExt[0] * (FDeltaX - x) + FUExt[1] * x) / FDeltaX;
 	Ax = (A0 * (FDeltaX - x) + A1 * x) / FDeltaX;
 
-	double deltaEnt = Ax * (AA0 - FA_AExt * __CTE.ARef) / FA_AExt / __CTE.ARef;
+	double deltaEnt = Ax * (AA0 - FA_AExt * __cons::ARef) / FA_AExt / __cons::ARef;
 
-	FK_CExt = (Ax + (g - 1) / 2 * Ux + deltaEnt) / __CTE.ARef;
+	FK_CExt = (Ax + (g - 1) / 2 * Ux + deltaEnt) / __cons::ARef;
 
 }
 
@@ -99,28 +99,28 @@ void TCCExternalConnection::CalculaCondicionContorno(double Time) {
 
 		double A = FTuboExtremo[0].Entropia
 				/ (FTuboExtremo[0].Entropia + FA_AExt) * (*FCC + FK_CExt);
-		FT_Boundary = pow2(A * __CTE.ARef) / __R.Air / Gamma;
-		FU_Boundary = (A - *FCC) / Gamma3(Gamma);
-		*FCD = A + Gamma3(Gamma) * FU_Boundary;
-		FU_Boundary *= __CTE.ARef;
-		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, Gamma4(Gamma));
+		FT_Boundary = pow2(A * __cons::ARef) / __R::Air / __gamma::G;
+		FU_Boundary = (A - *FCC) / __gamma::G_3;
+		*FCD = A + __gamma::G_3 * FU_Boundary;
+		FU_Boundary *= __cons::ARef;
+		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, __gamma::G_4);
 	} else if (flujo > 1.000005) {
 		double A = FA_AExt / (FTuboExtremo[0].Entropia + FA_AExt)
 				* (*FCC + FK_CExt);
-		FT_Boundary = pow2(A * __CTE.ARef) / __R.Air / Gamma;
-		FU_Boundary = (FK_CExt - A) / Gamma3(Gamma);
-		*FCD = A + Gamma3(Gamma) * FU_Boundary;
-		*FCC = A - Gamma3(Gamma) * FU_Boundary;
+		FT_Boundary = pow2(A * __cons::ARef) / __R::Air / __gamma::G;
+		FU_Boundary = (FK_CExt - A) / __gamma::G_3;
+		*FCD = A + __gamma::G_3 * FU_Boundary;
+		*FCC = A - __gamma::G_3 * FU_Boundary;
 		FTuboExtremo[0].Entropia = FA_AExt;
-		FU_Boundary *= __CTE.ARef;
-		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, Gamma4(Gamma));
+		FU_Boundary *= __cons::ARef;
+		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, __gamma::G_4);
 
 	} else {
 		double A = *FCC;
-		FT_Boundary = pow2(A * __CTE.ARef) / __R.Air / Gamma;
+		FT_Boundary = pow2(A * __cons::ARef) / __R::Air / __gamma::G;
 		FU_Boundary = 0;
 		*FCD = *FCC;
-		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, Gamma4(Gamma));
+		FP_Boundary = pow(A / FTuboExtremo[0].Entropia, __gamma::G_4);
 	}
 
 }

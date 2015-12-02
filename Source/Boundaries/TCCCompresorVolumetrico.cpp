@@ -88,7 +88,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccionTubo = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -98,7 +98,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccionTubo = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			i++;
@@ -214,15 +214,15 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
-		FGamma3 = Gamma3(FGamma);
-		FGamma4 = Gamma4(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma4 = __gamma::G4(FGamma);
 
 		/* Calculo del massflow volumetrico (l/s) */
 		massflow = FC1Caudal + FC2Caudal * FPressure
 				+ FC3Caudal * FRelacionVelocidadesCV * FRegimen;
 
 		/* Calculo del massflow masico (kg/s) */
-		FDensidad = __UN.BarToPa(FPresionCV) / (FRMezcla * __UN.degCToK(FTemperaturaCV ));
+		FDensidad = __units::BarToPa(FPresionCV) / (FRMezcla * __units::degCToK(FTemperaturaCV ));
 		FGasto = massflow * FDensidad / 1000.;
 
 		/* Temperature del gas entrante en grados centigrados */
@@ -230,7 +230,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 				+ FC2Temperatura * FPressure + FC3Temperatura;
 
 		/* Velocity del sonido en el tubo */
-		FSonido = sqrt(FGamma * __UN.degCToK(FTemperature) * FRMezcla) / __CTE.ARef;
+		FSonido = sqrt(FGamma * __units::degCToK(FTemperature) * FRMezcla) / __cons::ARef;
 
 		/* Potencia */
 		FPotencia = FC1Potencia * pow3(FPressure)
@@ -244,7 +244,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 		ed = FSonido;
 
 		stComprVol CV(FTuboExtremo[0].Entropia, *FCC, FGamma, FSonido, FGasto,
-				FSeccionTubo, __CTE.PRef, __CTE.ARef);
+				FSeccionTubo, __cons::PRef, __cons::ARef);
 		FVelocity = FindRoot(CV, ei, ed);
 
 		/* printf("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volumetrico en la condicion de contorno: %d.\n",FNumeroCC);

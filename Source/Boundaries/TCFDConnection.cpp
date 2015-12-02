@@ -115,8 +115,8 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 
 	fileout = fopen(FCFDout, "a");
 
-	fprintf(fileout, "%.16f %g %g", Time, *FCC * __CTE.ARef,
-			FTuboExtremo[0].Entropia * __CTE.ARef);
+	fprintf(fileout, "%.16f %g %g", Time, *FCC * __cons::ARef,
+			FTuboExtremo[0].Entropia * __cons::ARef);
 	for (int j = 0; j < FNumeroEspecies - 1; j++) {
 		fprintf(fileout, " %g", FFraccionMasicaEspecie[j]);
 	}
@@ -191,11 +191,11 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 
 	// ! Flow from de pipe to the cfd model
 	if (flow < 0.99999) {
-		*FCD = Beta / __CTE.ARef;
+		*FCD = Beta / __cons::ARef;
 	} else if (flow > 1.00001) {
-		*FCD = Beta / __CTE.ARef;
-		*FCC = *FCC * AA / __CTE.ARef / FTuboExtremo[0].Entropia;
-		FTuboExtremo[0].Entropia = AA / __CTE.ARef;
+		*FCD = Beta / __cons::ARef;
+		*FCC = *FCC * AA / __cons::ARef / FTuboExtremo[0].Entropia;
+		FTuboExtremo[0].Entropia = AA / __cons::ARef;
 	} else {
 		*FCD = *FCC;
 	}

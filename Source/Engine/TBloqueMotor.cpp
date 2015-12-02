@@ -62,7 +62,7 @@ TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature,
 	else
 		FIntEGR = 1;
 
-	FTemperaturaAmbiente = __UN.degCToK(AmbientTemperature);
+	FTemperaturaAmbiente = __units::degCToK(AmbientTemperature);
 	// FTemperaturaAmbiente=273;
 	// FACT=true;
 
@@ -278,9 +278,9 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 		fscanf(fich, "%lf ", &FGeom.ModuloElasticidad);
 		fscanf(fich, "%lf ", &FGeom.CoefDeformaciones);
 
-		FGeom.VCC = (__CTE.Pi_4 * FGeom.Diametro * FGeom.Diametro * FGeom.Carrera)
+		FGeom.VCC = (__cons::Pi_4 * FGeom.Diametro * FGeom.Diametro * FGeom.Carrera)
 				/ (FGeom.RelaCompresion - 1.);
-		FGeom.CilindradaUnitaria = __CTE.Pi * pow2(FGeom.Diametro) * FGeom.Carrera
+		FGeom.CilindradaUnitaria = __cons::Pi * pow2(FGeom.Diametro) * FGeom.Carrera
 				/ 4.;
 		FGeom.CilindradaTotal = FGeom.CilindradaUnitaria
 				* (double) FGeom.NCilin;
@@ -1029,8 +1029,8 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 					/ 100000.;
 		}
 		if (FResMediosMotor.Potencia) {
-			FResMediosMotor.PotenciaMED = __UN.To_kilo(FResMediosMotor.ParEfectivoMED
-					* __CTE.Pi_x_2 * __UN.RPMToRPS(FResMediosMotor.RegimenGiroMED));
+			FResMediosMotor.PotenciaMED = __units::To_kilo(FResMediosMotor.ParEfectivoMED
+					* __cons::Pi_x_2 * __units::RPMToRPS(FResMediosMotor.RegimenGiroMED));
 		}
 		if (FResMediosMotor.MasaAdmision) {
 			for (int i = 0; i < FGeom.NCilin; i++) {
@@ -1096,8 +1096,8 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 			FResMediosMotor.VelocidadVehiculoSUM = 0.;
 		}
 		if (FResMediosMotor.RendimientoVolumetricoAtm) {
-			DensidadAtm = __UN.BarToPa(FPresionAmbiente)
-					/ (__R.Air * FTemperaturaAmbiente);
+			DensidadAtm = __units::BarToPa(FPresionAmbiente)
+					/ (__R::Air * FTemperaturaAmbiente);
 			FResMediosMotor.RendimientoVolumetricoAtmMED = fabs(
 					FResMediosMotor.GastoTuboReferenciaMED) / DensidadAtm
 					/ FGeom.CilindradaTotal
@@ -1138,10 +1138,10 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 		FResMediosMotor.TrabajoBombeoMED = FResMediosMotor.TrabajoBombeoSUM;
 		FResMediosMotor.TrabajoBombeoSUM = 0.;
 
-		FResMediosMotor.PMNCicloMED = __UN.PaToBar(FResMediosMotor.TrabajoNetoMED
+		FResMediosMotor.PMNCicloMED = __units::PaToBar(FResMediosMotor.TrabajoNetoMED
 				/ FGeom.CilindradaTotal);
 
-		FResMediosMotor.PMBCicloMED = __UN.PaToBar(FResMediosMotor.TrabajoBombeoMED
+		FResMediosMotor.PMBCicloMED = __units::PaToBar(FResMediosMotor.TrabajoBombeoMED
 				/ FGeom.CilindradaTotal);
 
 		FResMediosMotor.PMICicloMED = FResMediosMotor.PMNCicloMED
@@ -1154,12 +1154,12 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 				+ FPerMec.Coef3 * FResMediosMotor.PMICicloMED;
 		FResMediosMotor.PMECicloMED = FResMediosMotor.PMNCicloMED - FPMPMMotor;
 
-		FResMediosMotor.ParEfectivoCicloMED = __UN.BarToPa(FResMediosMotor.PMECicloMED)
-				* FGeom.CilindradaTotal / (__UN.DegToRad(FAngTotalCiclo));
+		FResMediosMotor.ParEfectivoCicloMED = __units::BarToPa(FResMediosMotor.PMECicloMED)
+				* FGeom.CilindradaTotal / (__units::DegToRad(FAngTotalCiclo));
 
-		FResMediosMotor.PotenciaCicloMED = __UN.To_kilo(__CTE.Pi_x_2
+		FResMediosMotor.PotenciaCicloMED = __units::To_kilo(__cons::Pi_x_2
 				* FResMediosMotor.ParEfectivoCicloMED
-				* __UN.RPMToRPS(FResMediosMotor.RegimenGiroMED));
+				* __units::RPMToRPS(FResMediosMotor.RegimenGiroMED));
 
 		if (FResMediosMotor.MasaFuelMED == 0) {
 			FResMediosMotor.RendIndicadoMED = 0.;
@@ -1170,7 +1170,7 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 					- FResMediosMotor.TrabajoBombeoMED)
 					/ (FGeom.NCilin * FResMediosMotor.MasaFuelMED
 							* FPoderCalorifico);
-			FResMediosMotor.RendEfectivoMED = __UN.BarToPa(FResMediosMotor.PMECicloMED)
+			FResMediosMotor.RendEfectivoMED = __units::BarToPa(FResMediosMotor.PMECicloMED)
 					* FGeom.CilindradaTotal
 					/ (FGeom.NCilin * FResMediosMotor.MasaFuelMED
 							* FPoderCalorifico);
@@ -1230,7 +1230,7 @@ void TBloqueMotor::AcumulaResultadosMediosBloqueMotor(double TActual,
 			FResMediosMotor.DensidadReferenciaSUM += FTuboRendVol->GetDensidad(
 					FNodoMedio) * DeltaT;
 			FResMediosMotor.GastoTuboReferenciaSUM +=
-					(FTuboRendVol->GetVelocidad(FNodoMedio) * __CTE.ARef
+					(FTuboRendVol->GetVelocidad(FNodoMedio) * __cons::ARef
 							* FTuboRendVol->GetArea(FNodoMedio)
 							* FTuboRendVol->GetDensidad(FNodoMedio)) * DeltaT;
 
@@ -1253,7 +1253,7 @@ void TBloqueMotor::AcumulaResultadosMediosBloqueMotor(double TActual,
 		}
 		if (FResMediosMotor.Dosado) {
 			FResMediosMotor.MasaTuboReferenciaSUM +=
-					(FTuboRendVol->GetVelocidad(FNodoMedio) * __CTE.ARef
+					(FTuboRendVol->GetVelocidad(FNodoMedio) * __cons::ARef
 							* FTuboRendVol->GetArea(FNodoMedio)
 							* FTuboRendVol->GetDensidad(FNodoMedio))
 							/ FGeom.NCilin / (FRegimen / 120) * DeltaT;
@@ -1266,13 +1266,13 @@ void TBloqueMotor::AcumulaResultadosMediosBloqueMotor(double TActual,
 		 }
 		 } */
 		FResMediosMotor.TrabajoNetoSUM +=
-				__UN.BarToPa(FCilindro[CilindroActual - 1]->getPreMed())
+				__units::BarToPa(FCilindro[CilindroActual - 1]->getPreMed())
 						* (FCilindro[CilindroActual - 1]->getVolumen()
 								- FCilindro[CilindroActual - 1]->getVolumen0());
 		if (FCilindro[CilindroActual - 1]->getAnguloActual() > 180.
 				&& FCilindro[CilindroActual - 1]->getAnguloActual() < 540.) {
 			FResMediosMotor.TrabajoBombeoSUM +=
-					__UN.BarToPa(FCilindro[CilindroActual - 1]->getPreMed())
+					__units::BarToPa(FCilindro[CilindroActual - 1]->getPreMed())
 							* (FCilindro[CilindroActual - 1]->getVolumen()
 									- FCilindro[CilindroActual - 1]->getVolumen0());
 		}
@@ -1419,8 +1419,8 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 		for (int i = 0; i < FGeom.NCilin; i++) {
 			ParNeto += FCilindro[i]->getParInstantaneo();
 		}
-		FParPerdidasMecanicas = __UN.BarToPa(FPMPMMotor) * FGeom.CilindradaTotal
-				/ (__UN.DegToRad(FAngTotalCiclo));
+		FParPerdidasMecanicas = __units::BarToPa(FPMPMMotor) * FGeom.CilindradaTotal
+				/ (__units::DegToRad(FAngTotalCiclo));
 		FParMotor = ParNeto - FParPerdidasMecanicas;
 
 		if (FMfControlled) {
@@ -1433,7 +1433,7 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 
 			if (FTipoModelado == nmTransitorioRegimen) {
 				// Regimen de motor en rad/s
-				W = __UN.RPMToRad_s(FRegimen);
+				W = __units::RPMToRad_s(FRegimen);
 
 				// Resistencia de la carretera
 				FRoadLoad = FCoefRoadLoad.A0
@@ -1453,10 +1453,10 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 				FParResistente = FRadioRueda * (FRoadLoad + FPendiente)
 						/ (FRendCajaCambios * FRelCajaCambios * FRelTrasmision);
 				if (FTheta < 7200) {
-					FRegimen = __UN.Rad_sToRPM(((FParMotor - FParResistente)
+					FRegimen = __units::Rad_sToRPM(((FParMotor - FParResistente)
 							* FCoeficienteInercias * DeltaT + W));
 				}
-				FVelocidadVehiculo = __UN.m_sTokm_h((__UN.RPMToRad_s(FRegimen) * FRadioRueda)
+				FVelocidadVehiculo = __units::m_sTokm_h((__units::RPMToRad_s(FRegimen) * FRadioRueda)
 						/ (FRelCajaCambios * FRelTrasmision));
 			}
 		}

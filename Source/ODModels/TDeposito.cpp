@@ -193,7 +193,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 						FCalculoGamma, nmMEP);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-						__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
+						__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 						FCalculoGamma);
 
@@ -201,15 +201,15 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
+				FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
 						FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 						FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 			}
-			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature)) / __CTE.ARef;
-			FMasa = FVolumen * FGamma * __UN.BarToPa(FPressure) / pow2(FAsonido * __CTE.ARef);
+			FPresionIsen = pow(FPressure / FPresRef, __gamma::G5(FGamma));
+			FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature)) / __cons::ARef;
+			FMasa = FVolumen * FGamma * __units::BarToPa(FPressure) / pow2(FAsonido * __cons::ARef);
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -222,7 +222,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 						FCalculoGamma, nmMEP);
 				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-						__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
+						__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
 						FCalculoGamma);
 
@@ -230,14 +230,14 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM,
 
 				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 						FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
+				FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
 						FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 						FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 			}
-			FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-			FAsonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperature)) / __CTE.ARef;
+			FPresionIsen = pow(FPressure / FPresRef, __gamma::G5(FGamma));
+			FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature)) / __cons::ARef;
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
@@ -469,7 +469,7 @@ double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 
 		if (fabs(MasaE) != 0.) {
 			xx = (ASonidoE * ASonidoE / ASonidoD / ASonidoD - 1.)
-					/ Gamma1(Gamma);
+					/ __gamma::G1(Gamma);
 			yy = VelocidadE * VelocidadE / ASonidoD / ASonidoD / 2.;
 			ret_val = Gamma * MasaE * (xx + yy) / MasaD;
 		} else {
@@ -760,7 +760,7 @@ void TDeposito::ResultadosInstantaneosDep() {
 		if (FResInstantDep.Pressure)
 			FResInstantDep.PresionINS = FPressure;
 		if (FResInstantDep.Temperature)
-			FResInstantDep.TemperaturaINS = __UN.KTodegC(pow2(FAsonido * __CTE.ARef)
+			FResInstantDep.TemperaturaINS = __units::KTodegC(pow2(FAsonido * __cons::ARef)
 					/ (FGamma * FRMezcla));
 		if (FResInstantDep.Volumen)
 			FResInstantDep.VolumenINS = FVolumen;
@@ -793,7 +793,7 @@ void TDeposito::AcumulaResultadosMedios(double Actual) {
 			FResMediosDep.PresionSUM += FPressure * Delta;
 		}
 		if (FResMediosDep.Temperature) {
-			FResMediosDep.TemperaturaSUM += __UN.KTodegC(pow2(FAsonido * __CTE.ARef)
+			FResMediosDep.TemperaturaSUM += __units::KTodegC(pow2(FAsonido * __cons::ARef)
 					/ (FGamma * FRMezcla)) * Delta;
 		}
 		if (FResMediosDep.FraccionMasicaEspecies) {

@@ -244,7 +244,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			}
 			break;
 		case nmLamina1D:
-			FddLev = (__UN.BarToPa(deltaP2) * FArea - FRigidez * FLev
+			FddLev = (__units::BarToPa(deltaP2) * FArea - FRigidez * FLev
 					- FAmortiguamiento * FdLev) / FMasa;
 			FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 			FdLev = FdLev + FddLev * deltaT;
@@ -265,7 +265,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			break;
 		case nmLamina2D:
 			for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-				FFuerza[i] = __UN.BarToPa(deltaP2) * FAnchoPetalo * FNumPestanyas
+				FFuerza[i] = __units::BarToPa(deltaP2) * FAnchoPetalo * FNumPestanyas
 						/ FDensidad / FAreaTrans;
 				if (i < FNodosFijos + 1) {
 					FFuerza[i] = 0.;
@@ -354,7 +354,7 @@ void TLamina::GetCDin(double Time) {
 		}
 		break;
 	case nmLamina1D:
-		FddLev = (__UN.BarToPa(deltaP) * FArea - FRigidez * FLev
+		FddLev = (__units::BarToPa(deltaP) * FArea - FRigidez * FLev
 				- FAmortiguamiento * FdLev) / FMasa;
 		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
@@ -374,7 +374,7 @@ void TLamina::GetCDin(double Time) {
 		break;
 	case nmLamina2D:
 		for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-			FFuerza[i] = __UN.BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad
+			FFuerza[i] = __units::BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad
 					/ FAreaTrans;
 			if (i < FNodosFijos + 1) {
 				FFuerza[i] = 0.;
@@ -452,7 +452,7 @@ void TLamina::GetCDout(double Time) {
 		}
 		break;
 	case nmLamina1D:
-		FddLev = (__UN.BarToPa(deltaP) * FArea - FRigidez * FLev
+		FddLev = (__units::BarToPa(deltaP) * FArea - FRigidez * FLev
 				- FAmortiguamiento * FdLev) / FMasa;
 		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
@@ -471,7 +471,7 @@ void TLamina::GetCDout(double Time) {
 		break;
 	case nmLamina2D:
 		for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-			FFuerza[i] = __UN.BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad
+			FFuerza[i] = __units::BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad
 					/ FAreaTrans;
 			if (i < FNodosFijos + 1) {
 				FFuerza[i] = 0.;

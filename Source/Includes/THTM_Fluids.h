@@ -265,7 +265,7 @@ struct stHTMwater: stHTM_Fluid {
 	double fun_Cp(double T) {
 //		return -41.9055 * sqrt(T) + 10447.493 - 382002.49 / sqrt(T)
 //		+ 6456647.7 / T - 37951136.5 / pow150(T);
-		double T_K = __UN.degCToK(T);
+		double T_K = __units::degCToK(T);
 		return 1987087.20115782
 				+ T_K
 						* (4493.2068586048

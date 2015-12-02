@@ -257,9 +257,9 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 					FNodoFin[TuboCalculado]);
 		}
 
-		FGamma3 = Gamma3(FGamma);
-		FGamma2 = Gamma2(FGamma);
-		FGamma1 = Gamma1(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma2 = __gamma::G2(FGamma);
+		FGamma1 = __gamma::G1(FGamma);
 
 		/* Criterio para determinar el sentido el flujo */
 		flujo = (*FCC[1] / FTuboExtremo[1].Entropia)

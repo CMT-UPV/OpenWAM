@@ -93,7 +93,7 @@ void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-		FVolumenMuerto = Seccion(FDiametro) * FCarrera
+		FVolumenMuerto = __geom::Circle_area(FDiametro) * FCarrera
 				/ (FRelCompre - 1.);
 
 	} catch (exception &N) {
@@ -135,14 +135,14 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 					FCalculoGamma, nmMEP);
 			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					__UN.degCToK(FTemperature), FCalculoGamma, nmMEP);
+					__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
 					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(__UN.degCToK(FTemperature),
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
 					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
 					FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
@@ -218,11 +218,11 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 					FMasaEspecie[FNumeroEspecies - 1] / FMasa;
 
 		Energia = pow(FVolumen0 * FMasa / FMasa0 / FVolumen * exp(H),
-				Gamma1(FGamma));
+				__gamma::G1(FGamma));
 		FAsonido *= sqrt(Energia);
-		FPressure = __UN.PaToBar(pow2(__CTE.ARef * FAsonido) * FMasa / (FGamma * FVolumen));
-		FPresionIsen = pow(FPressure / FPresRef, Gamma5(FGamma));
-		FTemperature = __UN.KTodegC(pow2(FAsonido * __CTE.ARef) / (FGamma * FRMezcla));
+		FPressure = __units::PaToBar(pow2(__cons::ARef * FAsonido) * FMasa / (FGamma * FVolumen));
+		FPresionIsen = pow(FPressure / FPresRef, __gamma::G5(FGamma));
+		FTemperature = __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla));
 		FTime = TimeCalculo;
 		if (FAngulo > 360.) {
 			FAngulo -= 360.;
@@ -247,12 +247,12 @@ double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 
 	try {
 
-		c = __UN.DegToRad(CrankAngle);
+		c = __units::DegToRad(CrankAngle);
 		tt = pow2(lbiela);
 		tt -= pow2(carrera * sin(c) / 2.);
 		tt = sqrt(tt);
 		ttt = lbiela + carrera * (1. - cos(c)) / 2. - tt;
-		ret_val = ttt * Seccion(diametro);
+		ret_val = ttt * __geom::Circle_area(diametro);
 		ret_val += vol_muerto;
 		return ret_val;
 
@@ -273,7 +273,7 @@ void TDepVolVariable::IniciaVolumen(double Theta) {
 		FAngulo = Theta - FDesfase;
 		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro,
 				FVolumenMuerto);
-		FMasa = FVolumen * FGamma * __UN.BarToPa(FPressure) / pow2(FAsonido * __CTE.ARef);
+		FMasa = FVolumen * FGamma * __units::BarToPa(FPressure) / pow2(FAsonido * __cons::ARef);
 		FVolumen0 = FVolumen;
 	} catch (exception &N) {
 		std::cout

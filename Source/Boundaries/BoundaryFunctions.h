@@ -462,7 +462,7 @@ struct stComprVol {
 	 desde el programa, LA INFORMACION SE ASOCIARA EN EL CONSTRUCTOR. AQUI
 	 SOLO SE ESTAN DEFINIENDO */
 
-	/* PASO POR EL CONSTRUCTOR __CTE.ARef y PRef para evitar incluir la libreria globales */
+	/* PASO POR EL CONSTRUCTOR __cons::ARef y PRef para evitar incluir la libreria globales */
 
 	double AA; // Variable local asociada al nivel de entropia inicial pasado por la funcion//
 	double BC; // Variable l.a a la caracteristica incidente inicial pasada por la funcion //
@@ -500,7 +500,7 @@ struct stComprVol {
 	double operator()(const double Vel) {
 		double entropia = A * AA / (BC + Ga3 * Vel);
 		U = Gasto_calculado * pow(entropia, Ga4)
-				/ (CD * Gam * F * __UN.BarToPa(PRef) / ARef * pow(A, 1 / Ga3));
+				/ (CD * Gam * F * __units::BarToPa(PRef) / ARef * pow(A, 1 / Ga3));
 
 		return U - Vel;
 	}

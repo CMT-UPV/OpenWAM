@@ -170,7 +170,7 @@ void TCCPulso::CalculaCondicionContorno(double Time) {
 		Pressure = FPulso->InterpolaPresion();
 		Entropia = FPulso->InterpolaEntropia();
 
-		*FCD = (2.0 * pow((1 + Pressure) / FPref, Gamma5(FGamma)) - 1.0)
+		*FCD = (2.0 * pow((1 + Pressure) / FPref, __gamma::G5(FGamma)) - 1.0)
 				* Entropia;
 		*FCC = Entropia;
 		FTuboExtremo[0].Entropia = Entropia;

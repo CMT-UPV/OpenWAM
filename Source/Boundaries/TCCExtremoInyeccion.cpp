@@ -81,7 +81,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccion = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccion = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -91,7 +91,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccion = __CTE.Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccion = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			i++;
@@ -180,18 +180,18 @@ void TCCExtremoInyeccion::CalculaCondicionContorno(double Time) {
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
 
-		FGamma3 = Gamma3(FGamma);
-		FGamma5 = Gamma5(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma5 = __gamma::G5(FGamma);
 
 		if (FAngap < FDuracionIny && FTheta > 720.) {
-			FSonido = sqrt(FGamma * FRMezcla * __UN.degCToK(FTemperaturaIny)) / __CTE.ARef;
+			FSonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperaturaIny)) / __cons::ARef;
 			FVelocity = (FSonido - *FCC) / FGamma3;
-			FPressure = __UN.PaToBar(FGastoIny * FRMezcla * __UN.degCToK(FTemperaturaIny)
-					/ (FVelocity * __CTE.ARef * FSeccion)); // Cociente entre presion y la presion de referencia(1e5);
+			FPressure = __units::PaToBar(FGastoIny * FRMezcla * __units::degCToK(FTemperaturaIny)
+					/ (FVelocity * __cons::ARef * FSeccion)); // Cociente entre presion y la presion de referencia(1e5);
 			if (FPressure < 0.0) {
 				printf(
 						"ERROR: TCCExtremoInyeccion::CalculaCondicionContorno Velocity negativa en inyector %lf,Theta= %lf\n en la condicion de contorno: %d",
-						FVelocity * __CTE.ARef, FTheta, FNumeroCC);
+						FVelocity * __cons::ARef, FTheta, FNumeroCC);
 				printf(
 						"       TCCExtremoInyeccion::CalculaCondicionContorno Presion negativa en inyector %lf\n",
 						FPressure);

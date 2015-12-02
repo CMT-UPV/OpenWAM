@@ -2295,7 +2295,7 @@ void ACT(double *engine_parameters, double *engine_model_constants,
 	double realelementmfreac = 0.; // Auxiliar variable
 
 	// General constants
-	double PI = __CTE.Pi;
+	double PI = __cons::Pi;
 	double Runiv = 8314.;
 	FILE *fich, *foculto, *foculto2;
 	double FRLOL = 0.; // Dosado en el lift-off del instante considerado

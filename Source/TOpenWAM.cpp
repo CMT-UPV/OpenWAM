@@ -4399,7 +4399,7 @@ void TOpenWAM::Actuadores()
 	if (nematlab != 0) {
 		for (int i = 0; i < nematlab; ++i) {
 			MatlabDischarge[i]->PutPresion(EXTERN->GetOutput_dll(compo));
-			MatlabDischarge[i]->PutTemperatura(__UN.degCToK(
+			MatlabDischarge[i]->PutTemperatura(__units::degCToK(
 					EXTERN->GetOutput_dll(compo + 1)));
 			compo += 2;
 		}

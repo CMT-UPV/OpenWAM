@@ -1906,7 +1906,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 				}
 				for (unsigned int j = 0; j < STPipe.size(); ++j) {
 					for (int k = 0; k < STPipe[j]->getNin(); ++k) {
-						double temp = __UN.KTodegC(pow2(STPipe[j]->GetAsonido(k) * __CTE.ARef)
+						double temp = __units::KTodegC(pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 								/ (STPipe[j]->GetGamma(k)
 										* STPipe[j]->GetRMezcla(k)));
 						fprintf(FileOutTemp, " %g", temp);
@@ -1923,7 +1923,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 				}
 				for (unsigned int j = 0; j < STPipe.size(); ++j) {
 					for (int k = 0; k < STPipe[j]->getNin(); ++k) {
-						double vel = STPipe[j]->GetVelocidad(k) * __CTE.ARef;
+						double vel = STPipe[j]->GetVelocidad(k) * __cons::ARef;
 						fprintf(FileOutVel, " %g", vel);
 					}
 				}
@@ -1941,11 +1941,11 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 						if (STPipe[j]->getFormulacionLeyes() == nmConArea) {
 							fprintf(FileOutFlow, " %g", STPipe[j]->GetU0(1, k));
 						} else {
-							double massflow = __UN.BarToPa(STPipe[j]->GetPresion(k))
-									/ pow2(STPipe[j]->GetAsonido(k) * __CTE.ARef)
+							double massflow = __units::BarToPa(STPipe[j]->GetPresion(k))
+									/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 									* STPipe[j]->GetGamma(k)
-									* STPipe[j]->GetVelocidad(k) * __CTE.ARef
-									* STPipe[j]->GetDiametro(k) * __CTE.Pi_4;
+									* STPipe[j]->GetVelocidad(k) * __cons::ARef
+									* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
 							fprintf(FileOutFlow, " %g", massflow);
 						}
 					}
@@ -2165,11 +2165,11 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 							if (STPipe[j]->getFormulacionLeyes() == nmConArea) {
 								massflow = STPipe[j]->GetU0(1, k);
 							} else {
-								massflow = __UN.BarToPa(STPipe[j]->GetPresion(k))
-										/ pow2(STPipe[j]->GetAsonido(k) * __CTE.ARef)
+								massflow = __units::BarToPa(STPipe[j]->GetPresion(k))
+										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
-										* STPipe[j]->GetVelocidad(k) * __CTE.ARef
-										* STPipe[j]->GetDiametro(k) * __CTE.Pi_4;
+										* STPipe[j]->GetVelocidad(k) * __cons::ARef
+										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
 							}
 							fprintf(FOutFlowBurntGas, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
@@ -2199,11 +2199,11 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 							if (STPipe[j]->getFormulacionLeyes() == nmConArea) {
 								massflow = STPipe[j]->GetU0(1, k);
 							} else {
-								massflow = __UN.BarToPa(STPipe[j]->GetPresion(k))
-										/ pow2(STPipe[j]->GetAsonido(k) * __CTE.ARef)
+								massflow = __units::BarToPa(STPipe[j]->GetPresion(k))
+										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
-										* STPipe[j]->GetVelocidad(k) * __CTE.ARef
-										* STPipe[j]->GetDiametro(k) * __CTE.Pi_4;
+										* STPipe[j]->GetVelocidad(k) * __cons::ARef
+										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
 							}
 							fprintf(FOutFlowBurntGas, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
@@ -2251,11 +2251,11 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 							if (STPipe[j]->getFormulacionLeyes() == nmConArea) {
 								massflow = STPipe[j]->GetU0(1, k);
 							} else {
-								massflow = __UN.BarToPa(STPipe[j]->GetPresion(k))
-										/ pow2(STPipe[j]->GetAsonido(k) * __CTE.ARef)
+								massflow = __units::BarToPa(STPipe[j]->GetPresion(k))
+										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
-										* STPipe[j]->GetVelocidad(k) * __CTE.ARef
-										* STPipe[j]->GetDiametro(k) * __CTE.Pi_4;
+										* STPipe[j]->GetVelocidad(k) * __cons::ARef
+										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
 							}
 							fprintf(FOutFlowO2, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
@@ -2321,11 +2321,11 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 							if (STPipe[j]->getFormulacionLeyes() == nmConArea) {
 								massflow = STPipe[j]->GetU0(1, k);
 							} else {
-								massflow = __UN.BarToPa(STPipe[j]->GetPresion(k))
-										/ pow2(STPipe[j]->GetAsonido(k) * __CTE.ARef)
+								massflow = __units::BarToPa(STPipe[j]->GetPresion(k))
+										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
-										* STPipe[j]->GetVelocidad(k) * __CTE.ARef
-										* STPipe[j]->GetDiametro(k) * __CTE.Pi_4;
+										* STPipe[j]->GetVelocidad(k) * __cons::ARef
+										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
 							}
 							fprintf(FOutFlowO2, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)

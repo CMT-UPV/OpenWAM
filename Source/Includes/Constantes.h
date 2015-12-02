@@ -64,7 +64,7 @@
 //---------------------------------------------------------------------------
 
 //Gas constant
-const struct{
+namespace __R{
 	const double Universal = 8314.4; // [J / (mol *K)]
 	const double Air = 287.;
 	const double Fuel = 55.95;
@@ -76,10 +76,10 @@ const struct{
 	const double Ar = 208.12;
 	const double Diesel = 55.95;
 	const double Gasoline = 72.42;
-}__R;// [J / (kg * K)]
+};// [J / (kg * K)]
 
 //Molecular weight
-const struct{
+namespace __PM{
 	const double O2 = 32.;
 	const double CO2 = 44.01;
 	const double H2O = 18.02;
@@ -92,9 +92,9 @@ const struct{
 	const double UHC = 55.04;
 	const double Diesel = 148.4;
 	const double Gasoline = 114.8;
-}__PM; // [g]
+}; // [g]
 
-const struct{
+namespace __cons{
 	const double Pi = 3.14159265358979323846;
 	const double Pi_2 = 1.57079632679489661923;
 	const double Pi_4 = 0.785398163397448309616;
@@ -108,16 +108,16 @@ const struct{
 	const double ARef = 343.11;
 	const double TRef = 292.99271;
 	const double PRef = 1.0;
-}__CTE;
+};
 
-const double Gamma = 1.4; ///< Air specific heat capacities ratio.
+//const double Gamma = 1.4; ///< Air specific heat capacities ratio.
 //const double ARef = 343.11; ///< Reference speed of sound. [m / s]
 //const double TRef = 292.99271; ///< Reference temperature. [K]
 //const double ARef2 = 117724.4721;
 //const double PRef = 1.0; ///< Reference pressure. [bar]
 
 
-struct{
+namespace __units{
 	//GENERAL
 	inline double To_kilo(double p){
 		return p * 0.001;
@@ -157,18 +157,27 @@ struct{
 	inline double KTodegC(double p){
 		return p - 273.15;
 	}
-}__UN;
+};
 
 //stUN __UN;
 
-const double Kb = 1.38054e-23; ///< Boltzmann constant. [J / K]
+//const double Kb = 1.38054e-23; ///< Boltzmann constant. [J / K]
 
-const struct{
+namespace __HFormacion{
 	const double CO2 = -393510; ///< Enthalpy of formation of CO2. [J / mol]
 	const double CO = -110530; ///< Enthalpy of formation of CO. [J / mol]
 	const double NO2 = 33100; ///< Enthalpy of formation of NO2. [J / mol]
 	const double NO = 90290; ///< Enthalpy of formation of NO. [J / mol]
 	const double H2O = -241830; ///< Enthalpy of formation of H2O. [J / mol]
-}__HFormacion;
+};
+
+namespace __geom{
+	inline double Circle_area(double d) {
+		return d * d * __cons::Pi_4;
+	}
+	inline double Cylinder_volume(double d,double l){
+		return Circle_area(d) * l;
+	}
+};
 
 #endif

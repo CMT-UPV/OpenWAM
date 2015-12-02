@@ -83,11 +83,11 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 		FRMezcla = (FTuboRot->GetRMezcla(FNodoFinRotor)
 				+ FTuboEst->GetRMezcla(FNodoFinStator)) / 2.;
 		FCpMezcla = FGamma * FRMezcla / (FGamma - 1);
-		FGamma1 = Gamma1(FGamma);
-		FGamma2 = Gamma2(FGamma);
-		FGamma3 = Gamma3(FGamma);
-		FGamma4 = Gamma4(FGamma);
-		FGamma5 = Gamma5(FGamma);
+		FGamma1 = __gamma::G1(FGamma);
+		FGamma2 = __gamma::G2(FGamma);
+		FGamma3 = __gamma::G3(FGamma);
+		FGamma4 = __gamma::G4(FGamma);
+		FGamma5 = __gamma::G5(FGamma);
 
 		FDeltaTiempo = TiempoActual - FTiempo0;
 		FTiempo0 = TiempoActual;
@@ -97,20 +97,20 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			double vR = FSignoRotor
 					* (TuboExtremo[FPosicionRotor].Landa
 							- TuboExtremo[FPosicionRotor].Beta) / FGamma3
-					* __CTE.ARef;
+					* __cons::ARef;
 			double aR = (TuboExtremo[FPosicionRotor].Landa
-					+ TuboExtremo[FPosicionRotor].Beta) / 2. * __CTE.ARef;
-			double pR = __UN.BarToPa(pow(aR / TuboExtremo[FPosicionRotor].Entropia / __CTE.ARef,
+					+ TuboExtremo[FPosicionRotor].Beta) / 2. * __cons::ARef;
+			double pR = __units::BarToPa(pow(aR / TuboExtremo[FPosicionRotor].Entropia / __cons::ARef,
 					FGamma4));
 			// double dR=FGamma*pR/aR/aR;
 
 			double aS = (TuboExtremo[FPosicionEstator].Landa
-					+ TuboExtremo[FPosicionEstator].Beta) / 2. * __CTE.ARef;
+					+ TuboExtremo[FPosicionEstator].Beta) / 2. * __cons::ARef;
 			double vS = FSignoStator
 					* (TuboExtremo[FPosicionEstator].Landa
 							- TuboExtremo[FPosicionEstator].Beta) / FGamma3
-					* __CTE.ARef;
-			double pS = __UN.BarToPa(pow(aS / TuboExtremo[FPosicionEstator].Entropia / __CTE.ARef,
+					* __cons::ARef;
+			double pS = __units::BarToPa(pow(aS / TuboExtremo[FPosicionEstator].Entropia / __cons::ARef,
 					FGamma4));
 
 			FAsonidoIn = aR;
@@ -120,7 +120,7 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			FAout = aS;
 			FPreTotalOut = pS;
 
-			FPresionDep = __UN.PaToBar(pS);
+			FPresionDep = __units::PaToBar(pS);
 			FAsonidoDep = aS;
 			FTempDep = aS * aS / FGamma / FRMezcla;
 			FVolumen = FLongitudCaract * FAreaStator;
@@ -166,40 +166,40 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			double AA1fin = 0.;
 
 			if (!FFlujoDirecto) {
-				AA1fin = FAsonidoDep / __CTE.ARef * pow(FPresionDep, -FGamma5)
+				AA1fin = FAsonidoDep / __cons::ARef * pow(FPresionDep, -FGamma5)
 						* pow(FRelacionCompresion, FGamma5)
 						/ sqrt(1 + FCoefPresiones);
 			} else {
 				AA1fin = *FAaIn;
 			}
 			FFlowIn = FGamma
-					* __UN.BarToPa(pow(FA1in * __CTE.ARef / pow(AA1fin * __CTE.ARef, FGamma),
-							1 / FGamma3)) * FU1in * __CTE.ARef * FAreaIn;
+					* __units::BarToPa(pow(FA1in * __cons::ARef / pow(AA1fin * __cons::ARef, FGamma),
+							1 / FGamma3)) * FU1in * __cons::ARef * FAreaIn;
 
 			// NewPropertiesInTheVolume();
 
-			FAsonidoIn = FA1in * __CTE.ARef;
-			FVelocidadIn = FU1in * __CTE.ARef;
+			FAsonidoIn = FA1in * __cons::ARef;
+			FVelocidadIn = FU1in * __cons::ARef;
 
 			SolveOutletBoundary(FA2, FU2);
 
 			double AA2fin = 0.;
 			if (FFlowOut < 0) {
-				AA2fin = FAsonidoDep / __CTE.ARef * pow(FPresionDep, -FGamma5);
+				AA2fin = FAsonidoDep / __cons::ARef * pow(FPresionDep, -FGamma5);
 			} else {
 				AA2fin = *FAaOut;
 			}
 
 			NewPropertiesInTheVolume();
-			FAsonidoOut = FA2 * __CTE.ARef;
-			FVelocidadOut = FU2 * __CTE.ARef;
+			FAsonidoOut = FA2 * __cons::ARef;
+			FVelocidadOut = FU2 * __cons::ARef;
 			// <--- NUEVO MODELO
 
-			*FCarDIn = (FAsonidoIn - FGamma1 / 2. * FVelocidadIn) / __CTE.ARef;
+			*FCarDIn = (FAsonidoIn - FGamma1 / 2. * FVelocidadIn) / __cons::ARef;
 			if (FVelocidadIn < 0) {
 				*FAaIn = AA1fin;
 			}
-			*FCarDOut = (FAsonidoOut + FGamma1 / 2. * FVelocidadOut) / __CTE.ARef;
+			*FCarDOut = (FAsonidoOut + FGamma1 / 2. * FVelocidadOut) / __cons::ARef;
 			if (FVelocidadOut > 0) {
 				*FAaOut = AA2fin;
 
@@ -212,23 +212,23 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 			double AA1fin = 0.;
 
 			if (!FFlujoDirecto) {
-				AA1fin = FAsonidoDep / __CTE.ARef * pow(FPresionDep, -FGamma5)
+				AA1fin = FAsonidoDep / __cons::ARef * pow(FPresionDep, -FGamma5)
 						* pow(FRelacionCompresion, FGamma5)
 						/ sqrt(1 + FCoefPresiones);
 			} else {
 				AA1fin = *FAaIn;
 			}
-			FFlowIn = FGamma * __UN.BarToPa(
-					pow(FA1in * __CTE.ARef / pow(AA1fin * __CTE.ARef, FGamma),
-							1 / FGamma3)) * FU1in * __CTE.ARef * FAreaIn;
+			FFlowIn = FGamma * __units::BarToPa(
+					pow(FA1in * __cons::ARef / pow(AA1fin * __cons::ARef, FGamma),
+							1 / FGamma3)) * FU1in * __cons::ARef * FAreaIn;
 
 			NewPropertiesInTheVolume();
 
-			FAsonidoIn = FA1in * __CTE.ARef;
-			FVelocidadIn = FU1in * __CTE.ARef;
+			FAsonidoIn = FA1in * __cons::ARef;
+			FVelocidadIn = FU1in * __cons::ARef;
 			// <--- NUEVO MODELO
 
-			*FCarDIn = (FAsonidoIn - FGamma1 / 2. * FVelocidadIn) / __CTE.ARef;
+			*FCarDIn = (FAsonidoIn - FGamma1 / 2. * FVelocidadIn) / __cons::ARef;
 			if (FVelocidadIn < 0) {
 				*FAaIn = AA1fin;
 			}
@@ -238,36 +238,36 @@ void TCompTubos::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
 
 			double AA2fin = 0.;
 			if (FFlowOut < 0) {
-				AA2fin = FAsonidoDep / __CTE.ARef * pow(FPresionDep, -FGamma5);
+				AA2fin = FAsonidoDep / __cons::ARef * pow(FPresionDep, -FGamma5);
 			} else {
 				AA2fin = *FAaOut;
 			}
 
 			NewPropertiesInTheVolume();
-			FAsonidoOut = FA2 * __CTE.ARef;
-			FVelocidadOut = FU2 * __CTE.ARef;
+			FAsonidoOut = FA2 * __cons::ARef;
+			FVelocidadOut = FU2 * __cons::ARef;
 			// <--- NUEVO MODELO
 
-			*FCarDOut = (FAsonidoOut + FGamma1 / 2. * FVelocidadOut) / __CTE.ARef;
+			*FCarDOut = (FAsonidoOut + FGamma1 / 2. * FVelocidadOut) / __cons::ARef;
 			if (FVelocidadOut > 0) {
 				*FAaOut = AA2fin;
 			}
 
 		}
 
-		FGasto1 = FGamma * __UN.BarToPa(
-				pow(FAsonidoIn / pow(*FAaIn * __CTE.ARef, FGamma), 1 / FGamma3))
+		FGasto1 = FGamma * __units::BarToPa(
+				pow(FAsonidoIn / pow(*FAaIn * __cons::ARef, FGamma), 1 / FGamma3))
 				* FVelocidadIn * FAreaIn;
 
 		FTempIn = FAsonidoIn * FAsonidoIn / (FGamma * FRMezcla);
 		FTempTotalIn = FTempIn + FVelocidadIn * FVelocidadIn / 2 / FCpMezcla;
-		FPresionIn = __UN.BarToPa(pow(*FAaIn * __CTE.ARef / FAsonidoIn, -FGamma4));
+		FPresionIn = __units::BarToPa(pow(*FAaIn * __cons::ARef / FAsonidoIn, -FGamma4));
 		FPreTotalIn = FPresionIn
 				* pow(FTempTotalIn / FTempIn, FGamma / FGamma1);
 		FTempOut = FAsonidoOut * FAsonidoOut / (FGamma * FRMezcla);
 		FTempTotalOut = FTempOut
 				+ FVelocidadOut * FVelocidadOut / 2 / FCpMezcla;
-		FPresionOut = __UN.BarToPa(pow(*FAaOut * __CTE.ARef / FAsonidoOut, -FGamma4));
+		FPresionOut = __units::BarToPa(pow(*FAaOut * __cons::ARef / FAsonidoOut, -FGamma4));
 		FPreTotalOut = FPresionOut
 				* pow(FTempTotalOut / FTempOut, FGamma / FGamma1);
 
@@ -346,7 +346,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 	try {
 		bool Primera = true;
 		FVelInMin = 0;
-		FVelInMax = (double) sig * 2 * __CTE.ARef * CarIn / FGamma2;
+		FVelInMax = (double) sig * 2 * __cons::ARef * CarIn / FGamma2;
 
 		FErrorVelIn = 10000.;
 		FErrorCarIn = 1e-6;
@@ -355,8 +355,8 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 		while (fabs(FErrorVelIn) > FErrorCarIn && FCuentaVelIn < 200) {
 			*VelIn = (FVelInMin + FVelInMax) / 2.;
 
-			*AIn = __CTE.ARef * CarIn - (double) sig * 0.5 * FGamma1 * *VelIn;
-			FPresionIn = __UN.BarToPa(pow(AaIn / *AIn, -FGamma4));
+			*AIn = __cons::ARef * CarIn - (double) sig * 0.5 * FGamma1 * *VelIn;
+			FPresionIn = __units::BarToPa(pow(AaIn / *AIn, -FGamma4));
 			FTempIn = pow2(*AIn) / FGamma / FRMezcla;
 			FDensidadIn = FPresionIn / (FRMezcla * FTempIn);
 			FTempTotalIn = FTempIn + pow2(*VelIn) / 2. / FCpMezcla;
@@ -379,7 +379,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 			}
 
 			FVelOutMin = 0.;
-			FVelOutMax = (double) sig * 2 * __CTE.ARef * CarOut / (3 - FGamma);
+			FVelOutMax = (double) sig * 2 * __cons::ARef * CarOut / (3 - FGamma);
 
 			if (FVelOutMax < -sqrt(2 * FCpMezcla * FTempTotalOut)) {
 				FVelOutMax = -sqrt(2 * FCpMezcla * FTempTotalOut);
@@ -409,7 +409,7 @@ void TCompTubos::Biseccion(double *VelIn, double *VelOut, double *AIn,
 			}
 			*AOut = sqrt(FGamma * FRMezcla * FTempOut);
 			FErrorVelIn = CarOut
-					- (*AOut - (double) sig * *VelOut * FGamma1 / 2) / __CTE.ARef;
+					- (*AOut - (double) sig * *VelOut * FGamma1 / 2) / __cons::ARef;
 
 			if (FErrorVelIn > 0)
 				FVelInMax = *VelIn;
@@ -497,7 +497,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FSignoRotor = -1;
 			FNodoFinRotor = 0;
 			// FIndExtRotor=0;
-			FAreaRotor = Seccion(FTuboRot->GetDiametro(0));
+			FAreaRotor = __geom::Circle_area(FTuboRot->GetDiametro(0));
 			FIndiceCCRotor = 0;
 
 		} else if (FTuboRot->getNodoDer() == NumeroCC) {
@@ -505,7 +505,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FNodoFinRotor = FTuboRot->getNin() - 1;
 			FSignoRotor = 1;
 			// FIndExtRotor=1;
-			FAreaRotor = Seccion(FTuboRot->GetDiametro(FTuboRot->getNin() - 1));
+			FAreaRotor = __geom::Circle_area(FTuboRot->GetDiametro(FTuboRot->getNin() - 1));
 			FIndiceCCRotor = 1;
 		} else {
 			std::cout << "ERROR: Asigncion tubo entrada compresor "
@@ -516,14 +516,14 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 			FNodoFinStator = 0;
 			FSignoStator = -1;
 			// FIndExtStator=0;
-			FAreaStator = Seccion(FTuboEst->GetDiametro(0));
+			FAreaStator = __geom::Circle_area(FTuboEst->GetDiametro(0));
 			FIndiceCCStator = 0;
 		} else if (FTuboEst->getNodoDer() == NumeroCC) {
 			FExtremoStator = nmRight;
 			FNodoFinStator = FTuboEst->getNin() - 1;
 			FSignoStator = 1;
 			// FIndExtStator=1;
-			FAreaStator = Seccion(FTuboEst->GetDiametro(FTuboEst->getNin() - 1));
+			FAreaStator = __geom::Circle_area(FTuboEst->GetDiametro(FTuboEst->getNin() - 1));
 			FIndiceCCStator = 1;
 		} else {
 			std::cout << "ERROR: Asignacion tubo salida compresor "
@@ -537,7 +537,7 @@ void TCompTubos::RelacionTubos(TCondicionContorno **BC, int NumeroCC) {
 					* FTuboRot->GetRMezcla(FTuboRot->getNin() - 1))
 					/ (FTuboRot->GetGamma(FTuboRot->getNin() - 1) - 1);
 
-		FTemperatura10 = __UN.degCToK(FTuboRot->getTemperaturaInicial())
+		FTemperatura10 = __units::degCToK(FTuboRot->getTemperaturaInicial())
 				+ pow2(FTuboRot->getVelocidadMedia()) / 2. / Cp;
 
 		// Inicializacion del transporte de especies quimicas.
@@ -579,8 +579,8 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 		a10 = *a1;
 		a20 = *a2;
 
-		Lim_u1 = (double) sig * 2 * __CTE.ARef * cc1 / FGamma2;
-		Lim_u2 = (double) sig * 2 * __CTE.ARef * cc2 / FGamma2;
+		Lim_u1 = (double) sig * 2 * __cons::ARef * cc1 / FGamma2;
+		Lim_u2 = (double) sig * 2 * __cons::ARef * cc2 / FGamma2;
 
 		// aa2new=sqrt(1+FCoefPresiones)* aa1/pow(FRelacionCompresion,sig*FGamma5);
 
@@ -590,7 +590,7 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 		if (fabs(*u1 / *a1) < 0.7 && fabs(*u2 / *a2) < 0.7) {
 
 			do {
-				f1 = FGamma * __UN.BarToPa(
+				f1 = FGamma * __units::BarToPa(
 						pow(*a1 / pow(aa1, FGamma), 1 / FGamma3) * *u1 * s1
 								- pow(*a2 / pow(aa2new, FGamma), 1 / FGamma3)
 										* *u2 * s2);
@@ -600,10 +600,10 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 										sig * FGamma1 / FGamma);
 
 				J11 = FGamma * 2 * s1 / FGamma1
-						* __UN.BarToPa(pow(*a1 / pow(aa1, FGamma), 1 / FGamma3))
+						* __units::BarToPa(pow(*a1 / pow(aa1, FGamma), 1 / FGamma3))
 						* (*u1 / *a1 - (double) sig);
 				J12 = -FGamma * 2 * s2 / FGamma1
-						* __UN.BarToPa(pow(*a2 / pow(aa2new, FGamma), 1 / FGamma3))
+						* __units::BarToPa(pow(*a2 / pow(aa2new, FGamma), 1 / FGamma3))
 						* (*u2 / *a1 + (double) sig);
 				J21 = -2 * pow(FRelacionCompresion, (sig * FGamma1 / FGamma))
 						/ aa1 / aa1 * (*a1 - (double) sig * *u1);
@@ -622,8 +622,8 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 				*a1 = *a1 - da1;
 				*a2 = *a2 - da2;
 
-				*u1 = (double) sig * (cc1 * __CTE.ARef - *a1) / FGamma3;
-				*u2 = -(double) sig * (cc2 * __CTE.ARef - *a2) / FGamma3;
+				*u1 = (double) sig * (cc1 * __cons::ARef - *a1) / FGamma3;
+				*u2 = -(double) sig * (cc2 * __cons::ARef - *a2) / FGamma3;
 
 				if (fabs(*u1) > *a1)
 					*u1 = *a1 * *u1 / fabs(*u1);
@@ -641,7 +641,7 @@ void TCompTubos::MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
 				// FPresionOut=1e5*pow(aa2new/ *a2,-FGamma4);
 				FTempIn = *a1 * *a1 / FGamma / FRMezcla;
 				FTempTotalIn = FTempIn + pow2(*u1) / 2. / FCpMezcla;
-				FPresionIn = __UN.BarToPa(pow(aa1 / *a1, -FGamma4));
+				FPresionIn = __units::BarToPa(pow(aa1 / *a1, -FGamma4));
 				FPreTotalIn = FPresionIn
 						* pow(FTempTotalIn / FTempIn, FGamma / FGamma1);
 				FPreTotalOut = FPreTotalIn
@@ -684,11 +684,11 @@ void TCompTubos::Solver(double *a1, double *a2, double *u1, double *u2,
 				FRelacionCompresion, FRendimiento, FLongitudCaract,
 				FCoefPresiones, FDeltaTiempo);
 
-		double X1 = cc1 * __CTE.ARef - (FGamma - 1) / 2 * (*u1 + 5);
-		double X2 = cc1 * __CTE.ARef - (FGamma - 1) / 2 * (*u1 - 5);
+		double X1 = cc1 * __cons::ARef - (FGamma - 1) / 2 * (*u1 + 5);
+		double X2 = cc1 * __cons::ARef - (FGamma - 1) / 2 * (*u1 - 5);
 
-		double X1lim = cc1 * __CTE.ARef * 2 / (FGamma + 1);
-		double X2lim = cc1 * __CTE.ARef * 2 / (3 - FGamma);
+		double X1lim = cc1 * __cons::ARef * 2 / (FGamma + 1);
+		double X2lim = cc1 * __cons::ARef * 2 / (3 - FGamma);
 
 		if (zbrac2(FunA1, X1, X2, X1lim, X2lim)) {
 			*a1 = FindRoot(FunA1, X1, X2);
@@ -746,7 +746,7 @@ void TCompTubos::SolveInletBoundary(double &A, double &U, double &Ao,
 		FFlujoDirecto = false;
 
 		K3 = 2 * pow2(*FCarCIn) / FGamma1
-				- pow2(FAsonidoDep / __CTE.ARef) / (1 + FCoefPresiones);
+				- pow2(FAsonidoDep / __cons::ARef) / (1 + FCoefPresiones);
 
 	} else if (A_dep / A_pipe < 1 - 1e-10) {
 		FFlujoDirecto = true;
@@ -794,16 +794,16 @@ void TCompTubos::SolveOutletBoundary(double &A, double &U) {
 		InFlow(Ad, A, U);
 
 		double xaa2 = pow(*FAaOut, FGamma4);
-		FFlowOut = -FGamma * FAreaOut * __UN.BarToPa(pow(A, 1 / FGamma3)) * U
-				/ (__CTE.ARef * xaa2);
+		FFlowOut = -FGamma * FAreaOut * __units::BarToPa(pow(A, 1 / FGamma3)) * U
+				/ (__cons::ARef * xaa2);
 		// Massflow entrante al deposito negativo
 
 	} else if (rel_CCon_Entropia / Ad < 1 - 1e-10) {
 		// Flujo saliente del deposito
 		OutFlow(Ad, A, U);
 
-		FFlowOut = -FAreaOut * FGamma * pow(Ad * __CTE.ARef / FAsonidoDep, FGamma4)
-				* U * __UN.BarToPa(pow(A, 2. / FGamma1)) / __CTE.ARef;
+		FFlowOut = -FAreaOut * FGamma * pow(Ad * __cons::ARef / FAsonidoDep, FGamma4)
+				* U * __units::BarToPa(pow(A, 2. / FGamma1)) / __cons::ARef;
 
 	} else { // Flujo Parado
 		U = 0;
@@ -820,11 +820,11 @@ void TCompTubos::NewPropertiesInTheVolume() {
 	double MasaOut = FFlowOut * FDeltaTiempo;
 
 	if (FFlowIn > 0) {
-		H += EntalpiaEntrada(FA1out, FU1out, MasaIn, FAsonidoDep / __CTE.ARef,
+		H += EntalpiaEntrada(FA1out, FU1out, MasaIn, FAsonidoDep / __cons::ARef,
 				FMasaDep, FGamma);
 	}
 	if (FFlowOut > 0) {
-		H += EntalpiaEntrada(FA2, FU2, MasaOut, FAsonidoDep / __CTE.ARef, FMasaDep,
+		H += EntalpiaEntrada(FA2, FU2, MasaOut, FAsonidoDep / __cons::ARef, FMasaDep,
 				FGamma);
 	}
 	double MasaDep0 = FMasaDep;
@@ -833,8 +833,8 @@ void TCompTubos::NewPropertiesInTheVolume() {
 	double Energia = pow(FMasaDep / MasaDep0 * exp(H), FGamma1);
 	FAsonidoDep *= sqrt(Energia);
 	double A2 = FAsonidoDep * FAsonidoDep;
-	FPresionDep = __UN.PaToBar(A2 / FGamma / FVolumen * FMasaDep);
-	FTempDep = __UN.KTodegC(A2 / FGamma / FRMezcla);
+	FPresionDep = __units::PaToBar(A2 / FGamma / FVolumen * FMasaDep);
+	FTempDep = __units::KTodegC(A2 / FGamma / FRMezcla);
 
 }
 
@@ -861,13 +861,13 @@ void TCompTubos::OutFlow(double Ad, double &A, double &U) {
 			* (sqrt(1 + FGamma1 * FGamma2) - 1) / FGamma1;
 	double A2cr = sqrt(pow2(FAsonidoDep) - FGamma3 * pow2(U2cr));
 
-	stFSSub FSA2(*FAaOut, Ad, FGamma, 1, *FCarCOut, FAsonidoDep / __CTE.ARef);
+	stFSSub FSA2(*FAaOut, Ad, FGamma, 1, *FCarCOut, FAsonidoDep / __cons::ARef);
 
-	double error = FSA2(A2cr / __CTE.ARef);
+	double error = FSA2(A2cr / __cons::ARef);
 
 	if (error < 0.) { // Salto de presiones supercritico.
 	} else {
-		A = FindRoot(FSA2, A2cr / __CTE.ARef, FAsonidoDep / __CTE.ARef);
+		A = FindRoot(FSA2, A2cr / __cons::ARef, FAsonidoDep / __cons::ARef);
 		U = FSA2.U2;
 	}
 
@@ -879,7 +879,7 @@ double TCompTubos::EntalpiaEntrada(double ASonidoE, double VelocidadE,
 	double xx = 0., yy = 0., ret_val = 0.;
 
 	if (fabs(MasaE) != 0.) {
-		xx = (pow2(ASonidoE / ASonidoD) - 1.) / Gamma1(Gamma);
+		xx = (pow2(ASonidoE / ASonidoD) - 1.) / __gamma::G1(Gamma);
 		yy = pow2(VelocidadE / ASonidoD) / 2.;
 		ret_val = Gamma * MasaE * (xx + yy) / MasaD;
 	} else {
@@ -908,7 +908,7 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 		FSignoRotor = -1;
 		FNodoFinRotor = 0;
 		// FIndExtRotor=0;
-		FAreaRotor = Seccion(FTuboRot->GetDiametro(0));
+		FAreaRotor = __geom::Circle_area(FTuboRot->GetDiametro(0));
 		FIndiceCCRotor = 0;
 
 	} else if (FTuboRot->getNodoDer() == NumeroCC) {
@@ -916,7 +916,7 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 		FNodoFinRotor = FTuboRot->getNin() - 1;
 		FSignoRotor = 1;
 		// FIndExtRotor=1;
-		FAreaRotor = Seccion(FTuboRot->GetDiametro(FTuboRot->getNin() - 1));
+		FAreaRotor = __geom::Circle_area(FTuboRot->GetDiametro(FTuboRot->getNin() - 1));
 		FIndiceCCRotor = 1;
 	} else {
 		std::cout << "ERROR: Asigncion tubo entrada compresor "
@@ -927,14 +927,14 @@ void TCompTubos::AsignPipes(TCondicionContorno **BC, int NumeroCC) {
 		FNodoFinStator = 0;
 		FSignoStator = -1;
 		// FIndExtStator=0;
-		FAreaStator = Seccion(FTuboEst->GetDiametro(0));
+		FAreaStator = __geom::Circle_area(FTuboEst->GetDiametro(0));
 		FIndiceCCStator = 0;
 	} else if (FTuboEst->getNodoDer() == NumeroCC) {
 		FExtremoStator = nmRight;
 		FNodoFinStator = FTuboEst->getNin() - 1;
 		FSignoStator = 1;
 		// FIndExtStator=1;
-		FAreaStator = Seccion(FTuboEst->GetDiametro(FTuboEst->getNin() - 1));
+		FAreaStator = __geom::Circle_area(FTuboEst->GetDiametro(FTuboEst->getNin() - 1));
 		FIndiceCCStator = 1;
 	} else {
 		std::cout << "ERROR: Asignacion tubo salida compresor "
@@ -955,7 +955,7 @@ void TCompTubos::Initialize() {
 				* FTuboRot->GetRMezcla(FTuboRot->getNin() - 1))
 				/ (FTuboRot->GetGamma(FTuboRot->getNin() - 1) - 1);
 
-	FTemperatura10 = __UN.degCToK(FTuboRot->getTemperaturaInicial())
+	FTemperatura10 = __units::degCToK(FTuboRot->getTemperaturaInicial())
 			+ pow2(FTuboRot->getVelocidadMedia()) / 2. / Cp;
 
 	// Inicializacion del transporte de especies quimicas.
