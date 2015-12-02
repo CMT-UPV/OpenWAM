@@ -28,10 +28,7 @@
 // ---------------------------------------------------------------------------
 
 enum nmTypeOfResults {
-	nmLastCyle = 0,
-	nmAllCyclesIndependent = 1,
-	nmAllCyclesConcatenated = 2,
-	nmEveryNCycles = 3
+	nmLastCyle = 0, nmAllCyclesIndependent = 1, nmAllCyclesConcatenated = 2, nmEveryNCycles = 3
 };
 
 class TOutputResults {
@@ -173,59 +170,47 @@ public:
 	}
 	;
 
-	void ReadAverageResults(const char* FileWAM, fpos_t& filepos, TTubo** Pipe,
-			bool EngineBlock, TBloqueMotor** Engine, TDeposito **Plenum,
-			TEjeTurbogrupo** Axis, TCompresor** Compressor, TTurbina** Turbine,
-			TCondicionContorno** BC, TDPF** DPF, TCCCompresorVolumetrico** Root,
-			TVenturi** Venturi, TSensor** Sensor, TController** Controller,
-			int TotalCycles, char* ModelName);
+	void ReadAverageResults(const char* FileWAM, fpos_t& filepos, TTubo** Pipe, bool EngineBlock, TBloqueMotor** Engine,
+		TDeposito **Plenum, TEjeTurbogrupo** Axis, TCompresor** Compressor, TTurbina** Turbine, TCondicionContorno** BC,
+		TDPF** DPF, TCCCompresorVolumetrico** Root, TVenturi** Venturi, TSensor** Sensor, TController** Controller,
+		int TotalCycles, char* ModelName);
 
-	void HeaderAverageResults(stEspecies *SpeciesName, TCalculoExtern* EXTERN,
-			bool ThereIsDLL);
+	void HeaderAverageResults(stEspecies *SpeciesName, TCalculoExtern* EXTERN, bool ThereIsDLL);
 
-	void OutputAverageResults(double AcumulatedTime, TCalculoExtern* EXTERN,
-			bool ThereIsDLL);
+	void OutputAverageResults(double AcumulatedTime, TCalculoExtern* EXTERN, bool ThereIsDLL);
 
 	void CopyAverageResultsToFile(int mode);
 
 	void CopyInstananeousResultsToFile(int mode);
 
-	void ReadInstantaneousResults(const char* FileWAM, fpos_t &filepos,
-			TBloqueMotor** Engine, TDeposito** Plenum, TTubo** Pipe,
-			TVenturi** Venturi, TCondicionContorno** BC, TDPF** DPF,
-			TEjeTurbogrupo** Turbo, TCompresor** Compressor, TTurbina** Turbine,
-			TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
-			int NumberOfWasteGates, TCondicionContorno** BCReedValve,
-			int NumberOfReedValves, TSensor** Sensor, TController** Controller,
-			char* ModelName);
+	void ReadInstantaneousResults(const char* FileWAM, fpos_t &filepos, TBloqueMotor** Engine, TDeposito** Plenum,
+		TTubo** Pipe, TVenturi** Venturi, TCondicionContorno** BC, TDPF** DPF, TEjeTurbogrupo** Turbo,
+		TCompresor** Compressor, TTurbina** Turbine, TCCCompresorVolumetrico** Root, TCondicionContorno** BCWasteGate,
+		int NumberOfWasteGates, TCondicionContorno** BCReedValve, int NumberOfReedValves, TSensor** Sensor,
+		TController** Controller, char* ModelName);
 
-	void ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos,
-			TTubo** Pipe, TBloqueMotor** Engine, TDeposito **Plenum);
+	void ReadSpaceTimeResults(const char* FileWAM, fpos_t &filepos, TTubo** Pipe, TBloqueMotor** Engine,
+		TDeposito **Plenum);
 
 	void DoSpaceTimeFiles(int SpeciesNumber);
 
-	void HeaderSpaceTimeResults(double thmax, double grmax, double agincr,
-			int SpeciesNumber);
+	void HeaderSpaceTimeResults(double thmax, double grmax, double agincr, int SpeciesNumber);
 
-	void PrintSpaceTimeResults(bool EngineBlock, double Theta,
-			double SimulationDuration, TBloqueMotor **Engine,
-			int SpeciesNumber);
+	void PrintSpaceTimeResults(bool EngineBlock, double Theta, double SimulationDuration, TBloqueMotor **Engine,
+		int SpeciesNumber);
 
-	void HeaderInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL,
-			bool EngineBlock, stEspecies *SpeciesName);
+	void HeaderInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL, bool EngineBlock, stEspecies *SpeciesName);
 
 	void PlotThisCycle(TBloqueMotor* Engine, int TotalCycles);
 
-	void OutputInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL,
-			bool EngineBlock, double Theta, TBloqueMotor* Engine, double Time);
+	void OutputInstantaneousResults(TCalculoExtern *EXTERN, bool ThereIsDLL, bool EngineBlock, double Theta,
+		TBloqueMotor* Engine, double Time);
 
 	void PlotControl(double Theta0, double Theta, double CycleDuration);
 
-	void WriteInstantaneous(bool EngineBlock, double Angle, double AngStep,
-			TBloqueMotor* Engine, int TotalCycles);
+	void WriteInstantaneous(bool EngineBlock, double Angle, double AngStep, TBloqueMotor* Engine, int TotalCycles);
 
-	void WriteSpaceTime(bool EngineBlock, TBloqueMotor* Engine,
-			int TotalCycles);
+	void WriteSpaceTime(bool EngineBlock, TBloqueMotor* Engine, int TotalCycles);
 
 	void PutInsPeriod(double agincr) {
 		FInsPeriod = agincr;

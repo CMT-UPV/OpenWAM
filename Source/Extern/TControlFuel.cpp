@@ -167,8 +167,7 @@ double TControlFuel::xit_(double vizq, double vder, double axid, double xif) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-double TControlFuel::CalculaFuel(double MasaPorAdmision, double Regimen,
-		double TiempoActual) {
+double TControlFuel::CalculaFuel(double MasaPorAdmision, double Regimen, double TiempoActual) {
 	try {
 		/* Estrategia de inyeccion de combustible en transitorio de carga. */
 		double MasaAire = 0., FuelMin = 0., FuelMax = 0., FuelLimitador = 0.;
@@ -187,10 +186,8 @@ double TControlFuel::CalculaFuel(double MasaPorAdmision, double Regimen,
 			FuelAct = FuelMax;
 			FFuelDeseado = FuelMax;
 			/* Calculo de combustible dado por el limitador de humos (kg/cc para WAM)*/
-			FuelLimitador = Interpolacion_bidimensional(Regimen,
-					MasaPorAdmision, FVector_Ma_mapa, FVector_Regimen_mapa,
-					FMapa_Limitador_Humos, FNumeroDatos_Regimen,
-					FNumeroDatos_Ma) / 1e6;
+			FuelLimitador = Interpolacion_bidimensional(Regimen, MasaPorAdmision, FVector_Ma_mapa, FVector_Regimen_mapa,
+				FMapa_Limitador_Humos, FNumeroDatos_Regimen, FNumeroDatos_Ma) / 1e6;
 
 			if (FuelLimitador < FuelAct) {
 				FuelAct = FuelLimitador;

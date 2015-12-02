@@ -33,11 +33,9 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TDepVolCteBase::TDepVolCteBase(int i, nmTipoDeposito TipoDeposito,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TDeposito(i, TipoDeposito, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TDepVolCteBase::TDepVolCteBase(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel,
+	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TDeposito(i, TipoDeposito, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	asgFVolumen = true;
 

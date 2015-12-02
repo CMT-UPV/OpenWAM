@@ -267,11 +267,9 @@ private:
 
 	void CalculoEspesorSoot();
 
-	void CalculaTemperaturaPared(TBloqueMotor **Motor, double theta, int j,
-			TTubo **Tubo, TConcentrico **Concentrico);
+	void CalculaTemperaturaPared(TBloqueMotor **Motor, double theta, int j, TTubo **Tubo, TConcentrico **Concentrico);
 
-	void CalculaTemperaturaParedSinMotor(int j, TTubo **Tubo,
-			TConcentrico **Concentrico);
+	void CalculaTemperaturaParedSinMotor(int j, TTubo **Tubo, TConcentrico **Concentrico);
 
 public:
 //---------------------------------------------------------------------------
@@ -286,26 +284,22 @@ public:
 
 	~TDPF();
 
-	void LeeDatosDPF(const char *FileWAM, fpos_t &filepos,
-			nmTipoCalculoEspecies CalculoEspecies, nmCalculoGamma CalculoGamma,
-			bool HayEGR, TBloqueMotor **Motor);
+	void LeeDatosDPF(const char *FileWAM, fpos_t &filepos, nmTipoCalculoEspecies CalculoEspecies,
+		nmCalculoGamma CalculoGamma, bool HayEGR, TBloqueMotor **Motor);
 
-	void CalculoTransmisionCalor(TBloqueMotor **Motor, double theta,
-			TTubo **Tubo, TConcentrico **Concentrico);
+	void CalculoTransmisionCalor(TBloqueMotor **Motor, double theta, TTubo **Tubo, TConcentrico **Concentrico);
 
 	void LeeResultadosMediosDPF(const char *FileWAM, fpos_t &filepos);
 
 	void ImprimeResultadosMedios(std::stringstream& medoutput) const;
 
-	void CabeceraResultadosMedios(std::stringstream& medoutput,
-			stEspecies *DatosEspecies) const;
+	void CabeceraResultadosMedios(std::stringstream& medoutput, stEspecies *DatosEspecies) const;
 
 	void CalculaResultadosMedios(double theta);
 
 	void LeeResultadosInstantaneosDPF(const char *FileWAM, fpos_t &filepos);
 
-	void CabeceraResultadosInstantaneos(std::stringstream& insoutput,
-			stEspecies *DatosEspecies) const;
+	void CabeceraResultadosInstantaneos(std::stringstream& insoutput, stEspecies *DatosEspecies) const;
 
 	void ImprimeResultadosInstantaneos(std::stringstream& insoutput) const;
 
@@ -321,8 +315,7 @@ public:
 
 	void CalculoResistenciaTC(int j, TTubo **Tubo, TConcentrico **Concentrico);
 
-	void CalculoResistenciaTC_First_Time(int j, TTubo **Tubo,
-			TConcentrico **Concentrico);
+	void CalculoResistenciaTC_First_Time(int j, TTubo **Tubo, TConcentrico **Concentrico);
 
 	void ComunicacionTubos(TCondicionContorno **CC, int numCC);
 
@@ -490,8 +483,7 @@ public:
 	}
 	;
 	double getDiametroExt() {
-		return FDiametroFiltroEfect + 2 * FEspesorAislante + 2 * FEspesorAire
-				+ 2 * FEspesorMetal;
+		return FDiametroFiltroEfect + 2 * FEspesorAislante + 2 * FEspesorAire + 2 * FEspesorMetal;
 	}
 	;
 	double getEspesorAislante() {

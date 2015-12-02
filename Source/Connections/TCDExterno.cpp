@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 
 TCDExterno::TCDExterno() :
-		TTipoValvula(nmCalcExtern) {
+TTipoValvula(nmCalcExtern) {
 
 }
 //---------------------------------------------------------------------------
@@ -47,7 +47,7 @@ TCDExterno::~TCDExterno() {
 //---------------------------------------------------------------------------
 
 TCDExterno::TCDExterno(TCDExterno *Origen, int Valvula) :
-		TTipoValvula(nmCalcExtern) {
+TTipoValvula(nmCalcExtern) {
 
 	FCDEInicial = Origen->FCDEInicial;
 	FCDSInicial = Origen->FCDSInicial;
@@ -63,14 +63,13 @@ TCDExterno::TCDExterno(TCDExterno *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCDExterno::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TCDExterno::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		fscanf(fich, "%lf %lf %lf ", &FCDEInicial, &FCDSInicial,
-				&FCTorbInicial);
+		fscanf(fich, "%lf %lf %lf ", &FCDEInicial, &FCDSInicial, &FCTorbInicial);
 
 		fgetpos(fich, &filepos);
 		fclose(fich);

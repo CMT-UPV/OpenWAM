@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TLumbrera::TLumbrera(double Biela, double Carrera) :
-		TTipoValvula(nmLumbrera2T) {
+TTipoValvula(nmLumbrera2T) {
 
 	FBiela = Biela;
 	FCarrera = Carrera;
@@ -54,7 +54,7 @@ TLumbrera::~TLumbrera() {
 //---------------------------------------------------------------------------
 
 TLumbrera::TLumbrera(TLumbrera *Origen, int Valvula) :
-		TTipoValvula(nmLumbrera2T) {
+TTipoValvula(nmLumbrera2T) {
 
 	FValvula = Valvula;
 	FAltura = Origen->FAltura;
@@ -91,8 +91,8 @@ TLumbrera::TLumbrera(TLumbrera *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 
 		FILE *fich = fopen(FileWAM, "r");
@@ -100,8 +100,8 @@ void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 
 		FNumeroOrden = norden;
 
-		fscanf(fich, "%lf %lf %lf %lf %lf %lf ", &FAltura, &FAnchura,
-				&FRadioSup, &FRadioInf, &FPosicionPMI, &FDiametroRef);
+		fscanf(fich, "%lf %lf %lf %lf %lf %lf ", &FAltura, &FAnchura, &FRadioSup, &FRadioInf, &FPosicionPMI,
+			&FDiametroRef);
 		fscanf(fich, "%d ", &FNumCD);
 
 		FApertura.resize(FNumCD);
@@ -183,9 +183,7 @@ inline double TLumbrera::CalculaDistPMI(double x) {
 
 	double c = __units::DegToRad(x);
 
-	return FCarrera
-			- (FBiela + FCarrera * (1. - cos(c)) / 2.
-					- sqrt(pow2(FBiela) - pow2(FCarrera * sin(c) / 2.)));
+	return FCarrera - (FBiela + FCarrera * (1. - cos(c)) / 2. - sqrt(pow2(FBiela) - pow2(FCarrera * sin(c) / 2.)));
 }
 
 inline double TLumbrera::CalculaApertura(double x) {

@@ -138,8 +138,7 @@ public:
 
 	void CalculaTCC(double TiempoActual, double Regimen);
 
-	void IniciaTCC(int NumeroTramos, int *Ciclo, double *CoefTCAdm,
-			double *CoefTCEsc);
+	void IniciaTCC(int NumeroTramos, int *Ciclo, double *CoefTCAdm, double *CoefTCEsc);
 
 	double xit_(double vizq, double vder, double axid, double xif);
 

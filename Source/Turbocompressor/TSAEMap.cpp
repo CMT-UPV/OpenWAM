@@ -7,7 +7,7 @@
 // ---------------------------------------------------------------------------
 
 TSAEMap::TSAEMap(int i) :
-		TCompressorMap() {
+TCompressorMap() {
 
 	FNumeroCompresor = i;
 
@@ -31,8 +31,7 @@ void TSAEMap::ReadSAECompressorMap(FILE *fich) {
 	double speedmax = 0, massmax = 0, presmax = 1, effmax = 0;
 	int points = 0;
 
-	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
-			&FEffMultiplier);
+	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier, &FEffMultiplier);
 	fscanf(fich, "%d", &points);
 	FSpeed.resize(i + 1);
 	FMass.resize(i + 1);
@@ -163,18 +162,15 @@ void TSAEMap::InterpolateMAP(double RTC) {
 	if (FRTCAdim <= 1) {
 		FCurrentIND = FMassMAX_int->locate(FRTCAdim);
 		FCurrentMassMAX = FMassMAX_int->interp(FRTCAdim) * FMassMAXMAX;
-		FCurrentPresMAX = FPresMAX_int->interp(FRTCAdim) * (FPresMAXMAX - 1.)
-				+ 1.;
+		FCurrentPresMAX = FPresMAX_int->interp(FRTCAdim) * (FPresMAXMAX - 1.) + 1.;
 		FCurrentEffMAX = FEffMAX_int->interp(FRTCAdim) * FEffMAXMAX;
-		FDeltaLow = (FRTCAdim - FSpeedAdim[FCurrentIND])
-				/ (FSpeedAdim[FCurrentIND + 1] - FSpeedAdim[FCurrentIND]);
+		FDeltaLow = (FRTCAdim - FSpeedAdim[FCurrentIND]) / (FSpeedAdim[FCurrentIND + 1] - FSpeedAdim[FCurrentIND]);
 
 	} else {
 		FCurrentIND = FNumLines;
 		FCurrentMassMAX = pow(FRTCAdim, 1.2) * FMassMAXMAX;
 		FCurrentPresMAX = pow(FRTCAdim, 1.2) * (FPresMAXMAX - 1.) + 1.;
-		FCurrentEffMAX = exp(1 - FRTCAdim) * FEffMAX_int->interp(FRTCAdim)
-				* FEffMAXMAX;
+		FCurrentEffMAX = exp(1 - FRTCAdim) * FEffMAX_int->interp(FRTCAdim) * FEffMAXMAX;
 	}
 
 	// for (int i = 0; i <= FNumLines; ++i) {
@@ -189,17 +185,14 @@ double TSAEMap::GetCurrentRC(double Mass) {
 	double CurrentRC = 0.;
 
 	if (FCurrentIND == 0) {
-		CurrentRC = (FDeltaLow * FPre_MassCurve[FCurrentIND]->interp(massadim))
-				* (FCurrentPresMAX - 1) + 1;
+		CurrentRC = (FDeltaLow * FPre_MassCurve[FCurrentIND]->interp(massadim)) * (FCurrentPresMAX - 1) + 1;
 	} else if (FCurrentIND == FNumLines) {
-		CurrentRC = FPre_MassCurve[FCurrentIND - 1]->interp(massadim)
-				* (FCurrentPresMAX - 1) + 1;
+		CurrentRC = FPre_MassCurve[FCurrentIND - 1]->interp(massadim) * (FCurrentPresMAX - 1) + 1;
 	} else {
 		double pres_lo = FPre_MassCurve[FCurrentIND - 1]->interp(massadim);
 		double pres_hi = FPre_MassCurve[FCurrentIND]->interp(massadim);
 
-		CurrentRC = ((1 - FDeltaLow) * pres_lo + FDeltaLow * pres_hi)
-				* (FCurrentPresMAX - 1) + 1;
+		CurrentRC = ((1 - FDeltaLow) * pres_lo + FDeltaLow * pres_hi) * (FCurrentPresMAX - 1) + 1;
 	}
 	return CurrentRC;
 
@@ -211,17 +204,14 @@ double TSAEMap::GetCurrentEff(double Mass) {
 	double CurrentEff = 0.;
 
 	if (FCurrentIND == 0) {
-		CurrentEff = (FDeltaLow * FEff_MassCurve[FCurrentIND]->interp(massadim))
-				* FCurrentEffMAX;
+		CurrentEff = (FDeltaLow * FEff_MassCurve[FCurrentIND]->interp(massadim)) * FCurrentEffMAX;
 	} else if (FCurrentIND == FNumLines) {
-		CurrentEff = FEff_MassCurve[FCurrentIND - 1]->interp(massadim)
-				* FCurrentEffMAX;
+		CurrentEff = FEff_MassCurve[FCurrentIND - 1]->interp(massadim) * FCurrentEffMAX;
 	} else {
 		double pres_lo = FEff_MassCurve[FCurrentIND - 1]->interp(massadim);
 		double pres_hi = FEff_MassCurve[FCurrentIND]->interp(massadim);
 
-		CurrentEff = ((1 - FDeltaLow) * pres_lo + FDeltaLow * pres_hi)
-				* FCurrentEffMAX;
+		CurrentEff = ((1 - FDeltaLow) * pres_lo + FDeltaLow * pres_hi) * FCurrentEffMAX;
 	}
 	return CurrentEff;
 
@@ -235,13 +225,12 @@ void TSAEMap::LeeMapa(FILE *fich) {
 	FTempRef = __units::degCToK(FTempRef);
 	FPresionRef = __units::BarToPa(FPresionRef);
 
-	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
-			&FEffMultiplier);
+	fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier, &FEffMultiplier);
 #ifdef tchtm
-	fscanf ( fich, "%d ", &Adiab );
-	if ( Adiab == 0 ) {
+	fscanf(fich, "%d ", &Adiab);
+	if(Adiab == 0) {
 		FIsAdiabatic = false;
-		fscanf ( fich, "%lf ", &FTempMeasure );
+		fscanf(fich, "%lf ", &FTempMeasure);
 	}
 #endif
 
@@ -267,8 +256,7 @@ double TSAEMap::getRelCompBombeo() {
 	if (FCurrentIND == FNumLines) {
 		return (FPres[FCurrentIND - 1][0] - 1) * pow(FRTCAdim, 1.2) + 1;
 	} else {
-		return (1 - FDeltaLow) * FPres[FCurrentIND - 1][0]
-				+ FDeltaLow * FPres[FCurrentIND][0];
+		return (1 - FDeltaLow) * FPres[FCurrentIND - 1][0] + FDeltaLow * FPres[FCurrentIND][0];
 	}
 }
 
@@ -276,8 +264,7 @@ double TSAEMap::getGastoBombeo() {
 	if (FCurrentIND == FNumLines) {
 		return FMass[FCurrentIND - 1][0] * pow(FRTCAdim, 1.2);
 	} else {
-		return (1 - FDeltaLow) * FMass[FCurrentIND - 1][0]
-				+ FDeltaLow * FMass[FCurrentIND][0];
+		return (1 - FDeltaLow) * FMass[FCurrentIND - 1][0] + FDeltaLow * FMass[FCurrentIND][0];
 	}
 }
 
@@ -300,39 +287,39 @@ void TSAEMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinT) {
 #ifdef tchtm
 	double m = 0., eff = 0., Rtc = 0.;
 
-	if ( !FIsAdiabatic ) {
-		for ( int i = 0; i < FNumLines; i++ ) {
-			for ( unsigned int j = 0; j < FSpeed[i].size(); j++ ) {
+	if(!FIsAdiabatic) {
+		for(int i = 0; i < FNumLines; i++) {
+			for(unsigned int j = 0; j < FSpeed[i].size(); j++) {
 				m = FMass[i][j] / __units::PaToBar(FPresionRef) / sqrt
-				( FTempMeasure / FTempRef );
-				Rtc = FSpeed[i][j] / sqrt ( FTempRef / FTempMeasure );
-				if ( FPres[i][j] > 1 )
-				FEff[i][j] = HTM->CorrectCompressorMap ( m, FPres[i][j],
-						FEff[i][j], FTempMeasure, TinT, Rtc );
-				if ( j == 0 )
+				(FTempMeasure / FTempRef);
+				Rtc = FSpeed[i][j] / sqrt(FTempRef / FTempMeasure);
+				if(FPres[i][j] > 1)
+				FEff[i][j] = HTM->CorrectCompressorMap(m, FPres[i][j],
+				FEff[i][j], FTempMeasure, TinT, Rtc);
+				if(j == 0)
 				FEffMAX[i] = FEff[i][j];
-				else if ( FEff[i][j] > FEffMAX[i] )
+				else if(FEff[i][j] > FEffMAX[i])
 				FEffMAX[i] = FEff[i][j];
 			}
-			for ( unsigned int j = 0; j < FSpeed[i].size(); j++ ) {
+			for(unsigned int j = 0; j < FSpeed[i].size(); j++) {
 				FEffAdim[i][j] = FEff[i][j] / FEffMAX[i];
 			}
 
-			if ( FEff_MassCurve[i] != NULL )
+			if(FEff_MassCurve[i] != NULL)
 			delete FEff_MassCurve[i];
 
-			FEff_MassCurve[i] = new Hermite_interp ( FMassAdim[i], FEffAdim[i] );
-			if ( i == 0 )
+			FEff_MassCurve[i] = new Hermite_interp(FMassAdim[i], FEffAdim[i]);
+			if(i == 0)
 			FEffMAXMAX = FEffMAX[i];
-			else if ( FEffMAX[i] > FEffMAXMAX )
+			else if(FEffMAX[i] > FEffMAXMAX)
 			FEffMAXMAX = FEffMAX[i];
 		}
-		for ( int i = 0; i < FNumLines; i++ ) {
+		for(int i = 0; i < FNumLines; i++) {
 			FEffMAXAdim[i] = FEffMAX[i] / FEffMAXMAX;
 		}
-		if ( FEffMAX_int != NULL )
+		if(FEffMAX_int != NULL)
 		delete FEffMAX_int;
-		FEffMAX_int = new Hermite_interp ( FSpeedAdim, FEffMAXAdim );
+		FEffMAX_int = new Hermite_interp(FSpeedAdim, FEffMAXAdim);
 
 	}
 

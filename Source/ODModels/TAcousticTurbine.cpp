@@ -6,8 +6,7 @@
 
 // ---------------------------------------------------------------------------
 
-TAcousticTurbine::TAcousticTurbine(iVector InletPipeID, iVector VoluteID,
-		int OutletPipeID) {
+TAcousticTurbine::TAcousticTurbine(iVector InletPipeID, iVector VoluteID, int OutletPipeID) {
 
 	FInletPipeID.resize(InletPipeID.size());
 	FVoluteID.resize(InletPipeID.size());
@@ -100,8 +99,7 @@ double TAcousticTurbine::T30(int i) {
 
 double TAcousticTurbine::DiabEfficiency(int i) {
 	double g = FInletPipe[i]->GetGamma(0);
-	double eff = (T30(i) - T4())
-			/ (T30(i) * (1 - pow(1 / ExpRatio(i), (g - 1) / g)));
+	double eff = (T30(i) - T4()) / (T30(i) * (1 - pow(1 / ExpRatio(i), (g - 1) / g)));
 
 	return eff;
 }
@@ -136,15 +134,13 @@ double TAcousticTurbine::T4() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	return pow2(FOutletPipe->GetAsonido(n) * __cons::ARef) / FOutletPipe->GetGamma(n)
-			/ FOutletPipe->GetRMezcla(0);
+	return pow2(FOutletPipe->GetAsonido(n) * __cons::ARef) / FOutletPipe->GetGamma(n) / FOutletPipe->GetRMezcla(0);
 
 }
 
 double TAcousticTurbine::MassIn(int i) {
 
-	return FInletPipe[i]->GetDensidad(0) * FInletPipe[i]->GetVelocidad(0) * __cons::ARef
-			* SIn(i);
+	return FInletPipe[i]->GetDensidad(0) * FInletPipe[i]->GetVelocidad(0) * __cons::ARef * SIn(i);
 }
 
 double TAcousticTurbine::MassIn() {
@@ -161,8 +157,7 @@ double TAcousticTurbine::MassOut() {
 
 	int n = FOutletPipe->getNin() - 1;
 
-	return FOutletPipe->GetDensidad(n) * FOutletPipe->GetVelocidad(n) * __cons::ARef
-			* SOut();
+	return FOutletPipe->GetDensidad(n) * FOutletPipe->GetVelocidad(n) * __cons::ARef * SOut();
 }
 
 double TAcousticTurbine::DIn() {

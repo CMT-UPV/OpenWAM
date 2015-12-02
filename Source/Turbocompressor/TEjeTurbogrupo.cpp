@@ -81,10 +81,10 @@ TEjeTurbogrupo::~TEjeTurbogrupo() {
 		delete[] FTurbina;
 
 #ifdef tchtm
-	if ( FHTM != NULL )
+	if(FHTM != NULL)
 	delete FHTM;
 
-	if ( FMechLosses != NULL )
+	if(FMechLosses != NULL)
 	delete FMechLosses;
 #endif
 
@@ -93,8 +93,8 @@ TEjeTurbogrupo::~TEjeTurbogrupo() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
-		TCompresor **Compressor, TTurbina **Turbine) {
+void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos, TCompresor **Compressor,
+	TTurbina **Turbine) {
 	try {
 		int variacion = 0, htm = 0;
 
@@ -111,8 +111,7 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 			FVariacionRegimen = nmFixed;
 			break;
 		default:
-			std::cout << "ERROR: Reading turbocharger speed variation in axis: "
-					<< FNumeroEje << std::endl;
+			std::cout << "ERROR: Reading turbocharger speed variation in axis: " << FNumeroEje << std::endl;
 			throw Exception("");
 		}
 		if (FVariacionRegimen == nmVariable) {
@@ -149,10 +148,10 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 		fscanf(fich, "%d ", &numide);
 
 #ifdef tchtm
-		fscanf ( fich, "%d ", &htm );
-		if ( htm == 1 ) {
+		fscanf(fich, "%d ", &htm);
+		if(htm == 1) {
 
-			if ( FNumTurbinasAcopladas != 1 || FNumCompresoresAcoplados != 1 ) {
+			if(FNumTurbinasAcopladas != 1 || FNumCompresoresAcoplados != 1) {
 				std::cout <<
 				"ERROR: Turbocharger heat trasfer model is not adapted for more than one turbine" << std::endl;
 				std::cout <<
@@ -161,47 +160,47 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 			}
 			FThereIsHTM = true;
 			// Geometrical parameters journal bearing
-			fscanf ( fich, "%lf %lf %lf ", &FDShaft, &FJournalBLengh, &FHD );
+			fscanf(fich, "%lf %lf %lf ", &FDShaft, &FJournalBLengh, &FHD);
 			// Geometrical parameters thrust bearing
-			fscanf ( fich, "%lf %lf", &FTthrustBRmin, &FTthrustBRmax );
+			fscanf(fich, "%lf %lf", &FTthrustBRmin, &FTthrustBRmax);
 			// Geometrical parameters inlet ports
-			fscanf ( fich, "%lf %lf", &FDoil, &FDwater );
+			fscanf(fich, "%lf %lf", &FDoil, &FDwater);
 			// Fitting coefficients
-			fscanf ( fich, "%lf %lf %lf %lf %lf", &FJournalB_K, &Fk_m, &Fk_tb,
-					&FCAC, &FCAT );
+			fscanf(fich, "%lf %lf %lf %lf %lf", &FJournalB_K, &Fk_m, &Fk_tb,
+			&FCAC, &FCAT);
 			// Wheel areas
-			fscanf ( fich, "%lf %lf", &FCWArea, &FTWArea );
+			fscanf(fich, "%lf %lf", &FCWArea, &FTWArea);
 			double DT = 0., LT = 0.;
-			fscanf ( fich, "%lf %lf", &DT, &LT );
+			fscanf(fich, "%lf %lf", &DT, &LT);
 			double DC = 0., LC = 0.;
-			fscanf ( fich, "%lf %lf", &DC, &LC );
+			fscanf(fich, "%lf %lf", &DC, &LC);
 			double DH = 0., LH = 0.;
-			fscanf ( fich, "%lf %lf", &DH, &LH );
+			fscanf(fich, "%lf %lf", &DH, &LH);
 
 			// Oil properties.
-			fscanf ( fich, "%lf %lf %lf ", &FMoil, &FToil, &FPoil );
+			fscanf(fich, "%lf %lf %lf ", &FMoil, &FToil, &FPoil);
 			double K1 = 0., K2 = 0., K3 = 0.;
 			// Oil Voeguel parameters.
-			fscanf ( fich, "%lf %lf %lf ", &K1, &K2, &K3 );
+			fscanf(fich, "%lf %lf %lf ", &K1, &K2, &K3);
 			FOil = new stHTMoil();
 			FOil->mu_c1 = K1;
 			FOil->mu_c2 = K2;
 			FOil->mu_c3 = K3;
 
 			// Water properties in turbocharger.
-			fscanf ( fich, "%lf %lf ", &FTwater, &FMwater );
+			fscanf(fich, "%lf %lf ", &FTwater, &FMwater);
 			FWater = new stHTMwater();
 
 			FHTM = new TTC_HTM(FOil);
 
-			FMechLosses = new TurboBearings ( FOil, FJournalBLengh, FDShaft / 2,
-					FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
-					FTthrustBRmin, FTthrustBRmax, Fk_tb );
+			FMechLosses = new TurboBearings(FOil, FJournalBLengh, FDShaft / 2,
+			FHD, FJournalB_K, FCAC, FCAT, FCWArea, FTWArea, Fk_m,
+			FTthrustBRmin, FTthrustBRmax, Fk_tb);
 
-			FHTM->Read_HTM ( fich );
+			FHTM->Read_HTM(fich);
 
-			FHTM->TurbochargerData ( FDShaft, FHD, FDoil, FDwater, DT, LT, DC,
-					LC, DH, LH );
+			FHTM->TurbochargerData(FDShaft, FHD, FDoil, FDwater, DT, LT, DC,
+			LC, DH, LH);
 
 		}
 #endif
@@ -209,9 +208,8 @@ void TEjeTurbogrupo::ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
 		fclose(fich);
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::ReadTurbochargerAxis in the boundary condition: "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ReadTurbochargerAxis in the boundary condition: " << FNumeroEje
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -230,9 +228,8 @@ void TEjeTurbogrupo::InterpolaValoresMapa() {
 		}
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::InterpolaValoresMapa in the boundary condition: "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::InterpolaValoresMapa in the boundary condition: " << FNumeroEje
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -241,8 +238,8 @@ void TEjeTurbogrupo::InterpolaValoresMapa() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
-		nmTipoModelado SimulationType, double Time, double CrankAngle) {
+void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta, nmTipoModelado SimulationType, double Time,
+	double CrankAngle) {
 	try {
 
 		// Calculo del nuevo regimen del turbogrupo.
@@ -261,10 +258,10 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			double p2 = FCompresor[0]->AcousticC()->P2() * 1e5;
 			double p3 = FTurbina[0]->AcousticT()->P3() * 1e5;
 			double p4 = FTurbina[0]->AcousticT()->P4() * 1e5;
-			FMechPower = FMechLosses->P_oil (__units::degCToK(FToil),
-					Pi * FRegimenEje / 30, p1, p2, p3, p4, FMoil );
+			FMechPower = FMechLosses->P_oil(__units::degCToK(FToil),
+			Pi * FRegimenEje / 30, p1, p2, p3, p4, FMoil);
 			MechWork = FMechPower * DeltaTime;
-			if ( FSumTrabajoTurbinas > MechWork ) {
+			if(FSumTrabajoTurbinas > MechWork) {
 				FMechEff = 1 - MechWork / FSumTrabajoTurbinas;
 			} else {
 				FMechEff = 0;
@@ -274,54 +271,49 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			double cr = FCompresor[0]->AcousticC()->CompRatio();
 			double efc = FCompresor[0]->getEfficiency();
 
-			FHTM->CompressorWorkingPoint ( 0, FCompresor[0]->getMassflow(),
-					__units::KTodegC(T1), p1, cr, efc );
+			FHTM->CompressorWorkingPoint(0, FCompresor[0]->getMassflow(),
+			__units::KTodegC(T1), p1, cr, efc);
 
 			double T3 = FTurbina[0]->AcousticT()->T3();
 			double er = FTurbina[0]->AcousticT()->ExpRatio();
 			double eft = FTurbina[0]->GetEfficiency();
 
-			FHTM->TurbineWorkingPoint ( 0, 0, FTurbina[0]->AcousticT()->MassIn(),
-					__units::KTodegC(T3), p3 / 1e5, er, eft );
+			FHTM->TurbineWorkingPoint(0, 0, FTurbina[0]->AcousticT()->MassIn(),
+			__units::KTodegC(T3), p3 / 1e5, er, eft);
 
-			FHTM->TurbochargerWorkingPoint ( FRegimenEje, FMechEff, FMoil, FToil,
-					FPoil, FTwater, FMwater );
+			FHTM->TurbochargerWorkingPoint(FRegimenEje, FMechEff, FMoil, FToil,
+			FPoil, FTwater, FMwater);
 
-			FHTM->SolveNodeTemperaturesTransient ( T3, T2, T1, __units::degCToK(FToil),
-					FMoil, FMechPower, __units::degCToK(FTwater), __units::degCToK(FTamb), Time );
+			FHTM->SolveNodeTemperaturesTransient(T3, T2, T1, __units::degCToK(FToil),
+			FMoil, FMechPower, __units::degCToK(FTwater), __units::degCToK(FTamb), Time);
 			FHTM->SolveDeltaTempTr();
 			FHTM->SolveHeatFlowMatix();
 
-			FCompresor[0]->AcousticC()->PutHeatPower ( FHTM->Comp_Heat_Flow() );
+			FCompresor[0]->AcousticC()->PutHeatPower(FHTM->Comp_Heat_Flow());
 			FCompresor[0]->AcousticC()->PutHeatPowerIn
-			( FHTM->Comp_Heat_Flow_In() );
+			(FHTM->Comp_Heat_Flow_In());
 
 #endif
 			if (FVariacionRegimen == nmVariable) {
 				if ((Theta > 2880. && SimulationType != nmEstacionario)
-						|| (SimulationType == nmEstacionario && Theta > 50.
-								&& FNumCilindros == 0)
-						|| (SimulationType == nmEstacionario && Theta > 2880
-								&& FNumCilindros != 0)) {
+					|| (SimulationType == nmEstacionario && Theta > 50. && FNumCilindros == 0)
+					|| (SimulationType == nmEstacionario && Theta > 2880 && FNumCilindros != 0)) {
 
 					FSumTrabajoCompresores = 0.;
 					FSumTrabajoTurbinas = 0.;
 
 					for (int i = 0; i < FNumCompresoresAcoplados; i++) {
 						FCompresor[i]->CalculoPotenciaPaso();
-						FSumTrabajoCompresores +=
-								(FCompresor[i]->getPotenciaPaso() * DeltaTime);
+						FSumTrabajoCompresores += (FCompresor[i]->getPotenciaPaso() * DeltaTime);
 					}
 
 					for (int i = 0; i < FNumTurbinasAcopladas; i++) {
 						FTurbina[i]->CalculoPotenciaPaso();
-						FSumTrabajoTurbinas += (FTurbina[i]->getPotenciaPaso()
-								* DeltaTime);
+						FSumTrabajoTurbinas += (FTurbina[i]->getPotenciaPaso() * DeltaTime);
 					}
 
-					FDeltaReg = __units::Rad_sToRPM(FSumTrabajoTurbinas - FSumTrabajoCompresores
-							- MechWork)
-							/ (FMomentoInercia * FRegimenEje);
+					FDeltaReg = __units::Rad_sToRPM(FSumTrabajoTurbinas - FSumTrabajoCompresores - MechWork)
+						/ (FMomentoInercia * FRegimenEje);
 					FRegimenEje += FDeltaReg;
 
 					if (FRegimenEje < 10000)
@@ -333,12 +325,11 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 		// Actualizacion del regimen de los compresores acoplados al eje y su interpolacion.
 		for (int i = 0; i < FNumCompresoresAcoplados; ++i) {
 			if (FCompresor[i]->getModeloCompresor() == nmCompPlenums
-					|| FCompresor[i]->getModeloCompresor() == nmCompPipes) {
+				|| FCompresor[i]->getModeloCompresor() == nmCompPipes) {
 				FCompresor[i]->InterpolaValoresMapa(FRegimenEje);
 			} else if (FCompresor[i]->getModeloCompresor() == nmCompOriginal) {
 				if (FVariacionRegimen == nmVariable
-						|| (dynamic_cast<TCompTubDep*>(FCompresor[i]))->getEntradaCompresor()
-								!= nmAtmosphere) {
+					|| (dynamic_cast<TCompTubDep*>(FCompresor[i]))->getEntradaCompresor() != nmAtmosphere) {
 					FCompresor[i]->InterpolaValoresMapa(FRegimenEje);
 				}
 			}
@@ -364,8 +355,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			FNumCiclo++;
 			printf("\n");
 			printf("*****************************************************\n");
-			printf("***TURBOCHARGER AVERAGE VALUES %3d **CYCLE N. %3d ***\n",
-					FNumeroEje, FNumCiclo);
+			printf("***TURBOCHARGER AVERAGE VALUES %3d **CYCLE N. %3d ***\n", FNumeroEje, FNumCiclo);
 			printf("*****************************************************\n");
 			printf("\n");
 			for (int j = 0; j < FNumTurbinasAcopladas; ++j) {
@@ -373,26 +363,21 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 			}
 			for (int j = 0; j < FNumCompresoresAcoplados; ++j) {
 				FCompresor[j]->CalculaMedias();
-				printf("COMPRESSOR WORK %d       = %6.3lf Julios \n",
-						FNumeroCompresor[j], FCompresor[j]->getTrabCiclo());
-				printf("COMPRESSOR EFFICIENCY %d = %6.3lf \n",
-						FNumeroCompresor[j], FCompresor[j]->getRendMed());
-				printf("COMPRESSOR MASS FLOW %d  = %6.3lf g/s\n",
-						FNumeroCompresor[j],
-						FCompresor[j]->getGastoMed() * 1000);
-				printf("COMPRESSOR RATIO %d      = %6.3lf \n",
-						FNumeroCompresor[j], FCompresor[j]->getRCMed());
+				printf("COMPRESSOR WORK %d       = %6.3lf Julios \n", FNumeroCompresor[j],
+					FCompresor[j]->getTrabCiclo());
+				printf("COMPRESSOR EFFICIENCY %d = %6.3lf \n", FNumeroCompresor[j], FCompresor[j]->getRendMed());
+				printf("COMPRESSOR MASS FLOW %d  = %6.3lf g/s\n", FNumeroCompresor[j],
+					FCompresor[j]->getGastoMed() * 1000);
+				printf("COMPRESSOR RATIO %d      = %6.3lf \n", FNumeroCompresor[j], FCompresor[j]->getRCMed());
 			}
-			printf("TURBOCHARGER SPEED      = %6.3lf r.p.m.\n",
-					FResMediosEje.RegimenSUM / FResMediosEje.TiempoSUM);
+			printf("TURBOCHARGER SPEED      = %6.3lf r.p.m.\n", FResMediosEje.RegimenSUM / FResMediosEje.TiempoSUM);
 			printf("*****************************************************\n\n");
 		}
 		FAngle0 = CrankAngle;
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::CalculaEjesTurbogrupo in the boundary condition: "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::CalculaEjesTurbogrupo in the boundary condition: " << FNumeroEje
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -401,8 +386,7 @@ void TEjeTurbogrupo::CalculaEjesTurbogrupo(double Theta,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM,
-		fpos_t & filepos) {
+void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM, fpos_t & filepos) {
 	try {
 		int nvars = 0, var = 0;
 
@@ -417,16 +401,14 @@ void TEjeTurbogrupo::ReadAverageResultsEje(const char* FileWAM,
 				FResMediosEje.Regimen = true;
 				break;
 			default:
-				std::cout << "Resultados medios en Axis " << FNumeroEje
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados medios en Axis " << FNumeroEje << " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception & N) {
-		std::cout << "ERROR: TEjeTurbogrupo::ReadAverageResultsEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ReadAverageResultsEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -447,9 +429,7 @@ void TEjeTurbogrupo::CabeceraResultadosMedEje(stringstream & medoutput) {
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::CabeceraResultadosMedEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::CabeceraResultadosMedEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -467,8 +447,7 @@ void TEjeTurbogrupo::ImprimeResultadosMedEje(stringstream & medoutput) {
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout << "ERROR: TEjeTurbogrupo::ImprimeResultadosMedEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ImprimeResultadosMedEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -485,8 +464,7 @@ void TEjeTurbogrupo::IniciaMedias() {
 		FResMediosEje.Tiempo0 = 0.;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TEjeTurbogrupo::IniciaMedias en el eje: "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::IniciaMedias en el eje: " << FNumeroEje << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -499,15 +477,13 @@ void TEjeTurbogrupo::ResultadosMediosEje() {
 	try {
 
 		if (FResMediosEje.Regimen) {
-			FResMediosEje.RegimenMED = FResMediosEje.RegimenSUM
-					/ FResMediosEje.TiempoSUM;
+			FResMediosEje.RegimenMED = FResMediosEje.RegimenSUM / FResMediosEje.TiempoSUM;
 			FResMediosEje.RegimenSUM = 0.;
 		}
 		FResMediosEje.TiempoSUM = 0;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TEjeTurbogrupo::ResultadosMediosEje en el eje: "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ResultadosMediosEje en el eje: " << FNumeroEje << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -529,9 +505,7 @@ void TEjeTurbogrupo::AcumulaResultadosMediosEje(double Actual) {
 		FResMediosEje.Tiempo0 = Delta;
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::AcumulaResultadosMediosEje en el eje: "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::AcumulaResultadosMediosEje en el eje: " << FNumeroEje << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -540,8 +514,7 @@ void TEjeTurbogrupo::AcumulaResultadosMediosEje(double Actual) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM,
-		fpos_t & filepos) {
+void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM, fpos_t & filepos) {
 	try {
 		int nvars = 0, var = 0;
 
@@ -574,17 +547,14 @@ void TEjeTurbogrupo::ReadInstantaneousResultsEje(const char* FileWAM,
 				FResInstantEje.HeatFlow = true;
 				break;
 			default:
-				std::cout << "Instantaneous results in axis " << FNumeroEje
-						<< " are not implemented " << std::endl;
+				std::cout << "Instantaneous results in axis " << FNumeroEje << " are not implemented " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::ReadInstantaneousResultsEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ReadInstantaneousResultsEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -612,19 +582,17 @@ void TEjeTurbogrupo::HeaderInstantaneousResultsEje(stringstream & insoutput) {
 			insoutput << Label.c_str();
 		}
 #ifdef tchtm
-		if ( FResInstantEje.NodeTemp ) {
-			FHTM->HeaderInsTemperatures ( insoutput );
+		if(FResInstantEje.NodeTemp) {
+			FHTM->HeaderInsTemperatures(insoutput);
 		}
-		if ( FResInstantEje.HeatFlow ) {
-			FHTM->HeaderInsHeatFlow ( insoutput );
+		if(FResInstantEje.HeatFlow) {
+			FHTM->HeaderInsHeatFlow(insoutput);
 		}
 #endif
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::HeaderInstantaneousResultsEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::HeaderInstantaneousResultsEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -633,8 +601,7 @@ void TEjeTurbogrupo::HeaderInstantaneousResultsEje(stringstream & insoutput) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TEjeTurbogrupo::ImprimeResultadosInstantaneosEje(
-		stringstream & insoutput) {
+void TEjeTurbogrupo::ImprimeResultadosInstantaneosEje(stringstream & insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
@@ -645,19 +612,17 @@ void TEjeTurbogrupo::ImprimeResultadosInstantaneosEje(
 		if (FResInstantEje.MechEff)
 			insoutput << "\t" << FResInstantEje.MechEffINS;
 #ifdef tchtm
-		if ( FResInstantEje.NodeTemp ) {
-			FHTM->PrintInsTemperatures ( insoutput );
+		if(FResInstantEje.NodeTemp) {
+			FHTM->PrintInsTemperatures(insoutput);
 		}
-		if ( FResInstantEje.HeatFlow ) {
-			FHTM->PrintInsHeatFlow ( insoutput );
+		if(FResInstantEje.HeatFlow) {
+			FHTM->PrintInsHeatFlow(insoutput);
 		}
 #endif
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TEjeTurbogrupo::ImprimeResultadosInstantaneosEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ImprimeResultadosInstantaneosEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -676,8 +641,7 @@ void TEjeTurbogrupo::ResultadosInstantEje() {
 			FResInstantEje.MechEffINS = FMechEff;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TEjeTurbogrupo::ResultadosInstantEje en el eje "
-				<< FNumeroEje << std::endl;
+		std::cout << "ERROR: TEjeTurbogrupo::ResultadosInstantEje en el eje " << FNumeroEje << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -709,27 +673,27 @@ void TEjeTurbogrupo::InitizlizeHTM(double Tamb) {
 	double T2 = FCompresor[0]->AcousticC()->T2();
 	double T3 = FTurbina[0]->AcousticT()->T3();
 
-	FHTM->AsignTCMechLosses ( FMechLosses );
+	FHTM->AsignTCMechLosses(FMechLosses);
 
-	FHTM->TurbochargerWorkingPoint ( FRegimenEje, 0.9, FMoil, FToil, FPoil,
-			FTwater, FMwater );
-	FHTM->CompressorData ( FCompresor[0]->GetMap()->getPresionRef(),
-			FCompresor[0]->GetMap()->getTempRef(),
-			FCompresor[0]->GetMap()->getTempMeasure(),
-			FCompresor[0]->AcousticC()->Din() );
-	FHTM->TurbineData ( 1, 300, FTurbina[0]->getMap()->getTempMeasure(),
-			FTurbina[0]->AcousticT()->DIn() );
+	FHTM->TurbochargerWorkingPoint(FRegimenEje, 0.9, FMoil, FToil, FPoil,
+	FTwater, FMwater);
+	FHTM->CompressorData(FCompresor[0]->GetMap()->getPresionRef(),
+	FCompresor[0]->GetMap()->getTempRef(),
+	FCompresor[0]->GetMap()->getTempMeasure(),
+	FCompresor[0]->AcousticC()->Din());
+	FHTM->TurbineData(1, 300, FTurbina[0]->getMap()->getTempMeasure(),
+	FTurbina[0]->AcousticT()->DIn());
 
-	FTurbina[0]->AsignTCHTM ( FHTM );
-	FTurbina[0]->CalculateAdiabaticMap ( FCompresor[0]->GetMap()->getTempMeasure()
+	FTurbina[0]->AsignTCHTM(FHTM);
+	FTurbina[0]->CalculateAdiabaticMap(FCompresor[0]->GetMap()->getTempMeasure()
 	);
 
-	FCompresor[0]->AsignTCHTM ( FHTM );
-	FCompresor[0]->GetMap()->CalculateAdiabaticEfficiency ( FHTM,
-			FTurbina[0]->getMap()->getTempMeasure() );
+	FCompresor[0]->AsignTCHTM(FHTM);
+	FCompresor[0]->GetMap()->CalculateAdiabaticEfficiency(FHTM,
+	FTurbina[0]->getMap()->getTempMeasure());
 
 	//  TEMPERATURA AMBIENTE
-	FHTM->InitializeTemp ( T3, T2, T1, FToil, FTwater, Tamb );
+	FHTM->InitializeTemp(T3, T2, T1, FToil, FTwater, Tamb);
 
 #endif
 }

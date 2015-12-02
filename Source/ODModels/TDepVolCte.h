@@ -49,8 +49,8 @@ public:
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
-	TDepVolCte(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TDepVolCte(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
 	~TDepVolCte();
 

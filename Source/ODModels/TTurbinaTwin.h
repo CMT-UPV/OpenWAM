@@ -60,8 +60,8 @@ public:
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
-	TTurbinaTwin(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TTurbinaTwin(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
 	~TTurbinaTwin();
 

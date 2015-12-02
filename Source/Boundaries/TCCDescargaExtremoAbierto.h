@@ -81,49 +81,38 @@ public:
 			FTemperaturaDep = valor;
 			if (FCalculoEspecies == nmCalculoCompleto) {
 
-				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0],
-						FComposicion[1], FComposicion[2], 0, FCalculoGamma,
-						nmMEP);
-				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0],
-						FComposicion[1], FComposicion[2], 0, FTemperaturaDep,
-						FCalculoGamma, nmMEP);
-				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep,
-						FCalculoGamma);
+				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2], 0, FCalculoGamma,
+					nmMEP);
+				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1], FComposicion[2], 0,
+					FTemperaturaDep, FCalculoGamma, nmMEP);
+				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
 			} else if (FCalculoEspecies == nmCalculoSimple) {
 
-				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0,
-						FCalculoGamma, nmMEP);
-				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep,
-						FComposicion[0], 0, FCalculoGamma, nmMEP);
-				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep,
-						FCalculoGamma);
+				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0, FCalculoGamma, nmMEP);
+				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0], 0, FCalculoGamma, nmMEP);
+				GammaDep = CalculoSimpleGamma(RMezclaDep, CvMezclaDep, FCalculoGamma);
 
 			}
-			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep)
-					/ __cons::ARef;
+			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / __cons::ARef;
 		} catch (exception & N) {
-			std::cout
-					<< "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: "
-					<< FNumeroCC << std::endl;
+			std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " << FNumeroCC
+				<< std::endl;
 			std::cout << "Tipo de error: " << N.what() << std::endl;
 			throw Exception(N.what());
 		}
 	}
 
-	TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCDescargaExtremoAbierto();
 
 	void CalculaCondicionContorno(double Time);
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
-	void AsignAmbientConditions(double Tamb, double Pamb,
-			double *AtmosphericComposition);
+	void AsignAmbientConditions(double Tamb, double Pamb, double *AtmosphericComposition);
 
 	void TuboCalculandose(int TuboActual) {
 	}

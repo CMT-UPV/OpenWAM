@@ -65,13 +65,10 @@ void TEntradaPulso::LeeEntradaPulso(FILE *fich) {
 		FPresionRelativa = new double[FNumeroDatos];
 		FNivelEntropia = new double[FNumeroDatos];
 		for (int i = 0; i < FNumeroDatos; i++) {
-			fscanf(fich, "%lf %lf %lf ", &FTiempo[i], &FPresionRelativa[i],
-					&FNivelEntropia[i]);
+			fscanf(fich, "%lf %lf %lf ", &FTiempo[i], &FPresionRelativa[i], &FNivelEntropia[i]);
 		}
 		if (FTiempo[0] > 0.0) {
-			std::cout
-					<< "WARNING: El primer instante de tiempo deberia ser 0 para evitar problemas"
-					<< std::endl;
+			std::cout << "WARNING: El primer instante de tiempo deberia ser 0 para evitar problemas" << std::endl;
 		}
 	} catch (exception &N) {
 		stringstream err;
@@ -93,12 +90,10 @@ void TEntradaPulso::BusquedaInstante(double Tiempo) {
 		if (FTiempoActual > FTiempo[FNumeroDatos - 1]) {
 			++FNumeroCiclo;
 			FTiempoActual = FTiempoActual - FTiempo[FNumeroDatos - 1];
-			std::cout << "INFO: Comienza el ciclo " << FNumeroCiclo
-					<< std::endl;
+			std::cout << "INFO: Comienza el ciclo " << FNumeroCiclo << std::endl;
 			std::cout << "      Tiempo transcurrido: " << Tiempo << std::endl;
 		}
-		while (Tiempo
-				> FTiempo[i] + (FNumeroCiclo - 1) * FTiempo[FNumeroDatos - 1]) {
+		while (Tiempo > FTiempo[i] + (FNumeroCiclo - 1) * FTiempo[FNumeroDatos - 1]) {
 			++i;
 		}
 		FInstante = i;
@@ -117,10 +112,8 @@ void TEntradaPulso::BusquedaInstante(double Tiempo) {
 
 double TEntradaPulso::InterpolaPresion() {
 	try {
-		double deltat = (FTiempoActual - FTiempo[FInstante - 1])
-				/ (FTiempo[FInstante] - FTiempo[FInstante - 1]);
-		double presion = (1 - deltat) * FPresionRelativa[FInstante - 1]
-				+ deltat * FPresionRelativa[FInstante];
+		double deltat = (FTiempoActual - FTiempo[FInstante - 1]) / (FTiempo[FInstante] - FTiempo[FInstante - 1]);
+		double presion = (1 - deltat) * FPresionRelativa[FInstante - 1] + deltat * FPresionRelativa[FInstante];
 		return presion;
 	} catch (exception &N) {
 		stringstream err;
@@ -136,10 +129,8 @@ double TEntradaPulso::InterpolaPresion() {
 
 double TEntradaPulso::InterpolaEntropia() {
 	try {
-		double deltat = (FTiempoActual - FTiempo[FInstante - 1])
-				/ (FTiempo[FInstante] - FTiempo[FInstante - 1]);
-		double entropia = (1 - deltat) * FNivelEntropia[FInstante - 1]
-				+ deltat * FNivelEntropia[FInstante];
+		double deltat = (FTiempoActual - FTiempo[FInstante - 1]) / (FTiempo[FInstante] - FTiempo[FInstante - 1]);
+		double entropia = (1 - deltat) * FNivelEntropia[FInstante - 1] + deltat * FNivelEntropia[FInstante];
 		return entropia;
 	} catch (exception &N) {
 		stringstream err;

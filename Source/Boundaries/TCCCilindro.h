@@ -40,6 +40,9 @@
 class TBloqueMotor;
 class TCilindro;
 
+/**
+ * @brief Foo
+ */
 class TCCCilindro: public TCondicionContorno {
 private:
 
@@ -95,8 +98,7 @@ private:
 
 	void FlujoSalienteCilindro();
 
-	void Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
-			double *a2t);
+	void Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t, double *a2t);
 
 	// void FESubcritico(double vel_son_supuesta,double *u2_1,double *u2_2);
 	//
@@ -108,6 +110,11 @@ private:
 
 public:
 
+	/**
+	 * @brief Naniano
+	 *
+	 * @return Algo
+	 */
 	double getSeccionEficaz() {
 		return FSeccionEficaz;
 	}
@@ -173,14 +180,12 @@ public:
 	}
 	;
 
-	TCCCilindro(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-			int numeroespecies, nmCalculoGamma GammaCalculation,
-			bool ThereIsEGR);
+	TCCCilindro(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCCilindro();
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void CalculaCondicionContorno(double Time);
 

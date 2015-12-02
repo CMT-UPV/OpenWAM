@@ -97,8 +97,7 @@ private:
 
 	void FlujoSalienteDeposito();
 
-	void Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
-			double *a2t);
+	void Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t, double *a2t);
 
 public:
 
@@ -147,14 +146,12 @@ public:
 		FMachVenturi = valor;
 	}
 
-	TCCDeposito(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-			int numeroespecies, nmCalculoGamma GammaCalculation,
-			bool ThereIsEGR);
+	TCCDeposito(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCDeposito();
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void AsignaDeposito(TDeposito **Plenum);
 
@@ -162,8 +159,7 @@ public:
 
 	void AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i);
 
-	void CalculaCoeficientesDescarga(double TiempoAcutal, double mfcomb = 0.,
-			double RegimenMotor = 0.);
+	void CalculaCoeficientesDescarga(double TiempoAcutal, double mfcomb = 0., double RegimenMotor = 0.);
 
 	void IniciaGamma();
 

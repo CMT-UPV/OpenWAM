@@ -59,9 +59,8 @@ private:
 
 public:
 
-	TCCRamificacion(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCRamificacion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCRamificacion();
 

@@ -57,9 +57,8 @@ void TRemansoMatlab::CalculaRemanso(double TiempoActual) {
 			FPressure = 2.5;
 			FTemperature = 55.;
 		} else {
-			FPressure = 1. - 0.045 * (TiempoActual - 1.92)
-					+ 1.74 * pow2(TiempoActual - 1.92)
-					- 0.705 * pow3(TiempoActual - 1.92);
+			FPressure = 1. - 0.045 * (TiempoActual - 1.92) + 1.74 * pow2(TiempoActual - 1.92)
+				- 0.705 * pow3(TiempoActual - 1.92);
 			FTemperature = 45.;
 		}
 	} catch (exception &N) {

@@ -113,24 +113,18 @@ private:
 	}
 	;
 
-	inline double hAk_H1_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil,
-			double mu_oil_h1) {
-		return 2.7 * pow(Re_mass_oil, 1.46) * pow(Re_shaft, -1.12)
-				* cbrt(Pr_oil) * pow(mu_oil_h1, -0.69);
+	inline double hAk_H1_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil, double mu_oil_h1) {
+		return 2.7 * pow(Re_mass_oil, 1.46) * pow(Re_shaft, -1.12) * cbrt(Pr_oil) * pow(mu_oil_h1, -0.69);
 	}
 	;
 
-	inline double hAk_H2_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil,
-			double mu_oil_h2) {
-		return 6.2e-3 * pow(Re_mass_oil, 3.83) * pow(Re_shaft, -2.02)
-				* cbrt(Pr_oil) * pow(mu_oil_h2, -1.02);
+	inline double hAk_H2_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil, double mu_oil_h2) {
+		return 6.2e-3 * pow(Re_mass_oil, 3.83) * pow(Re_shaft, -2.02) * cbrt(Pr_oil) * pow(mu_oil_h2, -1.02);
 	}
 	;
 
-	inline double hAk_H3_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil,
-			double mu_oil_h3) {
-		return 6.6e-3 * pow(Re_mass_oil, -0.128) * pow(Re_shaft, 1.25)
-				* cbrt(Pr_oil) * pow(mu_oil_h3, -0.876);
+	inline double hAk_H3_OIL(double Re_mass_oil, double Re_shaft, double Pr_oil, double mu_oil_h3) {
+		return 6.6e-3 * pow(Re_mass_oil, -0.128) * pow(Re_shaft, 1.25) * cbrt(Pr_oil) * pow(mu_oil_h3, -0.876);
 	}
 	;
 
@@ -155,10 +149,9 @@ public:
 
 	~TEffCorrector();
 
-	void InputData(double T_AF, double T_Humidity, double T_MassFlow,
-			double T_IT_C, double T_IP, double T_PR, double C_Humidity,
-			double C_MassFlow, double C_IT_C, double C_IP, double C_PR,
-			double O_MassFlow, double O_IT_C, double O_IP, double RTC);
+	void InputData(double T_AF, double T_Humidity, double T_MassFlow, double T_IT_C, double T_IP, double T_PR,
+		double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow, double O_IT_C,
+		double O_IP, double RTC);
 
 	void BuidMatrix();
 

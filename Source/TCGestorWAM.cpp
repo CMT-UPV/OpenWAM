@@ -108,8 +108,7 @@ void TCGestorWAM::Enviar(char *msg) {
 	if (hPipe != NULL) {
 		mensaje = TEXT(msg);
 
-		fSuccess = WriteFile(hPipe, mensaje,
-				(strlen(mensaje) + 1) * sizeof(TCHAR), &cbWritten, NULL);
+		fSuccess = WriteFile(hPipe, mensaje, (strlen(mensaje) + 1) * sizeof(TCHAR), &cbWritten, NULL);
 
 		if (!fSuccess)
 			throw "No se puede escribir en tuberia";

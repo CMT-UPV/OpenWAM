@@ -121,8 +121,7 @@ void Tfql::lee_leylib(char *Ruta, FILE *fich) {
 
 		Fichfql = fopen(Datosfql, "r");
 		if ((Fichfql = fopen(Datosfql, "r")) == NULL) {
-			std::cout
-					<< "ERROR: Fichero de leyes de liberacion de calor no cargado";
+			std::cout << "ERROR: Fichero de leyes de liberacion de calor no cargado";
 		} else {
 			fscanf(Fichfql, "%d ", &Fnley);
 			fscanf(Fichfql, "%d ", &Fnwiebe);
@@ -180,8 +179,7 @@ void Tfql::lee_leylib(char *Ruta, FILE *fich) {
 					}
 				}
 				for (int j = 0; j <= Fnwiebe - 1; ++j) {
-					fscanf(Fichfql, "%lf %lf %lf %lf %lf ", &Flm[j][i],
-							&Flc[j][i], &Flb[j][i], &Fli[j][i], &Fla[j][i]);
+					fscanf(Fichfql, "%lf %lf %lf %lf %lf ", &Flm[j][i], &Flc[j][i], &Flb[j][i], &Fli[j][i], &Fla[j][i]);
 					Fla[j][i] = 720. + Fla[j][i];
 				}
 
@@ -239,8 +237,7 @@ double Tfql::fql(double x, int j, int i) {
 
 		if (Fcombustion[i]) {
 			for (int k = 0; k <= Fnwiebe - 1; ++k) {
-				wiebe = fun_wiebe(x, Flm[k][j], Flc[k][j], Fli[k][j],
-						Flab[k][j][i]);
+				wiebe = fun_wiebe(x, Flm[k][j], Flc[k][j], Fli[k][j], Flab[k][j][i]);
 				ret_val += wiebe * Flb[k][j];
 			}
 		} else {
@@ -298,8 +295,8 @@ void Tfql::calcula_angulos_combustion(double *parametros, int i) {
 
 	try {
 		int k = 0;
-		double up, down, ang01 = 0., tras = 0., a = 0., b = 0., c = 0., r = 0.,
-				s = 0., d = 0., densidad = 0., egr = 0., e;
+		double up, down, ang01 = 0., tras = 0., a = 0., b = 0., c = 0., r = 0., s = 0., d = 0., densidad = 0., egr = 0.,
+		e;
 		double dist = 0.;
 
 		up = 0.;
@@ -353,8 +350,7 @@ void Tfql::calcula_angulos_combustion(double *parametros, int i) {
 			if (Flab[0][j][i] - 720. < Fang0) {
 				Fang0 = Flab[0][j][i] - 720.;   // ??????????  anado -720
 			}
-			if ((Flab[Fnwiebe - 1][j][i] + Fli[Fnwiebe - 1][j] - 720.)
-					> Ffinc) {
+			if ((Flab[Fnwiebe - 1][j][i] + Fli[Fnwiebe - 1][j] - 720.) > Ffinc) {
 				Ffinc = Flab[Fnwiebe - 1][j][i] + Fli[Fnwiebe - 1][j] - 720.;
 			}
 		}
@@ -465,8 +461,7 @@ void Tfql::lee_leylib2(FILE *BaseDatos) {
 			}
 		}
 		for (int j = 0; j <= Fnwiebe - 1; ++j) {
-			fscanf(BaseDatos, "%lf %lf %lf %lf %lf ", &Flm[j][i], &Flc[j][i],
-					&Flb[j][i], &Fli[j][i], &Fla[j][i]);
+			fscanf(BaseDatos, "%lf %lf %lf %lf %lf ", &Flm[j][i], &Flc[j][i], &Flb[j][i], &Fli[j][i], &Fla[j][i]);
 			Fla[j][i] = 720. + Fla[j][i];
 		}
 

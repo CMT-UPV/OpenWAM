@@ -97,9 +97,8 @@ void TControlInyeccion::LeeDatosEntrada(char *Ruta, FILE *fich) {
 		if ((FichInyeccion = fopen(DatosInyeccion, "r")) == NULL) {
 			std::cout << "ERROR: Fichero de con datos del inyeccion no cargado";
 		} else {
-			fscanf(FichInyeccion, "%d %d %d %d ", &FNumeroDatos_Prail_Regimen,
-					&FNumeroDatos_Mf_Prail, &FNumeroDatos_Mf,
-					&FNumeroDatos_Regimen);
+			fscanf(FichInyeccion, "%d %d %d %d ", &FNumeroDatos_Prail_Regimen, &FNumeroDatos_Mf_Prail, &FNumeroDatos_Mf,
+				&FNumeroDatos_Regimen);
 			FVector_Mf_mapa = new double[FNumeroDatos_Mf];
 			FVector_Mf_mapaPrail = new double[FNumeroDatos_Mf_Prail];
 			FVector_Prail_Regimen_mapa = new double[FNumeroDatos_Prail_Regimen];
@@ -145,8 +144,7 @@ void TControlInyeccion::LeeDatosEntrada(char *Ruta, FILE *fich) {
 			}
 			for (int i = 0; i < FNumeroDatos_Mf; i++) {
 				for (int j = 0; j < FNumeroDatos_Regimen; j++) {
-					fscanf(FichInyeccion, "%lf ",
-							&FMapa_Combustible_Piloto[i][j]);
+					fscanf(FichInyeccion, "%lf ", &FMapa_Combustible_Piloto[i][j]);
 				}
 			}
 			fclose(FichInyeccion);
@@ -155,8 +153,7 @@ void TControlInyeccion::LeeDatosEntrada(char *Ruta, FILE *fich) {
 		FMasaFuel = new double[2];
 
 	} catch (exception &N) {
-		std::cout << "ERROR: TControlInyeccion::LeeDatosEntrada (DLL)"
-				<< std::endl;
+		std::cout << "ERROR: TControlInyeccion::LeeDatosEntrada (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -165,8 +162,7 @@ void TControlInyeccion::LeeDatosEntrada(char *Ruta, FILE *fich) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel,
-		double Regimen) {
+void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel, double Regimen) {
 	try {
 		double Prail = 0.;
 // En esta funcion u otras que puedas necesitar debes programar las acciones
@@ -184,28 +180,24 @@ void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel,
 		MasaFuel = MasaFuel * 1e6; // En los mapas la masa de fuel esta en mg/cc. En ACT tambien,
 		// luego se pasara el dato ya en estas unidades.
 
-		Prail = Interpolacion_bidimensional(Regimen, MasaFuel,
-				FVector_Mf_mapaPrail, FVector_Prail_Regimen_mapa, FMapa_Prail,
-				FNumeroDatos_Prail_Regimen, FNumeroDatos_Mf_Prail);
+		Prail = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapaPrail, FVector_Prail_Regimen_mapa,
+			FMapa_Prail, FNumeroDatos_Prail_Regimen, FNumeroDatos_Mf_Prail);
 
 		FPrail = Prail * 10;   // Presion del common-rail en bar
 
 		/* SOI de la inyeccion principal */
-		FSOI[1] = Interpolacion_bidimensional(Regimen, MasaFuel,
-				FVector_Mf_mapa, FVector_Regimen_mapa, FMapa_SOI_Principal,
-				FNumeroDatos_Regimen, FNumeroDatos_Mf);
+		FSOI[1] = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa, FVector_Regimen_mapa,
+			FMapa_SOI_Principal, FNumeroDatos_Regimen, FNumeroDatos_Mf);
 
 		/* Masa de fuel inyectada en la piloto */
-		FMasaFuel[0] = Interpolacion_bidimensional(Regimen, MasaFuel,
-				FVector_Mf_mapa, FVector_Regimen_mapa, FMapa_Combustible_Piloto,
-				FNumeroDatos_Regimen, FNumeroDatos_Mf);
+		FMasaFuel[0] = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa, FVector_Regimen_mapa,
+			FMapa_Combustible_Piloto, FNumeroDatos_Regimen, FNumeroDatos_Mf);
 
 		/* Masa de fuel inyectada en la principal */
 		FMasaFuel[1] = MasaFuel - FMasaFuel[0];
 
-		FDiferencia_SOI = Interpolacion_bidimensional(Regimen, MasaFuel,
-				FVector_Mf_mapa, FVector_Regimen_mapa, FMapa_SOI_Piloto,
-				FNumeroDatos_Regimen, FNumeroDatos_Mf);
+		FDiferencia_SOI = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa, FVector_Regimen_mapa,
+			FMapa_SOI_Piloto, FNumeroDatos_Regimen, FNumeroDatos_Mf);
 
 		/* SOI de la inyeccion piloto */
 		FSOI[0] = FSOI[1] - FDiferencia_SOI;
@@ -216,8 +208,7 @@ void TControlInyeccion::CalculaSistemaInyeccion(double MasaFuel,
 		}
 
 	} catch (exception &N) {
-		std::cout << "ERROR: TControlInyeccion::CalculaSistemaInyeccion "
-				<< std::endl;
+		std::cout << "ERROR: TControlInyeccion::CalculaSistemaInyeccion " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

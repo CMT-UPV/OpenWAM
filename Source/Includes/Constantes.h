@@ -64,7 +64,7 @@
 //---------------------------------------------------------------------------
 
 //Gas constant
-namespace __R{
+namespace __R {
 	const double Universal = 8314.4; // [J / (mol *K)]
 	const double Air = 287.;
 	const double Fuel = 55.95;
@@ -76,10 +76,12 @@ namespace __R{
 	const double Ar = 208.12;
 	const double Diesel = 55.95;
 	const double Gasoline = 72.42;
-};// [J / (kg * K)]
+}
+;
+// [J / (kg * K)]
 
 //Molecular weight
-namespace __PM{
+namespace __PM {
 	const double O2 = 32.;
 	const double CO2 = 44.01;
 	const double H2O = 18.02;
@@ -92,9 +94,11 @@ namespace __PM{
 	const double UHC = 55.04;
 	const double Diesel = 148.4;
 	const double Gasoline = 114.8;
-}; // [g]
+}
+;
+// [g]
 
-namespace __cons{
+namespace __cons {
 	const double Pi = 3.14159265358979323846;
 	const double Pi_2 = 1.57079632679489661923;
 	const double Pi_4 = 0.785398163397448309616;
@@ -108,7 +112,8 @@ namespace __cons{
 	const double ARef = 343.11;
 	const double TRef = 292.99271;
 	const double PRef = 1.0;
-};
+}
+;
 
 //const double Gamma = 1.4; ///< Air specific heat capacities ratio.
 //const double ARef = 343.11; ///< Reference speed of sound. [m / s]
@@ -116,71 +121,140 @@ namespace __cons{
 //const double ARef2 = 117724.4721;
 //const double PRef = 1.0; ///< Reference pressure. [bar]
 
-
-namespace __units{
-	//GENERAL
-	inline double To_kilo(double p){
+namespace __units {
+//GENERAL
+	inline double To_kilo(double p) {
 		return p * 0.001;
 	}
-	inline double From_kilo(double p){
+	inline double From_kilo(double p) {
 		return p * 1000;
 	}
-	//ANGLE
-	inline double DegToRad(double p){
+//ANGLE
+	inline double DegToRad(double p) {
 		return p * 0.017453292519943;
 	}
-	// PRESSURE
-	inline double BarToPa(double p){
+// PRESSURE
+	inline double BarToPa(double p) {
 		return p * 1e5;
 	}
-	inline double PaToBar(double p){
+	inline double PaToBar(double p) {
 		return p * 1e-5;
 	}
-	//ROTATIONAL SPEED
-	inline double RPMToRPS(double p){
+//ROTATIONAL SPEED
+	inline double RPMToRPS(double p) {
 		return p * 0.016666666666667;
 	}
-	inline double RPMToRad_s(double p){
+	inline double RPMToRad_s(double p) {
 		return p * 0.104719755119660;
 	}
-	inline double Rad_sToRPM(double p){
+	inline double Rad_sToRPM(double p) {
 		return p * 9.549296585513721;
 	}
-	//SPEED
-	inline double m_sTokm_h(double p){
+//SPEED
+	inline double m_sTokm_h(double p) {
 		return p * 3.6;
 	}
-	//TEMPERATURE
-	inline double degCToK(double p){
+//TEMPERATURE
+	inline double degCToK(double p) {
 		return p + 273.15;
 	}
-	inline double KTodegC(double p){
+	inline double KTodegC(double p) {
 		return p - 273.15;
 	}
-};
+}
+;
 
 //stUN __UN;
 
 //const double Kb = 1.38054e-23; ///< Boltzmann constant. [J / K]
 
-namespace __HFormacion{
+namespace __HFormacion {
 	const double CO2 = -393510; ///< Enthalpy of formation of CO2. [J / mol]
 	const double CO = -110530; ///< Enthalpy of formation of CO. [J / mol]
 	const double NO2 = 33100; ///< Enthalpy of formation of NO2. [J / mol]
 	const double NO = 90290; ///< Enthalpy of formation of NO. [J / mol]
 	const double H2O = -241830; ///< Enthalpy of formation of H2O. [J / mol]
-};
+}
+;
 
-namespace __geom{
+namespace __geom {
 	inline double Circle_area(double d) {
 		return d * d * __cons::Pi_4;
 	}
-	inline double Cylinder_volume(double d,double l){
+	inline double Cylinder_volume(double d, double l) {
 		return Circle_area(d) * l;
 	}
-	inline double Ring_area(double din,double dout){
+	inline double Ring_area(double din, double dout) {
 		return (dout * dout - din * din) * __cons::Pi_4;
 	}
-};
+}
+;
+
+namespace __Gamma {
+
+// FOR AIR AT AMBIENT CONDITIONS
+	const double G = 1.4;
+	const double G_1 = 0.4;
+	const double G_2 = 2.4;
+	const double G_3 = 0.2;
+	const double G_4 = 7.0;
+	const double G_5 = 0.14285714285714285;
+	const double G_6 = 2.5;
+	const double G_7 = 0.6666666666666667;
+	const double G_8 = 0.28771428571428575;
+	const double G_9 = 3.5;
+	const double Cp = 1004.5;
+	const double Cp_x2 = 2009.0;
+	const double Cv = 717.5;
+	const double gxR = 401.8;
+
+	inline double GG(double Cp, double Cv) {
+		return Cp / Cv;
+	}
+
+	inline double G1(double g) {
+		return g - 1;
+	}
+	;
+
+	inline double G2(double g) {
+		return g + 1;
+	}
+	;
+
+	inline double G3(double g) {
+		return (g - 1) * 0.5;
+	}
+	;
+
+	inline double G4(double g) {
+		return 2. * g / (g - 1);
+	}
+	;
+
+	inline double G5(double g) {
+		return (g - 1) / 2. / g;
+	}
+	;
+
+	inline double G6(double g) {
+		return 1 / (g - 1);
+	}
+	;
+
+	inline double G7(double g) {
+		return (3 - g) / (g + 1);
+	}
+	;
+
+	inline double G8(double g) {
+		return (g - 1) / g;
+	}
+	;
+
+	inline double G9(double g) {
+		return g / (g - 1);
+	}
+}
 
 #endif

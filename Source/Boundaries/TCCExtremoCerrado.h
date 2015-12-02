@@ -43,9 +43,8 @@ private:
 	double *FCD;    // Caracteristica desconocida del tubo.
 
 public:
-	TCCExtremoCerrado(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCExtremoCerrado(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExtremoCerrado();
 

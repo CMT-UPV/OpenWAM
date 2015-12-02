@@ -104,8 +104,7 @@ private:
 
 	void Spline(int n, double *x, double *y, double *sol);
 
-	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w,
-			double *b, double *c, double *d);
+	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w, double *b, double *c, double *d);
 
 	double EvaluaSpline(double punto, int n, double *x, double *y, double *sol);
 

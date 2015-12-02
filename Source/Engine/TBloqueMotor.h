@@ -224,8 +224,7 @@ public:
 			FRegimen = valor;
 
 		} catch (exception & N) {
-			std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. "
-					<< std::endl;
+			std::cout << "ERROR: TBloqueMotor::PutRegimen en el EngineBlock. " << std::endl;
 			std::cout << "Tipo de error: " << N.what() << std::endl;
 			throw Exception(N.what());
 		}
@@ -266,8 +265,7 @@ public:
 		try {
 			FTheta = valor;
 		} catch (exception & N) {
-			std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. "
-					<< std::endl;
+			std::cout << "ERROR: TBloqueMotor::PutTheta en el EngineBlock. " << std::endl;
 			std::cout << "Tipo de error: " << N.what() << std::endl;
 			throw Exception(N.what());
 		}
@@ -285,8 +283,7 @@ public:
 			FCiclo = valor;
 
 		} catch (exception & N) {
-			std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. "
-					<< std::endl;
+			std::cout << "ERROR: TBloqueMotor::PutCiclo en el EngineBlock. " << std::endl;
 			std::cout << "Tipo de error: " << N.what() << std::endl;
 			throw Exception(N.what());
 		}
@@ -523,15 +520,13 @@ public:
 //		return xnum;
 //	};
 
-	TBloqueMotor(double AmbientPressure, double AmbientTemperature,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TBloqueMotor(double AmbientPressure, double AmbientTemperature, nmTipoCalculoEspecies SpeciesModel,
+		int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TBloqueMotor();
 
-	void LeeMotor(const char *FileWAM, fpos_t &filepos,
-			nmTipoModelado& SimulationType, int CiclosSinInerciaTermica,
-			nmTipoMotor EngineType, double *AtmosphericComposition);
+	void LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType, int CiclosSinInerciaTermica,
+		nmTipoMotor EngineType, double *AtmosphericComposition);
 
 	void IniciaAnguloCalculo();
 

@@ -36,7 +36,7 @@
 //---------------------------------------------------------------------------
 
 TWasteGate::TWasteGate() :
-		TTipoValvula(nmWasteGate) {
+TTipoValvula(nmWasteGate) {
 }
 
 //---------------------------------------------------------------------------
@@ -49,7 +49,7 @@ TWasteGate::~TWasteGate() {
 //---------------------------------------------------------------------------
 
 TWasteGate::TWasteGate(TWasteGate *Origen, int Valvula) :
-		TTipoValvula(nmWasteGate) {
+TTipoValvula(nmWasteGate) {
 
 	FTuboControl = Origen->FTuboControl;
 	FDistancia = Origen->FDistancia;
@@ -81,8 +81,8 @@ TWasteGate::TWasteGate(TWasteGate *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 		int modo = 0;
 
@@ -91,10 +91,9 @@ void TWasteGate::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		fscanf(fich, "%d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d",
-				&FTuboControl, &FDistancia, &FPresCapMando, &FCoefC1, &FCoefC2,
-				&FMasa, &FAmortiguamiento, &FRigidez, &FPrecarga, &FAreaDiaf,
-				&FAreaPlato, &FDiametroRef, &modo);
+		fscanf(fich, "%d %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d", &FTuboControl, &FDistancia, &FPresCapMando,
+			&FCoefC1, &FCoefC2, &FMasa, &FAmortiguamiento, &FRigidez, &FPrecarga, &FAreaDiaf, &FAreaPlato,
+			&FDiametroRef, &modo);
 
 		switch (modo) {
 		case 0:
@@ -140,11 +139,9 @@ void TWasteGate::CalculoNodoAdm(TTubo **Pipe) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TWasteGate::CalculaCD(double Padm, double PTubo, double PDeposito,
-		double deltaT) {
+void TWasteGate::CalculaCD(double Padm, double PTubo, double PDeposito, double deltaT) {
 	try {
-		FFuerza = (Padm - FPresCapMando) * FAreaDiaf
-				+ FSentidoWG * (PDeposito - PTubo) * FAreaPlato - FPrecarga;
+		FFuerza = (Padm - FPresCapMando) * FAreaDiaf + FSentidoWG * (PDeposito - PTubo) * FAreaPlato - FPrecarga;
 
 		FddX = (FFuerza - FRigidez * FX - FAmortiguamiento * FdX) / FMasa;
 		FX = FX + FdX * deltaT + FddX * deltaT * deltaT / 2.;
@@ -178,8 +175,7 @@ void TWasteGate::GetCDin(double Time) {
 	double Padm = Interpola(p1, p2, 1.0, FDist);
 	double PDeposito = FPlenum->getPressure();
 	double PTubo = FPipe->GetPresion(FPipeNode);
-	FFuerza = (Padm - FPresCapMando) * FAreaDiaf
-			+ FSentidoWG * (PDeposito - PTubo) * FAreaPlato - FPrecarga;
+	FFuerza = (Padm - FPresCapMando) * FAreaDiaf + FSentidoWG * (PDeposito - PTubo) * FAreaPlato - FPrecarga;
 
 	FddX = (FFuerza - FRigidez * FX - FAmortiguamiento * FdX) / FMasa;
 	FX = FX + FdX * deltaT + FddX * deltaT * deltaT / 2.;
@@ -206,8 +202,7 @@ void TWasteGate::GetCDout(double Time) {
 	double Padm = Interpola(p1, p2, 1.0, FDist);
 	double PDeposito = FPlenum->getPressure();
 	double PTubo = FPipe->GetPresion(FPipeNode);
-	FFuerza = (Padm - FPresCapMando) * FAreaDiaf
-			+ FSentidoWG * (PDeposito - PTubo) * FAreaPlato - FPrecarga;
+	FFuerza = (Padm - FPresCapMando) * FAreaDiaf + FSentidoWG * (PDeposito - PTubo) * FAreaPlato - FPrecarga;
 
 	FddX = (FFuerza - FRigidez * FX - FAmortiguamiento * FdX) / FMasa;
 	FX = FX + FdX * deltaT + FddX * deltaT * deltaT / 2.;

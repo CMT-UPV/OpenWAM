@@ -102,14 +102,12 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 		// Piston Crown Height
 		Fengine_parameters[7] = FMotor->getGeometria().DiametroBowl;
 		// Maximum Diameter of Bowl
-		Fengine_parameters[8] = FMotor->getGeometria().DiametroBowl
-				* FMotor->getGeometria().DiametroBowl * __cons::Pi_4
-				* FMotor->getGeometria().AlturaBowl;
+		Fengine_parameters[8] = FMotor->getGeometria().DiametroBowl * FMotor->getGeometria().DiametroBowl * __cons::Pi_4
+			* FMotor->getGeometria().AlturaBowl;
 		// Volume of Bowl
 		Fengine_parameters[9] = FMotor->getGeometria().MasaBiela;
 		// Mass connecting rod
-		Fengine_parameters[10] =
-				FMotor->getGeometria().MasaPistonSegmentosBulon;
+		Fengine_parameters[10] = FMotor->getGeometria().MasaPistonSegmentosBulon;
 		// Mass of piston + rings + piston axis
 		Fengine_parameters[11] = FMotor->getGeometria().ModuloElasticidad;
 		// Elasticity steel module
@@ -196,8 +194,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 
 		FCAD_injection_rate[0] = -180;
 		for (int counter = 1; counter < FCAI; counter++) {
-			FCAD_injection_rate[counter] = FCAD_injection_rate[counter - 1]
-					+ ((360. / (FCAI - 1)));
+			FCAD_injection_rate[counter] = FCAD_injection_rate[counter - 1] + ((360. / (FCAI - 1)));
 		}
 
 		FCAD_exit = (double*) malloc(FCAI * sizeof(double));
@@ -246,8 +243,7 @@ TCilindro::TCilindro(TBloqueMotor *Engine, bool ThereIsEGR) {
 
 		for (int i = 0; i < 8; i++) {
 			if (i < FIN) {
-				FMFI[i] = FMotor->getInjecPulse(i).Masa * FMotor->getMasaFuel()
-						* 1e6;
+				FMFI[i] = FMotor->getInjecPulse(i).Masa * FMotor->getMasaFuel() * 1e6;
 			} else {
 				FMFI[i] = 0.;
 			}
@@ -401,13 +397,11 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		for (int i = 0; i < numCC; i++) {
 			if (BC[i]->getTipoCC() == nmIntakeValve) {
-				if (FNumeroCilindro
-						== dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro()) {
+				if (FNumeroCilindro == dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro()) {
 					FNumeroUnionesAdm++;
 				}
 			} else if (BC[i]->getTipoCC() == nmExhaustValve) {
-				if (FNumeroCilindro
-						== dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro()) {
+				if (FNumeroCilindro == dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro()) {
 					FNumeroUnionesEsc++;
 				}
 			}
@@ -427,9 +421,8 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 			UnionAsignada = false;
 			for (int i = 0; i < numCC; i++) {
 				if (BC[i]->getTipoCC() == nmIntakeValve) {
-					if (FNumeroCilindro
-							== dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro()
-							&& !CCasignadaAdm[i] && !UnionAsignada) {
+					if (FNumeroCilindro == dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro() && !CCasignadaAdm[i]
+						&& !UnionAsignada) {
 						FCCValvulaAdm[j] = BC[i];
 						UnionAsignada = true;
 						CCasignadaAdm[i] = true;
@@ -449,9 +442,8 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 			UnionAsignada = false;
 			for (int i = 0; i < numCC; i++) {
 				if (BC[i]->getTipoCC() == nmExhaustValve) {
-					if (FNumeroCilindro
-							== dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro()
-							&& !CCasignadaEsc[i] && !UnionAsignada) {
+					if (FNumeroCilindro == dynamic_cast<TCCCilindro*>(BC[i])->getNumeroCilindro() && !CCasignadaEsc[i]
+						&& !UnionAsignada) {
 						FCCValvulaEsc[j] = BC[i];
 						UnionAsignada = true;
 						CCasignadaEsc[i] = true;
@@ -464,98 +456,94 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		Fctorbadmp = CalculaCTorbAdmProm();
 		FKctm = exp(-0.200679 * pow(Fctorbadmp, 0.431202));
-		Fratioctm = pow2(
-				FMotor->getGeometria().DiametroBowl
-						/ FMotor->getGeometria().Diametro) / FKctm;
+		Fratioctm = pow2(FMotor->getGeometria().DiametroBowl / FMotor->getGeometria().Diametro) / FKctm;
 
-		nmTipoValvula IntakeValveType =
-				dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula()->getTypeOfValve();
+		nmTipoValvula IntakeValveType = dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula()->getTypeOfValve();
 		switch (IntakeValveType) {
 		case nmValvula4T:
-			FDistribucion.AA =
-					dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())->getAnguloApertura();
-			FDistribucion.CA =
-					dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())->getAnguloCierre();
+			FDistribucion.AA = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())
+				->getAnguloApertura();
+			FDistribucion.CA = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())
+				->getAnguloCierre();
 			for (int i = 0; i < FNumeroUnionesAdm; i++) {
-				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloApertura()
-						< FDistribucion.AA) {
-					FDistribucion.AA =
-							dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloApertura();
+				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+					->getAnguloApertura() < FDistribucion.AA) {
+					FDistribucion.AA = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])
+						->getValvula())->getAnguloApertura();
 				}
-				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloCierre()
-						> FDistribucion.CA) {
-					FDistribucion.CA =
-							dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloCierre();
+				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+					->getAnguloCierre() > FDistribucion.CA) {
+					FDistribucion.CA = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])
+						->getValvula())->getAnguloCierre();
 				}
 			}
 			break;
 		case nmLumbrera2T:
-			FDistribucion.AA =
-					dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())->getAnguloApertura();
-			FDistribucion.CA =
-					dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())->getAnguloCierre();
+			FDistribucion.AA = dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())
+				->getAnguloApertura();
+			FDistribucion.CA = dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())
+				->getAnguloCierre();
 			for (int i = 0; i < FNumeroUnionesAdm; i++) {
-				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloApertura()
-						< FDistribucion.AA) {
+				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+					->getAnguloApertura() < FDistribucion.AA) {
 					FDistribucion.AA =
-							dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloApertura();
+						dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+							->getAnguloApertura();
 				}
-				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloCierre()
-						> FDistribucion.CA) {
+				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+					->getAnguloCierre() > FDistribucion.CA) {
 					FDistribucion.CA =
-							dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getAnguloCierre();
+						dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+							->getAnguloCierre();
 				}
 			}
 			break;
 		default:
-			std::cout
-					<< "ERROR: Intake valve is not a poppet valve nor a cylinder port "
-					<< std::endl;
+			std::cout << "ERROR: Intake valve is not a poppet valve nor a cylinder port " << std::endl;
 		}
 
-		nmTipoValvula ExhaustValveType =
-				dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula()->getTypeOfValve();
+		nmTipoValvula ExhaustValveType = dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula()->getTypeOfValve();
 		switch (ExhaustValveType) {
 		case nmValvula4T:
-			FDistribucion.AE =
-					dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())->getAnguloApertura();
-			FDistribucion.CE =
-					dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())->getAnguloCierre();
+			FDistribucion.AE = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())
+				->getAnguloApertura();
+			FDistribucion.CE = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())
+				->getAnguloCierre();
 			for (int i = 0; i < FNumeroUnionesEsc; i++) {
-				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloApertura()
-						< FDistribucion.AE) {
-					FDistribucion.AE =
-							dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloApertura();
+				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())
+					->getAnguloApertura() < FDistribucion.AE) {
+					FDistribucion.AE = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])
+						->getValvula())->getAnguloApertura();
 				}
-				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloCierre()
-						> FDistribucion.CE) {
-					FDistribucion.CE =
-							dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloCierre();
+				if (dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())
+					->getAnguloCierre() > FDistribucion.CE) {
+					FDistribucion.CE = dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])
+						->getValvula())->getAnguloCierre();
 				}
 			}
 			break;
 		case nmLumbrera2T:
-			FDistribucion.AE =
-					dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())->getAnguloApertura();
-			FDistribucion.CE =
-					dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())->getAnguloCierre();
+			FDistribucion.AE = dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())
+				->getAnguloApertura();
+			FDistribucion.CE = dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())
+				->getAnguloCierre();
 			for (int i = 0; i < FNumeroUnionesEsc; i++) {
-				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloApertura()
-						< FDistribucion.AE) {
+				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())
+					->getAnguloApertura() < FDistribucion.AE) {
 					FDistribucion.AE =
-							dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloApertura();
+						dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())
+							->getAnguloApertura();
 				}
-				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloCierre()
-						> FDistribucion.CE) {
+				if (dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())
+					->getAnguloCierre() > FDistribucion.CE) {
 					FDistribucion.CE =
-							dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())->getAnguloCierre();
+						dynamic_cast<TLumbrera*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getValvula())
+							->getAnguloCierre();
 				}
 			}
 			break;
 		default:
-			std::cout
-					<< "ERROR: Exhaust valve is not a poppet valve nor a cylinder port "
-					<< std::endl;
+			std::cout << "ERROR: Exhaust valve is not a poppet valve nor a cylinder port " << std::endl;
 		}
 
 		if (FMotor->getACT()) {
@@ -570,28 +558,22 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		// Valor de alpha para el modelo de cortocircuito.
 		if (FMotor->getEngineType() == nm4T) {
-			FAlphaEscape =
-					asin(
-							(dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())->getDiametro()
-									/ 2.)
-									/ FMotor->getGeometria().DistanciaValvulas);
-			FAlphaAdmision =
-					asin(
-							(dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())->getDiametro()
-									/ 2.)
-									/ FMotor->getGeometria().DistanciaValvulas);
+			FAlphaEscape = asin(
+				(dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaEsc[0])->getValvula())->getDiametro()
+					/ 2.) / FMotor->getGeometria().DistanciaValvulas);
+			FAlphaAdmision = asin(
+				(dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[0])->getValvula())->getDiametro()
+					/ 2.) / FMotor->getGeometria().DistanciaValvulas);
 		}
 
 		if (FResInstantCilindro.MomentoAngularEsc) {
-			FResInstantCilindro.MomentoAngularEscINS =
-					new double[FNumeroUnionesEsc];
+			FResInstantCilindro.MomentoAngularEscINS = new double[FNumeroUnionesEsc];
 			for (int i = 0; i < FNumeroUnionesEsc; i++) {
 				FResInstantCilindro.MomentoAngularEscINS[i] = 0.;
 			}
 		}
 		if (FResInstantCilindro.MomentoAngularAdm) {
-			FResInstantCilindro.MomentoAngularAdmINS =
-					new double[FNumeroUnionesAdm];
+			FResInstantCilindro.MomentoAngularAdmINS = new double[FNumeroUnionesAdm];
 			for (int i = 0; i < FNumeroUnionesAdm; i++) {
 				FResInstantCilindro.MomentoAngularAdmINS[i] = 0.;
 			}
@@ -621,15 +603,13 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 			}
 		}
 		if (FResInstantCilindro.SeccionEfectivaEsc) {
-			FResInstantCilindro.SeccionEfectivaEscINS =
-					new double[FNumeroUnionesEsc];
+			FResInstantCilindro.SeccionEfectivaEscINS = new double[FNumeroUnionesEsc];
 			for (int i = 0; i < FNumeroUnionesEsc; i++) {
 				FResInstantCilindro.SeccionEfectivaEscINS[i] = 0.;
 			}
 		}
 		if (FResInstantCilindro.SeccionEfectivaAdm) {
-			FResInstantCilindro.SeccionEfectivaAdmINS =
-					new double[FNumeroUnionesAdm];
+			FResInstantCilindro.SeccionEfectivaAdmINS = new double[FNumeroUnionesAdm];
 			for (int i = 0; i < FNumeroUnionesAdm; i++) {
 				FResInstantCilindro.SeccionEfectivaAdmINS[i] = 0.;
 			}
@@ -667,8 +647,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 		}
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::AsignacionCC en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::AsignacionCC en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -677,8 +656,7 @@ void TCilindro::AsignacionCC(TCondicionContorno **BC, int numCC) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
-		fpos_t &filepos) {
+void TCilindro::ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int Tipovar = 0;
 
@@ -854,8 +832,7 @@ void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 				FResMediosCilindro.RendVolumetrico = true;
 				break;
 			default:
-				std::cout << "Resultados medios en cilindro " << FNumeroCilindro
-						<< " no implementado " << std::endl;
+				std::cout << "Resultados medios en cilindro " << FNumeroCilindro << " no implementado " << std::endl;
 			}
 		}
 
@@ -863,9 +840,7 @@ void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 		fclose(fich);
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::ReadAverageResultsCilindro en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::ReadAverageResultsCilindro en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -874,8 +849,7 @@ void TCilindro::ReadAverageResultsCilindro(const char *FileWAM,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
-		stEspecies *DatosEspecies) {
+void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput, stEspecies *DatosEspecies) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
@@ -883,148 +857,120 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 
 		if (FNumVarMed > 0) {
 			if (FResMediosCilindro.TrabajoNeto) {
-				Label = "\t" + PutLabel(631) + std::to_string(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(631) + std::to_string(FNumeroCilindro) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaNeta) {
-				Label = "\t" + PutLabel(632) + std::to_string(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(632) + std::to_string(FNumeroCilindro) + PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TrabajoBombeo) {
-				Label = "\t" + PutLabel(633) + std::to_string(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(633) + std::to_string(FNumeroCilindro) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaBombeo) {
-				Label = "\t" + PutLabel(634) + std::to_string(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(634) + std::to_string(FNumeroCilindro) + PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCombustion) {
-				Label = "\t" + PutLabel(635) + std::to_string(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(635) + std::to_string(FNumeroCilindro) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCilindro) {
-				Label = "\t" + PutLabel(636) + std::to_string(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(636) + std::to_string(FNumeroCilindro) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorCulata) {
-				Label = "\t" + PutLabel(637) + std::to_string(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(637) + std::to_string(FNumeroCilindro) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.CalorPiston) {
-				Label = "\t" + PutLabel(638) + std::to_string(FNumeroCilindro)
-						+ PutLabel(907);
+				Label = "\t" + PutLabel(638) + std::to_string(FNumeroCilindro) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.PresionMediaIndicada) {
-				Label = "\t" + PutLabel(639) + std::to_string(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(639) + std::to_string(FNumeroCilindro) + PutLabel(908);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaAtrapada) {
-				Label = "\t" + PutLabel(640) + std::to_string(FNumeroCilindro)
-						+ PutLabel(913);
+				Label = "\t" + PutLabel(640) + std::to_string(FNumeroCilindro) + PutLabel(913);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroInterna) {
-				Label = "\t" + PutLabel(641) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(641) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroMedia) {
-				Label = "\t" + PutLabel(642) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(642) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCilindroExterna) {
-				Label = "\t" + PutLabel(643) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(643) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonInterna) {
-				Label = "\t" + PutLabel(644) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(644) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonMedia) {
-				Label = "\t" + PutLabel(645) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(645) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaPistonExterna) {
-				Label = "\t" + PutLabel(646) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(646) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataInterna) {
-				Label = "\t" + PutLabel(647) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(647) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataMedia) {
-				Label = "\t" + PutLabel(648) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(648) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaCulataExterna) {
-				Label = "\t" + PutLabel(649) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(649) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.NITMedio) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(650) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(903);
+					Label = "\t" + PutLabel(650) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(903);
 					medoutput << Label.c_str();
 				}
-				Label = "\t" + PutLabel(652) + std::to_string(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(652) + std::to_string(FNumeroCilindro) + PutLabel(903);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.AFRMedio) {
-				Label = "\t" + PutLabel(653) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(653) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaBlowBy) {
-				Label = "\t" + PutLabel(654) + std::to_string(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(654) + std::to_string(FNumeroCilindro) + PutLabel(914);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaAdmision) {
-				Label = "\t" + PutLabel(655) + std::to_string(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(655) + std::to_string(FNumeroCilindro) + PutLabel(914);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaEscape) {
-				Label = "\t" + PutLabel(656) + std::to_string(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(656) + std::to_string(FNumeroCilindro) + PutLabel(914);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.MasaCortocircuito) {
-				Label = "\t" + PutLabel(657) + std::to_string(FNumeroCilindro)
-						+ PutLabel(914);
+				Label = "\t" + PutLabel(657) + std::to_string(FNumeroCilindro) + PutLabel(914);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.TemperaturaMedia) {
-				Label = "\t" + PutLabel(658) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(658) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.Swirl) {
-				Label = "\t" + PutLabel(659) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(659) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			if (FResMediosCilindro.RendVolumetrico) {
-				Label = "\t" + PutLabel(660) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(660) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 		}
@@ -1032,9 +978,7 @@ void TCilindro::HeaderAverageResultsCilindro(stringstream& medoutput,
 		// fclose(fich);
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::HeaderAverageResultsCilindro en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::HeaderAverageResultsCilindro en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1069,32 +1013,23 @@ void TCilindro::ImprimeResultadosMediosCilindro(stringstream& medoutput) {
 			if (FResMediosCilindro.MasaAtrapada)
 				medoutput << "\t" << FResMediosCilindro.MasaAtrapadaMED;
 			if (FResMediosCilindro.TemperaturaCilindroInterna)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaCilindroInternaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaCilindroInternaMED;
 			if (FResMediosCilindro.TemperaturaCilindroMedia)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaCilindroMediaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaCilindroMediaMED;
 			if (FResMediosCilindro.TemperaturaCilindroExterna)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaCilindroExternaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaCilindroExternaMED;
 			if (FResMediosCilindro.TemperaturaPistonInterna)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaPistonInternaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaPistonInternaMED;
 			if (FResMediosCilindro.TemperaturaPistonMedia)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaPistonMediaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaPistonMediaMED;
 			if (FResMediosCilindro.TemperaturaPistonExterna)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaPistonExternaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaPistonExternaMED;
 			if (FResMediosCilindro.TemperaturaCulataInterna)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaCulataInternaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaCulataInternaMED;
 			if (FResMediosCilindro.TemperaturaCulataMedia)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaCulataMediaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaCulataMediaMED;
 			if (FResMediosCilindro.TemperaturaCulataExterna)
-				medoutput << "\t"
-						<< FResMediosCilindro.TemperaturaCulataExternaMED;
+				medoutput << "\t" << FResMediosCilindro.TemperaturaCulataExternaMED;
 			if (FResMediosCilindro.NITMedio) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					medoutput << "\t" << FResMediosCilindro.NITMED[i];
@@ -1121,8 +1056,7 @@ void TCilindro::ImprimeResultadosMediosCilindro(stringstream& medoutput) {
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::ImprimeResultadosMediosCilindro "
-				<< std::endl;
+		std::cout << "ERROR: TCilindro::ImprimeResultadosMediosCilindro " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1138,54 +1072,40 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 			double DeltaT = TActual - FResMediosCilindro.Tiempo0;
 			// double DeltaAngulo=360.*FMotor->PutRegimen(360.*FMotor->getRegimen()/60.*DeltaT);
 
-			FResMediosCilindro.TrabajoNetoSUM += __units::BarToPa(FPreMed)
-					* (FVolumen - FVolumen0);
+			FResMediosCilindro.TrabajoNetoSUM += __units::BarToPa(FPreMed) * (FVolumen - FVolumen0);
 			if (FAnguloActual > 180. && FAnguloActual < 540.) {
-				FResMediosCilindro.TrabajoBombeoSUM += __units::BarToPa(FPreMed)
-						* (FVolumen - FVolumen0);
+				FResMediosCilindro.TrabajoBombeoSUM += __units::BarToPa(FPreMed) * (FVolumen - FVolumen0);
 			}
 
 			if (FResMediosCilindro.CalorCombustion && DeltaT > 0.)
 				//FResMediosCilindro.CalorCombustionSUM += FCalor.Liberado;
 				if (FResMediosCilindro.CalorCilindro)
-					FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro
-							* DeltaT;
+					FResMediosCilindro.CalorCilindroSUM += FCalor.TransCilindro * DeltaT;
 			if (FResMediosCilindro.CalorCulata)
-				FResMediosCilindro.CalorCulataSUM += FCalor.TransCulata
-						* DeltaT;
+				FResMediosCilindro.CalorCulataSUM += FCalor.TransCulata * DeltaT;
 			if (FResMediosCilindro.CalorPiston)
-				FResMediosCilindro.CalorPistonSUM += FCalor.TransPiston
-						* DeltaT;
+				FResMediosCilindro.CalorPistonSUM += FCalor.TransPiston * DeltaT;
 
 			if (FResMediosCilindro.TemperaturaCilindroInterna)
-				FResMediosCilindro.TemperaturaCilindroInternaSUM +=
-						FTempPared[0].Cylinder * DeltaT;
+				FResMediosCilindro.TemperaturaCilindroInternaSUM += FTempPared[0].Cylinder * DeltaT;
 			if (FResMediosCilindro.TemperaturaCilindroMedia)
-				FResMediosCilindro.TemperaturaCilindroMediaSUM +=
-						FTempPared[1].Cylinder * DeltaT;
+				FResMediosCilindro.TemperaturaCilindroMediaSUM += FTempPared[1].Cylinder * DeltaT;
 			if (FResMediosCilindro.TemperaturaCilindroExterna)
-				FResMediosCilindro.TemperaturaCilindroExternaSUM +=
-						FTempPared[2].Cylinder * DeltaT;
+				FResMediosCilindro.TemperaturaCilindroExternaSUM += FTempPared[2].Cylinder * DeltaT;
 
 			if (FResMediosCilindro.TemperaturaCulataInterna)
-				FResMediosCilindro.TemperaturaCulataInternaSUM +=
-						FTempPared[0].Culata * DeltaT;
+				FResMediosCilindro.TemperaturaCulataInternaSUM += FTempPared[0].Culata * DeltaT;
 			if (FResMediosCilindro.TemperaturaCulataMedia)
-				FResMediosCilindro.TemperaturaCulataMediaSUM +=
-						FTempPared[1].Culata * DeltaT;
+				FResMediosCilindro.TemperaturaCulataMediaSUM += FTempPared[1].Culata * DeltaT;
 			if (FResMediosCilindro.TemperaturaCulataExterna)
-				FResMediosCilindro.TemperaturaCulataExternaSUM +=
-						FTempPared[2].Culata * DeltaT;
+				FResMediosCilindro.TemperaturaCulataExternaSUM += FTempPared[2].Culata * DeltaT;
 
 			if (FResMediosCilindro.TemperaturaPistonInterna)
-				FResMediosCilindro.TemperaturaPistonInternaSUM +=
-						FTempPared[0].Piston * DeltaT;
+				FResMediosCilindro.TemperaturaPistonInternaSUM += FTempPared[0].Piston * DeltaT;
 			if (FResMediosCilindro.TemperaturaPistonMedia)
-				FResMediosCilindro.TemperaturaPistonMediaSUM +=
-						FTempPared[1].Piston * DeltaT;
+				FResMediosCilindro.TemperaturaPistonMediaSUM += FTempPared[1].Piston * DeltaT;
 			if (FResMediosCilindro.TemperaturaPistonExterna)
-				FResMediosCilindro.TemperaturaPistonExternaSUM +=
-						FTempPared[2].Piston * DeltaT;
+				FResMediosCilindro.TemperaturaPistonExternaSUM += FTempPared[2].Piston * DeltaT;
 
 			if (FResMediosCilindro.NITMedio)
 				FResMediosCilindro.NITMedioSUM += FNIT * DeltaT;
@@ -1194,18 +1114,15 @@ void TCilindro::AcumulaResultadosMediosCilindro(double TActual) {
 			if (FResMediosCilindro.MasaCortocircuito)
 				FResMediosCilindro.MasaCortocircuitoSUM += FMasaCortocircuito;
 			if (FResMediosCilindro.TemperaturaMedia)
-				FResMediosCilindro.TemperaturaMediaSUM += FTemperature
-						* FDeltaT;
+				FResMediosCilindro.TemperaturaMediaSUM += FTemperature * FDeltaT;
 			if (FResMediosCilindro.RendVolumetrico)
-				FResMediosCilindro.DensidadReferenciaSUM += FDensidadReferencia
-						* FDeltaT;
+				FResMediosCilindro.DensidadReferenciaSUM += FDensidadReferencia * FDeltaT;
 
 			FResMediosCilindro.TiempoSUM += DeltaT;
 			FResMediosCilindro.Tiempo0 = TActual;
 		}
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::AcumulaResultadosMediosCilindro "
-				<< std::endl;
+		std::cout << "ERROR: TCilindro::AcumulaResultadosMediosCilindro " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1218,112 +1135,90 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 	try {
 
 		if (FNumVarMed > 0) {
-			if (FResMediosCilindro.TrabajoNeto
-					|| FResMediosCilindro.PresionMediaNeta
-					|| FResMediosCilindro.PresionMediaIndicada) {
-				FResMediosCilindro.TrabajoNetoMED =
-						FResMediosCilindro.TrabajoNetoSUM;
+			if (FResMediosCilindro.TrabajoNeto || FResMediosCilindro.PresionMediaNeta
+				|| FResMediosCilindro.PresionMediaIndicada) {
+				FResMediosCilindro.TrabajoNetoMED = FResMediosCilindro.TrabajoNetoSUM;
 				FResMediosCilindro.TrabajoNetoSUM = 0.;
 			}
-			if (FResMediosCilindro.PresionMediaNeta
-					|| FResMediosCilindro.PresionMediaIndicada) {
+			if (FResMediosCilindro.PresionMediaNeta || FResMediosCilindro.PresionMediaIndicada) {
 				FResMediosCilindro.PresionMediaNetaMED = __units::PaToBar(
-						FResMediosCilindro.TrabajoNetoMED
-								/ FMotor->getGeometria().CilindradaUnitaria);
+					FResMediosCilindro.TrabajoNetoMED / FMotor->getGeometria().CilindradaUnitaria);
 			}
-			if (FResMediosCilindro.TrabajoBombeo
-					|| FResMediosCilindro.PresionMediaBombeo
-					|| FResMediosCilindro.PresionMediaIndicada) {
-				FResMediosCilindro.TrabajoBombeoMED =
-						FResMediosCilindro.TrabajoBombeoSUM;
+			if (FResMediosCilindro.TrabajoBombeo || FResMediosCilindro.PresionMediaBombeo
+				|| FResMediosCilindro.PresionMediaIndicada) {
+				FResMediosCilindro.TrabajoBombeoMED = FResMediosCilindro.TrabajoBombeoSUM;
 				FResMediosCilindro.TrabajoBombeoSUM = 0.;
 			}
-			if (FResMediosCilindro.PresionMediaBombeo
-					|| FResMediosCilindro.PresionMediaIndicada) {
+			if (FResMediosCilindro.PresionMediaBombeo || FResMediosCilindro.PresionMediaIndicada) {
 				FResMediosCilindro.PresionMediaBombeoMED = __units::PaToBar(
-						-FResMediosCilindro.TrabajoBombeoMED
-								/ FMotor->getGeometria().CilindradaUnitaria);
+					-FResMediosCilindro.TrabajoBombeoMED / FMotor->getGeometria().CilindradaUnitaria);
 			}
 			if (FResMediosCilindro.CalorCombustion) {
-				FResMediosCilindro.CalorCombustionMED =
-						FResMediosCilindro.CalorCombustionSUM;
+				FResMediosCilindro.CalorCombustionMED = FResMediosCilindro.CalorCombustionSUM;
 				FResMediosCilindro.CalorCombustionSUM = 0.;
 			}
 			if (FResMediosCilindro.CalorCilindro) {
-				FResMediosCilindro.CalorCilindroMED =
-						FResMediosCilindro.CalorCilindroSUM;
+				FResMediosCilindro.CalorCilindroMED = FResMediosCilindro.CalorCilindroSUM;
 				FResMediosCilindro.CalorCilindroSUM = 0.;
 			}
 			if (FResMediosCilindro.CalorCulata) {
-				FResMediosCilindro.CalorCulataMED =
-						FResMediosCilindro.CalorCulataSUM;
+				FResMediosCilindro.CalorCulataMED = FResMediosCilindro.CalorCulataSUM;
 				FResMediosCilindro.CalorCulataSUM = 0.;
 			}
 			if (FResMediosCilindro.CalorPiston) {
-				FResMediosCilindro.CalorPistonMED =
-						FResMediosCilindro.CalorPistonSUM;
+				FResMediosCilindro.CalorPistonMED = FResMediosCilindro.CalorPistonSUM;
 				FResMediosCilindro.CalorPistonSUM = 0.;
 			}
 			if (FResMediosCilindro.PresionMediaIndicada) {
-				FResMediosCilindro.PresionMediaIndicadaMED =
-						FResMediosCilindro.PresionMediaNetaMED
-								+ FResMediosCilindro.PresionMediaBombeoMED;
+				FResMediosCilindro.PresionMediaIndicadaMED = FResMediosCilindro.PresionMediaNetaMED
+					+ FResMediosCilindro.PresionMediaBombeoMED;
 			}
 			if (FResMediosCilindro.MasaAtrapada) {
 				FResMediosCilindro.MasaAtrapadaMED = FMasaAtrapada;
 			}
 			if (FResMediosCilindro.TemperaturaCilindroInterna) {
-				FResMediosCilindro.TemperaturaCilindroInternaMED =
-						FResMediosCilindro.TemperaturaCilindroInternaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaCilindroInternaMED = FResMediosCilindro.TemperaturaCilindroInternaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaCilindroInternaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaCilindroMedia) {
-				FResMediosCilindro.TemperaturaCilindroMediaMED =
-						FResMediosCilindro.TemperaturaCilindroMediaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaCilindroMediaMED = FResMediosCilindro.TemperaturaCilindroMediaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaCilindroMediaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaCilindroExterna) {
-				FResMediosCilindro.TemperaturaCilindroExternaMED =
-						FResMediosCilindro.TemperaturaCilindroExternaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaCilindroExternaMED = FResMediosCilindro.TemperaturaCilindroExternaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaCilindroExternaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaCulataInterna) {
-				FResMediosCilindro.TemperaturaCulataInternaMED =
-						FResMediosCilindro.TemperaturaCulataInternaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaCulataInternaMED = FResMediosCilindro.TemperaturaCulataInternaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaCulataInternaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaCulataMedia) {
-				FResMediosCilindro.TemperaturaCulataMediaMED =
-						FResMediosCilindro.TemperaturaCulataMediaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaCulataMediaMED = FResMediosCilindro.TemperaturaCulataMediaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaCulataMediaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaCulataExterna) {
-				FResMediosCilindro.TemperaturaCulataExternaMED =
-						FResMediosCilindro.TemperaturaCulataExternaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaCulataExternaMED = FResMediosCilindro.TemperaturaCulataExternaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaCulataExternaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaPistonInterna) {
-				FResMediosCilindro.TemperaturaPistonInternaMED =
-						FResMediosCilindro.TemperaturaPistonInternaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaPistonInternaMED = FResMediosCilindro.TemperaturaPistonInternaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaPistonInternaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaPistonMedia) {
-				FResMediosCilindro.TemperaturaPistonMediaMED =
-						FResMediosCilindro.TemperaturaPistonMediaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaPistonMediaMED = FResMediosCilindro.TemperaturaPistonMediaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaPistonMediaSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaPistonExterna) {
-				FResMediosCilindro.TemperaturaPistonExternaMED =
-						FResMediosCilindro.TemperaturaPistonExternaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaPistonExternaMED = FResMediosCilindro.TemperaturaPistonExternaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaPistonExternaSUM = 0.;
 			}
 			if (FResMediosCilindro.AFRMedio) {
@@ -1331,18 +1226,15 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 			}
 			if (FResMediosCilindro.NITMedio) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					FResMediosCilindro.NITMED[i] = FValvEsc[i].NITSUM
-							/ FResMediosCilindro.TiempoSUM;
+					FResMediosCilindro.NITMED[i] = FValvEsc[i].NITSUM / FResMediosCilindro.TiempoSUM;
 					FValvEsc[i].NITSUM = 0.;
 				}
-				FResMediosCilindro.NITMedioMED = FResMediosCilindro.NITMedioSUM
-						/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.NITMedioMED = FResMediosCilindro.NITMedioSUM / FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.NITMedioSUM = 0.;
 			}
 
 			if (FResMediosCilindro.MasaBlowBy) {
-				FResMediosCilindro.MasaBlowByMED =
-						FResMediosCilindro.MasaBlowBySUM;
+				FResMediosCilindro.MasaBlowByMED = FResMediosCilindro.MasaBlowBySUM;
 				FResMediosCilindro.MasaBlowBySUM = 0.;
 			}
 			if (FResMediosCilindro.MasaAdmision) {
@@ -1352,28 +1244,22 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 				FResMediosCilindro.MasaEscapeMED = FMasaPorEscape;
 			}
 			if (FResMediosCilindro.MasaCortocircuito) {
-				FResMediosCilindro.MasaCortocircuitoMED =
-						FResMediosCilindro.MasaCortocircuitoSUM;
+				FResMediosCilindro.MasaCortocircuitoMED = FResMediosCilindro.MasaCortocircuitoSUM;
 				FResMediosCilindro.MasaCortocircuitoSUM = 0.;
 			}
 			if (FResMediosCilindro.TemperaturaMedia) {
-				FResMediosCilindro.TemperaturaMediaMED =
-						FResMediosCilindro.TemperaturaMediaSUM
-								/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.TemperaturaMediaMED = FResMediosCilindro.TemperaturaMediaSUM
+					/ FResMediosCilindro.TiempoSUM;
 				FResMediosCilindro.TemperaturaMediaSUM = 0.;
 			}
 			if (FResMediosCilindro.Swirl) {
-				FResMediosCilindro.SwirlMED = FSwirlSUM
-						/ FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.SwirlMED = FSwirlSUM / FResMediosCilindro.TiempoSUM;
 				FSwirlSUM = 0.;
 			}
 			if (FResMediosCilindro.RendVolumetrico) {
-				double DensidadReferencia =
-						FResMediosCilindro.DensidadReferenciaSUM
-								/ FResMediosCilindro.TiempoSUM;
-				FResMediosCilindro.RendVolumetricoMED = FMasaAtrapada
-						/ DensidadReferencia
-						/ FMotor->getGeometria().CilindradaUnitaria;
+				double DensidadReferencia = FResMediosCilindro.DensidadReferenciaSUM / FResMediosCilindro.TiempoSUM;
+				FResMediosCilindro.RendVolumetricoMED = FMasaAtrapada / DensidadReferencia
+					/ FMotor->getGeometria().CilindradaUnitaria;
 				FResMediosCilindro.DensidadReferenciaSUM = 0.;
 			}
 
@@ -1381,8 +1267,7 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 		}
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaResultadosMediosCilindro "
-				<< std::endl;
+		std::cout << "ERROR: TCilindro::CalculaResultadosMediosCilindro " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1391,8 +1276,7 @@ void TCilindro::CalculaResultadosMediosCilindro() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
-		fpos_t &filepos) {
+void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars = 0, var = 0;
 
@@ -1453,8 +1337,7 @@ void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 		FResInstantCilindro.GastoBlowBy = false;
 		FResInstantCilindro.GastoBlowByINS = 0.;
 		FResInstantCilindro.FraccionMasica = false;
-		FResInstantCilindro.FraccionINS = new double[FMotor->getSpeciesNumber()
-				- FIntEGR];
+		FResInstantCilindro.FraccionINS = new double[FMotor->getSpeciesNumber() - FIntEGR];
 		for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR; i++) {
 			FResInstantCilindro.FraccionINS[i] = 0.;
 		}
@@ -1581,9 +1464,7 @@ void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 		fclose(fich);
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::ReadInstantaneousResultsCilindro en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::ReadInstantaneousResultsCilindro en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1592,8 +1473,7 @@ void TCilindro::ReadInstantaneousResultsCilindro(const char *FileWAM,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
-		stEspecies *DatosEspecies) {
+void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput, stEspecies *DatosEspecies) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
@@ -1605,222 +1485,191 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 			// cadena Label7;
 
 			if (FResInstantCilindro.Pressure) {
-				Label = "\t" + PutLabel(661) + std::to_string(FNumeroCilindro)
-						+ PutLabel(908);
+				Label = "\t" + PutLabel(661) + std::to_string(FNumeroCilindro) + PutLabel(908);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.Temperature) {
-				Label = "\t" + PutLabel(662) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(662) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.MomentoAngularEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(663) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(663) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(901);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					Label = "\t" + PutLabel(664) + std::to_string(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(664) + std::to_string(FNumeroCilindro) + PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MomentoAngularAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(665) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(665) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(901);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					Label = "\t" + PutLabel(666) + std::to_string(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(666) + std::to_string(FNumeroCilindro) + PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.GastoEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(667) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(904);
+					Label = "\t" + PutLabel(667) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(904);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					Label = "\t" + PutLabel(668) + std::to_string(FNumeroCilindro)
-							+ PutLabel(904);
+					Label = "\t" + PutLabel(668) + std::to_string(FNumeroCilindro) + PutLabel(904);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.GastoAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(669) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(904);
+					Label = "\t" + PutLabel(669) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(904);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					Label = "\t" + PutLabel(670) + std::to_string(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(670) + std::to_string(FNumeroCilindro) + PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MachEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(671) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(671) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.MachAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(672) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(672) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(673) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(915);
+					Label = "\t" + PutLabel(673) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(915);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					Label = "\t" + PutLabel(674) + std::to_string(FNumeroCilindro)
-							+ PutLabel(915);
+					Label = "\t" + PutLabel(674) + std::to_string(FNumeroCilindro) + PutLabel(915);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					Label = "\t" + PutLabel(675) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(915);
+					Label = "\t" + PutLabel(675) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(915);
 					insoutput << Label.c_str();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					Label = "\t" + PutLabel(676) + std::to_string(FNumeroCilindro)
-							+ PutLabel(915);
+					Label = "\t" + PutLabel(676) + std::to_string(FNumeroCilindro) + PutLabel(915);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.Masa) {
-				Label = "\t" + PutLabel(677) + std::to_string(FNumeroCilindro)
-						+ PutLabel(913);
+				Label = "\t" + PutLabel(677) + std::to_string(FNumeroCilindro) + PutLabel(913);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.Volumen) {
-				Label = "\t" + PutLabel(678) + std::to_string(FNumeroCilindro)
-						+ PutLabel(912);
+				Label = "\t" + PutLabel(678) + std::to_string(FNumeroCilindro) + PutLabel(912);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.CoeficienteWoschni) {
-				Label = "\t" + PutLabel(679) + std::to_string(FNumeroCilindro)
-						+ PutLabel(911);
+				Label = "\t" + PutLabel(679) + std::to_string(FNumeroCilindro) + PutLabel(911);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.MasaCombustible) {
-				Label = "\t" + PutLabel(680) + std::to_string(FNumeroCilindro)
-						+ PutLabel(916);
+				Label = "\t" + PutLabel(680) + std::to_string(FNumeroCilindro) + PutLabel(916);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.FQL) {
-				Label = "\t" + PutLabel(681) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(681) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroInterna) {
-				Label = "\t" + PutLabel(641) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(641) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroMedia) {
-				Label = "\t" + PutLabel(642) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(642) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCilindroExterna) {
-				Label = "\t" + PutLabel(643) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(643) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonInterna) {
-				Label = "\t" + PutLabel(644) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(644) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonMedia) {
-				Label = "\t" + PutLabel(645) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(645) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaPistonExterna) {
-				Label = "\t" + PutLabel(646) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(646) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataInterna) {
-				Label = "\t" + PutLabel(647) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(647) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataMedia) {
-				Label = "\t" + PutLabel(648) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(648) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.TemperaturaCulataExterna) {
-				Label = "\t" + PutLabel(649) + std::to_string(FNumeroCilindro)
-						+ PutLabel(910);
+				Label = "\t" + PutLabel(649) + std::to_string(FNumeroCilindro) + PutLabel(910);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.NIT) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					Label = "\t" + PutLabel(682) + std::to_string(i) + PutLabel(651)
-							+ std::to_string(FNumeroCilindro) + PutLabel(901);
+					Label = "\t" + PutLabel(682) + std::to_string(i) + PutLabel(651) + std::to_string(FNumeroCilindro)
+						+ PutLabel(901);
 					insoutput << Label.c_str();
 				}
-				Label = "\t" + PutLabel(683) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(683) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.ParInstantaneo) {
-				Label = "\t" + PutLabel(684) + std::to_string(FNumeroCilindro)
-						+ PutLabel(917);
+				Label = "\t" + PutLabel(684) + std::to_string(FNumeroCilindro) + PutLabel(917);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.GastoCortocircuito) {
-				Label = "\t" + PutLabel(685) + std::to_string(FNumeroCilindro)
-						+ PutLabel(904);
+				Label = "\t" + PutLabel(685) + std::to_string(FNumeroCilindro) + PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.GastoBlowBy) {
-				Label = "\t" + PutLabel(686) + std::to_string(FNumeroCilindro)
-						+ PutLabel(904);
+				Label = "\t" + PutLabel(686) + std::to_string(FNumeroCilindro) + PutLabel(904);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.FraccionMasica) {
 				for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR; i++) {
-					Label = "\t" + PutLabel(687) + DatosEspecies[i].Nombre
-							+ PutLabel(651) + std::to_string(FNumeroCilindro)
-							+ PutLabel(901);
+					Label = "\t" + PutLabel(687) + DatosEspecies[i].Nombre + PutLabel(651)
+						+ std::to_string(FNumeroCilindro) + PutLabel(901);
 					insoutput << Label.c_str();
 				}
 			}
 			if (FResInstantCilindro.Gamma) {
-				Label = "\t" + PutLabel(688) + std::to_string(FNumeroCilindro)
-						+ PutLabel(901);
+				Label = "\t" + PutLabel(688) + std::to_string(FNumeroCilindro) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatHead) {
-				Label = "\t" + PutLabel(689) + std::to_string(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(689) + std::to_string(FNumeroCilindro) + PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatCyl) {
-				Label = "\t" + PutLabel(690) + std::to_string(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(690) + std::to_string(FNumeroCilindro) + PutLabel(903);
 				insoutput << Label.c_str();
 			}
 			if (FResInstantCilindro.HeatPis) {
-				Label = "\t" + PutLabel(691) + std::to_string(FNumeroCilindro)
-						+ PutLabel(903);
+				Label = "\t" + PutLabel(691) + std::to_string(FNumeroCilindro) + PutLabel(903);
 				insoutput << Label.c_str();
 			}
 		}
@@ -1828,9 +1677,8 @@ void TCilindro::HeaderInstantaneousResultsCilindro(stringstream& insoutput,
 		// fclose(fich);
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::HeaderInstantaneousResultsCilindro en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::HeaderInstantaneousResultsCilindro en cilindro: " << FNumeroCilindro
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -1851,22 +1699,18 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 				insoutput << "\t" << FResInstantCilindro.TemperaturaINS;
 			if (FResInstantCilindro.MomentoAngularEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					insoutput << "\t"
-							<< FResInstantCilindro.MomentoAngularEscINS[i];
+					insoutput << "\t" << FResInstantCilindro.MomentoAngularEscINS[i];
 				}
 				if (FNumeroUnionesEsc > 1) {
-					insoutput << "\t"
-							<< FResInstantCilindro.MomentoAngularTotalEscINS;
+					insoutput << "\t" << FResInstantCilindro.MomentoAngularTotalEscINS;
 				}
 			}
 			if (FResInstantCilindro.MomentoAngularAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					insoutput << "\t"
-							<< FResInstantCilindro.MomentoAngularAdmINS[i];
+					insoutput << "\t" << FResInstantCilindro.MomentoAngularAdmINS[i];
 				}
 				if (FNumeroUnionesAdm > 1) {
-					insoutput << "\t"
-							<< FResInstantCilindro.MomentoAngularTotalAdmINS;
+					insoutput << "\t" << FResInstantCilindro.MomentoAngularTotalAdmINS;
 				}
 			}
 			if (FResInstantCilindro.GastoEsc) {
@@ -1897,22 +1741,18 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 			}
 			if (FResInstantCilindro.SeccionEfectivaEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					insoutput << "\t"
-							<< FResInstantCilindro.SeccionEfectivaEscINS[i];
+					insoutput << "\t" << FResInstantCilindro.SeccionEfectivaEscINS[i];
 				}
 				if (FNumeroUnionesEsc > 1) {
-					insoutput << "\t"
-							<< FResInstantCilindro.SeccionEfectivaTotalEscINS;
+					insoutput << "\t" << FResInstantCilindro.SeccionEfectivaTotalEscINS;
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					insoutput << "\t"
-							<< FResInstantCilindro.SeccionEfectivaAdmINS[i];
+					insoutput << "\t" << FResInstantCilindro.SeccionEfectivaAdmINS[i];
 				}
 				if (FNumeroUnionesAdm > 1) {
-					insoutput << "\t"
-							<< FResInstantCilindro.SeccionEfectivaTotalAdmINS;
+					insoutput << "\t" << FResInstantCilindro.SeccionEfectivaTotalAdmINS;
 				}
 			}
 			if (FResInstantCilindro.Masa)
@@ -1926,32 +1766,23 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 			if (FResInstantCilindro.FQL)
 				insoutput << "\t" << FResInstantCilindro.FQLINS;
 			if (FResInstantCilindro.TemperaturaCilindroInterna)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaCilindroInternaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaCilindroInternaINS;
 			if (FResInstantCilindro.TemperaturaCilindroMedia)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaCilindroMediaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaCilindroMediaINS;
 			if (FResInstantCilindro.TemperaturaCilindroExterna)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaCilindroExternaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaCilindroExternaINS;
 			if (FResInstantCilindro.TemperaturaPistonInterna)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaPistonInternaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaPistonInternaINS;
 			if (FResInstantCilindro.TemperaturaPistonMedia)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaPistonMediaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaPistonMediaINS;
 			if (FResInstantCilindro.TemperaturaPistonExterna)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaPistonExternaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaPistonExternaINS;
 			if (FResInstantCilindro.TemperaturaCulataInterna)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaCulataInternaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaCulataInternaINS;
 			if (FResInstantCilindro.TemperaturaCulataMedia)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaCulataMediaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaCulataMediaINS;
 			if (FResInstantCilindro.TemperaturaCulataExterna)
-				insoutput << "\t"
-						<< FResInstantCilindro.TemperaturaCulataExternaINS;
+				insoutput << "\t" << FResInstantCilindro.TemperaturaCulataExternaINS;
 			if (FResInstantCilindro.NIT) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					insoutput << "\t" << FResInstantCilindro.NITINS[i];
@@ -1983,9 +1814,8 @@ void TCilindro::ImprimeResultadosInstantaneosCilindro(stringstream& insoutput) {
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::HeaderInstantaneousResultsCilindro en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::HeaderInstantaneousResultsCilindro en cilindro: " << FNumeroCilindro
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2008,30 +1838,26 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 				FResInstantCilindro.TemperaturaINS = FTemperature;
 			if (FResInstantCilindro.MomentoAngularEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					FResInstantCilindro.MomentoAngularEscINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMomento();
+					FResInstantCilindro.MomentoAngularEscINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])
+						->getMomento();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					FResInstantCilindro.MomentoAngularTotalEscINS =
-							FMomentoAngularEsc;
+					FResInstantCilindro.MomentoAngularTotalEscINS = FMomentoAngularEsc;
 				}
 			}
 			if (FResInstantCilindro.MomentoAngularAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					FResInstantCilindro.MomentoAngularAdmINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMomento();
+					FResInstantCilindro.MomentoAngularAdmINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])
+						->getMomento();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					FResInstantCilindro.MomentoAngularTotalAdmINS =
-							FMomentoAngularAdm;
+					FResInstantCilindro.MomentoAngularTotalAdmINS = FMomentoAngularAdm;
 				}
 			}
 			if (FResInstantCilindro.GastoEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					FResInstantCilindro.GastoEscINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMassflow();
-					gastoesc +=
-							dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMassflow();
+					FResInstantCilindro.GastoEscINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMassflow();
+					gastoesc += dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMassflow();
 				}
 				if (FNumeroUnionesEsc > 1) {
 					FResInstantCilindro.GastoTotalEscINS = gastoesc;
@@ -2039,10 +1865,8 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 			}
 			if (FResInstantCilindro.GastoAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					FResInstantCilindro.GastoAdmINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMassflow();
-					gastoadm +=
-							dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMassflow();
+					FResInstantCilindro.GastoAdmINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMassflow();
+					gastoadm += dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMassflow();
 				}
 				if (FNumeroUnionesAdm > 1) {
 					FResInstantCilindro.GastoTotalAdmINS = gastoadm;
@@ -2050,38 +1874,32 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 			}
 			if (FResInstantCilindro.MachEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					FResInstantCilindro.MachEscINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMach();
+					FResInstantCilindro.MachEscINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMach();
 				}
 			}
 			if (FResInstantCilindro.MachAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					FResInstantCilindro.MachAdmINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMach();
+					FResInstantCilindro.MachAdmINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMach();
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaEsc) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
-					FResInstantCilindro.SeccionEfectivaEscINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getSeccionEficaz();
-					secefectotalesc +=
-							dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getSeccionEficaz();
+					FResInstantCilindro.SeccionEfectivaEscINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])
+						->getSeccionEficaz();
+					secefectotalesc += dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getSeccionEficaz();
 				}
 				if (FNumeroUnionesEsc > 1) {
-					FResInstantCilindro.SeccionEfectivaTotalEscINS =
-							secefectotalesc;
+					FResInstantCilindro.SeccionEfectivaTotalEscINS = secefectotalesc;
 				}
 			}
 			if (FResInstantCilindro.SeccionEfectivaAdm) {
 				for (int i = 0; i < FNumeroUnionesAdm; i++) {
-					FResInstantCilindro.SeccionEfectivaAdmINS[i] =
-							dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getSeccionEficaz();
-					secefectotaladm +=
-							dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getSeccionEficaz();
+					FResInstantCilindro.SeccionEfectivaAdmINS[i] = dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])
+						->getSeccionEficaz();
+					secefectotaladm += dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getSeccionEficaz();
 				}
 				if (FNumeroUnionesAdm > 1) {
-					FResInstantCilindro.SeccionEfectivaTotalAdmINS =
-							secefectotaladm;
+					FResInstantCilindro.SeccionEfectivaTotalAdmINS = secefectotaladm;
 				}
 			}
 			if (FResInstantCilindro.Masa)
@@ -2095,32 +1913,23 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 			if (FResInstantCilindro.FQL)
 				FResInstantCilindro.FQLINS = FCalor.FQL;
 			if (FResInstantCilindro.TemperaturaCilindroInterna)
-				FResInstantCilindro.TemperaturaCilindroInternaINS =
-						FTempPared[0].Cylinder;
+				FResInstantCilindro.TemperaturaCilindroInternaINS = FTempPared[0].Cylinder;
 			if (FResInstantCilindro.TemperaturaCilindroMedia)
-				FResInstantCilindro.TemperaturaCilindroMediaINS =
-						FTempPared[1].Cylinder;
+				FResInstantCilindro.TemperaturaCilindroMediaINS = FTempPared[1].Cylinder;
 			if (FResInstantCilindro.TemperaturaCilindroExterna)
-				FResInstantCilindro.TemperaturaCilindroExternaINS =
-						FTempPared[2].Cylinder;
+				FResInstantCilindro.TemperaturaCilindroExternaINS = FTempPared[2].Cylinder;
 			if (FResInstantCilindro.TemperaturaPistonInterna)
-				FResInstantCilindro.TemperaturaPistonInternaINS =
-						FTempPared[0].Piston;
+				FResInstantCilindro.TemperaturaPistonInternaINS = FTempPared[0].Piston;
 			if (FResInstantCilindro.TemperaturaPistonMedia)
-				FResInstantCilindro.TemperaturaPistonMediaINS =
-						FTempPared[1].Piston;
+				FResInstantCilindro.TemperaturaPistonMediaINS = FTempPared[1].Piston;
 			if (FResInstantCilindro.TemperaturaPistonExterna)
-				FResInstantCilindro.TemperaturaPistonExternaINS =
-						FTempPared[2].Piston;
+				FResInstantCilindro.TemperaturaPistonExternaINS = FTempPared[2].Piston;
 			if (FResInstantCilindro.TemperaturaCulataInterna)
-				FResInstantCilindro.TemperaturaCulataInternaINS =
-						FTempPared[0].Culata;
+				FResInstantCilindro.TemperaturaCulataInternaINS = FTempPared[0].Culata;
 			if (FResInstantCilindro.TemperaturaCulataMedia)
-				FResInstantCilindro.TemperaturaCulataMediaINS =
-						FTempPared[1].Culata;
+				FResInstantCilindro.TemperaturaCulataMediaINS = FTempPared[1].Culata;
 			if (FResInstantCilindro.TemperaturaCulataExterna)
-				FResInstantCilindro.TemperaturaCulataExternaINS =
-						FTempPared[2].Culata;
+				FResInstantCilindro.TemperaturaCulataExternaINS = FTempPared[2].Culata;
 			if (FResInstantCilindro.NIT) {
 				for (int i = 0; i < FNumeroUnionesEsc; i++) {
 					FResInstantCilindro.NITINS[i] = FValvEsc[i].NIT;
@@ -2135,8 +1944,7 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 				FResInstantCilindro.GastoBlowByINS = FGastoBlowBy;
 			if (FResInstantCilindro.FraccionMasica) {
 				for (int i = 0; i < FMotor->getSpeciesNumber() - FIntEGR; i++) {
-					FResInstantCilindro.FraccionINS[i] =
-							FFraccionMasicaEspecie[i];
+					FResInstantCilindro.FraccionINS[i] = FFraccionMasicaEspecie[i];
 				}
 			}
 			if (FResInstantCilindro.Gamma)
@@ -2150,9 +1958,8 @@ void TCilindro::CalculaResultadosInstantaneosCilindro() {
 
 		}
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::CalculaResultadosInstantaneosCilindro en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaResultadosInstantaneosCilindro en cilindro: " << FNumeroCilindro
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2173,27 +1980,26 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 		double area = __geom::Circle_area(FMotor->getGeometria().Diametro);
 
 		double Lact = m * sqrt(pow2(1. + b / m) - pow2(e / m))
-				- m * (cos(a) + sqrt(pow2((b / m)) - pow2(sin(a) - e / m)));
+			- m * (cos(a) + sqrt(pow2((b / m)) - pow2(sin(a) - e / m)));
 
 		// Lact=b+m*(1-cos(a))-sqrt(pow(b,2.)-pow(m*sin(a),2.));
 		ret_val = Lact * area + FMotor->getGeometria().VCC;
 
 		if (FMotor->getGeometria().CoefDeformaciones != 0) {
-			double aux = FMotor->getGeometria().CoefDeformaciones
-					/ FMotor->getGeometria().ModuloElasticidad
-					* pow(
-							FMotor->getGeometria().Diametro
-									/ FMotor->getGeometria().DiametroBulon, 2.)
-					* (FMotor->getGeometria().AlturaCoronaPiston + b + m);
+			double aux = FMotor->getGeometria().CoefDeformaciones / FMotor->getGeometria().ModuloElasticidad
+				* pow(FMotor->getGeometria().Diametro / FMotor->getGeometria().DiametroBulon, 2.)
+				* (FMotor->getGeometria().AlturaCoronaPiston + b + m);
 
 			if (FDeltaAngulo != 0) {
 				double Lant = m * sqrt(pow2(1. + b / m) - pow2(e / m))
-					- m	* (cos(a - __units::DegToRad(FDeltaAngulo)) + sqrt(
-					pow2((b / m)) - pow2(sin(a - __units::DegToRad(FDeltaAngulo)) - e	/ m)));
+					- m
+						* (cos(a - __units::DegToRad(FDeltaAngulo))
+							+ sqrt(pow2((b / m)) - pow2(sin(a - __units::DegToRad(FDeltaAngulo)) - e / m)));
 
-				double Lpos = m * sqrt(pow2(1. + b / m) - pow2(e / m)) - m
-					* (cos(a + __units::DegToRad(FDeltaAngulo)) + sqrt(pow2((b / m))
-					- pow2(sin(a + __units::DegToRad(FDeltaAngulo)) - e / m)));
+				double Lpos = m * sqrt(pow2(1. + b / m) - pow2(e / m))
+					- m
+						* (cos(a + __units::DegToRad(FDeltaAngulo))
+							+ sqrt(pow2((b / m)) - pow2(sin(a + __units::DegToRad(FDeltaAngulo)) - e / m)));
 
 				c = Lant + Lpos - Lact * 2.;
 				if (c < 1e-5)
@@ -2201,7 +2007,7 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 				acel = c / pow2((FDeltaAngulo / (6. * FMotor->getRegimen())));
 
 				double Msist = 0.33 * FMotor->getGeometria().MasaBiela
-						+ FMotor->getGeometria().MasaPistonSegmentosBulon;
+					+ FMotor->getGeometria().MasaPistonSegmentosBulon;
 
 				deltaVol = (area * __units::BarToPa(FPressure) + Msist * acel) * aux;
 			} else {
@@ -2212,8 +2018,7 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 		}
 		return ret_val;
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaVolumen en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaVolumen en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2225,16 +2030,12 @@ double TCilindro::CalculaVolumen(double AnguloActual) {
 void TCilindro::IniciaVariables() {
 	try {
 		double TemperaturaInicial = 0.;
-		double RAtmosfera, PMAtmosfera, FraccionMolarO2, FraccionMolarH2O,
-				FraccionMolarN2;
+		double RAtmosfera, PMAtmosfera, FraccionMolarO2, FraccionMolarH2O, FraccionMolarN2;
 
 		if (FMotor->getTheta() > FMotor->GetDesfase(FNumeroCilindro - 1)) {
-			FAnguloActual = FMotor->getTheta()
-					- FMotor->GetDesfase(FNumeroCilindro - 1);
+			FAnguloActual = FMotor->getTheta() - FMotor->GetDesfase(FNumeroCilindro - 1);
 		} else {
-			FAnguloActual = FMotor->getTheta()
-					- FMotor->GetDesfase(FNumeroCilindro - 1)
-					+ FMotor->getAngTotalCiclo();
+			FAnguloActual = FMotor->getTheta() - FMotor->GetDesfase(FNumeroCilindro - 1) + FMotor->getAngTotalCiclo();
 		}
 		FNumeroCiclo = 0;
 
@@ -2252,8 +2053,7 @@ void TCilindro::IniciaVariables() {
 		// Transporte de Especies Quimicas
 		FComposicionSaliente.resize(FMotor->getSpeciesNumber() - FIntEGR, 0.);
 		FFraccionMasicaEspecie.resize(FMotor->getSpeciesNumber() - FIntEGR, 0.);
-		FFraccionComienzoCicloCerrado.resize(
-				FMotor->getSpeciesNumber() - FIntEGR, 0.);
+		FFraccionComienzoCicloCerrado.resize(FMotor->getSpeciesNumber() - FIntEGR, 0.);
 		FMasaEspecie.resize(FMotor->getSpeciesNumber() - FIntEGR, 0.);
 		FMasaEspecieCicloCerrado.resize(3, 0.);
 		FComposicionCicloCerrado.resize(3, 0.);
@@ -2266,17 +2066,14 @@ void TCilindro::IniciaVariables() {
 			if (FMotor->getSpeciesNumber() == 9) {
 				FComposicionCicloCerrado[1] = 0.;
 				// No llega combustible de los tubos
-				FComposicionCicloCerrado[2] = FFraccionMasicaEspecie[0]
-						/ FMotor->GetComposicionAtmosfera(0); // Aire fresco
+				FComposicionCicloCerrado[2] = FFraccionMasicaEspecie[0] / FMotor->GetComposicionAtmosfera(0); // Aire fresco
 				FComposicionCicloCerrado[0] = 1 - FComposicionCicloCerrado[2];
 				// Gases Quemados
 			} else if (FMotor->getSpeciesNumber() == 10) {
 				FComposicionCicloCerrado[1] = FFraccionMasicaEspecie[7];
 				// Combustible
-				FComposicionCicloCerrado[2] = FFraccionMasicaEspecie[0]
-						/ FMotor->GetComposicionAtmosfera(0); // Aire fresco
-				FComposicionCicloCerrado[0] = 1 - FComposicionCicloCerrado[1]
-						- FComposicionCicloCerrado[2]; // Gases Quemados
+				FComposicionCicloCerrado[2] = FFraccionMasicaEspecie[0] / FMotor->GetComposicionAtmosfera(0); // Aire fresco
+				FComposicionCicloCerrado[0] = 1 - FComposicionCicloCerrado[1] - FComposicionCicloCerrado[2]; // Gases Quemados
 			}
 		} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 			if (FMotor->getSpeciesNumber() == 3) {
@@ -2297,23 +2094,13 @@ void TCilindro::IniciaVariables() {
 		}
 
 		if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
-			RAtmosfera =
-					FMotor->GetComposicionAtmosfera(0) * __R::O2
-							+ FMotor->GetComposicionAtmosfera(2) * __R::H2O
-							+ (FMotor->GetComposicionAtmosfera(7)
-									- 0.01292
-											* (1
-													- FMotor->GetComposicionAtmosfera(
-															2))) * __R::N2
-							+ FMotor->GetComposicionAtmosfera(1) * __R::CO2
-							+ (0.01292
-									* (1 - FMotor->GetComposicionAtmosfera(2)))
-									* __R::Ar;
+			RAtmosfera = FMotor->GetComposicionAtmosfera(0) * __R::O2 + FMotor->GetComposicionAtmosfera(2) * __R::H2O
+				+ (FMotor->GetComposicionAtmosfera(7) - 0.01292 * (1 - FMotor->GetComposicionAtmosfera(2))) * __R::N2
+				+ FMotor->GetComposicionAtmosfera(1) * __R::CO2
+				+ (0.01292 * (1 - FMotor->GetComposicionAtmosfera(2))) * __R::Ar;
 			PMAtmosfera = __R::Universal / RAtmosfera;
-			FraccionMolarO2 = FMotor->GetComposicionAtmosfera(0) * PMAtmosfera
-					/ __PM::O2;
-			FraccionMolarH2O = FMotor->GetComposicionAtmosfera(2) * PMAtmosfera
-					/ __PM::H2O;
+			FraccionMolarO2 = FMotor->GetComposicionAtmosfera(0) * PMAtmosfera / __PM::O2;
+			FraccionMolarH2O = FMotor->GetComposicionAtmosfera(2) * PMAtmosfera / __PM::H2O;
 			FraccionMolarN2 = 1 - FraccionMolarO2 - FraccionMolarH2O;
 			// FRelacionMolarH2O_O2=FraccionMolarH2O/FraccionMolarO2;
 			FRelacionMolarN2_O2 = FraccionMolarN2 / FraccionMolarO2;
@@ -2325,30 +2112,25 @@ void TCilindro::IniciaVariables() {
 			} else if (FMotor->getSpeciesNumber() == 10) {
 				FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
 			}
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(),
-					FMotor->getCombustible());
-			TemperaturaInicial = __units::KTodegC(__units::BarToPa(FMotor->getPresionInicial())* FVolumen
-					/ FMotor->getMasaInicial() / FRMezcla);
-			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
-					FFraccionMasicaEspecieFuel, __units::degCToK(TemperaturaInicial),
-					FMotor->getGammaCalculation(), FMotor->getCombustible());
-			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
-					FMotor->getGammaCalculation());
+			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+				FFraccionMasicaEspecie[2], FFraccionMasicaEspecieFuel, FMotor->getGammaCalculation(),
+				FMotor->getCombustible());
+			TemperaturaInicial = __units::KTodegC(
+				__units::BarToPa(FMotor->getPresionInicial()) * FVolumen / FMotor->getMasaInicial() / FRMezcla);
+			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+				FFraccionMasicaEspecie[2], FFraccionMasicaEspecieFuel, __units::degCToK(TemperaturaInicial),
+				FMotor->getGammaCalculation(), FMotor->getCombustible());
+			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FMotor->getGammaCalculation());
 
 		} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], 0,
-					FMotor->getGammaCalculation(), FMotor->getCombustible());
-			TemperaturaInicial = __units::KTodegC(__units::BarToPa(FMotor->getPresionInicial()) * FVolumen
-					/ FMotor->getMasaInicial() / FRMezcla);
-			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(TemperaturaInicial),
-					FFraccionMasicaEspecie[0], 0, FMotor->getGammaCalculation(),
-					FMotor->getCombustible());
-			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
-					FMotor->getGammaCalculation());
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], 0, FMotor->getGammaCalculation(),
+				FMotor->getCombustible());
+			TemperaturaInicial = __units::KTodegC(
+				__units::BarToPa(FMotor->getPresionInicial()) * FVolumen / FMotor->getMasaInicial() / FRMezcla);
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(TemperaturaInicial), FFraccionMasicaEspecie[0], 0,
+				FMotor->getGammaCalculation(), FMotor->getCombustible());
+			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FMotor->getGammaCalculation());
 			FHcl = -1852564 + 2195 * (30 + 273 + 125); //Temperatura del combustible en K +125, que es el incremento de la temperatura de combustible hasta la tobera del inyector
 
 		}
@@ -2360,34 +2142,28 @@ void TCilindro::IniciaVariables() {
 			FCicloCerrado = false;
 			FPressure = FMotor->getPresionInicial();
 			FTemperature = 60;
-			FMasa = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature)
-					/ FRMezcla;
-			FMasaAtrapada = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature)
-					/ FRMezcla;
+			FMasa = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature) / FRMezcla;
+			FMasaAtrapada = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature) / FRMezcla;
 			for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
 			for (int j = 0; j < 3; j++) {
-				FMasaEspecieCicloCerrado[j] = FMasa
-						* FComposicionCicloCerrado[j];
+				FMasaEspecieCicloCerrado[j] = FMasa * FComposicionCicloCerrado[j];
 			}
 			FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature));
 		} else {
 			// Ciclo cerrado. Compresion Isoentropica.
 			if (FAnguloActual < 180. || FAnguloActual > 540.) {
 				FCicloCerrado = true;
-				FPressure = FMotor->getPresionInicial()
-						* pow((FVolumenCA / FVolumen), FGamma);
+				FPressure = FMotor->getPresionInicial() * pow((FVolumenCA / FVolumen), FGamma);
 				//FMasa = FMotor->getMasaInicial();
-				FMasa = __units::BarToPa(FMotor->getPresionInicial()) * FVolumenCA
-						/ __units::degCToK(60) / FRMezcla;
+				FMasa = __units::BarToPa(FMotor->getPresionInicial()) * FVolumenCA / __units::degCToK(60) / FRMezcla;
 				FMasaAtrapada = FMasa;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 				}
 				for (int j = 0; j < 3; j++) {
-					FMasaEspecieCicloCerrado[j] = FMasa
-							* FComposicionCicloCerrado[j];
+					FMasaEspecieCicloCerrado[j] = FMasa * FComposicionCicloCerrado[j];
 				}
 
 				FTemperature = __units::KTodegC(__units::BarToPa(FPressure) * FVolumen / FMasa / FRMezcla);
@@ -2398,24 +2174,16 @@ void TCilindro::IniciaVariables() {
 					} else if (FMotor->getSpeciesNumber() == 10) {
 						FFraccionMasicaEspecieFuel = FFraccionMasicaEspecie[7];
 					}
-					FCpMezcla = CalculoCompletoCpMezcla(
-							FFraccionMasicaEspecie[0],
-							FFraccionMasicaEspecie[1],
-							FFraccionMasicaEspecie[2],
-							FFraccionMasicaEspecieFuel, __units::degCToK(FTemperature),
-							FMotor->getGammaCalculation(),
-							FMotor->getCombustible());
-					FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla,
-							FMotor->getGammaCalculation());
+					FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+						FFraccionMasicaEspecie[2], FFraccionMasicaEspecieFuel, __units::degCToK(FTemperature),
+						FMotor->getGammaCalculation(), FMotor->getCombustible());
+					FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FMotor->getGammaCalculation());
 
 				} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 
-					FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
-							FFraccionMasicaEspecie[0], 0,
-							FMotor->getGammaCalculation(),
-							FMotor->getCombustible());
-					FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla,
-							FMotor->getGammaCalculation());
+					FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0], 0,
+						FMotor->getGammaCalculation(), FMotor->getCombustible());
+					FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FMotor->getGammaCalculation());
 
 				}
 				FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature));
@@ -2424,16 +2192,13 @@ void TCilindro::IniciaVariables() {
 				FCicloCerrado = false;
 				FPressure = FMotor->getPresionInicial();
 				FTemperature = 60;
-				FMasa = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature)
-						/ FRMezcla;
-				FMasaAtrapada = __units::BarToPa(FPressure) * FVolumen
-						/ __units::degCToK(FTemperature) / FRMezcla;
+				FMasa = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature) / FRMezcla;
+				FMasaAtrapada = __units::BarToPa(FPressure) * FVolumen / __units::degCToK(FTemperature) / FRMezcla;
 				for (int j = 0; j < FMotor->getSpeciesNumber() - FIntEGR; j++) {
 					FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 				}
 				for (int j = 0; j < 3; j++) {
-					FMasaEspecieCicloCerrado[j] = FMasa
-							* FComposicionCicloCerrado[j];
+					FMasaEspecieCicloCerrado[j] = FMasa * FComposicionCicloCerrado[j];
 				}
 				FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature));
 			}
@@ -2452,8 +2217,7 @@ void TCilindro::IniciaVariables() {
 			if (FMotor->getDosadoInicial() < 5) {
 				FMasaFuel = FMotor->getMasaInicial() / 5.;
 			} else {
-				FMasaFuel = FMotor->getMasaInicial()
-						/ FMotor->getDosadoInicial();
+				FMasaFuel = FMotor->getMasaInicial() / FMotor->getDosadoInicial();
 			}
 			FXComb = 7.97;
 			FYComb = 14.8;
@@ -2463,9 +2227,8 @@ void TCilindro::IniciaVariables() {
 		}
 
 		if (FMotor->getSpeciesModel() == nmCalculoCompleto) {
-			FDosadoEstequiometrico = 1
-					/ ((FXComb + FYComb / 4 - FZComb / 2) * __PM::O2)
-					* (FXComb * 12.01 + FYComb * 1.01 + FZComb * 16) * 0.23136;
+			FDosadoEstequiometrico = 1 / ((FXComb + FYComb / 4 - FZComb / 2) * __PM::O2)
+				* (FXComb * 12.01 + FYComb * 1.01 + FZComb * 16) * 0.23136;
 		} else if (FMotor->getSpeciesModel() == nmCalculoSimple) {
 			if (FMotor->getCombustible() == nmMEC) {
 				FDosadoEstequiometrico = 0.069424352;
@@ -2498,8 +2261,7 @@ void TCilindro::IniciaVariables() {
 		FPrimeraCombustion = true;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::IniciaVariables en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::IniciaVariables en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2526,11 +2288,8 @@ void TCilindro::InicioFinCombustion() {
 
 			if (FMotor->getLeyQuemadoBD().size() == 1) {
 				FIniComb = FMotor->getLeyQuemadoBD()[0].Wiebes[0].Alpha0;
-				FFinComb =
-						FMotor->getLeyQuemadoBD()[0].Wiebes[FMotor->getLeyQuemadoBD()[0].Wiebes.size()
-								- 1].Alpha0
-								+ FMotor->getLeyQuemadoBD()[0].Wiebes[FMotor->getLeyQuemadoBD()[0].Wiebes.size()
-										- 1].IncAlpha;
+				FFinComb = FMotor->getLeyQuemadoBD()[0].Wiebes[FMotor->getLeyQuemadoBD()[0].Wiebes.size() - 1].Alpha0
+					+ FMotor->getLeyQuemadoBD()[0].Wiebes[FMotor->getLeyQuemadoBD()[0].Wiebes.size() - 1].IncAlpha;
 			} else {
 
 				std::vector<double> Dist;
@@ -2543,15 +2302,9 @@ void TCilindro::InicioFinCombustion() {
 					} else {
 						k = 0; // Cuando hay 3 wiebes(premezcla,difusion y cola)
 					}
-					distReg = pow2(
-							(FRegInt - FMotor->getLeyQuemadoBD()[i].n)
-									/ FMotor->getLQRegMax());
-					distMf = pow2(
-							(FMfint - FMotor->getLeyQuemadoBD()[i].mf)
-									/ FMotor->getLQMfMax());
-					distMa = pow2(
-							(FMaint - FMotor->getLeyQuemadoBD()[i].ma)
-									/ FMotor->getLQMaMax());
+					distReg = pow2((FRegInt - FMotor->getLeyQuemadoBD()[i].n) / FMotor->getLQRegMax());
+					distMf = pow2((FMfint - FMotor->getLeyQuemadoBD()[i].mf) / FMotor->getLQMfMax());
+					distMa = pow2((FMaint - FMotor->getLeyQuemadoBD()[i].ma) / FMotor->getLQMaMax());
 					b = distReg + distMf + distMa;
 
 					if (b < 1e-15)
@@ -2569,11 +2322,8 @@ void TCilindro::InicioFinCombustion() {
 
 				}
 				for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
-					Weight = pow4(
-							((1 / Dist[i]) - (1 / DistMax))
-									/ ((1 / DistMin) - (1 / DistMax)));
-					Numerador += FMotor->getLeyQuemadoBD()[i].Wiebes[k].Alpha0
-							* Weight;
+					Weight = pow4(((1 / Dist[i]) - (1 / DistMax)) / ((1 / DistMin) - (1 / DistMax)));
+					Numerador += FMotor->getLeyQuemadoBD()[i].Wiebes[k].Alpha0 * Weight;
 					Denominador += Weight;
 				}
 
@@ -2594,8 +2344,7 @@ void TCilindro::InicioFinCombustion() {
 					} else {
 						k = 0; // Cuando hay 3 wiebes(premezcla,difusion y cola)
 					}
-					FAngDesplazado[i] = Ang01
-							- FMotor->getLeyQuemadoBD()[i].Wiebes[k].Alpha0;
+					FAngDesplazado[i] = Ang01 - FMotor->getLeyQuemadoBD()[i].Wiebes[k].Alpha0;
 					/* Comentado por SHC para avanzar
 					 for (Uint j = 0; j < FMotor->getLeyQuemadoBD()[i].Wiebes.size(); j++) {
 					 FMotor->getLeyQuemadoBD()[i].Wiebes[j].Inicia = FMotor->getLeyQuemadoBD()[i].Wiebes[j]
@@ -2603,17 +2352,13 @@ void TCilindro::InicioFinCombustion() {
 					 }
 					 */
 
-					if (FMotor->getLeyQuemadoBD()[i].Wiebes[0].Inicia
-							< FIniComb) {
-						FIniComb =
-								FMotor->getLeyQuemadoBD()[i].Wiebes[0].Inicia;
+					if (FMotor->getLeyQuemadoBD()[i].Wiebes[0].Inicia < FIniComb) {
+						FIniComb = FMotor->getLeyQuemadoBD()[i].Wiebes[0].Inicia;
 					}
 
-					Finaliza =
-							FMotor->getLeyQuemadoBD()[i].Wiebes[FMotor->getLeyQuemadoBD()[i].Wiebes.size()
-									- 1].Inicia
-									+ FMotor->getLeyQuemadoBD()[i].Wiebes[FMotor->getLeyQuemadoBD()[i].Wiebes.size()
-											- 1].IncAlpha;
+					Finaliza = FMotor->getLeyQuemadoBD()[i].Wiebes[FMotor->getLeyQuemadoBD()[i].Wiebes.size() - 1]
+						.Inicia
+						+ FMotor->getLeyQuemadoBD()[i].Wiebes[FMotor->getLeyQuemadoBD()[i].Wiebes.size() - 1].IncAlpha;
 
 					if (Finaliza > FFinComb) {
 						FFinComb = Finaliza;
@@ -2622,8 +2367,7 @@ void TCilindro::InicioFinCombustion() {
 			}
 		}
 	} catch (exception & N) {
-		std::cout << "ERROR: AnguloInicioCombustion en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: AnguloInicioCombustion en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2652,16 +2396,10 @@ double TCilindro::CalculaCalorLiberado(double x) {
 			LeyFQL.resize(FMotor->getLeyQuemadoBD().size());
 
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
-				distReg = pow2(
-						(FRegInt - FMotor->getLeyQuemadoBD()[i].n)
-								/ FMotor->getLQRegMax());
-				distMf = pow2(
-						(FMfint - FMotor->getLeyQuemadoBD()[i].mf)
-								/ FMotor->getLQMfMax());
+				distReg = pow2((FRegInt - FMotor->getLeyQuemadoBD()[i].n) / FMotor->getLQRegMax());
+				distMf = pow2((FMfint - FMotor->getLeyQuemadoBD()[i].mf) / FMotor->getLQMfMax());
 				/* : kg/cc */
-				distMa = pow2(
-						(FMaint - FMotor->getLeyQuemadoBD()[i].ma)
-								/ FMotor->getLQMaMax());
+				distMa = pow2((FMaint - FMotor->getLeyQuemadoBD()[i].ma) / FMotor->getLQMaMax());
 				/* : kg/cc */
 				// dist=pow(distReg+distMf+distMa,0.5);
 				b = distReg + distMf + distMa;
@@ -2689,9 +2427,7 @@ double TCilindro::CalculaCalorLiberado(double x) {
 				// Denominador+=1./dist;
 			}
 			for (Uint i = 0; i < FMotor->getLeyQuemadoBD().size(); i++) {
-				Weight = pow4(
-						((1 / Dist[i]) - (1 / DistMax))
-								/ ((1 / DistMin) - (1 / DistMax)));
+				Weight = pow4(((1 / Dist[i]) - (1 / DistMax)) / ((1 / DistMin) - (1 / DistMax)));
 				Numerador += LeyFQL[i] * Weight;
 				Denominador += Weight;
 			}
@@ -2699,8 +2435,7 @@ double TCilindro::CalculaCalorLiberado(double x) {
 		}
 		return Result;
 	} catch (exception & N) {
-		std::cout << "ERROR: CalculaCalorLiberado en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: CalculaCalorLiberado en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2714,8 +2449,7 @@ double TCilindro::fql(double x, int ley) {
 	try {
 		double ret_val = 0., wiebe = 0.;
 
-		for (Uint k = 0; k < FMotor->getLeyQuemadoBD()[ley].Wiebes.size();
-				++k) {
+		for (Uint k = 0; k < FMotor->getLeyQuemadoBD()[ley].Wiebes.size(); ++k) {
 			wiebe = fun_wiebe(x, ley, k);
 			ret_val += wiebe * FMotor->getLeyQuemadoBD()[ley].Wiebes[k].Beta;
 		}
@@ -2723,8 +2457,7 @@ double TCilindro::fql(double x, int ley) {
 		return ret_val;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::fql en cilindro: " << FNumeroCilindro
-				<< std::endl;
+		std::cout << "ERROR: TCilindro::fql en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2741,23 +2474,17 @@ double TCilindro::fun_wiebe(double x, int ley, int wiebe) {
 			ret_val = 0.;
 		} else {
 			xx = (x - FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].Inicia)
-					/ FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].IncAlpha;
+				/ FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].IncAlpha;
 			xxx = pow(xx, FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].m + 1);
 			if ((xxx * FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].C) > 10.) {
 				ret_val = 1.;
 			} else {
-				ret_val =
-						1.
-								- 1.
-										/ exp(
-												xxx
-														* FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].C);
+				ret_val = 1. - 1. / exp(xxx * FMotor->getLeyQuemadoBD()[ley].Wiebes[wiebe].C);
 			}
 		}
 		return ret_val;
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro:fun_wiebe en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro:fun_wiebe en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2787,8 +2514,7 @@ double TCilindro::FuncionGamma(double T, double X) {
 		return Result;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::FuncionGamma en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::FuncionGamma en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -2815,103 +2541,69 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		ViscGas = 3.27e-7;
 		ViscPared = 1.8e-7;
-		Vel = 5.64268e-7 * FMotor->getRegimen() / 60. * FMotor->getParPotMax()
-				/ FMotor->getGeometria().NCilin
-				/ pow(FMotor->getGeometria().Carrera, 2.);
+		Vel = 5.64268e-7 * FMotor->getRegimen() / 60. * FMotor->getParPotMax() / FMotor->getGeometria().NCilin
+			/ pow(FMotor->getGeometria().Carrera, 2.);
 		Re = Vel * FMotor->getGeometria().Carrera / 2.3 / ViscGas;
 		Cond = 0.67;
-		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re, 0.8)
-				* cbrt(1.98) * pow(ViscGas / ViscPared, 0.14) * Cond
-				/ (FMotor->getGeometria().Carrera / 2.3);
+		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re, 0.8) * cbrt(1.98)
+			* pow(ViscGas / ViscPared, 0.14) * Cond / (FMotor->getGeometria().Carrera / 2.3);
 
-		Fo = (FMotor->getParedCilindro().Conductividad
-				/ FMotor->getParedCilindro().Density
-				/ FMotor->getParedCilindro().CalorEspecifico) * FDeltaT
-				/ (pow2(FMotor->getParedCilindro().Espesor) / 4.);
-		Bii = Fh * FMotor->getParedCilindro().Espesor / 2.
-				/ FMotor->getParedCilindro().Conductividad;
-		Bie = hExt * FMotor->getParedCilindro().Espesor / 2.
-				/ FMotor->getParedCilindro().Conductividad;
+		Fo = (FMotor->getParedCilindro().Conductividad / FMotor->getParedCilindro().Density
+			/ FMotor->getParedCilindro().CalorEspecifico) * FDeltaT / (pow2(FMotor->getParedCilindro().Espesor) / 4.);
+		Bii = Fh * FMotor->getParedCilindro().Espesor / 2. / FMotor->getParedCilindro().Conductividad;
+		Bie = hExt * FMotor->getParedCilindro().Espesor / 2. / FMotor->getParedCilindro().Conductividad;
 
 		for (int i = 0; i < 3; i++) {
 			TPAnt[i] = __units::degCToK(FTempPared[i].Cylinder);
 		}
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
-			std::cout
-					<< "WARNING: Condiciones de calculo inestables para la trans. de calor en el cilindro: "
-					<< FNumeroCilindro << std::endl;
+			std::cout << "WARNING: Condiciones de calculo inestables para la trans. de calor en el cilindro: "
+				<< FNumeroCilindro << std::endl;
 		}
 
 		if (FMotor->getCalculoPared() == nmConInercia
-				&& FMotor->getTheta() / 720.
-						> FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Cylinder = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
+			&& FMotor->getTheta() / 720. > FMotor->getNumCiclosSinInerciaTermica()) {
+			FTempPared[2].Cylinder = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
 					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
-			FTempPared[1].Cylinder = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1]);
-			FTempPared[0].Cylinder = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bii * __units::degCToK(FTemperature))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
+			FTempPared[1].Cylinder = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2]) + (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Cylinder = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bii * __units::degCToK(FTemperature)) + (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 		} else if (FMotor->getCalculoPared() == nmSinInercia
-				|| FMotor->getTheta() / 720.
-						<= FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Cylinder = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
+			|| FMotor->getTheta() / 720. <= FMotor->getNumCiclosSinInerciaTermica()) {
+			FTempPared[2].Cylinder = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
 					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
-			FTempPared[1].Cylinder = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1]);
-			FTempPared[0].Cylinder = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bii * __units::degCToK(FTemperature))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
+			FTempPared[1].Cylinder = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2]) + (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Cylinder = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bii * __units::degCToK(FTemperature)) + (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 			if (Fh > 0.) {
-				hi2 =
-						1.
-								/ (1. / Fh
-										+ FMotor->getParedCilindro().Espesor
-												/ FMotor->getParedCilindro().Conductividad
-												/ 2.);
-				hi3 =
-						1.
-								/ (1. / Fh
-										+ FMotor->getParedCilindro().Espesor
-												/ FMotor->getParedCilindro().Conductividad);
-				FTempPared[0].CilindroSUMup += hi3 * __units::degCToK(FTemperature)
-						* FDeltaT;
+				hi2 = 1.
+					/ (1. / Fh + FMotor->getParedCilindro().Espesor / FMotor->getParedCilindro().Conductividad / 2.);
+				hi3 = 1. / (1. / Fh + FMotor->getParedCilindro().Espesor / FMotor->getParedCilindro().Conductividad);
+				FTempPared[0].CilindroSUMup += hi3 * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[0].CilindroSUMdown += hi3 * FDeltaT;
-				FTempPared[1].CilindroSUMup += hi2 * __units::degCToK(FTemperature)
-						* FDeltaT;
+				FTempPared[1].CilindroSUMup += hi2 * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[1].CilindroSUMdown += hi2 * FDeltaT;
-				FTempPared[2].CilindroSUMup += Fh * __units::degCToK(FTemperature)
-						* FDeltaT;
+				FTempPared[2].CilindroSUMup += Fh * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[2].CilindroSUMdown += Fh * FDeltaT;
 			}
 			if (FAnguloActual < FAnguloAnterior && FNumeroCiclo > 1) {
-				ho2 =
-						1
-								/ (1 / hExt
-										+ FMotor->getParedCilindro().Espesor
-												/ FMotor->getParedCilindro().Conductividad
-												/ 2.);
-				ho1 =
-						1
-								/ (1 / hExt
-										+ FMotor->getParedCilindro().Espesor
-												/ FMotor->getParedCilindro().Conductividad);
-				FTempPared[2].Cylinder = __units::KTodegC((FTiempoCiclo * hExt
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[2].CilindroSUMup)
-						/ (FTiempoCiclo * hExt + FTempPared[2].CilindroSUMdown));
-				FTempPared[1].Cylinder = __units::KTodegC((FTiempoCiclo * ho2
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[1].CilindroSUMup)
+				ho2 = 1
+					/ (1 / hExt + FMotor->getParedCilindro().Espesor / FMotor->getParedCilindro().Conductividad / 2.);
+				ho1 = 1 / (1 / hExt + FMotor->getParedCilindro().Espesor / FMotor->getParedCilindro().Conductividad);
+				FTempPared[2].Cylinder =
+					__units::KTodegC(
+						(FTiempoCiclo * hExt * __units::degCToK(FMotor->getTempRefrigerante())
+							+ FTempPared[2].CilindroSUMup) / (FTiempoCiclo * hExt + FTempPared[2].CilindroSUMdown));
+				FTempPared[1].Cylinder = __units::KTodegC(
+					(FTiempoCiclo * ho2 * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[1].CilindroSUMup)
 						/ (FTiempoCiclo * ho2 + FTempPared[1].CilindroSUMdown));
-				FTempPared[0].Cylinder = __units::KTodegC((FTiempoCiclo * ho1
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[0].CilindroSUMup)
+				FTempPared[0].Cylinder = __units::KTodegC(
+					(FTiempoCiclo * ho1 * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[0].CilindroSUMup)
 						/ (FTiempoCiclo * ho1 + FTempPared[0].CilindroSUMdown));
 				for (int i = 0; i < 3; i++) {
 					FTempPared[i].CilindroSUMup = 0.;
@@ -2934,14 +2626,10 @@ void TCilindro::CalculaTemperaturasPared() {
 		// hExt=0.023*(1+24.2/pow(2.3,0.7)/pow(Re,0.25))*pow(Re,0.8)*pow(1.98,0.33)*pow(ViscGas/ViscPared,0.14)
 		// *Cond/(FMotor->getGeometria().Carrera/2.3);
 
-		Fo = (FMotor->getParedPiston().Conductividad
-				/ FMotor->getParedPiston().Density
-				/ FMotor->getParedPiston().CalorEspecifico) * FDeltaT
-				/ (pow2(FMotor->getParedPiston().Espesor) / 4.);
-		Bii = Fh * FMotor->getParedPiston().Espesor / 2.
-				/ FMotor->getParedPiston().Conductividad;
-		Bie = hExt * FMotor->getParedPiston().Espesor / 2.
-				/ FMotor->getParedPiston().Conductividad;
+		Fo = (FMotor->getParedPiston().Conductividad / FMotor->getParedPiston().Density
+			/ FMotor->getParedPiston().CalorEspecifico) * FDeltaT / (pow2(FMotor->getParedPiston().Espesor) / 4.);
+		Bii = Fh * FMotor->getParedPiston().Espesor / 2. / FMotor->getParedPiston().Conductividad;
+		Bie = hExt * FMotor->getParedPiston().Espesor / 2. / FMotor->getParedPiston().Conductividad;
 
 		for (int i = 0; i < 3; i++) {
 			TPAnt[i] = __units::degCToK(FTempPared[i].Piston);
@@ -2949,77 +2637,49 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
 			std::cout
-					<< "WARNING: Condiciones de calculo inestables para la trans. de calor del piston en el cilindro: "
-					<< FNumeroCilindro << std::endl;
+				<< "WARNING: Condiciones de calculo inestables para la trans. de calor del piston en el cilindro: "
+				<< FNumeroCilindro << std::endl;
 		}
 
 		if (FMotor->getCalculoPared() == nmConInercia
-				&& FMotor->getTheta() / 720.
-						> FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Piston = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
+			&& FMotor->getTheta() / 720. > FMotor->getNumCiclosSinInerciaTermica()) {
+			FTempPared[2].Piston = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
 					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
-			FTempPared[1].Piston = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1]);
-			FTempPared[0].Piston = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bii * __units::degCToK(FTemperature))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
+			FTempPared[1].Piston = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2]) + (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Piston = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bii * __units::degCToK(FTemperature)) + (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 		} else if (FMotor->getCalculoPared() == nmSinInercia
-				|| FMotor->getTheta() / 720.
-						<= FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Piston = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
+			|| FMotor->getTheta() / 720. <= FMotor->getNumCiclosSinInerciaTermica()) {
+			FTempPared[2].Piston = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
 					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
-			FTempPared[1].Piston = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1]);
-			FTempPared[0].Piston = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bii * __units::degCToK(FTemperature))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
+			FTempPared[1].Piston = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2]) + (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Piston = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bii * __units::degCToK(FTemperature)) + (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 			if (Fh > 0.) {
-				hi2 = 1.
-						/ (1. / Fh
-								+ FMotor->getParedPiston().Espesor
-										/ FMotor->getParedPiston().Conductividad
-										/ 2.);
-				hi3 =
-						1.
-								/ (1. / Fh
-										+ FMotor->getParedPiston().Espesor
-												/ FMotor->getParedPiston().Conductividad);
-				FTempPared[0].PistonSUMup += hi3 * __units::degCToK(FTemperature)
-						* FDeltaT;
+				hi2 = 1. / (1. / Fh + FMotor->getParedPiston().Espesor / FMotor->getParedPiston().Conductividad / 2.);
+				hi3 = 1. / (1. / Fh + FMotor->getParedPiston().Espesor / FMotor->getParedPiston().Conductividad);
+				FTempPared[0].PistonSUMup += hi3 * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[0].PistonSUMdown += hi3 * FDeltaT;
-				FTempPared[1].PistonSUMup += hi2 * __units::degCToK(FTemperature)
-						* FDeltaT;
+				FTempPared[1].PistonSUMup += hi2 * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[1].PistonSUMdown += hi2 * FDeltaT;
-				FTempPared[2].PistonSUMup += Fh * __units::degCToK(FTemperature)
-						* FDeltaT;
+				FTempPared[2].PistonSUMup += Fh * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[2].PistonSUMdown += Fh * FDeltaT;
 			}
 			if (FAnguloActual < FAnguloAnterior && FNumeroCiclo > 1) {
-				ho2 = 1
-						/ (1 / hExt
-								+ FMotor->getParedPiston().Espesor
-										/ FMotor->getParedPiston().Conductividad
-										/ 2.);
-				ho1 =
-						1
-								/ (1 / hExt
-										+ FMotor->getParedPiston().Espesor
-												/ FMotor->getParedPiston().Conductividad);
-				FTempPared[2].Piston = __units::KTodegC((FTiempoCiclo * hExt
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[2].PistonSUMup)
+				ho2 = 1 / (1 / hExt + FMotor->getParedPiston().Espesor / FMotor->getParedPiston().Conductividad / 2.);
+				ho1 = 1 / (1 / hExt + FMotor->getParedPiston().Espesor / FMotor->getParedPiston().Conductividad);
+				FTempPared[2].Piston = __units::KTodegC(
+					(FTiempoCiclo * hExt * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[2].PistonSUMup)
 						/ (FTiempoCiclo * hExt + FTempPared[2].PistonSUMdown));
-				FTempPared[1].Piston = __units::KTodegC((FTiempoCiclo * ho2
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[1].PistonSUMup)
+				FTempPared[1].Piston = __units::KTodegC(
+					(FTiempoCiclo * ho2 * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[1].PistonSUMup)
 						/ (FTiempoCiclo * ho2 + FTempPared[1].PistonSUMdown));
-				FTempPared[0].Piston = __units::KTodegC((FTiempoCiclo * ho1
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[0].PistonSUMup)
+				FTempPared[0].Piston = __units::KTodegC(
+					(FTiempoCiclo * ho1 * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[0].PistonSUMup)
 						/ (FTiempoCiclo * ho1 + FTempPared[0].PistonSUMdown));
 				for (int i = 0; i < 3; i++) {
 					FTempPared[i].PistonSUMup = 0.;
@@ -3036,22 +2696,16 @@ void TCilindro::CalculaTemperaturasPared() {
 		// ViscGas=3.27e-7;
 		// ViscPared=1.8e-7;
 		// Cond=0.67;
-		Vel = 5.64268e-7 * FMotor->getRegimen() / 60. * FMotor->getParPotMax()
-				/ FMotor->getGeometria().NCilin
-				/ pow(1.1 * FMotor->getGeometria().Diametro, 2.);
+		Vel = 5.64268e-7 * FMotor->getRegimen() / 60. * FMotor->getParPotMax() / FMotor->getGeometria().NCilin
+			/ pow(1.1 * FMotor->getGeometria().Diametro, 2.);
 		Re = Vel * FMotor->getGeometria().Carrera / 2.3 / ViscGas;
-		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re, 0.8)
-				* cbrt(1.98) * pow(ViscGas / ViscPared, 0.14) * Cond
-				/ (1.1 * FMotor->getGeometria().Diametro / 2.3);
+		hExt = 0.023 * (1 + 24.2 / pow(2.3, 0.7) / pow025(Re)) * pow(Re, 0.8) * cbrt(1.98)
+			* pow(ViscGas / ViscPared, 0.14) * Cond / (1.1 * FMotor->getGeometria().Diametro / 2.3);
 
-		Fo = (FMotor->getParedCulata().Conductividad
-				/ FMotor->getParedCulata().Density
-				/ FMotor->getParedCulata().CalorEspecifico) * FDeltaT
-				/ (pow2(FMotor->getParedCulata().Espesor) / 4.);
-		Bii = Fh * FMotor->getParedCulata().Espesor / 2.
-				/ FMotor->getParedCulata().Conductividad;
-		Bie = hExt * FMotor->getParedCulata().Espesor / 2.
-				/ FMotor->getParedCulata().Conductividad;
+		Fo = (FMotor->getParedCulata().Conductividad / FMotor->getParedCulata().Density
+			/ FMotor->getParedCulata().CalorEspecifico) * FDeltaT / (pow2(FMotor->getParedCulata().Espesor) / 4.);
+		Bii = Fh * FMotor->getParedCulata().Espesor / 2. / FMotor->getParedCulata().Conductividad;
+		Bie = hExt * FMotor->getParedCulata().Espesor / 2. / FMotor->getParedCulata().Conductividad;
 
 		for (int i = 0; i < 3; i++) {
 			TPAnt[i] = __units::degCToK(FTempPared[i].Culata);
@@ -3059,77 +2713,49 @@ void TCilindro::CalculaTemperaturasPared() {
 
 		if (Fo > 0.5 || Fo * (1 + Bii) > 0.5 || Fo * (1 + Bie) > 0.5) {
 			std::cout
-					<< "WARNING: Condiciones de calculo inestables para la trans. de calor de la culata en el cilindro: "
-					<< FNumeroCilindro << std::endl;
+				<< "WARNING: Condiciones de calculo inestables para la trans. de calor de la culata en el cilindro: "
+				<< FNumeroCilindro << std::endl;
 		}
 
 		if (FMotor->getCalculoPared() == nmConInercia
-				&& FMotor->getTheta() / 720.
-						> FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Culata = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
+			&& FMotor->getTheta() / 720. > FMotor->getNumCiclosSinInerciaTermica()) {
+			FTempPared[2].Culata = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
 					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
-			FTempPared[1].Culata = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1]);
-			FTempPared[0].Culata = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bii * __units::degCToK(FTemperature))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
+			FTempPared[1].Culata = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2]) + (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Culata = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bii * __units::degCToK(FTemperature)) + (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 		} else if (FMotor->getCalculoPared() == nmSinInercia
-				|| FMotor->getTheta() / 720.
-						<= FMotor->getNumCiclosSinInerciaTermica()) {
-			FTempPared[2].Culata = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
+			|| FMotor->getTheta() / 720. <= FMotor->getNumCiclosSinInerciaTermica()) {
+			FTempPared[2].Culata = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bie * __units::degCToK(FMotor->getTempRefrigerante()))
 					+ (1 - 2 * Fo - 2 * Bie * Fo) * TPAnt[2]);
-			FTempPared[1].Culata = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2])
-					+ (1 - 2 * Fo) * TPAnt[1]);
-			FTempPared[0].Culata = __units::KTodegC(2 * Fo
-					* (TPAnt[1] + Bii * __units::degCToK(FTemperature))
-					+ (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
+			FTempPared[1].Culata = __units::KTodegC(Fo * (TPAnt[0] + TPAnt[2]) + (1 - 2 * Fo) * TPAnt[1]);
+			FTempPared[0].Culata = __units::KTodegC(
+				2 * Fo * (TPAnt[1] + Bii * __units::degCToK(FTemperature)) + (1 - 2 * Fo - 2 * Bii * Fo) * TPAnt[0]);
 
 			if (Fh > 0.) {
-				hi2 = 1.
-						/ (1. / Fh
-								+ FMotor->getParedCulata().Espesor
-										/ FMotor->getParedCulata().Conductividad
-										/ 2.);
-				hi3 =
-						1.
-								/ (1. / Fh
-										+ FMotor->getParedCulata().Espesor
-												/ FMotor->getParedCulata().Conductividad);
-				FTempPared[0].CulataSUMup += hi3 * __units::degCToK(FTemperature)
-						* FDeltaT;
+				hi2 = 1. / (1. / Fh + FMotor->getParedCulata().Espesor / FMotor->getParedCulata().Conductividad / 2.);
+				hi3 = 1. / (1. / Fh + FMotor->getParedCulata().Espesor / FMotor->getParedCulata().Conductividad);
+				FTempPared[0].CulataSUMup += hi3 * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[0].CulataSUMdown += hi3 * FDeltaT;
-				FTempPared[1].CulataSUMup += hi2 * __units::degCToK(FTemperature)
-						* FDeltaT;
+				FTempPared[1].CulataSUMup += hi2 * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[1].CulataSUMdown += hi2 * FDeltaT;
-				FTempPared[2].CulataSUMup += Fh * __units::degCToK(FTemperature)
-						* FDeltaT;
+				FTempPared[2].CulataSUMup += Fh * __units::degCToK(FTemperature) * FDeltaT;
 				FTempPared[2].CulataSUMdown += Fh * FDeltaT;
 			}
 			if (FAnguloActual < FAnguloAnterior && FNumeroCiclo > 1) {
-				ho2 = 1
-						/ (1 / hExt
-								+ FMotor->getParedCulata().Espesor
-										/ FMotor->getParedCulata().Conductividad
-										/ 2.);
-				ho1 =
-						1
-								/ (1 / hExt
-										+ FMotor->getParedCulata().Espesor
-												/ FMotor->getParedCulata().Conductividad);
-				FTempPared[2].Culata = __units::KTodegC((FTiempoCiclo * hExt
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[2].CulataSUMup)
+				ho2 = 1 / (1 / hExt + FMotor->getParedCulata().Espesor / FMotor->getParedCulata().Conductividad / 2.);
+				ho1 = 1 / (1 / hExt + FMotor->getParedCulata().Espesor / FMotor->getParedCulata().Conductividad);
+				FTempPared[2].Culata = __units::KTodegC(
+					(FTiempoCiclo * hExt * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[2].CulataSUMup)
 						/ (FTiempoCiclo * hExt + FTempPared[2].CulataSUMdown));
-				FTempPared[1].Culata = __units::KTodegC((FTiempoCiclo * ho2
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[1].CulataSUMup)
+				FTempPared[1].Culata = __units::KTodegC(
+					(FTiempoCiclo * ho2 * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[1].CulataSUMup)
 						/ (FTiempoCiclo * ho2 + FTempPared[1].CulataSUMdown));
-				FTempPared[0].Culata = __units::KTodegC((FTiempoCiclo * ho1
-						* __units::degCToK(FMotor->getTempRefrigerante())
-						+ FTempPared[0].CulataSUMup)
+				FTempPared[0].Culata = __units::KTodegC(
+					(FTiempoCiclo * ho1 * __units::degCToK(FMotor->getTempRefrigerante()) + FTempPared[0].CulataSUMup)
 						/ (FTiempoCiclo * ho1 + FTempPared[0].CulataSUMdown));
 				for (int i = 0; i < 3; i++) {
 					FTempPared[i].CulataSUMup = 0.;
@@ -3145,8 +2771,7 @@ void TCilindro::CalculaTemperaturasPared() {
 	} catch (exception & N) {
 		if (TPAnt != NULL)
 			delete TPAnt;
-		std::cout << "ERROR: TCilindro::CalculaTemperaturasPared en cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaTemperaturasPared en cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3157,8 +2782,7 @@ void TCilindro::CalculaTemperaturasPared() {
 
 void TCilindro::CalculaFuelMEP(double MasaAire) {
 
-	FMasaFuel = fabs(MasaAire) * FMotor->getDosadoInicial()
-			* FDosadoEstequiometrico;
+	FMasaFuel = fabs(MasaAire) * FMotor->getDosadoInicial() * FDosadoEstequiometrico;
 
 }
 
@@ -3283,12 +2907,8 @@ void TCilindro::DefineCombustion() {
 		if (FMotor->getACT()) {
 			FCalcComb = nmACT;
 			if (FModComb) {
-				std::cout
-						<< "WARNING: Se pretende calcular la combution mediante ACT y mediante"
-						<< std::endl;
-				std::cout
-						<< "         calculo externo. Se calculara unicamente con ACT."
-						<< std::endl << std::endl;
+				std::cout << "WARNING: Se pretende calcular la combution mediante ACT y mediante" << std::endl;
+				std::cout << "         calculo externo. Se calculara unicamente con ACT." << std::endl << std::endl;
 			}
 		} else {
 			if (FModComb) {
@@ -3298,8 +2918,7 @@ void TCilindro::DefineCombustion() {
 			}
 		}
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::PutModComb en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::PutModComb en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3345,10 +2964,9 @@ double TCilindro::CalculaCTorbAdmProm() {
 		double CTorbSum = 0.;
 
 		for (int i = 0; i < FNumeroUnionesAdm; i++) {
-			if (dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula()->getTypeOfValve()
-					== nmValvula4T) {
-				CTorbSum +=
-						dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())->getCTorbMed();
+			if (dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula()->getTypeOfValve() == nmValvula4T) {
+				CTorbSum += dynamic_cast<TValvula4T*>(dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getValvula())
+					->getCTorbMed();
 			}
 		}
 
@@ -3357,8 +2975,7 @@ double TCilindro::CalculaCTorbAdmProm() {
 		return retval;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaCTorbAdmProm en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaCTorbAdmProm en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3371,8 +2988,7 @@ double TCilindro::CalculaCm() {
 	try {
 		return 2 * FMotor->getRegimen() * FMotor->getGeometria().Carrera / 60.;
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaCm en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaCm en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3393,19 +3009,15 @@ void TCilindro::CalculoNIT() {
 		FNIT = FCpMezcla * __units::degCToK(FTemperature) * (1 - pow(FPressure, arriba));
 		massflow = 0.;
 		for (int j = 0; j < FNumeroUnionesEsc; ++j) {
-			massflow +=
-					dynamic_cast<TCCCilindro*>(FCCValvulaEsc[j])->getMassflow();
-			FValvEsc[j].NIT =
-					FNIT
-							* dynamic_cast<TCCCilindro*>(FCCValvulaEsc[j])->getMassflow();
+			massflow += dynamic_cast<TCCCilindro*>(FCCValvulaEsc[j])->getMassflow();
+			FValvEsc[j].NIT = FNIT * dynamic_cast<TCCCilindro*>(FCCValvulaEsc[j])->getMassflow();
 			FValvEsc[j].NITSUM += FValvEsc[j].NIT * FDeltaT;
 			// NIT medio en cada valvula
 		}
 		FNIT = FNIT * massflow;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculoNIT en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculoNIT en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3417,20 +3029,17 @@ void TCilindro::CalculoNIT() {
 void TCilindro::CalculaMomentoAngular() {
 	try {
 		for (int i = 0; i < FNumeroUnionesAdm; i++) {
-			FMomentoAngularAdm +=
-					dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMomento();
+			FMomentoAngularAdm += dynamic_cast<TCCCilindro*>(FCCValvulaAdm[i])->getMomento();
 		}
 		for (int i = 0; i < FNumeroUnionesEsc; i++) {
-			FMomentoAngularEsc +=
-					dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMomento();
+			FMomentoAngularEsc += dynamic_cast<TCCCilindro*>(FCCValvulaEsc[i])->getMomento();
 		}
 
 		FMomentoAngular = (FMomentoAngularAdm + FMomentoAngularEsc) * FDeltaT;
 		/* . Se multiplica por el tiempo */
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3443,81 +3052,56 @@ void TCilindro::SalidaGeneralCilindros() {
 	try {
 		if (FNumVarMed > 0) {
 			printf("\n \n \n");
-			std::cout << "INFO:----------------------------------------------"
-					<< std::endl;
+			std::cout << "INFO:----------------------------------------------" << std::endl;
 			std::cout << "INFO: CYLINDER RESULTS" << std::endl;
-			std::cout << "INFO:----------------------------------------------"
-					<< std::endl;
-			std::cout << "INFO: Cylinder number " << FNumeroCilindro
-					<< " Cycle number " << FMotor->getCiclo() << std::endl;
-			std::cout << "INFO:_________________________________________"
-					<< std::endl;
+			std::cout << "INFO:----------------------------------------------" << std::endl;
+			std::cout << "INFO: Cylinder number " << FNumeroCilindro << " Cycle number " << FMotor->getCiclo()
+				<< std::endl;
+			std::cout << "INFO:_________________________________________" << std::endl;
 			if (FResMediosCilindro.RendVolumetrico)
-				std::cout
-						<< "INFO: Volumetric efficiency intake manifold (refered to pipe n. "
-						<< FMotor->getTuboRendVol()->getNumeroTubo() << "): "
-						<< FResMediosCilindro.RendVolumetricoMED << " (-)"
-						<< std::endl;
+				std::cout << "INFO: Volumetric efficiency intake manifold (refered to pipe n. "
+					<< FMotor->getTuboRendVol()->getNumeroTubo() << "): " << FResMediosCilindro.RendVolumetricoMED
+					<< " (-)" << std::endl;
 			if (FResMediosCilindro.TrabajoNeto)
-				std::cout << "INFO: Net work:   "
-						<< FResMediosCilindro.TrabajoNetoMED << " (J)"
-						<< std::endl;
+				std::cout << "INFO: Net work:   " << FResMediosCilindro.TrabajoNetoMED << " (J)" << std::endl;
 			if (FResMediosCilindro.PresionMediaNeta)
-				std::cout << "INFO: Net mean effective pressure:   "
-						<< FResMediosCilindro.PresionMediaNetaMED << " (bar)"
-						<< std::endl;
+				std::cout << "INFO: Net mean effective pressure:   " << FResMediosCilindro.PresionMediaNetaMED
+					<< " (bar)" << std::endl;
 			if (FResMediosCilindro.TrabajoBombeo)
-				std::cout << "INFO: Pumping work:       "
-						<< FResMediosCilindro.TrabajoBombeoMED << " (J)"
-						<< std::endl;
+				std::cout << "INFO: Pumping work:       " << FResMediosCilindro.TrabajoBombeoMED << " (J)" << std::endl;
 			if (FResMediosCilindro.PresionMediaBombeo)
-				std::cout << "INFO: Pumping mean effective pressure:   "
-						<< FResMediosCilindro.PresionMediaBombeoMED << " (bar)"
-						<< std::endl;
+				std::cout << "INFO: Pumping mean effective pressure:   " << FResMediosCilindro.PresionMediaBombeoMED
+					<< " (bar)" << std::endl;
 			if (FResMediosCilindro.MasaAdmision)
-				std::cout << "INFO: Intake air mass:   "
-						<< FResMediosCilindro.MasaAdmisionMED << " (kg/cc)"
-						<< std::endl;
+				std::cout << "INFO: Intake air mass:   " << FResMediosCilindro.MasaAdmisionMED << " (kg/cc)"
+					<< std::endl;
 			if (FResMediosCilindro.MasaEscape)
-				std::cout << "INFO: Exhaust air mass:   "
-						<< FResMediosCilindro.MasaEscapeMED << " (kg/cc)"
-						<< std::endl;
+				std::cout << "INFO: Exhaust air mass:   " << FResMediosCilindro.MasaEscapeMED << " (kg/cc)"
+					<< std::endl;
 			if (FResMediosCilindro.NITMedio)
-				std::cout << "INFO: TIP in the cylinder:    "
-						<< FResMediosCilindro.NITMedioMED << " (W)"
-						<< std::endl;
+				std::cout << "INFO: TIP in the cylinder:    " << FResMediosCilindro.NITMedioMED << " (W)" << std::endl;
 			if (FResMediosCilindro.CalorCombustion)
-				std::cout << "INFO: Heat released: "
-						<< FResMediosCilindro.CalorCombustionMED << " (J)"
-						<< std::endl;
+				std::cout << "INFO: Heat released: " << FResMediosCilindro.CalorCombustionMED << " (J)" << std::endl;
 			if (FResMediosCilindro.CalorCilindro)
-				std::cout << "INFO: Heat transfer to cylinder liner wall: "
-						<< FResMediosCilindro.CalorCilindroMED << " (J)"
-						<< std::endl;
+				std::cout << "INFO: Heat transfer to cylinder liner wall: " << FResMediosCilindro.CalorCilindroMED
+					<< " (J)" << std::endl;
 			if (FResMediosCilindro.CalorCulata)
-				std::cout << "INFO: Heat trasnfer to cylinder head wall:   "
-						<< FResMediosCilindro.CalorCulataMED << " (J)"
-						<< std::endl;
+				std::cout << "INFO: Heat trasnfer to cylinder head wall:   " << FResMediosCilindro.CalorCulataMED
+					<< " (J)" << std::endl;
 			if (FResMediosCilindro.CalorPiston)
-				std::cout << "INFO: Heat trasnfer to piston:   "
-						<< FResMediosCilindro.CalorPistonMED << " (J)"
-						<< std::endl;
+				std::cout << "INFO: Heat trasnfer to piston:   " << FResMediosCilindro.CalorPistonMED << " (J)"
+					<< std::endl;
 			if (FResMediosCilindro.TemperaturaMedia)
-				std::cout << "INFO: Mean cycle temperature:   "
-						<< FResMediosCilindro.TemperaturaMediaMED << " (C)"
-						<< std::endl;
+				std::cout << "INFO: Mean cycle temperature:   " << FResMediosCilindro.TemperaturaMediaMED << " (C)"
+					<< std::endl;
 			if (FResMediosCilindro.Swirl)
-				std::cout << "INFO: Swirl at T.D.C.:      "
-						<< FResMediosCilindro.SwirlMED << " (-)" << std::endl;
+				std::cout << "INFO: Swirl at T.D.C.:      " << FResMediosCilindro.SwirlMED << " (-)" << std::endl;
 			if (FResMediosCilindro.MasaAtrapada)
-				std::cout << "INFO: Trapped mass:   "
-						<< FResMediosCilindro.MasaAtrapadaMED << " (kg/cc)"
-						<< std::endl;
+				std::cout << "INFO: Trapped mass:   " << FResMediosCilindro.MasaAtrapadaMED << " (kg/cc)" << std::endl;
 		}
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::SalidaGeneralCilindros en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::SalidaGeneralCilindros en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3529,7 +3113,7 @@ void TCilindro::SalidaGeneralCilindros() {
 void TCilindro::CalculaVariablesResultados() {
 	try {
 		if (FResMediosCilindro.Swirl || FResInstantCilindro.MomentoAngularEsc
-				|| FResInstantCilindro.MomentoAngularEsc) {
+			|| FResInstantCilindro.MomentoAngularEsc) {
 			CalculaMomentoAngular();
 		}
 		if (FResInstantCilindro.NIT || FResMediosCilindro.NITMedio) {
@@ -3540,8 +3124,7 @@ void TCilindro::CalculaVariablesResultados() {
 		}
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::CalculaMomentoAngular en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3554,12 +3137,9 @@ void TCilindro::CalculaSWIRL() {
 	try {
 		double wctcc = 0.;
 
-		wctcc = __cons::Pi_4 * pow2(FMotor->getGeometria().DiametroBowl)
-				* FMotor->getGeometria().AlturaBowl;
-		wctcc = (pow2(FMotor->getGeometria().Diametro)
-				* (FMotor->getGeometria().VCC - wctcc)
-				+ pow2(FMotor->getGeometria().DiametroBowl) * wctcc)
-				/ FMotor->getGeometria().VCC / 8.;
+		wctcc = __cons::Pi_4 * pow2(FMotor->getGeometria().DiametroBowl) * FMotor->getGeometria().AlturaBowl;
+		wctcc = (pow2(FMotor->getGeometria().Diametro) * (FMotor->getGeometria().VCC - wctcc)
+			+ pow2(FMotor->getGeometria().DiametroBowl) * wctcc) / FMotor->getGeometria().VCC / 8.;
 
 		FWoma = FMomentoAngular / pow2(wctcc);
 		FSwirl = FWoma / __units::RPMToRad_s(FMotor->getRegimen());
@@ -3567,8 +3147,7 @@ void TCilindro::CalculaSWIRL() {
 		FSwirlSUM += FSwirl * FDeltaT;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::CalculaSWIRL en el Bloque Engine. "
-				<< std::endl;
+		std::cout << "ERROR: TCilindro::CalculaSWIRL en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3581,8 +3160,7 @@ TCondicionContorno* TCilindro::GetCCValvulaAdm(int i) {
 	try {
 		return FCCValvulaAdm[i];
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::GetCCValvulaAdm en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::GetCCValvulaAdm en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3595,8 +3173,7 @@ TCondicionContorno* TCilindro::GetCCValvulaEsc(int i) {
 	try {
 		return FCCValvulaEsc[i];
 	} catch (exception & N) {
-		std::cout << "ERROR: TCilindro::GetCCValvulaEsc en el cilindro: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::GetCCValvulaEsc en el cilindro: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3612,9 +3189,7 @@ double TCilindro::GetAireFresco() {
 		return ret_val;
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::GetAireFresco en la condicion de contorno: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::GetAireFresco en la condicion de contorno: " << FNumeroCilindro << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -3626,9 +3201,8 @@ double TCilindro::GetComposicionSaliente(int i) {
 	try {
 		return FComposicionSaliente[i];
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCilindro::GetComposicionSaliente en la condicion de contorno: "
-				<< FNumeroCilindro << std::endl;
+		std::cout << "ERROR: TCilindro::GetComposicionSaliente en la condicion de contorno: " << FNumeroCilindro
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

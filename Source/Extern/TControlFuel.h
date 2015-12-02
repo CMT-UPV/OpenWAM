@@ -69,8 +69,7 @@ public:
 	}
 	;
 
-	double CalculaFuel(double MasaPorAdmision, double Regimen,
-			double TiempoActual);
+	double CalculaFuel(double MasaPorAdmision, double Regimen, double TiempoActual);
 
 	void IniciaFuel(double mfuel);
 

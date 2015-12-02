@@ -71,8 +71,8 @@ public:
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
 
-	TCompresorDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCompresorDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
 	~TCompresorDep();
 
@@ -80,12 +80,10 @@ public:
 
 	void CalculaGasto(double TrabajoInsTurbina, double TiempoActual);
 
-	void RelacionDepositoCompresor(TDeposito *DepositoRot,
-			TDeposito *DepositoEst);
+	void RelacionDepositoCompresor(TDeposito *DepositoRot, TDeposito *DepositoEst);
 
 	// NO SE UTILIZA EN ESTE TIPO DE COMPRESORES
-	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
-			double AcumulatedTime, int TuboCalculado) {
+	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double AcumulatedTime, int TuboCalculado) {
 	}
 
 	void Initialize();

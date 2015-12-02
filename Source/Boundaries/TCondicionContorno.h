@@ -143,11 +143,10 @@ public:
 	;
 	double GetFraccionMasicaEspecie(int i);
 
-	TCondicionContorno(nmTypeBC Tipo, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCondicionContorno(nmTypeBC Tipo, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
-	virtual ~TCondicionContorno() =0;
+	virtual ~TCondicionContorno() = 0;
 
 	virtual void CalculaCaracteristicas(double Time);
 
@@ -157,13 +156,12 @@ public:
 	}
 	;
 
-	virtual void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+	virtual void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
+		TDPF **DPF) {
 	}
 	;
 
-	virtual void AsignAmbientConditions(double Tamb, double Pamb,
-			double *AtmosphericComposition) {
+	virtual void AsignAmbientConditions(double Tamb, double Pamb, double *AtmosphericComposition) {
 	}
 	;
 

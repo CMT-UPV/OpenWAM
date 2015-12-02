@@ -559,8 +559,7 @@ public:
 
 	void ReadAverageResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
-	void HeaderAverageResultsCilindro(std::stringstream& medoutput,
-			stEspecies *DatosEspecies);
+	void HeaderAverageResultsCilindro(std::stringstream& medoutput, stEspecies *DatosEspecies);
 
 	void ImprimeResultadosMediosCilindro(std::stringstream& medoutput);
 
@@ -570,8 +569,7 @@ public:
 
 	void ReadInstantaneousResultsCilindro(const char *FileWAM, fpos_t &filepos);
 
-	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput,
-			stEspecies *DatosEspecies);
+	void HeaderInstantaneousResultsCilindro(std::stringstream& insoutput, stEspecies *DatosEspecies);
 
 	void ImprimeResultadosInstantaneosCilindro(std::stringstream& insoutput);
 

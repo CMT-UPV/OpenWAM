@@ -62,8 +62,7 @@ public:
 //   __property double K={read=FK};
 //   __property double Re={read=FRe};
 
-	void CalculaK(double velocidad, double temperatura, double presion,
-			double R_mezcla);
+	void CalculaK(double velocidad, double temperatura, double presion, double R_mezcla);
 
 	void LeeDatosEntrada(char *Dir, FILE *fich, double FDiametro);
 

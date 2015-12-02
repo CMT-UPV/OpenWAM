@@ -30,9 +30,8 @@
 #include <map>
 #include <string>
 
-
 namespace OpenWAM_labels {
-extern std::map<int, std::string> labels;
+	extern std::map<int, std::string> labels;
 }
 
 /**

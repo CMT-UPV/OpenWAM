@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TCDFijo::TCDFijo() :
-		TTipoValvula(nmCDFijo) {
+TTipoValvula(nmCDFijo) {
 
 }
 
@@ -48,7 +48,7 @@ TCDFijo::~TCDFijo() {
 //---------------------------------------------------------------------------
 
 TCDFijo::TCDFijo(TCDFijo *Origen, int Valvula) :
-		TTipoValvula(nmCDFijo) {
+TTipoValvula(nmCDFijo) {
 
 	FCDEntrada = Origen->FCDEntrada;
 	FCDSalida = Origen->FCDSalida;
@@ -72,8 +72,7 @@ TCDFijo::TCDFijo(TCDFijo *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCDFijo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TCDFijo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
 		int tmp = 0;
 		FActivaDiamRef = false;

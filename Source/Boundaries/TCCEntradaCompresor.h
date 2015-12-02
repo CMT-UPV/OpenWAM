@@ -65,16 +65,14 @@ public:
 	}
 	;
 
-	TCCEntradaCompresor(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCEntradaCompresor(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCEntradaCompresor();
 
 	void CalculaCondicionContorno(double Time);
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void AsignaCompresor(TCompresor **Compressor);
 

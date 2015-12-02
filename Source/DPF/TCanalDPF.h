@@ -252,17 +252,16 @@ private:
 
 	double InterpolaTubo(double vizq, double vder, double axid, double xif);
 
-	void Transforma1Area(double v, double a, double p, double **U, double area,
-			double Gamma, double Gamma1, double *Yespecie, int i);
+	void Transforma1Area(double v, double a, double p, double **U, double area, double Gamma, double Gamma1,
+		double *Yespecie, int i);
 
-	void Transforma2Area(double *v, double *a, double *p, double **U,
-			double Area, double Gamma, double Gamma1, double *Yespecie, int i);
+	void Transforma2Area(double *v, double *a, double *p, double **U, double Area, double Gamma, double Gamma1,
+		double *Yespecie, int i);
 
-	void Transforma3Area(double **Ufct, double **U, double Area, double Gamma,
-			double Gamma1, double Gamma6, int i);
+	void Transforma3Area(double **Ufct, double **U, double Area, double Gamma, double Gamma1, double Gamma6, int i);
 
-	void Transforma4Area(double **U1, double **Ufctd, double Area, double Gamma,
-			double Gamma1, double Gamma3, double Gamma4, double Gamma6, int i);
+	void Transforma4Area(double **U1, double **Ufctd, double Area, double Gamma, double Gamma1, double Gamma3,
+		double Gamma4, double Gamma6, int i);
 
 	double Maximo(double x, double y);
 
@@ -272,34 +271,24 @@ private:
 
 	void FluxCorrectedTransport();
 
-	void CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1,
-			int Nodos);
+	void CalculaFlujo(double **U, double **W, double *Gamma, double *Gamma1, int Nodos);
 
-	void CalculaFuente1(double **U, double **V1, double *Gamma, double *Gamma1,
-			int Nodos);
+	void CalculaFuente1(double **U, double **V1, double *Gamma, double *Gamma1, int Nodos);
 
-	void CalculaFuente1Area(double **U, double **V1, double *Area,
-			double *Gamma1, int Nodos);
+	void CalculaFuente1Area(double **U, double **V1, double *Area, double *Gamma1, int Nodos);
 
-	void CalculaFuente2(double **U, double **V2, double *diame,
-			double *CoefTurbulencia, double *hi, double *rho,
-			double *TempParedTubo, double *Gamma, double *Rmezcla,
-			double *Gamma1, double *LadoCanal, double *VelocidadPared,
-			double *ViscosidadDinamica, double *q_reac1, double *q_reac2,
-			double **FraccionMasicaSalida, double *H0Pared, int Nodos,
-			double *EspesorSoot, double *Eficiencia, double *Rreg1,
-			double *Rreg2, double *SupEspecifica, double *LongitudVC,
-			double **FraccionMasica);
+	void CalculaFuente2(double **U, double **V2, double *diame, double *CoefTurbulencia, double *hi, double *rho,
+		double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, double *LadoCanal,
+		double *VelocidadPared, double *ViscosidadDinamica, double *q_reac1, double *q_reac2,
+		double **FraccionMasicaSalida, double *H0Pared, int Nodos, double *EspesorSoot, double *Eficiencia,
+		double *Rreg1, double *Rreg2, double *SupEspecifica, double *LongitudVC, double **FraccionMasica);
 
-	void CalculaFuente2Area(double **U, double **V2, double *diame,
-			double *CoefTurbulencia, double *hi, double *rho,
-			double *TempParedTubo, double *Gamma, double *Rmezcla,
-			double *Gamma1, double *LadoCanal, double *VelocidadPared,
-			double *ViscosidadDinamica, double *q_reac1, double *q_reac2,
-			double **FraccionMasicaSalida, double *H0Pared, int Nodos,
-			double *Area, double *EspesorSoot, double *Eficiencia,
-			double *Rreg1, double *Rreg2, double *SupEspecifica,
-			double *LongitudVC, double **FraccionMasica);
+	void CalculaFuente2Area(double **U, double **V2, double *diame, double *CoefTurbulencia, double *hi, double *rho,
+		double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, double *LadoCanal,
+		double *VelocidadPared, double *ViscosidadDinamica, double *q_reac1, double *q_reac2,
+		double **FraccionMasicaSalida, double *H0Pared, int Nodos, double *Area, double *EspesorSoot,
+		double *Eficiencia, double *Rreg1, double *Rreg2, double *SupEspecifica, double *LongitudVC,
+		double **FraccionMasica);
 
 	double DerLinF(double d1, double d2, double xref);
 
@@ -307,25 +296,21 @@ private:
 
 	void Colebrook(double rug, double dia, double *f, double Re);
 
-	void TransmisionCalor(double tgas, double lado, double *q,
-			double CoefTurbulencia, double hi, double rho, double Tw);
+	void TransmisionCalor(double tgas, double lado, double *q, double CoefTurbulencia, double hi, double rho,
+		double Tw);
 
-	void TransformaContorno(double *L, double *B, double *E, double *a,
-			double *v, double *p, int modo, double Gamma1, double Gamma3,
-			double Gamma4, double Gamma5);
+	void TransformaContorno(double *L, double *B, double *E, double *a, double *v, double *p, int modo, double Gamma1,
+		double Gamma3, double Gamma4, double Gamma5);
 
-	double CalculaNIT(double a, double v, double p, double d, double Gamma,
-			double R);
+	double CalculaNIT(double a, double v, double p, double d, double Gamma, double R);
 
 	//void FuncionTVD();
 
-	void Calculo_Entropia(double *entropia, double *velocidadp, int ind,
-			double dist, int signo, double DeltaTiempo, int indiceCC,
-			nmPipeEnd TipoExtremoTubo);
+	void Calculo_Entropia(double *entropia, double *velocidadp, int ind, double dist, int signo, double DeltaTiempo,
+		int indiceCC, nmPipeEnd TipoExtremoTubo);
 
-	void Calculo_Caracteristica(double *caracteristica, double *velocidadp,
-			double *asonidop, int ind, double dist, int signo, double entropia,
-			double DeltaTiempo, nmPipeEnd TipoExtremoTubo);
+	void Calculo_Caracteristica(double *caracteristica, double *velocidadp, double *asonidop, int ind, double dist,
+		int signo, double entropia, double DeltaTiempo, nmPipeEnd TipoExtremoTubo);
 
 	void CalculaB();
 
@@ -356,14 +341,12 @@ public:
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
 
-	TCanalDPF(int NumeroEspecies, int j, nmTipoCalculoEspecies CalculoEspecies,
-			nmCalculoGamma CalculoGamma, bool HayEGR, TDPF *DPF,
-			int numerocanal, int NumeroDPF);
+	TCanalDPF(int NumeroEspecies, int j, nmTipoCalculoEspecies CalculoEspecies, nmCalculoGamma CalculoGamma,
+		bool HayEGR, TDPF *DPF, int numerocanal, int NumeroDPF);
 
 	~TCanalDPF();
 
-	void LeeDatosGeneralesCanal(const char *FileWAM, fpos_t &filepos,
-			int NodoIzquierdo, int NodoDerecho);
+	void LeeDatosGeneralesCanal(const char *FileWAM, fpos_t &filepos, int NodoIzquierdo, int NodoDerecho);
 
 	void LeeDatosGeometricosCanal(const char *FileWAM, fpos_t &filepos);
 
@@ -379,19 +362,15 @@ public:
 
 	void ReduccionFlujoSubsonicoFCT();
 
-	void LeeResultadosMediosCanalDPF(int NumResMedios, char *FileWAM,
-			fpos_t &filepos);
+	void LeeResultadosMediosCanalDPF(int NumResMedios, char *FileWAM, fpos_t &filepos);
 
-	void CabeceraResultadosMedios(std::stringstream& medoutput,
-			stEspecies *DatosEspecies) const;
+	void CabeceraResultadosMedios(std::stringstream& medoutput, stEspecies *DatosEspecies) const;
 
 	void ImprimeResultadosMedios(std::stringstream& medoutput) const;
 
-	void LeeResultadosInstantaneosCanalDPF(int NumResInstantaneos,
-			char *FileWAM, fpos_t &filepos);
+	void LeeResultadosInstantaneosCanalDPF(int NumResInstantaneos, char *FileWAM, fpos_t &filepos);
 
-	void CabeceraResultadosInstantaneos(std::stringstream& insoutput,
-			stEspecies *DatosEspecies) const;
+	void CabeceraResultadosInstantaneos(std::stringstream& insoutput, stEspecies *DatosEspecies) const;
 
 	void ImprimeResultadosInstantaneos(std::stringstream& insoutput) const;
 
@@ -403,13 +382,12 @@ public:
 
 	void AjustaPaso(double Intervalo);
 
-	void CalculaCaracteristicasExtremos(TCondicionContorno **CC,
-			double DeltaTiempo);
+	void CalculaCaracteristicasExtremos(TCondicionContorno **CC, double DeltaTiempo);
 
 	double Interpola_Entropia(nmPipeEnd TipoExtremoTubo, double DeltaTiempo);
 
-	double Interpola_Caracteristica(double entropia, int signo, int extremo,
-			double DeltaTiempo, nmPipeEnd TipoExtremoTubo);
+	double Interpola_Caracteristica(double entropia, int signo, int extremo, double DeltaTiempo,
+		nmPipeEnd TipoExtremoTubo);
 
 	void ComunicacionCanal_CC(TCondicionContorno **CC);
 

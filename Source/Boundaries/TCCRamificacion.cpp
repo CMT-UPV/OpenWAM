@@ -36,11 +36,9 @@
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TCCRamificacion::TCCRamificacion(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TCCRamificacion::TCCRamificacion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 
@@ -101,8 +99,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 		ContadorTubosRamificacion = 0;
 
 		for (int i = 0; i < NumberOfPipes; i++) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC
-					|| Pipe[i]->getNodoDer() == FNumeroCC) {
+			if (Pipe[i]->getNodoIzq() == FNumeroCC || Pipe[i]->getNodoDer() == FNumeroCC) {
 				ContadorTubosRamificacion++;
 			}
 		}
@@ -153,15 +150,12 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		FMasaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-			FFraccionMasicaEspecie[i] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 			// Se inicializa con el Pipe 0 de modo arbitrario.
 		}
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCCRamificacion::AsignaTubos en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCRamificacion::AsignaTubos en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -183,9 +177,7 @@ void TCCRamificacion::TuboCalculandose(int TuboActual) {
 			}
 		}
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCCRamificacion::TuboCalculandose en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCRamificacion::TuboCalculandose en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -196,8 +188,7 @@ void TCCRamificacion::TuboCalculandose(int TuboActual) {
 
 void TCCRamificacion::CalculaCondicionContorno(double Time) {
 	try {
-		double sonido_supuesta_ad, sonido_ant_ad, entropia_entrante,
-				corr_entropia;
+		double sonido_supuesta_ad, sonido_ant_ad, entropia_entrante, corr_entropia;
 		double suma1 = 0., suma2 = 0., sm1 = 0., sm2 = 0., sm3 = 0.;
 		int TuboCalculado = 0;
 		double DeltaT, MasaTotal = 0., g, m, FraccionMasicaAcum = 0.;
@@ -218,13 +209,12 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 					TuboCalculado = i;
 				}
 			}
-			FGamma = FTuboExtremo[TuboCalculado].Pipe->GetGamma(
-					FNodoFin[TuboCalculado]);
+			FGamma = FTuboExtremo[TuboCalculado].Pipe->GetGamma(FNodoFin[TuboCalculado]);
 		}
 		// FGamma=FTuboExtremo[TuboCalculado].Pipe->GetGamma(FNodoFin[TuboCalculado]);
-		FGamma1 = __gamma::G1(FGamma);
-		FGamma3 = __gamma::G3(FGamma);
-		FGamma4 = __gamma::G4(FGamma);
+		FGamma1 = __Gamma::G1(FGamma);
+		FGamma3 = __Gamma::G3(FGamma);
+		FGamma4 = __Gamma::G4(FGamma);
 
 		for (int i = 0; i < FNumeroTubosCC; i++) {
 			FEntropia[i] = FTuboExtremo[i].Entropia;
@@ -235,11 +225,8 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			suma1 = 0.;
 			suma2 = 0.;
 			for (int i = 0; i < FNumeroTubosCC; i++) {
-				suma1 = suma1
-						+ (*FCC[i]) * FSeccionTubo[i] / pow2(FEntropia[i]);
-				suma2 = suma2
-						+ FTuboExtremo[i].Entropia * FSeccionTubo[i]
-								/ pow2(FEntropia[i]);
+				suma1 = suma1 + (*FCC[i]) * FSeccionTubo[i] / pow2(FEntropia[i]);
+				suma2 = suma2 + FTuboExtremo[i].Entropia * FSeccionTubo[i] / pow2(FEntropia[i]);
 			}
 			sonido_ant_ad = sonido_supuesta_ad;
 			sonido_supuesta_ad = suma1 / suma2; // Velocity del sonido adimensionalizada (si las variables fuesen dimensionales).
@@ -251,9 +238,7 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			 de la velocidad solo para extremo derecho. Para el extremo izquierdo,esta multiplicada
 			 por un signo negativo. */
 			for (int i = 0; i < FNumeroTubosCC; i++) {
-				FVelocity[i] = (*FCC[i]
-						- sonido_supuesta_ad * FTuboExtremo[i].Entropia)
-						/ FGamma3;
+				FVelocity[i] = (*FCC[i] - sonido_supuesta_ad * FTuboExtremo[i].Entropia) / FGamma3;
 			}
 
 			/* Calculo de la entropia de los tubos entrantes (el flujo entra en ellos).
@@ -280,23 +265,19 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			}
 			for (int i = 0; i < FNumeroTubosCC; i++) {
 				FEntropia[i] = FTuboExtremo[i].Entropia;
-				if (FVelocity[i] < 0) { // Flujo entrante al tubo
+				if (FVelocity[i] < 0) {  // Flujo entrante al tubo
 					FEntropia[i] = entropia_entrante;
 				}
 			}
-		} while ((sonido_supuesta_ad - sonido_ant_ad) / (sonido_ant_ad + 0.01)
-				> 1e-4);
+		} while ((sonido_supuesta_ad - sonido_ant_ad) / (sonido_ant_ad + 0.01) > 1e-4);
 
 		/* Calculo de las caracteristicas y la entropia en los extremos del tubo que se
 		 esta calculando, una vez resuelta la condicion de contorno */
 		if (TuboCalculado != 10000) {
-			corr_entropia = FTuboExtremo[TuboCalculado].Entropia
-					/ FEntropia[TuboCalculado];
-			*FCC[TuboCalculado] = (*FCC[TuboCalculado]
-					+ FGamma3 * FVelocity[TuboCalculado] * (corr_entropia - 1))
-					/ corr_entropia;
-			*FCD[TuboCalculado] = *FCC[TuboCalculado]
-					- FGamma1 * FVelocity[TuboCalculado];
+			corr_entropia = FTuboExtremo[TuboCalculado].Entropia / FEntropia[TuboCalculado];
+			*FCC[TuboCalculado] = (*FCC[TuboCalculado] + FGamma3 * FVelocity[TuboCalculado] * (corr_entropia - 1))
+				/ corr_entropia;
+			*FCD[TuboCalculado] = *FCC[TuboCalculado] - FGamma1 * FVelocity[TuboCalculado];
 			FTuboExtremo[TuboCalculado].Entropia = FEntropia[TuboCalculado];
 
 			double ason = (*FCC[TuboCalculado] + *FCD[TuboCalculado]) / 2;
@@ -317,24 +298,16 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 		} else {
 			for (int i = 0; i < FNumeroTubosCC; i++) {
 				corr_entropia = FTuboExtremo[i].Entropia / FEntropia[i];
-				*FCC[i] = (*FCC[i]
-						+ FGamma3 * FVelocity[i] * (corr_entropia - 1))
-						/ corr_entropia;
+				*FCC[i] = (*FCC[i] + FGamma3 * FVelocity[i] * (corr_entropia - 1)) / corr_entropia;
 				*FCD[i] = *FCC[i] - FGamma1 * FVelocity[i];
 				FTuboExtremo[i].Entropia = FEntropia[i];
-				double Machx = fabs(*FCC[i] - *FCD[i]) / (*FCC[i] + *FCD[i]) * 2
-						/ FGamma1;
+				double Machx = fabs(*FCC[i] - *FCD[i]) / (*FCC[i] + *FCD[i]) * 2 / FGamma1;
 				if (Machx > 1) {
 					printf("Sonic condition in boundary: %d\n", FNumeroCC);
 					double Machy = Machx / fabs(Machx)
-							* sqrt(
-									(pow2(Machx) + 2. / FGamma1)
-											/ (FGamma4 * pow2(Machx) - 1.));
+						* sqrt((pow2(Machx) + 2. / FGamma1) / (FGamma4 * pow2(Machx) - 1.));
 					double asonido = (*FCC[i] + *FCD[i]) / 2;
-					double Sonidoy = asonido
-							* sqrt(
-									(FGamma3 * pow2(Machx) + 1.)
-											/ (FGamma3 * pow2(Machy) + 1.));
+					double Sonidoy = asonido * sqrt((FGamma3 * pow2(Machx) + 1.) / (FGamma3 * pow2(Machy) + 1.));
 
 					double Velocidady = Sonidoy * Machy;
 					*FCC[i] = Sonidoy + FGamma3 * Velocidady;
@@ -348,17 +321,13 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 			FMasaEspecie[j] = 0.;
 		}
 		for (int i = 0; i < FNumeroTubosCC; i++) {
-			if (FVelocity[i] > 0.) { // Flujo Saliente del tubo
-				FDensidad[i] = pow(
-						((*FCC[i] + *FCD[i]) / 2) / FTuboExtremo[i].Entropia,
-						FGamma4);
+			if (FVelocity[i] > 0.) {  // Flujo Saliente del tubo
+				FDensidad[i] = pow(((*FCC[i] + *FCD[i]) / 2) / FTuboExtremo[i].Entropia, FGamma4);
 				g = FDensidad[i] * FSeccionTubo[i] * FVelocity[i];
 				m = g * DeltaT;
 				MasaTotal += m;
 				for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-					FMasaEspecie[j] +=
-							FTuboExtremo[i].Pipe->GetFraccionMasicaCC(
-									FIndiceCC[i], j) * m;
+					FMasaEspecie[j] += FTuboExtremo[i].Pipe->GetFraccionMasicaCC(FIndiceCC[i], j) * m;
 				}
 			}
 		}
@@ -368,17 +337,14 @@ void TCCRamificacion::CalculaCondicionContorno(double Time) {
 				FFraccionMasicaEspecie[j] = FMasaEspecie[j] / MasaTotal;
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
-			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-					- FraccionMasicaAcum;
+			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 			if (FHayEGR)
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-						FMasaEspecie[FNumeroEspecies - 1] / MasaTotal;
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie[FNumeroEspecies - 1] / MasaTotal;
 		}
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TCCRamificacion::CalculaCondicionContorno en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCRamificacion::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

@@ -75,16 +75,14 @@ public:
 	}
 	;
 
-	TCCExtremoInyeccion(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCExtremoInyeccion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExtremoInyeccion();
 
 	void CalculaCondicionContorno(double Time);
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void ObtencionValoresInstantaneos(double Theta);
 

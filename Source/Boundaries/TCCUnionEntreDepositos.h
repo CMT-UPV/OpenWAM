@@ -138,9 +138,8 @@ public:
 	}
 	;
 
-	TCCUnionEntreDepositos(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCUnionEntreDepositos(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCUnionEntreDepositos();
 
@@ -152,8 +151,7 @@ public:
 
 	void AsignaDepositos(TDeposito **Plenum);
 
-	void CalculaCoeficientesDescarga(double Angulo, double mfcomb = 0.,
-			double RegimenMotor = 0.);
+	void CalculaCoeficientesDescarga(double Angulo, double mfcomb = 0., double RegimenMotor = 0.);
 
 	void LeeResultadosInstantUED(const char *FileWAM, fpos_t &filepos);
 

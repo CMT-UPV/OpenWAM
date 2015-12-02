@@ -65,8 +65,7 @@ public:
 
 	void ReadTurbinPosition(FILE *Input, int rows, double pos, double ang);
 
-	void EffectiveArea(double Area, bool CalculaGR, double Diam1, double Diam2,
-			double Diam3, double n_limit);
+	void EffectiveArea(double Area, bool CalculaGR, double Diam1, double Diam2, double Diam3, double n_limit);
 
 	void CalculatePower(double Tin);
 

@@ -45,14 +45,12 @@ private:
 protected:
 
 public:
-	TCCExternalConnectionVol(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCExternalConnectionVol(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExternalConnectionVol();
 
-	void UpdateCurrentExternalProperties(double U0, double T0, double P0,
-			double t);
+	void UpdateCurrentExternalProperties(double U0, double T0, double P0, double t);
 
 	void AsignGeometricalData(double D0, double deltaX);
 
@@ -60,8 +58,7 @@ public:
 
 	void CalculaCondicionContorno(double Time);
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	int GetID() {
 		return FID;

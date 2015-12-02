@@ -53,11 +53,9 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TCCUnionEntreDepositos::TCCUnionEntreDepositos(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TCCUnionEntreDepositos::TCCUnionEntreDepositos(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
+	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 	FValvula = NULL;
 	FGasto = 0.;
 	FGastoImpreso = 0.;
@@ -91,8 +89,7 @@ TCCUnionEntreDepositos::~TCCUnionEntreDepositos() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM,
-		fpos_t &filepos, bool Independent) {
+void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM, fpos_t &filepos, bool Independent) {
 	try {
 		int numid = 0; // Variable necesaria para WAMer.
 
@@ -109,9 +106,8 @@ void TCCUnionEntreDepositos::LeeUEDepositos(const char *FileWAM,
 		fclose(fich);
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::LeeNumDepositos en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -133,9 +129,8 @@ void TCCUnionEntreDepositos::AsignaDepositos(TDeposito **Plenum) {
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::AsignaDepositos en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::AsignaDepositos en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -144,50 +139,39 @@ void TCCUnionEntreDepositos::AsignaDepositos(TDeposito **Plenum) {
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::AsignaTipoValvula(TTipoValvula **Origen, int Valv,
-		int i) {
+void TCCUnionEntreDepositos::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 	try {
 
 		switch (Origen[Valv - 1]->getTypeOfValve()) {
 		case nmCDFijo:
-			FValvula = new TCDFijo(dynamic_cast<TCDFijo *>(Origen[Valv - 1]),
-					i);
+			FValvula = new TCDFijo(dynamic_cast<TCDFijo *>(Origen[Valv - 1]), i);
 			break;
 		case nmValvula4T:
-			FValvula = new TValvula4T(
-					dynamic_cast<TValvula4T *>(Origen[Valv - 1]), i);
+			FValvula = new TValvula4T(dynamic_cast<TValvula4T *>(Origen[Valv - 1]), i);
 			break;
 		case nmLamina:
-			FValvula = new TLamina(dynamic_cast<TLamina *>(Origen[Valv - 1]),
-					i);
+			FValvula = new TLamina(dynamic_cast<TLamina *>(Origen[Valv - 1]), i);
 			break;
 		case nmDiscoRotativo:
-			FValvula = new TDiscoRotativo(
-					dynamic_cast<TDiscoRotativo *>(Origen[Valv - 1]), i);
+			FValvula = new TDiscoRotativo(dynamic_cast<TDiscoRotativo *>(Origen[Valv - 1]), i);
 			break;
 		case nmLumbrera2T:
-			FValvula = new TLumbrera(
-					dynamic_cast<TLumbrera *>(Origen[Valv - 1]), i);
+			FValvula = new TLumbrera(dynamic_cast<TLumbrera *>(Origen[Valv - 1]), i);
 			break;
 		case nmValvulaContr:
-			FValvula = new TValvulaContr(
-					dynamic_cast<TValvulaContr *>(Origen[Valv - 1]), i);
+			FValvula = new TValvulaContr(dynamic_cast<TValvulaContr *>(Origen[Valv - 1]), i);
 			break;
 		case nmWasteGate:
-			FValvula = new TWasteGate(
-					dynamic_cast<TWasteGate *>(Origen[Valv - 1]), i);
+			FValvula = new TWasteGate(dynamic_cast<TWasteGate *>(Origen[Valv - 1]), i);
 			break;
 		case nmStator:
-			FValvula = new TEstatorTurbina(
-					dynamic_cast<TEstatorTurbina *>(Origen[Valv - 1]), i);
+			FValvula = new TEstatorTurbina(dynamic_cast<TEstatorTurbina *>(Origen[Valv - 1]), i);
 			break;
 		case nmRotor:
-			FValvula = new TRotorTurbina(
-					dynamic_cast<TRotorTurbina *>(Origen[Valv - 1]), i);
+			FValvula = new TRotorTurbina(dynamic_cast<TRotorTurbina *>(Origen[Valv - 1]), i);
 			break;
 		case nmCalcExtern:
-			FValvula = new TCDExterno(
-					dynamic_cast<TCDExterno *>(Origen[Valv - 1]), i);
+			FValvula = new TCDExterno(dynamic_cast<TCDExterno *>(Origen[Valv - 1]), i);
 			break;
 		}
 
@@ -204,9 +188,8 @@ void TCCUnionEntreDepositos::AsignaTipoValvula(TTipoValvula **Origen, int Valv,
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::AsignaTipoValvula en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::AsignaTipoValvula en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -215,8 +198,7 @@ void TCCUnionEntreDepositos::AsignaTipoValvula(TTipoValvula **Origen, int Valv,
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
-		double mfcomb, double RegimenMotor) {
+void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb, double RegimenMotor) {
 	try {
 
 		double PVol = 0., PTub = 0., PAdm = 0., DeltaP = 0., distancia = 0., CDExt = 0., nodoadm = 0., p1 = 0., p2 = 0.;
@@ -227,10 +209,8 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 			FTime0 = FTime1;
 			FTime1 = TiempoActual;
 			FDeltaT = FTime1 - FTime0;
-			FDeltaAngulo =
-					360. * FRegimen
-							* dynamic_cast<TDepVolVariable*>(FDeposito1)->getRelacionVelocidades()
-							/ 60. * FDeltaT;
+			FDeltaAngulo = 360. * FRegimen * dynamic_cast<TDepVolVariable*>(FDeposito1)->getRelacionVelocidades() / 60.
+				* FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
 			if (FAnguloActual > 360.) {
@@ -247,8 +227,7 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 			FTime0 = FTime1;
 			FTime1 = TiempoActual;
 			FDeltaT = FTime1 - FTime0;
-			FDeltaAngulo = 360. * FRegimen * FValvula->getRelacionVelocidades()
-					/ 60. * FDeltaT;
+			FDeltaAngulo = 360. * FRegimen * FValvula->getRelacionVelocidades() / 60. * FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
 			if (FAnguloActual > 360.) {
@@ -265,8 +244,7 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 			FTime0 = FTime1;
 			FTime1 = TiempoActual;
 			FDeltaT = FTime1 - FTime0;
-			FDeltaAngulo = 360. * FRegimen * FValvula->getRelacionVelocidades()
-					/ 60. * FDeltaT;
+			FDeltaAngulo = 360. * FRegimen * FValvula->getRelacionVelocidades() / 60. * FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
 			if (FAnguloActual > 360.) {
@@ -312,8 +290,7 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 			break;
 
 		case nmValvulaContr:
-			dynamic_cast<TValvulaContr *>(FValvula)->CalculaCD(FAnguloActual,
-					mfcomb);
+			dynamic_cast<TValvulaContr *>(FValvula)->CalculaCD(FAnguloActual, mfcomb);
 			break;
 
 		case nmWasteGate:
@@ -321,13 +298,10 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 			PVol = FDeposito2->getPressure();
 			nodoadm = dynamic_cast<TWasteGate *>(FValvula)->getNodoAdm();
 			distancia = dynamic_cast<TWasteGate *>(FValvula)->getDist();
-			p1 = dynamic_cast<TWasteGate *>(FValvula)->getTuboAdm()->GetPresion(
-					nodoadm);
-			p2 = dynamic_cast<TWasteGate *>(FValvula)->getTuboAdm()->GetPresion(
-					nodoadm + 1);
+			p1 = dynamic_cast<TWasteGate *>(FValvula)->getTuboAdm()->GetPresion(nodoadm);
+			p2 = dynamic_cast<TWasteGate *>(FValvula)->getTuboAdm()->GetPresion(nodoadm + 1);
 			PAdm = InterpolaDeposito(p1, p2, 1.0, distancia);
-			dynamic_cast<TWasteGate *>(FValvula)->CalculaCD(PAdm, PTub, PVol,
-					TiempoActual);
+			dynamic_cast<TWasteGate *>(FValvula)->CalculaCD(PAdm, PTub, PVol, TiempoActual);
 			break;
 
 		case nmStator:
@@ -350,27 +324,24 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 
 		if (FCDEntrada > 2.0 || FCDEntrada < 0.0) {
 			printf(
-					"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga entrante: %lf, en %lf grados,en la condicion de contorno: %d\n",
-					FCDEntrada, FAnguloActual, FNumeroCC);
+				"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga entrante: %lf, en %lf grados,en la condicion de contorno: %d\n",
+				FCDEntrada, FAnguloActual, FNumeroCC);
 			throw Exception(
-					"ERROR:TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: "
-							+ std::to_string(FCDEntrada) + ", en "
-							+ std::to_string(FAnguloActual) + " grados ");
+				"ERROR:TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: "
+					+ std::to_string(FCDEntrada) + ", en " + std::to_string(FAnguloActual) + " grados ");
 
 		}
 		if (FCDSalida > 1.0 || FCDSalida < 0.0) {
 			printf(
-					"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",
-					FCDSalida, FAnguloActual, FNumeroCC);
+				"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",
+				FCDSalida, FAnguloActual, FNumeroCC);
 			throw Exception(
-					"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: "
-							+ std::to_string(FCDSalida) + ", en "
-							+ std::to_string(FAnguloActual) + " grados ");
+				"ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: "
+					+ std::to_string(FCDSalida) + ", en " + std::to_string(FAnguloActual) + " grados ");
 		}
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::CalculaCoeficientesDescarga en la condicion de contorno: "
+			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -379,8 +350,7 @@ void TCCUnionEntreDepositos::CalculaCoeficientesDescarga(double TiempoActual,
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-double TCCUnionEntreDepositos::InterpolaDeposito(double vizq, double vder,
-		double axid, double xif) {
+double TCCUnionEntreDepositos::InterpolaDeposito(double vizq, double vder, double axid, double xif) {
 	try {
 		double xx = 0., yy = 0., ret_val = 0.;
 
@@ -389,16 +359,13 @@ double TCCUnionEntreDepositos::InterpolaDeposito(double vizq, double vder,
 			yy = (xx / axid) * xif;
 			ret_val = vizq + yy;
 		} else {
-			std::cout
-					<< "ERROR: valores entrada TCCUnionEntreDepositos::InterpolaDeposito: "
-					<< std::endl;
+			std::cout << "ERROR: valores entrada TCCUnionEntreDepositos::InterpolaDeposito: " << std::endl;
 			throw Exception(" ");
 		}
 		return ret_val;
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::InterpolaDeposito en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::InterpolaDeposito en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -424,8 +391,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			 FAsonidoDep2SUM+=FDeposito2->getSpeedsound()*(FTiempoActual-FDeposito2->getTiempo());
 			 FTiempoDep2SUM+=(FTiempoActual-FDeposito2->getTiempo());   */
 
-			double p0, p1, T0,/*T1,*/gasto_isen, a0, FraccionMasicaAcum = 0.,
-					Massflow;
+			double p0, p1, T0,/*T1,*/gasto_isen, a0, FraccionMasicaAcum = 0., Massflow;
 			double paso1 = 0., paso2 = 0., paso3 = 0., paso4 = 0.;
 			int signodep1 = 0, signodep2 = 0;
 
@@ -436,8 +402,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 				FGamma = FDeposito1->getGamma();
 				FRMezcla = FDeposito1->getR();
 				p0 = __units::BarToPa(FDeposito1->getPressure());
-				T0 = pow2(FDeposito1->getSpeedsound() * __cons::ARef)
-						/ (FGamma * FRMezcla);
+				T0 = pow2(FDeposito1->getSpeedsound() * __cons::ARef) / (FGamma * FRMezcla);
 				Fa0 = FDeposito1->getSpeedsound();
 				//Fa1=FDeposito2->getSpeedsound();
 				p1 = __units::BarToPa(FDeposito2->getPressure());
@@ -447,19 +412,17 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 				FGamma = FDeposito2->getGamma();
 				FRMezcla = FDeposito2->getR();
 				p0 = __units::BarToPa(FDeposito2->getPressure());
-				T0 = pow2(FDeposito2->getSpeedsound() * __cons::ARef)
-						/ (FGamma * FRMezcla);
+				T0 = pow2(FDeposito2->getSpeedsound() * __cons::ARef) / (FGamma * FRMezcla);
 				Fa0 = FDeposito2->getSpeedsound();
 				//Fa1=FDeposito1->getSpeedsound();
 				p1 = __units::BarToPa(FDeposito1->getPressure());
 				//T1=pow(FDeposito1->getSpeedsound()*__cons::ARef,2)/(FGamma*FRMezcla);
 			}
 
-			FGamma1 = __gamma::G1(FGamma);
-			FGamma2 = __gamma::G2(FGamma);
+			FGamma1 = __Gamma::G1(FGamma);
+			FGamma2 = __Gamma::G2(FGamma);
 
-			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0 * sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
 			paso4 = sqrt(paso2 - paso3);
@@ -474,8 +437,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) { /* Flujo del deposito 1 al deposito 2 */
 				Massflow = FCDSalida * gasto_isen;
 				FGasto = 0.9 * FGasto + 0.1 * Massflow;
-				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
-						/ (p0 / (FRMezcla * T0));
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro())) / (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Saliente -1*/
 				FSentidoFlujoED2 = 1; /* Entrante */
 				FGastoImpreso = FGasto; /* Al imprimir resultados se considera negativo si va del deposito
@@ -483,44 +445,36 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 				//Transporte de especies quimicas.
 				for (int j = 0; j < FNumeroEspecies - 2; j++) {
-					FFraccionMasicaEspecie[j] =
-							FDeposito1->GetFraccionMasicaEspecie(j);
+					FFraccionMasicaEspecie[j] = FDeposito1->GetFraccionMasicaEspecie(j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
-				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-						- FraccionMasicaAcum;
+				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-							FDeposito1->GetFraccionMasicaEspecie(
-									FNumeroEspecies - 1);
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito1->GetFraccionMasicaEspecie(
+						FNumeroEspecies - 1);
 
 			} else { /* Flujo del deposito 2 al deposito 1 */
 				Massflow = FCDEntrada * gasto_isen;
 				FGasto = 0.9 * FGasto - 0.1 * Massflow;
-				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
-						/ (p0 / (FRMezcla * T0));
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro())) / (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Entrante */
 				FSentidoFlujoED2 = 1; /* Saliente -1*/
 				FGastoImpreso = FGasto;
 
 				//Transporte de especies quimicas.
 				for (int j = 0; j < FNumeroEspecies - 2; j++) {
-					FFraccionMasicaEspecie[j] =
-							FDeposito2->GetFraccionMasicaEspecie(j);
+					FFraccionMasicaEspecie[j] = FDeposito2->GetFraccionMasicaEspecie(j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
-				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-						- FraccionMasicaAcum;
+				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-							FDeposito2->GetFraccionMasicaEspecie(
-									FNumeroEspecies - 1);
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito2->GetFraccionMasicaEspecie(
+						FNumeroEspecies - 1);
 			}
 
 		} else {
 
-			double p0, p1, T0, T1, gasto_isen, a0, FraccionMasicaAcum = 0.,
-					Massflow;
+			double p0, p1, T0, T1, gasto_isen, a0, FraccionMasicaAcum = 0., Massflow;
 			double paso1 = 0., paso2 = 0., paso3 = 0., paso4 = 0.;
 			int signodep1 = 0, signodep2 = 0;
 
@@ -528,8 +482,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 				FGamma = FDeposito1->getGamma();
 				FRMezcla = FDeposito1->getR();
 				p0 = __units::BarToPa(FDeposito1->getPressure());
-				T0 = pow2(FDeposito1->getSpeedsound() * __cons::ARef)
-						/ (FGamma * FRMezcla);
+				T0 = pow2(FDeposito1->getSpeedsound() * __cons::ARef) / (FGamma * FRMezcla);
 				Fa0 = FDeposito1->getSpeedsound();
 				//Fa1=FDeposito2->getSpeedsound();
 				p1 = __units::BarToPa(FDeposito2->getPressure());
@@ -539,19 +492,17 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 				FGamma = FDeposito2->getGamma();
 				FRMezcla = FDeposito2->getR();
 				p0 = __units::BarToPa(FDeposito2->getPressure());
-				T0 = pow2(FDeposito2->getSpeedsound() * __cons::ARef)
-						/ (FGamma * FRMezcla);
+				T0 = pow2(FDeposito2->getSpeedsound() * __cons::ARef) / (FGamma * FRMezcla);
 				Fa0 = FDeposito2->getSpeedsound();
 				//Fa1=FDeposito1->getSpeedsound();
 				p1 = __units::BarToPa(FDeposito1->getPressure());
 				//T1=pow(FDeposito1->getSpeedsound()*__cons::ARef,2)/(FGamma*FRMezcla);
 			}
 
-			FGamma1 = __gamma::G1(FGamma);
-			FGamma2 = __gamma::G2(FGamma);
+			FGamma1 = __Gamma::G1(FGamma);
+			FGamma2 = __Gamma::G2(FGamma);
 
-			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0 * sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
 			paso4 = sqrt(paso2 - paso3);
@@ -565,8 +516,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) { /* Flujo del deposito 1 al deposito 2 */
 				FGasto = FCDSalida * gasto_isen;
-				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
-						/ (p0 / (FRMezcla * T0));
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro())) / (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Saliente */
 				FSentidoFlujoED2 = 1; /* Entrante */
 				FGastoImpreso = FGasto; /* Al imprimir resultados se considera negativo si va del deposito
@@ -574,44 +524,36 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 				//Transporte de especies quimicas.
 				for (int j = 0; j < FNumeroEspecies - 2; j++) {
-					FFraccionMasicaEspecie[j] =
-							FDeposito1->GetFraccionMasicaEspecie(j);
+					FFraccionMasicaEspecie[j] = FDeposito1->GetFraccionMasicaEspecie(j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
-				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-						- FraccionMasicaAcum;
+				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-							FDeposito1->GetFraccionMasicaEspecie(
-									FNumeroEspecies - 1);
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito1->GetFraccionMasicaEspecie(
+						FNumeroEspecies - 1);
 
 			} else { /* Flujo del deposito 2 al deposito 1 */
 				FGasto = FCDEntrada * gasto_isen;
-				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
-						/ (p0 / (FRMezcla * T0));
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro())) / (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = 1; /* Entrante */
 				FSentidoFlujoED2 = -1; /* Saliente */
 				FGastoImpreso = FGasto;
 
 				//Transporte de especies quimicas.
 				for (int j = 0; j < FNumeroEspecies - 2; j++) {
-					FFraccionMasicaEspecie[j] =
-							FDeposito2->GetFraccionMasicaEspecie(j);
+					FFraccionMasicaEspecie[j] = FDeposito2->GetFraccionMasicaEspecie(j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
-				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-						- FraccionMasicaAcum;
+				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-							FDeposito2->GetFraccionMasicaEspecie(
-									FNumeroEspecies - 1);
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito2->GetFraccionMasicaEspecie(
+						FNumeroEspecies - 1);
 			}
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::CalculaCondicionContorno en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::CalculaCondicionContorno en la condicion de contorno: "
+			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -638,11 +580,10 @@ void TCCUnionEntreDepositos::CalculaUED() {
 			Fa1 = FAsonidoDep2SUM / FTiempoDep2SUM;
 			p1 = __units::BarToPa(FPresionDep2);
 
-			FGamma1 = __gamma::G1(FGamma);
-			FGamma2 = __gamma::G2(FGamma);
+			FGamma1 = __Gamma::G1(FGamma);
+			FGamma2 = __Gamma::G2(FGamma);
 
-			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0 * sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
 			paso4 = sqrt(paso2 - paso3);
@@ -658,11 +599,10 @@ void TCCUnionEntreDepositos::CalculaUED() {
 			Fa1 = FAsonidoDep1SUM / FTiempoDep1SUM;
 			p1 = __units::BarToPa(FPresionDep1);
 
-			FGamma1 = __gamma::G1(FGamma);
-			FGamma2 = __gamma::G2(FGamma);
+			FGamma1 = __Gamma::G1(FGamma);
+			FGamma2 = __Gamma::G2(FGamma);
 
-			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0
-					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
+			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0 * sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
 			paso4 = sqrt(paso2 - paso3);
@@ -684,16 +624,12 @@ void TCCUnionEntreDepositos::CalculaUED() {
 
 			//Transporte de especies quimicas.
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
-				FFraccionMasicaEspecie[j] =
-						FDeposito1->GetFraccionMasicaEspecie(j);
+				FFraccionMasicaEspecie[j] = FDeposito1->GetFraccionMasicaEspecie(j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
-			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-					- FraccionMasicaAcum;
+			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 			if (FHayEGR)
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-						FDeposito1->GetFraccionMasicaEspecie(
-								FNumeroEspecies - 1);
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito1->GetFraccionMasicaEspecie(FNumeroEspecies - 1);
 
 		} else if (FPresionDep2 > FPresionDep1) { /* Flujo del deposito 2 al deposito 1 */
 			FGasto = FCDSalida * gasto_isen;
@@ -703,16 +639,12 @@ void TCCUnionEntreDepositos::CalculaUED() {
 
 			//Transporte de especies quimicas.
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
-				FFraccionMasicaEspecie[j] =
-						FDeposito2->GetFraccionMasicaEspecie(j);
+				FFraccionMasicaEspecie[j] = FDeposito2->GetFraccionMasicaEspecie(j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
-			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-					- FraccionMasicaAcum;
+			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 			if (FHayEGR)
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-						FDeposito2->GetFraccionMasicaEspecie(
-								FNumeroEspecies - 1);
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito2->GetFraccionMasicaEspecie(FNumeroEspecies - 1);
 		}
 
 		FPresionDep1SUM = 0.;
@@ -727,9 +659,8 @@ void TCCUnionEntreDepositos::CalculaUED() {
 		FTiempoDep2SUM = 0.;
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::CalculaUED en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::CalculaUED en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -738,8 +669,7 @@ void TCCUnionEntreDepositos::CalculaUED() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,
-		fpos_t &filepos) {
+void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM, fpos_t &filepos) {
 	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -753,16 +683,13 @@ void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,
 				FResInstantUED.Massflow = true;
 				break;
 			default:
-				std::cout << "Resultados instantaneos en UED(BC) " << FNumeroCC
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados instantaneos en UED(BC) " << FNumeroCC << " no implementados " << std::endl;
 			}
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::LeeResultadosInstantUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::LeeResultadosInstantUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -771,8 +698,7 @@ void TCCUnionEntreDepositos::LeeResultadosInstantUED(const char *FileWAM,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::CabeceraResultadosInstantUED(
-		stringstream& insoutput) {
+void TCCUnionEntreDepositos::CabeceraResultadosInstantUED(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
@@ -784,9 +710,7 @@ void TCCUnionEntreDepositos::CabeceraResultadosInstantUED(
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::CabeceraResultadosInstantUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::CabeceraResultadosInstantUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -801,9 +725,7 @@ void TCCUnionEntreDepositos::ResultadosInstantUED() {
 			FResInstantUED.GastoINS = FGastoImpreso;
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::ResultadosInstantUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::ResultadosInstantUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -812,8 +734,7 @@ void TCCUnionEntreDepositos::ResultadosInstantUED() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::ImprimeResultadosInstantUED(
-		stringstream& insoutput) {
+void TCCUnionEntreDepositos::ImprimeResultadosInstantUED(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 
@@ -822,9 +743,7 @@ void TCCUnionEntreDepositos::ImprimeResultadosInstantUED(
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::ImprimeResultadosInstantUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::ImprimeResultadosInstantUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -833,8 +752,7 @@ void TCCUnionEntreDepositos::ImprimeResultadosInstantUED(
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,
-		fpos_t &filepos) {
+void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM, fpos_t &filepos) {
 	int nvars = 0, var = 0;
 	try {
 		FILE *fich = fopen(FileWAM, "r");
@@ -848,16 +766,13 @@ void TCCUnionEntreDepositos::ReadAverageResultsUED(const char *FileWAM,
 				FResMediosUED.Massflow = true;
 				break;
 			default:
-				std::cout << "Resultados medios en UED(BC) " << FNumeroCC
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados medios en UED(BC) " << FNumeroCC << " no implementados " << std::endl;
 			}
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::ReadAverageResultsUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::ReadAverageResultsUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -872,16 +787,13 @@ void TCCUnionEntreDepositos::HeaderAverageResultsUED(stringstream& medoutput) {
 		std::string Label;
 
 		if (FResMediosUED.Massflow) {
-			Label = "\t" + PutLabel(411) + std::to_string(FNumeroCC)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(411) + std::to_string(FNumeroCC) + PutLabel(904);
 			medoutput << Label.c_str();
 		}
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::HeaderAverageResultsUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::HeaderAverageResultsUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -901,9 +813,7 @@ void TCCUnionEntreDepositos::AcumulaResultadosMediosUED(double Actual) {
 		FResMediosUED.TiempoSUM += Delta;
 		FResMediosUED.Tiempo0 = Actual;
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::AcumulaResultadosMediosUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::AcumulaResultadosMediosUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -915,16 +825,13 @@ void TCCUnionEntreDepositos::AcumulaResultadosMediosUED(double Actual) {
 void TCCUnionEntreDepositos::ResultadosMediosUED() {
 	try {
 		if (FResMediosUED.Massflow) {
-			FResMediosUED.GastoMED = FResMediosUED.GastoSUM
-					/ FResMediosUED.TiempoSUM;
+			FResMediosUED.GastoMED = FResMediosUED.GastoSUM / FResMediosUED.TiempoSUM;
 			FResMediosUED.GastoSUM = 0.;
 		}
 
 		FResMediosUED.TiempoSUM = 0;
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::ResultadosMediosUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::ResultadosMediosUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -932,8 +839,7 @@ void TCCUnionEntreDepositos::ResultadosMediosUED() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCUnionEntreDepositos::ImprimeResultadosMediosUED(
-		stringstream& medoutput) {
+void TCCUnionEntreDepositos::ImprimeResultadosMediosUED(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 
@@ -942,9 +848,7 @@ void TCCUnionEntreDepositos::ImprimeResultadosMediosUED(
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCUnionEntreDepositos::ImprimeResultadosMediosUED en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCUnionEntreDepositos::ImprimeResultadosMediosUED en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

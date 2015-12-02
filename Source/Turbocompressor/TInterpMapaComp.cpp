@@ -30,8 +30,7 @@
 
 #include "TInterpMapaComp.h"
 
-TInterpMapaComp::TInterpMapaComp(dVector Speed, dMatrix Mass, dMatrix Pre,
-		dMatrix Eff) {
+TInterpMapaComp::TInterpMapaComp(dVector Speed, dMatrix Mass, dMatrix Pre, dMatrix Eff) {
 	TCompIsoReg *IsoReg;
 
 	fRegimen = Speed;

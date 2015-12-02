@@ -47,9 +47,8 @@ struct stFESub {
 	double AdAA;
 	double invAdAA;
 
-	stFESub(const double iAA, const double iAd, const double ig,
-			const double iK, const double iCC) :
-			AA(iAA), Ad(iAd), Gam(ig), K(iK), BC(iCC) {
+	stFESub(const double iAA, const double iAd, const double ig, const double iK, const double iCC) :
+	AA(iAA), Ad(iAd), Gam(ig), K(iK), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		AdAA = Ad * AA;
 		invAdAA = 1 / AdAA;
@@ -76,7 +75,7 @@ struct stFESup {
 	double Ga9;
 
 	stFESup(const double ig, const double iK) :
-			Gam(ig), K(iK) {
+	Gam(ig), K(iK) {
 		Ga3 = (Gam - 1) / 2;
 		Ga8 = (Gam + 1) / 2;
 		Ga9 = (Gam - 1) / Ga8;
@@ -104,9 +103,8 @@ struct stFSSub {
 	double invAdAA;
 	double pow2Ac;
 
-	stFSSub(const double iAA, const double iAd, const double ig,
-			const double iK, const double iCC, const double iAc) :
-			AA(iAA), Ad(iAd), Ac(iAc), Gam(ig), K(iK), BC(iCC) {
+	stFSSub(const double iAA, const double iAd, const double ig, const double iK, const double iCC, const double iAc) :
+	AA(iAA), Ad(iAd), Ac(iAc), Gam(ig), K(iK), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		invAdAA = 1 / (AA * Ad);
 		pow2Ac = pow2(Ac);
@@ -137,9 +135,8 @@ struct stFSSup {
 	double invAA;
 	double invFcc;
 
-	stFSSup(const double iAA, const double iFcc, const double ig,
-			const double iK, const double iCC, const double iAc) :
-			AA(iAA), Ac(iAc), Gam(ig), K(iK), BC(iCC), Fcc(iFcc) {
+	stFSSup(const double iAA, const double iFcc, const double ig, const double iK, const double iCC, const double iAc) :
+	AA(iAA), Ac(iAc), Gam(ig), K(iK), BC(iCC), Fcc(iFcc) {
 		Ga3 = (Gam - 1) / 2;
 		invAA = 1 / AA;
 		invFcc = 1 / Fcc;
@@ -156,8 +153,7 @@ struct stFSSup {
 			A2 = 0;
 		}
 		//A2 = sqrt(pow2(Ac) - Ga3 * pow2(U2));
-		double A2_2 = sqrt(
-				U2 * pow((BC + Ga3 * U2) * invAA, Gam / Ga3) * invFcc);
+		double A2_2 = sqrt(U2 * pow((BC + Ga3 * U2) * invAA, Gam / Ga3) * invFcc);
 
 		return A2 - A2_2;
 	}
@@ -178,9 +174,8 @@ struct stRecover {
 	double A1;
 	double invAdAA;
 
-	stRecover(const double iAA, const double iAd, const double ig,
-			const double iCR, const double iCC) :
-			AA(iAA), Ad(iAd), Gam(ig), CR(iCR), BC(iCC) {
+	stRecover(const double iAA, const double iAd, const double ig, const double iCR, const double iCC) :
+	AA(iAA), Ad(iAd), Gam(ig), CR(iCR), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		invAdAA = 1 / (Ad * AA);
 	}
@@ -230,9 +225,8 @@ struct stExpansion {
 	/* CONSTRUCTOR de la funcion, aqui se recibe por orden la informacion pasada por
 	 funcion y se almacena en las variables locales */
 
-	stExpansion(const double iCCS, const double iCCE, const double R_E,
-			const double R_A, const double iGam) :
-			CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
+	stExpansion(const double iCCS, const double iCCE, const double R_E, const double R_A, const double iGam) :
+	CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
 		/* Definicion de aquellas variables internas que se usaran en el operador, pero que no se requiere su acceso, aqui o dentro del operador */
 		Ga2 = Gam + 1;
@@ -247,23 +241,13 @@ struct stExpansion {
 			if (Ga2 / (Gam + rel_area) >= 1) {
 				U2 = (xx2 / (Ga2 * U1));
 			} else {
-				U2 = (xx2 / (Ga2 * U1))
-						* (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
+				U2 = (xx2 / (Ga2 * U1)) * (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
 			}
 		} else {
 			if ((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1) {
 				U2 = xx2 / Ga2;
 			} else {
-				U2 =
-						xx2
-								* (1
-										- sqrt(
-												1.
-														- (xx1 * 2. * Ga2
-																* (pow2(U1)
-																		/ pow2(
-																				xx2)))))
-								/ Ga2;
+				U2 = xx2 * (1 - sqrt(1. - (xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))))) / Ga2;
 			}
 
 			if (U1 == 0) {
@@ -275,8 +259,7 @@ struct stExpansion {
 		A2 = sqrt(xx1 - Ga3 * pow2(U2));
 		xx3 = CCE + Ga3 * U2; // Velocity del sonido corregida, hara falta en el calculo de las caracteristicas//
 		double xx = pow(rel_entropia * xx3, Gam);
-		double xtx = (pow2(A2) + Gam * pow2(U2))
-				/ (((Gam * pow2(U1)) / rel_area + pow2(A1)) * pow2(A2));
+		double xtx = (pow2(A2) + Gam * pow2(U2)) / (((Gam * pow2(U1)) / rel_area + pow2(A1)) * pow2(A2));
 		xtx = pow(xtx, Ga3);
 		double A1p = xx * xtx;
 
@@ -308,9 +291,8 @@ struct stContraction {
 	/* CONSTRUCTOR: Se recibe la informacion por funcion en variables ficticias y se
 	 almacena en las variables locales */
 
-	stContraction(const double iCCS, const double iCCE, const double R_E,
-			const double R_A, const double iGam) :
-			CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
+	stContraction(const double iCCS, const double iCCE, const double R_E, const double R_A, const double iGam) :
+	CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
 		Ga1 = (Gam - 1);
 	}
@@ -371,9 +353,8 @@ struct stPerdPresAd {
 	 informacion se almacena por posicion. En el lado derecho se asocia a cada variable
 	 local el valor de la variable pasada por funcion */
 
-	stPerdPresAd(const double iCC1, const double iCC2, const double iFK,
-			const double iGam, const double iFRE) :
-			CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE) {
+	stPerdPresAd(const double iCC1, const double iCC2, const double iFK, const double iGam, const double iFRE) :
+	CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE) {
 		Ga3 = (Gam - 1) / 2;
 		Ga5 = (Gam - 1) / 2 / Gam;
 	}
@@ -420,9 +401,9 @@ struct stPerdPresAdL {
 	double Ga3;
 	double Ga5;
 
-	stPerdPresAdL(const double iCC1, const double iCC2, const double iFK,
-			const double iGam, const double iFRE, const double iARef) :
-			CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE), ARef(iARef) {
+	stPerdPresAdL(const double iCC1, const double iCC2, const double iFK, const double iGam, const double iFRE,
+		const double iARef) :
+	CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE), ARef(iARef) {
 		Ga3 = (Gam - 1) / 2;
 		Ga5 = (Gam - 1) / 2 / Gam;
 	}
@@ -486,11 +467,9 @@ struct stComprVol {
 	 y que son necesarias para el calculo del operador (tipo de variable y nombre ficticio) y a continuacion
 	 SE ASOCIAN a las variables locales que almacenaran la informacion pasada */
 
-	stComprVol(const double iAA, const double iCC, const double iGam,
-			const double iA, const double iGS, const double iF,
-			const double iPRef, const double iARef) :
-			AA(iAA), BC(iCC), Gam(iGam), A(iA), Gasto_calculado(iGS), F(iF), PRef(
-					iPRef), ARef(iARef) {
+	stComprVol(const double iAA, const double iCC, const double iGam, const double iA, const double iGS,
+		const double iF, const double iPRef, const double iARef) :
+	AA(iAA), BC(iCC), Gam(iGam), A(iA), Gasto_calculado(iGS), F(iF), PRef(iPRef), ARef(iARef) {
 		Ga3 = (Gam - 1) / 2;
 		Ga4 = 2 * Gam / (Gam - 1);
 		CD = 1;
@@ -499,8 +478,7 @@ struct stComprVol {
 
 	double operator()(const double Vel) {
 		double entropia = A * AA / (BC + Ga3 * Vel);
-		U = Gasto_calculado * pow(entropia, Ga4)
-				/ (CD * Gam * F * __units::BarToPa(PRef) / ARef * pow(A, 1 / Ga3));
+		U = Gasto_calculado * pow(entropia, Ga4) / (CD * Gam * F * __units::BarToPa(PRef) / ARef * pow(A, 1 / Ga3));
 
 		return U - Vel;
 	}
@@ -517,10 +495,9 @@ struct stNewCompressorConditions {
 	double Ga3;
 	double Eff;
 
-	stNewCompressorConditions(const double iMass, const double iCC,
-			const double T01, const double P01, const double iEff,
-			const double iGam, const double R, const double Sec) :
-			Mass(iMass), Lambda(iCC), Gam(iGam), Section(Sec), Eff(iEff) {
+	stNewCompressorConditions(const double iMass, const double iCC, const double T01, const double P01,
+		const double iEff, const double iGam, const double R, const double Sec) :
+	Mass(iMass), Lambda(iCC), Gam(iGam), Section(Sec), Eff(iEff) {
 		A01 = sqrt(Gam * R * T01);
 		AA1 = A01 * pow(P01, (1 - Gam) / 2 / Gam);
 		Ga3 = (Gam - 1) / 2;
@@ -531,8 +508,7 @@ struct stNewCompressorConditions {
 		double A2 = Lambda / (1 - Ga3 * Match);
 		double k = pow2(A2) * (1 + Ga3 * Match * Match) / (A01 * A01) - 1;
 		double AA2 = AA1 * sqrt(1 + k) / (k * Eff + 1);
-		double Match2 = Mass
-				/ (Gam * pow(A2 / pow(AA2, Gam), 1 / Ga3) * A2 * Section);
+		double Match2 = Mass / (Gam * pow(A2 / pow(AA2, Gam), 1 / Ga3) * A2 * Section);
 		return Match - Match2;
 
 	}
@@ -550,11 +526,9 @@ struct stCharOrigin {
 	double dtdx;
 	int signo;
 
-	stCharOrigin(const double iW00, const double iW10, const double iW20,
-			const double iW01, const double iW11, const double iW21,
-			const double iG0, const double iG1, const double idtdx, int isigno) :
-			W00(iW00), W10(iW10), W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(
-					iG0), G1(iG1), dtdx(idtdx), signo(isigno) {
+	stCharOrigin(const double iW00, const double iW10, const double iW20, const double iW01, const double iW11,
+		const double iW21, const double iG0, const double iG1, const double idtdx, int isigno) :
+	W00(iW00), W10(iW10), W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(iG0), G1(iG1), dtdx(idtdx), signo(isigno) {
 	}
 
 	double operator()(const double x) {
@@ -576,10 +550,9 @@ struct stPathOrigin {
 	double dtdx;
 	int signo;
 
-	stPathOrigin(const double iW00, const double iW10, const double iW01,
-			const double iW11, const double idtdx, int isigno) :
-			W00(iW00), W10(iW10), W01(iW01), W11(iW11), dtdx(idtdx), signo(
-					isigno) {
+	stPathOrigin(const double iW00, const double iW10, const double iW01, const double iW11, const double idtdx,
+		int isigno) :
+	W00(iW00), W10(iW10), W01(iW01), W11(iW11), dtdx(idtdx), signo(isigno) {
 	}
 
 	double operator()(const double x) {

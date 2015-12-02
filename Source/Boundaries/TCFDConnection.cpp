@@ -9,11 +9,9 @@
 
 // ---------------------------------------------------------------------------
 
-TCFDConnection::TCFDConnection(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TCFDConnection::TCFDConnection(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FirstTime = true;
 	FUpdateTime = 0;
@@ -25,8 +23,8 @@ TCFDConnection::~TCFDConnection() {
 
 }
 
-void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
+	TDPF **DPF) {
 
 	FTuboExtremo = new stTuboExtremo[1];
 	FTuboExtremo[0].Pipe = NULL;
@@ -74,13 +72,11 @@ void TCFDConnection::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 
 	FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 	for (int i = 0; i < FNumeroEspecies - 1; i++) {
-		FFraccionMasicaEspecie[i] =
-				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+		FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 	}
 	if (FHayEGR) {
-		FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-				FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
-						FNumeroEspecies - 1);
+		FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+			FNumeroEspecies - 1);
 	}
 }
 
@@ -103,20 +99,17 @@ void TCFDConnection::CalculaCondicionContorno(double Time) {
 	}
 
 	for (int j = 0; j < FNumeroEspecies - 2; j++) {
-		FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(
-				FIndiceCC, j);
+		FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 		FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 	}
 	FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 	if (FHayEGR)
-		FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-				FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
-						FNumeroEspecies - 1);
+		FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
+			FNumeroEspecies - 1);
 
 	fileout = fopen(FCFDout, "a");
 
-	fprintf(fileout, "%.16f %g %g", Time, *FCC * __cons::ARef,
-			FTuboExtremo[0].Entropia * __cons::ARef);
+	fprintf(fileout, "%.16f %g %g", Time, *FCC * __cons::ARef, FTuboExtremo[0].Entropia * __cons::ARef);
 	for (int j = 0; j < FNumeroEspecies - 1; j++) {
 		fprintf(fileout, " %g", FFraccionMasicaEspecie[j]);
 	}

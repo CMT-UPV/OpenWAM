@@ -27,7 +27,7 @@
 #include "labels.hpp"
 
 namespace OpenWAM_labels {
-std::map<int, std::string> labels;
+	std::map<int, std::string> labels;
 }
 
 using namespace OpenWAM_labels;

@@ -37,10 +37,9 @@
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-TVenturi::TVenturi(int i, nmTipoCalculoEspecies SpeciesModel,
-		int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TDepVolCteBase(i, nmVenturi, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TVenturi::TVenturi(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+	bool ThereIsEGR) :
+TDepVolCteBase(i, nmVenturi, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	asgNumeroVenturi = false;
 
@@ -92,15 +91,13 @@ void TVenturi::LeeDatosVenturi(const char *FileWAM, fpos_t &filepos) {
 
 		fscanf(fich, "%d ", &numid); /* DATO PARA WAMER */
 		fscanf(fich, "%d %d %d ", &FNodoEntrada, &FNodoSalida, &FNodoLateral);
-		fscanf(fich, "%lf %lf %lf ", &FRelacionSecciones, &FRendimientoVenturi,
-				&FPerdidasCalor);
+		fscanf(fich, "%lf %lf %lf ", &FRelacionSecciones, &FRendimientoVenturi, &FPerdidasCalor);
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TVenturi::LeeDatosVenturi en el deposito: "
-				<< FNumeroDeposito << std::endl;
+		std::cout << "ERROR: TVenturi::LeeDatosVenturi en el deposito: " << FNumeroDeposito << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -126,30 +123,26 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					FCalculoGamma, nmMEP);
-			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
+			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
+			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+				FFraccionMasicaEspecie[2], 0, __units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
-					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FCalculoGamma, nmMEP);
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0],
+				FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 		}
 
-		FGamma1 = __gamma::G1(FGamma);
-		FGamma2 = __gamma::G2(FGamma);
-		FGamma3 = __gamma::G3(FGamma);
-		FGamma5 = __gamma::G5(FGamma);
-		FGamma6 = __gamma::G6(FGamma);
+		FGamma1 = __Gamma::G1(FGamma);
+		FGamma2 = __Gamma::G2(FGamma);
+		FGamma3 = __Gamma::G3(FGamma);
+		FGamma5 = __Gamma::G5(FGamma);
+		FGamma6 = __Gamma::G6(FGamma);
 
 		bool Converge = false;
 		bool FirstStep = true;
@@ -162,32 +155,23 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 		while (!Converge) {
 			H = 0.;
 			for (int i = 0; i < FNumeroUniones; i++) {
-				if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
-						== nmEntrante) {
+				if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
 					SignoFlujo = 1;
-				} else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo()
-						== nmSaliente) {
+				} else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
 					SignoFlujo = -1;
 				}
-				g =
-						(double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
-				v =
-						(double) SignoFlujo
-								* dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
+				g = (double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
+				v = (double) SignoFlujo * dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
 				a = dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
-				m =
-						g * DeltaT
-								* FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
+				m = g * DeltaT * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
 				if (FirstStep) {
 					MasaEntrante += m;
 					for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-						FMasaEspecie[j] +=
-								FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
+						FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
 					}
 				}
 				if (v > 0) {
-					H += EntalpiaEntrada(a, v, m, Asonido1, FMasa,
-							FCCDeposito[i]->getGamma());
+					H += EntalpiaEntrada(a, v, m, Asonido1, FMasa, FCCDeposito[i]->getGamma());
 				}
 
 			}
@@ -197,11 +181,9 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 					FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
-				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-						- FraccionMasicaAcum;
+				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-							FMasaEspecie[FNumeroEspecies - 1] / FMasa;
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie[FNumeroEspecies - 1] / FMasa;
 				H0 = H;
 				FirstStep = false;
 			}
@@ -217,13 +199,11 @@ void TVenturi::ActualizaPropiedades(double TimeCalculo) {
 			}
 		}
 		FTemperature = __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla));
-		FPressure = __units::PaToBar(pow2(__cons::ARef * FAsonido) / FGamma / FVolumen
-				* FMasa);
+		FPressure = __units::PaToBar(pow2(__cons::ARef * FAsonido) / FGamma / FVolumen * FMasa);
 		FPresionIsen = pow(FPressure / FPresRef, FGamma5);
 		FTime = TimeCalculo;
 	} catch (exception & N) {
-		std::cout << "ERROR: TVenturi::ActualizaPropiedades en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::ActualizaPropiedades en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -248,9 +228,7 @@ void TVenturi::AsignaEntradaSalidaLateralCC() {
 		}
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::AsignaEntradaSalidaLateralCC en el venturi "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::AsignaEntradaSalidaLateralCC en el venturi " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -274,40 +252,32 @@ void TVenturi::CalculaVenturi() {
 
 		TempEntrada = __units::degCToK(FTemperature);
 
-		if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
-				== nmEntrante) {
+		if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmEntrante) {
 			SentidoEntrada = 1;
-		} else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
-				== nmSaliente) {
+		} else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmSaliente) {
 			SentidoEntrada = -1;
 		}
 
-		Velocity = SentidoEntrada
-				* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
+		Velocity = SentidoEntrada * dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
 		Speedsound = dynamic_cast<TCCDeposito*>(FCCEntrada)->getSpeedSound();
 
 		if (Velocity > 0.0) {
 			if (Speedsound > 0)
-				dynamic_cast<TCCDeposito*>(FCCEntrada)->putMachVenturi(
-						Velocity / Speedsound);
+				dynamic_cast<TCCDeposito*>(FCCEntrada)->putMachVenturi(Velocity / Speedsound);
 			dynamic_cast<TCCDeposito*>(FCCSalida)->putMachVenturi(0.);
 // if(Speedsound > 0) dynamic_cast<TCCDeposito *>(FCCEntrada)->getValvula()->getCRecuperacion() = Velocity / Speedsound;
 // dynamic_cast<TCCDeposito *>(FCCSalida)->getValvula()->getCRecuperacion() = 0.;
 		} else {
-			if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo()
-					== nmEntrante) {
+			if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmEntrante) {
 				SentidoSalida = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo()
-					== nmSaliente) {
+			} else if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmSaliente) {
 				SentidoSalida = -1;
 			}
-			Velocity = SentidoSalida
-					* dynamic_cast<TCCDeposito*>(FCCSalida)->getVelocity();
+			Velocity = SentidoSalida * dynamic_cast<TCCDeposito*>(FCCSalida)->getVelocity();
 			Speedsound = dynamic_cast<TCCDeposito*>(FCCSalida)->getSpeedSound();
 			dynamic_cast<TCCDeposito*>(FCCEntrada)->putMachVenturi(0.);
 			if (Speedsound > 0)
-				dynamic_cast<TCCDeposito*>(FCCSalida)->putMachVenturi(
-						Velocity / Speedsound);
+				dynamic_cast<TCCDeposito*>(FCCSalida)->putMachVenturi(Velocity / Speedsound);
 // dynamic_cast<TCCDeposito *>(FCCEntrada)->getValvula()->getCRecuperacion() = 0.;
 // if(Speedsound > 0) dynamic_cast<TCCDeposito *>(FCCSalida)->getValvula()->getCRecuperacion() = Velocity / Speedsound;
 		}
@@ -317,9 +287,7 @@ void TVenturi::CalculaVenturi() {
 
 		FCpMezcla = FGamma * FRMezcla / FGamma1;
 
-		TempGarganta = TempEntrada
-				- pow((FRelacionSecciones - 1.) * Velocity * __cons::ARef, 2.)
-						/ (2. * FCpMezcla);
+		TempGarganta = TempEntrada - pow((FRelacionSecciones - 1.) * Velocity * __cons::ARef, 2.) / (2. * FCpMezcla);
 
 		Converge = 0.;
 		VelGarganta0 = Velocity;
@@ -329,45 +297,34 @@ void TVenturi::CalculaVenturi() {
 			while (Converge < 0.99999 || Converge > 1.00001) {
 				if (Mach1 > 0.99999999) {
 					Mach1 = 1.;
-					printf(
-							"N. de Mach en el venturi situado en el deposito %d = 1. ",
-							FNumeroDeposito);
+					printf("N. de Mach en el venturi situado en el deposito %d = 1. ", FNumeroDeposito);
 					printf("Velocity = %g (m/s) \t", VelGarganta1 * __cons::ARef);
 					printf("Temperature = %g (degC)\n", TempGarganta);
 				} else if (Mach1 == 1.) {
 					VelGarganta1 = sqrt(
-							((1. + FGamma1 / 2. * pow2(Mach0))
-									/ (FGamma2 * pow2(Mach0) / 2.)
-									* pow2(Velocity)));
+						((1. + FGamma1 / 2. * pow2(Mach0)) / (FGamma2 * pow2(Mach0) / 2.) * pow2(Velocity)));
 				} else {
-					VelGarganta1 = FRelacionSecciones * Velocity
-							* pow(TempEntrada / TempGarganta, FGamma6);
+					VelGarganta1 = FRelacionSecciones * Velocity * pow(TempEntrada / TempGarganta, FGamma6);
 				}
 
 				TempGarganta = TempEntrada
-						- (pow2(VelGarganta1 * __cons::ARef) - pow2(Velocity * __cons::ARef))
-								/ (2. * FCpMezcla);
+					- (pow2(VelGarganta1 * __cons::ARef) - pow2(Velocity * __cons::ARef)) / (2. * FCpMezcla);
 
-				Mach1 = VelGarganta1 * __cons::ARef
-						/ sqrt(FGamma * FRMezcla * TempGarganta);
+				Mach1 = VelGarganta1 * __cons::ARef / sqrt(FGamma * FRMezcla * TempGarganta);
 				Converge = VelGarganta1 / VelGarganta0;
 				VelGarganta0 = VelGarganta1;
 			}
-			VelGarganta0 = sqrt(
-					(FRendimientoVenturi * pow2(VelGarganta0)
-							- FPerdidasCalor * 2.));
+			VelGarganta0 = sqrt((FRendimientoVenturi * pow2(VelGarganta0) - FPerdidasCalor * 2.));
 // dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = (VelGarganta0  * __cons::ARef)/pow(FGamma*FRMezcla*TempGarganta,0.5);
 			dynamic_cast<TCCDeposito*>(FCCLateral)->putMachVenturi(
-					(VelGarganta0 * __cons::ARef)
-							/ pow(FGamma * FRMezcla * TempGarganta, 0.5));
+				(VelGarganta0 * __cons::ARef) / pow(FGamma * FRMezcla * TempGarganta, 0.5));
 		} else {
 // dynamic_cast<TCCDeposito *>(FCCLateral)->getValvula()->getCRecuperacion() = 0.;
 			dynamic_cast<TCCDeposito*>(FCCLateral)->putMachVenturi(0.);
 		}
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TVenturi::CalculaVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::CalculaVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -397,8 +354,7 @@ void TVenturi::CalculaVenturi() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM,
-		fpos_t &filepos) {
+void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM, fpos_t &filepos) {
 
 	int nvars = 0, var = 0;
 
@@ -435,17 +391,15 @@ void TVenturi::LeeResultadosInstantVenturi(const char *FileWAM,
 				FResInstantVenturi.GastoLateral = true;
 				break;
 			default:
-				std::cout << "Resultados instantaneos en venturi "
-						<< FNumeroVenturi << " no implementados " << std::endl;
+				std::cout << "Resultados instantaneos en venturi " << FNumeroVenturi << " no implementados "
+					<< std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::LeeResultadosInstantVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::LeeResultadosInstantVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -460,51 +414,41 @@ void TVenturi::CabeceraResultadosInstantVenturi(stringstream& insoutput) {
 		std::string Label;
 
 		if (FResInstantVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(521) + std::to_string(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(521) + std::to_string(FNumeroVenturi) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(522) + std::to_string(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(522) + std::to_string(FNumeroVenturi) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(523) + std::to_string(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(523) + std::to_string(FNumeroVenturi) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(524) + std::to_string(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(524) + std::to_string(FNumeroVenturi) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(525) + std::to_string(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(525) + std::to_string(FNumeroVenturi) + PutLabel(909);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.VelLateral) {
-			Label = "\t" + PutLabel(526) + std::to_string(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(526) + std::to_string(FNumeroVenturi) + PutLabel(909);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(527) + std::to_string(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(527) + std::to_string(FNumeroVenturi) + PutLabel(904);
 			insoutput << Label.c_str();
 		}
 		if (FResInstantVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(528) + std::to_string(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(528) + std::to_string(FNumeroVenturi) + PutLabel(904);
 			insoutput << Label.c_str();
 		}
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::CabeceraResultadosInstantVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::CabeceraResultadosInstantVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -536,9 +480,7 @@ void TVenturi::ImprimeResultadosInstantVenturi(stringstream& insoutput) {
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::ImprimeResultadosInstantVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::ImprimeResultadosInstantVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -554,82 +496,62 @@ void TVenturi::CalculaResultadosVenturi() {
 			FResInstantVenturi.PresionEntradaINS = FPressure;
 		}
 		if (FResInstantVenturi.PresionGarganta) {
-			FResInstantVenturi.PresionGargantaINS =
-					FPressure
-							/ pow(
-									1
-											+ FGamma1 / 2
-													* pow2(
-															dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi()),
-									FGamma / FGamma1);
+			FResInstantVenturi.PresionGargantaINS = FPressure
+				/ pow(1 + FGamma1 / 2 * pow2(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi()),
+					FGamma / FGamma1);
 		}
 		if (FResInstantVenturi.MachEntrada) {
 			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
-				FResInstantVenturi.MachEntradaINS =
-						fabs(
-								dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi());
+				FResInstantVenturi.MachEntradaINS = fabs(dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi());
 			} else {
-				FResInstantVenturi.MachEntradaINS =
-						-fabs(
-								dynamic_cast<TCCDeposito*>(FCCSalida)->getMachVenturi());
+				FResInstantVenturi.MachEntradaINS = -fabs(dynamic_cast<TCCDeposito*>(FCCSalida)->getMachVenturi());
 			}
 		}
 		if (FResInstantVenturi.MachGarganta) {
-			FResInstantVenturi.MachGargantaINS = fabs(
-					dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi());
+			FResInstantVenturi.MachGargantaINS = fabs(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi());
 		}
 		if (FResInstantVenturi.VelEntrada) {
 			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
-				if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
-						== nmEntrante) {
+				if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmEntrante) {
 					SentidoEntrada = 1;
-				} else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
-						== nmSaliente) {
+				} else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmSaliente) {
 					SentidoEntrada = -1;
 				}
 				FResInstantVenturi.VelEntradaINS = SentidoEntrada * __cons::ARef
-						* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
+					* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
 			} else {
-				if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo()
-						== nmEntrante) {
+				if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmEntrante) {
 					SentidoSalida = 1;
-				} else if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo()
-						== nmSaliente) {
+				} else if (dynamic_cast<TCCDeposito*>(FCCSalida)->getSentidoFlujo() == nmSaliente) {
 					SentidoSalida = -1;
 				}
 				FResInstantVenturi.VelEntradaINS = SentidoSalida * __cons::ARef
-						* dynamic_cast<TCCDeposito*>(FCCSalida)->getVelocity();
+					* dynamic_cast<TCCDeposito*>(FCCSalida)->getVelocity();
 			}
 		}
 
 		if (FResInstantVenturi.VelLateral) {
-			if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo()
-					== nmEntrante) {
+			if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmEntrante) {
 				SentidoLateral = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo()
-					== nmSaliente) {
+			} else if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmSaliente) {
 				SentidoLateral = -1;
 			}
 			FResInstantVenturi.VelLateralINS = SentidoLateral * __cons::ARef
-					* dynamic_cast<TCCDeposito*>(FCCLateral)->getVelocity();
+				* dynamic_cast<TCCDeposito*>(FCCLateral)->getVelocity();
 		}
 		if (FResInstantVenturi.GastoEntrada) {
 			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi() != 0) {
-				FResInstantVenturi.GastoEntradaINS =
-						-dynamic_cast<TCCDeposito*>(FCCEntrada)->getMassflow();
+				FResInstantVenturi.GastoEntradaINS = -dynamic_cast<TCCDeposito*>(FCCEntrada)->getMassflow();
 			} else {
-				FResInstantVenturi.GastoEntradaINS =
-						-dynamic_cast<TCCDeposito*>(FCCSalida)->getMassflow();
+				FResInstantVenturi.GastoEntradaINS = -dynamic_cast<TCCDeposito*>(FCCSalida)->getMassflow();
 			}
 		}
 		if (FResInstantVenturi.GastoLateral) {
-			FResInstantVenturi.GastoLateralINS =
-					-dynamic_cast<TCCDeposito*>(FCCLateral)->getMassflow();
+			FResInstantVenturi.GastoLateralINS = -dynamic_cast<TCCDeposito*>(FCCLateral)->getMassflow();
 		}
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TVenturi::CalculaResultadosVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::CalculaResultadosVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -674,16 +596,13 @@ void TVenturi::ReadAverageResultsVenturi(const char *FileWAM, fpos_t &filepos) {
 				FResMediosVenturi.GastoLateral = true;
 				break;
 			default:
-				std::cout << "Resultados medios en venturi " << FNumeroVenturi
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados medios en venturi " << FNumeroVenturi << " no implementados " << std::endl;
 			}
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::ReadAverageResultsVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::ReadAverageResultsVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -698,51 +617,41 @@ void TVenturi::HeaderAverageResultsVenturi(stringstream& medoutput) {
 		std::string Label;
 
 		if (FResMediosVenturi.PresionEntrada) {
-			Label = "\t" + PutLabel(521) + std::to_string(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(521) + std::to_string(FNumeroVenturi) + PutLabel(908);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.PresionGarganta) {
-			Label = "\t" + PutLabel(522) + std::to_string(FNumeroVenturi)
-					+ PutLabel(908);
+			Label = "\t" + PutLabel(522) + std::to_string(FNumeroVenturi) + PutLabel(908);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachEntrada) {
-			Label = "\t" + PutLabel(523) + std::to_string(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(523) + std::to_string(FNumeroVenturi) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.MachGarganta) {
-			Label = "\t" + PutLabel(524) + std::to_string(FNumeroVenturi)
-					+ PutLabel(901);
+			Label = "\t" + PutLabel(524) + std::to_string(FNumeroVenturi) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelEntrada) {
-			Label = "\t" + PutLabel(525) + std::to_string(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(525) + std::to_string(FNumeroVenturi) + PutLabel(909);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.VelLateral) {
-			Label = "\t" + PutLabel(526) + std::to_string(FNumeroVenturi)
-					+ PutLabel(909);
+			Label = "\t" + PutLabel(526) + std::to_string(FNumeroVenturi) + PutLabel(909);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoEntrada) {
-			Label = "\t" + PutLabel(527) + std::to_string(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(527) + std::to_string(FNumeroVenturi) + PutLabel(904);
 			medoutput << Label.c_str();
 		}
 		if (FResMediosVenturi.GastoLateral) {
-			Label = "\t" + PutLabel(528) + std::to_string(FNumeroVenturi)
-					+ PutLabel(904);
+			Label = "\t" + PutLabel(528) + std::to_string(FNumeroVenturi) + PutLabel(904);
 			medoutput << Label.c_str();
 		}
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::HeaderAverageResultsVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::HeaderAverageResultsVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -760,64 +669,46 @@ void TVenturi::AcumulaResultadosMediosVenturi(double Actual) {
 			FResMediosVenturi.PresionEntradaSUM += FPressure * Delta;
 		}
 		if (FResMediosVenturi.PresionGarganta) {
-			FResMediosVenturi.PresionGargantaSUM +=
-					(FPressure
-							/ pow(
-									1
-											+ FGamma1 / 2
-													* pow(
-															dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi(),
-															2.),
-									FGamma / FGamma1)) * Delta;
+			FResMediosVenturi.PresionGargantaSUM += (FPressure
+				/ pow(1 + FGamma1 / 2 * pow(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi(), 2.),
+					FGamma / FGamma1)) * Delta;
 		}
 		if (FResMediosVenturi.MachEntrada) {
-			FResMediosVenturi.MachEntradaSUM += fabs(
-					dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi())
-					* Delta;
+			FResMediosVenturi.MachEntradaSUM += fabs(dynamic_cast<TCCDeposito*>(FCCEntrada)->getMachVenturi()) * Delta;
 		}
 		if (FResMediosVenturi.MachGarganta) {
-			FResMediosVenturi.MachGargantaSUM += fabs(
-					dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi())
-					* Delta;
+			FResMediosVenturi.MachGargantaSUM += fabs(dynamic_cast<TCCDeposito*>(FCCLateral)->getMachVenturi()) * Delta;
 		}
 		if (FResMediosVenturi.VelEntrada) {
-			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
-					== nmEntrante) {
+			if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmEntrante) {
 				SentidoEntrada = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo()
-					== nmSaliente) {
+			} else if (dynamic_cast<TCCDeposito*>(FCCEntrada)->getSentidoFlujo() == nmSaliente) {
 				SentidoEntrada = -1;
 			}
 			FResMediosVenturi.VelEntradaSUM += SentidoEntrada * __cons::ARef * Delta
-					* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
+				* dynamic_cast<TCCDeposito*>(FCCEntrada)->getVelocity();
 		}
 		if (FResMediosVenturi.VelLateral) {
-			if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo()
-					== nmEntrante) {
+			if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmEntrante) {
 				SentidoLateral = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo()
-					== nmSaliente) {
+			} else if (dynamic_cast<TCCDeposito*>(FCCLateral)->getSentidoFlujo() == nmSaliente) {
 				SentidoLateral = -1;
 			}
 			FResMediosVenturi.VelLateralSUM += SentidoLateral * __cons::ARef * Delta
-					* dynamic_cast<TCCDeposito*>(FCCLateral)->getVelocity();
+				* dynamic_cast<TCCDeposito*>(FCCLateral)->getVelocity();
 
 		}
 		if (FResMediosVenturi.GastoEntrada) {
-			FResMediosVenturi.GastoEntradaSUM += -Delta
-					* dynamic_cast<TCCDeposito*>(FCCEntrada)->getMassflow();
+			FResMediosVenturi.GastoEntradaSUM += -Delta * dynamic_cast<TCCDeposito*>(FCCEntrada)->getMassflow();
 		}
 		if (FResMediosVenturi.GastoLateral) {
-			FResMediosVenturi.GastoLateralSUM += -Delta
-					* dynamic_cast<TCCDeposito*>(FCCLateral)->getMassflow();
+			FResMediosVenturi.GastoLateralSUM += -Delta * dynamic_cast<TCCDeposito*>(FCCLateral)->getMassflow();
 		}
 
 		FResMediosVenturi.TiempoSUM += Delta;
 		FResMediosVenturi.Tiempo0 = Actual;
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::AcumulaResultadosMediosVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::AcumulaResultadosMediosVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -829,54 +720,40 @@ void TVenturi::AcumulaResultadosMediosVenturi(double Actual) {
 void TVenturi::ResultadosMediosVenturi() {
 	try {
 		if (FResMediosVenturi.PresionEntrada) {
-			FResMediosVenturi.PresionEntradaMED =
-					FResMediosVenturi.PresionEntradaSUM
-							/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.PresionEntradaMED = FResMediosVenturi.PresionEntradaSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.PresionEntradaSUM = 0.;
 		}
 		if (FResMediosVenturi.PresionGarganta) {
-			FResMediosVenturi.PresionGargantaMED =
-					FResMediosVenturi.PresionGargantaSUM
-							/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.PresionGargantaMED = FResMediosVenturi.PresionGargantaSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.PresionGargantaSUM = 0.;
 		}
 		if (FResMediosVenturi.MachEntrada) {
-			FResMediosVenturi.MachEntradaMED = FResMediosVenturi.MachEntradaSUM
-					/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.MachEntradaMED = FResMediosVenturi.MachEntradaSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.MachEntradaSUM = 0.;
 		}
 		if (FResMediosVenturi.MachGarganta) {
-			FResMediosVenturi.MachGargantaMED =
-					FResMediosVenturi.MachGargantaSUM
-							/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.MachGargantaMED = FResMediosVenturi.MachGargantaSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.MachGargantaSUM = 0.;
 		}
 		if (FResMediosVenturi.VelEntrada) {
-			FResMediosVenturi.VelEntradaMED = FResMediosVenturi.VelEntradaSUM
-					/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.VelEntradaMED = FResMediosVenturi.VelEntradaSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.VelEntradaSUM = 0.;
 		}
 		if (FResMediosVenturi.VelLateral) {
-			FResMediosVenturi.VelLateralMED = FResMediosVenturi.VelLateralSUM
-					/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.VelLateralMED = FResMediosVenturi.VelLateralSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.VelLateralSUM = 0.;
 		}
 		if (FResMediosVenturi.GastoEntrada) {
-			FResMediosVenturi.GastoEntradaMED =
-					FResMediosVenturi.GastoEntradaSUM
-							/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.GastoEntradaMED = FResMediosVenturi.GastoEntradaSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.GastoEntradaSUM = 0.;
 		}
 		if (FResMediosVenturi.GastoLateral) {
-			FResMediosVenturi.GastoLateralMED =
-					FResMediosVenturi.GastoLateralSUM
-							/ FResMediosVenturi.TiempoSUM;
+			FResMediosVenturi.GastoLateralMED = FResMediosVenturi.GastoLateralSUM / FResMediosVenturi.TiempoSUM;
 			FResMediosVenturi.GastoLateralSUM = 0.;
 		}
 		FResMediosVenturi.TiempoSUM = 0;
 	} catch (exception & N) {
-		std::cout << "ERROR: TVenturi::ResultadosMediosVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::ResultadosMediosVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -908,9 +785,7 @@ void TVenturi::ImprimeResultadosMediosVenturi(stringstream& medoutput) {
 
 		// fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TVenturi::ImprimeResultadosMediosVenturi en el venturi: "
-				<< FNumeroVenturi << std::endl;
+		std::cout << "ERROR: TVenturi::ImprimeResultadosMediosVenturi en el venturi: " << FNumeroVenturi << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

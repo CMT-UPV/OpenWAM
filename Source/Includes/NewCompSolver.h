@@ -55,10 +55,9 @@ struct stCompSolverA2 {
 	double AA2new;
 	double CP;
 
-	stCompSolverA2(double c2, double g, double RC, double cp0, double aa1,
-			double aa2, double a1, double s1, double s2, double v1) :
-			Gam(g), CC2(c2), CP(cp0), AA1ini(aa1), AA2ini(aa2), RelComp(RC), A1ini(
-					a1), Sec1(s1), Sec2(s2), V1ini(v1) {
+	stCompSolverA2(double c2, double g, double RC, double cp0, double aa1, double aa2, double a1, double s1, double s2,
+		double v1) :
+	Gam(g), CC2(c2), CP(cp0), AA1ini(aa1), AA2ini(aa2), RelComp(RC), A1ini(a1), Sec1(s1), Sec2(s2), V1ini(v1) {
 		Gaa = 2 / (Gam - 1);
 		Gae = (Gam - 1) / Gam;
 		RelSec = s1 / s2;
@@ -72,8 +71,7 @@ struct stCompSolverA2 {
 			AA2new = sqrt(1 + CP) * AA1ini / pow(RelComp, Gae / 2.);
 			AA1new = AA1ini;
 		}
-		return pow(A1ini / pow(AA1new, Gam), Gaa) * V1ini * RelSec
-				- pow(A2 / pow(AA2new, Gam), Gaa) * V2;
+		return pow(A1ini / pow(AA1new, Gam), Gaa) * V1ini * RelSec - pow(A2 / pow(AA2new, Gam), Gaa) * V2;
 	}
 };
 
@@ -108,11 +106,10 @@ struct stCompSolverA1 {
 	double A2MaxLim;
 	double A2MinLim;
 
-	stCompSolverA1(double c1, double c2, double s1, double s2, double g,
-			double aa1, double aa2, double RC, double Rd, double Lc, double cp0,
-			double inct) :
-			CC1(c1), CC2(c2), AA1ini(aa1), AA2ini(aa2), Sec1(s1), Sec2(s2), RelComp(
-					RC), Gam(g), Rend(Rd), Dt(inct), CPAnt(cp0), LCar(Lc) {
+	stCompSolverA1(double c1, double c2, double s1, double s2, double g, double aa1, double aa2, double RC, double Rd,
+		double Lc, double cp0, double inct) :
+	CC1(c1), CC2(c2), AA1ini(aa1), AA2ini(aa2), Sec1(s1), Sec2(s2), RelComp(RC), Gam(g), Rend(Rd), Dt(inct), CPAnt(cp0),
+		LCar(Lc) {
 
 		Gaa = 2 / (Gam - 1);
 		Gae = (Gam - 1) / Gam;
@@ -129,8 +126,7 @@ struct stCompSolverA1 {
 			A2MinLim = CC2 * __cons::ARef * 2 / (Gam + 1);
 			A2MaxLim = CC2 * __cons::ARef;
 		} else if (V1 > 0) {
-			CPfin = CPAnt
-					+ (1 / LCar * 10) * (CP - CPAnt) * 0.5 * fabs(V1) * Dt;
+			CPfin = CPAnt + (1 / LCar * 10) * (CP - CPAnt) * 0.5 * fabs(V1) * Dt;
 			A2Min = CC2 * __cons::ARef;
 			A2Max = CC2 * __cons::ARef + V1 * RelSec / Gaa;
 			A2MinLim = CC2 * __cons::ARef;
@@ -140,8 +136,7 @@ struct stCompSolverA1 {
 			V2 = 0.;
 			return (A2 * A2) - (A1 * A1) * (1 + CPfin);
 		}
-		stCompSolverA2 FunA2(CC2, Gam, RelComp, CPAnt, AA1ini, AA2ini, A1, Sec1,
-				Sec2, V1);
+		stCompSolverA2 FunA2(CC2, Gam, RelComp, CPAnt, AA1ini, AA2ini, A1, Sec1, Sec2, V1);
 
 		bool Verdad = zbrac2(FunA2, A2Min, A2Max, A2MinLim, A2MaxLim);
 		if (Verdad) {
@@ -160,8 +155,7 @@ struct stCompSolverA1 {
 		AA1new = FunA2.AA1new;
 		AA2new = FunA2.AA2new;
 
-		return (A2 * A2 + V2 * V2 / Gaa)
-				- (A1 * A1 + V1 * V1 / Gaa) * (1 + CPfin);
+		return (A2 * A2 + V2 * V2 / Gaa) - (A1 * A1 + V1 * V1 / Gaa) * (1 + CPfin);
 	}
 };
 #endif

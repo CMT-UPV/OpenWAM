@@ -37,7 +37,7 @@
 //---------------------------------------------------------------------------
 
 TDiscoRotativo::TDiscoRotativo() :
-		TTipoValvula(nmDiscoRotativo) {
+TTipoValvula(nmDiscoRotativo) {
 
 	fun_CDin = NULL;
 	fun_CDout = NULL;
@@ -59,7 +59,7 @@ TDiscoRotativo::~TDiscoRotativo() {
 //---------------------------------------------------------------------------
 
 TDiscoRotativo::TDiscoRotativo(TDiscoRotativo *Origen, int Valvula) :
-		TTipoValvula(nmDiscoRotativo) {
+TTipoValvula(nmDiscoRotativo) {
 
 	FDiametroRef = Origen->FDiametroRef;
 	FNumeroPuntos = Origen->FNumeroPuntos;
@@ -98,8 +98,8 @@ TDiscoRotativo::TDiscoRotativo(TDiscoRotativo *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDiscoRotativo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TDiscoRotativo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 		int ControlRegimen = 0;
 
@@ -148,9 +148,8 @@ void TDiscoRotativo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		} else if (FControlRegimen == nmMotor && HayMotor) {
 			fscanf(fich, "%lf ", &FRelacionVelocidades);
 		} else {
-			std::cout
-					<< "ERROR: TDiscoRotativo::LeeDatosIniciales Lectura del Control del Regimen erronea "
-					<< std::endl;
+			std::cout << "ERROR: TDiscoRotativo::LeeDatosIniciales Lectura del Control del Regimen erronea "
+				<< std::endl;
 			throw Exception(" ");
 		}
 
@@ -182,14 +181,12 @@ void TDiscoRotativo::GetCDin(double Time) {
 		Angulo = 6. * FRegimen * Time - FShift; // It's correct if FRegimen is constant.
 	} else {
 		if (FToCylinder) {
-			Angulo = FCylinder->getAnguloActual() * 360.
-					/ FEngine->getAngTotalCiclo() - FShift;
+			Angulo = FCylinder->getAnguloActual() * 360. / FEngine->getAngTotalCiclo() - FShift;
 
 		} else {
 			double DeltaT = Time - FTime0;
 			FTime0 = Time;
-			double DeltaA = 6 * FEngine->getRegimen() * DeltaT
-					* FRelacionVelocidades;
+			double DeltaA = 6 * FEngine->getRegimen() * DeltaT * FRelacionVelocidades;
 			Angulo = DeltaA + FAngle0;
 		}
 	}
@@ -215,13 +212,11 @@ void TDiscoRotativo::GetCDout(double Time) {
 		; // It's correct if FRegimen is constant.
 	} else {
 		if (FToCylinder) {
-			Angulo = FCylinder->getAnguloActual() * 360.
-					/ FEngine->getAngTotalCiclo() - FShift;
+			Angulo = FCylinder->getAnguloActual() * 360. / FEngine->getAngTotalCiclo() - FShift;
 		} else {
 			double DeltaT = Time - FTime0;
 			FTime0 = Time;
-			double DeltaA = 6 * FEngine->getRegimen() * DeltaT
-					* FRelacionVelocidades;
+			double DeltaA = 6 * FEngine->getRegimen() * DeltaT * FRelacionVelocidades;
 			Angulo = DeltaA + FAngle0;
 		}
 	}

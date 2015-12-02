@@ -92,8 +92,7 @@ public:
 	 */
 	~TAcousticCompressor();
 
-	TAcousticCompressor(int InletPipeID, int VoluteID, int OutletPipeID,
-			int RotorVolumeID, int StatorVolumeID);
+	TAcousticCompressor(int InletPipeID, int VoluteID, int OutletPipeID, int RotorVolumeID, int StatorVolumeID);
 
 	/**
 	 * \brief Compute the total pressure at compressor inlet.
@@ -180,8 +179,7 @@ public:
 	}
 	;
 
-	void AsignElementsID(int InletPipeID, int VoluteID, int OutletPipeID,
-			int RotorVolumeID, int StatorVolumeID);
+	void AsignElementsID(int InletPipeID, int VoluteID, int OutletPipeID, int RotorVolumeID, int StatorVolumeID);
 
 	double CRCorrector();
 

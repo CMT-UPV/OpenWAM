@@ -48,8 +48,7 @@ struct stCompSolverVOut {
 	Doub PresOut;
 	Doub VOut;
 
-	stCompSolverVOut(Doub gas, Doub sout, Doub ttout, Doub ptout, Doub cpm,
-			Doub rm, Doub g) {
+	stCompSolverVOut(Doub gas, Doub sout, Doub ttout, Doub ptout, Doub cpm, Doub rm, Doub g) {
 		Massflow = gas;
 		SecOut = sout;
 		TempTotOut = ttout;
@@ -103,9 +102,8 @@ struct stCompSolverVIn {
 	Doub PresTotOut;
 	Doub Massflow;
 
-	stCompSolverVIn(Doub cari, Doub caro, Doub aai, Doub g, Doub rm, Doub cpm,
-			Doub sin, Doub sout, Doub rc, Doub cpre, Int_ s, Int_ sf,
-			Doub ttinant, Doub ttoutant, Bool dir, Bool firt) {
+	stCompSolverVIn(Doub cari, Doub caro, Doub aai, Doub g, Doub rm, Doub cpm, Doub sin, Doub sout, Doub rc, Doub cpre,
+		Int_ s, Int_ sf, Doub ttinant, Doub ttoutant, Bool dir, Bool firt) {
 		CarIn = cari;
 		CarOut = caro;
 		AaIn = aai;
@@ -179,8 +177,7 @@ struct stCompSolverVIn {
 			AOutMax = lim;
 		if (AOutMin < lim) {
 
-			stCompSolverVOut FunAout(Massflow, SecOut, TempTotOut, PresTotOut,
-					CpMezcla, RMezcla, Gam);
+			stCompSolverVOut FunAout(Massflow, SecOut, TempTotOut, PresTotOut, CpMezcla, RMezcla, Gam);
 
 			AOut = rtbis(FunAout, AOutMin, AOutMax, 1e-10);
 

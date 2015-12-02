@@ -37,7 +37,7 @@
 //---------------------------------------------------------------------------
 
 TLamina::TLamina() :
-		TTipoValvula(nmLamina) {
+TTipoValvula(nmLamina) {
 
 //FDatosCDEntrada=NULL;
 //FDatosCDSalida=NULL;
@@ -71,7 +71,7 @@ TLamina::~TLamina() {
 //---------------------------------------------------------------------------
 
 TLamina::TLamina(TLamina *Origen, int Valvula) :
-		TTipoValvula(nmLamina) {
+TTipoValvula(nmLamina) {
 
 	FValvula = Valvula;
 
@@ -146,8 +146,7 @@ TLamina::TLamina(TLamina *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor, TBloqueMotor *Engine) {
 	try {
 		int tipo = 0, sentido = 0;
 
@@ -184,12 +183,10 @@ void TLamina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 		}
 
 		if (FTipoLamina == nmLamina1D) {
-			fscanf(fich, "%lf %lf %lf %lf ", &FMasa, &FAmortiguamiento,
-					&FRigidez, &FArea);
+			fscanf(fich, "%lf %lf %lf %lf ", &FMasa, &FAmortiguamiento, &FRigidez, &FArea);
 		} else if (FTipoLamina == nmLamina2D) {
-			fscanf(fich, "%lf %lf %lf %lf %lf %d %lf %lf ", &FDensidad,
-					&FAmortiguamiento, &FModuloYoung, &FAnchoPetalo, &FEspesor,
-					&FNumPestanyas, &FLongitud, &FLongReal);
+			fscanf(fich, "%lf %lf %lf %lf %lf %d %lf %lf ", &FDensidad, &FAmortiguamiento, &FModuloYoung, &FAnchoPetalo,
+				&FEspesor, &FNumPestanyas, &FLongitud, &FLongReal);
 		}
 		fscanf(fich, "%d %d ", &FNumLevCDE, &FNumLevCDS);
 
@@ -244,8 +241,7 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			}
 			break;
 		case nmLamina1D:
-			FddLev = (__units::BarToPa(deltaP2) * FArea - FRigidez * FLev
-					- FAmortiguamiento * FdLev) / FMasa;
+			FddLev = (__units::BarToPa(deltaP2) * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
 			FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 			FdLev = FdLev + FddLev * deltaT;
 
@@ -265,38 +261,31 @@ void TLamina::CalculaCD(double deltaP, double ttotal) {
 			break;
 		case nmLamina2D:
 			for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-				FFuerza[i] = __units::BarToPa(deltaP2) * FAnchoPetalo * FNumPestanyas
-						/ FDensidad / FAreaTrans;
+				FFuerza[i] = __units::BarToPa(deltaP2) * FAnchoPetalo * FNumPestanyas / FDensidad / FAreaTrans;
 				if (i < FNodosFijos + 1) {
 					FFuerza[i] = 0.;
 				}
-				if (i == FNodosFijos + 1
-						|| i == FNodosFijos + FNodosLamina + 1) {
+				if (i == FNodosFijos + 1 || i == FNodosFijos + FNodosLamina + 1) {
 					FFuerza[i] *= 0.5;
 				}
 			}
 			double deltaT2 = deltaT / (double) FBucle;
 			for (int veces = 0; veces <= FBucle; ++veces) {
 				FLev2[0] = FLev2[2];
-				FLev2[FNodosLamina + FNodosFijos + 2] = 2
-						* FLev2[FNodosLamina + FNodosFijos + 1]
-						- FLev2[FNodosLamina + FNodosFijos];
+				FLev2[FNodosLamina + FNodosFijos + 2] = 2 * FLev2[FNodosLamina + FNodosFijos + 1]
+					- FLev2[FNodosLamina + FNodosFijos];
 				for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
-					FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i]
-							- 4 * FLev2[i + 1] + FLev2[i + 2];
+					FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1] + FLev2[i + 2];
 					FDerivada4 = FDerivada4 / pow4(FDeltaX);
-					FLev3[i] = pow2(deltaT2)
-							* (FFuerza[i] - FCoefC * FDerivada4)
-							+ (2 * FAmortiguamiento * deltaT2) * FLev2[i]
-							- FLev1[i];
+					FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4)
+						+ (2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
 					FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 					if (FLev3[i] < 0)
 						FLev3[i] = 0.;
 				}
 				FLev3[1] = 0.;
-				FLev3[FNodosLamina + FNodosFijos + 1] = 2
-						* FLev3[FNodosLamina + FNodosFijos]
-						- FLev3[FNodosLamina + FNodosFijos - 1];
+				FLev3[FNodosLamina + FNodosFijos + 1] = 2 * FLev3[FNodosLamina + FNodosFijos]
+					- FLev3[FNodosLamina + FNodosFijos - 1];
 				if (FLev3[FNodosLamina + FNodosFijos + 1] < 0.)
 					FLev3[FNodosLamina + FNodosFijos + 1] = 0;
 				for (int i = 1; i <= FNodosLamina + FNodosFijos + 1; ++i) {
@@ -338,11 +327,9 @@ void TLamina::GetCDin(double Time) {
 	double deltaP = 0.;
 
 	if (FToCylinder) {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure())
-				* (double) FSentidoLamina;
+		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure()) * (double) FSentidoLamina;
 	} else {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure())
-				* (double) FSentidoLamina;
+		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure()) * (double) FSentidoLamina;
 	}
 
 	switch (FTipoLamina) {
@@ -354,8 +341,7 @@ void TLamina::GetCDin(double Time) {
 		}
 		break;
 	case nmLamina1D:
-		FddLev = (__units::BarToPa(deltaP) * FArea - FRigidez * FLev
-				- FAmortiguamiento * FdLev) / FMasa;
+		FddLev = (__units::BarToPa(deltaP) * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
 		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
 
@@ -374,8 +360,7 @@ void TLamina::GetCDin(double Time) {
 		break;
 	case nmLamina2D:
 		for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-			FFuerza[i] = __units::BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad
-					/ FAreaTrans;
+			FFuerza[i] = __units::BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad / FAreaTrans;
 			if (i < FNodosFijos + 1) {
 				FFuerza[i] = 0.;
 			}
@@ -386,24 +371,20 @@ void TLamina::GetCDin(double Time) {
 		double deltaT2 = deltaT / (double) FBucle;
 		for (int veces = 0; veces <= FBucle; ++veces) {
 			FLev2[0] = FLev2[2];
-			FLev2[FNodosLamina + FNodosFijos + 2] = 2
-					* FLev2[FNodosLamina + FNodosFijos + 1]
-					- FLev2[FNodosLamina + FNodosFijos];
+			FLev2[FNodosLamina + FNodosFijos + 2] = 2 * FLev2[FNodosLamina + FNodosFijos + 1]
+				- FLev2[FNodosLamina + FNodosFijos];
 			for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
-				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i]
-						- 4 * FLev2[i + 1] + FLev2[i + 2];
+				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1] + FLev2[i + 2];
 				FDerivada4 = FDerivada4 / pow4(FDeltaX);
 				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4)
-						+ (2 * FAmortiguamiento * deltaT2) * FLev2[i]
-						- FLev1[i];
+					+ (2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
 				FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 				if (FLev3[i] < 0)
 					FLev3[i] = 0.;
 			}
 			FLev3[1] = 0.;
-			FLev3[FNodosLamina + FNodosFijos + 1] = 2
-					* FLev3[FNodosLamina + FNodosFijos]
-					- FLev3[FNodosLamina + FNodosFijos - 1];
+			FLev3[FNodosLamina + FNodosFijos + 1] = 2 * FLev3[FNodosLamina + FNodosFijos]
+				- FLev3[FNodosLamina + FNodosFijos - 1];
 			if (FLev3[FNodosLamina + FNodosFijos + 1] < 0.)
 				FLev3[FNodosLamina + FNodosFijos + 1] = 0;
 			for (int i = 1; i <= FNodosLamina + FNodosFijos + 1; ++i) {
@@ -436,11 +417,9 @@ void TLamina::GetCDout(double Time) {
 	double deltaP = 0.;
 
 	if (FToCylinder) {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure())
-				* (double) FSentidoLamina;
+		deltaP = (FPipe->GetPresion(FPipeNode) - FCylinder->getPressure()) * (double) FSentidoLamina;
 	} else {
-		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure())
-				* (double) FSentidoLamina;
+		deltaP = (FPipe->GetPresion(FPipeNode) - FPlenum->getPressure()) * (double) FSentidoLamina;
 	}
 
 	switch (FTipoLamina) {
@@ -452,8 +431,7 @@ void TLamina::GetCDout(double Time) {
 		}
 		break;
 	case nmLamina1D:
-		FddLev = (__units::BarToPa(deltaP) * FArea - FRigidez * FLev
-				- FAmortiguamiento * FdLev) / FMasa;
+		FddLev = (__units::BarToPa(deltaP) * FArea - FRigidez * FLev - FAmortiguamiento * FdLev) / FMasa;
 		FLev = FLev + FdLev * deltaT + FddLev / 2 * pow2(deltaT);
 		FdLev = FdLev + FddLev * deltaT;
 
@@ -471,8 +449,7 @@ void TLamina::GetCDout(double Time) {
 		break;
 	case nmLamina2D:
 		for (int i = 0; i < (FNodosLamina + FNodosFijos + 2); ++i) {
-			FFuerza[i] = __units::BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad
-					/ FAreaTrans;
+			FFuerza[i] = __units::BarToPa(deltaP) * FAnchoPetalo * FNumPestanyas / FDensidad / FAreaTrans;
 			if (i < FNodosFijos + 1) {
 				FFuerza[i] = 0.;
 			}
@@ -483,24 +460,20 @@ void TLamina::GetCDout(double Time) {
 		double deltaT2 = deltaT / (double) FBucle;
 		for (int veces = 0; veces <= FBucle; ++veces) {
 			FLev2[0] = FLev2[2];
-			FLev2[FNodosLamina + FNodosFijos + 2] = 2
-					* FLev2[FNodosLamina + FNodosFijos + 1]
-					- FLev2[FNodosLamina + FNodosFijos];
+			FLev2[FNodosLamina + FNodosFijos + 2] = 2 * FLev2[FNodosLamina + FNodosFijos + 1]
+				- FLev2[FNodosLamina + FNodosFijos];
 			for (int i = 2; i <= FNodosLamina + FNodosFijos; ++i) {
-				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i]
-						- 4 * FLev2[i + 1] + FLev2[i + 2];
+				FDerivada4 = FLev2[i - 2] - 4 * FLev2[i - 1] + 6 * FLev2[i] - 4 * FLev2[i + 1] + FLev2[i + 2];
 				FDerivada4 = FDerivada4 / pow4(FDeltaX);
 				FLev3[i] = pow2(deltaT2) * (FFuerza[i] - FCoefC * FDerivada4)
-						+ (2 * FAmortiguamiento * deltaT2) * FLev2[i]
-						- FLev1[i];
+					+ (2 * FAmortiguamiento * deltaT2) * FLev2[i] - FLev1[i];
 				FLev3[i] = FLev3[i] / (1 + FAmortiguamiento * deltaT2);
 				if (FLev3[i] < 0)
 					FLev3[i] = 0.;
 			}
 			FLev3[1] = 0.;
-			FLev3[FNodosLamina + FNodosFijos + 1] = 2
-					* FLev3[FNodosLamina + FNodosFijos]
-					- FLev3[FNodosLamina + FNodosFijos - 1];
+			FLev3[FNodosLamina + FNodosFijos + 1] = 2 * FLev3[FNodosLamina + FNodosFijos]
+				- FLev3[FNodosLamina + FNodosFijos - 1];
 			if (FLev3[FNodosLamina + FNodosFijos + 1] < 0.)
 				FLev3[FNodosLamina + FNodosFijos + 1] = 0;
 			for (int i = 1; i <= FNodosLamina + FNodosFijos + 1; ++i) {

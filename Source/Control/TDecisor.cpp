@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 
 TDecisor::TDecisor(int i) :
-		TController(nmCtlSwitch, i) {
+TController(nmCtlSwitch, i) {
 	fID = i + 1;
 }
 
@@ -93,8 +93,7 @@ void TDecisor::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 		fControllerTarget = Controller[fControllerTargetID - 1];
 }
 
-void TDecisor::LeeResultadosMedControlador(const char *FileWAM,
-		fpos_t &filepos) {
+void TDecisor::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
@@ -108,8 +107,7 @@ void TDecisor::LeeResultadosMedControlador(const char *FileWAM,
 			FResMediosCtrl.Output = true;
 			break;
 		default:
-			std::cout << "Resultados medios en Controlador " << fID
-					<< " no implementados " << std::endl;
+			std::cout << "Resultados medios en Controlador " << fID << " no implementados " << std::endl;
 		}
 	}
 
@@ -117,8 +115,7 @@ void TDecisor::LeeResultadosMedControlador(const char *FileWAM,
 	fclose(fich);
 }
 
-void TDecisor::LeeResultadosInsControlador(const char *FileWAM,
-		fpos_t &filepos) {
+void TDecisor::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 	int nvars = 0, var = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
@@ -132,8 +129,7 @@ void TDecisor::LeeResultadosInsControlador(const char *FileWAM,
 			FResInstantCtrl.Output = true;
 			break;
 		default:
-			std::cout << "Resultados instantaneos en Controlador " << fID
-					<< " no implementados " << std::endl;
+			std::cout << "Resultados instantaneos en Controlador " << fID << " no implementados " << std::endl;
 		}
 	}
 
@@ -184,8 +180,7 @@ void TDecisor::IniciaMedias() {
 
 void TDecisor::ResultadosMediosController() {
 	if (FResMediosCtrl.Output) {
-		FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM
-				/ FResMediosCtrl.TiempoSUM;
+		FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
 		FResMediosCtrl.OutputSUM = 0.;
 	}
 }

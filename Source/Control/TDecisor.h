@@ -43,8 +43,8 @@ private:
 
 	bool fTargedControlled;		//!< The target can be modified by a controller?
 
-	TController *fControllerLow;//!< This controller provides the lower signal
-	TController *fControllerHigh;//!< This controller provides the higher signal
+	TController *fControllerLow;		//!< This controller provides the lower signal
+	TController *fControllerHigh;		//!< This controller provides the higher signal
 	TController *fControllerTarget;	//!< This controller is used to decide the target value
 
 	double fTarget;				//!< Target value
@@ -61,50 +61,50 @@ public:
 
 	/*! Decisor contructor */
 	TDecisor(int i							//!< Index
-			);
+		);
 
 	/*! Decisor destructor */
 	~TDecisor();
 
 	/*! Return the final output */
 	double Output(double Time						//!< Current time
-			);
+		);
 
 	/*! Read the data of the controller */
 	void LeeController(const char *FileWAM,		//!< File name of the input data
-			fpos_t &filepos				//!< Position within the file to read
-			);
+		fpos_t &filepos				//!< Position within the file to read
+		);
 
 	/*! Asing the different controller and sensors */
 	void AsignaObjetos(TSensor **Sensor,				//!< Array with sensors
-			TController **Controller		//!< Array with controllers
-			);
+		TController **Controller		//!< Array with controllers
+		);
 
 	/*! Read the average results selected */
-	void LeeResultadosMedControlador(const char *FileWAM,//!< File name of the input data
-			fpos_t &filepos				//!< Position within the file to read
-			);
+	void LeeResultadosMedControlador(const char *FileWAM,		//!< File name of the input data
+		fpos_t &filepos				//!< Position within the file to read
+		);
 
 	/*! Read the instantenous results selected */
-	void LeeResultadosInsControlador(const char *FileWAM,//!< File name of the input data
-			fpos_t &filepos				//!< Position within the file to read
-			);
+	void LeeResultadosInsControlador(const char *FileWAM,				//!< File name of the input data
+		fpos_t &filepos				//!< Position within the file to read
+		);
 
 	/*! Generate the average results header */
 	void CabeceraResultadosMedControlador(stringstream& medoutput//!< StringStream where the average results are stored
-			);
+		);
 
 	/*! Generate the instantaneous results header */
 	void CabeceraResultadosInsControlador(stringstream& insoutput//!< StringStream where the instantaneous results are stored
-			);
+		);
 
 	/*! Print the average results */
 	void ImprimeResultadosMedControlador(stringstream& medoutput//!< StringStream where the averate results are stored
-			);
+		);
 
 	/*! Print the instantaneous values */
 	void ImprimeResultadosInsControlador(stringstream& insoutput//!< StringStream where the instantaneous results are stored
-			);
+		);
 
 	/*! Initialize average results */
 	void IniciaMedias();
@@ -114,7 +114,7 @@ public:
 
 	/*! Acumulate average results */
 	void AcumulaResultadosMediosController(double Actual	//!< Current time
-			);
+		);
 
 	/*! Calculate instantaneous results */
 	void ResultadosInstantController();

@@ -116,11 +116,11 @@ void stRectan::operator()(double Ang, double Mod) {
 }
 
 Base_interp::Base_interp() :
-		n(0), mm(0), jsav(0), cor(0), xx(), yy() {
+n(0), mm(0), jsav(0), cor(0), xx(), yy() {
 }
 
 Base_interp::Base_interp(dVector &x, const double *y, int m) :
-		n(x.size()), mm(m), jsav(0), cor(0), xx(&x[0]), yy(y) {
+n(x.size()), mm(m), jsav(0), cor(0), xx(&x[0]), yy(y) {
 	dj = Max(1, (int) pow025((double) n));
 }
 
@@ -202,11 +202,11 @@ int Base_interp::hunt(const double x) {
 }
 
 Linear_interp::Linear_interp() :
-		Base_interp() {
+Base_interp() {
 }
 
 Linear_interp::Linear_interp(dVector &xv, dVector &yv) :
-		Base_interp(xv, &yv[0], 2) {
+Base_interp(xv, &yv[0], 2) {
 }
 
 void Linear_interp::operator()(dVector & xv, dVector & yv) {
@@ -228,12 +228,12 @@ double Linear_interp::rawinterp(int j, double x) {
 }
 
 Hermite_interp::Hermite_interp() :
-		Base_interp(), y2() {
+Base_interp(), y2() {
 }
 ;
 
 Hermite_interp::Hermite_interp(dVector &xv, dVector &yv) :
-		Base_interp(xv, &yv[0], 2), y2(xv.size()) {
+Base_interp(xv, &yv[0], 2), y2(xv.size()) {
 	sety2(&xv[0], &yv[0]);
 }
 
@@ -253,8 +253,7 @@ void Hermite_interp::sety2(const double *xv, const double *yv) {
 	double DeltaK = 0., AlphaK = 0., BetaK = 0., TauK = 0.;
 
 	for (int i = 1; i < n - 1; ++i) {
-		y2[i] = (yv[i] - yv[i - 1]) / 2. / (xv[i] - xv[i - 1])
-				+ (yv[i + 1] - yv[i]) / 2. / (xv[i + 1] - xv[i]);
+		y2[i] = (yv[i] - yv[i - 1]) / 2. / (xv[i] - xv[i - 1]) + (yv[i + 1] - yv[i]) / 2. / (xv[i + 1] - xv[i]);
 	}
 	y2[0] = (yv[1] - yv[0]) / (xv[1] - xv[0]);
 	y2[n - 1] = (yv[n - 1] - yv[n - 2]) / (xv[n - 1] - xv[n - 2]);
@@ -293,18 +292,17 @@ double Hermite_interp::rawinterp(int j, double x) {
 		h10 = t3 - 2 * t2 + t;
 		h01 = -2 * t3 + 3 * t2;
 		h11 = t3 - t2;
-		ret_val = h00 * yy[j] + h * h10 * y2[j] + h01 * yy[j + 1]
-				+ h * h11 * y2[j + 1];
+		ret_val = h00 * yy[j] + h * h10 * y2[j] + h01 * yy[j + 1] + h * h11 * y2[j + 1];
 	}
 	return ret_val;
 }
 
 Step_interp::Step_interp() :
-		Base_interp() {
+Base_interp() {
 }
 
 Step_interp::Step_interp(dVector &xv, dVector &yv) :
-		Base_interp(xv, &yv[0], 2) {
+Base_interp(xv, &yv[0], 2) {
 }
 
 void Step_interp::operator()(dVector & xv, dVector & yv) {
@@ -326,7 +324,7 @@ double Step_interp::rawinterp(int j, double x) {
 }
 
 LUdcmp::LUdcmp(dMatrix &a) :
-		n(a.size()), lu(a), aref(a), indx(n) {
+n(a.size()), lu(a), aref(a), indx(n) {
 
 	const double TINY = 1.0e-40;
 	int i = 0, imax = 0, j = 0, k = 0;

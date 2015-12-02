@@ -36,11 +36,9 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TCCCompresorVolumetrico::TCCCompresorVolumetrico(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TCCCompresorVolumetrico::TCCCompresorVolumetrico(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
+	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	asgNumeroCV = false;
@@ -71,8 +69,8 @@ TCCCompresorVolumetrico::~TCCCompresorVolumetrico() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
-		fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, bool HayMotor) {
+void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
+	bool HayMotor) {
 	try {
 		int i = 0, ControlRegimen;
 		double fracciontotal = 0.;
@@ -125,15 +123,14 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 			fscanf(fich, "%lf ", &FRelacionVelocidadesCV);
 		} else {
 			std::cout
-					<< "ERROR: TCCCompresorVolumetrico::LeeCCDeposito Lectura del Control del Regimen erronea en la condicion de contorno: "
-					<< FNumeroCC << std::endl;
+				<< "ERROR: TCCCompresorVolumetrico::LeeCCDeposito Lectura del Control del Regimen erronea en la condicion de contorno: "
+				<< FNumeroCC << std::endl;
 			throw Exception(" ");
 		}
 
 		fscanf(fich, "%lf %lf ", &FPresionCV, &FTemperaturaCV);
 		fscanf(fich, "%lf %lf %lf ", &FC1Caudal, &FC2Caudal, &FC3Caudal);
-		fscanf(fich, "%lf %lf %lf ", &FC1Temperatura, &FC2Temperatura,
-				&FC3Temperatura);
+		fscanf(fich, "%lf %lf %lf ", &FC1Temperatura, &FC2Temperatura, &FC3Temperatura);
 		fscanf(fich, "%lf %lf %lf ", &FC1Potencia, &FC2Potencia, &FC3Potencia);
 		fscanf(fich, "%lf %lf %lf ", &FC4Potencia, &FC5Potencia, &FC6Potencia);
 
@@ -142,14 +139,12 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 		FComposicion = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - 1; i++) {
 			fscanf(fich, "%lf ", &FComposicion[i]);
-			FFraccionMasicaEspecie[i] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 			fracciontotal += FComposicion[i];
 		}
 		if (FHayEGR) {
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
-							FNumeroEspecies - 1);
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
+				FNumeroEspecies - 1);
 			if (FCalculoEspecies == nmCalculoCompleto) {
 				if (FComposicion[0] > 0.2)
 					FComposicion[FNumeroEspecies - 1] = 0.;
@@ -164,8 +159,8 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 		}
 		if (fracciontotal != 1.) {
 			std::cout
-					<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
-					<< FNumeroCC << std::endl;
+				<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
+				<< FNumeroCC << std::endl;
 			throw Exception(" ");
 		}
 
@@ -175,9 +170,8 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 	}
 
 	catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::LeeCCCompresorVol en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -186,8 +180,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::ObtencionValoresInstantaneos(
-		double RegimenMotor) {
+void TCCCompresorVolumetrico::ObtencionValoresInstantaneos(double RegimenMotor) {
 	try {
 
 		FPressure = FTuboExtremo[FNumeroTubosCC - 1].Pipe->GetPresion(FNodoFin);
@@ -196,9 +189,8 @@ void TCCCompresorVolumetrico::ObtencionValoresInstantaneos(
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::ObtencionValoresInstantaneos en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::ObtencionValoresInstantaneos en la condicion de contorno: "
+			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -214,37 +206,32 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
-		FGamma3 = __gamma::G3(FGamma);
-		FGamma4 = __gamma::G4(FGamma);
+		FGamma3 = __Gamma::G3(FGamma);
+		FGamma4 = __Gamma::G4(FGamma);
 
 		/* Calculo del massflow volumetrico (l/s) */
-		massflow = FC1Caudal + FC2Caudal * FPressure
-				+ FC3Caudal * FRelacionVelocidadesCV * FRegimen;
+		massflow = FC1Caudal + FC2Caudal * FPressure + FC3Caudal * FRelacionVelocidadesCV * FRegimen;
 
 		/* Calculo del massflow masico (kg/s) */
-		FDensidad = __units::BarToPa(FPresionCV) / (FRMezcla * __units::degCToK(FTemperaturaCV ));
+		FDensidad = __units::BarToPa(FPresionCV) / (FRMezcla * __units::degCToK(FTemperaturaCV));
 		FGasto = massflow * FDensidad / 1000.;
 
 		/* Temperature del gas entrante en grados centigrados */
-		FTemperature = FC1Temperatura * pow2(FPressure)
-				+ FC2Temperatura * FPressure + FC3Temperatura;
+		FTemperature = FC1Temperatura * pow2(FPressure) + FC2Temperatura * FPressure + FC3Temperatura;
 
 		/* Velocity del sonido en el tubo */
 		FSonido = sqrt(FGamma * __units::degCToK(FTemperature) * FRMezcla) / __cons::ARef;
 
 		/* Potencia */
-		FPotencia = FC1Potencia * pow3(FPressure)
-				+ FC2Potencia * pow2(FPressure) + FC3Potencia * FPressure
-				+ FC4Potencia
-				+ FC5Potencia
-						* exp(FC6Potencia * FRelacionVelocidadesCV * FRegimen);
+		FPotencia = FC1Potencia * pow3(FPressure) + FC2Potencia * pow2(FPressure) + FC3Potencia * FPressure
+			+ FC4Potencia + FC5Potencia * exp(FC6Potencia * FRelacionVelocidadesCV * FRegimen);
 
 		/*!Acotacion del intervalo donde esta U*/
 		ei = 0;
 		ed = FSonido;
 
-		stComprVol CV(FTuboExtremo[0].Entropia, *FCC, FGamma, FSonido, FGasto,
-				FSeccionTubo, __cons::PRef, __cons::ARef);
+		stComprVol CV(FTuboExtremo[0].Entropia, *FCC, FGamma, FSonido, FGasto, FSeccionTubo, __cons::PRef,
+			__cons::ARef);
 		FVelocity = FindRoot(CV, ei, ed);
 
 		/* printf("ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno No hay convergencia en el compresor volumetrico en la condicion de contorno: %d.\n",FNumeroCC);
@@ -257,18 +244,15 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 		*FCD = FSonido + FGamma3 * FVelocity;
 
 // Transporte de Especies Quimicas
-		if (*FCC > *FCD) {   // Flujo saliente del tubo
+		if (*FCC > *FCD) {    // Flujo saliente del tubo
 			for (int j = 0; j < FNumeroEspecies - 2; j++) {
-				FFraccionMasicaEspecie[j] =
-						FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
+				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
-			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1.
-					- FraccionMasicaAcum;
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
-							FNumeroEspecies - 1);
-		} else if (*FCD > *FCC) { // Flujo entrante al tubo
+			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
+				FNumeroEspecies - 1);
+		} else if (*FCD > *FCC) {  // Flujo entrante al tubo
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FFraccionMasicaEspecie[j] = FComposicion[j];
 			}
@@ -279,9 +263,8 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 		AcumulaResultadosMediosCV(Time);
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::CalculaCondicionContorno en la condicion de contorno: "
+			<< FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -313,8 +296,7 @@ void TCCCompresorVolumetrico::CalculaCondicionContorno(double Time) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,
-		fpos_t &filepos) {
+void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars = 0, var = 0;
 
@@ -335,17 +317,14 @@ void TCCCompresorVolumetrico::ReadAverageResultsCV(const char *FileWAM,
 				FResMediosCV.Pressure = true;
 				break;
 			default:
-				std::cout << "Resultados medios en CV(BC) " << FNumeroCC
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados medios en CV(BC) " << FNumeroCC << " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::ReadAverageResultsCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::ReadAverageResultsCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -375,9 +354,7 @@ void TCCCompresorVolumetrico::CabeceraResultadosMedCV(stringstream& medoutput) {
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::CabeceraResultadosMedCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::CabeceraResultadosMedCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -399,9 +376,7 @@ void TCCCompresorVolumetrico::ImprimeResultadosMedCV(stringstream& medoutput) {
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::ImprimerResultadosMedCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::ImprimerResultadosMedCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -420,8 +395,7 @@ void TCCCompresorVolumetrico::IniciaMedias() {
 		FResMediosCV.Tiempo0 = 0.;
 
 	} catch (exception &N) {
-		std::cout << "ERROR: TCCCompresorVolumetrico::IniciaMedias en la BC: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::IniciaMedias en la BC: " << FNumeroCC << std::endl;
 //std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -433,25 +407,20 @@ void TCCCompresorVolumetrico::IniciaMedias() {
 void TCCCompresorVolumetrico::ResultadosMediosCV() {
 	try {
 		if (FResMediosCV.Potencia) {
-			FResMediosCV.PotenciaMED = FResMediosCV.PotenciaSUM
-					/ FResMediosCV.TiempoSUM;
+			FResMediosCV.PotenciaMED = FResMediosCV.PotenciaSUM / FResMediosCV.TiempoSUM;
 			FResMediosCV.PotenciaSUM = 0.;
 		}
 		if (FResMediosCV.Massflow) {
-			FResMediosCV.GastoMED = FResMediosCV.GastoSUM
-					/ FResMediosCV.TiempoSUM;
+			FResMediosCV.GastoMED = FResMediosCV.GastoSUM / FResMediosCV.TiempoSUM;
 			FResMediosCV.GastoSUM = 0.;
 		}
 		if (FResMediosCV.Pressure) {
-			FResMediosCV.PresionMED = FResMediosCV.PresionSUM
-					/ FResMediosCV.TiempoSUM;
+			FResMediosCV.PresionMED = FResMediosCV.PresionSUM / FResMediosCV.TiempoSUM;
 			FResMediosCV.PresionSUM = 0.;
 		}
 		FResMediosCV.TiempoSUM = 0;
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::ResultadosMediosCV en la BC: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::ResultadosMediosCV en la BC: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -478,9 +447,7 @@ void TCCCompresorVolumetrico::AcumulaResultadosMediosCV(double Actual) {
 		FResMediosCV.TiempoSUM += Delta;
 		FResMediosCV.Tiempo0 = Delta;
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::AcumulaResultadosMediosCV en la BC: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::AcumulaResultadosMediosCV en la BC: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -489,8 +456,7 @@ void TCCCompresorVolumetrico::AcumulaResultadosMediosCV(double Actual) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,
-		fpos_t &filepos) {
+void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM, fpos_t &filepos) {
 	int nvars = 0, var = 0;
 
 	try {
@@ -511,16 +477,13 @@ void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,
 				FResInstantCV.Pressure = true;
 				break;
 			default:
-				std::cout << "Resultados medios en CV(BC) " << FNumeroCC
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados medios en CV(BC) " << FNumeroCC << " no implementados " << std::endl;
 			}
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::LeeResultadosInstantCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::LeeResultadosInstantCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -529,8 +492,7 @@ void TCCCompresorVolumetrico::LeeResultadosInstantCV(const char *FileWAM,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::CabeceraResultadosInstantCV(
-		stringstream& insoutput) {
+void TCCCompresorVolumetrico::CabeceraResultadosInstantCV(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
@@ -549,9 +511,7 @@ void TCCCompresorVolumetrico::CabeceraResultadosInstantCV(
 		}
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::CabeceraResultadosInstantCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::CabeceraResultadosInstantCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -570,9 +530,7 @@ void TCCCompresorVolumetrico::ResultadosInstantCV() {
 			FResInstantCV.PresionINS = FPressure;
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::ResultadosInstantCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::ResultadosInstantCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -581,8 +539,7 @@ void TCCCompresorVolumetrico::ResultadosInstantCV() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCCompresorVolumetrico::ImprimeResultadosInstantCV(
-		stringstream& insoutput) {
+void TCCCompresorVolumetrico::ImprimeResultadosInstantCV(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 
@@ -595,9 +552,7 @@ void TCCCompresorVolumetrico::ImprimeResultadosInstantCV(
 
 //fclose(fich);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCCompresorVolumetrico::ImprimeResultadosInstantCV en la BC "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCCompresorVolumetrico::ImprimeResultadosInstantCV en la BC " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

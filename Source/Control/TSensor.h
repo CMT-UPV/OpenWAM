@@ -51,7 +51,7 @@ private:
 
 	bool FInicia;							//!< Indentify the fist time step
 
-	double FDistancia;//!< If the object sensed is a pipe. Distance from the left end where the parameter is sensed
+	double FDistancia;	//!< If the object sensed is a pipe. Distance from the left end where the parameter is sensed
 	int FNode0;	//!< If the object sensed is a pipe. Left cell from the place where the parameter is sensed
 	int FNode1;	//!< If the object sensed is a pipe. Right cell from the place where the parameter is sensed
 	double FDelta;							//!< Current time step
@@ -68,7 +68,7 @@ private:
 
 	TObject *FObjectPointer;				//!< Pointer to the object sensed
 
-	stResInstantSensor FResInstantSensor;//!< Struct with the instantaneus results
+	stResInstantSensor FResInstantSensor;				//!< Struct with the instantaneus results
 	stResMediosSensor FResMediosSensor;		//!< Struct with the average results
 
 	double FPeriod;	//!< Controls the time period to update the sensor measurement.
@@ -76,26 +76,26 @@ private:
 public:
 	/*! Contructor of the class TSensor*/
 	TSensor(int i							//!< Index of the sensor
-			);
+		);
 
 	/*! Destructor of the class TSensor*/
 	~TSensor();
 
 	/*! Read from the input data the sensor information*/
 	void ReadSensor(const char *FileWAM,		//!< Filename of the input data
-			fpos_t &filepos		//!< Specify a position within the input file.
-			);
+		fpos_t &filepos		//!< Specify a position within the input file.
+		);
 
 	/*! Asign the pointer of the object sensed*/
 	void AsignaObjeto(TObject *Object		//!< Pointer to the object sensed
-			);
+		);
 
 	/*! Return the current value of the sensor output*/
 	double Output();
 
 	/*! Update the sensor output value*/
 	void ActualizaMedida(double Time						//!< Current tiem
-			);
+		);
 
 	/*! Return the type of the object sensed*/
 	nmObjectSensed ObjectSensed() {
@@ -107,30 +107,30 @@ public:
 	int ObjectID() /*{return FObjectID;}*/;
 
 	/*! Read the average results selected for the sensor*/
-	void LeeResultadosMedSensor(const char *FileWAM,//!< Filename of the input data
-			fpos_t &filepos		//!< Specify a position within the input file.
-			);
+	void LeeResultadosMedSensor(const char *FileWAM,						//!< Filename of the input data
+		fpos_t &filepos		//!< Specify a position within the input file.
+		);
 
 	/*! Read de instantaneous results selected for the sensor*/
-	void LeeResultadosInsSensor(const char *FileWAM,//!< Filename of the input data
-			fpos_t &filepos		//!< Specify a position within the input file.
-			);
+	void LeeResultadosInsSensor(const char *FileWAM,		//!< Filename of the input data
+		fpos_t &filepos		//!< Specify a position within the input file.
+		);
 
 	/*! Generate the header of the average results*/
 	void CabeceraResultadosMedSensor(std::stringstream& medoutput//!< StringStream where the average results are stored
-			);
+		);
 
 	/*! Generate the header of the instantaneous results*/
 	void CabeceraResultadosInsSensor(std::stringstream& insoutput//!< StringStream where the instantaneous results are stored
-			);
+		);
 
 	/*! Print the average results of the sensor*/
 	void ImprimeResultadosMedSensor(std::stringstream& medoutput//!< StringStream where the average results are stored
-			);
+		);
 
 	/*! Print the instantaneous results of the sensor*/
 	void ImprimeResultadosInsSensor(std::stringstream& insoutput//!< StringStream where the instantaneous results are stored
-			);
+		);
 
 	/*! Initailize the average results*/
 	void IniciaMedias();
@@ -140,7 +140,7 @@ public:
 
 	/*! Acumulate the average results*/
 	void AcumulaResultadosMediosSensor(double Actual		//!< Current time
-			);
+		);
 
 	/*! Calculate the instantaneous results*/
 	void ResultadosInstantSensor();

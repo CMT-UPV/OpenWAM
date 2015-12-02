@@ -37,11 +37,9 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TCCEntradaCompresor::TCCEntradaCompresor(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TCCEntradaCompresor::TCCEntradaCompresor(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
+	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FVelocity = 0;
@@ -63,8 +61,8 @@ TCCEntradaCompresor::~TCCEntradaCompresor() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TCCEntradaCompresor::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-		int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF) {
+void TCCEntradaCompresor::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
+	int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;
 
@@ -106,14 +104,11 @@ void TCCEntradaCompresor::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 // Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-			FFraccionMasicaEspecie[i] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCEntradaCompresor::AsignaTubos en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCEntradaCompresor::AsignaTubos en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -127,9 +122,8 @@ void TCCEntradaCompresor::AsignaCompresor(TCompresor **Compressor) {
 		FCompresor = Compressor[FNumeroCompresor - 1];
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCEntradaCompresor::AsignaCompresor en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCEntradaCompresor::AsignaCompresor en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -145,32 +139,28 @@ void TCCEntradaCompresor::CalculaCondicionContorno(double Time) {
 		double error = 1e5;
 
 		FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
-		FGamma1 = __gamma::G1(FGamma);
-		FGamma3 = __gamma::G3(FGamma);
-		FGamma5 = __gamma::G5(FGamma);
+		FGamma1 = __Gamma::G1(FGamma);
+		FGamma3 = __Gamma::G3(FGamma);
+		FGamma5 = __Gamma::G5(FGamma);
 
 		FGasto = FCompresor->getMassflow();
 		cte1 = FTuboExtremo[0].Entropia;
-		cte2 = FGamma1 * pow2(FTuboExtremo[0].Entropia) * FGasto * __cons::ARef
-				/ (2 * FGamma * FSeccionTubo * 1e5);
+		cte2 = FGamma1 * pow2(FTuboExtremo[0].Entropia) * FGasto * __cons::ARef / (2 * FGamma * FSeccionTubo * 1e5);
 		ctea = FGamma1 / FGamma;
 
 		while (error > 1e-5 && contador < 800) {
 			contador++;
-			numerador = cte1 * pow(FPressure, FGamma5)
-					+ cte2 * pow(FPressure, ctea - 1) - *FCC;
-			denominador = cte1 * FGamma5 * pow(FPressure, FGamma5 - 1)
-					+ cte2 * (ctea - 1) * pow(FPressure, ctea - 2);
+			numerador = cte1 * pow(FPressure, FGamma5) + cte2 * pow(FPressure, ctea - 1) - *FCC;
+			denominador = cte1 * FGamma5 * pow(FPressure, FGamma5 - 1) + cte2 * (ctea - 1) * pow(FPressure, ctea - 2);
 			presionact = FPressure - numerador / denominador;
 			error = fabs(FPressure - presionact);
 			FPressure = presionact;
 		}
 		if (contador > 799) {
 			printf(
-					"ERROR: TCCEntradaCompresor::CalculaCondicionContorno, no converge en entrada compresor en la condicion de contorno: %d\n",
-					FNumeroCC);
-			throw Exception(
-					"ERROR: TCCEntradaCompresor::CalculaCondicionContorno no converge en entrada compresor");
+				"ERROR: TCCEntradaCompresor::CalculaCondicionContorno, no converge en entrada compresor en la condicion de contorno: %d\n",
+				FNumeroCC);
+			throw Exception("ERROR: TCCEntradaCompresor::CalculaCondicionContorno no converge en entrada compresor");
 		}
 
 // Calculo de velocidad,velocidad del sonido y caracteristica reflejada.
@@ -183,9 +173,8 @@ void TCCEntradaCompresor::CalculaCondicionContorno(double Time) {
 // en el compresor. Se actualiza directamente en el compresor.
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCEntradaCompresor::CalculaCondicionContorno en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCEntradaCompresor::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

@@ -32,7 +32,7 @@
 #include "TGain.h"
 
 TGain::TGain(int i) :
-		TController(nmGainCtrl, i) {
+TController(nmGainCtrl, i) {
 	fID = i + 1;
 	FGain = 1.;
 }
@@ -92,8 +92,7 @@ void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 			break;
 
 		default:
-			std::cout << "Resultados medios en Controlador " << fID
-					<< " no implementados " << std::endl;
+			std::cout << "Resultados medios en Controlador " << fID << " no implementados " << std::endl;
 		}
 	}
 
@@ -117,8 +116,7 @@ void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 			FResInstantCtrl.Output = true;
 			break;
 		default:
-			std::cout << "Resultados instantaneos en Controlador " << fID
-					<< " no implementados " << std::endl;
+			std::cout << "Resultados instantaneos en Controlador " << fID << " no implementados " << std::endl;
 		}
 	}
 
@@ -178,8 +176,7 @@ void TGain::IniciaMedias() {
 void TGain::ResultadosMediosController() {
 
 	if (FResMediosCtrl.Output) {
-		FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM
-				/ FResMediosCtrl.TiempoSUM;
+		FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
 		FResMediosCtrl.OutputSUM = 0.;
 	}
 

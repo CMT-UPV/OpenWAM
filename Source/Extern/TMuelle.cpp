@@ -72,8 +72,7 @@ void TMuelle::CalculaPosicion(double fuerza, double DeltaT) {
 	}
 
 	catch (exception &N) {
-		std::cout << "ERROR: Calculo de la Posicion del Muelle(DLL)"
-				<< std::endl;
+		std::cout << "ERROR: Calculo de la Posicion del Muelle(DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

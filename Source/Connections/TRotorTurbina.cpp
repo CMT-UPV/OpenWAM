@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 
 TRotorTurbina::TRotorTurbina() :
-		TTipoValvula(nmRotor) {
+TTipoValvula(nmRotor) {
 
 }
 
@@ -48,7 +48,7 @@ TRotorTurbina::~TRotorTurbina() {
 //---------------------------------------------------------------------------
 
 TRotorTurbina::TRotorTurbina(TRotorTurbina *Origen, int Valvula) :
-		TTipoValvula(nmRotor) {
+TTipoValvula(nmRotor) {
 
 	FValvula = Valvula;
 
@@ -71,8 +71,8 @@ TRotorTurbina::TRotorTurbina(TRotorTurbina *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TRotorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TRotorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 		int tprotor = 0;
 

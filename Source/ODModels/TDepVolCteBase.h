@@ -51,11 +51,10 @@ public:
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
-	TDepVolCteBase(int i, nmTipoDeposito TipoDeposito,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TDepVolCteBase(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
-	virtual ~TDepVolCteBase() =0;
+	virtual ~TDepVolCteBase() = 0;
 
 };
 

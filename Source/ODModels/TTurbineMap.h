@@ -57,11 +57,9 @@ public:
 
 	~TTurbineMap();
 
-	void LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double Diam3,
-			double Diam4, double CriticalAngle);
+	void LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double Diam3, double Diam4, double CriticalAngle);
 
-	void CurrentEffectiveSection(double n, double er, double rack,
-			double T10T00);
+	void CurrentEffectiveSection(double n, double er, double rack, double T10T00);
 
 	double StatorEF() {
 		return FStatorES;

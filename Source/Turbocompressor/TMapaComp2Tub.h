@@ -129,16 +129,13 @@ private:
 
 //void Hermite(int n,std::vector<double> x,std::vector<double> y,std::vector<double> *sol);
 
-	void SplineVector(int n, std::vector<double> x, std::vector<double> y,
-			std::vector<double> sol);
+	void SplineVector(int n, std::vector<double> x, std::vector<double> y, std::vector<double> sol);
 
-	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w,
-			double *b, double *c, double *d);
+	void PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w, double *b, double *c, double *d);
 
 	double EvaluaSpline(double punto, int n, double *x, double *y, double *sol);
 
-	double EvaluaSpline(double punto, int n, std::vector<double> x,
-			std::vector<double> y, std::vector<double> sol);
+	double EvaluaSpline(double punto, int n, std::vector<double> x, std::vector<double> y, std::vector<double> sol);
 
 //double EvaluaHermite(double punto,int n,double *x,double *y,double *sol);
 

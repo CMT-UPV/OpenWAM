@@ -98,9 +98,8 @@ public:
 	 * the thrust bearing.
 	 */
 
-	TurboBearings(stHTMoil *Oil, double L_jb, double R_jb, double h_jb,
-			double k_jb, double k_A_c, double k_A_t, double A_c, double A_t,
-			double k_m, double R_tb_min, double R_tb_max, double k_tb);
+	TurboBearings(stHTMoil *Oil, double L_jb, double R_jb, double h_jb, double k_jb, double k_A_c, double k_A_t,
+		double A_c, double A_t, double k_m, double R_tb_min, double R_tb_max, double k_tb);
 
 	/**
 	 * \brief Compute the thrust bearing oil film thickness.
@@ -182,8 +181,7 @@ public:
 	 * @param m The oil mass flow rate in kg / s.
 	 * @return The power losses in the bearing system, in W.
 	 */
-	double P_oil(double T1, double n, double p1, double p2, double p3,
-			double p4, double m);
+	double P_oil(double T1, double n, double p1, double p2, double p3, double p4, double m);
 };
 
 #endif

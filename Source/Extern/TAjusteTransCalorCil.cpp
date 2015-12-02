@@ -94,8 +94,7 @@ void TAjusteTransCalorCil::CalculaTCC(double TiempoActual, double Regimen) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TAjusteTransCalorCil::IniciaTCC(int NumeroTramos, int *Ciclo,
-		double *CoefTCAdm, double *CoefTCEsc) {
+void TAjusteTransCalorCil::IniciaTCC(int NumeroTramos, int *Ciclo, double *CoefTCAdm, double *CoefTCEsc) {
 	try {
 		FCiclo = new int[NumeroTramos];
 		FCadmision = new double[NumeroTramos];
@@ -120,8 +119,7 @@ void TAjusteTransCalorCil::IniciaTCC(int NumeroTramos, int *Ciclo,
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-double TAjusteTransCalorCil::xit_(double vizq, double vder, double axid,
-		double xif) {
+double TAjusteTransCalorCil::xit_(double vizq, double vder, double axid, double xif) {
 	try {
 		double xx = 0., yy = 0.;
 		double ret_val = 0.;

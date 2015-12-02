@@ -119,15 +119,13 @@ public:
 
 	~TConcentrico();
 
-	virtual void LeeDatosTuboConcentrico(const char *FileWAM, fpos_t &filepos,
-			TTubo **Tubo, TDPF **DPF) =0;
+	virtual void LeeDatosTuboConcentrico(const char *FileWAM, fpos_t &filepos, TTubo **Tubo, TDPF **DPF) = 0;
 
-	virtual void CalculaTemperaturaPared(TBloqueMotor **Motor, double theta,
-			TCondicionContorno **CC) =0;
+	virtual void CalculaTemperaturaPared(TBloqueMotor **Motor, double theta, TCondicionContorno **CC) = 0;
 
-	virtual void CalculaTemperaturaParedSinMotor(TCondicionContorno **CC) =0;
+	virtual void CalculaTemperaturaParedSinMotor(TCondicionContorno **CC) = 0;
 
-	virtual void CalculaResistenciasdePared(TCondicionContorno **CC) =0;
+	virtual void CalculaResistenciasdePared(TCondicionContorno **CC) = 0;
 
 	double GetTiempo(int i);
 

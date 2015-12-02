@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TEstatorTurbina::TEstatorTurbina() :
-		TTipoValvula(nmStator) {
+TTipoValvula(nmStator) {
 
 }
 
@@ -48,7 +48,7 @@ TEstatorTurbina::~TEstatorTurbina() {
 //---------------------------------------------------------------------------
 
 TEstatorTurbina::TEstatorTurbina(TEstatorTurbina *Origen, int Valvula) :
-		TTipoValvula(nmStator) {
+TTipoValvula(nmStator) {
 
 	FTipoEstator = Origen->FTipoEstator;
 	FCDEInicial = Origen->FCDEInicial;
@@ -69,8 +69,8 @@ TEstatorTurbina::TEstatorTurbina(TEstatorTurbina *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 		int tpstator = 0;
 

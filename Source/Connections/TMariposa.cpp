@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 
 TMariposa::TMariposa() :
-		TTipoValvula(nmMariposa) {
+TTipoValvula(nmMariposa) {
 	FLevControlled = false;
 	fun_CDin = NULL;
 	fun_CDout = NULL;
@@ -43,7 +43,7 @@ TMariposa::~TMariposa() {
 }
 
 TMariposa::TMariposa(TMariposa *Origen, int valv) :
-		TTipoValvula(nmMariposa) {
+TTipoValvula(nmMariposa) {
 	FNumLev = Origen->FNumLev;
 
 	FDiametroRef = Origen->FDiametroRef;
@@ -70,8 +70,8 @@ TMariposa::TMariposa(TMariposa *Origen, int valv) :
 	FLevControlled = Origen->FLevControlled;
 }
 
-void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	int ctrl = 0, prm = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
@@ -86,8 +86,7 @@ void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 	FDatosCDSalida.resize(FNumLev);
 
 	for (int i = 0; i < FNumLev; i++) {
-		fscanf(fich, " %lf %lf %lf", &FLevantamiento[i], &FDatosCDEntrada[i],
-				&FDatosCDSalida[i]);
+		fscanf(fich, " %lf %lf %lf", &FLevantamiento[i], &FDatosCDEntrada[i], &FDatosCDSalida[i]);
 	}
 
 	fscanf(fich, " %lf", &FLevActual);

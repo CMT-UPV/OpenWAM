@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TValvulaContr::TValvulaContr() :
-		TTipoValvula(nmValvulaContr) {
+TTipoValvula(nmValvulaContr) {
 
 	FAngle0 = 0;
 }
@@ -50,7 +50,7 @@ TValvulaContr::~TValvulaContr() {
 //---------------------------------------------------------------------------
 
 TValvulaContr::TValvulaContr(TValvulaContr *Origen, int Valvula) :
-		TTipoValvula(nmValvulaContr) {
+TTipoValvula(nmValvulaContr) {
 
 	FTipoContr = Origen->FTipoContr;
 	FLimiteInf1 = Origen->FLimiteInf1;
@@ -72,8 +72,8 @@ TValvulaContr::TValvulaContr(TValvulaContr *Origen, int Valvula) :
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-		int norden, bool HayMotor, TBloqueMotor *Engine) {
+void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+	TBloqueMotor *Engine) {
 	try {
 		int Ctrl = 0;
 
@@ -84,9 +84,8 @@ void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
 
 		FEngine = Engine;
 
-		fscanf(fich, "%d %lf %lf %lf %lf %lf %lf ", &Ctrl, &FLimiteInf1,
-				&FLimiteInf2, &FLimiteSup1, &FLimiteSup2, &FCDInicial,
-				&FCDFinal);
+		fscanf(fich, "%d %lf %lf %lf %lf %lf %lf ", &Ctrl, &FLimiteInf1, &FLimiteInf2, &FLimiteSup1, &FLimiteSup2,
+			&FCDInicial, &FCDFinal);
 
 		switch (Ctrl) {
 		case 0:
@@ -121,8 +120,7 @@ void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 			xx = Mf;
 		else {
 			printf("ERROR: This type of controlled valve is not implemented");
-			throw Exception(
-					"ERROR: This type of controlled valve is not implemented");
+			throw Exception("ERROR: This type of controlled valve is not implemented");
 		}
 		if (FLimiteSup1 == FLimiteSup2) {
 			if (xx >= FLimiteSup1) {
@@ -186,8 +184,7 @@ void TValvulaContr::GetCDin(double Time) {
 		xx = FEngine->getMasaFuel();
 	} else {
 		printf("ERROR: This type of controlled valve is not implemented");
-		throw Exception(
-				"ERROR: This type of controlled valve is not implemented");
+		throw Exception("ERROR: This type of controlled valve is not implemented");
 	}
 	if (FLimiteSup1 == FLimiteSup2) {
 		if (xx >= FLimiteSup1) {
@@ -238,8 +235,7 @@ void TValvulaContr::GetCDout(double Time) {
 		xx = FEngine->getMasaFuel();
 	} else {
 		printf("ERROR: This type of controlled valve is not implemented");
-		throw Exception(
-				"ERROR: This type of controlled valve is not implemented");
+		throw Exception("ERROR: This type of controlled valve is not implemented");
 	}
 	if (FLimiteSup1 == FLimiteSup2) {
 		if (xx >= FLimiteSup1) {

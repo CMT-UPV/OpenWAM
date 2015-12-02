@@ -291,17 +291,17 @@ public:
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
 
-	TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
-	virtual ~TCompresor() =0;
+	virtual ~TCompresor() = 0;
 
-	virtual void CalculaGasto(double TrabajoInsTurbina, double TiempoActual) =0;
+	virtual void CalculaGasto(double TrabajoInsTurbina, double TiempoActual) = 0;
 
-	virtual void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
-			double AcumulatedTime, int TuboCalculado) =0;
+	virtual void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double AcumulatedTime,
+		int TuboCalculado) = 0;
 
-	virtual void Initialize() =0;
+	virtual void Initialize() = 0;
 
 	void InterpolaValoresMapa(double rtc);
 

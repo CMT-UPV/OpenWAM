@@ -57,9 +57,8 @@ public:
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
-	TUnionDireccional(int i, int NUnionDireccional,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TUnionDireccional(int i, int NUnionDireccional, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TUnionDireccional();
 

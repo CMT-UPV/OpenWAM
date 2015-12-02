@@ -146,8 +146,8 @@ protected:
 
 	// void PutNUniones(int value);
 
-	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE,
-			double ASonidoD, double MasaD, double Gamma);
+	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD, double MasaD,
+		double Gamma);
 
 	// void PutCalculadoPaso(bool valor);
 
@@ -269,9 +269,8 @@ public:
 	// FUNCIONES PUBLICAS
 	// ---------------------------------------------------------------------------
 
-	TDeposito(int i, nmTipoDeposito TipoDeposito,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TDeposito() = 0;
 
@@ -279,8 +278,7 @@ public:
 
 	void ReadInstantaneousResultsDep(const char *FileWAM, fpos_t &filepos);
 
-	void HeaderInstantaneousResultsDep(std::stringstream& insoutput,
-			stEspecies *DatosEspecies);
+	void HeaderInstantaneousResultsDep(std::stringstream& insoutput, stEspecies *DatosEspecies);
 
 	void ImprimeResultadosInstantaneosDep(std::stringstream& insoutput);
 
@@ -288,8 +286,7 @@ public:
 
 	void ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos);
 
-	void HeaderAverageResultsDep(std::stringstream& medoutput,
-			stEspecies *DatosEspecies);
+	void HeaderAverageResultsDep(std::stringstream& medoutput, stEspecies *DatosEspecies);
 
 	void ImprimeResultadosMediosDep(std::stringstream& medoutput);
 

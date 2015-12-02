@@ -50,7 +50,7 @@
 // #include "StringDataBase.h"
 // ---------------------------------------------------------------------------
 
-#define vers 2100 /*n. de version de WAM*/
+#define vers 2200 /*n. de version de WAM*/
 
 #define usetry 1
 //#define WriteINS 1
@@ -165,12 +165,7 @@ enum nmVolumenDeposito {
 };
 
 enum nmTipoDeposito {
-	nmDepVolCte = 0,
-	nmDepVolVble = 1,
-	nmTurbinaSimple = 2,
-	nmTurbinaTwin = 3,
-	nmVenturi = 4,
-	nmUnionDireccional = 5
+	nmDepVolCte = 0, nmDepVolVble = 1, nmTurbinaSimple = 2, nmTurbinaTwin = 3, nmVenturi = 4, nmUnionDireccional = 5
 };
 
 enum nmTipoGas {
@@ -242,10 +237,7 @@ enum nmCalculoPared {
 };
 
 enum nmTipoModelado {
-	nmEstacionario = 0,
-	nmTransitorioCarga = 1,
-	nmTransitorioRegimen = 2,
-	nmTransitorioRegimenExterno = 3
+	nmEstacionario = 0, nmTransitorioCarga = 1, nmTransitorioRegimen = 2, nmTransitorioRegimenExterno = 3
 };
 
 enum nmRegimenValv {
@@ -253,9 +245,7 @@ enum nmRegimenValv {
 };
 
 enum nmTipoCalcTempParedTubos {
-	nmVariableConInerciaTermica = 0,
-	nmVariableSinInerciaTermica = 1,
-	nmTempConstante = 2
+	nmVariableConInerciaTermica = 0, nmVariableSinInerciaTermica = 1, nmTempConstante = 2
 };
 
 enum nmTipoCalculoEspecies {
@@ -279,11 +269,7 @@ enum nmTipoControl {
 };
 
 enum nmControlMethod {
-	nmCtlConstant = 0,
-	nmCtlPID = 1,
-	nmCtlTable = 2,
-	nmCtlSwitch = 3,
-	nmGainCtrl = 4
+	nmCtlConstant = 0, nmCtlPID = 1, nmCtlTable = 2, nmCtlSwitch = 3, nmGainCtrl = 4
 };
 
 enum nmInputObjet {
@@ -295,12 +281,7 @@ enum nmObjectSensed {
 };
 
 enum nmParameterSensed {
-	nmTime = 0,
-	nmPressure = 1,
-	nmTemperature = 2,
-	nmMassFlow = 3,
-	nmFuel = 4,
-	nmEngSpeed = 5
+	nmTime = 0, nmPressure = 1, nmTemperature = 2, nmMassFlow = 3, nmFuel = 4, nmEngSpeed = 5
 };
 
 enum nmTipoInterpolacion {
@@ -395,8 +376,7 @@ struct stDatosTGV {
 // ---------------------------------------------------------------------------
 
 struct stGammas {
-	double aref, gamma, gai123, gamm1, gams1, gas12, gas123, gads1, gar21, r,
-			pi;
+	double aref, gamma, gai123, gamm1, gams1, gas12, gas123, gads1, gar21, r, pi;
 };
 
 // ---------------------------------------------------------------------------
@@ -1608,69 +1588,6 @@ void DestruyeMatriz(T * *pointer, int num) {
 	}
 }
 
-namespace __gamma{
-
-	// FOR AIR AT AMBIENT CONDITIONS
-	const double G = 1.4;
-	const double G_1 = 0.4;
-	const double G_2 = 2.4;
-	const double G_3 = 0.2;
-	const double G_4 = 7.0;
-	const double G_5 = 0.14285714285714285;
-	const double G_6 = 2.5;
-	const double G_7 = 0.6666666666666667;
-	const double G_8 = 0.28771428571428575;
-	const double G_9 = 3.5;
-	const double Cp = 1004.5;
-	const double Cp_x2 = 2009.0;
-	const double Cv = 717.5;
-	const double gxR = 401.8;
-
-	inline double GG(double Cp, double Cv){
-		return Cp / Cv;
-	}
-
-	inline double G1(double g) {
-		return g - 1;
-	};
-
-	inline double G2(double g) {
-		return g + 1;
-	};
-
-	inline double G3(double g) {
-		return (g - 1) * 0.5;
-	};
-
-	inline double G4(double g) {
-		return 2. * g / (g - 1);
-	}
-	;
-
-	inline double G5(double g) {
-		return (g - 1) / 2. / g;
-	}
-	;
-
-	inline double G6(double g) {
-		return 1 / (g - 1);
-	}
-	;
-
-	inline double G7(double g) {
-		return (3 - g) / (g + 1);
-	}
-	;
-
-	inline double G8(double g) {
-		return (g - 1) / g;
-	}
-	;
-
-	inline double G9(double g) {
-		return g / (g - 1);
-	}
-}
 
 /**
  * @brief Heat capacities ratio of air.
@@ -1687,9 +1604,8 @@ namespace __gamma{
  * or not.
  * @return Heat capacities ratio.
  */
-inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
-		nmCalculoGamma GammaCalculation) {
-	double g = __gamma::G;
+inline double CalculoSimpleGamma(double RMezcla, double CvMezcla, nmCalculoGamma GammaCalculation) {
+	double g = __Gamma::G;
 
 	if (GammaCalculation != nmGammaConstante) {
 		g = 1. + RMezcla / CvMezcla;
@@ -1722,13 +1638,12 @@ inline double CalculoSimpleGamma(double RMezcla, double CvMezcla,
  * or not.
  * @return Specific heat capacity at constant volume. [J / (kg * K)]
  */
-inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
-		double YCombustible, nmCalculoGamma GammaCalculation,
-		nmTipoCombustion TipoCombustible) {
+inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	if (TipoCombustible == 0) {
 		TipoCombustible == nmMEC;
 	}
-	double CvMezcla = __gamma::Cv;
+	double CvMezcla = __Gamma::Cv;
 	if (GammaCalculation != nmGammaConstante) {
 		double CvAire = 714.68;
 		double CvQuemados = 759.67;
@@ -1737,55 +1652,32 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados,
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
 
-			CvAire = -10.4199 * RaizdeT + 2522.88
-					+ (-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT)
-							/ Temperature;
-			CvQuemados = 641.154
-					+ Temperature
-							* (0.43045
-									+ Temperature
-											* (-0.0001125
-													+ Temperature * 8.979e-9));
-			CvH2O = (22.605 - 0.09067 * RaizdeT
-					+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
-							/ Temperature) * __R::H2O - __R::H2O;
+			CvAire = -10.4199 * RaizdeT + 2522.88 + (-67227.1 * RaizdeT + 917124.4 - 4174853.6 / RaizdeT) / Temperature;
+			CvQuemados = 641.154 + Temperature * (0.43045 + Temperature * (-0.0001125 + Temperature * 8.979e-9));
+			CvH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT) / Temperature)
+				* __R::H2O - __R::H2O;
 			if (TipoCombustible == nmMEC) {
 				//Diesel C10.8H18.7
-				CvCombustible =
-						-256.4
-								+ Temperature
-										* (6.95372
-												+ Temperature
-														* (-0.00404715
-																+ Temperature
-																		* 0.000000910259))
-								+ 1458487 / (Temperature * Temperature);
+				CvCombustible = -256.4
+					+ Temperature * (6.95372 + Temperature * (-0.00404715 + Temperature * 0.000000910259))
+					+ 1458487 / (Temperature * Temperature);
 			} else if (TipoCombustible == nmMEP) {
 				//Gasolina C8.26H15.5
-				CvCombustible =
-						(4184
-								* (-24.078
-										+ Temperature
-												* (0.25663
-														- Temperature
-																* (0.00020168
-																		+ 0.00000006475
-																				* Temperature))
-										+ 580800 * RaizdeT) * __R::Gasoline
-								/ __R::Universal) - __R::Gasoline; //cv = cp - R
+				CvCombustible = (4184
+					* (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168 + 0.00000006475 * Temperature))
+						+ 580800 * RaizdeT) * __R::Gasoline / __R::Universal) - __R::Gasoline; //cv = cp - R
 			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
 		//Sin Humedad en aire
-		CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible
-				+ (CvAire * (1 - YCombustible - YQuemados));
+		CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados));
 	}
 	return CvMezcla;
 }
 ;
 
-inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible,
-		nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible, nmCalculoGamma GammaCalculation,
+	nmTipoCombustion TipoCombustible) {
 	double R = 287;
 	double RFuel = 0;
 	if (TipoCombustible == nmMEP) {
@@ -1796,15 +1688,13 @@ inline double CalculoSimpleRMezcla(double YQuemados, double YCombustible,
 	if (GammaCalculation != nmGammaConstante) {
 		//R = __R::Burnt * YQuemados + RFuel * YCombustible + (__R::Air * (1 - YQuemados - YCombustible - 0.0164) + 0.0164 * __R::H2O);
 		//Sin humedad en aire
-		R = __R::Burnt * YQuemados + RFuel * YCombustible
-				+ (__R::Air * (1 - YQuemados - YCombustible));
+		R = __R::Burnt * YQuemados + RFuel * YCombustible + (__R::Air * (1 - YQuemados - YCombustible));
 	}
 	return R;
 }
 ;
 
-inline double CalculoCompletoGamma(double RMezcla, double CpMezcla,
-		nmCalculoGamma GammaCalculation) {
+inline double CalculoCompletoGamma(double RMezcla, double CpMezcla, nmCalculoGamma GammaCalculation) {
 	double Gamma = 1.4;
 
 	if (GammaCalculation != nmGammaConstante) {
@@ -1814,9 +1704,8 @@ inline double CalculoCompletoGamma(double RMezcla, double CpMezcla,
 }
 ;
 
-inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
-		double YCombustible, double Temperature,
-		nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
+inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, double YCombustible, double Temperature,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double YN2 = 1 - YO2 - YCO2 - YH2O;
 	double CpMezcla = 1004.5;
 	if (TipoCombustible == 0) {
@@ -1837,59 +1726,35 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O,
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
 			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
-			CpN2 = (12.531 - 0.05932 * RaizdeT
-					+ (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT)
-							/ Temperature) * __R::N2;
-			CpO2 = (-0.112 + 0.0479 * RaizdeT
-					+ (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT)
-							/ Temperature) * __R::O2;
-			CpCO2 =
-					(12.019 - 0.03566 * RaizdeT
-							+ (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT)
-									/ Temperature) * __R::CO2;
-			CpH2O = (22.605 - 0.09067 * RaizdeT
-					+ (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT)
-							/ Temperature) * __R::H2O;
+			CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT) / Temperature) * __R::N2;
+			CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT) / Temperature) * __R::O2;
+			CpCO2 = (12.019 - 0.03566 * RaizdeT + (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT) / Temperature)
+				* __R::CO2;
+			CpH2O = (22.605 - 0.09067 * RaizdeT + (-826.53 * RaizdeT + 13970.1 - 82114 / RaizdeT) / Temperature)
+				* __R::H2O;
 			if (TipoCombustible == nmMEC) {
 				//Diesel C10.8H18.7
-				CpCombustible =
-						__R::Diesel
-								+ (-256.4
-										+ Temperature
-												* (6.95372
-														+ Temperature
-																* (-0.00404715
-																		+ Temperature
-																				* 0.000000910259))
-										+ 1458487 / (Temperature * Temperature)); //Cp = R + Cv
+				CpCombustible = __R::Diesel
+					+ (-256.4 + Temperature * (6.95372 + Temperature * (-0.00404715 + Temperature * 0.000000910259))
+						+ 1458487 / (Temperature * Temperature)); //Cp = R + Cv
 			} else if (TipoCombustible == nmMEP) {
 				//Gasolina C8.26H15.5
-				CpCombustible =
-						4184
-								* (-24.078
-										+ Temperature
-												* (0.25663
-														- Temperature
-																* (0.00020168
-																		+ 0.00000006475
-																				* Temperature))
-										+ 580800 * RaizdeT) * __R::Gasoline
-								/ __R::Universal; //cv = cp - R
+				CpCombustible = 4184
+					* (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168 + 0.00000006475 * Temperature))
+						+ 580800 * RaizdeT) * __R::Gasoline / __R::Universal; //cv = cp - R
 			}
 
 		}
-		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O
-				+ CpN2 * (YN2 - 0.01292) + 520.32 * 0.01292
-				+ CpCombustible * YCombustible;
+		CpMezcla = CpO2 * YO2 + CpCO2 * YCO2 + CpH2O * YH2O + CpN2 * (YN2 - 0.01292) + 520.32 * 0.01292
+			+ CpCombustible * YCombustible;
 	}
 
 	return CpMezcla;
 }
 ;
 
-inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
-		double YCombustible, nmCalculoGamma GammaCalculation,
-		nmTipoCombustion TipoCombustible) {
+inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O, double YCombustible,
+	nmCalculoGamma GammaCalculation, nmTipoCombustion TipoCombustible) {
 	double R = 287;
 	double RFuel = 0;
 	if (TipoCombustible == nmMEP) {
@@ -1899,8 +1764,7 @@ inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 	}
 	if (GammaCalculation != nmGammaConstante) {
 		R = __R::O2 * YO2 + __R::CO2 * YCO2 + __R::H2O * YH2O + RFuel * YCombustible
-				+ __R::N2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012)
-				+ 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
+			+ __R::N2 * (1 - YO2 - YCO2 - YH2O - YCombustible - 0.012) + 208.13 * 0.012; // El ultimo t�rmino es el Arg�n
 	}
 	return R;
 }
@@ -1908,11 +1772,9 @@ inline double CalculoCompletoRMezcla(double YO2, double YCO2, double YH2O,
 
 inline double CalculoUfgasoil(double Temperature) {
 	double Ufgasoil = 0.;
-	Ufgasoil = -1234157.8 - 256.4 * __units::degCToK(Temperature)
-			+ 3.47686 * pow(__units::degCToK(Temperature), 2)
-			- 0.00134905 * pow(__units::degCToK(Temperature), 3)
-			+ 0.000000227565 * pow(__units::degCToK(Temperature), 4)
-			- 1458487. / __units::degCToK(Temperature);
+	Ufgasoil = -1234157.8 - 256.4 * __units::degCToK(Temperature) + 3.47686 * pow(__units::degCToK(Temperature), 2)
+		- 0.00134905 * pow(__units::degCToK(Temperature), 3) + 0.000000227565 * pow(__units::degCToK(Temperature), 4)
+		- 1458487. / __units::degCToK(Temperature);
 	return Ufgasoil;
 }
 ;
@@ -1939,8 +1801,7 @@ inline double Interp1(double x, double *x1, double *x2, int n) {
 }
 ;
 
-inline double Interp1(double x, std::vector<double> x1, std::vector<double> x2,
-		int n) {
+inline double Interp1(double x, std::vector<double> x1, std::vector<double> x2, int n) {
 	double ret_val, delta;
 	int pos;
 
@@ -1962,8 +1823,7 @@ inline double Interp1(double x, std::vector<double> x1, std::vector<double> x2,
 }
 ;
 
-inline double StepFunction(double x, std::vector<double> x1,
-		std::vector<double> x2, int n) {
+inline double StepFunction(double x, std::vector<double> x1, std::vector<double> x2, int n) {
 	double ret_val;
 	int pos;
 
@@ -1982,12 +1842,10 @@ inline double StepFunction(double x, std::vector<double> x1,
 }
 ;
 
-inline double Interpolacion_bidimensional(double xref, double yref,
-		double *Mapa_fila, double *Mapa_col, double **Mapa, int dimension_x,
-		int dimension_y) {
+inline double Interpolacion_bidimensional(double xref, double yref, double *Mapa_fila, double *Mapa_col, double **Mapa,
+	int dimension_x, int dimension_y) {
 	int y1, y2, x1, x2;
-	double Valor_mapa_fila_yref_columna_x1, Valor_mapa_fila_yref_columna_x2,
-			Valor_mapa_fila_yref_columna_xref;
+	double Valor_mapa_fila_yref_columna_x1, Valor_mapa_fila_yref_columna_x2, Valor_mapa_fila_yref_columna_xref;
 	int contador_col = 0, contador_fila = 0;
 
 	if (yref < Mapa_fila[0]) {
@@ -2003,8 +1861,7 @@ inline double Interpolacion_bidimensional(double xref, double yref,
 				contador_col++;
 			}
 			Valor_mapa_fila_yref_columna_xref = Mapa[0][x1]
-					+ (Mapa[0][x1] - Mapa[0][x2]) * (Mapa_col[x1] - xref)
-							/ (Mapa_col[x1] - Mapa_col[x2]);
+				+ (Mapa[0][x1] - Mapa[0][x2]) * (Mapa_col[x1] - xref) / (Mapa_col[x1] - Mapa_col[x2]);
 		}
 
 	} else if (yref >= Mapa_fila[dimension_y - 1]) {
@@ -2012,8 +1869,7 @@ inline double Interpolacion_bidimensional(double xref, double yref,
 		if (xref < Mapa_col[0]) {
 			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][0];
 		} else if (xref >= Mapa_col[dimension_x - 1]) {
-			Valor_mapa_fila_yref_columna_xref =
-					Mapa[dimension_y - 1][dimension_x - 1];
+			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][dimension_x - 1];
 		} else {
 			while (Mapa_col[contador_col] <= xref) {
 				x1 = contador_col;
@@ -2021,9 +1877,8 @@ inline double Interpolacion_bidimensional(double xref, double yref,
 				contador_col++;
 			}
 			Valor_mapa_fila_yref_columna_xref = Mapa[dimension_y - 1][x1]
-					- (Mapa[dimension_y - 1][x1] - Mapa[dimension_y - 1][x2])
-							* (Mapa_col[x1] - xref)
-							/ (Mapa_col[x1] - Mapa_col[x2]);
+				- (Mapa[dimension_y - 1][x1] - Mapa[dimension_y - 1][x2]) * (Mapa_col[x1] - xref)
+					/ (Mapa_col[x1] - Mapa_col[x2]);
 		}
 
 	} else {
@@ -2035,13 +1890,11 @@ inline double Interpolacion_bidimensional(double xref, double yref,
 		}
 		if (xref < Mapa_col[0]) {
 			Valor_mapa_fila_yref_columna_xref = Mapa[y1][0]
-					- (Mapa[y1][0] - Mapa[y2][0]) * (Mapa_fila[y1] - yref)
-							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+				- (Mapa[y1][0] - Mapa[y2][0]) * (Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
 		} else if (xref >= Mapa_col[dimension_x - 1]) {
 			Valor_mapa_fila_yref_columna_xref = Mapa[y1][dimension_x - 1]
-					- (Mapa[y1][dimension_x - 1] - Mapa[y2][dimension_x - 1])
-							* (Mapa_fila[y1] - yref)
-							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+				- (Mapa[y1][dimension_x - 1] - Mapa[y2][dimension_x - 1]) * (Mapa_fila[y1] - yref)
+					/ (Mapa_fila[y1] - Mapa_fila[y2]);
 		} else {
 			while (Mapa_col[contador_col] <= xref) {
 				x1 = contador_col;
@@ -2050,18 +1903,14 @@ inline double Interpolacion_bidimensional(double xref, double yref,
 			}
 			/* Se interpolan los valores entre las dos columnas */
 			Valor_mapa_fila_yref_columna_x1 = Mapa[y1][x1]
-					- (Mapa[y1][x1] - Mapa[y2][x1]) * (Mapa_fila[y1] - yref)
-							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+				- (Mapa[y1][x1] - Mapa[y2][x1]) * (Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
 			Valor_mapa_fila_yref_columna_x2 = Mapa[y1][x2]
-					- (Mapa[y1][x2] - Mapa[y2][x2]) * (Mapa_fila[y1] - yref)
-							/ (Mapa_fila[y1] - Mapa_fila[y2]);
+				- (Mapa[y1][x2] - Mapa[y2][x2]) * (Mapa_fila[y1] - yref) / (Mapa_fila[y1] - Mapa_fila[y2]);
 
 			/* A continuacion se interpola el valor entre las filas del mapa, para obtener el (valor en xref,yref) */
 			Valor_mapa_fila_yref_columna_xref = Valor_mapa_fila_yref_columna_x1
-					- (Valor_mapa_fila_yref_columna_x1
-							- Valor_mapa_fila_yref_columna_x2)
-							* (Mapa_col[x1] - xref)
-							/ (Mapa_col[x1] - Mapa_col[x2]);
+				- (Valor_mapa_fila_yref_columna_x1 - Valor_mapa_fila_yref_columna_x2) * (Mapa_col[x1] - xref)
+					/ (Mapa_col[x1] - Mapa_col[x2]);
 		}
 
 	}
@@ -2074,8 +1923,7 @@ inline void Hermite(int n, double *x, double *y, double *sol) {
 	double DeltaK, AlphaK, BetaK, TauK;
 
 	for (int i = 1; i < n - 1; ++i) {
-		sol[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1])
-				+ (y[i + 1] - y[i]) / 2. / (x[i + 1] - x[i]);
+		sol[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1]) + (y[i + 1] - y[i]) / 2. / (x[i + 1] - x[i]);
 	}
 	sol[0] = (y[1] - y[0]) / (x[1] - x[0]);
 	sol[n - 1] = (y[n - 1] - y[n - 2]) / (x[n - 1] - x[n - 2]);
@@ -2098,13 +1946,11 @@ inline void Hermite(int n, double *x, double *y, double *sol) {
 }
 ;
 
-inline void Hermite(int n, std::vector<double> x, std::vector<double> y,
-		std::vector<double> *sol) {
+inline void Hermite(int n, std::vector<double> x, std::vector<double> y, std::vector<double> *sol) {
 	double DeltaK, AlphaK, BetaK, TauK;
 
 	for (int i = 1; i < n - 1; ++i) {
-		(*sol)[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1])
-				+ (y[i + 1] - y[i]) / 2. / (x[i + 1] - x[i]);
+		(*sol)[i] = (y[i] - y[i - 1]) / 2. / (x[i] - x[i - 1]) + (y[i + 1] - y[i]) / 2. / (x[i + 1] - x[i]);
 	}
 	(*sol)[0] = (y[1] - y[0]) / (x[1] - x[0]);
 	(*sol)[n - 1] = (y[n - 1] - y[n - 2]) / (x[n - 1] - x[n - 2]);
@@ -2127,8 +1973,7 @@ inline void Hermite(int n, std::vector<double> x, std::vector<double> y,
 }
 ;
 
-inline double EvaluaHermite(double punto, int n, double *x, double *y,
-		double *sol) {
+inline double EvaluaHermite(double punto, int n, double *x, double *y, double *sol) {
 	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
 	int k = 0;
 
@@ -2148,16 +1993,15 @@ inline double EvaluaHermite(double punto, int n, double *x, double *y,
 		h10 = t3 - 2 * t2 + t;
 		h01 = -2 * t3 + 3 * t2;
 		h11 = t3 - t2;
-		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k]
-				+ h * h11 * sol[k];
+		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k] + h * h11 * sol[k];
 	}
 
 	return ret_val;
 }
 ;
 
-inline double EvaluaHermite(double punto, int n, std::vector<double> x,
-		std::vector<double> y, std::vector<double> sol) {
+inline double EvaluaHermite(double punto, int n, std::vector<double> x, std::vector<double> y,
+	std::vector<double> sol) {
 	double ret_val, h00, h10, h01, h11, t2, t3, t, h;
 	int k = 0;
 
@@ -2177,8 +2021,7 @@ inline double EvaluaHermite(double punto, int n, std::vector<double> x,
 		h10 = t3 - 2 * t2 + t;
 		h01 = -2 * t3 + 3 * t2;
 		h11 = t3 - t2;
-		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k]
-				+ h * h11 * sol[k];
+		ret_val = h00 * y[k - 1] + h * h10 * sol[k - 1] + h01 * y[k] + h * h11 * sol[k];
 	}
 
 	return ret_val;
@@ -2206,8 +2049,7 @@ inline void GetName(char *origin, char *destination, const char *add) {
 inline void ReduceSubsonicFlow(double& a, double& v, double g) {
 	double Machx = v / a;
 	double g3 = (g - 1) / 2;
-	double Machy = Machx / fabs(Machx)
-			* sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx, 2) - 1.));
+	double Machy = Machx / fabs(Machx) * sqrt((Machx * Machx + 1 / g3) / (g / g3 * pow(Machx, 2) - 1.));
 	a = a * sqrt((g3 * Machx * Machx + 1.) / (g3 * Machy * Machy + 1.));
 
 	v = a * Machy;

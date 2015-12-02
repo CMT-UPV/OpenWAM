@@ -33,7 +33,7 @@
 // ---------------------------------------------------------------------------
 
 TPIDController::TPIDController(int i) :
-		TController(nmCtlPID, i) {
+TController(nmCtlPID, i) {
 	fID = i + 1;
 	fError_ant = 0;
 	fTime_ant = 0;
@@ -111,9 +111,8 @@ double TPIDController::Output(double Time) {
 	}
 	deltaT = Time - fTime_ant_filt;
 	if (deltaT > 0) {
-		fOutput_filt = ((2 * fDelay - deltaT) * fOutput_filt_ant
-				+ deltaT * fGain * (fOutput + fOutput_ant))
-				/ (2 * fDelay + deltaT);
+		fOutput_filt = ((2 * fDelay - deltaT) * fOutput_filt_ant + deltaT * fGain * (fOutput + fOutput_ant))
+			/ (2 * fDelay + deltaT);
 		fOutput_filt_ant = fOutput_filt;
 		fOutput_ant = fOutput;
 		fTime_ant_filt = Time;
@@ -172,8 +171,7 @@ void TPIDController::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 }
 
-void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
-		fpos_t &filepos) {
+void TPIDController::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars = 0, var = 0;
 
@@ -203,24 +201,20 @@ void TPIDController::LeeResultadosMedControlador(const char *FileWAM,
 				FResMediosCtrl.Output_filt = true;
 				break;
 			default:
-				std::cout << "Resultados medios en Controlador " << fID
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados medios en Controlador " << fID << " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::LeeResultadosControlador en el controlador "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::LeeResultadosControlador en el controlador " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
 }
 
-void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
-		fpos_t &filepos) {
+void TPIDController::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 	try {
 		int nvars = 0, var = 0;
 
@@ -250,17 +244,14 @@ void TPIDController::LeeResultadosInsControlador(const char *FileWAM,
 				FResInstantCtrl.Output_filt = true;
 				break;
 			default:
-				std::cout << "Resultados instantaneos en Controlador " << fID
-						<< " no implementados " << std::endl;
+				std::cout << "Resultados instantaneos en Controlador " << fID << " no implementados " << std::endl;
 			}
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::LeeResultadosInsControlador en el controlador "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::LeeResultadosInsControlador en el controlador " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -296,9 +287,7 @@ void TPIDController::CabeceraResultadosMedControlador(stringstream& medoutput) {
 		}
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::CabeceraResultadosMedControlador en el controlador "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::CabeceraResultadosMedControlador en el controlador " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -333,9 +322,7 @@ void TPIDController::CabeceraResultadosInsControlador(stringstream& insoutput) {
 			insoutput << Label.c_str();
 		}
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -364,9 +351,7 @@ void TPIDController::ImprimeResultadosMedControlador(stringstream& medoutput) {
 			medoutput << "\t" << FResMediosCtrl.Output_filtMED;
 		}
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::ImprimeResultadosMedControlador en el controlador "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::ImprimeResultadosMedControlador en el controlador " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -395,9 +380,7 @@ void TPIDController::ImprimeResultadosInsControlador(stringstream& insoutput) {
 			insoutput << "\t" << FResInstantCtrl.Output_filtINS;
 		}
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::CabeceraResultadosInsControlador en el controlador " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -416,8 +399,7 @@ void TPIDController::IniciaMedias() {
 		FResMediosCtrl.Tiempo0 = 0.;
 
 	} catch (exception & N) {
-		std::cout << "ERROR: TPIDController::IniciaMedias en el controlador: "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::IniciaMedias en el controlador: " << fID << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -427,41 +409,33 @@ void TPIDController::ResultadosMediosController() {
 	try {
 
 		if (FResMediosCtrl.Output) {
-			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM
-					/ FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.OutputSUM = 0.;
 		}
 		if (FResMediosCtrl.Error) {
-			FResMediosCtrl.ErrorMED = FResMediosCtrl.ErrorSUM
-					/ FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.ErrorMED = FResMediosCtrl.ErrorSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.ErrorSUM = 0.;
 		}
 		if (FResMediosCtrl.POutput) {
-			FResMediosCtrl.POutputMED = FResMediosCtrl.POutputSUM
-					/ FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.POutputMED = FResMediosCtrl.POutputSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.POutputSUM = 0.;
 		}
 		if (FResMediosCtrl.IOutput) {
-			FResMediosCtrl.IOutputMED = FResMediosCtrl.IOutputSUM
-					/ FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.IOutputMED = FResMediosCtrl.IOutputSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.IOutputSUM = 0.;
 		}
 		if (FResMediosCtrl.DOutput) {
-			FResMediosCtrl.DOutputMED = FResMediosCtrl.DOutputSUM
-					/ FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.DOutputMED = FResMediosCtrl.DOutputSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.DOutputSUM = 0.;
 		}
 		if (FResMediosCtrl.Output_filt) {
-			FResMediosCtrl.Output_filtMED = FResMediosCtrl.Output_filtSUM
-					/ FResMediosCtrl.TiempoSUM;
+			FResMediosCtrl.Output_filtMED = FResMediosCtrl.Output_filtSUM / FResMediosCtrl.TiempoSUM;
 			FResMediosCtrl.Output_filtSUM = 0.;
 		}
 		FResMediosCtrl.TiempoSUM = 0;
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::ResultadosMediosController en el eje: "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::ResultadosMediosController en el eje: " << fID << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -495,9 +469,7 @@ void TPIDController::AcumulaResultadosMediosController(double Actual) {
 		FResMediosCtrl.Tiempo0 = Actual;
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::AcumulaResultadosMediosController en el eje: "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::AcumulaResultadosMediosController en el eje: " << fID << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -519,9 +491,7 @@ void TPIDController::ResultadosInstantController() {
 			FResInstantCtrl.Output_filtINS = fOutput_filt;
 
 	} catch (exception & N) {
-		std::cout
-				<< "ERROR: TPIDController::ResultadosInstantController en el eje "
-				<< fID << std::endl;
+		std::cout << "ERROR: TPIDController::ResultadosInstantController en el eje " << fID << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

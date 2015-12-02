@@ -384,9 +384,8 @@ private:
 
 	void CalculateNewHeatPositions();
 
-	void CalculateDistance(int NodoOrigen, int NodoFin, double Longitud,
-			int NumberOfPlenums, int NumberOfPipes, int NumberOfConnections,
-			TTubo **Pipe, TCondicionContorno **BC);
+	void CalculateDistance(int NodoOrigen, int NodoFin, double Longitud, int NumberOfPlenums, int NumberOfPipes,
+		int NumberOfConnections, TTubo **Pipe, TCondicionContorno **BC);
 
 	int SelectPipe(TTubo **Pipe, int NumberOfPipes, int nodo1, int nodo2);
 
@@ -396,11 +395,9 @@ private:
 
 	void StudyInflowOutflowMass();
 
-	void SearchMinimumTime(int LNumDepInicial, double* LTMinimo,
-			TDeposito **LPlenum);
+	void SearchMinimumTime(int LNumDepInicial, double* LTMinimo, TDeposito **LPlenum);
 
-	void SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito,
-			TDeposito **LPlenum);
+	void SearchMinimumTimeGroup(double *LTMinimo, int LNumDeposito, TDeposito **LPlenum);
 
 	void FixTimeStep();
 
@@ -473,11 +470,9 @@ public:
 	}
 	;
 
-	void UpdateExternalBoundary(int i, double U0, double U1, double T0,
-			double T1, double P0, double P1, double t);
+	void UpdateExternalBoundary(int i, double U0, double U1, double T0, double T1, double P0, double P1, double t);
 
-	void UpdateExternalBoundary(int i, double U0, double T0, double P0,
-			double t);
+	void UpdateExternalBoundary(int i, double U0, double T0, double P0, double t);
 
 	void InitiateExternalBoundary(int i, double D0, double D1, double dX);
 

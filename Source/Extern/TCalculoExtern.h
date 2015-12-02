@@ -113,12 +113,7 @@ enum nmTipoSenCil {
 };
 
 enum nmTipoSenVent {
-	nmPrEntVent = 0,
-	nmPrGarVent = 1,
-	nmVelEntVent = 2,
-	nmVelLatVent = 3,
-	nmGastoEntVent = 4,
-	nmGastoLatVent = 5
+	nmPrEntVent = 0, nmPrGarVent = 1, nmVelEntVent = 2, nmVelLatVent = 3, nmGastoEntVent = 4, nmGastoLatVent = 5
 };
 
 enum nmTipoSenMotor {
@@ -257,16 +252,12 @@ private:
 	char *FRutaTrabajo;
 
 	// Indice que indica la posicion de cada especie en el vector de fraccion masica.
-	int FIndiceTuboN2, FIndiceTuboO2, FIndiceTuboCO2, FIndiceTuboH2O,
-			FIndiceTuboHC, FIndiceTuboSoot, FIndiceTuboNOx, FIndiceTuboCO,
-			FIndiceTuboAireFresco, FIndiceTuboGasQuemado, FIndiceTuboEGR,
-			FIndiceTuboComb;
-	int FIndiceDepN2, FIndiceDepO2, FIndiceDepCO2, FIndiceDepH2O, FIndiceDepHC,
-			FIndiceDepSoot, FIndiceDepNOx, FIndiceDepCO, FIndiceDepAireFresco,
-			FIndiceDepGasQuemado, FIndiceDepEGR, FIndiceDepComb;
+	int FIndiceTuboN2, FIndiceTuboO2, FIndiceTuboCO2, FIndiceTuboH2O, FIndiceTuboHC, FIndiceTuboSoot, FIndiceTuboNOx,
+	FIndiceTuboCO, FIndiceTuboAireFresco, FIndiceTuboGasQuemado, FIndiceTuboEGR, FIndiceTuboComb;
+	int FIndiceDepN2, FIndiceDepO2, FIndiceDepCO2, FIndiceDepH2O, FIndiceDepHC, FIndiceDepSoot, FIndiceDepNOx,
+	FIndiceDepCO, FIndiceDepAireFresco, FIndiceDepGasQuemado, FIndiceDepEGR, FIndiceDepComb;
 
-	bool Fhayecu, Fcontroliny, Fcontrolmfcomb, Fmodcomb, Fajustbaraba,
-			FFraccionMasicaEspeciesCil;
+	bool Fhayecu, Fcontroliny, Fcontrolmfcomb, Fmodcomb, Fajustbaraba, FFraccionMasicaEspeciesCil;
 	bool FCalculoK;
 	int Fngrafmat;
 	double Ftmuestreoecu, FTiempo, FTiempomuestreo, FTiempoSum;
@@ -399,36 +390,27 @@ public:
 	// void LeeFicherosDLL(FILE *fich,int controlvalv,int nematlab,
 	// int ncilin,int nunmat,int CountVGT);
 
-	void LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv,
-			int nematlab, int ncilin, int nunmat, int CountVGT, int numespecies,
-			int NumeroPerdidasPresion);
+	void LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv, int nematlab, int ncilin, int nunmat,
+		int CountVGT, int numespecies, int NumeroPerdidasPresion);
 
 	// Funciones para la lectura de sensores
-	void Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo **Pipe,
-			nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
-			bool HayCombustible);
+	void Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo **Pipe, nmTipoCalculoEspecies SpeciesModel,
+		bool ThereIsEGR, bool HayCombustible);
 
-	void Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposito **Plenum,
-			nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR,
-			bool HayCombustible);
+	void Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposito **Plenum, nmTipoCalculoEspecies SpeciesModel,
+		bool ThereIsEGR, bool HayCombustible);
 
-	void Lee_Sens_TG(const char *FileWAM, fpos_t &filepos,
-			TEjeTurbogrupo **Axis);
+	void Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbogrupo **Axis);
 
-	void Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos,
-			TTurbina **Turbine);
+	void Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos, TTurbina **Turbine);
 
-	void Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos,
-			TBloqueMotor **Engine);
+	void Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos, TBloqueMotor **Engine);
 
-	void Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos,
-			TVenturi **Venturi);
+	void Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVenturi **Venturi);
 
-	void Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double CrankAngle,
-			double ene, double AcumulatedTime);
+	void Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double CrankAngle, double ene, double AcumulatedTime);
 
-	void Lee_Sens_UED(const char *FileWAM, fpos_t &filepos,
-			TCondicionContorno **BC);
+	void Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondicionContorno **BC);
 
 	void Lectura_Datos_Adicionales(const char *FileWAM, fpos_t &filepos);
 
@@ -447,8 +429,7 @@ public:
 
 	void Calculo_Sensores_Venturi(double deltaT, TVenturi **Venturi);
 
-	void Calculo_Sensores_Motor(double deltaT, TBloqueMotor **Engine,
-			double AcumulatedTime);
+	void Calculo_Sensores_Motor(double deltaT, TBloqueMotor **Engine, double AcumulatedTime);
 
 	void Calculo_Sensores_UED(double deltaT, TCondicionContorno **BC);
 

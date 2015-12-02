@@ -35,10 +35,9 @@ TEffCorrector::TEffCorrector() {
 TEffCorrector::~TEffCorrector() {
 }
 
-void TEffCorrector::InputData(double T_AF, double T_Humidity, double T_MassFlow,
-		double T_IT_C, double T_IP, double T_PR, double C_Humidity,
-		double C_MassFlow, double C_IT_C, double C_IP, double C_PR,
-		double O_MassFlow, double O_IT_C, double O_IP, double RTC) {
+void TEffCorrector::InputData(double T_AF, double T_Humidity, double T_MassFlow, double T_IT_C, double T_IP,
+	double T_PR, double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow,
+	double O_IT_C, double O_IP, double RTC) {
 
 	FT.AF = T_AF; // Turbine A/F
 	FT.Humidity = T_Humidity; // Turbine Humidity
@@ -88,17 +87,14 @@ void TEffCorrector::BuidMatrix() {
 
 	FMatriz_KS[3][0] = hAk_GAS_T(Re_mass_tur, Re_shaft) * k_air_T;
 
-	FMatriz_KS[4][2] = hAk_H1_OIL(Re_mass_oil, Re_shaft, Pr_oil, mu_oil_h1)
-			* k_oil;
+	FMatriz_KS[4][2] = hAk_H1_OIL(Re_mass_oil, Re_shaft, Pr_oil, mu_oil_h1) * k_oil;
 	FMatriz_KS[4][3] = K_T_H1();
 
-	FMatriz_KS[5][2] = hAk_H2_OIL(Re_mass_oil, Re_shaft, Pr_oil, mu_oil_h2)
-			* k_oil;
+	FMatriz_KS[5][2] = hAk_H2_OIL(Re_mass_oil, Re_shaft, Pr_oil, mu_oil_h2) * k_oil;
 	FMatriz_KS[5][4] = K_H1_H2();
 
 	FMatriz_KS[6][1] = hAk_H3_AIR(Re_mass_com) * k_air_C;
-	FMatriz_KS[6][2] = hAk_H3_OIL(Re_mass_oil, Re_shaft, Pr_oil, mu_oil_h3)
-			* k_oil;
+	FMatriz_KS[6][2] = hAk_H3_OIL(Re_mass_oil, Re_shaft, Pr_oil, mu_oil_h3) * k_oil;
 	FMatriz_KS[6][5] = K_H2_H3();
 
 	FMatriz_KS[7][1] = hAk_C_AIR(Re_mass_com) * k_air_C;

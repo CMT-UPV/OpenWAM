@@ -79,8 +79,7 @@ public:
 			FNumeroVenturi = NumeroVenturi;
 			asgNumeroVenturi = true;
 		} else {
-			std::cout << "ERROR: Este Venturi ya tiene numero asignado"
-					<< std::endl;
+			std::cout << "ERROR: Este Venturi ya tiene numero asignado" << std::endl;
 			throw Exception("");
 		}
 	}
@@ -155,8 +154,8 @@ public:
 	// FUNCIONES PUBLICAS
 	// ---------------------------------------------------------------------------
 
-	TVenturi(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TVenturi(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
 	~TVenturi();
 

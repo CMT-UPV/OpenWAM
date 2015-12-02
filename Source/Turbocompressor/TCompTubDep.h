@@ -135,22 +135,19 @@ public:
 	}
 	;
 
-	TCompTubDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCompTubDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
 	~TCompTubDep();
 
 	void LeeCompresor(const char *FileWAM, fpos_t &filepos);
 
-	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
-			double AcumulatedTime, int TuboCalculado);
+	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double AcumulatedTime, int TuboCalculado);
 
-	void DatosEntradaCompresor(double AmbientTemperature,
-			double AmbientPressure, TCondicionContorno *BC);
+	void DatosEntradaCompresor(double AmbientTemperature, double AmbientPressure, TCondicionContorno *BC);
 
-	void BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor,
-			double AmbientTemperature, int numeroCC, TCondicionContorno **BC,
-			double *AtmosphericComposition);
+	void BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor, double AmbientTemperature, int numeroCC,
+		TCondicionContorno **BC, double *AtmosphericComposition);
 
 // NO SE UTILIZA EN ESTE TIPO DE COMPRESOR
 	void CalculaGasto(double TrabajoInsTurbina, double TiempoActual) {

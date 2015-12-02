@@ -37,9 +37,8 @@
 
 //---------------------------------------------------------------------------
 
-TCondicionContorno::TCondicionContorno(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
+TCondicionContorno::TCondicionContorno(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
+	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
 
 	FCalculoEspecies = SpeciesModel;
 	FNumeroEspecies = numeroespecies;
@@ -121,9 +120,8 @@ double TCondicionContorno::GetFraccionMasicaEspecie(int i) {
 	try {
 		return FFraccionMasicaEspecie[i];
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCondicionContorno::GetConcentracionEspecie en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCondicionContorno::GetConcentracionEspecie en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -165,22 +163,15 @@ void TCondicionContorno::CalculaCaracteristicas(double Time) {
 		if (FTuboExtremo[i].TipoExtremo == nmRight) {
 			int nin = FTuboExtremo[i].Pipe->getNin() - 1;
 			if (FTuboExtremo[i].Pipe->GetVelocidad(nin) > 0) {
-				FTuboExtremo[i].Entropia =
-						FTuboExtremo[i].Pipe->Interpola_Entropia(
-								FTuboExtremo[i].TipoExtremo, dt);
+				FTuboExtremo[i].Entropia = FTuboExtremo[i].Pipe->Interpola_Entropia(FTuboExtremo[i].TipoExtremo, dt);
 			}
-			FTuboExtremo[i].Landa =
-					FTuboExtremo[i].Pipe->Interpola_Caracteristica(
-							FTuboExtremo[i].Entropia, -1, nin, dt);
+			FTuboExtremo[i].Landa = FTuboExtremo[i].Pipe->Interpola_Caracteristica(FTuboExtremo[i].Entropia, -1, nin,
+				dt);
 		} else {
 			if (FTuboExtremo[i].Pipe->GetVelocidad(0) < 0) {
-				FTuboExtremo[i].Entropia =
-						FTuboExtremo[i].Pipe->Interpola_Entropia(
-								FTuboExtremo[i].TipoExtremo, dt);
+				FTuboExtremo[i].Entropia = FTuboExtremo[i].Pipe->Interpola_Entropia(FTuboExtremo[i].TipoExtremo, dt);
 			}
-			FTuboExtremo[i].Beta =
-					FTuboExtremo[i].Pipe->Interpola_Caracteristica(
-							FTuboExtremo[i].Entropia, 1, 0, dt);
+			FTuboExtremo[i].Beta = FTuboExtremo[i].Pipe->Interpola_Caracteristica(FTuboExtremo[i].Entropia, 1, 0, dt);
 		}
 	}
 }

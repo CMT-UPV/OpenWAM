@@ -33,7 +33,7 @@
 using namespace std;
 
 #ifdef __BORLANDC__
-int RDTSC ( void ) {
+int RDTSC(void) {
 	int k = 0;
 	asm rdtsc;
 	asm mov k, eax;
@@ -41,20 +41,20 @@ int RDTSC ( void ) {
 }
 
 #elif _MSC_VER
-int RDTSC ( void ) {
+int RDTSC(void) {
 	return 0;
 }
 
 #else
 extern "C" {
-inline unsigned long long RDTSC(void) {
-	unsigned int a = 0, d = 0;
-	asm volatile (
-			"xorl %%eax, %%eax \n        cpuid"
-			::: "%rax", "%rbx", "%rcx", "%rdx" );
-	asm volatile ( "rdtsc" : "=a" ( a ), "=d" ( d ) );
-	return (unsigned long long) d << 32 | a;
-}
+	inline unsigned long long RDTSC(void) {
+		unsigned int a = 0, d = 0;
+		asm volatile(
+		"xorl %%eax, %%eax \n        cpuid"
+		::: "%rax", "%rbx", "%rcx", "%rdx");
+		asm volatile("rdtsc" : "=a"(a), "=d"(d));
+		return (unsigned long long) d << 32 | a;
+	}
 }
 #endif
 

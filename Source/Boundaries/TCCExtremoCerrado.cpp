@@ -34,11 +34,9 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TCCExtremoCerrado::TCCExtremoCerrado(nmTypeBC TipoCC, int numCC,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TCCExtremoCerrado::TCCExtremoCerrado(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 
@@ -87,14 +85,11 @@ void TCCExtremoCerrado::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 // Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-			FFraccionMasicaEspecie[i] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
+			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCExtremoCerrado::AsignaTubos en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCExtremoCerrado::AsignaTubos en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -111,19 +106,16 @@ void TCCExtremoCerrado::CalculaCondicionContorno(double Time) {
 
 //Transporte de especies quimicas.
 		for (int j = 0; j < FNumeroEspecies - 2; j++) {
-			FFraccionMasicaEspecie[j] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
+			FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 			FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 		}
 		FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 		if (FHayEGR)
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-					FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
-							FNumeroEspecies - 1);
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
+				FNumeroEspecies - 1);
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TCCExtremoCerrado::CalculaCondicionesContorno en la condicion de contorno: "
-				<< FNumeroCC << std::endl;
+		std::cout << "ERROR: TCCExtremoCerrado::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

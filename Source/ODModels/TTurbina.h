@@ -136,8 +136,7 @@ protected:
 	// FUNCIONES PRIVADAS
 	// ---------------------------------------------------------------------------
 
-	void TransformaContorno(double *L, double *B, double *E, double *a,
-			double *v, double *p, int modo, double Gamma);
+	void TransformaContorno(double *L, double *B, double *E, double *a, double *v, double *p, int modo, double Gamma);
 
 	// void PutNumeroTurbina(int NumeroTurbina);
 
@@ -145,8 +144,7 @@ protected:
 
 	double CpTurbineSimple(double Temperature, double YBurnt);
 
-	double CpTurbineComplete(double YO2, double YCO2, double YH2O,
-			double Temperature);
+	double CpTurbineComplete(double YO2, double YCO2, double YH2O, double Temperature);
 
 public:
 	// ---------------------------------------------------------------------------
@@ -158,8 +156,7 @@ public:
 			FNumeroTurbina = NumeroTurbina;
 			asgNumeroTurbina = true;
 		} else {
-			std::cout << "ERROR: Esta turbina ya tiene numero asignada"
-					<< std::endl;
+			std::cout << "ERROR: Esta turbina ya tiene numero asignada" << std::endl;
 			throw Exception("");
 		}
 	}
@@ -201,9 +198,8 @@ public:
 	// FUNCIONES PUBLICAS
 	// ---------------------------------------------------------------------------
 
-	TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TTurbina() = 0;
 
@@ -211,11 +207,9 @@ public:
 
 	void LeeTurbina(const char *FileWAM, fpos_t &filepos);
 
-	void AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo,
-			int sentido);
+	void AsignaDatosSalida(int nodsaltur, int tubsaltur, int extremo, int sentido);
 
-	virtual void ReadAverageResultsTurb(const char *FileWAM,
-			fpos_t &filepos) = 0;
+	virtual void ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos) = 0;
 
 	virtual void CabeceraResultadosMedTurb(stringstream& medoutput) = 0;
 
@@ -225,8 +219,7 @@ public:
 
 	virtual void AcumulaMedias(double Tiempo) = 0;
 
-	virtual void LeeResultadosInstantTurb(const char *FileWAM,
-			fpos_t &filepos) = 0;
+	virtual void LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filepos) = 0;
 
 	virtual void CabeceraResultadosInstantTurb(stringstream& insoutput) = 0;
 
@@ -236,8 +229,7 @@ public:
 
 	virtual void CalculaResultadosMediosTurb() = 0;
 
-	void AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo,
-			int sentido, int n);
+	void AsignaDatosEntrada(int nodentur, int tubsaltur, int extremo, int sentido, int n);
 
 	virtual void CalculaCondicionTurbina(double TimeCalculo) = 0;
 

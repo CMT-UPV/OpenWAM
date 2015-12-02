@@ -129,10 +129,8 @@ public:
 
 	void LeeDatosEntrada(char *Ruta, FILE *fich);
 
-	void CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
-			double Regimen, double PresionAdmision, double RelacionCinematica,
-			double RelExp, double RegTurboCorr, double GastoCorr,
-			double Tiempo);
+	void CalculaTurbina(nmTipoControl TipoControl, double MasaFuel, double Regimen, double PresionAdmision,
+		double RelacionCinematica, double RelExp, double RegTurboCorr, double GastoCorr, double Tiempo);
 
 };
 

@@ -37,11 +37,9 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-TDepVolVariable::TDepVolVariable(int i, int ncv,
-		nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-		TDeposito(i, nmDepVolVble, SpeciesModel, numeroespecies,
-				GammaCalculation, ThereIsEGR) {
+TDepVolVariable::TDepVolVariable(int i, int ncv, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+TDeposito(i, nmDepVolVble, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FNumeroCompresorVol = ncv + 1;
 
@@ -56,8 +54,7 @@ TDepVolVariable::~TDepVolVariable() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,
-		fpos_t &filepos, bool HayMotor) {
+void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM, fpos_t &filepos, bool HayMotor) {
 	try {
 
 		int ControlRegimen = 0;
@@ -84,22 +81,19 @@ void TDepVolVariable::LeeDatosDepVolVariable(const char *FileWAM,
 		} else if (FControlRegimen == nmMotor && HayMotor) {
 			fscanf(fich, "%lf ", &FRelacionVelocidades);
 		} else {
-			std::cout
-					<< "ERROR: TDepVolVariable::LeeDatosIniciales Lectura del Control del Regimen erronea "
-					<< std::endl;
+			std::cout << "ERROR: TDepVolVariable::LeeDatosIniciales Lectura del Control del Regimen erronea "
+				<< std::endl;
 			throw Exception(" ");
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-		FVolumenMuerto = __geom::Circle_area(FDiametro) * FCarrera
-				/ (FRelCompre - 1.);
+		FVolumenMuerto = __geom::Circle_area(FDiametro) * FCarrera / (FRelCompre - 1.);
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: TDepVolVariable::LeeDatosDepVolVariable en el compresor volumetrico: " << FNumeroCompresor
+			<< std::endl;
 //std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -125,86 +119,63 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 		DeltaAngulo = 360 * FRegimen / 60. * DeltaT;
 		FAngulo += DeltaAngulo;
 		FVolumen0 = FVolumen;
-		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro,
-				FVolumenMuerto);
+		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro, FVolumenMuerto);
 
 		if (FCalculoEspecies == nmCalculoCompleto) {
 
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					FCalculoGamma, nmMEP);
-			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
-					__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
+			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
+			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+				FFraccionMasicaEspecie[2], 0, __units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
 		} else if (FCalculoEspecies == nmCalculoSimple) {
 
-			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature),
-					FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FCalculoGamma, nmMEP);
+			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0],
+				FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 		}
 
 		for (int i = 0; i < FNumeroUniones; i++) {
-			if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo()
-					== nmEntrante) {
+			if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
 				SignoFlujo = 1;
-			} else if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo()
-					== nmSaliente) {
+			} else if (dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
 				SignoFlujo = -1;
 			}
-			g =
-					(double) -dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getMassflow();
-			m =
-					g * DeltaT
-							* FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
-			v =
-					(double) SignoFlujo
-							* dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getVelocity();
+			g = (double) -dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getMassflow();
+			m = g * DeltaT * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
+			v = (double) SignoFlujo * dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getVelocity();
 			a = dynamic_cast<TCCDeposito *>(FCCDeposito[i])->getSpeedSound();
 			MasaEntrante += m;
 			if (v > 0) {
-				H += EntalpiaEntrada(a, v, m, FAsonido, FMasa0,
-						FCCDeposito[i]->getGamma());
+				H += EntalpiaEntrada(a, v, m, FAsonido, FMasa0, FCCDeposito[i]->getGamma());
 			}
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j)
-						* m;
+				FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
 			}
 		}
 		for (int i = 0; i < FNumeroUnionesED; i++) {
 
-			if (FNumeroDeposito
-					== dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
-				SignoFlujoED =
-						dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
+			if (FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
+				SignoFlujoED = dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
 			} else if (FNumeroDeposito
-					== dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
-				SignoFlujoED =
-						dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
+				== dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
+				SignoFlujoED = dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
 			} else
-				printf(
-						"ERROR:TDepVolVariable::ActualizaPropiedades en el deposito %d, union entre depositos %d\n",
-						FNumeroDeposito, i);
+				printf("ERROR:TDepVolVariable::ActualizaPropiedades en el deposito %d, union entre depositos %d\n",
+					FNumeroDeposito, i);
 
-			g =
-					(double) SignoFlujoED
-							* dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getMassflow();
+			g = (double) SignoFlujoED * dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getMassflow();
 			m = g * DeltaT;
-			a =
-					(double) dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSpeedSound();
+			a = (double) dynamic_cast<TCCUnionEntreDepositos *>(FCCUnionEntreDep[i])->getSpeedSound();
 			MasaEntrante += m;
 			if (g > 0) {
-				H += EntalpiaEntrada(a, 0, m, FAsonido, FMasa0,
-						FCCUnionEntreDep[i]->getGamma());
+				H += EntalpiaEntrada(a, 0, m, FAsonido, FMasa0, FCCUnionEntreDep[i]->getGamma());
 			}
 			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
-				FMasaEspecie[j] +=
-						FCCUnionEntreDep[i]->GetFraccionMasicaEspecie(j) * m;
+				FMasaEspecie[j] += FCCUnionEntreDep[i]->GetFraccionMasicaEspecie(j) * m;
 			}
 		}
 		FMasa = FMasa0 + MasaEntrante;
@@ -214,14 +185,12 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 		}
 		FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
 		if (FHayEGR)
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] =
-					FMasaEspecie[FNumeroEspecies - 1] / FMasa;
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie[FNumeroEspecies - 1] / FMasa;
 
-		Energia = pow(FVolumen0 * FMasa / FMasa0 / FVolumen * exp(H),
-				__gamma::G1(FGamma));
+		Energia = pow(FVolumen0 * FMasa / FMasa0 / FVolumen * exp(H), __Gamma::G1(FGamma));
 		FAsonido *= sqrt(Energia);
 		FPressure = __units::PaToBar(pow2(__cons::ARef * FAsonido) * FMasa / (FGamma * FVolumen));
-		FPresionIsen = pow(FPressure / FPresRef, __gamma::G5(FGamma));
+		FPresionIsen = pow(FPressure / FPresRef, __Gamma::G5(FGamma));
 		FTemperature = __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla));
 		FTime = TimeCalculo;
 		if (FAngulo > 360.) {
@@ -229,9 +198,8 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 		}
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumetrico: "
-				<< FNumeroCompresorVol << std::endl;
+		std::cout << "ERROR: TDepVolVariable::ActualizaPropiedades en el compresor volumetrico: " << FNumeroCompresorVol
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -240,8 +208,8 @@ void TDepVolVariable::ActualizaPropiedades(double TimeCalculo) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
-		double lbiela, double diametro, double vol_muerto) {
+double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera, double lbiela, double diametro,
+	double vol_muerto) {
 	double c = 0., tt = 0., ttt = 0.;
 	double ret_val = 0.;
 
@@ -257,9 +225,8 @@ double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 		return ret_val;
 
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumetrico: "
-				<< FNumeroCompresorVol << std::endl;
+		std::cout << "ERROR: TDepVolVariable::CalculaVolumen en el compresor volumetrico: " << FNumeroCompresorVol
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -271,14 +238,12 @@ double TDepVolVariable::CalculaVolumen(double CrankAngle, double carrera,
 void TDepVolVariable::IniciaVolumen(double Theta) {
 	try {
 		FAngulo = Theta - FDesfase;
-		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro,
-				FVolumenMuerto);
+		FVolumen = CalculaVolumen(FAngulo, FCarrera, FLBiela, FDiametro, FVolumenMuerto);
 		FMasa = FVolumen * FGamma * __units::BarToPa(FPressure) / pow2(FAsonido * __cons::ARef);
 		FVolumen0 = FVolumen;
 	} catch (exception &N) {
-		std::cout
-				<< "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumetrico: "
-				<< FNumeroCompresorVol << std::endl;
+		std::cout << "ERROR: TDepVolVariable::IniciaVolumen en el compresor volumetrico: " << FNumeroCompresorVol
+			<< std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

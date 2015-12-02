@@ -165,9 +165,7 @@ void TMatlab::PutInput(int i, double valor) {
 		if (i < FNInputs) {
 			FInput[i] = valor;
 		} else {
-			std::cout
-					<< "WARNING: El valor de la entrada a matlab se sale de rango"
-					<< std::endl;
+			std::cout << "WARNING: El valor de la entrada a matlab se sale de rango" << std::endl;
 			std::cout << "         Revisa el acceso a matlab" << std::endl;
 		}
 	} catch (exception &N) {
@@ -185,9 +183,7 @@ double TMatlab::GetOutput(int i) {
 		if (i < FNOutputs) {
 			return FOutput[i];
 		} else {
-			std::cout
-					<< "WARNING: El valor de la salida de matlab se sale de rango"
-					<< std::endl;
+			std::cout << "WARNING: El valor de la salida de matlab se sale de rango" << std::endl;
 			std::cout << "         Revisa el acceso a matlab" << std::endl;
 			return 0.;
 		}

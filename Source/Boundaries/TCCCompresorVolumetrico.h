@@ -47,8 +47,7 @@ private:
 	// Declaracion de los coeficientes de caudal, temperatura y potencia del compresor volumetrico.
 	double FC1Caudal, FC2Caudal, FC3Caudal;
 	double FC1Temperatura, FC2Temperatura, FC3Temperatura;
-	double FC1Potencia, FC2Potencia, FC3Potencia, FC4Potencia, FC5Potencia,
-			FC6Potencia;
+	double FC1Potencia, FC2Potencia, FC3Potencia, FC4Potencia, FC5Potencia, FC6Potencia;
 
 	int FNodoFin; // Nodo en el extremo del tubo que esta en la condicion de contorno.
 	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
@@ -87,9 +86,7 @@ public:
 			FNumeroCV = valor;
 			asgNumeroCV = true;
 		} else {
-			std::cout
-					<< "ERROR: Este Compressor Volumetrico ya tiene numero asignado"
-					<< std::endl;
+			std::cout << "ERROR: Este Compressor Volumetrico ya tiene numero asignado" << std::endl;
 			throw Exception("");
 		}
 
@@ -107,16 +104,14 @@ public:
 	}
 	;
 
-	TCCCompresorVolumetrico(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCCompresorVolumetrico(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCCompresorVolumetrico();
 
 	void CalculaCondicionContorno(double Time);
 
-	void LeeCCCompresorVol(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, bool HayMotor);
+	void LeeCCCompresorVol(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, bool HayMotor);
 
 	void ObtencionValoresInstantaneos(double ene);
 

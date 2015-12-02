@@ -54,14 +54,12 @@ public:
 
 	//FUNCIONES
 
-	TCCPulso(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-			int numeroespecies, nmCalculoGamma GammaCalculation,
-			bool ThereIsEGR);
+	TCCPulso(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCPulso();
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void CalculaCondicionContorno(double Time);
 

@@ -39,7 +39,7 @@
 //---------------------------------------------------------------------------
 
 TMapaComp::TMapaComp(int i) :
-		TCompressorMap() {
+TCompressorMap() {
 	FNumeroCompresor = i;
 
 	FGastoRelComp1 = NULL;
@@ -193,10 +193,10 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		std::cout << "LECTURA MAPA COMPRESOR" << std::endl;
 		std::cout << "______________________" << std::endl;
 		fscanf(fich, "%lf %lf ", &FPresionRef, &FTempRef);
-		FTempRef = __units::degCToK(FTempRef);;
+		FTempRef = __units::degCToK(FTempRef);
+		;
 		FPresionRef = __units::BarToPa(FPresionRef);
-		fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier,
-				&FEffMultiplier);
+		fscanf(fich, "%lf %lf %lf ", &FMassMultiplier, &FCRMultiplier, &FEffMultiplier);
 
 		std::cout << "Datos de Referencia:" << std::endl;
 		std::cout << "Pressure:     " << FPresionRef << " Pa" << std::endl;
@@ -211,8 +211,7 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		FGastoMin *= FMassMultiplier;
 		FGastoMax *= FMassMultiplier;
 		FIncGasto *= FMassMultiplier;
-		FNumPuntosGasto = floor(((FGastoMax - FGastoMin) / FIncGasto) + 0.5)
-				+ 1;
+		FNumPuntosGasto = floor(((FGastoMax - FGastoMin) / FIncGasto) + 0.5) + 1;
 
 // Numero maximo de curvas de rendimiento
 		fscanf(fich, "%d ", &FNumCurvasRendMax);
@@ -267,23 +266,17 @@ void TMapaComp::LeeMapa(FILE *fich) {
 					++FNumCurvasRen[i];
 				}
 				if (FGastoRend[i][j] > FGastoRelComp1[i]) {
-					std::cout
-							<< "WARNING: Existen puntos de rendimiento en la curva de regimen: "
-							<< FRegimenCurva[i] << std::endl;
-					std::cout
-							<< "         con valores de massflow mayores del massflow de relacion de compresion 1"
-							<< std::endl;
-					std::cout
-							<< "         -Valor del massflow del punto de rendimiento:    "
-							<< FGastoRend[i][j] << std::endl;
-					std::cout
-							<< "         -Valor del massflow de relacion de compresion 1: "
-							<< FGastoRelComp1[i] << std::endl;
-					std::cout
-							<< "         Revisa el mapa. Esto puede inducir errores importantes de interpolacion"
-							<< std::endl;
-					std::cout << "         en el compresor numero "
-							<< FNumeroCompresor << std::endl << std::endl;
+					std::cout << "WARNING: Existen puntos de rendimiento en la curva de regimen: " << FRegimenCurva[i]
+						<< std::endl;
+					std::cout << "         con valores de massflow mayores del massflow de relacion de compresion 1"
+						<< std::endl;
+					std::cout << "         -Valor del massflow del punto de rendimiento:    " << FGastoRend[i][j]
+						<< std::endl;
+					std::cout << "         -Valor del massflow de relacion de compresion 1: " << FGastoRelComp1[i]
+						<< std::endl;
+					std::cout << "         Revisa el mapa. Esto puede inducir errores importantes de interpolacion"
+						<< std::endl;
+					std::cout << "         en el compresor numero " << FNumeroCompresor << std::endl << std::endl;
 				}
 			}
 		}
@@ -298,8 +291,7 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		FGastoBombeo[0] = 0.;
 		FRelCompBombeo[0] = 1.;
 
-		Hermite(FNumCurvasReg + 1, FGastoBombeo, FRelCompBombeo,
-				FCoefSplBombeo);
+		Hermite(FNumCurvasReg + 1, FGastoBombeo, FRelCompBombeo, FCoefSplBombeo);
 
 // Obtencion de los coeficientes polinomios ortogonales.
 		/*double NumTerms = 0.;
@@ -354,19 +346,16 @@ void TMapaComp::LeeMapa(FILE *fich) {
 		FCoefSplRend = new double*[FNumCurvasReg];
 		bool RendEnBombeo = false;
 		for (int i = 0; i < FNumCurvasReg; i++) {
-			if (FGastoRend[i][0] < FGastoBombeo[i + 1] * 1.001
-					&& FGastoRend[i][0] > FGastoBombeo[i + 1] * 0.999) {
+			if (FGastoRend[i][0] < FGastoBombeo[i + 1] * 1.001 && FGastoRend[i][0] > FGastoBombeo[i + 1] * 0.999) {
 				FNumCurvasRenAd[i] = FNumCurvasRen[i] + 1;
 				RendEnBombeo = true;
-				std::cout << "INFO: El punto de bombeo de la curva de "
-						<< FRegimenCurva[i] << " rpm tiene rendimiento"
-						<< std::endl;
+				std::cout << "INFO: El punto de bombeo de la curva de " << FRegimenCurva[i] << " rpm tiene rendimiento"
+					<< std::endl;
 			} else {
 				FNumCurvasRenAd[i] = FNumCurvasRen[i] + 2;
 				RendEnBombeo = false;
-				std::cout << "INFO: El punto de bombeo de la curva de "
-						<< FRegimenCurva[i] << " rpm no tiene rendimiento"
-						<< std::endl;
+				std::cout << "INFO: El punto de bombeo de la curva de " << FRegimenCurva[i]
+					<< " rpm no tiene rendimiento" << std::endl;
 			}
 			FGastoAdim[i] = new double[FNumCurvasRenAd[i]];
 			FRendAdim[i] = new double[FNumCurvasRenAd[i]];
@@ -384,41 +373,31 @@ void TMapaComp::LeeMapa(FILE *fich) {
 			for (int j = 1; j < FNumCurvasRenAd[i] - 1; j++) {
 				if (RendEnBombeo) {
 					FGastoAdim[i][j] = (FGastoRend[i][j] - FGastoBombeo[i + 1])
-							/ (FGastoRelComp1[i] - FGastoBombeo[i + 1]);
+						/ (FGastoRelComp1[i] - FGastoBombeo[i + 1]);
 					FRendAdim[i][j] = FRend[i][j];
 				} else {
-					FGastoAdim[i][j] = (FGastoRend[i][j - 1]
-							- FGastoBombeo[i + 1])
-							/ (FGastoRelComp1[i] - FGastoBombeo[i + 1]);
+					FGastoAdim[i][j] = (FGastoRend[i][j - 1] - FGastoBombeo[i + 1])
+						/ (FGastoRelComp1[i] - FGastoBombeo[i + 1]);
 					FRendAdim[i][j] = FRend[i][j - 1];
 				}
 				if (FGastoAdim[i][j] <= FGastoAdim[i][j - 1]) {
-					std::cout
-							<< "WARNING: La tabla Massflow-Rendimiento en el regimen de "
-							<< FRegimenCurva[i] << " rpm esta desordenada"
-							<< std::endl;
-					std::cout
-							<< "         Si se continua con este mapa pueden aparecer errores en la interpolacion"
-							<< std::endl;
-					std::cout
-							<< "         Ordene los datos de forma creciente en massflow"
-							<< std::endl;
+					std::cout << "WARNING: La tabla Massflow-Rendimiento en el regimen de " << FRegimenCurva[i]
+						<< " rpm esta desordenada" << std::endl;
+					std::cout << "         Si se continua con este mapa pueden aparecer errores en la interpolacion"
+						<< std::endl;
+					std::cout << "         Ordene los datos de forma creciente en massflow" << std::endl;
 				}
 			}
-			Hermite(FNumCurvasRenAd[i], FGastoAdim[i], FRendAdim[i],
-					FCoefSplRend[i]);
+			Hermite(FNumCurvasRenAd[i], FGastoAdim[i], FRendAdim[i], FCoefSplRend[i]);
 		}
 //ImprimeMapa();
 		/*if(W!=NULL) delete[] W;*/
 	} catch (exception &N) {
-		std::cout << "ERROR: LeeMapa en el compresor: " << FNumeroCompresor
-				<< std::endl;
+		std::cout << "ERROR: LeeMapa en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		if (W != NULL)
 			delete[] W;
-		throw Exception(
-				"ERROR: LeeMapa en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: LeeMapa en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -437,9 +416,8 @@ void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 			FSpl[i].dif = y[i] - y[i - 1];
 			if (FSpl[i].h <= 0.) {
 				std::cout << "ERROR: Error al crear la spline" << std::endl;
-				std::cout
-						<< "       Los valores en X no estan ordenados o existen 2 puntos situados en el mismo X"
-						<< std::endl << std::endl;
+				std::cout << "       Los valores en X no estan ordenados o existen 2 puntos situados en el mismo X"
+					<< std::endl << std::endl;
 				throw Exception("ERROR: Error al crear la spline");
 			}
 		}
@@ -449,17 +427,14 @@ void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 		for (int i = 1; i < n - 1; ++i) {
 			Espaciado = FSpl[i + 1].h / FSpl[i].h;
 			if (Espaciado < 0.1 || Espaciado > 10.) {
-				std::cout
-						<< "WARNING: Deberias utilizar una distribucion mas uniforme entre los valores de X"
-						<< std::endl;
-				std::cout
-						<< "         utilizados para ajustar la spline y asi evitar problemas"
-						<< std::endl << std::endl;
+				std::cout << "WARNING: Deberias utilizar una distribucion mas uniforme entre los valores de X"
+					<< std::endl;
+				std::cout << "         utilizados para ajustar la spline y asi evitar problemas" << std::endl
+					<< std::endl;
 			}
 			FSpl[i].d = 2 * (FSpl[i + 1].h + FSpl[i].h);
 			FSpl[i].d1 = FSpl[i + 1].h;
-			FSpl[i].b = (FSpl[i + 1].dif / FSpl[i + 1].h
-					- FSpl[i].dif / FSpl[i].h) * 6.;
+			FSpl[i].b = (FSpl[i + 1].dif / FSpl[i + 1].h - FSpl[i].dif / FSpl[i].h) * 6.;
 		}
 //Descomposicion de Cholesky
 		FSpl[1].ud = sqrt(FSpl[1].d);
@@ -470,8 +445,7 @@ void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 //Sustitucion directa
 		FSpl[1].yp = FSpl[1].b / FSpl[1].ud;
 		for (int i = 2; i < n - 1; ++i) {
-			FSpl[i].yp = (FSpl[i].b - FSpl[i - 1].ud1 * FSpl[i - 1].yp)
-					/ FSpl[i].ud;
+			FSpl[i].yp = (FSpl[i].b - FSpl[i - 1].ud1 * FSpl[i - 1].yp) / FSpl[i].ud;
 		}
 //Sustitucion inversa
 		sol[0] = 0.;
@@ -481,19 +455,16 @@ void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 				sol[n - 2] = FSpl[n - 2].yp / FSpl[n - 2].ud;
 				if (n >= 4) {
 					for (int i = n - 3; i >= 1; --i) {
-						sol[i] = (FSpl[i].yp - FSpl[i].ud1 * sol[i + 1])
-								/ FSpl[i].ud;
+						sol[i] = (FSpl[i].yp - FSpl[i].ud1 * sol[i + 1]) / FSpl[i].ud;
 					}
 				}
 			}
 		}
 
 	} catch (exception &N) {
-		std::cout << "ERROR: Spline en el compresor: " << FNumeroCompresor
-				<< std::endl;
+		std::cout << "ERROR: Spline en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: Spline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: Spline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -503,8 +474,7 @@ void TMapaComp::Spline(int n, double *x, double *y, double *sol) {
 // (x,y) se evalua su valor para x=punto                                   //
 //---------------------------------------------------------------------------
 
-double TMapaComp::EvaluaSpline(double punto, int n, double *x, double *y,
-		double *sol) {
+double TMapaComp::EvaluaSpline(double punto, int n, double *x, double *y, double *sol) {
 	try {
 		int k = 0;
 //Determinacion del indice para evaluacion spline
@@ -523,18 +493,15 @@ double TMapaComp::EvaluaSpline(double punto, int n, double *x, double *y,
 		double dx13 = pow3(dx1);
 		double dx23 = pow3(dx2);
 
-		double ret_val = (sol[k] * dx13 + sol[k + 1] * dx23
-				+ (6 * y[k + 1] - h2 * sol[k + 1]) * dx2
-				+ (6 * y[k] - h2 * sol[k]) * dx1) / (6 * h);
+		double ret_val = (sol[k] * dx13 + sol[k + 1] * dx23 + (6 * y[k + 1] - h2 * sol[k + 1]) * dx2
+			+ (6 * y[k] - h2 * sol[k]) * dx1) / (6 * h);
 
 		return ret_val;
 
 	} catch (exception &N) {
-		std::cout << "ERROR: EvaluaSpline en el compresor: " << FNumeroCompresor
-				<< std::endl;
+		std::cout << "ERROR: EvaluaSpline en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: EvaluaSpline en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -569,9 +536,8 @@ double TMapaComp::EvaluaRCSplines(double Massflow) {
 			double dx23 = pow3(dx2);
 
 			ret_val = (FCoefSplRC[k] * dx13 + FCoefSplRC[k + 1] * dx23
-					+ (6 * FRelCompInt[k + 1] - h2 * FCoefSplRC[k + 1]) * dx2
-					+ (6 * FRelCompInt[k] - h2 * FCoefSplRC[k]) * dx1)
-					/ (6 * h);
+				+ (6 * FRelCompInt[k + 1] - h2 * FCoefSplRC[k + 1]) * dx2
+				+ (6 * FRelCompInt[k] - h2 * FCoefSplRC[k]) * dx1) / (6 * h);
 
 			if (ret_val < 1.)
 				ret_val = 1.;
@@ -580,12 +546,9 @@ double TMapaComp::EvaluaRCSplines(double Massflow) {
 		return ret_val;
 
 	} catch (exception &N) {
-		std::cout << "ERROR: EvaluaRCSpline en el compresor: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: EvaluaRCSpline en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: EvaluaRCSpline en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: EvaluaRCSpline en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -612,18 +575,15 @@ double TMapaComp::EvaluaRCHermite(double Massflow) {
 			h10 = t3 - 2 * t2 + t;
 			h01 = -2 * t3 + 3 * t2;
 			h11 = t3 - t2;
-			ret_val = h00 * FRelCompInt[k - 1] + h * h10 * FCoefSplRC[k - 1]
-					+ h01 * FRelCompInt[k] + h * h11 * FCoefSplRC[k];
+			ret_val = h00 * FRelCompInt[k - 1] + h * h10 * FCoefSplRC[k - 1] + h01 * FRelCompInt[k]
+				+ h * h11 * FCoefSplRC[k];
 		}
 		return ret_val;
 
 	} catch (exception &N) {
-		std::cout << "ERROR: EvaluaRCSpline en el compresor: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: EvaluaRCSpline en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: EvaluaRCSpline en el compresor: "
-						+ std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: EvaluaRCSpline en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -637,8 +597,8 @@ double TMapaComp::EvaluaRCHermite(double Massflow) {
 // valen 1  Ajuste por minimos cuadrados                                   //
 //---------------------------------------------------------------------------
 
-void TMapaComp::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
-		double *w, double *b, double *c, double *d) {
+void TMapaComp::PolOrtogonal(int nterms, int npoint, double *ma, double *rd, double *w, double *b, double *c,
+	double *d) {
 	double p = 0;
 	try {
 		for (int j = 0; j < nterms; ++j) {
@@ -680,18 +640,15 @@ void TMapaComp::PolOrtogonal(int nterms, int npoint, double *ma, double *rd,
 				c[j] = FOrtp[j].s / FOrtp[j - 1].s;
 				for (int i = 0; i < npoint; ++i) {
 					p = FOrtp[i].pj;
-					FOrtp[i].pj = (ma[i] - b[j]) * FOrtp[i].pj
-							- c[j] * FOrtp[i].pjm1;
+					FOrtp[i].pj = (ma[i] - b[j]) * FOrtp[i].pj - c[j] * FOrtp[i].pjm1;
 					FOrtp[i].pjm1 = p;
 				}
 			}
 		}
 	} catch (exception &N) {
-		std::cout << "ERROR: PolOrtogonal en el compresor: " << FNumeroCompresor
-				<< std::endl;
+		std::cout << "ERROR: PolOrtogonal en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: PolOrtogonal en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: PolOrtogonal en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -726,35 +683,28 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 
 		if (FRegComp > FRegMax) {
 			FGastoBombeoX = FGastoBombeo[FCurvInf + 1]
-					+ (FGastoBombeo[FCurvInf + 1] - FGastoBombeo[FCurvInf])
-							/ FIncReg * (FRegComp - FRegMax);
+				+ (FGastoBombeo[FCurvInf + 1] - FGastoBombeo[FCurvInf]) / FIncReg * (FRegComp - FRegMax);
 		} else if (FRegComp < FRegMin) {
 			FGastoBombeoX = FGastoBombeo[FCurvInf + 1]
-					- (FGastoBombeo[FCurvInf + 2] - FGastoBombeo[FCurvInf + 1])
-							/ FIncReg * (FRegMin - FRegComp);
+				- (FGastoBombeo[FCurvInf + 2] - FGastoBombeo[FCurvInf + 1]) / FIncReg * (FRegMin - FRegComp);
 		} else {
 			FGastoBombeoX = FGastoBombeo[FCurvInf + 1]
-					+ (FGastoBombeo[FCurvInf + 2] - FGastoBombeo[FCurvInf + 1])
-							* DeltaN;
+				+ (FGastoBombeo[FCurvInf + 2] - FGastoBombeo[FCurvInf + 1]) * DeltaN;
 		}
 		if (FGastoBombeoX < 0)
 			FGastoBombeoX = 0.;
 
-		FRelCompBombeoX = EvaluaHermite(FGastoBombeoX, FNumCurvasReg + 1,
-				FGastoBombeo, FRelCompBombeo, FCoefSplBombeo);
+		FRelCompBombeoX = EvaluaHermite(FGastoBombeoX, FNumCurvasReg + 1, FGastoBombeo, FRelCompBombeo, FCoefSplBombeo);
 
 		if (FRegComp > FRegMax) {
 			FGastoRelComp1X = FGastoRelComp1[FCurvInf]
-					+ (FGastoRelComp1[FCurvInf] - FGastoRelComp1[FCurvInf - 1])
-							/ FIncReg * (FRegComp - FRegMax);
+				+ (FGastoRelComp1[FCurvInf] - FGastoRelComp1[FCurvInf - 1]) / FIncReg * (FRegComp - FRegMax);
 		} else if (FRegComp < FRegMin) {
 			FGastoRelComp1X = FGastoRelComp1[FCurvInf]
-					- (FGastoRelComp1[FCurvInf + 1] - FGastoRelComp1[FCurvInf])
-							/ FIncReg * (FRegMin - FRegComp);
+				- (FGastoRelComp1[FCurvInf + 1] - FGastoRelComp1[FCurvInf]) / FIncReg * (FRegMin - FRegComp);
 		} else {
 			FGastoRelComp1X = FGastoRelComp1[FCurvInf]
-					+ (FGastoRelComp1[FCurvInf + 1] - FGastoRelComp1[FCurvInf])
-							* DeltaN;
+				+ (FGastoRelComp1[FCurvInf + 1] - FGastoRelComp1[FCurvInf]) * DeltaN;
 		}
 
 // Calculo de la curva interpolada Relacion de compresion/Masa corregida
@@ -778,17 +728,14 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 			for (int j = 0; j < FNumPuntos; ++j) {
 				FGastoInt[j] = FGastoMin + FIncGasto * j;
 				FRelCompInt[j] = FRelComp[FCurvInf][j]
-						- (FRelComp[FCurvInf + 1][j] - FRelComp[FCurvInf][j])
-								/ FIncReg * (FRegMin - FRegComp);
+					- (FRelComp[FCurvInf + 1][j] - FRelComp[FCurvInf][j]) / FIncReg * (FRegMin - FRegComp);
 				if (FRelCompInt[j] < 1.)
 					FRelCompInt[j] = 1.;
 			}
 		} else {
 			for (int j = 0; j < FNumPuntos; ++j) {
 				FGastoInt[j] = FGastoMin + FIncGasto * j;
-				FRelCompInt[j] = FRelComp[FCurvInf][j]
-						+ (FRelComp[FCurvInf + 1][j] - FRelComp[FCurvInf][j])
-								* DeltaN;
+				FRelCompInt[j] = FRelComp[FCurvInf][j] + (FRelComp[FCurvInf + 1][j] - FRelComp[FCurvInf][j]) * DeltaN;
 			}
 		}
 		FGastoInt[FNumPuntos] = FGastoRelComp1X;
@@ -835,11 +782,9 @@ void TMapaComp::InterpolaMapa(double rtc, double AmbientTemperature) {
 		 }
 		 } */
 	} catch (exception &N) {
-		std::cout << "ERROR: InterpolaMapa en el compresor: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: InterpolaMapa en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: InterpolaMapa en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: InterpolaMapa en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -863,17 +808,14 @@ double TMapaComp::EvaluaRendimiento(double MasaAire) {
 		while (k >= 0) {
 			prev2 = prev;
 			prev = ret_val;
-			ret_val = FCoefdX[k] + (MasaAire - FCoefbX[k]) * prev
-					- FCoefcX[k + 1] * prev2;
+			ret_val = FCoefdX[k] + (MasaAire - FCoefbX[k]) * prev - FCoefcX[k + 1] * prev2;
 			--k;
 		}
 		return ret_val;
 	} catch (exception &N) {
-		std::cout << "ERROR: EvaluaRendimiento en el compresor: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: EvaluaRendimiento en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: EvaluaRendimiento en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: EvaluaRendimiento en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -895,47 +837,38 @@ double TMapaComp::EvaluaRendSplines(double MasaAire) {
 			RendSup = FRendAdim[FCurvInf + 1][0];
 
 			if (FRegComp > FRegMax) {
-				ret_val = RendSup
-						+ (RendSup - RendInf) / FIncReg * (FRegComp - FRegMax);
+				ret_val = RendSup + (RendSup - RendInf) / FIncReg * (FRegComp - FRegMax);
 			} else if (FRegComp < FRegMin) {
-				ret_val = RendInf
-						- (RendSup - RendInf) / FIncReg * (FRegMin - FRegComp);
+				ret_val = RendInf - (RendSup - RendInf) / FIncReg * (FRegMin - FRegComp);
 			} else {
 				ret_val = RendInf + (RendSup - RendInf) * DeltaN;
 			}
 		} else if (MasaAire > FGastoRelComp1X) {
 			ret_val = FRendGastoMaximo;
 		} else {
-			AireAdim = (MasaAire - FGastoBombeoX)
-					/ (FGastoRelComp1X - FGastoBombeoX);
+			AireAdim = (MasaAire - FGastoBombeoX) / (FGastoRelComp1X - FGastoBombeoX);
 
-			RendInf = EvaluaHermite(AireAdim, FNumCurvasRenAd[FCurvInf],
-					FGastoAdim[FCurvInf], FRendAdim[FCurvInf],
-					FCoefSplRend[FCurvInf]);
+			RendInf = EvaluaHermite(AireAdim, FNumCurvasRenAd[FCurvInf], FGastoAdim[FCurvInf], FRendAdim[FCurvInf],
+				FCoefSplRend[FCurvInf]);
 
-			RendSup = EvaluaHermite(AireAdim, FNumCurvasRenAd[FCurvInf + 1],
-					FGastoAdim[FCurvInf + 1], FRendAdim[FCurvInf + 1],
-					FCoefSplRend[FCurvInf + 1]);
+			RendSup = EvaluaHermite(AireAdim, FNumCurvasRenAd[FCurvInf + 1], FGastoAdim[FCurvInf + 1],
+				FRendAdim[FCurvInf + 1], FCoefSplRend[FCurvInf + 1]);
 
 			DeltaN = (FRegComp - FRegimenCurva[FCurvInf]) / FIncReg;
 
 			if (FRegComp > FRegMax) {
-				ret_val = RendSup
-						+ (RendSup - RendInf) / FIncReg * (FRegComp - FRegMax);
+				ret_val = RendSup + (RendSup - RendInf) / FIncReg * (FRegComp - FRegMax);
 			} else if (FRegComp < FRegMin) {
-				ret_val = RendInf
-						- (RendSup - RendInf) / FIncReg * (FRegMin - FRegComp);
+				ret_val = RendInf - (RendSup - RendInf) / FIncReg * (FRegMin - FRegComp);
 			} else {
 				ret_val = RendInf + (RendSup - RendInf) * DeltaN;
 			}
 		}
 		return ret_val;
 	} catch (exception &N) {
-		std::cout << "ERROR: EvaluaRendSplines en el compresor: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: EvaluaRendSplines en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: EvaluaRendSplines en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: EvaluaRendSplines en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -946,11 +879,9 @@ double TMapaComp::GetRelCompInt(int i) {
 	try {
 		return FRelCompInt[i];
 	} catch (exception &N) {
-		std::cout << "ERROR: GetRelCompInt en el compresor: "
-				<< FNumeroCompresor << std::endl;
+		std::cout << "ERROR: GetRelCompInt en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: GetRelCompInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: GetRelCompInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
@@ -961,19 +892,16 @@ double TMapaComp::GetGastoInt(int i) {
 	try {
 		return FGastoInt[i];
 	} catch (exception &N) {
-		std::cout << "ERROR: GetGastoInt en el compresor: " << FNumeroCompresor
-				<< std::endl;
+		std::cout << "ERROR: GetGastoInt en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: GetGastoInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: GetGastoInt en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-double TMapaComp::BuscaRegimen(double RC, double Massflow,
-		double AmbientTemperature) {
+double TMapaComp::BuscaRegimen(double RC, double Massflow, double AmbientTemperature) {
 	try {
 		double RCSup = 0.;
 		double RCInf = 0.;
@@ -993,8 +921,7 @@ double TMapaComp::BuscaRegimen(double RC, double Massflow,
 			++i;
 		}
 		if (RC > RCSup) {
-			std::cout << "WARNING: El Punto se sale por arriba del mapa "
-					<< std::endl;
+			std::cout << "WARNING: El Punto se sale por arriba del mapa " << std::endl;
 			//sup=i-1;
 		}
 		if (sup > 0) {
@@ -1005,50 +932,33 @@ double TMapaComp::BuscaRegimen(double RC, double Massflow,
 			if (Massflow < FGastoRelComp1[inf]) {
 				RCInf = EvaluaRCSplines(Massflow);
 			} else {
-				std::cout
-						<< "WARNING: El siguiente punto puede estar mal calculado:"
-						<< std::endl;
-				std::cout << "         Relacionde compresion: " << RC
-						<< std::endl;
-				std::cout << "         Massflow masico:          " << Massflow
-						<< std::endl;
-				std::cout
-						<< "         Deberias aumentar el numero de curvas del mapa"
-						<< std::endl << std::endl;
+				std::cout << "WARNING: El siguiente punto puede estar mal calculado:" << std::endl;
+				std::cout << "         Relacionde compresion: " << RC << std::endl;
+				std::cout << "         Massflow masico:          " << Massflow << std::endl;
+				std::cout << "         Deberias aumentar el numero de curvas del mapa" << std::endl << std::endl;
 				RCInf = 1.;
 			}
-			ret_val = (RC - RCInf) / (RCSup - RCInf)
-					* (FRegimenCurva[sup] - FRegimenCurva[inf])
-					+ FRegimenCurva[inf];
+			ret_val = (RC - RCInf) / (RCSup - RCInf) * (FRegimenCurva[sup] - FRegimenCurva[inf]) + FRegimenCurva[inf];
 		} else {
 			inf = sup;
 			sup = inf + 1;
 			RCInf = RCSup;
 			InterpolaMapa(FRegimenCurva[sup], __units::degCToK(AmbientTemperature));
 			RCSup = EvaluaRCSplines(Massflow);
-			val1 = (RC - RCInf) / (RCSup - RCInf)
-					* (FRegimenCurva[sup] - FRegimenCurva[inf])
-					+ FRegimenCurva[inf];
+			val1 = (RC - RCInf) / (RCSup - RCInf) * (FRegimenCurva[sup] - FRegimenCurva[inf]) + FRegimenCurva[inf];
 
 			val2 = (RC - 1) / (RCInf - 1) * (FRegimenCurva[inf]);
 			ret_val = (val1 + val2) / 2;
-			std::cout
-					<< "WARNING: El siguiente punto puede estar mal calculado:"
-					<< std::endl;
+			std::cout << "WARNING: El siguiente punto puede estar mal calculado:" << std::endl;
 			std::cout << "         Relacionde compresion: " << RC << std::endl;
-			std::cout << "         Massflow masico:          " << Massflow
-					<< std::endl;
-			std::cout
-					<< "         Deberias incluir curvas con menor regimen de giro"
-					<< std::endl << std::endl;
+			std::cout << "         Massflow masico:          " << Massflow << std::endl;
+			std::cout << "         Deberias incluir curvas con menor regimen de giro" << std::endl << std::endl;
 		}
 		return ret_val;
 	} catch (exception &N) {
-		std::cout << "ERROR: BuscaRegimen en el compresor: " << FNumeroCompresor
-				<< std::endl;
+		std::cout << "ERROR: BuscaRegimen en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-				"ERROR: BuscaRegimen en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
+		throw Exception("ERROR: BuscaRegimen en el compresor: "/* +std::to_string(FNumeroCompresor)+N.what()*/);
 	}
 }
 

@@ -39,8 +39,7 @@ class TTubo;
 class TCilindro2T: public TCilindro {
 private:
 
-	double EntalpiaEntrada(double ASonEnt, double VelEnt, double MasEnt,
-			double ASonCil, double MasCil);
+	double EntalpiaEntrada(double ASonEnt, double VelEnt, double MasEnt, double ASonCil, double MasCil);
 
 	void VariableInicialesCicloACT();
 

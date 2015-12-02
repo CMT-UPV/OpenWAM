@@ -86,8 +86,7 @@ void TRegimenMotor::LeeDatosEntrada(char *Ruta, FILE *fich) {
 
 		}
 	} catch (exception &N) {
-		std::cout << "ERROR: LeeDatosEntrada de RegimenMotor (DLL)"
-				<< std::endl;
+		std::cout << "ERROR: LeeDatosEntrada de RegimenMotor (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

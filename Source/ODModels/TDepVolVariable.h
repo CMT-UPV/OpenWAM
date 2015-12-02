@@ -56,8 +56,7 @@ private:
 	// FUNCIONES PRIVADAS
 	//---------------------------------------------------------------------------
 
-	double CalculaVolumen(double CrankAngle, double carrera, double lbiela,
-			double diametro, double vol_muerto);
+	double CalculaVolumen(double CrankAngle, double carrera, double lbiela, double diametro, double vol_muerto);
 
 public:
 	//---------------------------------------------------------------------------
@@ -77,9 +76,8 @@ public:
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
-	TDepVolVariable(int i, int ncv, nmTipoCalculoEspecies SpeciesModel,
-			int numeroespecies, nmCalculoGamma GammaCalculation,
-			bool ThereIsEGR);
+	TDepVolVariable(int i, int ncv, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TDepVolVariable();
 
@@ -87,8 +85,7 @@ public:
 
 	void IniciaVolumen(double Theta);
 
-	void LeeDatosDepVolVariable(const char *FileWAM, fpos_t &filepos,
-			bool HayMotor);
+	void LeeDatosDepVolVariable(const char *FileWAM, fpos_t &filepos, bool HayMotor);
 
 	void UpdateProperties0DModel(double TimeCalculo);
 

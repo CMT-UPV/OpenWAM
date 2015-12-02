@@ -122,7 +122,7 @@ public:
 
 	TTipoValvula(nmTipoValvula TipVal);
 
-	virtual ~TTipoValvula() =0;
+	virtual ~TTipoValvula() = 0;
 
 	nmTipoValvula getTypeOfValve() {
 		return FTipoValvula;
@@ -196,11 +196,10 @@ public:
 	}
 	void AsignaCRecuperacion(double Valor);
 
-	virtual void LeeDatosIniciales(const char *FileWAM, fpos_t &filepos,
-			int norden, bool HayMotor, TBloqueMotor *Engine) =0;
+	virtual void LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
+		TBloqueMotor *Engine) = 0;
 
-	void AsignaParametros(int Pipe, int Nodo, int Tipo, int valvula,
-			double dTubo, int sentido);
+	void AsignaParametros(int Pipe, int Nodo, int Tipo, int valvula, double dTubo, int sentido);
 
 	void LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos);
 

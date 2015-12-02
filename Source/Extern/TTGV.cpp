@@ -137,9 +137,8 @@ void TTGV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
-		double Regimen, double PresionAdmision, double RelacionCinematica,
-		double RelExp, double RegTurboCorr, double GastoCorr, double Tiempo) {
+void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel, double Regimen, double PresionAdmision,
+	double RelacionCinematica, double RelExp, double RegTurboCorr, double GastoCorr, double Tiempo) {
 	try {
 		int contador = 0, x1, x2;
 		double Rendimiento1 = 0., Rendimiento2 = 0., AefecEstator = 0., AefecRotor = 0.;
@@ -147,15 +146,12 @@ void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
 
 			MasaFuel = MasaFuel * 1e6; // en (mg/cc)
 
-			FPresionAdmisionConsigna = Interpolacion_bidimensional(Regimen,
-					MasaFuel, FVector_Mf_mapa, FVector_Regimen_mapa,
-					FMapa_Padmision, FNumeroDatos_Regimen, FNumeroDatos_Mf)
-					/ 1000.; //en (bar)
+			FPresionAdmisionConsigna = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa,
+				FVector_Regimen_mapa, FMapa_Padmision, FNumeroDatos_Regimen, FNumeroDatos_Mf) / 1000.; //en (bar)
 
 			FError_ant = FError;
 			FErrorIAnt = FErrorI;
-			FError = (PresionAdmision - FPresionAdmisionConsigna)
-					/ FPresionAdmisionConsigna;
+			FError = (PresionAdmision - FPresionAdmisionConsigna) / FPresionAdmisionConsigna;
 
 			if (FError > 0) {
 				FPrimeraVez = true;
@@ -207,8 +203,8 @@ void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
 						FErrorI = FErrorIAnt;
 						FI = -FKi2 * (FErrorI);
 					}                    //else{
-										 // FErrorI=FErrorI+FError;
-										 // }
+					// FErrorI=FErrorI+FError;
+					// }
 				}
 			}
 
@@ -223,10 +219,8 @@ void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
 
 			MasaFuel = MasaFuel * 1e6; // en (mg/cc)
 
-			FPosicionTurbina = Interpolacion_bidimensional(Regimen, MasaFuel,
-					FVector_Mf_mapa, FVector_Regimen_mapa,
-					FMapa_PosicionTurbina, FNumeroDatos_Regimen,
-					FNumeroDatos_Mf); // en % (100% cerrada - 0% abierta)
+			FPosicionTurbina = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa, FVector_Regimen_mapa,
+				FMapa_PosicionTurbina, FNumeroDatos_Regimen, FNumeroDatos_Mf); // en % (100% cerrada - 0% abierta)
 		}
 
 // CALCULO DEL RENDIMIENTO
@@ -240,129 +234,98 @@ void TTGV::CalculaTurbina(nmTipoControl TipoControl, double MasaFuel,
 			contador++;
 		}
 
-		if (x1 == 0) { // Distancia del vastago 0 mm
-			Rendimiento1 = 1.6122 * pow3(RelacionCinematica)
-					- 3.6641 * pow2(RelacionCinematica)
-					+ 2.0753 * RelacionCinematica;
-			Rendimiento2 = 1.3275 * pow3(RelacionCinematica)
-					- 3.42625 * pow2(RelacionCinematica)
-					+ 2.1998 * RelacionCinematica;
+		if (x1 == 0) {  // Distancia del vastago 0 mm
+			Rendimiento1 = 1.6122 * pow3(RelacionCinematica) - 3.6641 * pow2(RelacionCinematica)
+				+ 2.0753 * RelacionCinematica;
+			Rendimiento2 = 1.3275 * pow3(RelacionCinematica) - 3.42625 * pow2(RelacionCinematica)
+				+ 2.1998 * RelacionCinematica;
 //  Rendimiento1=-1.5*(-12.5)*0.38*pow(RelacionCinematica,2.)-12.5*pow(RelacionCinematica,3.);
 //  Rendimiento2=-1.5*(-12.7)*0.4*pow(RelacionCinematica,2.)-12.7*pow(RelacionCinematica,3.);
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr0;
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr0;
 
-		} else if (x1 == 1) { // Distancia del vastago 1 mm
-			Rendimiento1 = 1.3275 * pow3(RelacionCinematica)
-					- 3.42625 * pow2(RelacionCinematica)
-					+ 2.1998 * RelacionCinematica;
-			Rendimiento2 = 0.6491229 * pow3(RelacionCinematica)
-					- 2.646368 * pow2(RelacionCinematica)
-					+ 2.2409 * RelacionCinematica;
+		} else if (x1 == 1) {  // Distancia del vastago 1 mm
+			Rendimiento1 = 1.3275 * pow3(RelacionCinematica) - 3.42625 * pow2(RelacionCinematica)
+				+ 2.1998 * RelacionCinematica;
+			Rendimiento2 = 0.6491229 * pow3(RelacionCinematica) - 2.646368 * pow2(RelacionCinematica)
+				+ 2.2409 * RelacionCinematica;
 
 //  Rendimiento1=-1.5*(-12.7)*0.4*pow(RelacionCinematica,2.)-12.7*pow(RelacionCinematica,3.);
 //  Rendimiento2=-1.5*(-9.2)*0.48*pow(RelacionCinematica,2.)-9.2*pow(RelacionCinematica,3.);
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr1;
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr1;
 //  FRendimiento=(0.6491229*pow(RelacionCinematica,3.)-2.646368*pow(RelacionCinematica,2.)+2.2409*RelacionCinematica)*1.25;
-		} else if (x1 == 2) { // Distancia del vastago 2 mm
-			Rendimiento1 = (0.6491229 * pow3(RelacionCinematica)
-					- 2.646368 * pow2(RelacionCinematica)
-					+ 2.2409 * RelacionCinematica);
-			Rendimiento2 = (-0.316970 * pow3(RelacionCinematica)
-					- 1.5838 * pow2(RelacionCinematica)
-					+ 2.1257 * RelacionCinematica);
+		} else if (x1 == 2) {  // Distancia del vastago 2 mm
+			Rendimiento1 = (0.6491229 * pow3(RelacionCinematica) - 2.646368 * pow2(RelacionCinematica)
+				+ 2.2409 * RelacionCinematica);
+			Rendimiento2 = (-0.316970 * pow3(RelacionCinematica) - 1.5838 * pow2(RelacionCinematica)
+				+ 2.1257 * RelacionCinematica);
 
 			//Rendimiento1=(-1.5*(-9.2)*0.48*pow(RelacionCinematica,2.)-9.2*pow(RelacionCinematica,3.))*1.25;
 			//Rendimiento2=(-1.5*(-6.5)*0.58*pow(RelacionCinematica,2.)-6.5*pow(RelacionCinematica,3.))*1.1;
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr2;
-		} else if (x1 == 3) { // Distancia del vastago 4 mm
-			Rendimiento1 = (-0.316970 * pow3(RelacionCinematica)
-					- 1.5838 * pow2(RelacionCinematica)
-					+ 2.1257 * RelacionCinematica);
-			Rendimiento2 = (-0.20288 * pow3(RelacionCinematica)
-					- 1.457777 * pow2(RelacionCinematica)
-					+ 2.0414 * RelacionCinematica);
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr2;
+		} else if (x1 == 3) {  // Distancia del vastago 4 mm
+			Rendimiento1 = (-0.316970 * pow3(RelacionCinematica) - 1.5838 * pow2(RelacionCinematica)
+				+ 2.1257 * RelacionCinematica);
+			Rendimiento2 = (-0.20288 * pow3(RelacionCinematica) - 1.457777 * pow2(RelacionCinematica)
+				+ 2.0414 * RelacionCinematica);
 
 			//Rendimiento1=(-1.5*(-6.5)*0.58*pow(RelacionCinematica,2.)-6.5*pow(RelacionCinematica,3.))*1.1;
 			//Rendimiento2=-1.5*(-6.4)*0.59*pow(RelacionCinematica,2.)-6.4*pow(RelacionCinematica,3.);
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr4;
-		} else if (x1 == 4) { // Distancia del vastago 6 mm
-			Rendimiento1 = (-0.20288 * pow3(RelacionCinematica)
-					- 1.457777 * pow2(RelacionCinematica)
-					+ 2.0414 * RelacionCinematica);
-			Rendimiento2 = (-0.17608 * pow3(RelacionCinematica)
-					- 1.37028 * pow2(RelacionCinematica)
-					+ 1.8979 * RelacionCinematica);
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr4;
+		} else if (x1 == 4) {  // Distancia del vastago 6 mm
+			Rendimiento1 = (-0.20288 * pow3(RelacionCinematica) - 1.457777 * pow2(RelacionCinematica)
+				+ 2.0414 * RelacionCinematica);
+			Rendimiento2 = (-0.17608 * pow3(RelacionCinematica) - 1.37028 * pow2(RelacionCinematica)
+				+ 1.8979 * RelacionCinematica);
 
 			//Rendimiento1=-1.5*(-6.4)*0.59*pow(RelacionCinematica,2.)-6.4*pow(RelacionCinematica,3.);
 			//Rendimiento2=-1.5*(-5.35)*0.61*pow(RelacionCinematica,2.)-5.35*pow(RelacionCinematica,3.);
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr6;
-		} else if (x1 == 5) { // Distancia del vastago 8 mm
-			Rendimiento1 = (-0.17608 * pow3(RelacionCinematica)
-					- 1.37028 * pow2(RelacionCinematica)
-					+ 1.8979 * RelacionCinematica);
-			Rendimiento2 = (0.00635 * pow3(RelacionCinematica)
-					- 1.5031 * pow2(RelacionCinematica)
-					+ 1.79457 * RelacionCinematica);
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr6;
+		} else if (x1 == 5) {  // Distancia del vastago 8 mm
+			Rendimiento1 = (-0.17608 * pow3(RelacionCinematica) - 1.37028 * pow2(RelacionCinematica)
+				+ 1.8979 * RelacionCinematica);
+			Rendimiento2 = (0.00635 * pow3(RelacionCinematica) - 1.5031 * pow2(RelacionCinematica)
+				+ 1.79457 * RelacionCinematica);
 
 			//Rendimiento1=-1.5*(-5.35)*0.61*pow(RelacionCinematica,2.)-5.35*pow(RelacionCinematica,3.);
 			//Rendimiento2=-1.5*(-5.2)*0.59*pow(RelacionCinematica,2.)-5.2*pow(RelacionCinematica,3.);
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr8;
-		} else if (x1 == 6) { // Distancia del vastago 10 mm
-			Rendimiento1 = (0.00635 * pow3(RelacionCinematica)
-					- 1.5031 * pow2(RelacionCinematica)
-					+ 1.79457 * RelacionCinematica);
-			Rendimiento2 = (0.39258 * pow3(RelacionCinematica)
-					- 1.90361 * pow2(RelacionCinematica)
-					+ 1.7190 * RelacionCinematica);
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr8;
+		} else if (x1 == 6) {  // Distancia del vastago 10 mm
+			Rendimiento1 = (0.00635 * pow3(RelacionCinematica) - 1.5031 * pow2(RelacionCinematica)
+				+ 1.79457 * RelacionCinematica);
+			Rendimiento2 = (0.39258 * pow3(RelacionCinematica) - 1.90361 * pow2(RelacionCinematica)
+				+ 1.7190 * RelacionCinematica);
 
 			//Rendimiento1=-1.5*(-5.2)*0.59*pow(RelacionCinematica,2.)-5.2*pow(RelacionCinematica,3.);
 			//Rendimiento2=-1.5*(-6.95)*0.5*pow(RelacionCinematica,2.)-6.95*pow(RelacionCinematica,3.);
 			FRendimiento = (Rendimiento1
-					- (FDistanciasVastago[x1] - FDistanciaVastago)
-							* (Rendimiento1 - Rendimiento2)
-							/ (FDistanciasVastago[x1] - FDistanciasVastago[x2]))
-					* FCorr10;
-		} else if (x1 == 7) { // Distancia del vastago 12 mm
-			FRendimiento = ((0.39258 * pow3(RelacionCinematica)
-					- 1.90361 * pow2(RelacionCinematica)
-					+ 1.7190 * RelacionCinematica)) * FCorr12;
+				- (FDistanciasVastago[x1] - FDistanciaVastago) * (Rendimiento1 - Rendimiento2)
+					/ (FDistanciasVastago[x1] - FDistanciasVastago[x2])) * FCorr10;
+		} else if (x1 == 7) {  // Distancia del vastago 12 mm
+			FRendimiento = ((0.39258 * pow3(RelacionCinematica) - 1.90361 * pow2(RelacionCinematica)
+				+ 1.7190 * RelacionCinematica)) * FCorr12;
 
 			//FRendimiento=-1.5*(-6.95)*0.5*pow(RelacionCinematica,2.)-6.95*pow(RelacionCinematica,3.);
 		}
 
 // CALCULO DEL COEFICIENTE DE DESCARGA DEL ESTATOR
-		AefecEstator = -1.818 * pow2(FDistanciaVastago)
-				+ 54.4 * FDistanciaVastago + 73.88; // en (mm2)
+		AefecEstator = -1.818 * pow2(FDistanciaVastago) + 54.4 * FDistanciaVastago + 73.88; // en (mm2)
 		FCDStator = AefecEstator / FAEstator;
 
 // CALCULO DEL COEFICIENTE DE DESCARGA DEL ROTOR
-		AefecRotor = 59.9801 * GastoCorr - 2.79195 * RegTurboCorr
-				+ 0.695835 * RelExp * GastoCorr - 1.30223 * pow(GastoCorr, 2.)
-				+ 35.9154 + 10.1818 * pow(RelExp, 2.) - 29.9162 * RelExp; // en (mm2)
+		AefecRotor = 59.9801 * GastoCorr - 2.79195 * RegTurboCorr + 0.695835 * RelExp * GastoCorr
+			- 1.30223 * pow(GastoCorr, 2.) + 35.9154 + 10.1818 * pow(RelExp, 2.) - 29.9162 * RelExp; // en (mm2)
 		FCDRotor = AefecRotor / FARotor;
 		FCDRotor = FCDStator / 1.5;
 

@@ -57,7 +57,7 @@ struct stCompOut {
 	double A1outA;
 
 	stCompOut(double iA1in, double iU1in, double iRc, double iCpre, double iGam) :
-			A1in(iA1in), U1in(iU1in), Rc(iRc), Cpre(iCpre), Gam(iGam) {
+	A1in(iA1in), U1in(iU1in), Rc(iRc), Cpre(iCpre), Gam(iGam) {
 
 		Ga1 = Gam - 1;
 		Ga3 = Ga1 / 2;
@@ -192,33 +192,30 @@ private:
 	double FFlowIn;
 	double FFlowOut;
 
-	void Biseccion(double *VelIn, double *VelOut, double *AIn, double *AOut,
-			double CarIn, double AaIn, double CarOut, int sig);
+	void Biseccion(double *VelIn, double *VelOut, double *AIn, double *AOut, double CarIn, double AaIn, double CarOut,
+		int sig);
 
-	void MetodoNewton2D(double *a1, double *a2, double *u1, double *u2,
-			double aa1, double aa2, double cc1, double cc2, double s1,
-			double s2, double k, int sig);
+	void MetodoNewton2D(double *a1, double *a2, double *u1, double *u2, double aa1, double aa2, double cc1, double cc2,
+		double s1, double s2, double k, int sig);
 
-	void Solver(double *a1, double *a2, double *u1, double *u2, double aa1,
-			double aa2, double cc1, double cc2, double s1, double s2, double k,
-			int sig);
+	void Solver(double *a1, double *a2, double *u1, double *u2, double aa1, double aa2, double cc1, double cc2,
+		double s1, double s2, double k, int sig);
 
 	void ExtremoCerrado();
 
-	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE,
-			double ASonidoD, double MasaD, double Gamma);
+	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD, double MasaD,
+		double Gamma);
 
 protected:
 
 public:
 
-	TCompTubos(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCompTubos(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+		bool ThereIsEGR);
 
 	~TCompTubos();
 
-	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo,
-			double TiempoActual, int TuboCalculado);
+	void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double TiempoActual, int TuboCalculado);
 
 	void LeeCompresor(const char *FileWAM, fpos_t &filepos);
 

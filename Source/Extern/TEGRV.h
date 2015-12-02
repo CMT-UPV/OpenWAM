@@ -106,8 +106,7 @@ public:
 
 	~TEGRV();
 
-	void CalculaEGRV(double MasaFuel, double Regimen, double MasaAireAdmitida,
-			double TiempoActual);
+	void CalculaEGRV(double MasaFuel, double Regimen, double MasaAireAdmitida, double TiempoActual);
 
 	void LeeDatosEntrada(char *Dir, FILE *fich);
 

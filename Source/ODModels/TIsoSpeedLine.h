@@ -69,8 +69,8 @@ public:
 
 	void AsignaValores(double ER, double MF, double EF);
 
-	void EffectiveSection(double Area, bool CalculaGR, double Angle,
-			double Diam1, double Diam2, double Diam3, double n_limit);
+	void EffectiveSection(double Area, bool CalculaGR, double Angle, double Diam1, double Diam2, double Diam3,
+		double n_limit);
 
 	void CalculatePower(double Tin);
 

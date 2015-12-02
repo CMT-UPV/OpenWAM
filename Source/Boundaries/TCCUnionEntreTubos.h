@@ -52,13 +52,11 @@ private:
 	double FEspesor;
 	double FConductividad;
 
-	void Estrechamiento(double CCS, double CCE, double rel_entropia,
-			double rel_area, double smag, double *xa1, double *xa2, double *xu2,
-			double *xu1);
+	void Estrechamiento(double CCS, double CCE, double rel_entropia, double rel_area, double smag, double *xa1,
+		double *xa2, double *xu2, double *xu1);
 
-	void Ensanchamiento(double CCS, double CCE, double rel_entropia,
-			double rel_area, double smag, double *xu1, double *xu2, double *xa2,
-			double *xa1, double *xx3);
+	void Ensanchamiento(double CCS, double CCE, double rel_entropia, double rel_area, double smag, double *xu1,
+		double *xu2, double *xa2, double *xa1, double *xx3);
 
 public:
 
@@ -71,14 +69,12 @@ public:
 	}
 	;
 
-	TCCUnionEntreTubos(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCUnionEntreTubos(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCUnionEntreTubos();
 
-	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
-			int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
+	void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF, TDPF **DPF);
 
 	void CalculaCondicionContorno(double Time);
 

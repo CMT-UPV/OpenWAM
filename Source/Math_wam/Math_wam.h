@@ -166,8 +166,8 @@ inline T sqrtw(T x) {
 
 #ifdef __BORLANDC__
 template<class T>
-inline T cbrt ( T x ) {
-	return pow ( x,1/3 ) > std::numeric_limits<T>::epsilon() ? pow ( x,1/3 ) : 0;
+inline T cbrt(T x) {
+	return pow(x, 1 / 3) > std::numeric_limits<T>::epsilon() ? pow(x, 1 / 3) : 0;
 }
 #endif
 
@@ -349,8 +349,7 @@ struct Step_interp: Base_interp {
  * @return The interpolated value.
  */
 template<class T>
-inline double zbrent(T& func, const double& x1, const double& x2,
-		const double& tol) {
+inline double zbrent(T& func, const double& x1, const double& x2, const double& tol) {
 	const int ITMAX = 100;
 	const double EPS = std::numeric_limits<double>::epsilon();
 	double a = x1;
@@ -480,8 +479,7 @@ inline bool zbrac(T & func, double & x1, double & x2) {
 }
 
 template<class T>
-inline bool zbrac2(T & func, double & x1, double & x2, const double & min,
-		const double & max) {
+inline bool zbrac2(T & func, double & x1, double & x2, const double & min, const double & max) {
 	const int NTRY = 200;
 	// const double FACTOR=0.1;
 	if (x1 == x2)
@@ -503,18 +501,15 @@ inline bool zbrac2(T & func, double & x1, double & x2, const double & min,
 			f2 = func(x2 = (0.9 * x2 + 0.1 * x2lim));
 	}
 	std::cout << "Do not exist solution" << std::endl;
-	std::cout << "x1 :" << x1 << " f1: " << f1 << " x1max: " << x1lim
-			<< std::endl;
-	std::cout << "x2 :" << x2 << " f2: " << f2 << " x2max: " << x2lim
-			<< std::endl;
+	std::cout << "x1 :" << x1 << " f1: " << f1 << " x1max: " << x1lim << std::endl;
+	std::cout << "x2 :" << x2 << " f2: " << f2 << " x2max: " << x2lim << std::endl;
 
 	return false;
 
 }
 
 template<class T>
-inline void zbrak(T & fx, const double x1, const double x2, const int n,
-		dVector & xb1, dVector & xb2, int & nroot) {
+inline void zbrak(T & fx, const double x1, const double x2, const int n, dVector & xb1, dVector & xb2, int & nroot) {
 	int nb = 20;
 	xb1.resize(nb);
 	xb2.resize(nb);
@@ -543,8 +538,7 @@ inline void zbrak(T & fx, const double x1, const double x2, const int n,
 }
 
 template<class T>
-inline double rtbis(T & func, const double x1, const double x2,
-		const double xacc) {
+inline double rtbis(T & func, const double x1, const double x2, const double xacc) {
 	const int JMAX = 50;
 
 	double dx, xmid, rtb;
@@ -571,8 +565,7 @@ inline double rtbis(T & func, const double x1, const double x2,
 }
 
 template<class T>
-inline double rtflsp(T & func, const double x1, const double x2,
-		const double xacc) {
+inline double rtflsp(T & func, const double x1, const double x2, const double xacc) {
 	const int MAXIT = 1000;
 
 	double xl, xh, del;
@@ -611,8 +604,7 @@ inline double rtflsp(T & func, const double x1, const double x2,
 }
 
 template<class T>
-inline double rtsec(T & func, const double x1, const double x2,
-		const double xacc) {
+inline double rtsec(T & func, const double x1, const double x2, const double xacc) {
 	const int MAXIT = 100;
 
 	double xl, rts;
@@ -641,8 +633,7 @@ inline double rtsec(T & func, const double x1, const double x2,
 }
 
 template<class T>
-inline double zriddr(T & func, const double x1, const double x2,
-		const double xacc) {
+inline double zriddr(T & func, const double x1, const double x2, const double xacc) {
 	const int MAXIT = 100;
 	double fl = func(x1);
 	double fh = func(x2);
@@ -694,8 +685,7 @@ inline double zriddr(T & func, const double x1, const double x2,
 }
 
 template<class T>
-inline double rtnewt(T & funcd, const double x1, const double x2,
-		const double xacc) {
+inline double rtnewt(T & funcd, const double x1, const double x2, const double xacc) {
 	const int JMAX = 20.;
 	double rtn = 0.5 * (x1 + x2);
 	for (int j = 0; j < JMAX; j++) {
@@ -712,8 +702,7 @@ inline double rtnewt(T & funcd, const double x1, const double x2,
 }
 
 template<class T>
-inline double rtsafe(T & funcd, const double x1, const double x2,
-		const double xacc) {
+inline double rtsafe(T & funcd, const double x1, const double x2, const double xacc) {
 	const int MAXIT = 100;
 
 	double xh, xl;
@@ -740,8 +729,7 @@ inline double rtsafe(T & funcd, const double x1, const double x2,
 	double f = funcd(rts);
 	double df = funcd.df(rts);
 	for (int j = 0; j < MAXIT; j++) {
-		if ((((rts - xh) * df - f) * ((rts - xl) * df - f) > 0.0)
-				|| (fabs(2.0 * f) > fabs(dxold * df))) {
+		if ((((rts - xh) * df - f) * ((rts - xl) * df - f) > 0.0) || (fabs(2.0 * f) > fabs(dxold * df))) {
 			dxold = dx;
 			dx = 0.5 * (xh - xl);
 			rts = xl + dx;

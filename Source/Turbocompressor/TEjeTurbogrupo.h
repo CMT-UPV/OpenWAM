@@ -141,11 +141,9 @@ public:
 
 	~TEjeTurbogrupo();
 
-	void ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos,
-			TCompresor **Compressor, TTurbina **Turbine);
+	void ReadTurbochargerAxis(const char *FileWAM, fpos_t &filepos, TCompresor **Compressor, TTurbina **Turbine);
 
-	void CalculaEjesTurbogrupo(double Theta, nmTipoModelado SimulationType,
-			double Time, double CrankAngle);
+	void CalculaEjesTurbogrupo(double Theta, nmTipoModelado SimulationType, double Time, double CrankAngle);
 
 	void ReadAverageResultsEje(const char *FileWAM, fpos_t &filepos);
 

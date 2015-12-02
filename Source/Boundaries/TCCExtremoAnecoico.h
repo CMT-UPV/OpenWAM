@@ -43,9 +43,8 @@ private:
 	double *FCD;          // Caracteristica desconocida del tubo.
 
 public:
-	TCCExtremoAnecoico(nmTypeBC TipoCC, int numCC,
-			nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-			nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TCCExtremoAnecoico(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
+		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExtremoAnecoico();
 

@@ -65,8 +65,7 @@ TTipoValvula::~TTipoValvula() {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-void TTipoValvula::AsignaParametros(int Pipe, int Nodo, int Tipo, int Valvula,
-		double dTubo, int sentido) {
+void TTipoValvula::AsignaParametros(int Pipe, int Nodo, int Tipo, int Valvula, double dTubo, int sentido) {
 	try {
 		FTubo = Pipe;
 		FNodo = Nodo;
