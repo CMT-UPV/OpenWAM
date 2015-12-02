@@ -88,7 +88,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccionTubo = __geom::Circle_area(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -98,7 +98,7 @@ void TCCCompresorVolumetrico::LeeCCCompresorVol(const char *FileWAM,
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccionTubo = __geom::Circle_area(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			i++;

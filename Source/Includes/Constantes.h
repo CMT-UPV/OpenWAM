@@ -178,6 +178,9 @@ namespace __geom{
 	inline double Cylinder_volume(double d,double l){
 		return Circle_area(d) * l;
 	}
+	inline double Ring_area(double din,double dout){
+		return (dout * dout - din * din) * __cons::Pi_4;
+	}
 };
 
 #endif

@@ -638,8 +638,8 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos,
 						den = __units::BarToPa(Pipe[t]->getPresionInicial())
 								/ Pipe[t]->GetRMezcla(0) / __units::degCToK(T);
 						v1 = Pipe[t]->getVelocidadMedia();
-						FSensorTubo[cont].valreal = (pow2(
-								Pipe[t]->GetDiametro(n1)) * __cons::Pi_4) * v1 * den;
+						FSensorTubo[cont].valreal = __geom::Circle_area(
+								Pipe[t]->GetDiametro(n1)) * v1 * den;
 						FSensorTubo[cont].valact = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valant = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valrealant =
@@ -1995,8 +1995,8 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					den = __units::BarToPa(p) / Rmezcla / __units::degCToK(T);
 					v1 = Pipe[j]->GetVelocidad(n1) * __cons::ARef;
 					v2 = Pipe[j]->GetVelocidad(n2) * __cons::ARef;
-					gto1 = pow2(Pipe[j]->GetDiametro(n1)) * __cons::Pi_4;
-					gto2 = pow2(Pipe[j]->GetDiametro(n2)) * __cons::Pi_4;
+					gto1 = __geom::Circle_area(Pipe[j]->GetDiametro(n1));
+					gto2 = __geom::Circle_area(Pipe[j]->GetDiametro(n2));
 					gto1 *= v1;
 					gto2 *= v2;
 					FSensorTubo[i].valreal = xit_(gto1, gto2, 1.0, d) * den;

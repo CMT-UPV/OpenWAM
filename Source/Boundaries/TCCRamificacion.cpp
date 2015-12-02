@@ -132,8 +132,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
 				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccionTubo[FNumeroTubosCC] = __cons::Pi_4
-						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2);
+				FSeccionTubo[FNumeroTubosCC] = __geom::Circle_area(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -144,8 +143,7 @@ void TCCRamificacion::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FNumeroTubo[FNumeroTubosCC] = Pipe[i]->getNumeroTubo() - 1;
 				FCC[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccionTubo[FNumeroTubosCC] = __cons::Pi_4
-						* pow(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]), 2);
+				FSeccionTubo[FNumeroTubosCC] = __geom::Circle_area(Pipe[i]->GetDiametro(FNodoFin[FNumeroTubosCC]));
 				FNumeroTubosCC++;
 			}
 			i++;

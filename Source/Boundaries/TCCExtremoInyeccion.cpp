@@ -81,7 +81,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FIndiceCC = 0;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
-				FSeccion = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccion = __geom::Circle_area(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			if (Pipe[i]->getNodoDer() == FNumeroCC) {
@@ -91,7 +91,7 @@ void TCCExtremoInyeccion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FIndiceCC = 1;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Beta);
-				FSeccion = __cons::Pi_4 * pow2(Pipe[i]->GetDiametro(FNodoFin));
+				FSeccion = __geom::Circle_area(Pipe[i]->GetDiametro(FNodoFin));
 				FNumeroTubosCC++;
 			}
 			i++;

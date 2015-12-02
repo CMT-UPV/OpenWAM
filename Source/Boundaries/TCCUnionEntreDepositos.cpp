@@ -474,7 +474,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) { /* Flujo del deposito 1 al deposito 2 */
 				Massflow = FCDSalida * gasto_isen;
 				FGasto = 0.9 * FGasto + 0.1 * Massflow;
-				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Saliente -1*/
 				FSentidoFlujoED2 = 1; /* Entrante */
@@ -497,7 +497,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			} else { /* Flujo del deposito 2 al deposito 1 */
 				Massflow = FCDEntrada * gasto_isen;
 				FGasto = 0.9 * FGasto - 0.1 * Massflow;
-				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Entrante */
 				FSentidoFlujoED2 = 1; /* Saliente -1*/
@@ -550,7 +550,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 			FGamma1 = __gamma::G1(FGamma);
 			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
@@ -565,7 +565,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			if (FDeposito1->getPressure() > FDeposito2->getPressure()) { /* Flujo del deposito 1 al deposito 2 */
 				FGasto = FCDSalida * gasto_isen;
-				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = -1; /* Saliente */
 				FSentidoFlujoED2 = 1; /* Entrante */
@@ -587,7 +587,7 @@ void TCCUnionEntreDepositos::CalculaCondicionContorno(double Time) {
 
 			} else { /* Flujo del deposito 2 al deposito 1 */
 				FGasto = FCDEntrada * gasto_isen;
-				FVelocity = FGasto / (__cons::Pi_4 * pow2(FValvula->getDiametro()))
+				FVelocity = FGasto / (__geom::Circle_area(FValvula->getDiametro()))
 						/ (p0 / (FRMezcla * T0));
 				FSentidoFlujoED1 = 1; /* Entrante */
 				FSentidoFlujoED2 = -1; /* Saliente */
@@ -641,7 +641,7 @@ void TCCUnionEntreDepositos::CalculaUED() {
 			FGamma1 = __gamma::G1(FGamma);
 			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);
@@ -661,7 +661,7 @@ void TCCUnionEntreDepositos::CalculaUED() {
 			FGamma1 = __gamma::G1(FGamma);
 			FGamma2 = __gamma::G2(FGamma);
 
-			paso1 = (__cons::Pi_4 * pow2(FValvula->getDiametro())) * p0
+			paso1 = (__geom::Circle_area(FValvula->getDiametro())) * p0
 					* sqrt(2 * FGamma / (FRMezcla * FGamma1 * T0));
 			paso2 = pow(p1 / p0, 2 / FGamma);
 			paso3 = pow(p1 / p0, FGamma2 / FGamma);

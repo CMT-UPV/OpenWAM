@@ -1209,7 +1209,7 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		double L = FMotor->getGeometria().Biela;
 		double R = FMotor->getGeometria().Carrera / 2.;
 		double e = FMotor->getGeometria().Excentricidad / 1000;
-		double area = __cons::Pi_4 * pow2(FMotor->getGeometria().Diametro);
+		double area = __geom::Circle_area(FMotor->getGeometria().Diametro);
 
 		double b = asin((e - R * sin(a)) / L);
 

@@ -278,10 +278,9 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos,
 		fscanf(fich, "%lf ", &FGeom.ModuloElasticidad);
 		fscanf(fich, "%lf ", &FGeom.CoefDeformaciones);
 
-		FGeom.VCC = (__cons::Pi_4 * FGeom.Diametro * FGeom.Diametro * FGeom.Carrera)
+		FGeom.VCC = __geom::Cylinder_volume(FGeom.Diametro, FGeom.Carrera)
 				/ (FGeom.RelaCompresion - 1.);
-		FGeom.CilindradaUnitaria = __cons::Pi * pow2(FGeom.Diametro) * FGeom.Carrera
-				/ 4.;
+		FGeom.CilindradaUnitaria = __geom::Cylinder_volume(FGeom.Diametro, FGeom.Carrera);
 		FGeom.CilindradaTotal = FGeom.CilindradaUnitaria
 				* (double) FGeom.NCilin;
 

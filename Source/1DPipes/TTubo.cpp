@@ -826,12 +826,12 @@ void TTubo::CalculoPuntosMalla(double ene) {
 			ii = ii - 1;
 			double r1 = i * FXref - FLTotalTramo[ii];
 			FDiametroTubo[i] = Interpola(FDExtTramo[ii], FDExtTramo[ii + 1], FLTramo[ii + 1], r1);
-			FArea[i] = __cons::Pi_4 * FDiametroTubo[i] * FDiametroTubo[i];
+			FArea[i] = __geom::Circle_area(FDiametroTubo[i]);
 		}
 		FDiametroTubo[0] = FDExtTramo[0];
-		FArea[0] = __cons::Pi_4 * FDiametroTubo[0] * FDiametroTubo[0];
+		FArea[0] = __geom::Circle_area(FDiametroTubo[0]);
 		FDiametroTubo[FNin - 1] = FDExtTramo[FNTramos];
-		FArea[FNin - 1] = __cons::Pi_4 * FDiametroTubo[FNin - 1] * FDiametroTubo[FNin - 1];
+		FArea[FNin - 1] = __geom::Circle_area(FDiametroTubo[FNin - 1]);
 
 		FDiametroD12 = new double[FNin];
 		FDiametroS12 = new double[FNin];
@@ -3323,7 +3323,7 @@ double TTubo::CalculaNIT(double a, double v, double p, double d, double Gamma, d
 		A2 = A * A;
 		tem0 = A2 / (Gamma * R) + V2 / 2. / kp;
 		pre0 = __units::BarToPa(p) * pow((1 + V2 / 2. / kp / A2), (kp / 287.));
-		area = pow2(d) * __cons::Pi_4;
+		area = __geom::Circle_area(d);
 		gto = Gamma * __units::BarToPa(p) * area * V / A2;
 		nit = gto * kp * tem0 * (1 - pow(pre0 / 100000., (-287. / kp)));
 		return nit;
@@ -3597,22 +3597,22 @@ void TTubo::CalculaResistenciasdePared(TCondicionContorno **BC) {
 							// Calculo de la capacidad termica interior.
 							if (!FCapa[j].EsFluida) {
 								// Capa de material.
-								Cap = FCapa[j].Density * FCapa[j].CalorEspecifico * __cons::Pi_4 * (pow2(Dext) - pow2(Dint)) * FXref;
+								Cap = FCapa[j].Density * FCapa[j].CalorEspecifico * __geom::Ring_area(Dint, Dext) * FXref;
 								FCapInt[i] += Cap;
 							}
 						} else {
 							// Calculo de la capacidad termica exterior.
 							if (!FCapa[j].EsFluida) {
 								// Capa de material.
-								Cap = FCapa[j].Density * FCapa[j].CalorEspecifico * __cons::Pi_4 * (pow2(Dext) - pow2(Dint)) * FXref;
+								Cap = FCapa[j].Density * FCapa[j].CalorEspecifico * __geom::Ring_area(Dint, Dext) * FXref;
 								FCapExt[i] += Cap;
 							}
 						}
 					} else {
 						// Calculo de la capacidad termica exterior, media e interior de la capa principal.
-						FCapInt[i] += FDensidadPrin * FCalEspPrin * __cons::Pi_4 * (pow2(DIntPrin + 0.5 * FEspesorPrin) - pow2(DIntPrin)) * FXref;
-						FCapMed[i] = FDensidadPrin * FCalEspPrin * __cons::Pi_4 * (pow2(DIntPrin + 1.5 * FEspesorPrin) - pow2(DIntPrin + 0.5 * FEspesorPrin)) * FXref;
-						FCapExt[i] += FDensidadPrin * FCalEspPrin * __cons::Pi_4 * (pow2(DIntPrin + 2 * FEspesorPrin) - pow2(DIntPrin + 1.5 * FEspesorPrin)) * FXref;
+						FCapInt[i] += FDensidadPrin * FCalEspPrin * __geom::Ring_area(DIntPrin, DIntPrin + 0.5 * FEspesorPrin) * FXref;
+						FCapMed[i] = FDensidadPrin * FCalEspPrin * __geom::Ring_area(DIntPrin + 0.5 * FEspesorPrin, DIntPrin + 1.5 * FEspesorPrin) * FXref;
+						FCapExt[i] += FDensidadPrin * FCalEspPrin * __geom::Ring_area(DIntPrin + 1.5 * FEspesorPrin, DIntPrin + 2 * FEspesorPrin) * FXref;
 						EsInterior = false;
 					}
 					Dint = Dext;

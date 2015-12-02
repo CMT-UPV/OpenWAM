@@ -44,8 +44,8 @@ void TCCExternalConnection::AsignGeometricalData(double D0, double D1,
 
 	FDExt[0] = D0;
 	FDExt[1] = D1;
-	FAExt[0] = D0 * D0 * __cons::Pi_4;
-	FAExt[1] = D1 * D1 * __cons::Pi_4;
+	FAExt[0] = __geom::Circle_area(D0);
+	FAExt[1] = __geom::Circle_area(D1);
 
 	FDeltaX = deltaX;
 }

@@ -120,8 +120,8 @@ void TRotorTurbina::CalculaCD() {
 			FCDVolTub = FCDSInicial * FSectionRatio;
 			break;
 		case nmRotMapa:
-			FCDTubVol = FAreaEff / (pow2(FDiamTubo) * __cons::Pi_4);
-			FCDVolTub = FAreaEff / (pow2(FDiamTubo) * __cons::Pi_4);
+			FCDTubVol = FAreaEff / __geom::Circle_area(FDiamTubo);
+			FCDVolTub = FAreaEff / __geom::Circle_area(FDiamTubo);
 			break;
 		case nmRotVariable:
 			FCDTubVol = FCDVbl * FSectionRatio;
@@ -153,7 +153,7 @@ void TRotorTurbina::GetCDin(double Time) {
 		FCDTubVol = FCDEInicial * FSectionRatio;
 		break;
 	case nmRotMapa:
-		FCDTubVol = FAreaEff / (pow2(FDiamTubo) * __cons::Pi_4);
+		FCDTubVol = FAreaEff / __geom::Circle_area(FDiamTubo);
 		break;
 	case nmRotVariable:
 		FCDTubVol = FCDVbl * FSectionRatio;

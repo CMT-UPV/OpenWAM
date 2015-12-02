@@ -124,8 +124,8 @@ void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 
 		FValvula->PutPipe(FTuboExtremo[0].Pipe, FNodoFin);
 
-		FSeccionValvula = __cons::Pi_4 * pow2(FValvula->getDiametro());
-		FSeccionTubo = __cons::Pi_4 * pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
+		FSeccionValvula = __geom::Circle_area(FValvula->getDiametro());
+		FSeccionTubo = __geom::Circle_area(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 
 	} catch (exception & N) {
 		std::cout

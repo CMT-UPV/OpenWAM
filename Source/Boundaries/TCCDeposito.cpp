@@ -508,13 +508,18 @@ void TCCDeposito::IniciaGamma() {
 		if (!FUnionDPF) {
 			FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
 			FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
-			FSeccionTubo = __cons::Pi_4
-					* pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
+			FSeccionTubo = __geom::Circle_area(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 		} else {
 #ifdef ParticulateFilter
-			FRMezcla=FTuboExtremo[0].DPF->GetCanal ( FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal )->GetRMezcla ( FNodoFin );
-			FGamma=FTuboExtremo[0].DPF->GetCanal ( FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal )->GetGamma ( FNodoFin );
-			FSeccionTubo=Pi*pow2 ( FTuboExtremo[0].DPF->GetCanal ( FTuboExtremo[0].NumeroHaz,FTuboExtremo[0].TipoCanal )->GetDiametro ( FNodoFin ) ) /4.;
+			FRMezcla = FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
+					FTuboExtremo[0].TipoCanal)->GetRMezcla(FNodoFin);
+			FGamma = FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
+					FTuboExtremo[0].TipoCanal)->GetGamma(FNodoFin);
+			FSeccionTubo = __geom::Circle_area(
+							FTuboExtremo[0].DPF->GetCanal(
+									FTuboExtremo[0].NumeroHaz,
+									FTuboExtremo[0].TipoCanal)->GetDiametro(
+									FNodoFin));
 #endif
 		}
 		FSeccionValvula = FSeccionTubo;

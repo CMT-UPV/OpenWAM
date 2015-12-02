@@ -1945,7 +1945,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 									/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 									* STPipe[j]->GetGamma(k)
 									* STPipe[j]->GetVelocidad(k) * __cons::ARef
-									* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
+									* __geom::Circle_area(STPipe[j]->GetDiametro(k));
 							fprintf(FileOutFlow, " %g", massflow);
 						}
 					}
@@ -2169,7 +2169,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
 										* STPipe[j]->GetVelocidad(k) * __cons::ARef
-										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
+										* __geom::Circle_area(STPipe[j]->GetDiametro(k));
 							}
 							fprintf(FOutFlowBurntGas, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
@@ -2203,7 +2203,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
 										* STPipe[j]->GetVelocidad(k) * __cons::ARef
-										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
+										* __geom::Circle_area(STPipe[j]->GetDiametro(k));
 							}
 							fprintf(FOutFlowBurntGas, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
@@ -2255,7 +2255,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
 										* STPipe[j]->GetVelocidad(k) * __cons::ARef
-										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
+										* __geom::Circle_area(STPipe[j]->GetDiametro(k));
 							}
 							fprintf(FOutFlowO2, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
@@ -2325,7 +2325,7 @@ void TOutputResults::PrintSpaceTimeResults(bool EngineBlock, double Theta,
 										/ pow2(STPipe[j]->GetAsonido(k) * __cons::ARef)
 										* STPipe[j]->GetGamma(k)
 										* STPipe[j]->GetVelocidad(k) * __cons::ARef
-										* STPipe[j]->GetDiametro(k) * __cons::Pi_4;
+										* __geom::Circle_area(STPipe[j]->GetDiametro(k));
 							}
 							fprintf(FOutFlowO2, " %g",
 									STPipe[j]->GetFraccionMasica(k, 0)
