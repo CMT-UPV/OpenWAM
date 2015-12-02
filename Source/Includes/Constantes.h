@@ -100,16 +100,16 @@ namespace __PM {
 
 namespace __cons {
 	const double Pi = 3.14159265358979323846;
-	const double Pi_2 = 1.57079632679489661923;
-	const double Pi_4 = 0.785398163397448309616;
-	const double Pi_x_2 = 6.283185307179586;
-	const double _1_Pi = 0.318309886183791;
-	const double _2_Pi = 0.636619772367581;
-	const double _4_Pi = 1.273239544735163;
-	const double SQR_4_Pi = 1.128379167095513;
+	const double Pi_2 = Pi / 2;
+	const double Pi_4 = Pi / 4;
+	const double Pi_x_2 = 2 * Pi;
+	const double _1_Pi = 1 / Pi;
+	const double _2_Pi = 2 / Pi;
+	const double _4_Pi = 4 / Pi;
+	const double SQR_4_Pi = sqrt(_4_Pi);
 	const double Sigma = 5.670373e-8;
-	const double ARef2 = 117724.4721;
 	const double ARef = 343.11;
+	const double ARef2 = ARef * ARef;
 	const double TRef = 292.99271;
 	const double PRef = 1.0;
 }
@@ -122,6 +122,8 @@ namespace __cons {
 //const double PRef = 1.0; ///< Reference pressure. [bar]
 
 namespace __units {
+
+	const double _DegToRad = 2 * __cons::Pi / 360;
 //GENERAL
 	inline double To_kilo(double p) {
 		return p * 0.001;
@@ -131,7 +133,7 @@ namespace __units {
 	}
 //ANGLE
 	inline double DegToRad(double p) {
-		return p * 0.017453292519943;
+		return p * _DegToRad;
 	}
 // PRESSURE
 	inline double BarToPa(double p) {
@@ -193,20 +195,20 @@ namespace __geom {
 namespace __Gamma {
 
 // FOR AIR AT AMBIENT CONDITIONS
-	const double G = 1.4;
-	const double G_1 = 0.4;
-	const double G_2 = 2.4;
-	const double G_3 = 0.2;
-	const double G_4 = 7.0;
-	const double G_5 = 0.14285714285714285;
-	const double G_6 = 2.5;
-	const double G_7 = 0.6666666666666667;
-	const double G_8 = 0.28771428571428575;
-	const double G_9 = 3.5;
 	const double Cp = 1004.5;
-	const double Cp_x2 = 2009.0;
-	const double Cv = 717.5;
-	const double gxR = 401.8;
+	const double G = Cp / (Cp - __R::Air);
+	const double G_1 = G - 1;
+	const double G_2 = G + 1;
+	const double G_3 = (G - 1) / 2;
+	const double G_4 = 2 * G / (G - 1);
+	const double G_5 = (G - 1) / G / 2;
+	const double G_6 = 1 / (G - 1);
+	const double G_7 = (3 - G) / (G + 1);
+	const double G_8 = (G - 1) / G;
+	const double G_9 = G / (G - 1);
+	const double Cp_x2 = 2 * Cp;
+	const double Cv = Cp - __R::Air;
+	const double gxR = G * __R::Air;
 
 	inline double GG(double Cp, double Cv) {
 		return Cp / Cv;
