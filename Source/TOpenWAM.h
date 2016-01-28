@@ -35,6 +35,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <regex>
+#include <fstream>
 #pragma hdrstop
 #include "Globales.h"
 
@@ -157,13 +159,14 @@ private:
 	stRun Run;
 
 	stDatosTGV *DatosTGV;
+	std::string fileinput;
 
 	FILE *FileInput;
 	// !< Pointers to input and output files.
 	FILE *fc; // !< Pointers to input and output files.
 
 	//char fileinput[8];
-	std::string fileinput;
+
 
 	TBloqueMotor** Engine;
 	TCompresor** Compressor;
