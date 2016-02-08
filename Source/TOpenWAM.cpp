@@ -31,6 +31,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #endif
+#include "Version.h"
 
 TOpenWAM::TOpenWAM() {
 
@@ -345,7 +346,7 @@ TOpenWAM::~TOpenWAM() {
 
 }
 
-void TOpenWAM::CleanLabels() {
+void TOpenWAM::CleanLabelsX() {
 
 	FILE *fetmp;
 
@@ -357,17 +358,17 @@ void TOpenWAM::CleanLabels() {
 
 	int cc = 0, cc2 = 0;
 	bool label;
-	char line[256];
-	char linenew[256];
+	char line[800];
+	char linenew[800];
 	while (!feof(FileInput)) {
-		fgets(line, 256, FileInput);
+		fgets(line, 800, FileInput);
 		cc = 0;
 		cc2 = 0;
 		label = false;
 		while (line[cc] == ' ' || line[cc] == '\t') {
 			cc++;
 		}
-		while (line[cc] != '\n' && cc < 256) {
+		while (line[cc] != '\n' && cc < 800) {
 			if (label) {
 				if (line[cc] == '>') {
 					label = false;
@@ -384,7 +385,7 @@ void TOpenWAM::CleanLabels() {
 			}
 		}
 		linenew[cc2] = '\n';
-		for (int i = cc2 + 1; i < 256; ++i) {
+		for (int i = cc2 + 1; i < 800; ++i) {
 			linenew[i] = '\0';
 		}
 		if (linenew[0] != '\n') {
@@ -395,6 +396,35 @@ void TOpenWAM::CleanLabels() {
 	fclose(fetmp);
 	fclose(FileInput);
 
+}
+
+
+void TOpenWAM::CleanLabels() {
+
+	std::regex labelregex("<.*>");
+	std::regex blregex("^[:s:]*\\r$");
+	std::regex blregex2("^[:s:]*$");
+
+
+	ifstream sFileInput;
+	ofstream sFileOutput;
+	string strline, strline_out;
+
+	sFileInput.open(fileinput.c_str());
+	fileinput.append(".tmp");
+	sFileOutput.open(fileinput.c_str());
+
+	while (!sFileInput.eof())
+	{
+		std::getline(sFileInput, strline);
+		strline_out = std::regex_replace (strline, labelregex, "");
+		if (std::regex_match(strline_out, blregex) == false  && std::regex_match(strline_out, blregex2) == false)
+		{
+			sFileOutput << strline_out << std::endl;
+		}
+	}
+	sFileInput.close();
+	sFileOutput.close();
 }
 
 void TOpenWAM::ReadInputData(char* FileName) {
@@ -414,9 +444,23 @@ void TOpenWAM::ReadInputData(char* FileName) {
 		exit(EXIT_FAILURE);
 	}
 
+#ifdef _WIN32
+
+	fclose(FileInput);
+
+	fileinput = FileName;
+
 	CleanLabels();
 
+#else
+	CleanLabelsX();
+#endif
+
 	FileInput = fopen(fileinput.c_str(), "r");
+	if(!FileInput) {
+		std::perror("File opening failed: " );
+		exit(EXIT_FAILURE);
+	}
 
 #ifdef gestorcom
 	if(GestorWAM != NULL)
@@ -426,7 +470,7 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	// -----------------------------------------------------------------------------
 
 	std::cout << "=======================" << std::endl;
-	std::cout << " OpenWAM v2.2.0 Build 1" << std::endl;
+	std::cout << " OpenWAM " << VERSION_PRINT << std::endl;
 	std::cout << "=======================" << std::endl << std::endl;
 
 	std::cout << "THE MODEL IS READING THE INPUT DATA" << std::endl << std::endl;
@@ -434,9 +478,11 @@ void TOpenWAM::ReadInputData(char* FileName) {
 	// -----------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------
 
-	fscanf(FileInput, " %d", &OpenWAMVersion);
+	fscanf(FileInput, "%d", &OpenWAMVersion);
 	if (OpenWAMVersion != vers) {
 		printf("ERROR: THE WAM VERSION IS NOT CORRECT FOR THESE INPUT DATA\n\n");
+		printf("       OpenWAM version: %d", vers);
+		printf("       File version: %d", OpenWAMVersion);
 		exit(1);
 	}
 	int ind = 0;
