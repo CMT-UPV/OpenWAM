@@ -349,6 +349,8 @@ private:
 	 */
 	void InitFlowIndependentNumThreads();
 
+	void CleanLabelsX();
+
 	void CleanLabels();
 
 	void ReadGeneralData();

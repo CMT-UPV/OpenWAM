@@ -346,6 +346,59 @@ TOpenWAM::~TOpenWAM() {
 
 }
 
+void TOpenWAM::CleanLabelsX() {
+
+	FILE *fetmp;
+
+	//strcpy(fileinput.c_str(), "tmp.wam");
+
+	fileinput = "tmp.wam";
+
+	fetmp = fopen(fileinput.c_str(), "w");
+
+	int cc = 0, cc2 = 0;
+	bool label;
+	char line[800];
+	char linenew[800];
+	while (!feof(FileInput)) {
+		fgets(line, 800, FileInput);
+		cc = 0;
+		cc2 = 0;
+		label = false;
+		while (line[cc] == ' ' || line[cc] == '\t') {
+			cc++;
+		}
+		while (line[cc] != '\n' && cc < 800) {
+			if (label) {
+				if (line[cc] == '>') {
+					label = false;
+				}
+				cc++;
+			} else {
+				if (line[cc] == '<') {
+					label = true;
+				} else {
+					linenew[cc2] = line[cc];
+					cc2++;
+				}
+				cc++;
+			}
+		}
+		linenew[cc2] = '\n';
+		for (int i = cc2 + 1; i < 800; ++i) {
+			linenew[i] = '\0';
+		}
+		if (linenew[0] != '\n') {
+			fputs(linenew, fetmp);
+		}
+	}
+
+	fclose(fetmp);
+	fclose(FileInput);
+
+}
+
+
 void TOpenWAM::CleanLabels() {
 
 	std::regex labelregex("<.*>");
@@ -390,11 +443,18 @@ void TOpenWAM::ReadInputData(char* FileName) {
 #endif
 		exit(EXIT_FAILURE);
 	}
+
+#ifdef _WIN32
+
 	fclose(FileInput);
 
 	fileinput = FileName;
 
 	CleanLabels();
+
+#else
+	CleanLabelsX();
+#endif
 
 	FileInput = fopen(fileinput.c_str(), "r");
 	if(!FileInput) {
