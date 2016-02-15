@@ -1662,10 +1662,9 @@ inline double CalculoSimpleCvMezcla(double Temperature, double YQuemados, double
 					+ Temperature * (6.95372 + Temperature * (-0.00404715 + Temperature * 0.000000910259))
 					+ 1458487 / (Temperature * Temperature);
 			} else if (TipoCombustible == nmMEP) {
-				//Gasolina C8.26H15.5
-				CvCombustible = (4184
-					* (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168 + 0.00000006475 * Temperature))
-						+ 580800 * RaizdeT) * __R::Gasoline / __R::Universal) - __R::Gasoline; //cv = cp - R
+				// Octano from NIST data base (1 bar).
+				CvCombustible = ((4.200E-07 * Temperature - 2.524E-03) * Temperature + 5.834E+00) *
+					Temperature + 1.890E+02 - __R::Gasoline;
 			}
 		}
 		//CvMezcla = CvQuemados * YQuemados + CvCombustible * YCombustible + (CvAire * (1 - YCombustible - YQuemados - 0.0164) + 0.0164 * CvH2O);
@@ -1725,7 +1724,7 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 
 		if (GammaCalculation == nmComposicionTemperatura) {
 			double RaizdeT = sqrt(Temperature);
-			// Temperature en Kelvin. Calculado seg�n la correlaci�n de JANAF.
+			// Temperature en Kelvin. Calculado segun la correlacion de JANAF.
 			CpN2 = (12.531 - 0.05932 * RaizdeT + (-352.3 * RaizdeT + 5279.1 - 27358 / RaizdeT) / Temperature) * __R::N2;
 			CpO2 = (-0.112 + 0.0479 * RaizdeT + (195.42 * RaizdeT - 4426.1 + 32538 / RaizdeT) / Temperature) * __R::O2;
 			CpCO2 = (12.019 - 0.03566 * RaizdeT + (-142.34 * RaizdeT - 163.7 + 9470 / RaizdeT) / Temperature)
@@ -1738,10 +1737,12 @@ inline double CalculoCompletoCpMezcla(double YO2, double YCO2, double YH2O, doub
 					+ (-256.4 + Temperature * (6.95372 + Temperature * (-0.00404715 + Temperature * 0.000000910259))
 						+ 1458487 / (Temperature * Temperature)); //Cp = R + Cv
 			} else if (TipoCombustible == nmMEP) {
-				//Gasolina C8.26H15.5
-				CpCombustible = 4184
-					* (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168 + 0.00000006475 * Temperature))
-						+ 580800 * RaizdeT) * __R::Gasoline / __R::Universal; //cv = cp - R
+				// Octano from NIST data base (1 bar).
+//				CpCombustible = 4184
+//					* (-24.078 + Temperature * (0.25663 - Temperature * (0.00020168 + 0.00000006475 * Temperature))
+//						+ 580800 * RaizdeT) * __R::Gasoline / __R::Universal; //cv = cp - R
+				CpCombustible = ((4.200E-07 * Temperature - 2.524E-03) * Temperature + 5.834E+00) * Temperature + 1.890E+02;
+
 			}
 
 		}

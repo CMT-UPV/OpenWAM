@@ -504,6 +504,12 @@ void TOutputResults::CopyInstananeousResultsToFile(int mode) {
 			FFileIns.open(FileName, fstream::out);
 #endif
 		}
+		if(!FFileIns.is_open()){
+			cout << "WARNING: The file " << FileName << " in in use" << endl;
+			cout << "Please close the file, insert any character and press enter to continue" << endl;
+			string key;
+			cin >> key;
+		}
 
 		FFileIns << FInsOutput.str();
 

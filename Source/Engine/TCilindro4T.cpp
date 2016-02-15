@@ -173,8 +173,13 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 						FAnguloInjeccion.resize(FNumIny);
 						FTInyeccion.resize(FNumIny);
 						FPercentInyeccion.resize(FNumIny);
-						FTInyeccion[0] = (FFinComb - FIniComb) / (FMotor->getRegimen() * 6.) / 4.;
-						FAnguloInjeccion[0] = FIniComb - FAnguloRetrasoCombustion;
+						if(FMotor->getCombustible() == nmMEC){
+							FTInyeccion[0] = (FFinComb - FIniComb) / (FMotor->getRegimen() * 6.) / 4.;
+							FAnguloInjeccion[0] = FIniComb - FAnguloRetrasoCombustion;
+						}else{
+							FTInyeccion[0] = (720 - FIniComb - FDistribucion.CA) / (FMotor->getRegimen() * 6.) / 2.;
+							FAnguloInjeccion[0] = FDistribucion.CA + 2.;
+						}
 						if (FAnguloInjeccion[0] < 0)
 							FAnguloInjeccion[0] += FMotor->getAngTotalCiclo();
 						FPercentInyeccion[0] = 1;
@@ -366,24 +371,28 @@ void TCilindro4T::ActualizaPropiedades(double TiempoActual) {
 		/* ================================= */
 
 		//Inyeccion con datos de Angulo y duracion
-		for (int i = 0; i < FNumIny; i++) {
-			if (FAnguloActual > FAnguloInjeccion[i] && FAnguloAnterior <= FAnguloInjeccion[i]
-				&& FMotor->getCombustible() == nmMEC) {
-				// En el angulo de begining de la combusti�n se empieza a introducir el combustible
-				// Se pasa a estado de injeccion verdadero.
-				// FMasaFuel = FMotor->getMasaFuel();
-				FInyeccion = true;
-				FTasaFuel = 0.;
-				ind = i;
+
+		if(!FInyeccion){
+			for (int i = 0; i < FNumIny; i++) {
+				if (FAnguloActual > FAnguloInjeccion[i] && FAnguloAnterior <= FAnguloInjeccion[i]) {
+					// En el angulo de begining de la combusti�n se empieza a introducir el combustible
+					// Se pasa a estado de injeccion verdadero.
+					// FMasaFuel = FMotor->getMasaFuel();
+					FInyeccion = true;
+					FTasaFuel = 0.;
+					ind = i;
+				}
 			}
 		}
-		if (!FCicloCerrado) {
-			FInyeccion = false;
-			FFuelTotal = 0.;
-			FFuelInstant = 0.;
-			FFuelAcum = 0.;
-		}
+
+
 		if (FInyeccion) {
+			if (!FCicloCerrado) {
+				FInyeccion = false;
+				FFuelTotal = 0.;
+				FFuelInstant = 0.;
+				FFuelAcum = 0.;
+			}
 			if (FMotor->getACT()) {
 				FTasaFuel = Interp1(FAnguloComb, FCAD_injection_rate, Finjection_rate, FCAI) / 1000.;
 				FFuelInstant = FTasaFuel * FDeltaT;

@@ -241,6 +241,10 @@ public:
 	}
 	;
 
+	void setMasaFuel(double fuel) {
+		FMasaFuel = fuel;
+	}
+
 	double getMasaInicial() {
 		return FMasaInicial;
 	}

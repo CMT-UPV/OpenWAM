@@ -2783,6 +2783,7 @@ void TCilindro::CalculaTemperaturasPared() {
 void TCilindro::CalculaFuelMEP(double MasaAire) {
 
 	FMasaFuel = fabs(MasaAire) * FMotor->getDosadoInicial() * FDosadoEstequiometrico;
+	FMotor->setMasaFuel(FMasaFuel);
 
 }
 
