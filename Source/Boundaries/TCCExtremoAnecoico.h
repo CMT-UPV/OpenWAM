@@ -35,16 +35,16 @@
 //---------------------------------------------------------------------------
 
 class TCCExtremoAnecoico: public TCondicionContorno {
-private:
+  private:
 
 	int FNodoFin; // Nodo del extremo del tubo que conecta con la condicion de contorno.
 	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
 	double *FCC;          // Caracteristica conocida del tubo.
 	double *FCD;          // Caracteristica desconocida del tubo.
 
-public:
+  public:
 	TCCExtremoAnecoico(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+					   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExtremoAnecoico();
 

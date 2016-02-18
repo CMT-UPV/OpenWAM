@@ -40,7 +40,7 @@
 //---------------------------------------------------------------------------
 
 class TEntradaPulso {
-private:
+  private:
 
 	int FNumeroDatos;
 	int FNumeroCiclo;
@@ -50,7 +50,7 @@ private:
 	double *FNivelEntropia;
 	double FTiempoActual;
 
-public:
+  public:
 	TEntradaPulso();
 
 	~TEntradaPulso();

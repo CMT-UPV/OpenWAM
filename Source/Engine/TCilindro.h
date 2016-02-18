@@ -57,9 +57,9 @@ enum nmValvula {
 // ---------------------------------------------------------------------------
 
 class TCilindro {
-private:
+  private:
 
-protected:
+  protected:
 
 	// Parametro de entrada del ACT
 	double *Fengine_parameters;
@@ -344,7 +344,7 @@ protected:
 
 	// void PutFraccionMasicaEspecie(int i, double valor);
 
-public:
+  public:
 
 	void PutFraccionMasicaEspecie(int i, double valor) {
 		FFraccionMasicaEspecie[i] = valor;

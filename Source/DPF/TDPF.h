@@ -43,7 +43,7 @@ class TConcentrico;
 class TCondicionContorno;
 
 class TDPF {
-private:
+  private:
 //---------------------------------------------------------------------------
 // VARIABLES PRIVADAS
 //---------------------------------------------------------------------------
@@ -117,7 +117,8 @@ private:
 	double *FVolumenTotal;          // Volumen total de pared porosa en cada haz
 	long long int FNumeroUnidadesCelularesFiltro; // Numero total de unidades celulares en la DPF
 	long long int *FNumeroUnidadesCelularesHaz; // Numero total de unidades celulares en cada haz
-	long long int **FNumeroUnidadesCelulares; // Numero de unidades celulares en el volumen de control de cada nodo de los canales de entrada
+	long long int
+	**FNumeroUnidadesCelulares; // Numero de unidades celulares en el volumen de control de cada nodo de los canales de entrada
 	double **FLongitudVC;       // Longitud del volumen de control en cada nodo.
 	double **FMasaSootUC;              // Masa de soot en cada unidad colectora.
 
@@ -271,7 +272,7 @@ private:
 
 	void CalculaTemperaturaParedSinMotor(int j, TTubo **Tubo, TConcentrico **Concentrico);
 
-public:
+  public:
 //---------------------------------------------------------------------------
 // VARIABLES PUBLICAS
 //---------------------------------------------------------------------------
@@ -285,7 +286,7 @@ public:
 	~TDPF();
 
 	void LeeDatosDPF(const char *FileWAM, fpos_t &filepos, nmTipoCalculoEspecies CalculoEspecies,
-		nmCalculoGamma CalculoGamma, bool HayEGR, TBloqueMotor **Motor);
+					 nmCalculoGamma CalculoGamma, bool HayEGR, TBloqueMotor **Motor);
 
 	void CalculoTransmisionCalor(TBloqueMotor **Motor, double theta, TTubo **Tubo, TConcentrico **Concentrico);
 

@@ -53,12 +53,12 @@
 // ---------------------------------------------------------------------------
 
 TCCCilindro::TCCCilindro(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+						 nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
-	if (TipoCC == nmIntakeValve)
+	if(TipoCC == nmIntakeValve)
 		FTipoValv = nmValvAdmision;
-	else if (TipoCC == nmExhaustValve)
+	else if(TipoCC == nmExhaustValve)
 		FTipoValv = nmValvEscape;
 	else
 		printf("ERROR en tipo de valvula TCCCilindro en la condicion de contorno: %d\n", FNumeroCC);
@@ -89,7 +89,7 @@ TCCCilindro::~TCCCilindro() {
 
 	delete[] FTuboExtremo;
 
-	if (FValvula != NULL)
+	if(FValvula != NULL)
 		delete FValvula;
 
 	FValvula = NULL;
@@ -102,7 +102,7 @@ TCCCilindro::~TCCCilindro() {
 void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 	try {
 
-		switch (Origen[Valv - 1]->getTypeOfValve()) {
+		switch(Origen[Valv - 1]->getTypeOfValve()) {
 		case nmValvula4T:
 			FValvula = new TValvula4T(dynamic_cast<TValvula4T*>(Origen[Valv - 1]), i);
 			break;
@@ -121,7 +121,7 @@ void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 		FSeccionValvula = __geom::Circle_area(FValvula->getDiametro());
 		FSeccionTubo = __geom::Circle_area(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCCCilindro::AsignaTipoValvula en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -132,7 +132,7 @@ void TCCCilindro::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 // ---------------------------------------------------------------------------
 
 void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
-	TDPF **DPF) {
+								   TDPF **DPF) {
 	try {
 		int i = 0;
 		int numid = 0; // Variable necesaria para WAMer.
@@ -142,8 +142,8 @@ void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 
 		FPref = 1;
 
-		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+		while(FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if(Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FNodoFin = 0;
@@ -152,7 +152,7 @@ void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FNumeroTubosCC++;
 			}
-			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			if(Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FNodoFin = Pipe[i]->getNin() - 1;
@@ -166,7 +166,8 @@ void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		fscanf(fich, "%d ", &numid); // Esto es un dato que necesita el WAMer. Los usuarios de WAM hacemos la vista gorda hasta que se arregle.
+		fscanf(fich, "%d ",
+			   &numid); // Esto es un dato que necesita el WAMer. Los usuarios de WAM hacemos la vista gorda hasta que se arregle.
 		fscanf(fich, "%d ", &FNumeroCilindro);
 
 		fgetpos(fich, &filepos);
@@ -174,13 +175,13 @@ void TCCCilindro::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 
 		// Inicializacion del transporte de especies quimicas
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
 	}
 
-	catch (exception & N) {
+	catch(exception & N) {
 		std::cout << "ERROR: TCCCilindro::LeeCCCilindro en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -198,7 +199,7 @@ void TCCCilindro::AsignaCilindro(TBloqueMotor *EngineBlock) {
 		FAnguloActual = FCilindro->getAnguloActual();
 		FValvula->PutCylider(FCilindro);
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCCCilindro::AsignaCilindro en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -228,34 +229,33 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 
 		FAd = pow(FCilindro->getPressure() / FPref, 1. / FGamma4);
 		rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
-		if (rel_CCon_Entropia / FAd > 1.000005) {  // Flujo entrante al cilindro
+		if(rel_CCon_Entropia / FAd > 1.000005) {   // Flujo entrante al cilindro
 			FSentidoFlujo = nmEntrante;
 			FValvula->GetCDin(FTime1);
 			FCDEntrada = FValvula->getCDTubVol();
-			if (FCDEntrada > 0.0001) { /* Abierto */
+			if(FCDEntrada > 0.0001) {  /* Abierto */
 				FSeccionEficaz = FCDEntrada * FSeccionValvula;
 				FlujoEntranteCilindro();
 				/* CALCULO DEL MOMENTO ANGULAR ENTRANTE L */
-				if (FGasto < -1e-5) {
+				if(FGasto < -1e-5) {
 					FCTorbellino = FValvula->getCTorb();
-					if (FTipoValv == nmValvEscape) {
+					if(FTipoValv == nmValvEscape) {
 						coef = FCTorbellino / 4.;
 					} else {
 						coef = FCTorbellino;
 					}
-					FMomento = coef * pow2(__cons::ARef * FGasto)
-						/ (200000 * FMotor->getGeometria().Carrera * FGamma * FCilindro->getPressure())
-						* (pow2(*FCC + *FCD) / 4. + FGamma3 * pow2(((*FCD - *FCC) / FGamma1)));
+					FMomento = coef * pow2(__cons::ARef * FGasto) / (200000 * FMotor->getGeometria().Carrera * FGamma *
+							   FCilindro->getPressure()) * (pow2(*FCC + *FCD) / 4. + FGamma3 * pow2(
+									   ((*FCD - *FCC) / FGamma1)));
 				}
 				// Transporte de especies quimicas.
-				for (int j = 0; j < FNumeroEspecies - 2; j++) {
+				for(int j = 0; j < FNumeroEspecies - 2; j++) {
 					FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
-						FNumeroEspecies - 1);
+				if(FHayEGR)
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
 			} else { /* Cerrado */
 				FMomento = 0.;
 				FGasto = 0.;
@@ -269,27 +269,26 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 				FSeccionEficaz = 0.;
 				// La composicion se mantiene, al estar el cilindro cerrado.
 			}
-		} else if (rel_CCon_Entropia / FAd < .999995) {  // Flujo saliente del cilindro
+		} else if(rel_CCon_Entropia / FAd < .999995) {   // Flujo saliente del cilindro
 			FSentidoFlujo = nmSaliente;
 			FValvula->GetCDout(FTime1);
 			FCDSalida = FValvula->getCDVolTub();
-			if (FCDSalida > 0.0001) { /* Abierto */
+			if(FCDSalida > 0.0001) {  /* Abierto */
 				FSeccionEficaz = FCDSalida * FSeccionValvula;
 				FlujoSalienteCilindro();
 				/* CALCULO DEL MOMENTO ANGULAR SALIENTE */
-				if (FGasto > 1e-5) {
+				if(FGasto > 1e-5) {
 					FMomento = -FCilindro->getMomentoAngular() * FGasto / FCilindro->getMasa();
 				}
 
 				// Transporte de especies quimicas.
-				for (int j = 0; j < FNumeroEspecies - 2; j++) {
+				for(int j = 0; j < FNumeroEspecies - 2; j++) {
 					FFraccionMasicaEspecie[j] = FCilindro->GetComposicionSaliente(j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FCilindro->GetComposicionSaliente(
-						FNumeroEspecies - 1);
+				if(FHayEGR)
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FCilindro->GetComposicionSaliente(FNumeroEspecies - 1);
 			} else { /* Cerrado */
 				FMomento = 0.;
 				FGasto = 0.;
@@ -317,9 +316,8 @@ void TCCCilindro::CalculaCondicionContorno(double Time) {
 			// La composicion se mantiene, al estar el flujo parado.
 		}
 		FValvula->AcumulaCDMedio(Time);
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCCilindro::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCCilindro::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -333,13 +331,13 @@ void TCCCilindro::FlujoEntranteCilindro() {
 		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
-		if (Fk < 1)
+		if(Fk < 1)
 			Fk = 1;
 		vel_son_garganta = FTuboExtremo[0].Entropia * FAd; // Velocity del sonido en la garganta. Adimensional.
 
 		// Calculo de la velocidad en la garganta.Caso de salto subcritico.
 		FCaso = nmFlujoEntranteSaltoSubcritico;
-		if (Fk == 1) {
+		if(Fk == 1) {
 			FSonido = FTuboExtremo[0].Entropia * FAd;
 			FVelocity = (*FCC - FSonido) / FGamma3;
 		} else
@@ -350,7 +348,7 @@ void TCCCilindro::FlujoEntranteCilindro() {
 		// Se ha calculado la velocidad en la garganta en valor absoluto.
 
 		// Calculo de la velocidad en la garganta en el caso de salto supercritico
-		if (velocidad_garganta > vel_son_garganta) {
+		if(velocidad_garganta > vel_son_garganta) {
 			FCaso = nmFlujoEntranteSaltoSupercritico;
 			Resolucion(0.0, 1.0, FCaso, &ycal, &Mach);
 			FVelocity = *FCC / (1 / Mach + FGamma3);
@@ -364,8 +362,8 @@ void TCCCilindro::FlujoEntranteCilindro() {
 		// Fin caso de salto supercritico
 
 		xaa2 = pow(FTuboExtremo[0].Entropia, FGamma4);
-		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
-			/ (__cons::ARef * xaa2); // Massflow entrante al cilindro negativo
+		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido,
+								  2 * FGamma6) * FVelocity) / (__cons::ARef * xaa2); // Massflow entrante al cilindro negativo
 		*FCD = FSonido - Ga3U;
 		*FCC = FSonido + Ga3U;
 		FRelacionPresionGarganta = pow(FSonido / (FTuboExtremo[0].Entropia * FAd), FGamma4);
@@ -374,9 +372,8 @@ void TCCCilindro::FlujoEntranteCilindro() {
 		FVelocidadGarganta = velocidad_garganta;
 	}
 
-	catch (exception & N) {
-		std::cout << "ERROR: TCCCilindro::FlujoEntranteCilindro en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	catch(exception & N) {
+		std::cout << "ERROR: TCCCilindro::FlujoEntranteCilindro en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -395,15 +392,14 @@ void TCCCilindro::FlujoSalienteCilindro() {
 		double root_a = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
-		if (Fk < 1)
+		if(Fk < 1)
 			Fk = 1.0;
 
 		double sqrtGa2 = sqrt(2. / FGamma2);
 
 		/* Calculo del valor de la velocidad del sonido en el extremo del tubo para
 		 el cual el salto es critico. */
-		u2cr = FCilindro->getSpeedsound() / __cons::ARef * sqrtGa2 * (sqrt(pow2(Fk) + FGamma1 * FGamma2) - Fk)
-			/ FGamma1;
+		u2cr = FCilindro->getSpeedsound() / __cons::ARef * sqrtGa2 * (sqrt(pow2(Fk) + FGamma1 * FGamma2) - Fk) / FGamma1;
 		a2cr = sqrt(pow2(FCilindro->getSpeedsound() / __cons::ARef) - FGamma3 * pow2(u2cr));
 		// Ecuacion de la energia. Garganta-Cylinder.
 
@@ -415,7 +411,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 
 		error = FSA2(a2cr);
 
-		if (error < 0.) {  // Salto de presiones supercritico.
+		if(error < 0.) {   // Salto de presiones supercritico.
 
 			/* Determinacion del intervalo de iteracion. Para ello se supone que
 			 en el extremo del tubo se dan las condiciones criticas. Explicado en
@@ -430,7 +426,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			stFSSup FU2(FTuboExtremo[0].Entropia, Fcc, FGamma, Fk, *FCC, FCilindro->getSpeedsound() / __cons::ARef);
 			val1 = FU2(FVelocidadGarganta);
 
-			if (val1 < 0.)
+			if(val1 < 0.)
 				valde = FVelocidadGarganta;
 			else
 				valde = (FCilindro->getSpeedsound() / __cons::ARef) / sqrt(FGamma3);
@@ -453,7 +449,7 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			xx = *FCC + Ga3U;
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
 			// Ecuacion de la caracteristica incidente.
-			if (Mach > 1.) {
+			if(Mach > 1.) {
 
 				/* Las ecuaciones siguientes corresponden a la resolucion de la onda
 				 de choque plana. Se pueden encontrar en el punto 2.5 de la tesis
@@ -476,9 +472,9 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			Resolucion(a2cr, FCilindro->getSpeedsound() / __cons::ARef, FCaso, &ycal, &FSonido);
 			// Aplicando la Ecuacion de la Energia entre el cilindro y la garganta:
 			root_a = pow2(FCilindro->getSpeedsound() / __cons::ARef) - pow2(FSonido);
-			if (root_a > 0) {
+			if(root_a > 0) {
 				FVelocity = sqrt((pow2(FCilindro->getSpeedsound() / __cons::ARef) - pow2(FSonido)) / FGamma3);
-			} else if (root_a > -1e12) {
+			} else if(root_a > -1e12) {
 				FVelocity = 0;
 			} else {
 				FVelocity = 0.;
@@ -489,9 +485,8 @@ void TCCCilindro::FlujoSalienteCilindro() {
 			xx = *FCC + Ga3U;
 			a1 = FCilindro->getSpeedsound() / __cons::ARef * xx / (FTuboExtremo[0].Entropia * FAd);
 			FVelocidadGarganta = Fk * pow2(a1) * FVelocity / pow2(FSonido);
-			FGasto = __units::BarToPa(
-				FCDSalida * FSeccionValvula * FGamma * pow(FAd / (FCilindro->getSpeedsound() / __cons::ARef), FGamma4)
-					* FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __cons::ARef;
+			FGasto = __units::BarToPa(FCDSalida * FSeccionValvula * FGamma * pow(FAd / (FCilindro->getSpeedsound() / __cons::ARef),
+									  FGamma4) * FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __cons::ARef;
 
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
 			// Ecuacion de la caracteristica incidente.
@@ -505,9 +500,8 @@ void TCCCilindro::FlujoSalienteCilindro() {
 		FGastoGarganta = FGasto / (FCDSalida * FSeccionValvula);
 	}
 
-	catch (exception & N) {
-		std::cout << "ERROR: TCCCilindro::FlujoSalienteCilindro en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	catch(exception & N) {
+		std::cout << "ERROR: TCCCilindro::FlujoSalienteCilindro en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -518,30 +512,29 @@ void TCCCilindro::FlujoSalienteCilindro() {
 
 void TCCCilindro::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t, double *a2t) {
 	try {
-		if (Caso == nmFlujoEntranteSaltoSubcritico) {
+		if(Caso == nmFlujoEntranteSaltoSubcritico) {
 			stFESub FEA2(FTuboExtremo[0].Entropia, FAd, FGamma, Fk, *FCC);
 			*a2t = FindRoot(FEA2, ext1, ext2);
 			*u2t = FEA2.U2;
-		} else if (Caso == nmFlujoEntranteSaltoSupercritico) {
+		} else if(Caso == nmFlujoEntranteSaltoSupercritico) {
 			stFESup FMatch(FGamma, Fk);
 			*a2t = FindRoot(FMatch, ext1, ext2);
 			*u2t = 0.;
-		} else if (Caso == nmFlujoSalienteSaltoSubcritico) {
+		} else if(Caso == nmFlujoSalienteSaltoSubcritico) {
 			stFSSub FSA2(FTuboExtremo[0].Entropia, FAd, FGamma, Fk, *FCC, FCilindro->getSpeedsound() / __cons::ARef);
 			*a2t = FindRoot(FSA2, ext1, ext2);
 			*u2t = FSA2.U2;
-		} else if (Caso == nmFlujoSalienteSaltoSupercritico) {
+		} else if(Caso == nmFlujoSalienteSaltoSupercritico) {
 			stFSSup FU2(FTuboExtremo[0].Entropia, Fcc, FGamma, Fk, *FCC, FCilindro->getSpeedsound() / __cons::ARef);
 			*u2t = FindRoot(FU2, ext1, ext2);
 			*a2t = FU2.A2;
 		} else {
-			printf("Error en la definicion del flujo TCCDeposito::Resolucion en la condicion de contorno: %d\n",
-				FNumeroCC);
+			printf("Error en la definicion del flujo TCCDeposito::Resolucion en la condicion de contorno: %d\n", FNumeroCC);
 			throw Exception("");
 		}
 	}
 
-	catch (exception & N) {
+	catch(exception & N) {
 		std::cout << "ERROR: TCCCilindro::Resolucion en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -673,13 +666,12 @@ void TCCCilindro::ActualizaAnguloValvula(double TiempoActual, double Regimen) {
 		FDeltaAngulo = 360. * Regimen / 60. * FDeltaT;
 		FAnguloAnterior = FAnguloActual;
 		FAnguloActual = FAnguloAnterior + FDeltaAngulo;
-		if (FAnguloActual > 720.) {
+		if(FAnguloActual > 720.) {
 			FAnguloActual -= 720.;
 		}
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCCilindro::ActualizaAnguloValvula en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCCilindro::ActualizaAnguloValvula en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

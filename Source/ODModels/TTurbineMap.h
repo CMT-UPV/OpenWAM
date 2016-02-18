@@ -32,7 +32,7 @@
 #include "TTurbPosition.h"
 
 class TTurbineMap {
-private:
+  private:
 
 	double FDiamIN;
 	double FDiamOUT;
@@ -52,7 +52,7 @@ private:
 	dVector FPowerMin;
 	dVector FPowerMax;
 
-public:
+  public:
 	TTurbineMap();
 
 	~TTurbineMap();

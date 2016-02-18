@@ -40,7 +40,7 @@
 //---------------------------------------------------------------------------
 
 class TControlFuel {
-private:
+  private:
 
 	FILE *FichFuel;
 	double FuelAct;
@@ -54,7 +54,7 @@ private:
 //Funcion de interpolacion
 	double xit_(double vizq, double vder, double axid, double xif);
 
-public:
+  public:
 	TControlFuel();
 
 	~TControlFuel();

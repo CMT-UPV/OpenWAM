@@ -41,7 +41,7 @@ class TCondicionContorno;
 class TBloqueMotor;
 
 class TCanalDPF {
-private:
+  private:
 //---------------------------------------------------------------------------
 //          VARIABLES PRIVADAS
 //---------------------------------------------------------------------------
@@ -253,15 +253,15 @@ private:
 	double InterpolaTubo(double vizq, double vder, double axid, double xif);
 
 	void Transforma1Area(double v, double a, double p, double **U, double area, double Gamma, double Gamma1,
-		double *Yespecie, int i);
+						 double *Yespecie, int i);
 
 	void Transforma2Area(double *v, double *a, double *p, double **U, double Area, double Gamma, double Gamma1,
-		double *Yespecie, int i);
+						 double *Yespecie, int i);
 
 	void Transforma3Area(double **Ufct, double **U, double Area, double Gamma, double Gamma1, double Gamma6, int i);
 
 	void Transforma4Area(double **U1, double **Ufctd, double Area, double Gamma, double Gamma1, double Gamma3,
-		double Gamma4, double Gamma6, int i);
+						 double Gamma4, double Gamma6, int i);
 
 	double Maximo(double x, double y);
 
@@ -278,17 +278,16 @@ private:
 	void CalculaFuente1Area(double **U, double **V1, double *Area, double *Gamma1, int Nodos);
 
 	void CalculaFuente2(double **U, double **V2, double *diame, double *CoefTurbulencia, double *hi, double *rho,
-		double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, double *LadoCanal,
-		double *VelocidadPared, double *ViscosidadDinamica, double *q_reac1, double *q_reac2,
-		double **FraccionMasicaSalida, double *H0Pared, int Nodos, double *EspesorSoot, double *Eficiencia,
-		double *Rreg1, double *Rreg2, double *SupEspecifica, double *LongitudVC, double **FraccionMasica);
+						double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, double *LadoCanal, double *VelocidadPared,
+						double *ViscosidadDinamica, double *q_reac1, double *q_reac2, double **FraccionMasicaSalida, double *H0Pared, int Nodos,
+						double *EspesorSoot, double *Eficiencia, double *Rreg1, double *Rreg2, double *SupEspecifica, double *LongitudVC,
+						double **FraccionMasica);
 
 	void CalculaFuente2Area(double **U, double **V2, double *diame, double *CoefTurbulencia, double *hi, double *rho,
-		double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, double *LadoCanal,
-		double *VelocidadPared, double *ViscosidadDinamica, double *q_reac1, double *q_reac2,
-		double **FraccionMasicaSalida, double *H0Pared, int Nodos, double *Area, double *EspesorSoot,
-		double *Eficiencia, double *Rreg1, double *Rreg2, double *SupEspecifica, double *LongitudVC,
-		double **FraccionMasica);
+							double *TempParedTubo, double *Gamma, double *Rmezcla, double *Gamma1, double *LadoCanal, double *VelocidadPared,
+							double *ViscosidadDinamica, double *q_reac1, double *q_reac2, double **FraccionMasicaSalida, double *H0Pared, int Nodos,
+							double *Area, double *EspesorSoot, double *Eficiencia, double *Rreg1, double *Rreg2, double *SupEspecifica,
+							double *LongitudVC, double **FraccionMasica);
 
 	double DerLinF(double d1, double d2, double xref);
 
@@ -296,21 +295,20 @@ private:
 
 	void Colebrook(double rug, double dia, double *f, double Re);
 
-	void TransmisionCalor(double tgas, double lado, double *q, double CoefTurbulencia, double hi, double rho,
-		double Tw);
+	void TransmisionCalor(double tgas, double lado, double *q, double CoefTurbulencia, double hi, double rho, double Tw);
 
 	void TransformaContorno(double *L, double *B, double *E, double *a, double *v, double *p, int modo, double Gamma1,
-		double Gamma3, double Gamma4, double Gamma5);
+							double Gamma3, double Gamma4, double Gamma5);
 
 	double CalculaNIT(double a, double v, double p, double d, double Gamma, double R);
 
 	//void FuncionTVD();
 
 	void Calculo_Entropia(double *entropia, double *velocidadp, int ind, double dist, int signo, double DeltaTiempo,
-		int indiceCC, nmPipeEnd TipoExtremoTubo);
+						  int indiceCC, nmPipeEnd TipoExtremoTubo);
 
 	void Calculo_Caracteristica(double *caracteristica, double *velocidadp, double *asonidop, int ind, double dist,
-		int signo, double entropia, double DeltaTiempo, nmPipeEnd TipoExtremoTubo);
+								int signo, double entropia, double DeltaTiempo, nmPipeEnd TipoExtremoTubo);
 
 	void CalculaB();
 
@@ -332,7 +330,7 @@ private:
 
 	void NodoTerminoFuente();
 
-public:
+  public:
 //---------------------------------------------------------------------------
 //          VARIABLES PUBLICAS
 //---------------------------------------------------------------------------
@@ -341,8 +339,8 @@ public:
 //          FUNCIONES PUBLICAS
 //---------------------------------------------------------------------------
 
-	TCanalDPF(int NumeroEspecies, int j, nmTipoCalculoEspecies CalculoEspecies, nmCalculoGamma CalculoGamma,
-		bool HayEGR, TDPF *DPF, int numerocanal, int NumeroDPF);
+	TCanalDPF(int NumeroEspecies, int j, nmTipoCalculoEspecies CalculoEspecies, nmCalculoGamma CalculoGamma, bool HayEGR,
+			  TDPF *DPF, int numerocanal, int NumeroDPF);
 
 	~TCanalDPF();
 
@@ -386,8 +384,7 @@ public:
 
 	double Interpola_Entropia(nmPipeEnd TipoExtremoTubo, double DeltaTiempo);
 
-	double Interpola_Caracteristica(double entropia, int signo, int extremo, double DeltaTiempo,
-		nmPipeEnd TipoExtremoTubo);
+	double Interpola_Caracteristica(double entropia, int signo, int extremo, double DeltaTiempo, nmPipeEnd TipoExtremoTubo);
 
 	void ComunicacionCanal_CC(TCondicionContorno **CC);
 

@@ -31,7 +31,7 @@
 #include "TDepVolCteBase.h"
 
 class TVenturi: public TDepVolCteBase {
-private:
+  private:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	// ---------------------------------------------------------------------------
@@ -67,15 +67,15 @@ private:
 
 	// void PutNumeroVenturi(int NumeroVenturi);
 
-protected:
+  protected:
 
-public:
+  public:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	// ---------------------------------------------------------------------------
 
 	void PutNumeroVenturi(int NumeroVenturi) {
-		if (!asgNumeroVenturi) {
+		if(!asgNumeroVenturi) {
 			FNumeroVenturi = NumeroVenturi;
 			asgNumeroVenturi = true;
 		} else {
@@ -155,7 +155,7 @@ public:
 	// ---------------------------------------------------------------------------
 
 	TVenturi(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+			 bool ThereIsEGR);
 
 	~TVenturi();
 

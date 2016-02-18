@@ -69,10 +69,10 @@ TCalculoExtern::TCalculoExtern() {
 	FNumeroInMat = 0;
 	FNumeroOutMat = 0;
 
-	if (FNumeroInMat > 0)
+	if(FNumeroInMat > 0)
 		FEntrada = new double[FNumeroInMat];
 
-	if (FNumeroOutMat > 0)
+	if(FNumeroOutMat > 0)
 		FSalida = new double[FNumeroOutMat];
 
 //ECU=NULL;
@@ -119,85 +119,85 @@ TCalculoExtern::TCalculoExtern() {
 TCalculoExtern::~TCalculoExtern() {
 //  if(ECU!=NULL) delete ECU;
 
-	if (FTGV != NULL) {
-		for (int i = 0; i < Fcontadortgv; i++) {
+	if(FTGV != NULL) {
+		for(int i = 0; i < Fcontadortgv; i++) {
 			delete FTGV[i];
 		}
 		delete[] FTGV;
 	}
 
-	if (FFuel != NULL)
+	if(FFuel != NULL)
 		delete FFuel;
 
-	if (FEGRV != NULL)
+	if(FEGRV != NULL)
 		delete FEGRV;
 
-	if (FRegimen != NULL)
+	if(FRegimen != NULL)
 		delete FRegimen;
 
-	if (Ffql != NULL)
+	if(Ffql != NULL)
 		delete Ffql;
 
-	if (FAjusteTransCalorCil != NULL)
+	if(FAjusteTransCalorCil != NULL)
 		delete FAjusteTransCalorCil;
 
-	if (FFraccionMasicaCilindro != NULL)
+	if(FFraccionMasicaCilindro != NULL)
 		delete FFraccionMasicaCilindro;
 
-	if (FControlInyeccion != NULL)
+	if(FControlInyeccion != NULL)
 		delete FControlInyeccion;
 
-	if (FInputs != NULL)
+	if(FInputs != NULL)
 		delete[] FInputs;
 
-	if (FOutputs != NULL)
+	if(FOutputs != NULL)
 		delete[] FOutputs;
 
-	if (FEntrada != NULL)
+	if(FEntrada != NULL)
 		delete[] FEntrada;
 
-	if (FSalida != NULL)
+	if(FSalida != NULL)
 		delete[] FSalida;
 
-	if (FSensorTubo != NULL)
+	if(FSensorTubo != NULL)
 		delete[] FSensorTubo;
 
-	if (FSensorDep != NULL)
+	if(FSensorDep != NULL)
 		delete[] FSensorDep;
 
-	if (FSensorTG != NULL)
+	if(FSensorTG != NULL)
 		delete[] FSensorTG;
 
-	if (FSensorTurbina != NULL)
+	if(FSensorTurbina != NULL)
 		delete[] FSensorTurbina;
 
-	if (FSensorCil != NULL)
+	if(FSensorCil != NULL)
 		delete[] FSensorCil;
 
-	if (FSensorVent != NULL)
+	if(FSensorVent != NULL)
 		delete[] FSensorVent;
 
-	if (FSensorMotor != NULL)
+	if(FSensorMotor != NULL)
 		delete[] FSensorMotor;
 
-	if (FRemansoMatlab != NULL) {
-		for (int i = 0; i < Fnematlab; i++) {
+	if(FRemansoMatlab != NULL) {
+		for(int i = 0; i < Fnematlab; i++) {
 			delete FRemansoMatlab[i];
 		}
 		delete[] FRemansoMatlab;
 	}
 
-	if (FCoefDescarga != NULL) {
-		for (int i = 0; i < Fnumunion; i++) {
+	if(FCoefDescarga != NULL) {
+		for(int i = 0; i < Fnumunion; i++) {
 			delete FCoefDescarga[i];
 		}
 		delete[] FCoefDescarga;
 	}
 
-	if (FRutaTrabajo != NULL)
+	if(FRutaTrabajo != NULL)
 		delete[] FRutaTrabajo;
 
-	if (FParametros != NULL)
+	if(FParametros != NULL)
 		delete[] FParametros;
 }
 
@@ -291,11 +291,11 @@ void TCalculoExtern::LlamadaECU(double DeltaT, TBloqueMotor **Engine) {
 		FOutputs[0] = FTiempo * 0.02;
 		FOutputs[1] = FTiempo * 0.02;
 		FOutputs[2] = 0;
-		if (FOutputs[0] > 1)
+		if(FOutputs[0] > 1)
 			FOutputs[0] = 1;
-		if (FOutputs[1] > 1)
+		if(FOutputs[1] > 1)
 			FOutputs[1] = 1;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LlamadaECU" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -311,7 +311,7 @@ void TCalculoExtern::FinECU() {
 //	 ECU->FinalizaECU();
 //}
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: PutInputdll" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -323,14 +323,14 @@ void TCalculoExtern::FinECU() {
 
 double TCalculoExtern::GetOutput_dll(int i) {
 	try {
-		if (i < FNOutputsdll) {
+		if(i < FNOutputsdll) {
 			return FOutputs[i];
 		} else {
 			std::cout << "WARNING: El valor de la salida de la dll se sale de rango" << std::endl;
 			std::cout << "         Revisa el acceso a la dll" << std::endl;
 			return 0.;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: GetOutputdll" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -349,7 +349,7 @@ TRemansoMatlab* TCalculoExtern::GetTRemansoMatlab(int i) {
 //       std::cout << "         Revisa el acceso a la dll" << std::endl;
 //       return 0.;
 //   }
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: GetTRemansoMatlab" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -368,7 +368,7 @@ TCoefDescarga* TCalculoExtern::GetTCoefDescarga(int i) {
 //       std::cout << "         Revisa el acceso a la dll" << std::endl;
 //       return 0.;
 //   }
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: GetTCoefDescarga" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -387,7 +387,7 @@ TControlFuel* TCalculoExtern::GetFuel() {
 //       std::cout << "         Revisa el acceso a la dll" << std::endl;
 //       return 0.;
 //   }
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: GetFuel" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -398,7 +398,7 @@ TControlFuel* TCalculoExtern::GetFuel() {
 //---------------------------------------------------------------------------
 
 void TCalculoExtern::LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv, int nematlab, int ncilin,
-	int nunmat, int CountVGT, int numespecies, int NumeroPerdidasPresion) {
+									int nunmat, int CountVGT, int numespecies, int NumeroPerdidasPresion) {
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -424,14 +424,14 @@ void TCalculoExtern::LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int co
 		baraba == 0 ? Fajustbaraba = false : Fajustbaraba = true;
 		Yespecies == 0 ? FFraccionMasicaEspeciesCil = false : FFraccionMasicaEspeciesCil = true;
 		fscanf(fich, "%d ", &Fngrafmat); /* numero de magnitudes de la ECU que queremos graficar */
-		if (Fhayecu) {
+		if(Fhayecu) {
 			//ECU=new TMatlab(FNumeroInMat,FNumeroOutMat);
 			//fscanf(fich,"%lf ",&Ftmuestreoecu);
 			//ECU->LeeFicherosECU(fich);
 			//ECU->IniciaECU();
 			std::cout << "WARNING: Matlab link must be adapted with your Matlab version" << std::endl;
 		}
-		if (controlvalv == 1) {
+		if(controlvalv == 1) {
 			Fntact = nunmat * 3;
 			Fnumunion = nunmat;
 			/*FCoefDescarga=new TCoefDescarga*[nematlab];
@@ -440,52 +440,52 @@ void TCalculoExtern::LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int co
 
 			 } */
 		}
-		if (Fcontrolmfcomb) {
+		if(Fcontrolmfcomb) {
 			Fntact += ncilin;
 		}
-		if (Fcontroliny) {
+		if(Fcontroliny) {
 			Fntact += 18 * ncilin;
 			FControlInyeccion = new TControlInyeccion();
 		}
-		if (Fajustbaraba) {
+		if(Fajustbaraba) {
 			Fntact += 2;
 			FAjusteTransCalorCil = new TAjusteTransCalorCil();
 		}
-		if (Fmodcomb) {
+		if(Fmodcomb) {
 			Fntact += 3 * ncilin;
 			Ffql = new Tfql(ncilin);
 		}
-		if (FFraccionMasicaEspeciesCil) {
+		if(FFraccionMasicaEspeciesCil) {
 			Fntact += numespecies * ncilin;
 			FFraccionMasicaCilindro = new TFraccionMasicaCilindro();
 		}
 		Fntact += nematlab * 2;
 		Fntact += CountVGT * 6;
 		Fcontadortgv = CountVGT;
-		if (CountVGT != 0) {
+		if(CountVGT != 0) {
 			FTGV = new TTGV*[CountVGT];
-			for (int i = 0; i < CountVGT; i++) {
+			for(int i = 0; i < CountVGT; i++) {
 				FTGV[i] = new TTGV();
 			}
 		}
-		if (Fcontrolmfcomb) {
+		if(Fcontrolmfcomb) {
 			FFuel = new TControlFuel();
 		}
 
 		FNumPerdidasPresion = 0;
-		if (FCalculoK) {
+		if(FCalculoK) {
 			FNumPerdidasPresion = NumeroPerdidasPresion;
 			FControlK = new TControlK*[FNumPerdidasPresion];
-			for (int i = 0; i < FNumPerdidasPresion; i++) {
+			for(int i = 0; i < FNumPerdidasPresion; i++) {
 				FControlK[i] = new TControlK();
 			}
 			Fntact += FNumPerdidasPresion;
 		}
 
 		Fnematlab = nematlab;
-		if (Fnematlab != 0) {
+		if(Fnematlab != 0) {
 			FRemansoMatlab = new TRemansoMatlab*[nematlab];
-			for (int i = 0; i < Fnematlab; i++) {
+			for(int i = 0; i < Fnematlab; i++) {
 				FRemansoMatlab[i] = new TRemansoMatlab();
 			}
 		}
@@ -494,13 +494,13 @@ void TCalculoExtern::LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int co
 		//FRegimen=new TRegimenMotor();
 		FNOutputsdll = Fntact;
 		FOutputs = new double[FNOutputsdll];
-		for (int i = 0; i < FNOutputsdll; i++) {
+		for(int i = 0; i < FNOutputsdll; i++) {
 			FOutputs[i] = 0.;
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeFicherosDLL" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -511,7 +511,7 @@ void TCalculoExtern::LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int co
 //-----------------------------------------------------------------------------
 
 void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo **Pipe,
-	nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR, bool HayCombustible) {
+									nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR, bool HayCombustible) {
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -525,14 +525,14 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 		fscanf(fich, "%d ", &ndistancias); /*numero total de distancias*/
 		int cont = 0;
 		FSensorTubo = new stSensorTubos[FNSensTubos];
-		if (FNSensTubos != 0) {
-			for (int i = 0; i <= ndistancias - 1; ++i) {
+		if(FNSensTubos != 0) {
+			for(int i = 0; i <= ndistancias - 1; ++i) {
 				fscanf(fich, "%d %lf %d ", &tubo, &dist, &nsensortubo);
-				for (int j = 0; j <= nsensortubo - 1; ++j) {
+				for(int j = 0; j <= nsensortubo - 1; ++j) {
 					FSensorTubo[cont].tubo = tubo;
 					FSensorTubo[cont].distancia = dist;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorTubo[cont].tipo = nmPrTubo;
 						break;
@@ -593,11 +593,11 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 
 					t = FSensorTubo[cont].tubo - 1;
 
-					switch (FSensorTubo[cont].tipo) {
+					switch(FSensorTubo[cont].tipo) {
 					case nmTempTubo:
 						temp = Pipe[t]->GetAsonido(0) * __cons::ARef;
-						FSensorTubo[cont].valreal = __units::KTodegC(
-							temp * temp / Pipe[t]->GetGamma(0) / Pipe[t]->GetRMezcla(0)); // Como es el instante inicial da igual el nodo a que se hace referencia
+						FSensorTubo[cont].valreal = __units::KTodegC(temp * temp / Pipe[t]->GetGamma(0) / Pipe[t]->GetRMezcla(
+														0)); // Como es el instante inicial da igual el nodo a que se hace referencia
 						FSensorTubo[cont].valact = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valant = FSensorTubo[cont].valreal;
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
@@ -617,8 +617,7 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 					case nmGastoTubo:
 						temp = Pipe[t]->GetAsonido(0) * __cons::ARef; // Como es el instante inicial el nodo es arbitrario
 						T = __units::KTodegC(temp * temp / Pipe[t]->GetGamma(0) / Pipe[t]->GetRMezcla(0));
-						den = __units::BarToPa(Pipe[t]->getPresionInicial()) / Pipe[t]->GetRMezcla(0)
-							/ __units::degCToK(T);
+						den = __units::BarToPa(Pipe[t]->getPresionInicial()) / Pipe[t]->GetRMezcla(0) / __units::degCToK(T);
 						v1 = Pipe[t]->getVelocidadMedia();
 						FSensorTubo[cont].valreal = __geom::Circle_area(Pipe[t]->GetDiametro(n1)) * v1 * den;
 						FSensorTubo[cont].valact = FSensorTubo[cont].valreal;
@@ -626,14 +625,13 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmN2Tubo:
-						if (SpeciesModel == nmCalculoCompleto) {
-							if (HayCombustible) {
+						if(SpeciesModel == nmCalculoCompleto) {
+							if(HayCombustible) {
 								FIndiceTuboN2 = 8;
 							} else
 								FIndiceTuboN2 = 7;
 						} else {
-							printf(
-								"No puede haber sensor de N2 si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de N2 si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboN2);
@@ -642,11 +640,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmO2Tubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboO2 = 0;
 						} else {
-							printf(
-								"No puede haber sensor de O2 si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de O2 si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboO2);
@@ -655,11 +652,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmCO2Tubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboCO2 = 1;
 						} else {
-							printf(
-								"No puede haber sensor de CO2 si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de CO2 si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboCO2);
@@ -668,11 +664,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmH2OTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboH2O = 2;
 						} else {
-							printf(
-								"No puede haber sensor de H2O si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de H2O si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboH2O);
@@ -681,11 +676,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmHCTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboHC = 3;
 						} else {
-							printf(
-								"No puede haber sensor de HC si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de HC si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboHC);
@@ -694,11 +688,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmSootTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboSoot = 4;
 						} else {
-							printf(
-								"No puede haber sensor de Soot si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de Soot si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboSoot);
@@ -707,11 +700,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmNOxTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboNOx = 5;
 						} else {
-							printf(
-								"No puede haber sensor de NOx si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de NOx si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboNOx);
@@ -720,11 +712,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmCOTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceTuboCO = 6;
 						} else {
-							printf(
-								"No puede haber sensor de CO si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de CO si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboCO);
@@ -733,14 +724,13 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmAireFrTubo:
-						if (SpeciesModel == nmCalculoSimple) {
-							if (HayCombustible) {
+						if(SpeciesModel == nmCalculoSimple) {
+							if(HayCombustible) {
 								FIndiceTuboAireFresco = 2;
 							} else
 								FIndiceTuboAireFresco = 1;
 						} else {
-							printf(
-								"No puede haber sensor de Aire Fresco si el calculo de especies no es simple. Revisa la lectura.\n");
+							printf("No puede haber sensor de Aire Fresco si el calculo de especies no es simple. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboAireFresco);
@@ -749,11 +739,10 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmGasQuemadoTubo:
-						if (SpeciesModel == nmCalculoSimple) {
+						if(SpeciesModel == nmCalculoSimple) {
 							FIndiceTuboGasQuemado = 0;
 						} else {
-							printf(
-								"No puede haber sensor de Gas Quemado si el calculo de especies no es simple. Revisa la lectura.\n");
+							printf("No puede haber sensor de Gas Quemado si el calculo de especies no es simple. Revisa la lectura.\n");
 							throw Exception("");
 						}
 						FSensorTubo[cont].valreal = Pipe[t]->GetFraccionMasica(0, FIndiceTuboGasQuemado);
@@ -762,39 +751,35 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmEGRTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
-							if (HayCombustible) {
-								if (ThereIsEGR) {
+						if(SpeciesModel == nmCalculoCompleto) {
+							if(HayCombustible) {
+								if(ThereIsEGR) {
 									FIndiceTuboEGR = 9;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							} else {
-								if (ThereIsEGR) {
+								if(ThereIsEGR) {
 									FIndiceTuboEGR = 8;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							}
 						} else {
-							if (HayCombustible) {
-								if (ThereIsEGR) {
+							if(HayCombustible) {
+								if(ThereIsEGR) {
 									FIndiceTuboEGR = 3;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							} else {
-								if (ThereIsEGR) {
+								if(ThereIsEGR) {
 									FIndiceTuboEGR = 2;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							}
@@ -805,20 +790,18 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 						FSensorTubo[cont].valrealant = FSensorTubo[cont].valreal;
 						break;
 					case nmCombustibleTubo:
-						if (SpeciesModel == nmCalculoCompleto) {
-							if (HayCombustible) {
+						if(SpeciesModel == nmCalculoCompleto) {
+							if(HayCombustible) {
 								FIndiceTuboComb = 7;
 							} else {
-								printf(
-									"No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
+								printf("No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
 								throw Exception("");
 							}
 						} else {
-							if (HayCombustible) {
+							if(HayCombustible) {
 								FIndiceTuboComb = 1;
 							} else {
-								printf(
-									"No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
+								printf("No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
 								throw Exception("");
 							}
 						}
@@ -837,7 +820,7 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_Tubos" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -848,7 +831,7 @@ void TCalculoExtern::Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo 
 //---------------------------------------------------------------------------
 
 void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposito **Plenum,
-	nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR, bool HayCombustible) {
+								  nmTipoCalculoEspecies SpeciesModel, bool ThereIsEGR, bool HayCombustible) {
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -859,13 +842,13 @@ void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposit
 		fscanf(fich, "%d ", &ndep); /*numero de depositos con sensores*/
 		int cont = 0;
 		FSensorDep = new stSensorDep[FNSensDepositos];
-		if (FNSensDepositos != 0) {
-			for (int i = 0; i <= ndep - 1; ++i) {
+		if(FNSensDepositos != 0) {
+			for(int i = 0; i <= ndep - 1; ++i) {
 				fscanf(fich, "%d %d ", &deposito, &nsensdeposito);
-				for (int j = 0; j <= nsensdeposito - 1; ++j) {
+				for(int j = 0; j <= nsensdeposito - 1; ++j) {
 					FSensorDep[cont].deposito = deposito;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorDep[cont].tipo = nmPrDep;
 						break;
@@ -915,7 +898,7 @@ void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposit
 					fscanf(fich, "%lf ", &FSensorDep[cont].ganancia);
 					fscanf(fich, "%lf ", &FSensorDep[cont].ctetiempo);
 
-					switch (FSensorDep[cont].tipo) {
+					switch(FSensorDep[cont].tipo) {
 					case nmPrDep:
 						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->getPressure();
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
@@ -929,215 +912,187 @@ void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposit
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmN2Dep:
-						if (SpeciesModel == nmCalculoCompleto) {
-							if (HayCombustible) {
+						if(SpeciesModel == nmCalculoCompleto) {
+							if(HayCombustible) {
 								FIndiceDepN2 = 8;
 							} else
 								FIndiceDepN2 = 7;
 						} else {
-							printf(
-								"No puede haber sensor de N2 si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de N2 si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepN2);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepN2);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmO2Dep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepO2 = 0;
 						} else {
-							printf(
-								"No puede haber sensor de O2 si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de O2 si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepO2);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepO2);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmCO2Dep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepCO2 = 1;
 						} else {
-							printf(
-								"No puede haber sensor de CO2 si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de CO2 si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepCO2);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepCO2);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmH2ODep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepH2O = 2;
 						} else {
-							printf(
-								"No puede haber sensor de H2O si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de H2O si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepH2O);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepH2O);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmHCDep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepHC = 3;
 						} else {
-							printf(
-								"No puede haber sensor de HC si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de HC si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepHC);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepHC);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmSootDep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepSoot = 4;
 						} else {
-							printf(
-								"No puede haber sensor de Soot si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de Soot si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepSoot);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepSoot);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmNOxDep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepNOx = 5;
 						} else {
-							printf(
-								"No puede haber sensor de NOx si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de NOx si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepNOx);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepNOx);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmCODep:
-						if (SpeciesModel == nmCalculoCompleto) {
+						if(SpeciesModel == nmCalculoCompleto) {
 							FIndiceDepCO = 6;
 						} else {
-							printf(
-								"No puede haber sensor de CO si el calculo de especies no es completo. Revisa la lectura.\n");
+							printf("No puede haber sensor de CO si el calculo de especies no es completo. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepCO);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepCO);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmAireFrDep:
-						if (SpeciesModel == nmCalculoSimple) {
-							if (HayCombustible) {
+						if(SpeciesModel == nmCalculoSimple) {
+							if(HayCombustible) {
 								FIndiceDepAireFresco = 2;
 							} else
 								FIndiceDepAireFresco = 1;
 						} else {
-							printf(
-								"No puede haber sensor de Aire Fresco si el calculo de especies no es simple. Revisa la lectura.\n");
+							printf("No puede haber sensor de Aire Fresco si el calculo de especies no es simple. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepAireFresco);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepAireFresco);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmGasQuemadoDep:
-						if (SpeciesModel == nmCalculoSimple) {
+						if(SpeciesModel == nmCalculoSimple) {
 							FIndiceDepGasQuemado = 0;
 						} else {
-							printf(
-								"No puede haber sensor de Gas Quemado si el calculo de especies no es simple. Revisa la lectura.\n");
+							printf("No puede haber sensor de Gas Quemado si el calculo de especies no es simple. Revisa la lectura.\n");
 							throw Exception("");
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepGasQuemado);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepGasQuemado);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmEGRDep:
-						if (SpeciesModel == nmCalculoCompleto) {
-							if (HayCombustible) {
-								if (ThereIsEGR) {
+						if(SpeciesModel == nmCalculoCompleto) {
+							if(HayCombustible) {
+								if(ThereIsEGR) {
 									FIndiceDepEGR = 9;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							} else {
-								if (ThereIsEGR) {
+								if(ThereIsEGR) {
 									FIndiceDepEGR = 8;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							}
 						} else {
-							if (HayCombustible) {
-								if (ThereIsEGR) {
+							if(HayCombustible) {
+								if(ThereIsEGR) {
 									FIndiceDepEGR = 3;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							} else {
-								if (ThereIsEGR) {
+								if(ThereIsEGR) {
 									FIndiceDepEGR = 2;
 								} else {
-									printf(
-										"No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
+									printf("No puede haber sensor de EGR si no se transporta EGR. Revisa la lectura.\n");
 									throw Exception("");
 								}
 							}
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepEGR);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepEGR);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
 						break;
 					case nmCombustibleDep:
-						if (SpeciesModel == nmCalculoCompleto) {
-							if (HayCombustible) {
+						if(SpeciesModel == nmCalculoCompleto) {
+							if(HayCombustible) {
 								FIndiceDepComb = 7;
 							} else {
-								printf(
-									"No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
+								printf("No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
 								throw Exception("");
 							}
 						} else {
-							if (HayCombustible) {
+							if(HayCombustible) {
 								FIndiceDepComb = 1;
 							} else {
-								printf(
-									"No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
+								printf("No puede haber sensor de Combustible si no se transporta. Revisa la lectura.\n");
 								throw Exception("");
 							}
 						}
-						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(
-							FIndiceDepComb);
+						FSensorDep[cont].valreal = Plenum[FSensorDep[cont].deposito - 1]->GetFraccionMasicaEspecie(FIndiceDepComb);
 						FSensorDep[cont].valact = FSensorDep[cont].valreal;
 						FSensorDep[cont].valant = FSensorDep[cont].valreal;
 						FSensorDep[cont].valrealant = FSensorDep[cont].valreal;
@@ -1150,7 +1105,7 @@ void TCalculoExtern::Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposit
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_Dep" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1171,13 +1126,13 @@ void TCalculoExtern::Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbo
 		fscanf(fich, "%d ", &ntg); /*numero de turbogrupos con sensor*/
 		int cont = 0;
 		FSensorTG = new stSensorTG[FNSensTurbogrupo];
-		if (FNSensTurbogrupo != 0) {
-			for (int i = 0; i <= ntg - 1; ++i) {
+		if(FNSensTurbogrupo != 0) {
+			for(int i = 0; i <= ntg - 1; ++i) {
 				fscanf(fich, "%d %d ", &turbogrupo, &nsensturbogrupo);
-				for (int j = 0; j <= nsensturbogrupo - 1; ++j) {
+				for(int j = 0; j <= nsensturbogrupo - 1; ++j) {
 					FSensorTG[cont].turbogrupo = turbogrupo;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorTG[cont].tipo = nmRTCTG;
 						break;
@@ -1188,7 +1143,7 @@ void TCalculoExtern::Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbo
 					fscanf(fich, "%lf ", &FSensorTG[cont].ganancia);
 					fscanf(fich, "%lf ", &FSensorTG[cont].ctetiempo);
 
-					switch (FSensorTG[cont].tipo) {
+					switch(FSensorTG[cont].tipo) {
 					case nmRTCTG:
 						FSensorTG[cont].valreal = Axis[FSensorTG[cont].turbogrupo - 1]->getRegimen();
 						FSensorTG[cont].valact = FSensorTG[cont].valreal;
@@ -1203,7 +1158,7 @@ void TCalculoExtern::Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbo
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_TG" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1224,13 +1179,13 @@ void TCalculoExtern::Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos, TTur
 		fscanf(fich, "%d ", &nturbinas); /* numero de turbinas con sensor */
 		int cont = 0;
 		FSensorTurbina = new stSensorTurbina[FNSensTurbina];
-		if (FNSensTurbina != 0) {
-			for (int i = 0; i <= nturbinas - 1; ++i) {
+		if(FNSensTurbina != 0) {
+			for(int i = 0; i <= nturbinas - 1; ++i) {
 				fscanf(fich, "%d %d ", &turbina, &nsensturbina);
-				for (int j = 0; j <= nsensturbina - 1; ++j) {
+				for(int j = 0; j <= nsensturbina - 1; ++j) {
 					FSensorTurbina[cont].turbina = turbina;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorTurbina[cont].tipo = nmRelaci1;
 						break;
@@ -1244,17 +1199,15 @@ void TCalculoExtern::Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos, TTur
 					fscanf(fich, "%lf ", &FSensorTurbina[cont].ganancia);
 					fscanf(fich, "%lf ", &FSensorTurbina[cont].ctetiempo);
 
-					switch (FSensorTurbina[cont].tipo) {
+					switch(FSensorTurbina[cont].tipo) {
 					case nmRelaci1:
-						FSensorTurbina[cont].valreal = Turbine[FSensorTurbina[cont].turbina - 1]->GetRelacionCinematica(
-							0);
+						FSensorTurbina[cont].valreal = Turbine[FSensorTurbina[cont].turbina - 1]->GetRelacionCinematica(0);
 						FSensorTurbina[cont].valact = FSensorTurbina[cont].valreal;
 						FSensorTurbina[cont].valant = FSensorTurbina[cont].valreal;
 						FSensorTurbina[cont].valrealant = FSensorTurbina[cont].valreal;
 						break;
 					case nmRelaci2:
-						FSensorTurbina[cont].valreal = Turbine[FSensorTurbina[cont].turbina - 1]->GetRelacionCinematica(
-							1);
+						FSensorTurbina[cont].valreal = Turbine[FSensorTurbina[cont].turbina - 1]->GetRelacionCinematica(1);
 						FSensorTurbina[cont].valact = FSensorTurbina[cont].valreal;
 						FSensorTurbina[cont].valant = FSensorTurbina[cont].valreal;
 						FSensorTurbina[cont].valrealant = FSensorTurbina[cont].valreal;
@@ -1267,7 +1220,7 @@ void TCalculoExtern::Lee_Sens_Turbina(const char *FileWAM, fpos_t &filepos, TTur
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCalculoExtern::Lee_Sens_Turbina" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1288,13 +1241,13 @@ void TCalculoExtern::Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos, TBloqueM
 		fscanf(fich, "%d ", &ncil); /*numero de cilindros con sensores*/
 		int cont = 0;
 		FSensorCil = new stSensorCil[FNSensCilindros];
-		if (FNSensCilindros != 0) {
-			for (int i = 0; i <= ncil - 1; ++i) {
+		if(FNSensCilindros != 0) {
+			for(int i = 0; i <= ncil - 1; ++i) {
 				fscanf(fich, "%d %d ", &cilindro, &nsenscilindro);
-				for (int j = 0; j <= nsenscilindro - 1; ++j) {
+				for(int j = 0; j <= nsenscilindro - 1; ++j) {
 					FSensorCil[cont].cilindro = cilindro;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorCil[cont].tipo = nmPrCil;
 						break;
@@ -1314,10 +1267,9 @@ void TCalculoExtern::Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos, TBloqueM
 					fscanf(fich, "%lf ", &FSensorCil[cont].ganancia);
 					fscanf(fich, "%lf ", &FSensorCil[cont].ctetiempo);
 
-					switch (FSensorCil[cont].tipo) {
+					switch(FSensorCil[cont].tipo) {
 					case nmTempCil:
-						FSensorCil[cont].valreal =
-							Engine[0]->GetCilindro(FSensorCil[cont].cilindro - 1)->getTemperature();
+						FSensorCil[cont].valreal = Engine[0]->GetCilindro(FSensorCil[cont].cilindro - 1)->getTemperature();
 						FSensorCil[cont].valact = FSensorCil[cont].valreal;
 						FSensorCil[cont].valant = FSensorCil[cont].valreal;
 						FSensorCil[cont].valrealant = FSensorCil[cont].valreal;
@@ -1349,7 +1301,7 @@ void TCalculoExtern::Lee_Sens_Cil(const char *FileWAM, fpos_t &filepos, TBloqueM
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_Cil" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1372,13 +1324,13 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVentur
 		fscanf(fich, "%d ", &nventuris);
 		int cont = 0;
 		FSensorVent = new stSensorVent[FNSensVenturis];
-		if (FNSensVenturis != 0) {
-			for (int i = 0; i <= nventuris - 1; ++i) {
+		if(FNSensVenturis != 0) {
+			for(int i = 0; i <= nventuris - 1; ++i) {
 				fscanf(fich, "%d %d ", &venturi, &nsensventuri);
-				for (int j = 0; j <= nsensventuri - 1; ++j) {
+				for(int j = 0; j <= nsensventuri - 1; ++j) {
 					FSensorVent[cont].venturi = venturi;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorVent[cont].tipo = nmPrEntVent;
 						break;
@@ -1405,7 +1357,7 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVentur
 					fscanf(fich, "%lf ", &FSensorVent[cont].ctetiempo);
 
 					v = FSensorVent[cont].venturi - 1;
-					switch (FSensorVent[FNSensVenturis].tipo) {
+					switch(FSensorVent[FNSensVenturis].tipo) {
 					case nmPrEntVent:
 						prent = Venturi[v]->getPressure();
 						FSensorVent[cont].valreal = prent;
@@ -1415,28 +1367,21 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVentur
 						break;
 					case nmPrGarVent:
 						prent = Venturi[v]->getPressure();
-						prgar = prent
-							/ pow(
-								1
-									+ Venturi[v]->getgamma3()
-										* pow(
-											dynamic_cast<TCCDeposito *>(Venturi[v]->getCCLateral())->getValvula()
-												->getCRecuperacion(), 2.),
-								Venturi[v]->getGamma() / Venturi[v]->getgamma1());
+						prgar = prent / pow(1 + Venturi[v]->getgamma3() * pow(dynamic_cast<TCCDeposito *>
+											(Venturi[v]->getCCLateral())->getValvula()->getCRecuperacion(), 2.),
+											Venturi[v]->getGamma() / Venturi[v]->getgamma1());
 						FSensorVent[cont].valreal = prgar;
 						FSensorVent[cont].valact = FSensorVent[cont].valreal;
 						FSensorVent[cont].valant = FSensorVent[cont].valreal;
 						FSensorVent[cont].valrealant = FSensorVent[cont].valreal;
 						break;
 					case nmVelEntVent:
-						if (dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getSentidoFlujo() == nmEntrante) {
+						if(dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getSentidoFlujo() == nmEntrante) {
 							signo = 1; /* Si el flujo es entrante signo de la velocidad positivo */
-						} else if (dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getSentidoFlujo()
-							== nmSaliente) {
+						} else if(dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getSentidoFlujo() == nmSaliente) {
 							signo = -1; /* Si el flujo es saliente signo de la velocidad negativo */
 						}
-						velent = dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getVelocity() * signo
-							* __cons::ARef;
+						velent = dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getVelocity() * signo * __cons::ARef;
 						FSensorVent[cont].valreal = velent;
 						FSensorVent[cont].valact = FSensorVent[cont].valreal;
 						FSensorVent[cont].valant = FSensorVent[cont].valreal;
@@ -1450,7 +1395,8 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVentur
 						FSensorVent[cont].valrealant = FSensorVent[cont].valreal;
 						break;
 					case nmGastoEntVent:
-						gasent = -dynamic_cast<TCCDeposito *>(Venturi[v]->getCCEntrada())->getMassflow(); /*Massflow entrante positivo.Saliente negativo. Pedro */
+						gasent = -dynamic_cast<TCCDeposito *>
+								 (Venturi[v]->getCCEntrada())->getMassflow(); /*Massflow entrante positivo.Saliente negativo. Pedro */
 						/* gasent lleva el "-" delante porque se usa el convenio de signos de los depositos,que es el contrario al de las BC, de la que se obtiene el massflow */
 						FSensorVent[cont].valreal = gasent;
 						FSensorVent[cont].valact = FSensorVent[cont].valreal;
@@ -1474,7 +1420,7 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVentur
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_Vent" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1485,24 +1431,23 @@ void TCalculoExtern::Lee_Sens_Vent(const char *FileWAM, fpos_t &filepos, TVentur
 //-----------------------------------------------------------------------------
 
 void TCalculoExtern::Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double CrankAngle, double ene,
-	double AcumulatedTime) {
+									double AcumulatedTime) {
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
 		int tipo = 0;
 		fscanf(fich, "%d ", &FNSensMotor); /*numero de sensores en motor*/
-		if (ene < 0. && FNSensMotor != 0) {
-			std::cout << "ERROR: No puede haber sensores en el motor,pues no hay motor.Comprobad la lectura "
-				<< std::endl;
+		if(ene < 0. && FNSensMotor != 0) {
+			std::cout << "ERROR: No puede haber sensores en el motor,pues no hay motor.Comprobad la lectura " << std::endl;
 			throw Exception("");
 		}
 		FSensorMotor = new stSensorMotor[FNSensMotor];
-		if (FNSensMotor != 0) {
-			for (int i = 0; i <= FNSensMotor - 1; ++i) {
+		if(FNSensMotor != 0) {
+			for(int i = 0; i <= FNSensMotor - 1; ++i) {
 				fscanf(fich, "%d ", &tipo);
 				FSensorMotor[i].motor = 1;
-				switch (tipo) {
+				switch(tipo) {
 				case 0:
 					FSensorMotor[i].tipo = nmAngulo;
 					break;
@@ -1520,7 +1465,7 @@ void TCalculoExtern::Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double
 				fscanf(fich, "%lf ", &FSensorMotor[i].ganancia);
 				fscanf(fich, "%lf ", &FSensorMotor[i].ctetiempo);
 
-				switch (FSensorMotor[i].tipo) {
+				switch(FSensorMotor[i].tipo) {
 				case nmAngulo:
 					FSensorMotor[i].valreal = CrankAngle;
 					FSensorMotor[i].valact = FSensorMotor[i].valreal;
@@ -1545,7 +1490,7 @@ void TCalculoExtern::Lee_Sens_Motor(const char *FileWAM, fpos_t &filepos, double
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_Motor" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1564,13 +1509,13 @@ void TCalculoExtern::Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondici
 		fscanf(fich, "%d ", &FNSensUED); /*numero de sensores en UED*/
 		fscanf(fich, "%d ", &nUED); /*numero de uniones entre tubos con sensores*/
 		FSensorUED = new stSensorUED[FNSensUED];
-		if (FNSensUED != 0) {
-			for (int i = 0; i <= nUED - 1; ++i) {
+		if(FNSensUED != 0) {
+			for(int i = 0; i <= nUED - 1; ++i) {
 				fscanf(fich, "%d %d ", &CCued, &nsensUED);
-				for (int j = 0; j <= nsensUED - 1; ++j) {
+				for(int j = 0; j <= nsensUED - 1; ++j) {
 					FSensorUED[cont].CCUED = CCued;
 					fscanf(fich, "%d ", &tipo);
-					switch (tipo) {
+					switch(tipo) {
 					case 0:
 						FSensorUED[cont].tipo = nmGasto;
 						break;
@@ -1582,10 +1527,9 @@ void TCalculoExtern::Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondici
 					fscanf(fich, "%lf ", &FSensorUED[cont].ganancia);
 					fscanf(fich, "%lf ", &FSensorUED[cont].ctetiempo);
 
-					switch (FSensorUED[cont].tipo) {
+					switch(FSensorUED[cont].tipo) {
 					case nmGasto:
-						FSensorUED[cont].valreal = dynamic_cast<TCCUnionEntreDepositos*>(BC[FSensorUED[cont].CCUED - 1])
-							->getGastoImpreso();
+						FSensorUED[cont].valreal = dynamic_cast<TCCUnionEntreDepositos*>(BC[FSensorUED[cont].CCUED - 1])->getGastoImpreso();
 						FSensorUED[cont].valact = FSensorUED[cont].valreal;
 						FSensorUED[cont].valant = FSensorUED[cont].valreal;
 						FSensorUED[cont].valrealant = FSensorUED[cont].valreal;
@@ -1597,7 +1541,7 @@ void TCalculoExtern::Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondici
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lee_Sens_UED" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1610,7 +1554,7 @@ void TCalculoExtern::Lee_Sens_UED(const char *FileWAM, fpos_t &filepos, TCondici
 void TCalculoExtern::Lectura_Datos_Adicionales(const char *FileWAM, fpos_t &filepos) {
 	try {
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Lectura_Datos_Adicionales" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1622,10 +1566,10 @@ void TCalculoExtern::Lectura_Datos_Adicionales(const char *FileWAM, fpos_t &file
 
 void TCalculoExtern::IniciaEntradaDLL() {
 	try {
-		FNInputsdll = FNSensTubos + FNSensDepositos + FNSensTurbogrupo + FNSensTurbina + FNSensMotor + FNSensVenturis
-			+ FNSensCilindros + FNSensUED;
+		FNInputsdll = FNSensTubos + FNSensDepositos + FNSensTurbogrupo + FNSensTurbina + FNSensMotor + FNSensVenturis +
+					  FNSensCilindros + FNSensUED;
 		FInputs = new double[FNInputsdll];
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: IniciaEntradaDLL" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1636,38 +1580,36 @@ void TCalculoExtern::IniciaEntradaDLL() {
 
 void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 	try {
-		double dist = 0., T = 0., temp = 0., v1 = 0., v2 = 0., den = 0., d = 0., p = 0., gto1 = 0., gto2 = 0., gamma,
-		Rmezcla;
+		double dist = 0., T = 0., temp = 0., v1 = 0., v2 = 0., den = 0., d = 0., p = 0., gto1 = 0., gto2 = 0., gamma, Rmezcla;
 		int n1 = 0, j = 0, n2 = 0;
-		for (int i = 0; i <= FNSensTubos - 1; i++) {
+		for(int i = 0; i <= FNSensTubos - 1; i++) {
 			dist = FSensorTubo[i].distancia / FSensorTubo[i].deltax;
 			n1 = (int) floor(dist);
 			j = FSensorTubo[i].tubo - 1;
-			if (n1 == FSensorTubo[i].nodos - 1) {
-				switch (FSensorTubo[i].tipo) {
+			if(n1 == FSensorTubo[i].nodos - 1) {
+				switch(FSensorTubo[i].tipo) {
 				case nmTempTubo:
 					temp = Pipe[j]->GetAsonido(n1) * __cons::ARef;
-					FSensorTubo[i].valreal = __units::KTodegC(
-						temp * temp / Pipe[j]->GetGamma(n1) / Pipe[j]->GetRMezcla(n1));
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = __units::KTodegC(temp * temp / Pipe[j]->GetGamma(n1) / Pipe[j]->GetRMezcla(n1));
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmPrTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetPresion(n1);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmVelTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetVelocidad(n1) * __cons::ARef;
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
@@ -1677,105 +1619,105 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					den = __units::BarToPa(Pipe[j]->GetPresion(n1)) / Pipe[j]->GetRMezcla(n1) / __units::degCToK(T);
 					v1 = Pipe[j]->GetVelocidad(n1) * __cons::ARef;
 					FSensorTubo[i].valreal = (pow2(Pipe[j]->GetDiametro(n1)) * __cons::Pi) * v1 * den;
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmN2Tubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboN2);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmO2Tubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboO2);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmCO2Tubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO2);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmH2OTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboH2O);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmHCTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboHC);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmSootTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboSoot);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmNOxTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboNOx);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmCOTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmAireFrTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboAireFresco);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmGasQuemadoTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboGasQuemado);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmEGRTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboEGR);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmCombustibleTubo:
 					FSensorTubo[i].valreal = Pipe[j]->GetFraccionMasica(n1, FIndiceTuboComb);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
@@ -1783,32 +1725,31 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 			} else {
 				n2 = n1 + 1;
 				d = dist - n1;
-				switch (FSensorTubo[i].tipo) {
+				switch(FSensorTubo[i].tipo) {
 				case nmTempTubo:
 					temp = xit_(Pipe[j]->GetAsonido(n1), Pipe[j]->GetAsonido(n2), 1.0, d) * __cons::ARef;
 					gamma = xit_(Pipe[j]->GetGamma(n1), Pipe[j]->GetGamma(n2), 1.0, d);
 					Rmezcla = xit_(Pipe[j]->GetRMezcla(n1), Pipe[j]->GetRMezcla(n2), 1.0, d);
 					FSensorTubo[i].valreal = __units::KTodegC(temp * temp / gamma / Rmezcla);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmPrTubo:
 					FSensorTubo[i].valreal = xit_(Pipe[j]->GetPresion(n1), Pipe[j]->GetPresion(n2), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmVelTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetVelocidad(n1), Pipe[j]->GetVelocidad(n2), 1.0, d)
-						* __cons::ARef;
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetVelocidad(n1), Pipe[j]->GetVelocidad(n2), 1.0, d) * __cons::ARef;
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
@@ -1826,117 +1767,117 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 					gto1 *= v1;
 					gto2 *= v2;
 					FSensorTubo[i].valreal = xit_(gto1, gto2, 1.0, d) * den;
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmN2Tubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboN2),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboN2), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboN2), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboN2), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmO2Tubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboO2),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboO2), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboO2), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboO2), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmCO2Tubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO2),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO2), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO2), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboCO2), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmH2OTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboH2O),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboH2O), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboH2O), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboH2O), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmHCTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboHC),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboHC), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboHC), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboHC), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmSootTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboSoot),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboSoot), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboSoot), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboSoot), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmNOxTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboNOx),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboNOx), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboNOx), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboNOx), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmCOTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboCO), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboCO), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmAireFrTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboAireFresco),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboAireFresco), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboAireFresco), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboAireFresco), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmGasQuemadoTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboGasQuemado),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboGasQuemado), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboGasQuemado), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboGasQuemado), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmEGRTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboEGR),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboEGR), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboEGR), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboEGR), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
 				case nmCombustibleTubo:
-					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboComb),
-						Pipe[j]->GetFraccionMasica(n1, FIndiceTuboComb), 1.0, d);
-					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant
-						+ deltaT * FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant))
-						/ (2 * FSensorTubo[i].ctetiempo + deltaT);
+					FSensorTubo[i].valreal = xit_(Pipe[j]->GetFraccionMasica(n1, FIndiceTuboComb), Pipe[j]->GetFraccionMasica(n1,
+												  FIndiceTuboComb), 1.0, d);
+					FSensorTubo[i].valact = ((2 * FSensorTubo[i].ctetiempo - deltaT) * FSensorTubo[i].valant + deltaT *
+											 FSensorTubo[i].ganancia * (FSensorTubo[i].valreal + FSensorTubo[i].valrealant)) / (2 * FSensorTubo[i].ctetiempo +
+													 deltaT);
 					FSensorTubo[i].valant = FSensorTubo[i].valact;
 					FSensorTubo[i].valrealant = FSensorTubo[i].valreal;
 					break;
@@ -1944,7 +1885,7 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 			}/*fin del else*/
 
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Tubos" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1956,125 +1897,109 @@ void TCalculoExtern::Calculo_Sensores_Tubos(TTubo **Pipe, double deltaT) {
 
 void TCalculoExtern::Calculo_Sensores_Deposito(TDeposito **Plenum, double deltaT) {
 	try {
-		for (int i = 0; i <= FNSensDepositos - 1; i++) {
-			switch (FSensorDep[i].tipo) {
+		for(int i = 0; i <= FNSensDepositos - 1; i++) {
+			switch(FSensorDep[i].tipo) {
 			case nmPrDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->getPressure();
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmTempDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->getTemperature();
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmN2Dep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboN2);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmO2Dep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboO2);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmCO2Dep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboCO2);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmH2ODep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboH2O);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmHCDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboHC);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmSootDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboSoot);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmNOxDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboNOx);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmCODep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboCO);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmAireFrDep:
-				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(
-					FIndiceTuboAireFresco);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboAireFresco);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmGasQuemadoDep:
-				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(
-					FIndiceTuboGasQuemado);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboGasQuemado);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmEGRDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboEGR);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			case nmCombustibleDep:
 				FSensorDep[i].valreal = Plenum[FSensorDep[i].deposito - 1]->GetFraccionMasicaEspecie(FIndiceTuboComb);
-				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant
-					+ deltaT * FSensorDep[i].ganancia * (FSensorDep[i].valreal + FSensorDep[i].valrealant))
-					/ (2 * FSensorDep[i].ctetiempo + deltaT);
+				FSensorDep[i].valact = ((2 * FSensorDep[i].ctetiempo - deltaT) * FSensorDep[i].valant + deltaT * FSensorDep[i].ganancia
+										* (FSensorDep[i].valreal + FSensorDep[i].valrealant)) / (2 * FSensorDep[i].ctetiempo + deltaT);
 				FSensorDep[i].valant = FSensorDep[i].valact;
 				FSensorDep[i].valrealant = FSensorDep[i].valreal;
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Deposito" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2086,19 +2011,18 @@ void TCalculoExtern::Calculo_Sensores_Deposito(TDeposito **Plenum, double deltaT
 
 void TCalculoExtern::Calculo_Sensores_TG(double deltaT, TEjeTurbogrupo **Axis) {
 	try {
-		for (int i = 0; i <= FNSensTurbogrupo - 1; i++) {
-			switch (FSensorTG[i].tipo) {
+		for(int i = 0; i <= FNSensTurbogrupo - 1; i++) {
+			switch(FSensorTG[i].tipo) {
 			case nmRTCTG:
 				FSensorTG[i].valreal = Axis[FSensorTG[i].turbogrupo - 1]->getRegimen();
-				FSensorTG[i].valact = ((2 * FSensorTG[i].ctetiempo - deltaT) * FSensorTG[i].valant
-					+ deltaT * FSensorTG[i].ganancia * (FSensorTG[i].valreal + FSensorTG[i].valrealant))
-					/ (2 * FSensorTG[i].ctetiempo + deltaT);
+				FSensorTG[i].valact = ((2 * FSensorTG[i].ctetiempo - deltaT) * FSensorTG[i].valant + deltaT * FSensorTG[i].ganancia *
+									   (FSensorTG[i].valreal + FSensorTG[i].valrealant)) / (2 * FSensorTG[i].ctetiempo + deltaT);
 				FSensorTG[i].valant = FSensorTG[i].valact;
 				FSensorTG[i].valrealant = FSensorTG[i].valreal;
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_TG" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2110,27 +2034,27 @@ void TCalculoExtern::Calculo_Sensores_TG(double deltaT, TEjeTurbogrupo **Axis) {
 
 void TCalculoExtern::Calculo_Sensores_Turbina(double deltaT, TTurbina **Turbine) {
 	try {
-		for (int i = 0; i <= FNSensTurbina - 1; i++) {
-			switch (FSensorTurbina[i].tipo) {
+		for(int i = 0; i <= FNSensTurbina - 1; i++) {
+			switch(FSensorTurbina[i].tipo) {
 			case nmRelaci1:
 				FSensorTurbina[i].valreal = Turbine[FSensorTurbina[i].turbina - 1]->GetRelacionCinematica(0);
-				FSensorTurbina[i].valact = ((2 * FSensorTurbina[i].ctetiempo - deltaT) * FSensorTurbina[i].valant
-					+ deltaT * FSensorTurbina[i].ganancia * (FSensorTurbina[i].valreal + FSensorTurbina[i].valrealant))
-					/ (2 * FSensorTurbina[i].ctetiempo + deltaT);
+				FSensorTurbina[i].valact = ((2 * FSensorTurbina[i].ctetiempo - deltaT) * FSensorTurbina[i].valant + deltaT *
+											FSensorTurbina[i].ganancia * (FSensorTurbina[i].valreal + FSensorTurbina[i].valrealant)) /
+										   (2 * FSensorTurbina[i].ctetiempo + deltaT);
 				FSensorTurbina[i].valant = FSensorTurbina[i].valact;
 				FSensorTurbina[i].valrealant = FSensorTurbina[i].valreal;
 				break;
 			case nmRelaci2:
 				FSensorTurbina[i].valreal = Turbine[FSensorTurbina[i].turbina - 1]->GetRelacionCinematica(1);
-				FSensorTurbina[i].valact = ((2 * FSensorTurbina[i].ctetiempo - deltaT) * FSensorTurbina[i].valant
-					+ deltaT * FSensorTurbina[i].ganancia * (FSensorTurbina[i].valreal + FSensorTurbina[i].valrealant))
-					/ (2 * FSensorTurbina[i].ctetiempo + deltaT);
+				FSensorTurbina[i].valact = ((2 * FSensorTurbina[i].ctetiempo - deltaT) * FSensorTurbina[i].valant + deltaT *
+											FSensorTurbina[i].ganancia * (FSensorTurbina[i].valreal + FSensorTurbina[i].valrealant)) /
+										   (2 * FSensorTurbina[i].ctetiempo + deltaT);
 				FSensorTurbina[i].valant = FSensorTurbina[i].valact;
 				FSensorTurbina[i].valrealant = FSensorTurbina[i].valreal;
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCalculoExtern::Calculo_Sensores_Turbina " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2142,44 +2066,40 @@ void TCalculoExtern::Calculo_Sensores_Turbina(double deltaT, TTurbina **Turbine)
 
 void TCalculoExtern::Calculo_Sensores_Cilindro(double deltaT, TBloqueMotor **Engine) {
 	try {
-		for (int i = 0; i <= FNSensCilindros - 1; i++) {
-			switch (FSensorCil[i].tipo) {
+		for(int i = 0; i <= FNSensCilindros - 1; i++) {
+			switch(FSensorCil[i].tipo) {
 			case nmTempCil:
 				FSensorCil[i].valreal = Engine[0]->GetCilindro(FSensorCil[i].cilindro - 1)->getTemperature();
-				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant
-					+ deltaT * FSensorCil[i].ganancia * (FSensorCil[i].valreal + FSensorCil[i].valrealant))
-					/ (2 * FSensorCil[i].ctetiempo + deltaT);
+				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant + deltaT * FSensorCil[i].ganancia
+										* (FSensorCil[i].valreal + FSensorCil[i].valrealant)) / (2 * FSensorCil[i].ctetiempo + deltaT);
 				FSensorCil[i].valant = FSensorCil[i].valact;
 				FSensorCil[i].valrealant = FSensorCil[i].valreal;
 				break;
 			case nmPrCil:
 				FSensorCil[i].valreal = Engine[0]->GetCilindro(FSensorCil[i].cilindro - 1)->getPressure();
-				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant
-					+ deltaT * FSensorCil[i].ganancia * (FSensorCil[i].valreal + FSensorCil[i].valrealant))
-					/ (2 * FSensorCil[i].ctetiempo + deltaT);
+				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant + deltaT * FSensorCil[i].ganancia
+										* (FSensorCil[i].valreal + FSensorCil[i].valrealant)) / (2 * FSensorCil[i].ctetiempo + deltaT);
 				FSensorCil[i].valant = FSensorCil[i].valact;
 				FSensorCil[i].valrealant = FSensorCil[i].valreal;
 				break;
 			case nmMfCil:
 				FSensorCil[i].valreal = Engine[0]->GetCilindro(FSensorCil[i].cilindro - 1)->getMasaFuel();
-				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant
-					+ deltaT * FSensorCil[i].ganancia * (FSensorCil[i].valreal + FSensorCil[i].valrealant))
-					/ (2 * FSensorCil[i].ctetiempo + deltaT);
+				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant + deltaT * FSensorCil[i].ganancia
+										* (FSensorCil[i].valreal + FSensorCil[i].valrealant)) / (2 * FSensorCil[i].ctetiempo + deltaT);
 				FSensorCil[i].valant = FSensorCil[i].valact;
 				FSensorCil[i].valrealant = FSensorCil[i].valreal;
 				break;
 			case nmAFRCil:
 				FSensorCil[i].valreal = Engine[0]->GetCilindro(FSensorCil[i].cilindro - 1)->getAFR();
-				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant
-					+ deltaT * FSensorCil[i].ganancia * (FSensorCil[i].valreal + FSensorCil[i].valrealant))
-					/ (2 * FSensorCil[i].ctetiempo + deltaT);
+				FSensorCil[i].valact = ((2 * FSensorCil[i].ctetiempo - deltaT) * FSensorCil[i].valant + deltaT * FSensorCil[i].ganancia
+										* (FSensorCil[i].valreal + FSensorCil[i].valrealant)) / (2 * FSensorCil[i].ctetiempo + deltaT);
 				FSensorCil[i].valant = FSensorCil[i].valact;
 				FSensorCil[i].valrealant = FSensorCil[i].valreal;
 				break;
 
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Cilindro" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2194,87 +2114,79 @@ void TCalculoExtern::Calculo_Sensores_Venturi(double deltaT, TVenturi **Venturi)
 		int signo = 0;
 		double prent = 0., prgar = 0., velent = 0., vellat = 0., gasent = 0., gaslat = 0.;
 
-		for (int i = 0; i <= FNSensVenturis - 1; i++) {
-			switch (FSensorVent[i].tipo) {
+		for(int i = 0; i <= FNSensVenturis - 1; i++) {
+			switch(FSensorVent[i].tipo) {
 			case nmPrEntVent:
 				prent = Venturi[FSensorVent[i].venturi - 1]->getPressure();
 				FSensorVent[i].valreal = prent;
-				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant
-					+ deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant))
-					/ (2 * FSensorVent[i].ctetiempo + deltaT);
+				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant + deltaT *
+										 FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / (2 * FSensorVent[i].ctetiempo +
+												 deltaT);
 				FSensorVent[i].valant = FSensorVent[i].valact;
 				FSensorVent[i].valrealant = FSensorVent[i].valreal;
 				break;
 			case nmPrGarVent:
 				prent = Venturi[FSensorVent[i].venturi - 1]->getPressure();
-				prgar = prent
-					/ pow(
-						1
-							+ Venturi[FSensorVent[i].venturi - 1]->getgamma3()
-								* pow(
-									dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCLateral())
-										->getValvula()->getCRecuperacion(), 2.),
-						Venturi[FSensorVent[i].venturi - 1]->getGamma()
-							/ Venturi[FSensorVent[i].venturi - 1]->getgamma1());
+				prgar = prent / pow(
+							1 + Venturi[FSensorVent[i].venturi - 1]->getgamma3() * pow(dynamic_cast<TCCDeposito *>
+									(Venturi[FSensorVent[i].venturi - 1]->getCCLateral())->getValvula()->getCRecuperacion(), 2.),
+							Venturi[FSensorVent[i].venturi - 1]->getGamma() / Venturi[FSensorVent[i].venturi - 1]->getgamma1());
 				FSensorVent[i].valreal = prgar;
-				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant
-					+ deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant))
-					/ (2 * FSensorVent[i].ctetiempo + deltaT);
+				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant + deltaT *
+										 FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / (2 * FSensorVent[i].ctetiempo +
+												 deltaT);
 				FSensorVent[i].valant = FSensorVent[i].valact;
 				FSensorVent[i].valrealant = FSensorVent[i].valreal;
 				break;
 			case nmVelEntVent:
-				if (dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())->getSentidoFlujo()
-					== nmEntrante) {
+				if(dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())->getSentidoFlujo() == nmEntrante) {
 					signo = 1; /* Si el flujo es entrante signo de la velocidad positivo */
-				} else if (dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())
-					->getSentidoFlujo() == nmSaliente) {
+				} else if(dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())->getSentidoFlujo() ==
+						  nmSaliente) {
 					signo = -1; /* Si el flujo es saliente signo de la velocidad negativo */
 				}
-				velent = dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())->getVelocity()
-					* signo * __cons::ARef;
+				velent = dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())->getVelocity() * signo *
+						 __cons::ARef;
 				FSensorVent[i].valreal = velent;
-				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant
-					+ deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant))
-					/ (2 * FSensorVent[i].ctetiempo + deltaT);
+				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant + deltaT *
+										 FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / (2 * FSensorVent[i].ctetiempo +
+												 deltaT);
 				FSensorVent[i].valant = FSensorVent[i].valact;
 				FSensorVent[i].valrealant = FSensorVent[i].valreal;
 				break;
 			case nmVelLatVent:
-				vellat = dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCLateral())->getVelocity()
-					* __cons::ARef;
+				vellat = dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCLateral())->getVelocity() * __cons::ARef;
 				FSensorVent[i].valreal = vellat;
-				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant
-					+ deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant))
-					/ (2 * FSensorVent[i].ctetiempo + deltaT);
+				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant + deltaT *
+										 FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / (2 * FSensorVent[i].ctetiempo +
+												 deltaT);
 				FSensorVent[i].valant = FSensorVent[i].valact;
 				FSensorVent[i].valrealant = FSensorVent[i].valreal;
 				break;
 			case nmGastoEntVent:
-				gasent =
-					-dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCEntrada())->getMassflow(); /*Massflow entrante positivo.Saliente negativo. Pedro */
+				gasent = -dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi -
+													  1]->getCCEntrada())->getMassflow(); /*Massflow entrante positivo.Saliente negativo. Pedro */
 				/* gasent lleva el "-" delante porque se usa el convenio de signos de los depositos,que es el contrario al de las BC, de la que se obtiene el massflow */
 				FSensorVent[i].valreal = gasent;
-				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant
-					+ deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant))
-					/ (2 * FSensorVent[i].ctetiempo + deltaT);
+				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant + deltaT *
+										 FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / (2 * FSensorVent[i].ctetiempo +
+												 deltaT);
 				FSensorVent[i].valant = FSensorVent[i].valact;
 				FSensorVent[i].valrealant = FSensorVent[i].valreal;
 				break;
 			case nmGastoLatVent:
-				gaslat =
-					dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCLateral())->getMassflow();
+				gaslat = dynamic_cast<TCCDeposito *>(Venturi[FSensorVent[i].venturi - 1]->getCCLateral())->getMassflow();
 				FSensorVent[i].valreal = gaslat;
-				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant
-					+ deltaT * FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant))
-					/ (2 * FSensorVent[i].ctetiempo + deltaT);
+				FSensorVent[i].valact = ((2 * FSensorVent[i].ctetiempo - deltaT) * FSensorVent[i].valant + deltaT *
+										 FSensorVent[i].ganancia * (FSensorVent[i].valreal + FSensorVent[i].valrealant)) / (2 * FSensorVent[i].ctetiempo +
+												 deltaT);
 				FSensorVent[i].valant = FSensorVent[i].valact;
 				FSensorVent[i].valrealant = FSensorVent[i].valreal;
 				break;
 
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Venturi" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2286,36 +2198,36 @@ void TCalculoExtern::Calculo_Sensores_Venturi(double deltaT, TVenturi **Venturi)
 
 void TCalculoExtern::Calculo_Sensores_Motor(double deltaT, TBloqueMotor **Engine, double AcumulatedTime) {
 	try {
-		for (int i = 0; i <= FNSensMotor - 1; i++) {
-			switch (FSensorMotor[i].tipo) {
+		for(int i = 0; i <= FNSensMotor - 1; i++) {
+			switch(FSensorMotor[i].tipo) {
 			case nmAngulo:
 				FSensorMotor[i].valreal = Engine[0]->getTheta();
-				FSensorMotor[i].valact = ((2 * FSensorMotor[i].ctetiempo - deltaT) * FSensorMotor[i].valant
-					+ deltaT * FSensorMotor[i].ganancia * (FSensorMotor[i].valreal + FSensorMotor[i].valrealant))
-					/ (2 * FSensorMotor[i].ctetiempo + deltaT);
+				FSensorMotor[i].valact = ((2 * FSensorMotor[i].ctetiempo - deltaT) * FSensorMotor[i].valant + deltaT *
+										  FSensorMotor[i].ganancia * (FSensorMotor[i].valreal + FSensorMotor[i].valrealant)) /
+										 (2 * FSensorMotor[i].ctetiempo + deltaT);
 				FSensorMotor[i].valant = FSensorMotor[i].valact;
 				FSensorMotor[i].valrealant = FSensorMotor[i].valreal;
 				break;
 			case nmReg:
 				FSensorMotor[i].valreal = Engine[0]->getRegimen();
-				FSensorMotor[i].valact = ((2 * FSensorMotor[i].ctetiempo - deltaT) * FSensorMotor[i].valant
-					+ deltaT * FSensorMotor[i].ganancia * (FSensorMotor[i].valreal + FSensorMotor[i].valrealant))
-					/ (2 * FSensorMotor[i].ctetiempo + deltaT);
+				FSensorMotor[i].valact = ((2 * FSensorMotor[i].ctetiempo - deltaT) * FSensorMotor[i].valant + deltaT *
+										  FSensorMotor[i].ganancia * (FSensorMotor[i].valreal + FSensorMotor[i].valrealant)) /
+										 (2 * FSensorMotor[i].ctetiempo + deltaT);
 				FSensorMotor[i].valant = FSensorMotor[i].valact;
 				FSensorMotor[i].valrealant = FSensorMotor[i].valreal;
 				break;
 			case nmTiempo:
 				FSensorMotor[i].valreal = AcumulatedTime;
-				FSensorMotor[i].valact = ((2 * FSensorMotor[i].ctetiempo - deltaT) * FSensorMotor[i].valant
-					+ deltaT * FSensorMotor[i].ganancia * (FSensorMotor[i].valreal + FSensorMotor[i].valrealant))
-					/ (2 * FSensorMotor[i].ctetiempo + deltaT);
+				FSensorMotor[i].valact = ((2 * FSensorMotor[i].ctetiempo - deltaT) * FSensorMotor[i].valant + deltaT *
+										  FSensorMotor[i].ganancia * (FSensorMotor[i].valreal + FSensorMotor[i].valrealant)) /
+										 (2 * FSensorMotor[i].ctetiempo + deltaT);
 				FSensorMotor[i].valant = FSensorMotor[i].valact;
 				FSensorMotor[i].valrealant = FSensorMotor[i].valreal;
 				break;
 
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_Cilindro" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2327,20 +2239,18 @@ void TCalculoExtern::Calculo_Sensores_Motor(double deltaT, TBloqueMotor **Engine
 
 void TCalculoExtern::Calculo_Sensores_UED(double deltaT, TCondicionContorno **BC) {
 	try {
-		for (int i = 0; i <= FNSensUED - 1; i++) {
-			switch (FSensorUED[i].tipo) {
+		for(int i = 0; i <= FNSensUED - 1; i++) {
+			switch(FSensorUED[i].tipo) {
 			case nmGasto:
-				FSensorUED[i].valreal = dynamic_cast<TCCUnionEntreDepositos*>(BC[FSensorUED[i].CCUED - 1])
-					->getGastoImpreso();
-				FSensorUED[i].valact = ((2 * FSensorUED[i].ctetiempo - deltaT) * FSensorUED[i].valant
-					+ deltaT * FSensorUED[i].ganancia * (FSensorUED[i].valreal + FSensorUED[i].valrealant))
-					/ (2 * FSensorUED[i].ctetiempo + deltaT);
+				FSensorUED[i].valreal = dynamic_cast<TCCUnionEntreDepositos*>(BC[FSensorUED[i].CCUED - 1])->getGastoImpreso();
+				FSensorUED[i].valact = ((2 * FSensorUED[i].ctetiempo - deltaT) * FSensorUED[i].valant + deltaT * FSensorUED[i].ganancia
+										* (FSensorUED[i].valreal + FSensorUED[i].valrealant)) / (2 * FSensorUED[i].ctetiempo + deltaT);
 				FSensorUED[i].valant = FSensorUED[i].valact;
 				FSensorUED[i].valrealant = FSensorUED[i].valreal;
 				break;
 			}/*fin del switch*/
 		}/*fin del for*/
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo_Sensores_UED" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2356,7 +2266,7 @@ double TCalculoExtern::xit_(double vizq, double vder, double axid, double xif) {
 		double ret_val = 0.;
 
 		xx = vder - vizq;
-		if (axid != 0.) {
+		if(axid != 0.) {
 			yy = xx / axid * xif;
 			ret_val = vizq + yy;
 		} else {
@@ -2364,7 +2274,7 @@ double TCalculoExtern::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2386,7 +2296,7 @@ void TCalculoExtern::InicializaMedias() {
 		SensorP3SUM = 0.;
 		SensorP4SUM = 0.;
 		SensorRegimenTurboSUM = 0.;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: InicializaMedias" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2398,7 +2308,7 @@ void TCalculoExtern::InicializaMedias() {
 void TCalculoExtern::AcumulaMedias(double DeltaT) {
 	try {
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: AcumulaMedias: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2428,7 +2338,7 @@ void TCalculoExtern::CalculaMedias() {
 //	 FTiempoSum=0.;
 		// VariableSUM=0.;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaMedias: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2455,7 +2365,7 @@ void TCalculoExtern::ImprimeCabeceraMedias(stringstream& medoutput) {
 //	 fich << '\t' << "Regimen_Turbo_[rpm]";
 //	 fich << '\t' << "Sensor_Rel_Cin";
 //	 fich.close();
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeCabeceraMedias: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2480,7 +2390,7 @@ void TCalculoExtern::ImprimeGraficosMedias(stringstream& medoutput) {
 //	 fich << '\t' << SensorRelCinematica;
 //	 fich.close();
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeGraficosMedias: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2498,7 +2408,7 @@ void TCalculoExtern::ImprimeCabeceraInstantaneas(stringstream& insoutput) {
 		//     fich << '\t' << "Salida_Instantanea_EXTERN_" << i;
 		//}
 		//fich.close();
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeCabeceraInstantaneas: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2516,7 +2426,7 @@ void TCalculoExtern::ImprimeGraficosInstantaneas(stringstream& insoutput) {
 		// fich << '\t' << Variable;
 
 		//fich.close();
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeGraficosInstantaneas: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -2529,19 +2439,19 @@ void TCalculoExtern::ImprimeGraficosInstantaneas(stringstream& insoutput) {
 void TCalculoExtern::ObtenerRutaTrabajo(const char *origin) {
 	try {
 		int contpunto = 0;
-		for (int i = (int) strlen(origin) - 1; i >= 0; i--) {
-			if (origin[i] == '\\') {
+		for(int i = (int) strlen(origin) - 1; i >= 0; i--) {
+			if(origin[i] == '\\') {
 				contpunto = i + 1;    //ha encontrado el punto de la extension
 				break;
 			}
 		}
 		FRutaTrabajo = new char[contpunto + 1];
-		for (int i = 0; i < contpunto; i++) {
+		for(int i = 0; i < contpunto; i++) {
 			FRutaTrabajo[i] = origin[i];
 		}
 		FRutaTrabajo[contpunto] = '\0';
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ObtenerRutaTrabajo: " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

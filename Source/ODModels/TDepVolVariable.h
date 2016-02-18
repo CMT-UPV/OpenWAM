@@ -33,7 +33,7 @@
 #include "TDeposito.h"
 
 class TDepVolVariable: public TDeposito {
-private:
+  private:
 	//---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	//---------------------------------------------------------------------------
@@ -58,7 +58,7 @@ private:
 
 	double CalculaVolumen(double CrankAngle, double carrera, double lbiela, double diametro, double vol_muerto);
 
-public:
+  public:
 	//---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	//---------------------------------------------------------------------------
@@ -76,8 +76,8 @@ public:
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
-	TDepVolVariable(int i, int ncv, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+	TDepVolVariable(int i, int ncv, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
+					bool ThereIsEGR);
 
 	~TDepVolVariable();
 

@@ -39,7 +39,7 @@
 #include "TAcousticTurbine.h"
 
 class TTurbina: public TDepVolCteBase {
-protected:
+  protected:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	// ---------------------------------------------------------------------------
@@ -146,13 +146,13 @@ protected:
 
 	double CpTurbineComplete(double YO2, double YCO2, double YH2O, double Temperature);
 
-public:
+  public:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	// ---------------------------------------------------------------------------
 
 	void PutNumeroTurbina(int NumeroTurbina) {
-		if (!asgNumeroTurbina) {
+		if(!asgNumeroTurbina) {
 			FNumeroTurbina = NumeroTurbina;
 			asgNumeroTurbina = true;
 		} else {
@@ -199,7 +199,7 @@ public:
 	// ---------------------------------------------------------------------------
 
 	TTurbina(int i, nmTipoDeposito TipoDeposito, int nentradas, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+			 nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TTurbina() = 0;
 

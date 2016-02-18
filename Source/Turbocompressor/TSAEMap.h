@@ -11,7 +11,7 @@
 // ---------------------------------------------------------------------------
 
 class TSAEMap: public TCompressorMap {
-private:
+  private:
 	int FNumeroCompresor;       //Numero del compresor al que pertenece el mapa.
 
 	double FTempRef;
@@ -65,7 +65,7 @@ private:
 
 	dVector *vdMassAdim, *vdPresAdim, *vdEffAdim;
 
-public:
+  public:
 	TSAEMap(int i);
 
 	~TSAEMap();

@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TEstatorTurbina::TEstatorTurbina() :
-TTipoValvula(nmStator) {
+	TTipoValvula(nmStator) {
 
 }
 
@@ -48,7 +48,7 @@ TEstatorTurbina::~TEstatorTurbina() {
 //---------------------------------------------------------------------------
 
 TEstatorTurbina::TEstatorTurbina(TEstatorTurbina *Origen, int Valvula) :
-TTipoValvula(nmStator) {
+	TTipoValvula(nmStator) {
 
 	FTipoEstator = Origen->FTipoEstator;
 	FCDEInicial = Origen->FCDEInicial;
@@ -70,7 +70,7 @@ TTipoValvula(nmStator) {
 //---------------------------------------------------------------------------
 
 void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+										TBloqueMotor *Engine) {
 	try {
 		int tpstator = 0;
 
@@ -84,7 +84,7 @@ void TEstatorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, in
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales StatorTurbine" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -100,7 +100,7 @@ void TEstatorTurbina::TipodeEstator(nmTipoEstator TipoEstator) {
 
 		FTipoEstator = TipoEstator;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TEstatorTurbina::TipodeEstator " << std::endl;
 //std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -112,7 +112,7 @@ void TEstatorTurbina::TipodeEstator(nmTipoEstator TipoEstator) {
 
 void TEstatorTurbina::CalculaCD() {
 	try {
-		switch (FTipoEstator) {
+		switch(FTipoEstator) {
 		case nmStFijo:
 			FCDTubVol = FCDEInicial * FSectionRatio;
 			FCDVolTub = FCDSInicial * FSectionRatio;
@@ -126,17 +126,17 @@ void TEstatorTurbina::CalculaCD() {
 			FCDVolTub = FCDVbl * FSectionRatio;
 			break;
 		}
-		if (FCDTubVol > 1) {
+		if(FCDTubVol > 1) {
 			FCDTubVol = 1.;
-		} else if (FCDTubVol <= 0) {
+		} else if(FCDTubVol <= 0) {
 			FCDTubVol = 0.001;
 		}
-		if (FCDVolTub > 1) {
+		if(FCDVolTub > 1) {
 			FCDVolTub = 1.;
-		} else if (FCDVolTub <= 0) {
+		} else if(FCDVolTub <= 0) {
 			FCDVolTub = 0.001;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaCD StatorTurbine" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -146,7 +146,7 @@ void TEstatorTurbina::CalculaCD() {
 
 void TEstatorTurbina::GetCDin(double Time) {
 
-	switch (FTipoEstator) {
+	switch(FTipoEstator) {
 	case nmStFijo:
 		FCDTubVol = FCDEInicial * FSectionRatio;
 		break;
@@ -157,16 +157,16 @@ void TEstatorTurbina::GetCDin(double Time) {
 		FCDTubVol = FCDVbl * FSectionRatio;
 		break;
 	}
-	if (FCDTubVol > 1) {
+	if(FCDTubVol > 1) {
 		FCDTubVol = 1.;
-	} else if (FCDTubVol <= 0) {
+	} else if(FCDTubVol <= 0) {
 		FCDTubVol = 0.001;
 	}
 }
 
 void TEstatorTurbina::GetCDout(double Time) {
 
-	switch (FTipoEstator) {
+	switch(FTipoEstator) {
 	case nmStFijo:
 		FCDVolTub = FCDSInicial * FSectionRatio;
 		break;
@@ -178,9 +178,9 @@ void TEstatorTurbina::GetCDout(double Time) {
 		break;
 	}
 
-	if (FCDVolTub > 1) {
+	if(FCDVolTub > 1) {
 		FCDVolTub = 1.;
-	} else if (FCDVolTub <= 0) {
+	} else if(FCDVolTub <= 0) {
 		FCDVolTub = 0.001;
 	}
 }

@@ -41,7 +41,7 @@
 // ---------------------------------------------------------------------------
 
 TDeposito::TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
+					 nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
 
 	FCalculoEspecies = SpeciesModel;
 	FNumeroEspecies = numeroespecies;
@@ -50,7 +50,7 @@ TDeposito::TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies S
 	FMasaEspecie = NULL;
 
 	FHayEGR = ThereIsEGR;
-	if (FHayEGR)
+	if(FHayEGR)
 		FIntEGR = 0;
 	else
 		FIntEGR = 1;
@@ -102,7 +102,7 @@ TDeposito::TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies S
 	FResInstantDep.Gamma = false;
 	FResInstantDep.GammaINS = 1.4;
 
-	for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+	for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 		FResInstantDep.FraccionINS[i] = 0.;
 		FResMediosDep.FraccionSUM[i] = 0.;
 		FResMediosDep.FraccionMED[i] = 0.;
@@ -116,32 +116,32 @@ TDeposito::TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies S
 // ---------------------------------------------------------------------------
 
 TDeposito::~TDeposito() {
-	if (FUnion != NULL)
+	if(FUnion != NULL)
 		delete[] FUnion;
-	if (FSentidoFlujo != NULL)
+	if(FSentidoFlujo != NULL)
 		delete[] FSentidoFlujo;
-	if (FNumConductos != NULL)
+	if(FNumConductos != NULL)
 		delete[] FNumConductos;
-	if (FNumNodos != NULL)
+	if(FNumNodos != NULL)
 		delete[] FNumNodos;
 
-	if (FFraccionMasicaEspecie != NULL)
+	if(FFraccionMasicaEspecie != NULL)
 		delete[] FFraccionMasicaEspecie;
-	if (FMasaEspecie != NULL)
+	if(FMasaEspecie != NULL)
 		delete[] FMasaEspecie;
 
-	if (FCCDeposito != NULL)
+	if(FCCDeposito != NULL)
 		delete[] FCCDeposito;
-	if (FCCUnionEntreDep != NULL)
+	if(FCCUnionEntreDep != NULL)
 		delete[] FCCUnionEntreDep;
 
-	if (FResMediosDep.FraccionMED != NULL)
+	if(FResMediosDep.FraccionMED != NULL)
 		delete[] FResMediosDep.FraccionMED;
 
-	if (FResMediosDep.FraccionSUM != NULL)
+	if(FResMediosDep.FraccionSUM != NULL)
 		delete[] FResMediosDep.FraccionSUM;
 
-	if (FResInstantDep.FraccionINS != NULL)
+	if(FResInstantDep.FraccionINS != NULL)
 		delete[] FResInstantDep.FraccionINS;
 }
 
@@ -157,77 +157,75 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM, fpos_t &filepos)
 
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		FMasaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - 1; i++) {
+		for(int i = 0; i < FNumeroEspecies - 1; i++) {
 			fscanf(fich, "%lf ", &FFraccionMasicaEspecie[i]);
 			fracciontotal += FFraccionMasicaEspecie[i];
 		}
-		if (FHayEGR) {
-			if (FCalculoEspecies == nmCalculoCompleto) {
-				if (FFraccionMasicaEspecie[0] > 0.2)
+		if(FHayEGR) {
+			if(FCalculoEspecies == nmCalculoCompleto) {
+				if(FFraccionMasicaEspecie[0] > 0.2)
 					FFraccionMasicaEspecie[FNumeroEspecies - 1] = 0.;
 				else
 					FFraccionMasicaEspecie[FNumeroEspecies - 1] = 1.;
 			} else {
-				if (FFraccionMasicaEspecie[0] > 0.5)
+				if(FFraccionMasicaEspecie[0] > 0.5)
 					FFraccionMasicaEspecie[FNumeroEspecies - 1] = 1.;
 				else
 					FFraccionMasicaEspecie[FNumeroEspecies - 1] = 0.;
 			}
 		}
 
-		if (fracciontotal > 1 + 1.e-10 && fracciontotal < 1 - 1e-10) {
-			std::cout << "ERROR: Total mass fraction cannot be different than 1. Check input data in plenum  "
-				<< FNumeroDeposito << std::endl;
+		if(fracciontotal > 1 + 1.e-10 && fracciontotal < 1 - 1e-10) {
+			std::cout << "ERROR: Total mass fraction cannot be different than 1. Check input data in plenum  " << FNumeroDeposito <<
+					  std::endl;
 			throw Exception(" ");
 		}
 
-		if (FTipoDeposito != nmDepVolVble) {
+		if(FTipoDeposito != nmDepVolVble) {
 			fscanf(fich, "%lf %lf %lf ", &FVolumen, &FPressure, &FTemperature);
-			if (FCalculoEspecies == nmCalculoCompleto) {
+			if(FCalculoEspecies == nmCalculoCompleto) {
 
-				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
-				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], 0, __units::degCToK(FTemperature), FCalculoGamma, nmMEP);
+				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+												  FCalculoGamma, nmMEP);
+				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+													__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
-			} else if (FCalculoEspecies == nmCalculoSimple) {
+			} else if(FCalculoEspecies == nmCalculoSimple) {
 
-				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma,
-					nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+				FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+												  FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 			}
 			FPresionIsen = pow(FPressure / FPresRef, __Gamma::G5(FGamma));
 			FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature)) / __cons::ARef;
 			FMasa = FVolumen * FGamma * __units::BarToPa(FPressure) / pow2(FAsonido * __cons::ARef);
-			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+			for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
 		} else {
 			fscanf(fich, " %lf %lf ", &FPressure, &FTemperature);
-			if (FCalculoEspecies == nmCalculoCompleto) {
+			if(FCalculoEspecies == nmCalculoCompleto) {
 
-				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
-				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], 0, __units::degCToK(FTemperature), FCalculoGamma, nmMEP);
+				FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+												  FCalculoGamma, nmMEP);
+				FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+													__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 				FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
-			} else if (FCalculoEspecies == nmCalculoSimple) {
+			} else if(FCalculoEspecies == nmCalculoSimple) {
 
-				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma,
-					nmMEP);
-				FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0],
-					FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+				FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+				FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+												  FCalculoGamma, nmMEP);
 				FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 			}
 			FPresionIsen = pow(FPressure / FPresRef, __Gamma::G5(FGamma));
 			FAsonido = sqrt(FGamma * FRMezcla * __units::degCToK(FTemperature)) / __cons::ARef;
-			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+			for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FMasaEspecie[j] = FMasa * FFraccionMasicaEspecie[j];
 			}
 		}
@@ -235,7 +233,7 @@ void TDeposito::LeeDatosGeneralesDepositos(const char *FileWAM, fpos_t &filepos)
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::LeeDatosGeneralesDepositos en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -251,14 +249,14 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 		bool UnionAsignada;
 		bool UnionEDAsignada;
 		/* Union Deposito-Pipe */
-		for (int i = 0; i < numCC; i++) {
-			if (BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
-				if (FNumeroDeposito == dynamic_cast<TCCDeposito*>(BC[i])->getNumeroDeposito()) {
+		for(int i = 0; i < numCC; i++) {
+			if(BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
+				if(FNumeroDeposito == dynamic_cast<TCCDeposito*>(BC[i])->getNumeroDeposito()) {
 					FNumeroUniones++;
 				}
-			} else if (BC[i]->getTipoCC() == nmCompresor) {
-				if ((dynamic_cast<TCCCompresor*>(BC[i])->getCompressor())->getModeloCompresor() == nmCompOriginal) {
-					if (FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDeposito()) {
+			} else if(BC[i]->getTipoCC() == nmCompresor) {
+				if((dynamic_cast<TCCCompresor*>(BC[i])->getCompressor())->getModeloCompresor() == nmCompOriginal) {
+					if(FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDeposito()) {
 						FNumeroUniones++;
 					}
 				}
@@ -266,57 +264,53 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 		}
 
 		/* Comprobacion que los depositos especiales tienen el numero de entradas que les corresponden. */
-		if (FTipoDeposito == nmTurbinaSimple) {
-			if (FNumeroUniones != 2) {
-				std::cout << "ERROR: A single turbine must have 2 connections. Plenum: " << FNumeroDeposito
-					<< std::endl;
+		if(FTipoDeposito == nmTurbinaSimple) {
+			if(FNumeroUniones != 2) {
+				std::cout << "ERROR: A single turbine must have 2 connections. Plenum: " << FNumeroDeposito << std::endl;
 				std::cout << "Total number of connections: " << FNumeroUniones << std::endl;
 				throw Exception("");
 			}
-		} else if (FTipoDeposito == nmTurbinaTwin) {
-			if (FNumeroUniones != 3) {
+		} else if(FTipoDeposito == nmTurbinaTwin) {
+			if(FNumeroUniones != 3) {
 				std::cout << "ERROR: A twin turbine must have 3 connections. Plenum: " << FNumeroDeposito << std::endl;
 				std::cout << "Total number of connections: " << FNumeroUniones << std::endl;
 				throw Exception("");
 			}
-		} else if (FTipoDeposito == nmVenturi) {
-			if (FNumeroUniones != 3) {
+		} else if(FTipoDeposito == nmVenturi) {
+			if(FNumeroUniones != 3) {
 				std::cout << "ERROR: A venturi must have 3 connections. Plenum: " << FNumeroDeposito << std::endl;
 				std::cout << "Total number of connections: " << FNumeroUniones << std::endl;
 				throw Exception("");
 			}
-		} else if (FTipoDeposito == nmUnionDireccional) {
-			if (FNumeroUniones != 3) {
-				std::cout << "ERROR: A directional junction must have 3 connections. Planum: " << FNumeroDeposito
-					<< std::endl;
+		} else if(FTipoDeposito == nmUnionDireccional) {
+			if(FNumeroUniones != 3) {
+				std::cout << "ERROR: A directional junction must have 3 connections. Planum: " << FNumeroDeposito << std::endl;
 				std::cout << "Total number of connections: " << FNumeroUniones << std::endl;
 				throw Exception("");
 			}
 		}
 
-		if (FNumeroUniones != 0)
+		if(FNumeroUniones != 0)
 			FCCDeposito = new TCondicionContorno*[FNumeroUniones];
 
 		bool *CCasignadaD;
 		CCasignadaD = new bool[numCC];
-		for (int i = 0; i < numCC; i++)
+		for(int i = 0; i < numCC; i++)
 			CCasignadaD[i] = false;
 
-		for (int j = 0; j < FNumeroUniones; j++) {
+		for(int j = 0; j < FNumeroUniones; j++) {
 			UnionAsignada = false;
-			for (int i = 0; i < numCC; i++) {
-				if (BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
-					if (FNumeroDeposito == dynamic_cast<TCCDeposito*>(BC[i])->getNumeroDeposito() && !CCasignadaD[i]
-						&& !UnionAsignada) {
+			for(int i = 0; i < numCC; i++) {
+				if(BC[i]->getTipoCC() == nmPipeToPlenumConnection) {
+					if(FNumeroDeposito == dynamic_cast<TCCDeposito*>(BC[i])->getNumeroDeposito() && !CCasignadaD[i] && !UnionAsignada) {
 						FCCDeposito[j] = BC[i];
 						UnionAsignada = true;
 						CCasignadaD[i] = true;
 					}
 				}
-				if (BC[i]->getTipoCC() == nmCompresor) {
-					if (dynamic_cast<TCCCompresor*>(BC[i])->getCompressor()->getModeloCompresor() == nmCompOriginal) {
-						if (FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDeposito()
-							&& !CCasignadaD[i] && !UnionAsignada) {
+				if(BC[i]->getTipoCC() == nmCompresor) {
+					if(dynamic_cast<TCCCompresor*>(BC[i])->getCompressor()->getModeloCompresor() == nmCompOriginal) {
+						if(FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDeposito() && !CCasignadaD[i] && !UnionAsignada) {
 							FCCDeposito[j] = BC[i];
 							UnionAsignada = true;
 							CCasignadaD[i] = true;
@@ -330,62 +324,62 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		/* Union Deposito-Deposito */
 
-		for (int i = 0; i < numCC; i++) {
-			if (BC[i]->getTipoCC() == nmUnionEntreDepositos) {
-				if (FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito1()
-					|| FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito2()) {
+		for(int i = 0; i < numCC; i++) {
+			if(BC[i]->getTipoCC() == nmUnionEntreDepositos) {
+				if(FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito1()
+				   || FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito2()) {
 					FNumeroUnionesED++;
 				}
 			}
-			if (BC[i]->getTipoCC() == nmCompresor) {
-				if (dynamic_cast<TCCCompresor*>(BC[i])->getCompressor()->getModeloCompresor() == nmCompPlenums) {
-					if (FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoRot()
-						|| FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoEst()) {
+			if(BC[i]->getTipoCC() == nmCompresor) {
+				if(dynamic_cast<TCCCompresor*>(BC[i])->getCompressor()->getModeloCompresor() == nmCompPlenums) {
+					if(FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoRot()
+					   || FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoEst()) {
 						FNumeroUnionesED++;
 					}
 				}
 			}
 		}
 
-		if ((FTipoDeposito == nmTurbinaSimple || FTipoDeposito == nmTurbinaTwin) & FNumeroUnionesED != 0) {
+		if((FTipoDeposito == nmTurbinaSimple || FTipoDeposito == nmTurbinaTwin) & FNumeroUnionesED != 0) {
 			std::cout << "ERROR: Una turbina no puede estar unida directamente a un deposito. Deposito:" << std::endl;
 			std::cout << "       Revisa la entrada de datos el apartado de uniones entre depositos" << std::endl;
 			throw Exception("");
-		} else if (FTipoDeposito == nmVenturi & FNumeroUnionesED != 0) {
+		} else if(FTipoDeposito == nmVenturi & FNumeroUnionesED != 0) {
 			std::cout << "ERROR: Un venturi no puede estar unido directamente a un deposito. Deposito:" << std::endl;
 			std::cout << "       Revisa la entrada de datos el apartado de uniones entre depositos" << std::endl;
 			throw Exception("");
-		} else if (FTipoDeposito == nmUnionDireccional & FNumeroUnionesED != 0) {
+		} else if(FTipoDeposito == nmUnionDireccional & FNumeroUnionesED != 0) {
 			std::cout << "ERROR: Una union direccional no puede estar unido directamente a un deposito" << std::endl;
 			std::cout << "       Revisa la entrada de datos el apartado de uniones entre depositos" << std::endl;
 			throw Exception("");
 		}
 
-		if (FNumeroUnionesED != 0)
+		if(FNumeroUnionesED != 0)
 			FCCUnionEntreDep = new TCondicionContorno*[FNumeroUnionesED];
 
 		bool *CCasignadaUD;
 		CCasignadaUD = new bool[numCC];
-		for (int i = 0; i < numCC; i++)
+		for(int i = 0; i < numCC; i++)
 			CCasignadaUD[i] = false;
 
-		for (int j = 0; j < FNumeroUnionesED; j++) {
+		for(int j = 0; j < FNumeroUnionesED; j++) {
 			UnionEDAsignada = false;
-			for (int i = 0; i < numCC; i++) {
-				if (BC[i]->getTipoCC() == nmUnionEntreDepositos) {
-					if ((FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito1()
-						|| FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito2())
-						&& !CCasignadaUD[i] && !UnionEDAsignada) {
+			for(int i = 0; i < numCC; i++) {
+				if(BC[i]->getTipoCC() == nmUnionEntreDepositos) {
+					if((FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito1()
+						|| FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(BC[i])->getNumeroDeposito2()) && !CCasignadaUD[i]
+					   && !UnionEDAsignada) {
 						FCCUnionEntreDep[j] = BC[i];
 						CCasignadaUD[i] = true;
 						UnionEDAsignada = true;
 					}
 				}
-				if (BC[i]->getTipoCC() == nmCompresor) {
-					if (dynamic_cast<TCCCompresor*>(BC[i])->getCompressor()->getModeloCompresor() == nmCompPlenums) {
-						if ((FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoRot()
-							|| FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoEst())
-							&& !CCasignadaUD[i] && !UnionEDAsignada) {
+				if(BC[i]->getTipoCC() == nmCompresor) {
+					if(dynamic_cast<TCCCompresor*>(BC[i])->getCompressor()->getModeloCompresor() == nmCompPlenums) {
+						if((FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoRot()
+							|| FNumeroDeposito == dynamic_cast<TCCCompresor*>(BC[i])->getNumeroDepositoEst()) && !CCasignadaUD[i]
+						   && !UnionEDAsignada) {
 							FCCUnionEntreDep[j] = BC[i];
 							CCasignadaUD[i] = true;
 							UnionEDAsignada = true;
@@ -397,7 +391,7 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 
 		delete[] CCasignadaUD;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::AsignacionCC en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -408,12 +402,12 @@ void TDeposito::AsignacionCC(TCondicionContorno **BC, int numCC) {
 // ---------------------------------------------------------------------------
 
 double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD, double MasaD,
-	double Gamma) {
+								  double Gamma) {
 	try {
 
 		double xx = 0., yy = 0., ret_val = 0.;
 
-		if (fabs(MasaE) != 0.) {
+		if(fabs(MasaE) != 0.) {
 			xx = (ASonidoE * ASonidoE / ASonidoD / ASonidoD - 1.) / __Gamma::G1(Gamma);
 			yy = VelocidadE * VelocidadE / ASonidoD / ASonidoD / 2.;
 			ret_val = Gamma * MasaE * (xx + yy) / MasaD;
@@ -421,7 +415,7 @@ double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE, double Mas
 			ret_val = 0.;
 		}
 		return ret_val;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito:EntalpiaEntrada en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -433,12 +427,12 @@ double TDeposito::EntalpiaEntrada(double ASonidoE, double VelocidadE, double Mas
 
 void TDeposito::AsignaCompresor(TCompresor *Compressor, int sentido) {
 	try {
-		if (FHayCompresor) {
+		if(FHayCompresor) {
 			std::cout << "ERROR: Each plenum only can have one compressor connected" << std::endl;
 			std::cout << "       Check the input data" << std::endl;
 			throw Exception("");
 		} else {
-			if (FTipoDeposito != nmDepVolCte) {
+			if(FTipoDeposito != nmDepVolCte) {
 				std::cout << "ERROR: Compressor only can be connected to constant volume plenums" << std::endl;
 				std::cout << "       Check the input data" << std::endl;
 				throw Exception("");
@@ -448,7 +442,7 @@ void TDeposito::AsignaCompresor(TCompresor *Compressor, int sentido) {
 				FCompresorSentido = sentido;
 			}
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito:AsignaCompresor en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -460,15 +454,15 @@ void TDeposito::AsignaCompresor(TCompresor *Compressor, int sentido) {
 
 void TDeposito::CreaUnionED(int numero, int sentido) {
 	try {
-		if (FTipoDeposito == nmTurbinaSimple || FTipoDeposito == nmTurbinaTwin) {
+		if(FTipoDeposito == nmTurbinaSimple || FTipoDeposito == nmTurbinaTwin) {
 			std::cout << "ERROR: Turbines can not be connected to plenums directly" << std::endl;
 			std::cout << "       Check the input data for connections between plenums" << std::endl;
 			throw Exception("");
-		} else if (FTipoDeposito == nmVenturi) {
+		} else if(FTipoDeposito == nmVenturi) {
 			std::cout << "ERROR: Venturis can not be connected to plenums directly" << std::endl;
 			std::cout << "       Check the input data for connections between plenums" << std::endl;
 			throw Exception("");
-		} else if (FTipoDeposito == nmUnionDireccional) {
+		} else if(FTipoDeposito == nmUnionDireccional) {
 			std::cout << "ERROR: Directional junctions can not be connected to plenums directly" << std::endl;
 			std::cout << "       Check the input data for connections between plenums" << std::endl;
 			throw Exception("");
@@ -477,7 +471,7 @@ void TDeposito::CreaUnionED(int numero, int sentido) {
 			FUnionED.push_back(numero);
 			FSentidoUED.push_back(sentido);
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito:CreaUnionED en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -489,39 +483,39 @@ void TDeposito::CreaUnionED(int numero, int sentido) {
 
 void TDeposito::PutNUniones(int value) {
 	try {
-		if (!asgFNumUniones) {
+		if(!asgFNumUniones) {
 			FNumeroUniones = value;
 			asgFNumUniones = true;
-			if (FUnion == NULL) {
+			if(FUnion == NULL) {
 				FUnion = new int[FNumeroUniones];
-				for (int i = 0; i < FNumeroUniones; i++) {
+				for(int i = 0; i < FNumeroUniones; i++) {
 					FUnion[i] = -1;
 				}
 			} else {
 				std::cout << "ERROR: The connections vector is already allocated" << std::endl;
 				throw Exception("");
 			}
-			if (FNumConductos == NULL) {
+			if(FNumConductos == NULL) {
 				FNumConductos = new int[FNumeroUniones];
-				for (int i = 0; i < FNumeroUniones; i++) {
+				for(int i = 0; i < FNumeroUniones; i++) {
 					FNumConductos[i] = -1;
 				}
 			} else {
 				std::cout << "ERROR: The pipes vector is already allocated" << std::endl;
 				throw Exception("");
 			}
-			if (FNumNodos == NULL) {
+			if(FNumNodos == NULL) {
 				FNumNodos = new int[FNumeroUniones];
-				for (int i = 0; i < FNumeroUniones; i++) {
+				for(int i = 0; i < FNumeroUniones; i++) {
 					FNumNodos[i] = -1;
 				}
 			} else {
 				std::cout << "ERROR: The nodes number vector is already allocated" << std::endl;
 				throw Exception("");
 			}
-			if (FSentidoFlujo == NULL) {
+			if(FSentidoFlujo == NULL) {
 				FSentidoFlujo = new int[FNumeroUniones];
-				for (int i = 0; i < FNumeroUniones; i++) {
+				for(int i = 0; i < FNumeroUniones; i++) {
 					FSentidoFlujo[i] = 0;
 				}
 			} else {
@@ -532,7 +526,7 @@ void TDeposito::PutNUniones(int value) {
 			std::cout << "ERROR: All connections of plenum " << FNumeroDeposito << " are already asigned" << std::endl;
 			throw Exception("");
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito:PutNUniones en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -544,13 +538,13 @@ void TDeposito::PutNUniones(int value) {
 
 void TDeposito::PutUnion(int indice, int valor) {
 	try {
-		if (!asgFUnion) {
-			if (indice < FNumeroUniones) {
+		if(!asgFUnion) {
+			if(indice < FNumeroUniones) {
 				FUnion[indice] = valor;
 			}
 			asgFUnion = true;
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (FUnion[i] == -1) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(FUnion[i] == -1) {
 					asgFUnion = false;
 					return;
 				}
@@ -559,7 +553,7 @@ void TDeposito::PutUnion(int indice, int valor) {
 			std::cout << "ERROR: Se intentan definir mas nodos de los que se han declarado" << std::endl;
 			throw Exception("");
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: PutUnion en el depositito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -574,13 +568,13 @@ void TDeposito::PutUnion(int indice, int valor) {
 
 void TDeposito::PutSentidoFlujo(int indice, int valor) {
 	try {
-		if (!asgFSentidoFlujo) {
-			if (indice < FNumeroUniones) {
+		if(!asgFSentidoFlujo) {
+			if(indice < FNumeroUniones) {
 				FSentidoFlujo[indice] = valor;
 			}
 			asgFSentidoFlujo = true;
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (FSentidoFlujo[i] == 0) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(FSentidoFlujo[i] == 0) {
 					asgFSentidoFlujo = false;
 					return;
 				}
@@ -589,7 +583,7 @@ void TDeposito::PutSentidoFlujo(int indice, int valor) {
 			std::cout << "ERROR: Se intentan definir mas nodos de los que se han declarado" << std::endl;
 			throw Exception("");
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: PutSentidoFlujo en el depositito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -601,16 +595,16 @@ void TDeposito::PutSentidoFlujo(int indice, int valor) {
 
 void TDeposito::PutNumConductos(int indice, int valor) {
 	try {
-		if (!asgFNumConductos) {
-			if (indice < FNumeroUniones) {
+		if(!asgFNumConductos) {
+			if(indice < FNumeroUniones) {
 				FNumConductos[indice] = valor;
 			} else {
 				std::cout << "ERROR: Se intentan definir mas nodos de los que se han declarado" << std::endl;
 				throw Exception("");
 			}
 			asgFNumConductos = true;
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (FNumConductos[indice] == -1) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(FNumConductos[indice] == -1) {
 					asgFNumConductos = false;
 					return;
 				}
@@ -619,7 +613,7 @@ void TDeposito::PutNumConductos(int indice, int valor) {
 			std::cout << "ERROR: All pipes are already asigned" << std::endl;
 			throw Exception("");
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: PutNumConductos en el depositito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -631,16 +625,16 @@ void TDeposito::PutNumConductos(int indice, int valor) {
 
 void TDeposito::PutNumNodos(int indice, int valor) {
 	try {
-		if (!asgFNumNodos) {
-			if (indice < FNumeroUniones) {
+		if(!asgFNumNodos) {
+			if(indice < FNumeroUniones) {
 				FNumNodos[indice] = valor;
 			} else {
 				std::cout << "ERROR: The number of connection to the plenum is lower" << std::endl;
 				throw Exception("");
 			}
 			asgFNumNodos = true;
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (FNumNodos[indice] == -1) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(FNumNodos[indice] == -1) {
 					asgFNumNodos = false;
 					return;
 				}
@@ -649,7 +643,7 @@ void TDeposito::PutNumNodos(int indice, int valor) {
 			std::cout << "ERROR: All connections are already asigned" << std::endl;
 			throw Exception("");
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: PutNumConductos en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -661,23 +655,23 @@ void TDeposito::PutNumNodos(int indice, int valor) {
 
 void TDeposito::ResultadosInstantaneosDep() {
 	try {
-		if (FResInstantDep.Pressure)
+		if(FResInstantDep.Pressure)
 			FResInstantDep.PresionINS = FPressure;
-		if (FResInstantDep.Temperature)
+		if(FResInstantDep.Temperature)
 			FResInstantDep.TemperaturaINS = __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla));
-		if (FResInstantDep.Volumen)
+		if(FResInstantDep.Volumen)
 			FResInstantDep.VolumenINS = FVolumen;
-		if (FResInstantDep.Masa)
+		if(FResInstantDep.Masa)
 			FResInstantDep.MasaINS = FMasa;
-		if (FResInstantDep.FraccionMasicaEspecies) {
-			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		if(FResInstantDep.FraccionMasicaEspecies) {
+			for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				FResInstantDep.FraccionINS[i] = FFraccionMasicaEspecie[i];
 			}
 		}
-		if (FResInstantDep.Gamma)
+		if(FResInstantDep.Gamma)
 			FResInstantDep.GammaINS = FGamma;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::ResultadosInstantaneosDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -690,22 +684,21 @@ void TDeposito::ResultadosInstantaneosDep() {
 void TDeposito::AcumulaResultadosMedios(double Actual) {
 	try {
 		double Delta = Actual - FResMediosDep.Tiempo0;
-		if (FResMediosDep.Pressure) {
+		if(FResMediosDep.Pressure) {
 			FResMediosDep.PresionSUM += FPressure * Delta;
 		}
-		if (FResMediosDep.Temperature) {
-			FResMediosDep.TemperaturaSUM += __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla))
-				* Delta;
+		if(FResMediosDep.Temperature) {
+			FResMediosDep.TemperaturaSUM += __units::KTodegC(pow2(FAsonido * __cons::ARef) / (FGamma * FRMezcla)) * Delta;
 		}
-		if (FResMediosDep.FraccionMasicaEspecies) {
-			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		if(FResMediosDep.FraccionMasicaEspecies) {
+			for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				FResMediosDep.FraccionSUM[i] += FFraccionMasicaEspecie[i] * Delta;
 			}
 		}
 
 		FResMediosDep.TiempoSUM += Delta;
 		FResMediosDep.Tiempo0 = Actual;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::AcumulaResultadosMedios en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -717,24 +710,24 @@ void TDeposito::AcumulaResultadosMedios(double Actual) {
 
 void TDeposito::ResultadosMediosDep() {
 	try {
-		if (FNumResMed > 0) {
-			if (FResMediosDep.Pressure) {
+		if(FNumResMed > 0) {
+			if(FResMediosDep.Pressure) {
 				FResMediosDep.PresionMED = FResMediosDep.PresionSUM / FResMediosDep.TiempoSUM;
 				FResMediosDep.PresionSUM = 0.;
 			}
-			if (FResMediosDep.Temperature) {
+			if(FResMediosDep.Temperature) {
 				FResMediosDep.TemperaturaMED = FResMediosDep.TemperaturaSUM / FResMediosDep.TiempoSUM;
 				FResMediosDep.TemperaturaSUM = 0.;
 			}
-			if (FResMediosDep.FraccionMasicaEspecies) {
-				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+			if(FResMediosDep.FraccionMasicaEspecies) {
+				for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 					FResMediosDep.FraccionMED[i] = FResMediosDep.FraccionSUM[i] / FResMediosDep.TiempoSUM;
 					FResMediosDep.FraccionSUM[i] = 0.;
 				}
 			}
 			FResMediosDep.TiempoSUM = 0;
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::ResultadosMediosDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -751,9 +744,9 @@ void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM, fpos_t &filepos
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &nvars);
-		for (int i = 0; i < nvars; i++) {
+		for(int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FResInstantDep.Pressure = true;
 				break;
@@ -779,7 +772,7 @@ void TDeposito::ReadInstantaneousResultsDep(const char *FileWAM, fpos_t &filepos
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::ReadInstantaneousResultsDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -796,9 +789,9 @@ void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &FNumResMed);
-		for (int i = 0; i < FNumResMed; i++) {
+		for(int i = 0; i < FNumResMed; i++) {
 			fscanf(fich, "%d ", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FResMediosDep.Pressure = true;
 				break;
@@ -815,7 +808,7 @@ void TDeposito::ReadAverageResultsDep(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::ReadAverageResultsDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -830,38 +823,37 @@ void TDeposito::HeaderInstantaneousResultsDep(stringstream& insoutput, stEspecie
 		// FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FResInstantDep.Pressure) {
+		if(FResInstantDep.Pressure) {
 			Label = "\t" + PutLabel(501) + std::to_string(FNumeroDeposito) + PutLabel(908);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantDep.Temperature) {
+		if(FResInstantDep.Temperature) {
 			Label = "\t" + PutLabel(502) + std::to_string(FNumeroDeposito) + PutLabel(910);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantDep.Volumen) {
+		if(FResInstantDep.Volumen) {
 			Label = "\t" + PutLabel(503) + std::to_string(FNumeroDeposito) + PutLabel(912);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantDep.Masa) {
+		if(FResInstantDep.Masa) {
 			Label = "\t" + PutLabel(504) + std::to_string(FNumeroDeposito) + PutLabel(913);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantDep.FraccionMasicaEspecies) {
-			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-				Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre + PutLabel(506) + std::to_string(FNumeroDeposito)
-					+ PutLabel(901);
+		if(FResInstantDep.FraccionMasicaEspecies) {
+			for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+				Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre + PutLabel(506) + std::to_string(FNumeroDeposito) + PutLabel(
+							901);
 				insoutput << Label.c_str();
 			}
 		}
-		if (FResInstantDep.Gamma) {
+		if(FResInstantDep.Gamma) {
 			Label = "\t" + PutLabel(507) + std::to_string(FNumeroDeposito) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
 
 		// fclose(fich);
-	} catch (exception & N) {
-		std::cout << "ERROR: TDeposito::CabeceraResultadosInstaneosDep en el deposito: " << FNumeroDeposito
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TDeposito::CabeceraResultadosInstaneosDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -874,24 +866,24 @@ void TDeposito::ImprimeResultadosInstantaneosDep(stringstream& insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		if (FResInstantDep.Pressure)
+		if(FResInstantDep.Pressure)
 			insoutput << "\t" << FResInstantDep.PresionINS;
-		if (FResInstantDep.Temperature)
+		if(FResInstantDep.Temperature)
 			insoutput << "\t" << FResInstantDep.TemperaturaINS;
-		if (FResInstantDep.Volumen)
+		if(FResInstantDep.Volumen)
 			insoutput << "\t" << FResInstantDep.VolumenINS;
-		if (FResInstantDep.Masa)
+		if(FResInstantDep.Masa)
 			insoutput << "\t" << FResInstantDep.MasaINS;
-		if (FResInstantDep.FraccionMasicaEspecies) {
-			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		if(FResInstantDep.FraccionMasicaEspecies) {
+			for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				insoutput << "\t" << FResInstantDep.FraccionINS[i];
 			}
 		}
-		if (FResInstantDep.Gamma)
+		if(FResInstantDep.Gamma)
 			insoutput << "\t" << FResInstantDep.GammaINS;
 
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::ImprimeResultadosInstaneosDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -905,25 +897,25 @@ void TDeposito::HeaderAverageResultsDep(stringstream& medoutput, stEspecies *Dat
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
-		if (FNumResMed > 0) {
-			if (FResMediosDep.Pressure) {
+		if(FNumResMed > 0) {
+			if(FResMediosDep.Pressure) {
 				Label = "\t" + PutLabel(501) + std::to_string(FNumeroDeposito) + PutLabel(908);
 				medoutput << Label.c_str();
 			}
-			if (FResMediosDep.Temperature) {
+			if(FResMediosDep.Temperature) {
 				Label = "\t" + PutLabel(502) + std::to_string(FNumeroDeposito) + PutLabel(910);
 				medoutput << Label.c_str();
 			}
-			if (FResMediosDep.FraccionMasicaEspecies) {
-				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-					Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre + PutLabel(506)
-						+ std::to_string(FNumeroDeposito) + PutLabel(901);
+			if(FResMediosDep.FraccionMasicaEspecies) {
+				for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+					Label = "\t" + PutLabel(505) + DatosEspecies[i].Nombre + PutLabel(506) + std::to_string(FNumeroDeposito) + PutLabel(
+								901);
 					medoutput << Label.c_str();
 				}
 			}
 		}
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::HeaderAverageResultsDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -936,19 +928,19 @@ void TDeposito::HeaderAverageResultsDep(stringstream& medoutput, stEspecies *Dat
 void TDeposito::ImprimeResultadosMediosDep(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
-		if (FNumResMed > 0) {
-			if (FResMediosDep.Pressure)
+		if(FNumResMed > 0) {
+			if(FResMediosDep.Pressure)
 				medoutput << "\t" << FResMediosDep.PresionMED;
-			if (FResMediosDep.Temperature)
+			if(FResMediosDep.Temperature)
 				medoutput << "\t" << FResMediosDep.TemperaturaMED;
-			if (FResMediosDep.FraccionMasicaEspecies) {
-				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+			if(FResMediosDep.FraccionMasicaEspecies) {
+				for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 					medoutput << "\t" << FResMediosDep.FraccionMED[i];
 				}
 			}
 		}
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::ImprimeResultadosMediosDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -966,26 +958,24 @@ double TDeposito::CriterioEstabilidad(double TMinimo) {
 
 		DeltTMin = TMinimo - FTime;
 		MasaFinal = 0.;
-		for (int i = 0; i < FNumeroUniones; i++) {
-			if (FCCDeposito[i]->getTipoCC() == nmPipeToPlenumConnection) {
-				g = (double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
-				if (!(FCCDeposito[i]->getUnionDPF())) {
+		for(int i = 0; i < FNumeroUniones; i++) {
+			if(FCCDeposito[i]->getTipoCC() == nmPipeToPlenumConnection) {
+				g = (double) - dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
+				if(!(FCCDeposito[i]->getUnionDPF())) {
 					MasaFinal += g * DeltTMin * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
-				} else if (FCCDeposito[i]->getUnionDPF()) {
+				} else if(FCCDeposito[i]->getUnionDPF()) {
 #ifdef ParticulateFilter
 					MasaFinal += g * DeltTMin * FCCDeposito[i]->GetTuboExtremo(0).DPF->GetCanal(FCCDeposito[i]->GetTuboExtremo(0).NumeroHaz,
-					0)->getNumeroCanales();
+								 0)->getNumeroCanales();
 #endif
 				}
 			}
 		}
-		for (int i = 1; i < FNumeroUnionesED; i++) {
-			if (FCCUnionEntreDep[i]->getTipoCC() == nmUnionEntreDepositos) {
-				if (FNumeroDeposito
-					== dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
+		for(int i = 1; i < FNumeroUnionesED; i++) {
+			if(FCCUnionEntreDep[i]->getTipoCC() == nmUnionEntreDepositos) {
+				if(FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
 					SignoFlujoED = dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
-				} else if (FNumeroDeposito
-					== dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
+				} else if(FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
 					SignoFlujoED = dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
 				}
 				g = (double) SignoFlujoED * dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
@@ -993,14 +983,14 @@ double TDeposito::CriterioEstabilidad(double TMinimo) {
 			}
 		}
 
-		if (FHayCompresor) {
+		if(FHayCompresor) {
 			g = (double) FCompresorSentido * FCompresor->getMassflow();
 			MasaFinal += g * DeltTMin;
 		}
 
 		MasaFinal += FMasa;
 		return MasaFinal;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::CriterioEstabilidad en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1013,26 +1003,26 @@ double TDeposito::CriterioEstabilidad(double TMinimo) {
 void TDeposito::SalidaGeneralDep(stEspecies *DatosEspecies) {
 	try {
 
-		if (FNumResMed > 0) {
+		if(FNumResMed > 0) {
 			std::cout << std::endl;
 			std::cout << "***************************************" << std::endl;
 			std::cout << "****** AVERAGE VALUES IN PLENUMS ******" << std::endl;
 			std::cout << "***************************************" << std::endl << std::endl;
 			std::cout << "In plenum: " << FNumeroDeposito << std::endl;
-			if (FResMediosDep.Pressure)
+			if(FResMediosDep.Pressure)
 				std::cout << "  Pressure:     " << FResMediosDep.PresionMED << " bares" << std::endl;
-			if (FResMediosDep.Temperature)
+			if(FResMediosDep.Temperature)
 				std::cout << "  Temperature:  " << FResMediosDep.TemperaturaMED << " degC" << std::endl << std::endl;
-			if (FResMediosDep.FraccionMasicaEspecies) {
-				for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
-					std::cout << "  Average mass fraction of " << DatosEspecies[i].Nombre << ": "
-						<< FResMediosDep.FraccionMED[i] << " (-)" << std::endl;
+			if(FResMediosDep.FraccionMasicaEspecies) {
+				for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+					std::cout << "  Average mass fraction of " << DatosEspecies[i].Nombre << ": " << FResMediosDep.FraccionMED[i] << " (-)"
+							  << std::endl;
 				}
 			}
 			std::cout << std::endl;
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::SalidaGeneralDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1045,7 +1035,7 @@ void TDeposito::SalidaGeneralDep(stEspecies *DatosEspecies) {
 TCondicionContorno* TDeposito::GetCCUnionEntreDep(int i) {
 	try {
 		return FCCUnionEntreDep[i];
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::GetCCUnionEntreDep en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1058,7 +1048,7 @@ TCondicionContorno* TDeposito::GetCCUnionEntreDep(int i) {
 TCondicionContorno* TDeposito::GetCCDeposito(int i) {
 	try {
 		return FCCDeposito[i];
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::GetCCDeposito en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1089,7 +1079,7 @@ void TDeposito::ActualizaTiempo(double TiempoActual) {
 
 		FTime = TiempoActual;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDeposito::PutCalculadoPaso en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1101,9 +1091,8 @@ void TDeposito::ActualizaTiempo(double TiempoActual) {
 double TDeposito::GetFraccionMasicaEspecie(int i) {
 	try {
 		return FFraccionMasicaEspecie[i];
-	} catch (exception & N) {
-		std::cout << "ERROR: TDeposito::GetConcentracionEspecie en la condicion de contorno: " << FNumeroDeposito
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TDeposito::GetConcentracionEspecie en la condicion de contorno: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

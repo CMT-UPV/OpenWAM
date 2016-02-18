@@ -41,12 +41,12 @@
 //---------------------------------------------------------------------------
 
 class TRemansoMatlab {
-private:
+  private:
 
 	double FPressure;
 	double FTemperature;
 
-public:
+  public:
 	TRemansoMatlab();
 
 	~TRemansoMatlab();

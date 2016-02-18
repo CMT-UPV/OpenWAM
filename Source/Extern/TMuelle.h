@@ -38,7 +38,7 @@
 
 class TMuelle {
 
-private:
+  private:
 
 	double FRigidez;
 	double FAmort;
@@ -46,7 +46,7 @@ private:
 	double Fx;
 	double Fdx;
 
-public:
+  public:
 
 	double getPosicion() {
 		return Fx;

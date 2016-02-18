@@ -473,10 +473,10 @@ void init_labels() {
 using namespace std;
 
 std::string PutLabel(int idx) {
-	if (idx < 900) {
-		if (labels[10000].compare("ES") == 0) {
+	if(idx < 900) {
+		if(labels[10000].compare("ES") == 0) {
 			idx += 2000;
-		} else if (labels[10000].compare("EN") == 0) {
+		} else if(labels[10000].compare("EN") == 0) {
 			idx += 1000;
 		}
 	}

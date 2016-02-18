@@ -33,12 +33,12 @@
 #include "Globales.h"
 
 class TInterpMapaComp {
-private:
+  private:
 
 	dVector fRegimen;
 	vecTCompIsoReg fIsoReg;
 
-public:
+  public:
 
 	TInterpMapaComp(dVector Speed, dMatrix Mass, dMatrix Pre, dMatrix Eff);
 

@@ -42,7 +42,7 @@
 //---------------------------------------------------------------------------
 
 class TAjusteTransCalorCil {
-private:
+  private:
 
 	double FErrorGastoAire;
 	double FErrorT3;
@@ -61,7 +61,7 @@ private:
 	double *FCescape;
 	int FNumeroTramos;
 
-public:
+  public:
 
 	double FCaqAdm;
 	double getCAdmision() {

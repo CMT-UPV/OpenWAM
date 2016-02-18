@@ -45,7 +45,7 @@
 class TTubo;
 
 class TWasteGate: public TTipoValvula {
-private:
+  private:
 // CONSTANTES INICIALES
 	TTubo *FTuboAdm;
 
@@ -76,7 +76,7 @@ private:
 	bool FGraficasWG;
 	bool FGrafLev;
 
-public:
+  public:
 
 	TWasteGate(TWasteGate *Origen, int valv);
 

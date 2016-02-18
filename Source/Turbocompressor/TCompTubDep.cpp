@@ -40,8 +40,8 @@
 // ---------------------------------------------------------------------------
 
 TCompTubDep::TCompTubDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-	bool ThereIsEGR) :
-TCompresor(i, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+						 bool ThereIsEGR) :
+	TCompresor(i, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FModeloCompresor = nmCompOriginal;
 	FCorrector = 1;
@@ -88,7 +88,7 @@ void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 		fscanf(fich, "%lf", &FDelay);
 
 		fscanf(fich, "%d ", &format);
-		if (format == 0) {
+		if(format == 0) {
 			FCompressorMapFormat = nmOldWAMmap;
 			Mapa = new TMapaComp(FNumeroCompresor);
 
@@ -101,7 +101,7 @@ void TCompTubDep::LeeCompresor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCompTubDep::LeeCompresor en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: LeeCompresor en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -117,7 +117,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 
 		FRelacionCompresion = Mapa->EvaluaRCHermite(MasaAire);
 		FRendimiento = Mapa->EvaluaRendSplines(MasaAire);
-		if (FRendimiento < 0.01)
+		if(FRendimiento < 0.01)
 			FRendimiento = 0.01;
 
 #ifdef tchtm
@@ -128,9 +128,9 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 
 #endif
 
-		if (FDeltaTiempo > 0) {
-			RC_filt = ((2 * FDelay - FDeltaTiempo) * RC_filt_ant + FDeltaTiempo * (FRelacionCompresion + RC_ant))
-				/ (2 * FDelay + FDeltaTiempo);
+		if(FDeltaTiempo > 0) {
+			RC_filt = ((2 * FDelay - FDeltaTiempo) * RC_filt_ant + FDeltaTiempo * (FRelacionCompresion + RC_ant)) /
+					  (2 * FDelay + FDeltaTiempo);
 			FRelacionCompresion = RC_filt;
 
 		}
@@ -143,7 +143,7 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		cc = pow2(FEntropia2 * *FLanda / *FEntro) - FTemperatura20 * FGamma * FRMezcla / __cons::ARef2;
 		discr = bc * bc - ac * 4 * cc;
 
-		if (discr < 0.) {
+		if(discr < 0.) {
 			FVelocidad2 = -bc / 2. / ac;
 		} else {
 			FVelocidad2 = (-bc - sqrt(discr)) / 2. / ac;
@@ -153,11 +153,11 @@ double TCompTubDep::CalGastoNuevo(double MasaAire) {
 		FDensidad20 = __units::BarToPa(FPresion20) / FRMezcla / FTemperatura20;
 		FTemperatura2 = pow2(FASonidoSalida * __cons::ARef) / FGamma / FRMezcla;
 		FDensidad2 = FDensidad20 * pow(FTemperatura2 / FTemperatura20, 1. / FGamma1);
-		ret_val = -FDensidad2 * FVelocidad2 * FAreaSalComp * __cons::ARef * sqrt(FTemperatura10 / Mapa->getTempRef())
-			* Mapa->getPresionRef() / __units::BarToPa(FPresion10);
+		ret_val = -FDensidad2 * FVelocidad2 * FAreaSalComp * __cons::ARef * sqrt(FTemperatura10 / Mapa->getTempRef()) *
+				  Mapa->getPresionRef() / __units::BarToPa(FPresion10);
 
 		return ret_val;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: CalGastoNuevo en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: CalGastoNuevo en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -186,12 +186,12 @@ double TCompTubDep::RegulaFalsi() {
 		Masa = CalGastoNuevo(Masa1);
 		fMasa1 = Masa - Masa1;
 
-		if (fMasa0 * fMasa1 < 0)
+		if(fMasa0 * fMasa1 < 0)
 			valido = true;
 
-		if (!valido) {
+		if(!valido) {
 			FCambiaReg = true;
-			if (fMasa0 <= 0) {
+			if(fMasa0 <= 0) {
 				// FVariacionRegimen=1.05;
 				// std::cout << "WARNING: El compresor: " << FNumeroCompresor <<
 				// " intenta trabajar con flujo inverso" << std::endl;
@@ -201,10 +201,9 @@ double TCompTubDep::RegulaFalsi() {
 				FVelocidad2 = 0;
 				FEntropia2 = *FEntro;
 				FRelacionCompresion = Mapa->getRelCompBombeo();
-				if (FDeltaTiempo > 0) {
-					RC_filt =
-						((2 * FDelay - FDeltaTiempo) * RC_filt_ant + FDeltaTiempo * (FRelacionCompresion + RC_ant))
-							/ (2 * FDelay + FDeltaTiempo);
+				if(FDeltaTiempo > 0) {
+					RC_filt = ((2 * FDelay - FDeltaTiempo) * RC_filt_ant + FDeltaTiempo * (FRelacionCompresion + RC_ant)) /
+							  (2 * FDelay + FDeltaTiempo);
 					FRelacionCompresion = RC_filt;
 
 				}
@@ -212,10 +211,8 @@ double TCompTubDep::RegulaFalsi() {
 				return 0;
 			} else {
 
-				GastoNuevo =
-					Mapa->getGastoRelComp1()
-						/ (sqrt(FTemperatura10 / Mapa->getTempRef()) * Mapa->getPresionRef()
-							/ __units::BarToPa(FPresion10));
+				GastoNuevo = Mapa->getGastoRelComp1() / (sqrt(FTemperatura10 / Mapa->getTempRef()) * Mapa->getPresionRef() /
+							 __units::BarToPa(FPresion10));
 				FPresion20 = FPresion10;
 				FTemperatura20 = FTemperatura10;
 
@@ -229,17 +226,13 @@ double TCompTubDep::RegulaFalsi() {
 				FVelocidad2 = -QuadraticEqP(a, b, c);
 				FASonidoSalida = sqrt(pow2(Adep) - FGamma3 * pow2(FVelocidad2));
 
-				std::cout << "WARNING: El compresor: " << FNumeroCompresor << " esta trabajando en zona de choque"
-					<< std::endl;
+				std::cout << "WARNING: El compresor: " << FNumeroCompresor << " esta trabajando en zona de choque" << std::endl;
 				// FVariacionRegimen=0.95;
 
-				FDensidad2 = FGamma
-					* __units::BarToPa(pow(FASonidoSalida / FEntropia2, FGamma4) / pow2(FASonidoSalida * __cons::ARef));
+				FDensidad2 = FGamma * __units::BarToPa(pow(FASonidoSalida / FEntropia2, FGamma4) / pow2(FASonidoSalida * __cons::ARef));
 
-				GastoNuevo =
-					-FVelocidad2 * __cons::ARef * FAreaSalComp * FDensidad2
-						* (sqrt(FTemperatura10 / Mapa->getTempRef()) / Mapa->getPresionRef()
-							* __units::BarToPa(FPresion10));
+				GastoNuevo = -FVelocidad2 * __cons::ARef * FAreaSalComp * FDensidad2 * (sqrt(FTemperatura10 / Mapa->getTempRef()) /
+							 Mapa->getPresionRef() * __units::BarToPa(FPresion10));
 
 				return GastoNuevo;
 			}
@@ -252,10 +245,10 @@ double TCompTubDep::RegulaFalsi() {
 				MasaX = (fMasa0 * Masa1 - fMasa1 * Masa0) / (fMasa0 - fMasa1);
 				Masa = CalGastoNuevo(MasaX);
 				fMasaX = Masa - MasaX;
-				if (fMasa0 * fMasaX < 0) {
+				if(fMasa0 * fMasaX < 0) {
 					fMasa1 = fMasaX;
 					Masa1 = MasaX;
-					if (Masa0 == MasaXant) {
+					if(Masa0 == MasaXant) {
 						// Se mantiene 2 veces o mas el extremo izquierdo intervalo
 						fMasa0 = fMasa0 / 2.;
 					}
@@ -263,24 +256,23 @@ double TCompTubDep::RegulaFalsi() {
 				} else {
 					fMasa0 = fMasaX;
 					Masa0 = MasaX;
-					if (Masa1 == MasaXant) {
+					if(Masa1 == MasaXant) {
 						// Se mantiene 2 veces o mas el extremo izquierdo intervalo
 						fMasa1 = fMasa1 / 2.;
 					}
 					MasaXant = Masa1;
 				}
 				++i;
-			} while (fabs(fMasaX) > 1e-6 && i <= 100 && fabs(Masa0 - Masa1) > 1e-6);
-			if (i > 100) {
-				std::cout << "ERROR: The interation method in the compressor does not converge in 100 iterations"
-					<< std::endl;
+			} while(fabs(fMasaX) > 1e-6 && i <= 100 && fabs(Masa0 - Masa1) > 1e-6);
+			if(i > 100) {
+				std::cout << "ERROR: The interation method in the compressor does not converge in 100 iterations" << std::endl;
 				throw Exception("ERROR: The interation method in the compressor does not converge in 100 iterations");
 			}
 			GastoNuevo = MasaX;
 			return GastoNuevo;
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: RegulaFalsi en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: RegulaFalsi en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -301,14 +293,14 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 #ifdef tchtm
 		P20Max = P20Max * FCorrector;
 #endif
-		if (temp >= P20Max) {
+		if(temp >= P20Max) {
 			*FBeta = *FLanda;
 			work = 0.;
 			FGastoCorregido = 0.;
 			FRelacionCompresion = Mapa->getRelCompBombeo();
-			if (FDeltaTiempo > 0) {
-				RC_filt = ((2 * FDelay - FDeltaTiempo) * RC_filt_ant + FDeltaTiempo * (FRelacionCompresion + RC_ant))
-					/ (2 * FDelay + FDeltaTiempo);
+			if(FDeltaTiempo > 0) {
+				RC_filt = ((2 * FDelay - FDeltaTiempo) * RC_filt_ant + FDeltaTiempo * (FRelacionCompresion + RC_ant)) /
+						  (2 * FDelay + FDeltaTiempo);
 				FRelacionCompresion = RC_filt;
 			}
 			FRendimiento = Mapa->EvaluaRendSplines(0);
@@ -329,14 +321,14 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		RC_ant = FRelacionCompresion;
 		RC_filt_ant = RC_filt;
 
-		FGasto1 = FGastoCorregido * __units::BarToPa(FPresion10) / Mapa->getPresionRef()
-			/ sqrt(FTemperatura10 / Mapa->getTempRef());
+		FGasto1 = FGastoCorregido * __units::BarToPa(FPresion10) / Mapa->getPresionRef() / sqrt(
+					  FTemperatura10 / Mapa->getTempRef());
 		FGasto0 = FGasto1;
 		FGasto0Correg = FGastoCorregido;
 		FTrabajo = work * FGasto1 * FDeltaTiempo;
 		FGastoCompresor = FGasto1;
 
-		if (FDeltaTiempo != 0) {
+		if(FDeltaTiempo != 0) {
 			FPotencia = FTrabajo / FDeltaTiempo;
 		} else
 			FPotencia = 0.;
@@ -344,11 +336,10 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 		FDeltaTPaso += FDeltaTiempo;
 		// }
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCompTubDep::CalculaCompresor en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: TCompTubDep::CalculaCompresor en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: TCompTubDep::CalculaCompresor en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -356,11 +347,11 @@ void TCompTubDep::CalculaCompresor(double Theta) {
 // ---------------------------------------------------------------------------
 
 void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double AcumulatedTime,
-	int TuboCalculado) {
+									 int TuboCalculado) {
 	try {
 		double FraccionMasicaAcum = 0.;
 
-		if (FExtremoSalida == nmRight) {
+		if(FExtremoSalida == nmRight) {
 			FLanda = &(TuboExtremo[0].Landa);
 			FBeta = &(TuboExtremo[0].Beta);
 			FEntro = &(TuboExtremo[0].Entropia);
@@ -377,29 +368,27 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, d
 		CalculaCompresor(Theta);
 
 		// Transporte de especies quimicas.
-		if (FGasto1 > 0.) {
-			switch (FEntradaCompresor) {
+		if(FGasto1 > 0.) {
+			switch(FEntradaCompresor) {
 			case nmPipe:
 				// Transporte de especies quimicas.
-				for (int i = 0; i < FNumeroEspecies - 2; i++) {
+				for(int i = 0; i < FNumeroEspecies - 2; i++) {
 					FFraccionMasicaEspecie[i] = FTuboRotor->GetFraccionMasicaCC(FIndiceCC, i);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[i];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboRotor->GetFraccionMasicaCC(FIndiceCC,
-						FNumeroEspecies - 1); // EGR
+				if(FHayEGR)
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboRotor->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1); // EGR
 				break;
 			case nmPlenum:
 				// Transporte de especies quimicas.
-				for (int i = 0; i < FNumeroEspecies - 2; i++) {
+				for(int i = 0; i < FNumeroEspecies - 2; i++) {
 					FFraccionMasicaEspecie[i] = FDeposito->GetFraccionMasicaEspecie(i);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[i];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito->GetFraccionMasicaEspecie(
-						FNumeroEspecies - 1); // EGR
+				if(FHayEGR)
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito->GetFraccionMasicaEspecie(FNumeroEspecies - 1); // EGR
 				break;
 
 				// Cuando la entrada sea la atmasfera, la composicion se mantendra siempre constante.
@@ -408,7 +397,7 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, d
 
 		FRegimenCorregido = Mapa->getRegimenCorregido();
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: CondicionCompresor en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: CondicionCompresor en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -419,32 +408,31 @@ void TCompTubDep::CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, d
 // ---------------------------------------------------------------------------
 
 void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor, double AmbientTemperature, int numeroCC,
-	TCondicionContorno **BC, double *AtmosphericComposition) {
+										TCondicionContorno **BC, double *AtmosphericComposition) {
 	try {
 		double Cp = 0.;
 
 		FEntradaCompresor = EntradaCompresor;
-		if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmLeft) {
+		if(BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmLeft) {
 			FAreaSalComp = __geom::Circle_area(BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(0));
 			FExtremoSalida = nmLeft;
 			FNodoFinTuboSalida = 0;
 			FIndiceCC = 0;
-		} else if (BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmRight) {
-			FAreaSalComp = __geom::Circle_area(
-				BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(
-					BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->getNin() - 1));
+		} else if(BC[numeroCC - 1]->GetTuboExtremo(0).TipoExtremo == nmRight) {
+			FAreaSalComp = __geom::Circle_area(BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->GetDiametro(
+												   BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->getNin() - 1));
 			FExtremoSalida = nmRight;
 			FNodoFinTuboSalida = BC[numeroCC - 1]->GetTuboExtremo(0).Pipe->getNin() - 1;
 			FIndiceCC = 1;
 		}
 
-		switch (FEntradaCompresor) {
+		switch(FEntradaCompresor) {
 
 		case nmAtmosphere:
 			FTemperatura10 = __units::degCToK(AmbientTemperature);
 			// Inicializacion del transporte de especies quimicas.
 			FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+			for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				FFraccionMasicaEspecie[i] = AtmosphericComposition[i];
 			}
 			break;
@@ -457,7 +445,7 @@ void TCompTubDep::BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor, doub
 			FDeposito->AsignaCompresor(this, -1); /* Entrada */
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: BusquedaEntradaSalida en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: BusquedaEntradaSalida en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -468,41 +456,41 @@ void TCompTubDep::Initialize() {
 
 	double Cp = 0.;
 
-	switch (FEntradaCompresor) {
+	switch(FEntradaCompresor) {
 	case nmAtmosphere:
-		if (FCalculoEspecies == nmCalculoCompleto) {
+		if(FCalculoEspecies == nmCalculoCompleto) {
 
-			FRAtm = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
-			FCpAtm = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, FTemperatura10, FCalculoGamma, nmMEP);
+			FRAtm = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+										   FCalculoGamma, nmMEP);
+			FCpAtm = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+											 FTemperatura10, FCalculoGamma, nmMEP);
 			FGammaAtm = CalculoCompletoGamma(FRAtm, FCpAtm, FCalculoGamma);
 
-		} else if (FCalculoEspecies == nmCalculoSimple) {
+		} else if(FCalculoEspecies == nmCalculoSimple) {
 
 			FRAtm = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvAtm = CalculoSimpleCvMezcla(FTemperatura10, FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FCalculoGamma, nmMEP);
+			FCvAtm = CalculoSimpleCvMezcla(FTemperatura10, FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma,
+										   nmMEP);
 			FGammaAtm = CalculoSimpleGamma(FRAtm, FCvAtm, FCalculoGamma);
 		}
 
 		break;
 
 	case nmPipe:
-		if (FExtremoTuboRotor == nmLeft) {
+		if(FExtremoTuboRotor == nmLeft) {
 			FNodoFinEntrada = 0;
 			Cp = (FTuboRotor->GetGamma(0) * FTuboRotor->GetRMezcla(0)) / (FTuboRotor->GetGamma(0) - 1);
 		} else {
-			Cp = (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) * FTuboRotor->GetRMezcla(FTuboRotor->getNin() - 1))
-				/ (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) - 1);
+			Cp = (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) * FTuboRotor->GetRMezcla(FTuboRotor->getNin() - 1)) /
+				 (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) - 1);
 			FNodoFinEntrada = FTuboRotor->getNin() - 1;
 		}
-		FTemperatura10 = __units::degCToK(FTuboRotor->getTemperaturaInicial())
-			+ pow(FTuboRotor->getVelocidadMedia(), 2.) / 2. / Cp;
+		FTemperatura10 = __units::degCToK(FTuboRotor->getTemperaturaInicial()) + pow(FTuboRotor->getVelocidadMedia(),
+						 2.) / 2. / Cp;
 
 		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FTuboRotor->GetFraccionMasicaInicial(i);
 		}
 
@@ -512,7 +500,7 @@ void TCompTubDep::Initialize() {
 
 		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FDeposito->GetFraccionMasicaEspecie(i);
 		}
 		break;
@@ -528,7 +516,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature, double Ambien
 		double pentcomp = 0., tentcomp = 0., ventcomp = 0.;
 		double RMezclaEnt = 0., RMezclaSal = 0., GammaEnt = 0., GammaSal = 0., Cp = 0.;
 
-		switch (FEntradaCompresor) {
+		switch(FEntradaCompresor) {
 		case nmAtmosphere:
 			// Calculo de Gamma y R en el compresor. Media de valores a la entrada y la salida.
 			RMezclaSal = BC->GetTuboExtremo(0).Pipe->GetRMezcla(FNodoFinTuboSalida);
@@ -551,7 +539,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature, double Ambien
 
 			RMezclaSal = BC->GetTuboExtremo(0).Pipe->GetRMezcla(FNodoFinTuboSalida);
 			GammaSal = BC->GetTuboExtremo(0).Pipe->GetGamma(FNodoFinTuboSalida);
-			if (GammaSal < 1.3) {
+			if(GammaSal < 1.3) {
 				GammaSal = 1.4;
 			}
 			FGamma = (GammaSal + GammaEnt) / 2.;
@@ -581,7 +569,7 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature, double Ambien
 			FGamma4 = __Gamma::G4(FGamma);
 			FGamma5 = __Gamma::G5(FGamma);
 
-			if (FExtremoTuboRotor == nmLeft) {
+			if(FExtremoTuboRotor == nmLeft) {
 				pentcomp = __units::BarToPa(FTuboRotor->GetPresion(0));
 				ventcomp = FTuboRotor->GetVelocidad(0) * __cons::ARef;
 				tentcomp = pow2(FTuboRotor->GetAsonido(0) * __cons::ARef) / FGamma / FRMezcla;
@@ -590,15 +578,15 @@ void TCompTubDep::DatosEntradaCompresor(double AmbientTemperature, double Ambien
 				pentcomp = __units::BarToPa(FTuboRotor->GetPresion(FTuboRotor->getNin() - 1));
 				ventcomp = FTuboRotor->GetVelocidad(FTuboRotor->getNin() - 1) * __cons::ARef;
 				tentcomp = pow2(FTuboRotor->GetAsonido(FTuboRotor->getNin() - 1) * __cons::ARef) / FGamma / FRMezcla;
-				Cp = (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) * FTuboRotor->GetRMezcla(FTuboRotor->getNin() - 1))
-					/ (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) - 1);
+				Cp = (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) * FTuboRotor->GetRMezcla(FTuboRotor->getNin() - 1)) /
+					 (FTuboRotor->GetGamma(FTuboRotor->getNin() - 1) - 1);
 			}
 			FTemperatura10 = tentcomp + pow2(ventcomp) / 2. / Cp;
 			FPresion10 = pentcomp * pow((FTemperatura10 / tentcomp), (FGamma / FGamma1));
 			break;
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: DatosEntradaCompresor en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: DatosEntradaCompresor en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -614,9 +602,9 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 
 	// FDelay = 0.1;
 
-	if (FDeltaTiempo > 0) {
-		Mass_filt = ((2 * FDelay - FDeltaTiempo) * FMass_filt_ant + FDeltaTiempo * (Mass + FMass_ant))
-			/ (2 * FDelay + FDeltaTiempo);
+	if(FDeltaTiempo > 0) {
+		Mass_filt = ((2 * FDelay - FDeltaTiempo) * FMass_filt_ant + FDeltaTiempo * (Mass + FMass_ant)) /
+					(2 * FDelay + FDeltaTiempo);
 		FMass_filt_ant = Mass_filt;
 		FMass_ant = Mass;
 	}
@@ -640,7 +628,7 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 	// double m2 = FDensidad2 * FVelocidad2 * FAreaSalComp * __cons::ARef;
 	int step = 0;
 
-	while ((delta > 1e-5 || deltaA > 1e-5) && step < 100) {
+	while((delta > 1e-5 || deltaA > 1e-5) && step < 100) {
 
 		U2 = Mass_filt / (FGamma * __units::BarToPa(pow(A2 / AA2, FGamma4)) * FAreaSalComp / pow2(A2) / __cons::ARef);
 
@@ -648,7 +636,7 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 
 		A20 = sqrt(pow2(A2) + FGamma3 * pow2(U2));
 
-		if (U2 <= 0)
+		if(U2 <= 0)
 			AA2 = *FEntro;
 		else
 			AA2 = A20 * AA1 / A10 / sqrt((pow2(A20) - pow2(A10)) / pow2(A10) * FRendimiento + 1);
@@ -660,7 +648,7 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 		AA2Old = AA2;
 		A2Old = A2;
 
-		if (delta > delta0) {
+		if(delta > delta0) {
 			// Mass_filt = (Mass_filt + Mass) / 2;
 			FMass_filt_ant = Mass_filt;
 		}
@@ -679,8 +667,7 @@ double TCompTubDep::NewDampedSolution(double Mass) {
 	FPresion20 = pow(A20 / AA2, FGamma4) * __cons::PRef;
 	FRelacionCompresion = FPresion20 / FPresion10;
 	FDensidad20 = __units::BarToPa(FPresion20) / FRMezcla / FTemperatura20;
-	FDensidad2 = FGamma * __units::BarToPa(pow(FASonidoSalida / FEntropia2, FGamma4))
-		/ pow2(FASonidoSalida * __cons::ARef);
+	FDensidad2 = FGamma * __units::BarToPa(pow(FASonidoSalida / FEntropia2, FGamma4)) / pow2(FASonidoSalida * __cons::ARef);
 
 	printf("%lf %lf %lf\n", Mass_filt, Mass, -FVelocidad2 * __cons::ARef * FDensidad2 * FAreaSalComp);
 

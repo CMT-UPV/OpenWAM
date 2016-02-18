@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TCDFijo::TCDFijo() :
-TTipoValvula(nmCDFijo) {
+	TTipoValvula(nmCDFijo) {
 
 }
 
@@ -48,7 +48,7 @@ TCDFijo::~TCDFijo() {
 //---------------------------------------------------------------------------
 
 TCDFijo::TCDFijo(TCDFijo *Origen, int Valvula) :
-TTipoValvula(nmCDFijo) {
+	TTipoValvula(nmCDFijo) {
 
 	FCDEntrada = Origen->FCDEntrada;
 	FCDSalida = Origen->FCDSalida;
@@ -57,7 +57,7 @@ TTipoValvula(nmCDFijo) {
 	FNumeroOrden = Origen->FNumeroOrden;
 
 //Se utilizara el diametro del tubo
-	if (FActivaDiamRef) {
+	if(FActivaDiamRef) {
 		FDiamRef = FDiametroRef;
 	} else {
 		FDiamRef = -1;
@@ -83,7 +83,7 @@ void TCDFijo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 		FNumeroOrden = norden;
 
 		fscanf(fich, "%lf %lf %d ", &FCDEntrada, &FCDSalida, &tmp);
-		if (tmp == 1) {
+		if(tmp == 1) {
 			FActivaDiamRef = true;
 			fscanf(fich, "%lf ", &FDiametroRef);
 		}
@@ -91,7 +91,7 @@ void TCDFijo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales CDFijo" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -104,14 +104,14 @@ void TCDFijo::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden
 
 void TCDFijo::CalculaCD() {
 	try {
-		if (FActivaDiamRef) {
+		if(FActivaDiamRef) {
 			FCDTubVol = FCDEntrada * FSectionRatio;
 			FCDVolTub = FCDSalida * FSectionRatio;
 		} else {
 			FCDTubVol = FCDEntrada;
 			FCDVolTub = FCDSalida;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCDFijo::CalculaCD " << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());

@@ -43,7 +43,7 @@
 //---------------------------------------------------------------------------
 
 class TLumbrera: public TTipoValvula {
-private:
+  private:
 
 //DATOS INICIALES
 	double FAltura;
@@ -71,7 +71,7 @@ private:
 
 	void CalculateOpeningANDClose();
 
-public:
+  public:
 
 	double getAnguloApertura() {
 		return FAnguloApertura;

@@ -31,7 +31,7 @@
 #include "TDepVolCteBase.h"
 
 class TUnionDireccional: public TDepVolCteBase {
-private:
+  private:
 
 // Variable privadas
 
@@ -49,16 +49,16 @@ private:
 	double *FCoefA;
 	double *FCoefB;
 
-protected:
+  protected:
 
-public:
+  public:
 
 	//---------------------------------------------------------------------------
 	// FUNCIONES PUBLICAS
 	//---------------------------------------------------------------------------
 
 	TUnionDireccional(int i, int NUnionDireccional, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+					  nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TUnionDireccional();
 

@@ -35,7 +35,7 @@
 // ---------------------------------------------------------------------------
 
 class TCCExtremoInyeccion: public TCondicionContorno {
-private:
+  private:
 
 	int FNodoFin; // Nodo en el extremo del tubo que esta en la condicion de contorno.
 	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
@@ -63,7 +63,7 @@ private:
 
 	// void PutDuracionIny(double valor);
 
-public:
+  public:
 
 	void PutIniIny(double valor) {
 		FInicioIny = valor;
@@ -76,7 +76,7 @@ public:
 	;
 
 	TCCExtremoInyeccion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+						nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExtremoInyeccion();
 

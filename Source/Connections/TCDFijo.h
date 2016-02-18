@@ -41,7 +41,7 @@
 //---------------------------------------------------------------------------
 
 class TCDFijo: public TTipoValvula {
-private:
+  private:
 
 	double FCDEntrada;
 	double FCDSalida;
@@ -49,7 +49,7 @@ private:
 	double FDiametroRef;
 	int FValvula;
 
-public:
+  public:
 
 	TCDFijo(TCDFijo *Origen, int valv);
 

@@ -44,7 +44,7 @@ class TCilindro;
  * @brief Foo
  */
 class TCCCilindro: public TCondicionContorno {
-private:
+  private:
 
 	TTipoValvula *FValvula;
 	TCilindro *FCilindro;
@@ -108,7 +108,7 @@ private:
 	//
 	// void FSSupercritico(double vel_supuesta,double *a2_1,double *a2_2);
 
-public:
+  public:
 
 	/**
 	 * @brief Naniano
@@ -181,7 +181,7 @@ public:
 	;
 
 	TCCCilindro(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+				nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCCilindro();
 

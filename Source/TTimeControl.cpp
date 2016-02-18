@@ -50,8 +50,8 @@ extern "C" {
 	inline unsigned long long RDTSC(void) {
 		unsigned int a = 0, d = 0;
 		asm volatile(
-		"xorl %%eax, %%eax \n        cpuid"
-		::: "%rax", "%rbx", "%rcx", "%rdx");
+			"xorl %%eax, %%eax \n        cpuid"
+			::: "%rax", "%rbx", "%rcx", "%rdx");
 		asm volatile("rdtsc" : "=a"(a), "=d"(d));
 		return (unsigned long long) d << 32 | a;
 	}
@@ -92,7 +92,7 @@ void TTimeControl::Fin() {
 	k = RDTSC();
 
 	Final = k;
-	TiempoTotal += (double) (Final - Inicio) / Procesador;
+	TiempoTotal += (double)(Final - Inicio) / Procesador;
 	Pasos++;
 }
 

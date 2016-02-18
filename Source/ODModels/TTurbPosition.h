@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 
 class TTurbPosition {
-private:
+  private:
 
 	double FPosition;
 	double FAngle;
@@ -58,7 +58,7 @@ private:
 	std::vector<double> h_FERMin;
 	std::vector<double> FSpeed;
 
-public:
+  public:
 
 	TTurbPosition();
 	~TTurbPosition();

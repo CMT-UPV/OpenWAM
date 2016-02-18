@@ -61,11 +61,11 @@ void TCGestorWAM::Init() {
 
 	long num_pasadas = 0;
 
-	while (num_pasadas <= 500000) {
+	while(num_pasadas <= 500000) {
 		hPipe = CreateFile(lpszPipeName.c_str(), GENERIC_WRITE, 0, NULL,
-		OPEN_EXISTING, 0, NULL);
+						   OPEN_EXISTING, 0, NULL);
 
-		if (hPipe != INVALID_HANDLE_VALUE)
+		if(hPipe != INVALID_HANDLE_VALUE)
 			break;
 
 		num_pasadas++;
@@ -73,15 +73,15 @@ void TCGestorWAM::Init() {
 
 	//Si se ha llegado al final y no se ha conectado no
 	//hacer nada mas
-	if (num_pasadas <= 500000) {
-		if (GetLastError() != 0)
+	if(num_pasadas <= 500000) {
+		if(GetLastError() != 0)
 			throw "Error al abrir tuberia";
 
 		dwMode = PIPE_READMODE_MESSAGE;
 
 		fSuccess = SetNamedPipeHandleState(hPipe, &dwMode, NULL, NULL);
 
-		if (!fSuccess)
+		if(!fSuccess)
 			throw "No se puede cambiar de modo la tuberia";
 	} else {
 		//Coloco hPipe en NULL para no hacer nada al enviar datos
@@ -105,12 +105,12 @@ void TCGestorWAM::Enviar(char *msg) {
 	BOOL fSuccess;
 	LPTSTR mensaje;
 
-	if (hPipe != NULL) {
+	if(hPipe != NULL) {
 		mensaje = TEXT(msg);
 
 		fSuccess = WriteFile(hPipe, mensaje, (strlen(mensaje) + 1) * sizeof(TCHAR), &cbWritten, NULL);
 
-		if (!fSuccess)
+		if(!fSuccess)
 			throw "No se puede escribir en tuberia";
 	}
 
@@ -120,10 +120,10 @@ void TCGestorWAM::Enviar(float valor) {
 	DWORD cbWritten;
 	BOOL fSuccess;
 
-	if (hPipe != NULL) {
+	if(hPipe != NULL) {
 		fSuccess = WriteFile(hPipe, &valor, sizeof(float), &cbWritten, NULL);
 
-		if (!fSuccess)
+		if(!fSuccess)
 			throw "No se puede escribir en tuberia";
 	}
 }
@@ -134,7 +134,7 @@ void TCGestorWAM::EsperarRespuesta() {
 	TCHAR chBuf[BUFSIZE];
 
 	fSuccess = ReadFile(hPipeResp, chBuf, BUFSIZE * sizeof(TCHAR), &cbRead,
-	NULL);
+						NULL);
 }
 
 void TCGestorWAM::NuevoMensaje(char *msg) {

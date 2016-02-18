@@ -39,10 +39,10 @@ TRegimenMotor::TRegimenMotor() {
 //---------------------------------------------------------------------------
 
 TRegimenMotor::~TRegimenMotor() {
-	if (FTiempo != NULL)
+	if(FTiempo != NULL)
 		delete[] FTiempo;
 
-	if (FRegimen != NULL)
+	if(FRegimen != NULL)
 		delete[] FRegimen;
 }
 
@@ -55,7 +55,7 @@ void TRegimenMotor::LeeDatosEntrada(char *Ruta, FILE *fich) {
 
 	try {
 
-		for (int i = 0; i <= (int) strlen(Ruta); i++) {
+		for(int i = 0; i <= (int) strlen(Ruta); i++) {
 			DatosRegimen[i] = Ruta[i];
 		}
 
@@ -63,13 +63,13 @@ void TRegimenMotor::LeeDatosEntrada(char *Ruta, FILE *fich) {
 		strcat(DatosRegimen, FileRegimen);
 
 		FichRegimen = fopen(DatosRegimen, "r");
-		if ((FichRegimen = fopen(DatosRegimen, "r")) == NULL) {
+		if((FichRegimen = fopen(DatosRegimen, "r")) == NULL) {
 			std::cout << "ERROR: Fichero de regimen de giro no cargado";
 		} else {
 			FNumeroDatos = 0;
 			double temp1 = 0.;
 			double temp2 = 0.;
-			while (!feof(FichRegimen)) {
+			while(!feof(FichRegimen)) {
 				fscanf(FichRegimen, "%lf %lf ", &temp1, &temp2);
 				FNumeroDatos++;
 			}
@@ -78,14 +78,14 @@ void TRegimenMotor::LeeDatosEntrada(char *Ruta, FILE *fich) {
 			FRegimen = new double[FNumeroDatos];
 			FichRegimen = fopen(DatosRegimen, "r");
 			int i = 0;
-			while (!feof(FichRegimen)) {
+			while(!feof(FichRegimen)) {
 				fscanf(FichRegimen, "%lf %lf ", &FTiempo[i], &FRegimen[i]);
 				i++;
 			}
 			fclose(FichRegimen);
 
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosEntrada de RegimenMotor (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -101,10 +101,10 @@ void TRegimenMotor::CalculaRegimen(double TiempoActual) {
 
 		int j = 0, jmax = FNumeroDatos - 1;
 		double RegimenAct = 0., deltaT = 0., t = 0.;
-		while (TiempoActual > FTiempo[j] && j < jmax) {
+		while(TiempoActual > FTiempo[j] && j < jmax) {
 			j++;
 		}
-		if (j == jmax) {
+		if(j == jmax) {
 			RegimenAct = FRegimen[jmax];
 		} else {
 			deltaT = FTiempo[j] - FTiempo[j - 1];
@@ -114,7 +114,7 @@ void TRegimenMotor::CalculaRegimen(double TiempoActual) {
 
 		FRegimenMotor = RegimenAct;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: Calculo del Regimen del Engine(DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -129,7 +129,7 @@ double TRegimenMotor::xit_(double vizq, double vder, double axid, double xif) {
 		double ret_val = 0.;
 
 		xx = vder - vizq;
-		if (axid != 0.) {
+		if(axid != 0.) {
 			yy = xx / axid * xif;
 			ret_val = vizq + yy;
 		} else {
@@ -137,7 +137,7 @@ double TRegimenMotor::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

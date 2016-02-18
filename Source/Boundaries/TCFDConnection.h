@@ -8,7 +8,7 @@
 #include <ctime>
 
 class TCFDConnection: public TCondicionContorno {
-private:
+  private:
 
 	int FNodoFin; //<! Node of the pipe connected to the boundary.
 	int FIndiceCC; //<! Vector position for the pipe boundaries (0 Left node; 1 Right node)
@@ -30,11 +30,11 @@ private:
 
 	bool FExistFile;
 
-protected:
+  protected:
 
-public:
+  public:
 	TCFDConnection(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+				   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCFDConnection();
 

@@ -65,39 +65,11 @@ class TControlInyeccion;
 class TControlK;
 
 enum nmTipoSenTubo {
-	nmPrTubo = 0,
-	nmVelTubo = 1,
-	nmTempTubo = 2,
-	nmGastoTubo = 3,
-	nmN2Tubo = 4,
-	nmO2Tubo = 5,
-	nmCO2Tubo = 6,
-	nmH2OTubo = 7,
-	nmHCTubo = 8,
-	nmSootTubo = 9,
-	nmNOxTubo = 10,
-	nmCOTubo = 11,
-	nmAireFrTubo = 12,
-	nmGasQuemadoTubo = 13,
-	nmEGRTubo = 14,
-	nmCombustibleTubo = 15
+	nmPrTubo = 0, nmVelTubo = 1, nmTempTubo = 2, nmGastoTubo = 3, nmN2Tubo = 4, nmO2Tubo = 5, nmCO2Tubo = 6, nmH2OTubo = 7, nmHCTubo = 8, nmSootTubo = 9, nmNOxTubo = 10, nmCOTubo = 11, nmAireFrTubo = 12, nmGasQuemadoTubo = 13, nmEGRTubo = 14, nmCombustibleTubo = 15
 };
 
 enum nmTipoSenDep {
-	nmPrDep = 0,
-	nmTempDep = 1,
-	nmN2Dep = 2,
-	nmO2Dep = 3,
-	nmCO2Dep = 4,
-	nmH2ODep = 5,
-	nmHCDep = 6,
-	nmSootDep = 7,
-	nmNOxDep = 8,
-	nmCODep = 9,
-	nmAireFrDep = 10,
-	nmGasQuemadoDep = 11,
-	nmEGRDep = 12,
-	nmCombustibleDep = 13
+	nmPrDep = 0, nmTempDep = 1, nmN2Dep = 2, nmO2Dep = 3, nmCO2Dep = 4, nmH2ODep = 5, nmHCDep = 6, nmSootDep = 7, nmNOxDep = 8, nmCODep = 9, nmAireFrDep = 10, nmGasQuemadoDep = 11, nmEGRDep = 12, nmCombustibleDep = 13
 };
 
 enum nmTipoSenTG {
@@ -216,7 +188,7 @@ struct stSensorUED {
 };
 
 class TCalculoExtern {
-private:
+  private:
 	// Variables
 	int FNumeroInMat; 		// Numero de entradas a matlab
 	int FNumeroOutMat; 		// Numero de salidas de matlab
@@ -245,17 +217,20 @@ private:
 	Tfql *Ffql; // Objeto para el calculo de las Leyes de Liberacion de Calor.
 	TRemansoMatlab **FRemansoMatlab; // Objeto para el calculo de la presion y temperatura en un deposito de remanso.
 	TCoefDescarga **FCoefDescarga; // Objeto para el calculo del coeficiente de descarga de una union a deposito/cilindro
-	TAjusteTransCalorCil *FAjusteTransCalorCil; // Objeto para el calculo de los coeficientes de ajuste de transmision de calor en admision y escape
+	TAjusteTransCalorCil
+	*FAjusteTransCalorCil; // Objeto para el calculo de los coeficientes de ajuste de transmision de calor en admision y escape
 	TFraccionMasicaCilindro *FFraccionMasicaCilindro; // Objeto para imponer la fraccion masica a la apertura del cilindro.
-	TControlInyeccion *FControlInyeccion; // Objeto para determinar el numero de inyecciones, la presion de inyeccion y la duracion y masa inyectada en cada inyeccion.
+	TControlInyeccion
+	*FControlInyeccion; // Objeto para determinar el numero de inyecciones, la presion de inyeccion y la duracion y masa inyectada en cada inyeccion.
 	TControlK **FControlK; // Objeto para calcular la variacion de K con el Re en cada CC de Perdida de Presion
 	char *FRutaTrabajo;
 
 	// Indice que indica la posicion de cada especie en el vector de fraccion masica.
 	int FIndiceTuboN2, FIndiceTuboO2, FIndiceTuboCO2, FIndiceTuboH2O, FIndiceTuboHC, FIndiceTuboSoot, FIndiceTuboNOx,
-	FIndiceTuboCO, FIndiceTuboAireFresco, FIndiceTuboGasQuemado, FIndiceTuboEGR, FIndiceTuboComb;
-	int FIndiceDepN2, FIndiceDepO2, FIndiceDepCO2, FIndiceDepH2O, FIndiceDepHC, FIndiceDepSoot, FIndiceDepNOx,
-	FIndiceDepCO, FIndiceDepAireFresco, FIndiceDepGasQuemado, FIndiceDepEGR, FIndiceDepComb;
+		FIndiceTuboCO, FIndiceTuboAireFresco, FIndiceTuboGasQuemado, FIndiceTuboEGR,
+		FIndiceTuboComb;
+	int FIndiceDepN2, FIndiceDepO2, FIndiceDepCO2, FIndiceDepH2O, FIndiceDepHC, FIndiceDepSoot, FIndiceDepNOx, FIndiceDepCO,
+		FIndiceDepAireFresco, FIndiceDepGasQuemado, FIndiceDepEGR, FIndiceDepComb;
 
 	bool Fhayecu, Fcontroliny, Fcontrolmfcomb, Fmodcomb, Fajustbaraba, FFraccionMasicaEspeciesCil;
 	bool FCalculoK;
@@ -320,7 +295,7 @@ private:
 
 	TControlFuel* GetFuel();
 
-public:
+  public:
 	// ---------------------------------------------------------------------------
 	// Recuerda que aqui se encuentran las llamadas entre wam y la dll, siempre
 	// que cambies algo aqui deberas recompilar el wam y modificar las llamadas
@@ -391,14 +366,14 @@ public:
 	// int ncilin,int nunmat,int CountVGT);
 
 	void LeeFicherosDLL(const char *FileWAM, fpos_t &filepos, int controlvalv, int nematlab, int ncilin, int nunmat,
-		int CountVGT, int numespecies, int NumeroPerdidasPresion);
+						int CountVGT, int numespecies, int NumeroPerdidasPresion);
 
 	// Funciones para la lectura de sensores
 	void Lee_Sens_Tubos(const char *FileWAM, fpos_t &filepos, TTubo **Pipe, nmTipoCalculoEspecies SpeciesModel,
-		bool ThereIsEGR, bool HayCombustible);
+						bool ThereIsEGR, bool HayCombustible);
 
 	void Lee_Sens_Dep(const char *FileWAM, fpos_t &filepos, TDeposito **Plenum, nmTipoCalculoEspecies SpeciesModel,
-		bool ThereIsEGR, bool HayCombustible);
+					  bool ThereIsEGR, bool HayCombustible);
 
 	void Lee_Sens_TG(const char *FileWAM, fpos_t &filepos, TEjeTurbogrupo **Axis);
 

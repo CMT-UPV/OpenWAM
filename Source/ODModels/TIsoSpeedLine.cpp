@@ -50,7 +50,7 @@ TIsoSpeedLine::~TIsoSpeedLine() {
 void TIsoSpeedLine::ReadIsoSpeed(int points, FILE *Input) {
 	double ER = 0., MF = 0., EF = 0.;
 	FNumDatos = points;
-	for (int i = 0; i < points; i++) {
+	for(int i = 0; i < points; i++) {
 		fscanf(Input, "%lf %lf %lf", &MF, &ER, &EF);
 		FReducedAirMassFlow.push_back(MF);
 		FExpansionRatio.push_back(ER);
@@ -65,36 +65,34 @@ void TIsoSpeedLine::AsignaValores(double ER, double MF, double EF) {
 }
 
 void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle, double Diam1, double Diam2,
-	double Diam3, double n_limit) {
+									 double Diam3, double n_limit) {
 	double tmp1 = 0., tmp2 = 0.;
 	double FGamma = 1.40, FR = 287;
 	double T00_T0, P00_P0, P2_P0, T2_T0, f_P2_P0, GR, nN, n, P2_P00, T2_T00, T1_T0, gG, g, kK, k, P1_P0, P00_P1, P1_P2,
-	raiZ;
+		   raiZ;
 
 	FNumDatos = FReducedAirMassFlow.size();
 
-	for (int i = 0; i < FNumDatos; i++) {
+	for(int i = 0; i < FNumDatos; i++) {
 
 		tmp1 = 1;
 		tmp2 = 1;
 		do {
 			tmp1 = tmp2;
-			tmp2 = 1
-				+ ((FGamma - 1) / 2) * (FR / FGamma) * (pow2(FReducedAirMassFlow[i] / 1000000) / pow2(Area))
-					* pow((tmp1), ((FGamma + 1) / (FGamma - 1)));
-		} while (fabs(tmp1 - tmp2) / tmp1 > 1e-12);
+			tmp2 = 1 + ((FGamma - 1) / 2) * (FR / FGamma) * (pow2(FReducedAirMassFlow[i] / 1000000) / pow2(Area)) * pow((tmp1),
+					((FGamma + 1) / (FGamma - 1)));
+		} while(fabs(tmp1 - tmp2) / tmp1 > 1e-12);
 		T00_T0 = tmp2;
 		P00_P0 = pow(T00_T0, FGamma / (FGamma - 1));
 		P2_P0 = (1 / FExpansionRatio[i]) * pow(T00_T0, (FGamma / (FGamma - 1)));
 		T2_T0 = 1 - (FEfficiency[i]) * (1 - pow((1 / FExpansionRatio[i]), ((FGamma - 1) / FGamma))) * T00_T0;
-		f_P2_P0 = FExpansionRatio[i]
-			* (1 / T00_T0 - FEfficiency[i] * (1 - pow((1 / FExpansionRatio[i]), ((FGamma - 1) / FGamma))));
-		if (CalculaGR) {
-			GR = 1
-				- (((2 * FR * tan(__units::DegToRad(Angle))) / (Diam1 * pow2(Diam2) * pow2(__cons::Pi)))
-					* ((FReducedAirMassFlow[i] / 1000000) / FSpeed) * f_P2_P0);
+		f_P2_P0 = FExpansionRatio[i] * (1 / T00_T0 - FEfficiency[i] * (1 - pow((1 / FExpansionRatio[i]),
+										((FGamma - 1) / FGamma))));
+		if(CalculaGR) {
+			GR = 1 - (((2 * FR * tan(__units::DegToRad(Angle))) / (Diam1 * pow2(Diam2) * pow2(__cons::Pi))) * ((
+						  FReducedAirMassFlow[i] / 1000000) / FSpeed) * f_P2_P0);
 			// new code --> if the reaction degree is lower than 0.4 then force it to 0.4 value instead of calculating lower values or even negative values
-			if (GR < 0.5) {
+			if(GR < 0.5) {
 				GR = 0.5;
 			}
 		} else {
@@ -105,9 +103,9 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle, 
 		P2_P00 = P2_P0 / P00_P0;
 		T2_T00 = T2_T0 / T00_T0;
 		T1_T0 = 1 + T00_T0 * (GR - 1) * FEfficiency[i] * (1 - pow(P2_P00, (FGamma - 1) / FGamma));
-		if (n > n_limit) {
-			gG = ((FGamma / (FGamma - 1)) - nN * (log(T2_T00) + log(T00_T0)) / log(T1_T0))
-				/ (1 - (log(T2_T00) + log(T00_T0)) / log(T1_T0));
+		if(n > n_limit) {
+			gG = ((FGamma / (FGamma - 1)) - nN * (log(T2_T00) + log(T00_T0)) / log(T1_T0)) / (1 - (log(T2_T00) + log(T00_T0)) / log(
+						T1_T0));
 			g = (n / (n - n_limit) + (gG / (gG - 1)) / (FGamma - n)) / (1 / (n - n_limit) + 1 / (FGamma - n));
 		} else {
 			gG = 0.;
@@ -119,16 +117,16 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle, 
 		P00_P1 = P00_P0 / P1_P0;
 		P1_P2 = P1_P0 / P2_P0;
 		raiZ = (2 / (FGamma - 1)) * (1 - pow(1 / P00_P1, ((FGamma - 1) / FGamma)));
-		if (raiZ < 0)
+		if(raiZ < 0)
 			raiZ = 0;
 		else
 			raiZ = sqrt(raiZ);
 		// raiZ = sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P00_P1 , ((FGamma - 1) / FGamma))));
-		StatorEffectiveSection.push_back(
-			FReducedAirMassFlow[i] * 1e-6 * pow(P00_P1, (1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ);
+		StatorEffectiveSection.push_back(FReducedAirMassFlow[i] * 1e-6 * pow(P00_P1,
+										 (1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ);
 		// raiZ = sqrt((2 / (FGamma - 1)) * (1 - pow(1 / P1_P2 , ((FGamma - 1) / FGamma))));
 		raiZ = (2 / (FGamma - 1)) * (1 - pow(1 / P1_P2, ((FGamma - 1) / FGamma)));
-		if (raiZ < 0)
+		if(raiZ < 0)
 			raiZ = 0;
 		else
 			raiZ = sqrt(raiZ);
@@ -136,8 +134,8 @@ void TIsoSpeedLine::EffectiveSection(double Area, bool CalculaGR, double Angle, 
 //			(FReducedAirMassFlow[i] * 1e-6 * P00_P1 * pow(P1_P2,
 //				(1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ * sqrt
 //			((1 / T1_T0) - (T00_T0 / T1_T0) + (T2_T00 * T1_T0 / T00_T0)));
-		RotorEffectiveSection.push_back(
-			FReducedAirMassFlow[i] * 1e-6 * P00_P1 * pow(P1_P2, (1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ);
+		RotorEffectiveSection.push_back(FReducedAirMassFlow[i] * 1e-6 * P00_P1 * pow(P1_P2,
+										(1 / FGamma)) * (sqrt(FR / FGamma)) / raiZ);
 	}
 }
 
@@ -147,10 +145,9 @@ void TIsoSpeedLine::CalculatePower(double Tin) {
 	double R = 287;
 	double gamma = Cp / (Cp - R);
 	double gam = (1 - gamma) / gamma;
-	for (int i = 0; i < FNumDatos; i++) {
-		FPower.push_back(
-			FReducedAirMassFlow[i] * Cp * FEfficiency[i] * sqrt(Tin) * FExpansionRatio[i] / 10
-				* (1 - pow(FExpansionRatio[i], gam)));
+	for(int i = 0; i < FNumDatos; i++) {
+		FPower.push_back(FReducedAirMassFlow[i] * Cp * FEfficiency[i] * sqrt(Tin) * FExpansionRatio[i] / 10 * (1 - pow(
+							 FExpansionRatio[i], gam)));
 		// printf("%4.2lf\t", FPower[i]);
 	}
 	FPowerMin = FPower.front();
@@ -166,7 +163,7 @@ void TIsoSpeedLine::Adimensionaliza() {
 	double DeltaPreMax = FExpansionRatio.back() - FExpansionRatio.front();
 	double m = 0., Rtc = 0.;
 
-	for (int i = 0; i < FNumDatos; ++i) {
+	for(int i = 0; i < FNumDatos; ++i) {
 		FExpansionRatioAdim.push_back((FExpansionRatio[i] - FExpansionRatio.front()) / DeltaPreMax);
 
 	}
@@ -190,10 +187,10 @@ void TIsoSpeedLine::GetAdiabaticEfficiency(TTC_HTM *HTM, double TinT, double Tin
 		m = FReducedAirMassFlow[i] / sqrt(TinT) * FExpansionRatio[i] / 10;
 		Rtc = FSpeed * 60 * sqrt(TinT);
 		FEfficiency[i] = HTM->CorrectTurbineMap(m, FExpansionRatio[i],
-		FEfficiency[i], TinC, TinT, Rtc);
+												FEfficiency[i], TinC, TinT, Rtc);
 	}
 	if(iEfficiency != NULL)
-	delete iEfficiency;
+		delete iEfficiency;
 	iEfficiency = new Hermite_interp(FExpansionRatioAdim, FEfficiency);
 #endif
 }
@@ -217,9 +214,10 @@ double TIsoSpeedLine::Efficiency(double ERAdim) {
 }
 
 void TIsoSpeedLine::PrintEffectiveSection(FILE * fich) {
-	for (dVector::size_type i = 0; i < FExpansionRatio.size(); i++) {
-		fprintf(fich, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n", FSpeed, FExpansionRatio[i], FReducedAirMassFlow[i],
-			FEfficiency[i], FExpansionRatioAdim[i], StatorEffectiveSection[i], RotorEffectiveSection[i]);
+	for(dVector::size_type i = 0; i < FExpansionRatio.size(); i++) {
+		fprintf(fich, "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n", FSpeed, FExpansionRatio[i], FReducedAirMassFlow[i], FEfficiency[i],
+				FExpansionRatioAdim[i], StatorEffectiveSection[i],
+				RotorEffectiveSection[i]);
 	}
 }
 

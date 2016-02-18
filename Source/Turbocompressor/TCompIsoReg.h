@@ -34,7 +34,7 @@
 #include "Globales.h"
 
 class TCompIsoReg {
-private:
+  private:
 
 	double fRegimen;
 
@@ -52,7 +52,7 @@ private:
 	Base_interp *CurvaEf;
 	Base_interp *CurvaPol;
 
-public:
+  public:
 	TCompIsoReg(double Reg, dVector Mass, dVector RC, dVector Eff);
 	~TCompIsoReg();
 

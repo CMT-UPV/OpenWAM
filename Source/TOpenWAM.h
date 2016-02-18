@@ -146,7 +146,7 @@
 #endif
 
 class TOpenWAM {
-private:
+  private:
 
 #ifdef gestorcom
 
@@ -166,7 +166,6 @@ private:
 	FILE *fc; // !< Pointers to input and output files.
 
 	//char fileinput[8];
-
 
 	TBloqueMotor** Engine;
 	TCompresor** Compressor;
@@ -390,7 +389,7 @@ private:
 	void CalculateNewHeatPositions();
 
 	void CalculateDistance(int NodoOrigen, int NodoFin, double Longitud, int NumberOfPlenums, int NumberOfPipes,
-		int NumberOfConnections, TTubo **Pipe, TCondicionContorno **BC);
+						   int NumberOfConnections, TTubo **Pipe, TCondicionContorno **BC);
 
 	int SelectPipe(TTubo **Pipe, int NumberOfPipes, int nodo1, int nodo2);
 
@@ -428,7 +427,7 @@ private:
 
 	void Actuadores();
 
-public:
+  public:
 
 	TOpenWAM();
 

@@ -66,7 +66,7 @@ void TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro() {
 
 // Recuerda que es la suma de fraccion masica total debe ser igual a la unidad.
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TFraccionMasicaCilindro::CalculaFraccionMasicaCilindro " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

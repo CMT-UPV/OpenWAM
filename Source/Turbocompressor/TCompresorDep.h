@@ -35,7 +35,7 @@
 class TDeposito;
 
 class TCompresorDep: public TCompresor {
-private:
+  private:
 
 	TDeposito *FDepositoRot;
 	TDeposito *FDepositoEst;
@@ -52,7 +52,7 @@ private:
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-public:
+  public:
 //---------------------------------------------------------------------------
 //          VARIABLES PUBLICAS
 //---------------------------------------------------------------------------
@@ -72,7 +72,7 @@ public:
 //---------------------------------------------------------------------------
 
 	TCompresorDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+				  bool ThereIsEGR);
 
 	~TCompresorDep();
 

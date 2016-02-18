@@ -42,7 +42,7 @@
 //---------------------------------------------------------------------------
 
 class TControlK {
-private:
+  private:
 
 // Variables
 	FILE *FichK_Re;
@@ -54,7 +54,7 @@ private:
 	double FDiametro;
 	double FRe;
 
-public:
+  public:
 	TControlK();
 
 	~TControlK();

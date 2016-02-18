@@ -48,7 +48,7 @@ enum nmTipoLamina {
 };
 
 class TLamina: public TTipoValvula {
-private:
+  private:
 //CONSTANTES INICIALES
 	nmTipoLamina FTipoLamina;
 	int FSentidoLamina;
@@ -103,7 +103,7 @@ private:
 	bool FGraficasLam;
 	bool FGrafLev;
 
-public:
+  public:
 
 	TLamina(TLamina *Origen, int valv);
 

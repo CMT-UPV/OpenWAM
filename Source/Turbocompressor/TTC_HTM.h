@@ -69,43 +69,7 @@ enum nmSide {
 };
 
 enum nmRePrmu {
-	nmReMassTur = 0,
-	nmReMassCom = 1,
-	nmReMassOil = 2,
-	nmReShaft = 3,
-	nmPrTur = 4,
-	nmPrCom = 5,
-	nmPrOil = 6,
-	nmmuG_T = 7,
-	nmmuA_T = 8,
-	nmmuO_T = 10,
-	nmmuW_T = 11,
-	nmmuG_H1 = 12,
-	nmmuA_H1 = 13,
-	nmmuO_H1 = 15,
-	nmmuW_H1 = 16,
-	nmmuG_H2 = 17,
-	nmmuA_H2 = 18,
-	nmmuO_H2 = 19,
-	nmmuW_H2 = 20,
-	nmmuG_H3 = 21,
-	nmmuA_H3 = 22,
-	nmmuO_H3 = 23,
-	nmmuW_H3 = 24,
-	nmmuG_C = 25,
-	nmmuA_C = 26,
-	nmmuO_C = 27,
-	nmmuW_C = 28,
-	nmReWater = 29,
-	nmPrWater = 30,
-	nmReMassComIn = 31,
-	nmPrComIn = 32,
-	nmReOilH1 = 33,
-	nmReOilH2 = 34,
-	nmReOilH3 = 35,
-	nmPrOilH1 = 36,
-	nmPrOilH2 = 37,
-	nmPrOilH3 = 38
+	nmReMassTur = 0, nmReMassCom = 1, nmReMassOil = 2, nmReShaft = 3, nmPrTur = 4, nmPrCom = 5, nmPrOil = 6, nmmuG_T = 7, nmmuA_T = 8, nmmuO_T = 10, nmmuW_T = 11, nmmuG_H1 = 12, nmmuA_H1 = 13, nmmuO_H1 = 15, nmmuW_H1 = 16, nmmuG_H2 = 17, nmmuA_H2 = 18, nmmuO_H2 = 19, nmmuW_H2 = 20, nmmuG_H3 = 21, nmmuA_H3 = 22, nmmuO_H3 = 23, nmmuW_H3 = 24, nmmuG_C = 25, nmmuA_C = 26, nmmuO_C = 27, nmmuW_C = 28, nmReWater = 29, nmPrWater = 30, nmReMassComIn = 31, nmPrComIn = 32, nmReOilH1 = 33, nmReOilH2 = 34, nmReOilH3 = 35, nmPrOilH1 = 36, nmPrOilH2 = 37, nmPrOilH3 = 38
 
 };
 
@@ -204,7 +168,7 @@ struct stTurbomachinery {
 			error = funP_toStatic(P0, OT_K, T0) - OP;
 			OP = OP + error;
 			iter++;
-		} while (iter < 100 && fabs(error) < 0.001);
+		} while(iter < 100 && fabs(error) < 0.001);
 		return OT_K;
 	}
 	;
@@ -270,7 +234,7 @@ struct stConvCorrelation {
 
 	double Value(dVector Re_Pr_mu) {
 		double val = Coef[0];
-		for (unsigned int i = 1; i < Coef.size(); i++) {
+		for(unsigned int i = 1; i < Coef.size(); i++) {
 			val *= pow(Re_Pr_mu[Ind[i - 1]], Coef[i]);
 		}
 		return val;
@@ -341,7 +305,7 @@ struct stCompressorPower {
 };
 
 class TTC_HTM {
-private:
+  private:
 
 	stTurbomachinery FC;
 	stTurbomachinery FT;
@@ -432,29 +396,28 @@ private:
 
 	double Oil_Heat_Flow();
 
-public:
+  public:
 	TTC_HTM(stHTMoil *Oil);
 
 	~TTC_HTM();
 
 	void InputData(double T_AF, double T_Humidity, double T_MassFlow, double T_IT_C, double T_IP, double T_PR,
-		double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow, double O_IT_C,
-		double O_IP, double RTC);
+				   double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow, double O_IT_C,
+				   double O_IP, double RTC);
 
 	void TurbochargerData(double DShaft, double HD, double Doil, double DWater);
 
 	void TurbochargerWorkingPoint(double RTC, double MechEff, double O_MassFlow, double O_IT, double O_IP, double W_IT,
-		double W_MassFlow);
+								  double W_MassFlow);
 
 	void CompressorData(double PREF, double TREF, double TMAP_K, double Din);
 
-	void CompressorWorkingPoint(double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR,
-		double EFF);
+	void CompressorWorkingPoint(double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double EFF);
 
 	void TurbineData(double PREF, double TREF, double TMAP_K, double Din);
 
 	void TurbineWorkingPoint(double T_AF, double T_Humidity, double T_MassFlow, double T_IT_C, double T_IP, double T_PR,
-		double EFF);
+							 double EFF);
 
 	void BuildMatrix();
 
@@ -463,10 +426,10 @@ public:
 	void BuildKCMatrix(double dt);
 
 	void SolveNodeTemperatures(double TET, double TSC, double TEC, double TOIL, double MassOil, double MechLosses,
-		double TW, double TAMB);
+							   double TW, double TAMB);
 
-	void SolveNodeTemperaturesTransient(double TET, double TSC, double TEC, double TOIL, double MassOil,
-		double MechLosses, double TW, double TAMB, double time);
+	void SolveNodeTemperaturesTransient(double TET, double TSC, double TEC, double TOIL, double MassOil, double MechLosses,
+										double TW, double TAMB, double time);
 
 	void SolveHeatFlowMatix();
 

@@ -41,7 +41,7 @@
 // ---------------------------------------------------------------------------
 
 class TCCDescargaExtremoAbierto: public TCondicionContorno {
-private:
+  private:
 
 	int FNodoFin; // Nodo del extremo del tubo que conecta con la condicion de contorno.
 	int FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
@@ -62,7 +62,7 @@ private:
 	// void PutPresion(double valor);
 	// void PutTemperatura(double valor);
 
-public:
+  public:
 
 	void PutComposicion(int i, double valor) {
 		FFraccionMasicaEspecie[i] = valor;
@@ -79,15 +79,14 @@ public:
 			double RMezclaDep, CvMezclaDep, CpMezclaDep, GammaDep;
 
 			FTemperaturaDep = valor;
-			if (FCalculoEspecies == nmCalculoCompleto) {
+			if(FCalculoEspecies == nmCalculoCompleto) {
 
-				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2], 0, FCalculoGamma,
-					nmMEP);
-				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1], FComposicion[2], 0,
-					FTemperaturaDep, FCalculoGamma, nmMEP);
+				RMezclaDep = CalculoCompletoRMezcla(FComposicion[0], FComposicion[1], FComposicion[2], 0, FCalculoGamma, nmMEP);
+				CpMezclaDep = CalculoCompletoCpMezcla(FComposicion[0], FComposicion[1], FComposicion[2], 0, FTemperaturaDep,
+													  FCalculoGamma, nmMEP);
 				GammaDep = CalculoCompletoGamma(RMezclaDep, CpMezclaDep, FCalculoGamma);
 
-			} else if (FCalculoEspecies == nmCalculoSimple) {
+			} else if(FCalculoEspecies == nmCalculoSimple) {
 
 				RMezclaDep = CalculoSimpleRMezcla(FComposicion[0], 0, FCalculoGamma, nmMEP);
 				CvMezclaDep = CalculoSimpleCvMezcla(FTemperaturaDep, FComposicion[0], 0, FCalculoGamma, nmMEP);
@@ -95,16 +94,15 @@ public:
 
 			}
 			FVelocidadSonidoDep = sqrt(FTemperaturaDep * GammaDep * RMezclaDep) / __cons::ARef;
-		} catch (exception & N) {
-			std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " << FNumeroCC
-				<< std::endl;
+		} catch(exception & N) {
+			std::cout << "ERROR: TCCDescargaExtremoAbierto::PutTemperatura en la condicion de contorno: " << FNumeroCC << std::endl;
 			std::cout << "Tipo de error: " << N.what() << std::endl;
 			throw Exception(N.what());
 		}
 	}
 
 	TCCDescargaExtremoAbierto(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+							  nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCDescargaExtremoAbierto();
 

@@ -43,7 +43,7 @@
 //---------------------------------------------------------------------------
 
 class TValvula4T: public TTipoValvula {
-private:
+  private:
 //CONSTANTES INICIALES
 
 	dVector FAngle;
@@ -94,7 +94,7 @@ private:
 
 //double Interpola2(double  x,double  *y,int n);
 
-public:
+  public:
 
 	TValvula4T(TValvula4T *Origen, int valv);
 

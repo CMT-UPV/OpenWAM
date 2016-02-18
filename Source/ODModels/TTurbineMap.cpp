@@ -43,7 +43,7 @@ TTurbineMap::~TTurbineMap() {
 }
 
 void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double Diam3, double Diam4,
-	double CriticalAngle) {
+								 double CriticalAngle) {
 
 	int rows = 0, Adiab = 0;
 	double pos = 0., ang = 0.;
@@ -61,10 +61,10 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double
 
 	fscanf(Input, "%d ", &FNumPositions);
 	FTurbPosition.resize(FNumPositions);
-	for (int i = 0; i < FNumPositions; i++) {
+	for(int i = 0; i < FNumPositions; i++) {
 		fscanf(Input, "%d %lf %lf", &rows, &pos, &ang);
 		FTurbPosition[i].ReadTurbinPosition(Input, rows, pos, ang);
-		if (ang > CriticalAngle)
+		if(ang > CriticalAngle)
 			CalculaGR = false;
 		else
 			CalculaGR = true;
@@ -77,22 +77,22 @@ void TTurbineMap::LoadTurbineMap(FILE *Input, double Diam1, double Diam2, double
 		// printf("%lf %lf %lf\n", FTurbPosition[i].Rack(), FPowerMin[i], FPowerMax[i]);
 
 	}
-	if (FNumPositions == 1)
+	if(FNumPositions == 1)
 		FFixedTurbine = true;
 }
 
 void TTurbineMap::CurrentEffectiveSection(double n, double er, double rack, double T10T00) {
-	if (FFixedTurbine) {
+	if(FFixedTurbine) {
 		FTurbPosition[0].InterpolaPosicion(n, er);
 		FStatorES = FTurbPosition[0].StatorSec();
 		FRotorES = FTurbPosition[0].RotorSec() * sqrt(T10T00);
 		FEffTurb = FTurbPosition[0].Efficiency();
 	} else {
 		int i = 0;
-		while (rack > FTurbPosition[i].Rack() && i < FNumPositions) {
+		while(rack > FTurbPosition[i].Rack() && i < FNumPositions) {
 			++i;
 		}
-		if (i == 0) {
+		if(i == 0) {
 			FTurbPosition[i].InterpolaPosicion(n, er);
 			FStatorES = FTurbPosition[i].StatorSec();
 			FRotorES = FTurbPosition[i].RotorSec();
@@ -100,11 +100,9 @@ void TTurbineMap::CurrentEffectiveSection(double n, double er, double rack, doub
 		} else {
 			FTurbPosition[i].InterpolaPosicion(n, er);
 			FTurbPosition[i - 1].InterpolaPosicion(n, er);
-			double DeltaRack = (rack - FTurbPosition[i - 1].Rack())
-				/ (FTurbPosition[i].Rack() - FTurbPosition[i - 1].Rack());
+			double DeltaRack = (rack - FTurbPosition[i - 1].Rack()) / (FTurbPosition[i].Rack() - FTurbPosition[i - 1].Rack());
 			FStatorES = FTurbPosition[i - 1].StatorSec() * (1 - DeltaRack) + FTurbPosition[i].StatorSec() * DeltaRack;
-			FRotorES = (FTurbPosition[i - 1].RotorSec() * (1 - DeltaRack) + FTurbPosition[i].RotorSec() * DeltaRack)
-				* sqrt(T10T00);
+			FRotorES = (FTurbPosition[i - 1].RotorSec() * (1 - DeltaRack) + FTurbPosition[i].RotorSec() * DeltaRack) * sqrt(T10T00);
 			FEffTurb = FTurbPosition[i - 1].Efficiency() * (1 - DeltaRack) + FTurbPosition[i].Efficiency() * DeltaRack;
 		}
 	}
@@ -112,15 +110,15 @@ void TTurbineMap::CurrentEffectiveSection(double n, double er, double rack, doub
 // ---------------------------------------------------------------------------
 
 void TTurbineMap::PrintFinalMap(FILE *fich) {
-	for (int i = 0; i < FNumPositions; ++i) {
+	for(int i = 0; i < FNumPositions; ++i) {
 		fprintf(fich, "%lf\n", FTurbPosition[i].Rack());
 		FTurbPosition[i].PrintTurbinePosition(fich);
 	}
 }
 
 void TTurbineMap::CalculateAdiabaticEfficiency(TTC_HTM *HTM, double TinC) {
-	if (!FIsAdiabatic) {
-		for (int i = 0; i < FNumPositions; ++i) {
+	if(!FIsAdiabatic) {
+		for(int i = 0; i < FNumPositions; ++i) {
 			FTurbPosition[i].AdiabaticEfficiency(HTM, FTempMeasure, TinC);
 
 		}

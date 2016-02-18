@@ -38,7 +38,7 @@
 class TDeposito;
 
 class TCCDeposito: public TCondicionContorno {
-private:
+  private:
 
 	TTipoValvula *FValvula;
 	TDeposito *FDeposito;
@@ -99,7 +99,7 @@ private:
 
 	void Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t, double *a2t);
 
-public:
+  public:
 
 	int getNumeroDeposito() {
 		return FNumeroDeposito;
@@ -147,7 +147,7 @@ public:
 	}
 
 	TCCDeposito(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+				nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCDeposito();
 

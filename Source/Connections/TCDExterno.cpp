@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 
 TCDExterno::TCDExterno() :
-TTipoValvula(nmCalcExtern) {
+	TTipoValvula(nmCalcExtern) {
 
 }
 //---------------------------------------------------------------------------
@@ -47,7 +47,7 @@ TCDExterno::~TCDExterno() {
 //---------------------------------------------------------------------------
 
 TCDExterno::TCDExterno(TCDExterno *Origen, int Valvula) :
-TTipoValvula(nmCalcExtern) {
+	TTipoValvula(nmCalcExtern) {
 
 	FCDEInicial = Origen->FCDEInicial;
 	FCDSInicial = Origen->FCDSInicial;
@@ -64,7 +64,7 @@ TTipoValvula(nmCalcExtern) {
 //---------------------------------------------------------------------------
 
 void TCDExterno::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+								   TBloqueMotor *Engine) {
 	try {
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
@@ -74,7 +74,7 @@ void TCDExterno::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales CDExterno" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -90,7 +90,7 @@ void TCDExterno::CalculaCD() {
 		FCDTubVol = FCDEntMatlab;
 		FCDVolTub = FCDSalMatlab;
 		FCTorb = FCTorMatlab;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaCD CDExterno" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());

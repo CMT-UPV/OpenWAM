@@ -41,7 +41,7 @@
 //---------------------------------------------------------------------------
 
 class TMariposa: public TTipoValvula {
-private:
+  private:
 
 	int FNumLev;
 	dVector FLevantamiento;
@@ -56,7 +56,7 @@ private:
 
 	TController *FController;
 
-public:
+  public:
 
 	TMariposa(TMariposa *Origen, int valv);
 

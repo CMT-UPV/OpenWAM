@@ -45,7 +45,7 @@ enum nmTipoEstator {
 //---------------------------------------------------------------------------
 
 class TEstatorTurbina: public TTipoValvula {
-private:
+  private:
 
 	nmTipoEstator FTipoEstator;
 	double FCDEInicial;
@@ -61,7 +61,7 @@ private:
 
 	int FValvula;
 
-public:
+  public:
 
 	TEstatorTurbina(TEstatorTurbina *Origen, int valv);
 

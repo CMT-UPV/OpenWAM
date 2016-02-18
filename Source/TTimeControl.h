@@ -31,7 +31,7 @@
 #include <cstdio>
 
 class TTimeControl {
-private:
+  private:
 
 	int Inicio;
 	int Final;
@@ -42,7 +42,7 @@ private:
 	double TiempoCiclo1;
 	double Procesador;
 
-public:
+  public:
 	TTimeControl();
 	~TTimeControl();
 

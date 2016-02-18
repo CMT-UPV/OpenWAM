@@ -44,7 +44,7 @@ enum nmTipoContr {
 };
 
 class TValvulaContr: public TTipoValvula {
-private:
+  private:
 
 	nmTipoContr FTipoContr;
 	double FLimiteInf1;
@@ -58,7 +58,7 @@ private:
 
 	int FValvula;
 
-public:
+  public:
 
 	TValvulaContr(TValvulaContr *Origen, int valv);
 

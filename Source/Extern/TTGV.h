@@ -38,7 +38,7 @@
 #include "Globales.h"
 
 class TTGV {
-private:
+  private:
 
 //Variables para la determinacion de la correlacion utilizada en la turbina.
 	FILE *FichTGV;
@@ -88,7 +88,7 @@ private:
 
 	bool FPrimeraVez;
 
-public:
+  public:
 
 	double getCDStator() {
 		return FCDStator;
@@ -130,7 +130,7 @@ public:
 	void LeeDatosEntrada(char *Ruta, FILE *fich);
 
 	void CalculaTurbina(nmTipoControl TipoControl, double MasaFuel, double Regimen, double PresionAdmision,
-		double RelacionCinematica, double RelExp, double RegTurboCorr, double GastoCorr, double Tiempo);
+						double RelacionCinematica, double RelExp, double RegTurboCorr, double GastoCorr, double Tiempo);
 
 };
 

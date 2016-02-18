@@ -42,7 +42,7 @@ class TCompresor;
 class TDeposito;
 
 class TCCCompresor: public TCondicionContorno {
-private:
+  private:
 
 	nmCompressorInlet FEntradaCompresor;
 	nmPipeEnd FExtremoTuboRotor;
@@ -69,7 +69,7 @@ private:
 	double FTheta;
 	// double FTiempoActual;
 
-public:
+  public:
 
 	int getNumeroCompresor() {
 		return FNumeroCompresor;
@@ -128,15 +128,15 @@ public:
 	;
 
 	TCCCompresor(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+				 nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCCompresor();
 
 	void LeeNumeroCompresor(const char *FileWAM, fpos_t &filepos);
 
 	void AsignacionDatos(TCompresor **Compressor, TDeposito **Plenum, const char *FileWAM, fpos_t &filepos,
-		int NumberOfPipes, TTubo **Pipe, TCondicionContorno **BC, int numCC, double AmbientTemperature,
-		double AmbientPressure, double *AtmosphericComposition);
+						 int NumberOfPipes, TTubo **Pipe, TCondicionContorno **BC, int numCC, double AmbientTemperature, double AmbientPressure,
+						 double *AtmosphericComposition);
 
 	void ObtencionValoresInstantaneos(double Theta, double tiempoactual);
 
@@ -147,7 +147,7 @@ public:
 	void ReadCompressorData(const char *FileWAM, fpos_t &filepos, TCompresor **Compressor);
 
 	void AsignData(TDeposito **Plenum, int NumberOfPipes, TTubo **Pipe, TCondicionContorno **BC, int numCC,
-		double *AtmosphericComposition, TCompresor **Compressor, double AmbientTemperature, double AmbientPressure);
+				   double *AtmosphericComposition, TCompresor **Compressor, double AmbientTemperature, double AmbientPressure);
 };
 
 #endif

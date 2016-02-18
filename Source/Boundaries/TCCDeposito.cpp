@@ -62,8 +62,8 @@
 // ---------------------------------------------------------------------------
 
 TCCDeposito::TCCDeposito(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+						 nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FValvula = NULL;
@@ -89,7 +89,7 @@ TCCDeposito::~TCCDeposito() {
 
 	delete[] FTuboExtremo;
 
-	if (FValvula != NULL)
+	if(FValvula != NULL)
 		delete FValvula;
 
 	FValvula = NULL;
@@ -100,7 +100,7 @@ TCCDeposito::~TCCDeposito() {
 // ---------------------------------------------------------------------------
 
 void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
-	TDPF **DPF) {
+								   TDPF **DPF) {
 	try {
 		int i = 0, j = 0;
 		int numid = 0; // Variable necesaria para WAMer.
@@ -115,8 +115,8 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 
 		FPref = 1;
 
-		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+		while(FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if(Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FNodoFin = 0;
@@ -127,7 +127,7 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 				FUnionDPF = false;
 				FEncontrado = true;
 			}
-			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			if(Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FNodoFin = Pipe[i]->getNin() - 1;
@@ -201,7 +201,8 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 		FILE *fich = fopen(FileWAM, "r");
 		fsetpos(fich, &filepos);
 
-		fscanf(fich, "%d ", &numid); // Esto es un dato que necesita el WAMer. Los usuarios de WAM hacemos la vista gorda hasta que se arregle.
+		fscanf(fich, "%d ",
+			   &numid); // Esto es un dato que necesita el WAMer. Los usuarios de WAM hacemos la vista gorda hasta que se arregle.
 		fscanf(fich, "%d ", &FNumeroDeposito);
 
 		fgetpos(fich, &filepos);
@@ -209,8 +210,8 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 
 		// Inicializacion del transporte de especies quimicas
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		if (!FUnionDPF) {
-			for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		if(!FUnionDPF) {
+			for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 				FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 			}
 		} else {
@@ -221,7 +222,7 @@ void TCCDeposito::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Num
 #endif
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCCDeposito::LeeCCDeposito en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -237,7 +238,7 @@ void TCCDeposito::AsignaDeposito(TDeposito **Plenum) {
 		FDeposito = Plenum[FNumeroDeposito - 1];
 		FValvula->PutPlenum(FDeposito);
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCCDeposito::AsignaDeposito en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -250,7 +251,7 @@ void TCCDeposito::AsignaDeposito(TDeposito **Plenum) {
 void TCCDeposito::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 	try {
 
-		switch (Origen[Valv - 1]->getTypeOfValve()) {
+		switch(Origen[Valv - 1]->getTypeOfValve()) {
 		case nmCDFijo:
 			FValvula = new TCDFijo(dynamic_cast<TCDFijo*>(Origen[Valv - 1]), i);
 			break;
@@ -286,28 +287,28 @@ void TCCDeposito::AsignaTipoValvula(TTipoValvula **Origen, int Valv, int i) {
 			break;
 		}
 
-		if (!FUnionDPF) {
+		if(!FUnionDPF) {
 			FValvula->PutPipe(FTuboExtremo[0].Pipe, FNodoFin);
 			FValvula->PutDiametroTubo(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 		} else {
 #ifdef ParticulateFilter
 			FValvula->PutDiametroTubo(FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
-			FTuboExtremo[0].TipoCanal)->GetDiametro(FNodoFin));
+									  FTuboExtremo[0].TipoCanal)->GetDiametro(FNodoFin));
 #endif
 		}
 
-		if (FValvula->getTypeOfValve() == nmCDFijo) {
+		if(FValvula->getTypeOfValve() == nmCDFijo) {
 			// dynamic_cast<TCDFijo *>(FValvula)->CalculaCD();
 			FCDEntrada = FValvula->getCDTubVol();
 			FCDSalida = FValvula->getCDVolTub();
 			// FCTorbellino=FValvula->getCTorb();
-			if (FCDEntrada > 1.) {
+			if(FCDEntrada > 1.) {
 				FValvula->AsignaCRecuperacion(FCDEntrada - 1.);
 			} else
 				FValvula->AsignaCRecuperacion(0.);
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TCCDeposito::AsignaTipoValvula en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -322,13 +323,13 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 		double PVol = 0., PTub = 0., PAdm = 0., DeltaP = 0., distancia = 0., CDExt = 0., nodoadm = 0., p1 = 0., p2 = 0.;
 		int turb = 0, entr = 0, NodoFin = 0;
 
-		switch (FValvula->getTypeOfValve()) {
+		switch(FValvula->getTypeOfValve()) {
 		case nmCDFijo:
 			dynamic_cast<TCDFijo*>(FValvula)->CalculaCD();
 			break;
 
 		case nmValvula4T:
-			if (FValvula->getControlRegimen() == nmMotor) {
+			if(FValvula->getControlRegimen() == nmMotor) {
 				FRegimen = RegimenMotor;
 			} else {
 				FRegimen = FValvula->getRegimen();
@@ -339,7 +340,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			FDeltaAngulo = 360. * FRegimen * FValvula->getRelacionVelocidades() / 60. * FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
-			if (FAnguloActual > 360.) {
+			if(FAnguloActual > 360.) {
 				FAnguloActual -= 360.;
 			}
 			dynamic_cast<TValvula4T*>(FValvula)->CalculaCD(FAnguloActual);
@@ -354,7 +355,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			break;
 
 		case nmLamina:
-			if (FTuboExtremo[0].TipoExtremo == nmLeft) {
+			if(FTuboExtremo[0].TipoExtremo == nmLeft) {
 				NodoFin = 0;
 			} else
 				NodoFin = FTuboExtremo[0].Pipe->getNin() - 1;
@@ -363,7 +364,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			break;
 
 		case nmDiscoRotativo:
-			if (FValvula->getControlRegimen() == nmMotor) {
+			if(FValvula->getControlRegimen() == nmMotor) {
 				FRegimen = RegimenMotor;
 			} else {
 				FRegimen = FValvula->getRegimen();
@@ -374,7 +375,7 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			FDeltaAngulo = 360. * FRegimen * FValvula->getRelacionVelocidades() / 60. * FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
-			if (FAnguloActual > 360.) {
+			if(FAnguloActual > 360.) {
 				FAnguloActual -= 360.;
 			}
 			dynamic_cast<TDiscoRotativo*>(FValvula)->CalculaCD(FAnguloActual);
@@ -385,11 +386,10 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			FTime0 = FTime1;
 			FTime1 = TiempoActual;
 			FDeltaT = FTime1 - FTime0;
-			FDeltaAngulo = 360. * FRegimen * dynamic_cast<TDepVolVariable*>(FDeposito)->getRelacionVelocidades() / 60.
-				* FDeltaT;
+			FDeltaAngulo = 360. * FRegimen * dynamic_cast<TDepVolVariable*>(FDeposito)->getRelacionVelocidades() / 60. * FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
-			if (FAnguloActual > 360.) {
+			if(FAnguloActual > 360.) {
 				FAnguloActual -= 360.;
 			}
 			dynamic_cast<TLumbrera*>(FValvula)->CalculaCD(FAnguloActual);
@@ -403,14 +403,14 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 			FDeltaAngulo = 360. * FRegimen / 60. * FDeltaT;
 			FAnguloAnterior = FAnguloActual;
 			FAnguloActual = FAnguloAnterior + FDeltaAngulo;
-			if (FAnguloActual > 720.) {
+			if(FAnguloActual > 720.) {
 				FAnguloActual -= 720.;
 			}
 			dynamic_cast<TValvulaContr*>(FValvula)->CalculaCD(FAnguloActual, mfcomb);
 			break;
 
 		case nmWasteGate:
-			if (FTuboExtremo[0].TipoExtremo == nmLeft) {
+			if(FTuboExtremo[0].TipoExtremo == nmLeft) {
 				NodoFin = 0;
 			} else
 				NodoFin = FTuboExtremo[0].Pipe->getNin() - 1;
@@ -437,31 +437,30 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 		FCDEntrada = FValvula->getCDTubVol();
 		FCDSalida = FValvula->getCDVolTub();
 		FCTorbellino = FValvula->getCTorb();
-		if (FCDEntrada > 1.) {
+		if(FCDEntrada > 1.) {
 			FValvula->AsignaCRecuperacion(FCDEntrada - 1.);
 		} else
 			FValvula->AsignaCRecuperacion(0.);
 
-		if (FCDEntrada > 2.0 || FCDEntrada < 0.0) {
-			printf(
-				"ERROR: TCCDeposito::CalculaCoeficientesDescarga, en calculo coeficiente descarga entrante: %lf, en %lf grados,en la condicion de contorno: %d \n",
-				FCDEntrada, FAnguloActual, FNumeroCC);
+		if(FCDEntrada > 2.0 || FCDEntrada < 0.0) {
+			printf("ERROR: TCCDeposito::CalculaCoeficientesDescarga, en calculo coeficiente descarga entrante: %lf, en %lf grados,en la condicion de contorno: %d \n",
+				   FCDEntrada, FAnguloActual,
+				   FNumeroCC);
 			throw Exception(
-				"ERROR: TCCDeposito::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: "
-					+ std::to_string(FCDEntrada) + ", en " + std::to_string(FAnguloActual) + " grados ");
+				"ERROR: TCCDeposito::CalculaCoeficientesDescarga en calculo coeficiente descarga entrante: " + std::to_string(
+					FCDEntrada) + ", en " + std::to_string(FAnguloActual) + " grados ");
 
 		}
-		if (FCDSalida > 1.0 || FCDSalida < 0.0) {
-			printf(
-				"ERROR: TCCDeposito::CalculaCoeficientesDescarga, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",
-				FCDSalida, FAnguloActual, FNumeroCC);
+		if(FCDSalida > 1.0 || FCDSalida < 0.0) {
+			printf("ERROR: TCCDeposito::CalculaCoeficientesDescarga, en calculo coeficiente descarga saliente: %lf, en %lf grados, en la condicion de contorno: %d\n",
+				   FCDSalida, FAnguloActual,
+				   FNumeroCC);
 			throw Exception(
-				"ERROR: TCCDeposito::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: "
-					+ std::to_string(FCDSalida) + ", en " + std::to_string(FAnguloActual) + " grados ");
+				"ERROR: TCCDeposito::CalculaCoeficientesDescarga en calculo coeficiente descarga saliente: " + std::to_string(
+					FCDSalida) + ", en " + std::to_string(FAnguloActual) + " grados ");
 		}
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCDeposito::CalculaCoeficientesDescarga en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCDeposito::CalculaCoeficientesDescarga en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -473,28 +472,27 @@ void TCCDeposito::CalculaCoeficientesDescarga(double TiempoActual, double mfcomb
 void TCCDeposito::IniciaGamma() {
 	try {
 
-		if (!FUnionDPF) {
+		if(!FUnionDPF) {
 			FRMezcla = FTuboExtremo[0].Pipe->GetRMezcla(FNodoFin);
 			FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 			FSeccionTubo = __geom::Circle_area(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin));
 		} else {
 #ifdef ParticulateFilter
 			FRMezcla = FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
-			FTuboExtremo[0].TipoCanal)->GetRMezcla(FNodoFin);
+					   FTuboExtremo[0].TipoCanal)->GetRMezcla(FNodoFin);
 			FGamma = FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
-			FTuboExtremo[0].TipoCanal)->GetGamma(FNodoFin);
+												   FTuboExtremo[0].TipoCanal)->GetGamma(FNodoFin);
 			FSeccionTubo = __geom::Circle_area(
-			FTuboExtremo[0].DPF->GetCanal(
-			FTuboExtremo[0].NumeroHaz,
-			FTuboExtremo[0].TipoCanal)->GetDiametro(
-			FNodoFin));
+							   FTuboExtremo[0].DPF->GetCanal(
+								   FTuboExtremo[0].NumeroHaz,
+								   FTuboExtremo[0].TipoCanal)->GetDiametro(
+								   FNodoFin));
 #endif
 		}
 		FSeccionValvula = FSeccionTubo;
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCDeposito::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCDeposito::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -507,7 +505,7 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 	try {
 		double rel_CCon_Entropia, FraccionMasicaAcum = 0.;
 
-		if (!FUnionDPF) {
+		if(!FUnionDPF) {
 			FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin);
 		} else {
 #ifdef ParticulateFilter
@@ -525,12 +523,12 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 		rel_CCon_Entropia = *FCC / FTuboExtremo[0].Entropia;
 		FAdCr = FAd / sqrt(1 + pow2(FMachVenturi) * FGamma3); // Importante solo si hay venturi.
 		// Si no es asi, no modifica el valor de Ad.
-		if (rel_CCon_Entropia / FAdCr > 1 + 1e-5) {  // Flujo entrante al deposito
+		if(rel_CCon_Entropia / FAdCr > 1 + 1e-5) {   // Flujo entrante al deposito
 			FValvula->GetCDin(Time);
 			FCDEntrada = FValvula->getCDTubVol();
 			FSentidoFlujo = nmEntrante;
-			if (FCDEntrada > 0.0001) { /* Abierto */
-				if (FCDEntrada <= 1.0) {
+			if(FCDEntrada > 0.0001) {  /* Abierto */
+				if(FCDEntrada <= 1.0) {
 					FSeccionEficaz = FCDEntrada * FSeccionValvula;
 					FlujoEntranteDeposito();
 				} else { /* Recuperacion de la energia cinetica */
@@ -538,26 +536,25 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 				}
 
 				// Transporte de especies quimicas.
-				for (int j = 0; j < FNumeroEspecies - 2; j++) {
-					if (!FUnionDPF) {
+				for(int j = 0; j < FNumeroEspecies - 2; j++) {
+					if(!FUnionDPF) {
 						FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 					} else {
 #ifdef ParticulateFilter
 						FFraccionMasicaEspecie[j] = FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
-						FTuboExtremo[0].TipoCanal)->GetFraccionMasicaCC(FIndiceCC, j);
+													FTuboExtremo[0].TipoCanal)->GetFraccionMasicaCC(FIndiceCC, j);
 #endif
 					}
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (!FUnionDPF) {
-					if (FHayEGR)
-						FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(
-							FIndiceCC, FNumeroEspecies - 1);
+				if(!FUnionDPF) {
+					if(FHayEGR)
+						FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
 				} else {
 #ifdef ParticulateFilter
 					if(FHayEGR) FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].DPF->GetCanal(FTuboExtremo[0].NumeroHaz,
-					FTuboExtremo[0].TipoCanal)->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
+								FTuboExtremo[0].TipoCanal)->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
 #endif
 				}
 			} else { /* Cerrado */
@@ -567,27 +564,26 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 				FSonido = *FCC;
 				// La composicion se mantiene, al estar el deposito cerrado.
 			}
-		} else if (rel_CCon_Entropia / FAdCr < 1 - 1e-5) {  // Flujo saliente del deposito
+		} else if(rel_CCon_Entropia / FAdCr < 1 - 1e-5) {   // Flujo saliente del deposito
 			FSentidoFlujo = nmSaliente;
 			FValvula->GetCDout(Time);
 			FCDSalida = FValvula->getCDVolTub();
-			if (FCDSalida > 0.0001) { /* Abierto */
+			if(FCDSalida > 0.0001) {  /* Abierto */
 				// double TmpAa=FTuboExtremo[0].Entropia;  // nuevo para ver que pasa
 				FSeccionEficaz = FCDSalida * FSeccionValvula;
-				if (FDeposito->getTipoDeposito() == nmUnionDireccional) {
+				if(FDeposito->getTipoDeposito() == nmUnionDireccional) {
 					FValvula->AsignaCDVolTub(FCDSalida);
 				}
 				FlujoSalienteDeposito();
 
 				// Transporte de especies quimicas.
-				for (int j = 0; j < FNumeroEspecies - 2; j++) {
+				for(int j = 0; j < FNumeroEspecies - 2; j++) {
 					FFraccionMasicaEspecie[j] = FDeposito->GetFraccionMasicaEspecie(j);
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
-					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito->GetFraccionMasicaEspecie(
-						FNumeroEspecies - 1);
+				if(FHayEGR)
+					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FDeposito->GetFraccionMasicaEspecie(FNumeroEspecies - 1);
 				// }                                           // nuevo para ver que pasa
 			} else { /* Cerrado */
 				*FCD = *FCC;
@@ -605,9 +601,8 @@ void TCCDeposito::CalculaCondicionContorno(double Time) {
 			// La composicion se mantiene, al estar el flujo parado.
 		}
 		FValvula->AcumulaCDMedio(Time);
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCDeposito::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCDeposito::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -627,7 +622,7 @@ void TCCDeposito::FEDRecuperacionEnergiaCinetica() {
 		stRecover FA2(FTuboExtremo[0].Entropia, FAdCr, FGamma, FValvula->getCRecuperacion(), *FCC);
 		double error = FA2(a2supuesta);
 
-		if (error > 0) {
+		if(error > 0) {
 			FSonido = FindRoot(FA2, ed, ei);
 			FVelocity = FA2.U2;
 			FVelocidadGarganta = FA2.UThroat;
@@ -642,15 +637,15 @@ void TCCDeposito::FEDRecuperacionEnergiaCinetica() {
 		xaa2 = pow(FTuboExtremo[0].Entropia, FGamma4);
 		*FCD = FSonido - FGamma3 * FVelocity;
 		*FCC = FSonido + FGamma3 * FVelocity;
-		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
-			/ (__cons::ARef * xaa2); // Massflow entrante al deposito negativo.
+		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido,
+								  2 * FGamma6) * FVelocity) / (__cons::ARef * xaa2); // Massflow entrante al deposito negativo.
 		FRelacionPresionGarganta = pow(FSonido / (FTuboExtremo[0].Entropia * FAdCr), FGamma4);
 		FGastoGarganta = FGasto / (FValvula->getCRecuperacion() * FSeccionValvula);
 		FMachGarganta = FVelocidadGarganta / a1; // En valor absoluto.
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCDeposito::FEDRecuperacionEnergiaCinetica en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCDeposito::FEDRecuperacionEnergiaCinetica en la condicion de contorno: " << FNumeroCC <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -664,14 +659,14 @@ void TCCDeposito::FlujoEntranteDeposito() {
 		double vel_son_garganta = 0., velocidad_garganta = 0., Mach = 0., xaa2 = 0., ycal = 0., d1 = 0.;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
-		if (Fk < 1)
+		if(Fk < 1)
 			Fk = 1.0;
 		vel_son_garganta = FTuboExtremo[0].Entropia * FAdCr;
 		// Velocity del sonido en la garganta. Adimensional.
 
 		// Calculo de la velocidad en la garganta.Caso de salto subcritico.
 		FCaso = nmFlujoEntranteSaltoSubcritico;
-		if (Fk == 1) {
+		if(Fk == 1) {
 			FSonido = FTuboExtremo[0].Entropia * FAdCr;
 			FVelocity = (*FCC - FSonido) / FGamma3;
 		} else
@@ -682,7 +677,7 @@ void TCCDeposito::FlujoEntranteDeposito() {
 		// Se ha calculado la velocidad en la garganta en valor absoluto.
 
 		// Calculo de la velocidad en la garganta en el caso de salto supercritico
-		if (velocidad_garganta > vel_son_garganta) {
+		if(velocidad_garganta > vel_son_garganta) {
 			FCaso = nmFlujoEntranteSaltoSupercritico;
 			Resolucion(0.0, 1.0, FCaso, &ycal, &Mach);
 			FVelocity = *FCC / (1 / Mach + FGamma3);
@@ -695,8 +690,8 @@ void TCCDeposito::FlujoEntranteDeposito() {
 		// Fin caso de salto supercritico
 
 		xaa2 = pow(FTuboExtremo[0].Entropia, FGamma4);
-		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido, 2 * FGamma6) * FVelocity)
-			/ (__cons::ARef * xaa2); // Massflow entrante al deposito negativo
+		FGasto = __units::BarToPa(-FGamma * FSeccionTubo * pow(FSonido,
+								  2 * FGamma6) * FVelocity) / (__cons::ARef * xaa2); // Massflow entrante al deposito negativo
 		*FCD = FSonido - FGamma3 * FVelocity;
 		*FCC = FSonido + FGamma3 * FVelocity;
 		FRelacionPresionGarganta = pow(FSonido / (FTuboExtremo[0].Entropia * FAdCr), FGamma4);
@@ -707,9 +702,8 @@ void TCCDeposito::FlujoEntranteDeposito() {
 
 	}
 
-	catch (exception & N) {
-		std::cout << "ERROR: TCCDeposito::FlujoEntranteDeposito en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	catch(exception & N) {
+		std::cout << "ERROR: TCCDeposito::FlujoEntranteDeposito en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -727,7 +721,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 		double relacion_velocidades_son, Mach_tras_ondachoque, Mach, temp_antes_ondachoque, temp_tras_ondachoque;
 
 		Fk = FSeccionTubo / FSeccionEficaz;
-		if (Fk < 1)
+		if(Fk < 1)
 			Fk = 1;
 
 		/* Calculo del valor de la velocidad del sonido en el extremo del tubo para
@@ -744,7 +738,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 
 		error = FSA2(a2cr);
 
-		if (error < 0.) {  // Salto de presiones supercritico.
+		if(error < 0.) {   // Salto de presiones supercritico.
 
 			/* Determinacion del intervalo de iteracion. Para ello se supone que
 			 en el extremo del tubo se dan las condiciones criticas. Explicado en
@@ -759,9 +753,9 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			val1 = FU2(FVelocidadGarganta);
 
 			// FSSupercritico(FVelocidadGarganta,&val1,&val2);
-			if (val1 < 0.)
+			if(val1 < 0.)
 				valde = FVelocidadGarganta;
-			if (val1 >= 0.) {
+			if(val1 >= 0.) {
 				double Epsilon = numeric_limits<double>::epsilon();
 				valde = FDeposito->getSpeedsound() / sqrt(FGamma3) - Epsilon;
 			}
@@ -774,8 +768,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			// Calcula del massflow. Como es saliente del deposito, siempre es positivo.
 			xx = pow(sqrt(2. / FGamma2), (FGamma2 / FGamma1));
 			yy = pow(FAdCr, FGamma4);
-			FGasto = __units::BarToPa(FCDSalida * FSeccionValvula * FGamma * xx * yy)
-				/ (FDeposito->getSpeedsound() * __cons::ARef);
+			FGasto = __units::BarToPa(FCDSalida * FSeccionValvula * FGamma * xx * yy) / (FDeposito->getSpeedsound() * __cons::ARef);
 
 			/* Reduccion a flujo subsonico mediante onda de choque plana en el caso
 			 de que se hayan obtenido condiciones supersonicas en el extremo del
@@ -785,7 +778,7 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			xx = *FCC + FGamma3 * FVelocity;
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
 			// Ecuacion de la caracteristica incidente.
-			if (Mach > 1.) {
+			if(Mach > 1.) {
 
 				/* Las ecuaciones siguientes corresponden a la resolucion de la onda
 				 de choque plana. Se pueden encontrar en el punto 2.5 de la tesis
@@ -811,9 +804,8 @@ void TCCDeposito::FlujoSalienteDeposito() {
 			// Calculo del massflow. Como es saliente del deposito, siempre es positivo.
 			a1 = FDeposito->getSpeedsound() * (*FCC + FGamma3 * FVelocity) / (FTuboExtremo[0].Entropia * FAd);
 			FVelocidadGarganta = Fk * pow2(a1) * FVelocity / pow2(FSonido);
-			FGasto = __units::BarToPa(
-				FCDSalida * FSeccionValvula * FGamma * pow(FAd / FDeposito->getSpeedsound(), FGamma4)
-					* FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __cons::ARef;
+			FGasto = __units::BarToPa(FCDSalida * FSeccionValvula * FGamma * pow(FAd / FDeposito->getSpeedsound(),
+									  FGamma4) * FVelocidadGarganta * pow(a1, 2. / FGamma1)) / __cons::ARef;
 			xx = *FCC + FGamma3 * FVelocity;
 			FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * FSonido / xx;
 			// Ecuacion de la caracteristica incidente.
@@ -824,9 +816,8 @@ void TCCDeposito::FlujoSalienteDeposito() {
 		FRelacionPresionGarganta = pow(d1, FGamma4);
 		FMachGarganta = FVelocidadGarganta / a1; // En valor absoluto.
 		FGastoGarganta = FGasto / (FCDSalida * FSeccionValvula);
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCDeposito::FlujoSalienteDeposito en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCDeposito::FlujoSalienteDeposito en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -841,30 +832,29 @@ void TCCDeposito::Resolucion(double ext1, double ext2, nmCaso Caso, double *u2t,
 		 std::cout << "peta";
 		 } */
 
-		if (Caso == nmFlujoEntranteSaltoSubcritico) {
+		if(Caso == nmFlujoEntranteSaltoSubcritico) {
 			stFESub FEA2(FTuboExtremo[0].Entropia, FAdCr, FGamma, Fk, *FCC);
 			*a2t = FindRoot(FEA2, ext1, ext2);
 			*u2t = FEA2.U2;
-		} else if (Caso == nmFlujoEntranteSaltoSupercritico) {
+		} else if(Caso == nmFlujoEntranteSaltoSupercritico) {
 			stFESup FMatch(FGamma, Fk);
 			*a2t = FindRoot(FMatch, ext1, ext2);
 			*u2t = 0.;
-		} else if (Caso == nmFlujoSalienteSaltoSubcritico) {
+		} else if(Caso == nmFlujoSalienteSaltoSubcritico) {
 			stFSSub FSA2(FTuboExtremo[0].Entropia, FAdCr, FGamma, Fk, *FCC, FDeposito->getSpeedsound());
 			*a2t = FindRoot(FSA2, ext1, ext2);
 			*u2t = FSA2.U2;
-		} else if (Caso == nmFlujoSalienteSaltoSupercritico) {
+		} else if(Caso == nmFlujoSalienteSaltoSupercritico) {
 			stFSSup FU2(FTuboExtremo[0].Entropia, Fcc, FGamma, Fk, *FCC, FDeposito->getSpeedsound());
 			*u2t = FindRoot(FU2, ext1, ext2);
 			*a2t = FU2.A2;
 		} else {
-			printf("Error en la definicion del flujo TCCDeposito::Resolucion en la condicion de contorno: %d\n",
-				FNumeroCC);
+			printf("Error en la definicion del flujo TCCDeposito::Resolucion en la condicion de contorno: %d\n", FNumeroCC);
 			throw Exception("");
 		}
 	}
 
-	catch (exception & N) {
+	catch(exception & N) {
 		std::cout << "ERROR: TCCDeposito::Resolucion en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

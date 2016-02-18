@@ -42,11 +42,11 @@ TAjusteTransCalorCil::TAjusteTransCalorCil() {
 
 TAjusteTransCalorCil::~TAjusteTransCalorCil() {
 
-	if (FCiclo != NULL)
+	if(FCiclo != NULL)
 		delete[] FCiclo;
-	if (FCadmision != NULL)
+	if(FCadmision != NULL)
 		delete[] FCadmision;
-	if (FCescape != NULL)
+	if(FCescape != NULL)
 		delete[] FCescape;
 
 }
@@ -60,16 +60,16 @@ void TAjusteTransCalorCil::CalculaTCC(double TiempoActual, double Regimen) {
 		double deltaT = 0., t = 0.;
 		jmax = FCiclo[FNumeroTramos - 1];
 
-		if (TiempoActual < FCiclo[1] * 120 / Regimen) {
+		if(TiempoActual < FCiclo[1] * 120 / Regimen) {
 			FCaqAdm = FCadmision[0];
 			FCaqEsc = FCescape[0];
 		}
 
 		j = 1;
-		while (TiempoActual > FCiclo[j] * 120 / Regimen && j < jmax) {
+		while(TiempoActual > FCiclo[j] * 120 / Regimen && j < jmax) {
 			j++;
 		}
-		if (j == jmax) {
+		if(j == jmax) {
 			FCaqAdm = FCadmision[jmax];
 			FCaqEsc = FCescape[jmax];
 		} else {
@@ -84,7 +84,7 @@ void TAjusteTransCalorCil::CalculaTCC(double TiempoActual, double Regimen) {
 		 }else if(TiempoActual>FCicloCambioTC2*120/Regimen){
 		 FCaqAdm=FCaqAdm3;
 		 } */
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TTransCalorCil::CalculaTCC (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -100,7 +100,7 @@ void TAjusteTransCalorCil::IniciaTCC(int NumeroTramos, int *Ciclo, double *CoefT
 		FCadmision = new double[NumeroTramos];
 		FCescape = new double[NumeroTramos];
 		FNumeroTramos = NumeroTramos;
-		for (int i = 0; i < NumeroTramos; i++) {
+		for(int i = 0; i < NumeroTramos; i++) {
 			FCiclo[i] = Ciclo[i];
 			FCadmision[i] = CoefTCAdm[i];
 			FCescape[i] = CoefTCEsc[i];
@@ -109,7 +109,7 @@ void TAjusteTransCalorCil::IniciaTCC(int NumeroTramos, int *Ciclo, double *CoefT
 		FCaqAdm = FCadmision[0];
 		FCaqEsc = FCescape[0];
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TTransCalorCil::CalculaCD (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -125,7 +125,7 @@ double TAjusteTransCalorCil::xit_(double vizq, double vder, double axid, double 
 		double ret_val = 0.;
 
 		xx = vder - vizq;
-		if (axid != 0.) {
+		if(axid != 0.) {
 			yy = xx / axid * xif;
 			ret_val = vizq + yy;
 		} else {
@@ -133,7 +133,7 @@ double TAjusteTransCalorCil::xit_(double vizq, double vder, double axid, double 
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TAjusteTransCalorCil::xit_" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

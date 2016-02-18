@@ -37,7 +37,7 @@
  */
 
 class TAcousticTurbine {
-private:
+  private:
 
 	std::vector<TTubo*> FInletPipe;
 	std::vector<TTubo*> FVolute;
@@ -47,7 +47,7 @@ private:
 	iVector FVoluteID;
 	int FOutletPipeID;
 
-public:
+  public:
 	TAcousticTurbine(iVector InletPipeID, iVector VoluteID, int OutletPipeID);
 
 	TAcousticTurbine();

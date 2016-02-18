@@ -31,7 +31,7 @@
 #include "TDeposito.h"
 
 class TDepVolCteBase: public TDeposito {
-protected:
+  protected:
 	//---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	//---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ protected:
 	// FUNCIONES PRIVADAS
 	//---------------------------------------------------------------------------
 
-public:
+  public:
 	//---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	//---------------------------------------------------------------------------
@@ -52,7 +52,7 @@ public:
 	//---------------------------------------------------------------------------
 
 	TDepVolCteBase(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+				   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TDepVolCteBase() = 0;
 

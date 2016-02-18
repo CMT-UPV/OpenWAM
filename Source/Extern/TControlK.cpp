@@ -54,7 +54,7 @@ void TControlK::LeeDatosEntrada(char *Ruta, FILE *fich, double DiametroTubo) {
 	try {
 
 		FDiametro = DiametroTubo;
-		for (int i = 0; i <= (int) strlen(Ruta); i++) {
+		for(int i = 0; i <= (int) strlen(Ruta); i++) {
 			DatosK_Re[i] = Ruta[i];
 		}
 
@@ -62,25 +62,25 @@ void TControlK::LeeDatosEntrada(char *Ruta, FILE *fich, double DiametroTubo) {
 		strcat(DatosK_Re, FileK_Re);
 
 		FichK_Re = fopen(DatosK_Re, "r");
-		if ((FichK_Re = fopen(DatosK_Re, "r")) == NULL) {
+		if((FichK_Re = fopen(DatosK_Re, "r")) == NULL) {
 			std::cout << "ERROR: Fichero de K vs Re no cargado";
 		} else {
 			fscanf(FichK_Re, "%d ", &FNumeroDatos);
 			FVector_Re = new double[FNumeroDatos];
 			FVector_K = new double[FNumeroDatos];
 
-			for (int i = 0; i < FNumeroDatos; i++) {
+			for(int i = 0; i < FNumeroDatos; i++) {
 				fscanf(FichK_Re, "%lf ", &FVector_Re[i]);
 			}
 
-			for (int i = 0; i < FNumeroDatos; i++) {
+			for(int i = 0; i < FNumeroDatos; i++) {
 				fscanf(FichK_Re, "%lf ", &FVector_K[i]);
 			}
 
 			fclose(FichK_Re);
 		}
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TControlK::LeeDatosEntrada (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -101,7 +101,7 @@ void TControlK::CalculaK(double velocidad, double temperatura, double presion, d
 
 		FK = Interp1(FRe, FVector_Re, FVector_K, FNumeroDatos);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TControlK::CalculaK (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

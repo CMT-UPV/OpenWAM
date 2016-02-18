@@ -39,7 +39,7 @@
 
 class TDeposito;
 class TCCUnionEntreDepositos: public TCondicionContorno {
-private:
+  private:
 
 	bool FIndependiente;
 
@@ -91,7 +91,7 @@ private:
 
 	double InterpolaDeposito(double vizq, double vder, double axid, double xif);
 
-public:
+  public:
 
 	int getNumeroDeposito1() {
 		return FNumeroDeposito1;
@@ -139,7 +139,7 @@ public:
 	;
 
 	TCCUnionEntreDepositos(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+						   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCUnionEntreDepositos();
 

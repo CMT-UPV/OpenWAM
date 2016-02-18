@@ -46,11 +46,11 @@ TCompIsoReg::TCompIsoReg(double Reg, dVector Mass, dVector RC, dVector Eff) {
 	fModulo.resize(fCorrectedMass.size());
 	int k = 0;
 
-	for (int i = fCorrectedMass.size() - 1; i >= 0; i--) {
+	for(int i = fCorrectedMass.size() - 1; i >= 0; i--) {
 		Convert2Polar(fCorrectedMass[i], fCompRatio[i] - 1.);
 		fAngulo[k] = Convert2Polar.Ang;
-		if (k > 0) {
-			if (fAngulo[k] < atan((fCompRatio[i] - fCompRatio[i - 1]) / (fCorrectedMass[i] - fCorrectedMass[i - 1]))) {
+		if(k > 0) {
+			if(fAngulo[k] < atan((fCompRatio[i] - fCompRatio[i - 1]) / (fCorrectedMass[i] - fCorrectedMass[i - 1]))) {
 				std::cout << "error interpolacion polar" << std::endl;
 			}
 		}

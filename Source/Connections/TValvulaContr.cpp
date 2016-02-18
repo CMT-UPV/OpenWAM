@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TValvulaContr::TValvulaContr() :
-TTipoValvula(nmValvulaContr) {
+	TTipoValvula(nmValvulaContr) {
 
 	FAngle0 = 0;
 }
@@ -50,7 +50,7 @@ TValvulaContr::~TValvulaContr() {
 //---------------------------------------------------------------------------
 
 TValvulaContr::TValvulaContr(TValvulaContr *Origen, int Valvula) :
-TTipoValvula(nmValvulaContr) {
+	TTipoValvula(nmValvulaContr) {
 
 	FTipoContr = Origen->FTipoContr;
 	FLimiteInf1 = Origen->FLimiteInf1;
@@ -73,7 +73,7 @@ TTipoValvula(nmValvulaContr) {
 //---------------------------------------------------------------------------
 
 void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+									  TBloqueMotor *Engine) {
 	try {
 		int Ctrl = 0;
 
@@ -84,10 +84,10 @@ void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int 
 
 		FEngine = Engine;
 
-		fscanf(fich, "%d %lf %lf %lf %lf %lf %lf ", &Ctrl, &FLimiteInf1, &FLimiteInf2, &FLimiteSup1, &FLimiteSup2,
-			&FCDInicial, &FCDFinal);
+		fscanf(fich, "%d %lf %lf %lf %lf %lf %lf ", &Ctrl, &FLimiteInf1, &FLimiteInf2, &FLimiteSup1, &FLimiteSup2, &FCDInicial,
+			   &FCDFinal);
 
-		switch (Ctrl) {
+		switch(Ctrl) {
 		case 0:
 			FTipoContr = nmContrAngulo;
 			break;
@@ -99,7 +99,7 @@ void TValvulaContr::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales ValvulaContr" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -114,27 +114,27 @@ void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 	try {
 		double xx = 0., acoef = 0., bcoef = 0.;
 
-		if (FTipoContr == nmContrAngulo)
+		if(FTipoContr == nmContrAngulo)
 			xx = AnguloActual;
-		else if (FTipoContr == nmContrFuel)
+		else if(FTipoContr == nmContrFuel)
 			xx = Mf;
 		else {
 			printf("ERROR: This type of controlled valve is not implemented");
 			throw Exception("ERROR: This type of controlled valve is not implemented");
 		}
-		if (FLimiteSup1 == FLimiteSup2) {
-			if (xx >= FLimiteSup1) {
+		if(FLimiteSup1 == FLimiteSup2) {
+			if(xx >= FLimiteSup1) {
 				FCDTubVol = FCDFinal;
 				FCDVolTub = FCDFinal;
 			}
-		} else if (FLimiteSup1 < FLimiteSup2) {
-			if (xx >= FLimiteSup1 && xx < FLimiteSup2) {
+		} else if(FLimiteSup1 < FLimiteSup2) {
+			if(xx >= FLimiteSup1 && xx < FLimiteSup2) {
 				acoef = (FCDFinal - FCDInicial) / (FLimiteSup2 - FLimiteSup1);
 				bcoef = FCDInicial - acoef * FLimiteSup1;
 				FCDTubVol = acoef * xx + bcoef;
 				FCDVolTub = acoef * xx + bcoef;
 			}
-			if (xx >= FLimiteSup2) {
+			if(xx >= FLimiteSup2) {
 				FCDTubVol = FCDFinal;
 				FCDVolTub = FCDFinal;
 			}
@@ -142,19 +142,19 @@ void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 			printf("ERROR: in hysteresis valve (EGR,Swirl...");
 			throw Exception("ERROR: in hysteresis valve (EGR,Swirl...)");
 		}
-		if (FLimiteInf1 == FLimiteInf2) {
-			if (xx <= FLimiteInf1) {
+		if(FLimiteInf1 == FLimiteInf2) {
+			if(xx <= FLimiteInf1) {
 				FCDTubVol = FCDInicial;
 				FCDVolTub = FCDInicial;
 			}
-		} else if (FLimiteInf1 > FLimiteInf2) {
-			if (xx <= FLimiteInf1 && xx > FLimiteInf2) {
+		} else if(FLimiteInf1 > FLimiteInf2) {
+			if(xx <= FLimiteInf1 && xx > FLimiteInf2) {
 				acoef = (FCDInicial - FCDFinal) / (FLimiteInf2 - FLimiteInf1);
 				bcoef = FCDInicial - acoef * FLimiteInf2;
 				FCDTubVol = acoef * xx + bcoef;
 				FCDVolTub = acoef * xx + bcoef;
 			}
-			if (xx <= FLimiteInf2) {
+			if(xx <= FLimiteInf2) {
 				FCDTubVol = FCDInicial;
 				FCDVolTub = FCDFinal;
 			}
@@ -162,7 +162,7 @@ void TValvulaContr::CalculaCD(double AnguloActual, double Mf) {
 			printf("ERROR: in hysteresis valve (EGR,Swirl...");
 			throw Exception("ERROR: in hysteresis valve (EGR,Swirl...)");
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaCD ValvulaContr" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -174,46 +174,46 @@ void TValvulaContr::GetCDin(double Time) {
 
 	double xx = 0., acoef = 0., bcoef = 0.;
 
-	if (FTipoContr == nmContrAngulo) {
+	if(FTipoContr == nmContrAngulo) {
 		double DeltaT = Time - FTime0;
 		FTime0 = Time;
 		double DeltaA = 6 * FEngine->getRegimen() * DeltaT;
 		xx = DeltaA + FAngle0;
 		FAngle0 = xx;
-	} else if (FTipoContr == nmContrFuel) {
+	} else if(FTipoContr == nmContrFuel) {
 		xx = FEngine->getMasaFuel();
 	} else {
 		printf("ERROR: This type of controlled valve is not implemented");
 		throw Exception("ERROR: This type of controlled valve is not implemented");
 	}
-	if (FLimiteSup1 == FLimiteSup2) {
-		if (xx >= FLimiteSup1) {
+	if(FLimiteSup1 == FLimiteSup2) {
+		if(xx >= FLimiteSup1) {
 			FCDTubVol = FCDFinal;
 		}
-	} else if (FLimiteSup1 < FLimiteSup2) {
-		if (xx >= FLimiteSup1 && xx < FLimiteSup2) {
+	} else if(FLimiteSup1 < FLimiteSup2) {
+		if(xx >= FLimiteSup1 && xx < FLimiteSup2) {
 			acoef = (FCDFinal - FCDInicial) / (FLimiteSup2 - FLimiteSup1);
 			bcoef = FCDInicial - acoef * FLimiteSup1;
 			FCDTubVol = acoef * xx + bcoef;
 		}
-		if (xx >= FLimiteSup2) {
+		if(xx >= FLimiteSup2) {
 			FCDTubVol = FCDFinal;
 		}
 	} else {
 		printf("ERROR: in hysteresis valve (EGR,Swirl...");
 		throw Exception("ERROR: in hysteresis valve (EGR,Swirl...)");
 	}
-	if (FLimiteInf1 == FLimiteInf2) {
-		if (xx <= FLimiteInf1) {
+	if(FLimiteInf1 == FLimiteInf2) {
+		if(xx <= FLimiteInf1) {
 			FCDTubVol = FCDInicial;
 		}
-	} else if (FLimiteInf1 > FLimiteInf2) {
-		if (xx <= FLimiteInf1 && xx > FLimiteInf2) {
+	} else if(FLimiteInf1 > FLimiteInf2) {
+		if(xx <= FLimiteInf1 && xx > FLimiteInf2) {
 			acoef = (FCDInicial - FCDFinal) / (FLimiteInf2 - FLimiteInf1);
 			bcoef = FCDInicial - acoef * FLimiteInf2;
 			FCDTubVol = acoef * xx + bcoef;
 		}
-		if (xx <= FLimiteInf2) {
+		if(xx <= FLimiteInf2) {
 			FCDTubVol = FCDInicial;
 		}
 	} else {
@@ -225,46 +225,46 @@ void TValvulaContr::GetCDin(double Time) {
 void TValvulaContr::GetCDout(double Time) {
 	double xx = 0., acoef = 0., bcoef = 0.;
 
-	if (FTipoContr == nmContrAngulo) {
+	if(FTipoContr == nmContrAngulo) {
 		double DeltaT = Time - FTime0;
 		FTime0 = Time;
 		double DeltaA = 6 * FEngine->getRegimen() * DeltaT;
 		xx = DeltaA + FAngle0;
 		FAngle0 = xx;
-	} else if (FTipoContr == nmContrFuel) {
+	} else if(FTipoContr == nmContrFuel) {
 		xx = FEngine->getMasaFuel();
 	} else {
 		printf("ERROR: This type of controlled valve is not implemented");
 		throw Exception("ERROR: This type of controlled valve is not implemented");
 	}
-	if (FLimiteSup1 == FLimiteSup2) {
-		if (xx >= FLimiteSup1) {
+	if(FLimiteSup1 == FLimiteSup2) {
+		if(xx >= FLimiteSup1) {
 			FCDVolTub = FCDFinal;
 		}
-	} else if (FLimiteSup1 < FLimiteSup2) {
-		if (xx >= FLimiteSup1 && xx < FLimiteSup2) {
+	} else if(FLimiteSup1 < FLimiteSup2) {
+		if(xx >= FLimiteSup1 && xx < FLimiteSup2) {
 			acoef = (FCDFinal - FCDInicial) / (FLimiteSup2 - FLimiteSup1);
 			bcoef = FCDInicial - acoef * FLimiteSup1;
 			FCDVolTub = acoef * xx + bcoef;
 		}
-		if (xx >= FLimiteSup2) {
+		if(xx >= FLimiteSup2) {
 			FCDVolTub = FCDFinal;
 		}
 	} else {
 		printf("ERROR: in hysteresis valve (EGR,Swirl...");
 		throw Exception("ERROR: in hysteresis valve (EGR,Swirl...)");
 	}
-	if (FLimiteInf1 == FLimiteInf2) {
-		if (xx <= FLimiteInf1) {
+	if(FLimiteInf1 == FLimiteInf2) {
+		if(xx <= FLimiteInf1) {
 			FCDVolTub = FCDInicial;
 		}
-	} else if (FLimiteInf1 > FLimiteInf2) {
-		if (xx <= FLimiteInf1 && xx > FLimiteInf2) {
+	} else if(FLimiteInf1 > FLimiteInf2) {
+		if(xx <= FLimiteInf1 && xx > FLimiteInf2) {
 			acoef = (FCDInicial - FCDFinal) / (FLimiteInf2 - FLimiteInf1);
 			bcoef = FCDInicial - acoef * FLimiteInf2;
 			FCDVolTub = acoef * xx + bcoef;
 		}
-		if (xx <= FLimiteInf2) {
+		if(xx <= FLimiteInf2) {
 			FCDVolTub = FCDFinal;
 		}
 	} else {

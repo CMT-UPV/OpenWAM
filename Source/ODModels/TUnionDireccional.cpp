@@ -39,8 +39,8 @@
 // ---------------------------------------------------------------------------
 
 TUnionDireccional::TUnionDireccional(int i, int NUnionDireccional, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TDepVolCteBase(i, nmUnionDireccional, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+									 int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TDepVolCteBase(i, nmUnionDireccional, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FNumUnionDireccional = NUnionDireccional;
 	FCCEntrada = NULL;
@@ -61,24 +61,24 @@ TDepVolCteBase(i, nmUnionDireccional, SpeciesModel, numeroespecies, GammaCalcula
 
 TUnionDireccional::~TUnionDireccional() {
 
-	if (FNodoEntrada != NULL)
+	if(FNodoEntrada != NULL)
 		delete[] FNodoEntrada;
-	if (FSentidoEntrada != NULL)
+	if(FSentidoEntrada != NULL)
 		delete[] FSentidoEntrada;
-	if (FCDSalidaInicial != NULL)
+	if(FCDSalidaInicial != NULL)
 		delete[] FCDSalidaInicial;
-	if (FVelocidadCorte != NULL)
+	if(FVelocidadCorte != NULL)
 		delete[] FVelocidadCorte;
-	if (FVelocidadFin != NULL)
+	if(FVelocidadFin != NULL)
 		delete[] FVelocidadFin;
-	if (FVelocity != NULL)
+	if(FVelocity != NULL)
 		delete[] FVelocity;
-	if (FCoefA != NULL)
+	if(FCoefA != NULL)
 		delete[] FCoefA;
-	if (FCoefB != NULL)
+	if(FCoefB != NULL)
 		delete[] FCoefB;
 
-	if (FCCEntrada != NULL)
+	if(FCCEntrada != NULL)
 		delete[] FCCEntrada;
 
 }
@@ -119,9 +119,8 @@ void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM, fpos_t &fi
 		FCoefA[1] = -FCDSalidaInicial[1] * FVelocidadFin[1] / (FVelocidadCorte[1] - FVelocidadFin[1]);
 		FCoefB[1] = FCDSalidaInicial[1] / (FVelocidadCorte[1] - FVelocidadFin[1]);
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " << FNumeroDeposito
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TUnionDireccional::LeeDatosUnionDireccional en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -133,21 +132,21 @@ void TUnionDireccional::LeeDatosUnionDireccional(const char *FileWAM, fpos_t &fi
 void TUnionDireccional::AsignaCCUnionDireccional() {
 	try {
 
-		if (FTipoDeposito == nmUnionDireccional) {
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[0]) {
+		if(FTipoDeposito == nmUnionDireccional) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(FCCDeposito[i]->getNumeroCC() == FNodoEntrada[0]) {
 					FCCEntrada[0] = FCCDeposito[i];
-				} else if (FCCDeposito[i]->getNumeroCC() == FNodoEntrada[1]) {
+				} else if(FCCDeposito[i]->getNumeroCC() == FNodoEntrada[1]) {
 					FCCEntrada[1] = FCCDeposito[i];
-				} else if (FCCDeposito[i]->getNumeroCC() == FNodoSalida) {
+				} else if(FCCDeposito[i]->getNumeroCC() == FNodoSalida) {
 					FCCSalida = FCCDeposito[i];
 				}
 			}
 		}
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional "
-			<< FNumUnionDireccional << std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TUnionDireccional::AsignaCCUnionDireccional en la union direccional " << FNumUnionDireccional <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -170,19 +169,19 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 		H = 0.;
 		DeltaT = TimeCalculo - FTime;
 
-		if (FCalculoEspecies == nmCalculoCompleto) {
+		if(FCalculoEspecies == nmCalculoCompleto) {
 
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
-			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, __units::degCToK(FTemperature), FCalculoGamma, nmMEP);
+			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+											  FCalculoGamma, nmMEP);
+			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+												__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
-		} else if (FCalculoEspecies == nmCalculoSimple) {
+		} else if(FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0],
-				FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+											  FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 		}
@@ -195,37 +194,37 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 		double Error = 0.;
 		double Diff = 0.;
 
-		while (!Converge) {
+		while(!Converge) {
 			H = 0.;
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
 					SignoFlujo = 1;
-				} else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
+				} else if(dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
 					SignoFlujo = -1;
 				}
-				g = (double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
+				g = (double) - dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
 				v = (double) SignoFlujo * dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
 				a = dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
 				m = g * DeltaT * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
-				if (FirstStep) {
+				if(FirstStep) {
 					MasaEntrante += m;
-					for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+					for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 						FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
 					}
 				}
-				if (v > 0) {
+				if(v > 0) {
 					H += EntalpiaEntrada(a, v, m, FAsonido, FMasa, FCCDeposito[i]->getGamma());
 				}
 
 			}
-			if (FirstStep) {
+			if(FirstStep) {
 				FMasa = FMasa0 + MasaEntrante;
-				for (int j = 0; j < FNumeroEspecies - 2; j++) {
+				for(int j = 0; j < FNumeroEspecies - 2; j++) {
 					FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
+				if(FHayEGR)
 					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie[FNumeroEspecies - 1] / FMasa;
 				FirstStep = false;
 				H0 = H;
@@ -234,7 +233,7 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 			Energia = pow(FMasa / FMasa0 * exp((H + H0) / 2), __Gamma::G1(FGamma));
 			Asonido1 = FAsonido * sqrt(Energia);
 			Error = (Diff = Asonido1 - Asonido0, fabs(Diff)) / Asonido1;
-			if (Error > 1e-6) {
+			if(Error > 1e-6) {
 				Asonido0 = Asonido1;
 			} else {
 				FAsonido = Asonido1;
@@ -245,9 +244,9 @@ void TUnionDireccional::ActualizaPropiedades(double TimeCalculo) {
 		FPressure = __units::PaToBar(pow2(__cons::ARef * FAsonido) / FGamma / FVolumen * FMasa);
 		FPresionIsen = pow(FPressure / FPresRef, __Gamma::G5(FGamma));
 		FTime = TimeCalculo;
-	} catch (exception & N) {
-		std::cout << "ERROR: TUnionDireccional::ActualizaPropiedades en la union direccional: " << FNumUnionDireccional
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TUnionDireccional::ActualizaPropiedades en la union direccional: " << FNumUnionDireccional <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -262,10 +261,10 @@ void TUnionDireccional::CalculoUnionDireccional() {
 		double coefA = 0., coefB = 0.;
 		/* Parametro independiente y pendiente de la recta para el calculo del Coeficiende de Descarga */
 
-		for (int i = 0; i < 2; i++) {
-			if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmEntrante) {
+		for(int i = 0; i < 2; i++) {
+			if(dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmEntrante) {
 				FSentidoEntrada[i] = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmSaliente) {
+			} else if(dynamic_cast<TCCDeposito*>(FCCEntrada[i])->getSentidoFlujo() == nmSaliente) {
 				FSentidoEntrada[i] = -1;
 			} else
 				FSentidoEntrada[i] = 0; // Flujo parado
@@ -273,9 +272,9 @@ void TUnionDireccional::CalculoUnionDireccional() {
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 0 */
-		if (FVelocity[1] <= FVelocidadCorte[0]) {
+		if(FVelocity[1] <= FVelocidadCorte[0]) {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCDSalidaInicial[0]);
-		} else if (FVelocity[1] >= FVelocidadFin[0]) {
+		} else if(FVelocity[1] >= FVelocidadFin[0]) {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(0);
 		} else {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[0])->PutCDSalida(FCoefA[0] + FCoefB[0] * FVelocity[1]);
@@ -283,18 +282,18 @@ void TUnionDireccional::CalculoUnionDireccional() {
 		}
 
 		/* Calculo del coeficiente de descarga de salida en el Pipe de Entrada 1 */
-		if (FVelocity[0] <= FVelocidadCorte[1]) {
+		if(FVelocity[0] <= FVelocidadCorte[1]) {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCDSalidaInicial[1]);
-		} else if (FVelocity[0] >= FVelocidadFin[0]) {
+		} else if(FVelocity[0] >= FVelocidadFin[0]) {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(0);
 		} else {
 			dynamic_cast<TCCDeposito*>(FCCEntrada[1])->PutCDSalida(FCoefA[1] + FCoefB[1] * FVelocity[0]);
 
 		}
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TUnionDireccional::CalculoUnionDireccional en la union direccional: "
-			<< FNumUnionDireccional << std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TUnionDireccional::CalculoUnionDireccional en la union direccional: " << FNumUnionDireccional <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

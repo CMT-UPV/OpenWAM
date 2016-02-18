@@ -95,7 +95,7 @@ struct stFunDisCar {
 	}
 	double operator()(double x) {
 		double xx = 1 - x;
-		if (Sign > 0) {
+		if(Sign > 0) {
 			double a = A_0 * xx + A_1 * x;
 			double v = V_0 * xx + V_1 * x;
 			return x - (a - v) * D_t;
@@ -114,7 +114,7 @@ struct stFunDisCar {
  * finite differences pipes.
  */
 class TTubo {
-private:
+  private:
 //---------------------------------------------------------------------------
 //          VARIABLES PRIVADAS
 //---------------------------------------------------------------------------
@@ -322,87 +322,87 @@ private:
 
 	/*! Generate the mesh in the pipes */
 	void CalculoPuntosMalla(double ene						//!< Engine speed
-		);
+						   );
 
 	//double InterpolaTubo(double  vizq,double  vder,double  axid,double  xif);
 
 	/*! Transfor from the gas velocity, speed of sound and pressure to state vector */
 	void Transforma1(const double& v,						//!< Gas velocity
-		const double& a,								//!< Speed of sound
-		const double& p,								//!< Pressure
-		double** U,								//!< State vector
-		const double& Gamma,						//!< Specific heat ratio
-		const double& Gamma1,					//!< f(Specific heat ratio)
-		double* Yespecie,		//!< Array with the specie mass fractions
-		const int& i								//!< Cell index
-		);
+					 const double& a,								//!< Speed of sound
+					 const double& p,								//!< Pressure
+					 double** U,								//!< State vector
+					 const double& Gamma,						//!< Specific heat ratio
+					 const double& Gamma1,					//!< f(Specific heat ratio)
+					 double* Yespecie,		//!< Array with the specie mass fractions
+					 const int& i								//!< Cell index
+					);
 
 	/*! Transfor from the gas velocity, speed of sound and pressure to state vector (including the cross section in the state vector) */
 	void Transforma1Area(const double& v,					//!< Gas velocity
-		const double& a,								//!< Speed of sound
-		const double& p,								//!< Pressure
-		double** U,								//!< State vector
-		const double& area,							//!< Cross section
-		const double& Gamma,						//!< Specific heat ratio
-		const double& Gamma1,					//!< f(Specific heat ratio)
-		double* Yespecie,		//!< Array with the specie mass fractions
-		const int& i								//!< Cell index
-		);
+						 const double& a,								//!< Speed of sound
+						 const double& p,								//!< Pressure
+						 double** U,								//!< State vector
+						 const double& area,							//!< Cross section
+						 const double& Gamma,						//!< Specific heat ratio
+						 const double& Gamma1,					//!< f(Specific heat ratio)
+						 double* Yespecie,		//!< Array with the specie mass fractions
+						 const int& i								//!< Cell index
+						);
 
 	/*! Transfor from the state vector to gas  velocity, speed of sound and pressure */
 	void Transforma2(double& v,								//!< Gas velocity
-		double& a,								//!< Speed of sound
-		double& p,								//!< Pressure
-		double** U,								//!< State vector
-		const double& Gamma,						//!< Specific heat ratio
-		const double& Gamma1,					//!< f(Specific heat ratio)
-		double* Yespecie,			//!< Array with the specie mass fraction
-		const int& i								//!< Cell index
-		);
+					 double& a,								//!< Speed of sound
+					 double& p,								//!< Pressure
+					 double** U,								//!< State vector
+					 const double& Gamma,						//!< Specific heat ratio
+					 const double& Gamma1,					//!< f(Specific heat ratio)
+					 double* Yespecie,			//!< Array with the specie mass fraction
+					 const int& i								//!< Cell index
+					);
 
 	/*! Transfor from the state vector to gas  velocity, speed of sound and pressure */
 	void Transforma2Area(double& v,							//!< Gas velocity
-		double& a,								//!< Comment
-		double& p,								//!< Comment
-		double** U,								//!< Comment
-		const double& area,							//!< Comment
-		const double& Gamma,							//!< Comment
-		const double& Gamma1,							//!< Comment
-		double* Yespecie,						//!< Comment
-		const int& i								//!< Comment
-		);
+						 double& a,								//!< Comment
+						 double& p,								//!< Comment
+						 double** U,								//!< Comment
+						 const double& area,							//!< Comment
+						 const double& Gamma,							//!< Comment
+						 const double& Gamma1,							//!< Comment
+						 double* Yespecie,						//!< Comment
+						 const int& i								//!< Comment
+						);
 
 	/*! Comment */
 	void Transforma3Area(double** Ufct,								//!< Comment
-		double** U,									//!< Comment
-		double Area,								//!< Comment
-		double Gamma,								//!< Comment
-		double Gamma1,								//!< Comment
-		double Gamma6,								//!< Comment
-		int i									//!< Comment
-		);
+						 double** U,									//!< Comment
+						 double Area,								//!< Comment
+						 double Gamma,								//!< Comment
+						 double Gamma1,								//!< Comment
+						 double Gamma6,								//!< Comment
+						 int i									//!< Comment
+						);
 
 	/*! Comment */
 	void Transforma4Area(double** U1,		//!< Comment
-		double** Ufctd,	//!< Comment
-		double Area,	//!< Comment
-		double Gamma,	//!< Comment
-		double Gamma1,	//!< Comment
-		double Gamma3,	//!< Comment
-		double Gamma4,	//!< Comment
-		double Gamma6,	//!< Comment
-		int i		//!< Comment
-		);
+						 double** Ufctd,	//!< Comment
+						 double Area,	//!< Comment
+						 double Gamma,	//!< Comment
+						 double Gamma1,	//!< Comment
+						 double Gamma3,	//!< Comment
+						 double Gamma4,	//!< Comment
+						 double Gamma6,	//!< Comment
+						 int i		//!< Comment
+						);
 
 	/*! Comment */
 	double Maximo(double x,	//!< Comment
-		double y	//!< Comment
-		);
+				  double y	//!< Comment
+				 );
 
 	/*! Comment */
 	double Minimo(double x,	//!< Comment
-		double y	//!< Comment
-		);
+				  double y	//!< Comment
+				 );
 
 	/*! Comment */
 	void LaxWendroff();
@@ -415,127 +415,127 @@ private:
 
 	/*! Comment */
 	void CalculaFlujo(double** U,		//!< Comment
-		double** W,		//!< Comment
-		double* Gamma,	//!< Comment
-		double* Gamma1,	//!< Comment
-		int Nodos	//!< Comment
-		);
+					  double** W,		//!< Comment
+					  double* Gamma,	//!< Comment
+					  double* Gamma1,	//!< Comment
+					  int Nodos	//!< Comment
+					 );
 
 	/*! Comment */
 	void CalculaFuente1(double** U,		//!< Comment
-		double** V1,		//!< Comment
-		double* Gamma,	//!< Comment
-		double* Gamma1,	//!< Comment
-		int Nodos	//!< Comment
-		);
+						double** V1,		//!< Comment
+						double* Gamma,	//!< Comment
+						double* Gamma1,	//!< Comment
+						int Nodos	//!< Comment
+					   );
 
 	/*! Comment */
 	void CalculaFuente1Area(double** U,		//!< Comment
-		double** V1,		//!< Comment
-		double* Area,	//!< Comment
-		double* Gamma1,	//!< Comment
-		int Nodos	//!< Comment
-		);
+							double** V1,		//!< Comment
+							double* Area,	//!< Comment
+							double* Gamma1,	//!< Comment
+							int Nodos	//!< Comment
+						   );
 
 	/*! Comment */
 	void CalculaFuente2(double** U,					//!< Comment
-		double** V2,					//!< Comment
-		double* Area,				//!< Comment
-		double* hi,					//!< Comment
-		double* rho,				//!< Comment
-		double* Re,					//!< Comment
-		double* TempParedTubo,		//!< Comment
-		double* Gamma,				//!< Comment
-		double* Rmezcla,			//!< Comment
-		double* Gamma1,				//!< Comment
-		int Nodos				//!< Comment
-		);
+						double** V2,					//!< Comment
+						double* Area,				//!< Comment
+						double* hi,					//!< Comment
+						double* rho,				//!< Comment
+						double* Re,					//!< Comment
+						double* TempParedTubo,		//!< Comment
+						double* Gamma,				//!< Comment
+						double* Rmezcla,			//!< Comment
+						double* Gamma1,				//!< Comment
+						int Nodos				//!< Comment
+					   );
 
 	/*! Comment */
 	void CalculaFuente2Area(double** U,					//!< Comment
-		double** V2,					//!< Comment
-		double* Area,				//!< Comment
-		double* hi,					//!< Comment
-		double* rho,				//!< Comment
-		double* Re,					//!< Comment
-		double* TempParedTubo,		//!< Comment
-		double* Gamma,				//!< Comment
-		double* Rmezcla,			//!< Comment
-		double* Gamma1,				//!< Comment
-		int Nodos				//!< Comment
-		);
+							double** V2,					//!< Comment
+							double* Area,				//!< Comment
+							double* hi,					//!< Comment
+							double* rho,				//!< Comment
+							double* Re,					//!< Comment
+							double* TempParedTubo,		//!< Comment
+							double* Gamma,				//!< Comment
+							double* Rmezcla,			//!< Comment
+							double* Gamma1,				//!< Comment
+							int Nodos				//!< Comment
+						   );
 
 	/*! Comment */
 	double DerLinF(double d1,	//!< Comment
-		double d2,	//!< Comment
-		double xref	//!< Comment
-		);
+				   double d2,	//!< Comment
+				   double xref	//!< Comment
+				  );
 
 	/*! Comment */
 	double DerLinFArea(double area1,	//!< Comment
-		double area2,	//!< Comment
-		double xref		//!< Comment
-		);
+					   double area2,	//!< Comment
+					   double xref		//!< Comment
+					  );
 
 	/*! Comment */
 	void Colebrook(double rug,	//!< Comment
-		double dia,	//!< Comment
-		double& f,		//!< Comment
-		double Re		//!< Comment
-		);
+				   double dia,	//!< Comment
+				   double& f,		//!< Comment
+				   double Re		//!< Comment
+				  );
 
 	/*! Comment */
 	void TransmisionCalor(double tgas,				//!< Comment
-		double diametro,			//!< Comment
-		double& q,					//!< Comment
-		double hi,					//!< Comment
-		double rho,				//!< Comment
-		double Tw					//!< Comment
-		);
+						  double diametro,			//!< Comment
+						  double& q,					//!< Comment
+						  double hi,					//!< Comment
+						  double rho,				//!< Comment
+						  double Tw					//!< Comment
+						 );
 
 	/*! Comment */
 	void TransformaContorno(double& L,		//!< Comment
-		double& B,		//!< Comment
-		double& E,		//!< Comment
-		double& a,		//!< Comment
-		double& v,		//!< Comment
-		double& p,		//!< Comment
-		const int& modo,	//!< Comment
-		const double& Gamma1,	//!< Comment
-		const double& Gamma3,	//!< Comment
-		const double& Gamma4,	//!< Comment
-		const double& Gamma5	//!< Comment
-		);
+							double& B,		//!< Comment
+							double& E,		//!< Comment
+							double& a,		//!< Comment
+							double& v,		//!< Comment
+							double& p,		//!< Comment
+							const int& modo,	//!< Comment
+							const double& Gamma1,	//!< Comment
+							const double& Gamma3,	//!< Comment
+							const double& Gamma4,	//!< Comment
+							const double& Gamma5	//!< Comment
+						   );
 
 	/*! Comment */
 	double CalculaNIT(double a,		//!< Comment
-		double v,		//!< Comment
-		double p,		//!< Comment
-		double d,		//!< Comment
-		double Gamma, double Rmezcla);
+					  double v,		//!< Comment
+					  double p,		//!< Comment
+					  double d,		//!< Comment
+					  double Gamma, double Rmezcla);
 
 	//void FuncionTVD();
 
 	/*! Comment */
 	void Calculo_Entropia(double& entropia,		//!< Comment
-		double& velocidadp,		//!< Comment
-		int ind,			//!< Comment
-		double dist,			//!< Comment
-		int signo,			//!< Comment
-		double DeltaTiempo,	//!< Comment
-		int indiceCC		//!< Comment
-		);
+						  double& velocidadp,		//!< Comment
+						  int ind,			//!< Comment
+						  double dist,			//!< Comment
+						  int signo,			//!< Comment
+						  double DeltaTiempo,	//!< Comment
+						  int indiceCC		//!< Comment
+						 );
 
 	/*! Comment */
 	void Calculo_Caracteristica(double& caracteristica,	//!< Comment
-		double& velocidadp,		//!< Comment
-		double& asonidop,		//!< Comment
-		int ind,			//!< Comment
-		double dist,			//!< Comment
-		int signo,			//!< Comment
-		double entropia,		//!< Comment
-		double DeltaTiempo		//!< Comment
-		);
+								double& velocidadp,		//!< Comment
+								double& asonidop,		//!< Comment
+								int ind,			//!< Comment
+								double dist,			//!< Comment
+								int signo,			//!< Comment
+								double entropia,		//!< Comment
+								double DeltaTiempo		//!< Comment
+							   );
 
 	/*! Comment */
 	void CalculaB();
@@ -562,9 +562,9 @@ private:
 
 	/*! Comment */
 	double Limita(double r	//!< Comment
-		);
+				 );
 
-public:
+  public:
 //---------------------------------------------------------------------------
 //          VARIABLES PUBLICAS
 //---------------------------------------------------------------------------
@@ -951,29 +951,29 @@ public:
 
 	/*! Return the specie i mass fraction at boundary j */
 	double GetFraccionMasicaCC(int j,						//!< Boundary index
-		int i											//!< Specie index
-		) {
+							   int i											//!< Specie index
+							  ) {
 		return FFraccionMasicaCC[j][i];
 	}
 	;
 
 	/*! Return the gas velocity at boundary i */
 	double GetVelocidadCC(int i								//!< Boundary index
-		) {
+						 ) {
 		return FVelocidadCC[i];
 	}
 	;
 
 	/*! Return the gas density at boudary i */
 	double GetDensidadCC(int i								//!< Boundary index
-		) {
+						) {
 		return FDensidadCC[i];
 	}
 	;
 
 	/*! Return the cross section at boundary i  */
 	double GetAreaCC(int i									//!< Boundary index
-		) {
+					) {
 		return FAreaCC[i];
 	}
 	;
@@ -1018,8 +1018,8 @@ public:
 	;
 	/*! Return the valuve of the component i of the state vector at the cell j */
 	double GetU0(int i,										//!< Equation index
-		int j											//!< Cell index
-		) {
+				 int j											//!< Cell index
+				) {
 		return FU0[i][j];
 	}
 	;
@@ -1027,7 +1027,7 @@ public:
 	/*! Return the heat transfer coefficient at cell i */
 
 	double Gethi(int i											//!< Cell index
-		) {
+				) {
 		return Fhi[i];
 	}
 	;
@@ -1035,7 +1035,7 @@ public:
 	/*! Return the external heat transfer coefficient at cell i */
 
 	double Gethe(int i											//!< Cell index
-		) {
+				) {
 		return Fhe[i];
 	}
 	;
@@ -1065,38 +1065,38 @@ public:
 
 	/*! Contructor of the pipe class */
 	TTubo(int SpeciesNumber, //!< Number of different species considered in the simulation.
-		int j,										//!< Index of the pipe
-		double SimulationDuration,								//!< Duration of the simulation. If there is not engine.
-		TBloqueMotor **Engine,			//!< Pointer to the engine object
-		nmTipoCalculoEspecies SpeciesModel,	//!< Type of species calculation
-		nmCalculoGamma GammaCalculation,	//!< Type of specific heat calculation
-		bool ThereIsEGR						//!< EGR specie is considered?
-		);
+		  int j,										//!< Index of the pipe
+		  double SimulationDuration,								//!< Duration of the simulation. If there is not engine.
+		  TBloqueMotor **Engine,			//!< Pointer to the engine object
+		  nmTipoCalculoEspecies SpeciesModel,	//!< Type of species calculation
+		  nmCalculoGamma GammaCalculation,	//!< Type of specific heat calculation
+		  bool ThereIsEGR						//!< EGR specie is considered?
+		 );
 
 	/*! Destructor of the pipe class*/
 	~TTubo();
 
 	/*!Comment  */
 	void LeeDatosGeneralesTubo(const char*FileWAM, 					//!< Comment
-		fpos_t&filepos 						//!< Comment
-		);
+							   fpos_t&filepos 						//!< Comment
+							  );
 
 	/*!Comment  */
 	void LeeDatosGeometricosTubo(const char* FileWAM,          //!< Comment
-		fpos_t& filepos,          //!< Comment
-		double ene,              //!< Comment
-		int tipomallado,      //!< Comment
-		TBloqueMotor ** Engine            //!< Comment
-		);
+								 fpos_t& filepos,          //!< Comment
+								 double ene,              //!< Comment
+								 int tipomallado,      //!< Comment
+								 TBloqueMotor ** Engine            //!< Comment
+								);
 
 	/*!Comment  */
 	void IniciaVariablesFundamentalesTubo();
 
 	/*!Comment  */
 	void IniciaVariablesTransmisionCalor(TCondicionContorno ** BC,  //!< Comment
-		TBloqueMotor ** Engine,     //!< Comment
-		double AmbientTemperature        //!< Comment
-		);
+										 TBloqueMotor ** Engine,     //!< Comment
+										 double AmbientTemperature        //!< Comment
+										);
 
 	/*!Comment  */
 	void EstabilidadMetodoCalculo();
@@ -1106,7 +1106,7 @@ public:
 
 	/*!Comment  */
 	void ActualizaValoresNuevos(TCondicionContorno ** BC         //!< Comment
-		);
+							   );
 
 	/*!Comment  */
 	void ReduccionFlujoSubsonico();
@@ -1116,109 +1116,109 @@ public:
 
 	/*!Comment  */
 	void ReadAverageResultsTubo(const char* FileWAM,                //!< Comment
-		fpos_t& filepos,                //!< Comment
-		bool HayMotor                //!< Comment
-		);
+								fpos_t& filepos,                //!< Comment
+								bool HayMotor                //!< Comment
+							   );
 
 	/*!Comment  */
 	void HeaderAverageResults(std::stringstream& medoutput,        //!< Comment
-		stEspecies* DatosEspecies     //!< Comment
-		) const;
+							  stEspecies* DatosEspecies     //!< Comment
+							 ) const;
 
 	/*!Comment  */
 	void ImprimeResultadosMedios(std::stringstream& medoutput       //!< Comment
-		) const;
+								) const;
 
 	/*!Comment  */
 	void ReadInstantaneousResultsTubo(const char* FileWAM,          //!< Comment
-		fpos_t& filepos,                //!< Comment
-		bool HayMotor                //!< Comment
-		);
+									  fpos_t& filepos,                //!< Comment
+									  bool HayMotor                //!< Comment
+									 );
 
 	/*!Comment  */
 	void HeaderInstantaneousResults(std::stringstream& insoutput,   //!< Comment
-		stEspecies* DatosEspecies     //!< Comment
-		) const;
+									stEspecies* DatosEspecies     //!< Comment
+								   ) const;
 
 	/*!Comment  */
 	void ImprimeResultadosInstantaneos(std::stringstream& insoutput //!< Comment
-		) const;
+									  ) const;
 
 	/*!Comment  */
 	void CalculaResultadosMedios(double Theta            //!< Comment
-		);
+								);
 
 	/*!Comment  */
 	void CalculaResultadosInstantaneos();
 
 	/*!Comment  */
 	void SalidaGeneralTubos(stEspecies* DatosEspecies      //!< Comment
-		) const;
+						   ) const;
 
 	/*!Comment  */
 	void CalculaTemperaturaPared(TBloqueMotor ** Engine,     //!< Comment
-		double Theta,      //!< Comment
-		double CrankAngle,     //!< Comment
-		TCondicionContorno ** BC         //!< Comment
-		);
+								 double Theta,      //!< Comment
+								 double CrankAngle,     //!< Comment
+								 TCondicionContorno ** BC         //!< Comment
+								);
 
 	void CalculaTemperaturaParedSinMotor(TCondicionContorno **BC);
 
 	/*!Comment  */
 	void AjustaPaso(double Intervalo                //!< Comment
-		);
+				   );
 
 	/*!Comment  */
 	void CalculaCaracteristicasExtremos(TCondicionContorno ** BC,   //!< Comment
-		double DeltaTiempo //!< Comment
-		);
+										double DeltaTiempo //!< Comment
+									   );
 
 	/*!Comment  */
 	double Interpola_Entropia(nmPipeEnd TipoExtremoTubo,    //!< Comment
-		double DeltaTiempo         //!< Comment
-		);
+							  double DeltaTiempo         //!< Comment
+							 );
 
 	/*!Comment  */
 	double Interpola_Caracteristica(double entropia,                //!< Comment
-		int signo,                    //!< Comment
-		int extremo,                  //!< Comment
-		double DeltaTiempo               //!< Comment
-		);
+									int signo,                    //!< Comment
+									int extremo,                  //!< Comment
+									double DeltaTiempo               //!< Comment
+								   );
 
 	/*!Comment  */
 	void ComunicacionTubo_CC(TCondicionContorno ** BC         //!< Comment
-		);
+							);
 
 	/*!Comment  */
 	void ComunicacionDPF(TCondicionContorno **CC,  //!< Comment
-		TDeposito **Deposito                        //!< Comment
-		);
+						 TDeposito **Deposito                        //!< Comment
+						);
 
 	/*!Comment  */
 	void InicializaCaracteristicas(TCondicionContorno ** BC         //!< Comment
-		);
+								  );
 
 	/*!Comment  */
 	void CalculaCoeficientePeliculaExterior(TBloqueMotor ** Engine, //!< Comment
-		double AmbientPressure,             //!< Comment
-		double AmbientTemperature              //!< Comment
-		);
+											double AmbientPressure,             //!< Comment
+											double AmbientTemperature              //!< Comment
+										   );
 
 	/*!Comment  */
 	void CalculaResistenciasdePared(TCondicionContorno ** BC        //!< Comment
-		);
+								   );
 
 	/*!Comment  */
 	void CalculaCoeficientePeliculaInterior(TCondicionContorno ** BC //!< Comment
-		);
+										   );
 
 	/*!Comment  */
 	void ActualizaPropiedadesGas();
 
 	/*! Return the value of the of the specie i mass fraction at cell j */
 	double GetFraccionMasica(int j,								//!< Cell index
-		int i											//!< Specie index
-		) {
+							 int i											//!< Specie index
+							) {
 		return FFraccionMasicaEspecie[j][i];
 	}
 	;
