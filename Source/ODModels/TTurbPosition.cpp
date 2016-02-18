@@ -48,21 +48,21 @@ void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos, double
 	FPosition = pos;
 	FAngle = ang;
 
-	for (int i = 0; i < rows; i++) {
+	for(int i = 0; i < rows; i++) {
 		fscanf(Input, "%lf %lf %lf %lf", &SP, &ER, &MF, &EF);
-		if (i == 0) {
+		if(i == 0) {
 			FLines = 1;
 			FSpeedLine.resize(1);
 			FSpeedLine[0].AsignaValores(ER, MF, EF);
 			FSpeedLine[0].PutSpeed(SP);
 		} else {
-			if (SP == SP0) {
-				if (ER > ER0) {
+			if(SP == SP0) {
+				if(ER > ER0) {
 					FSpeedLine[FLines - 1].AsignaValores(ER, MF, EF);
 				} else {
 					// error
 				}
-			} else if (SP > SP0) {
+			} else if(SP > SP0) {
 				FLines++;
 				FSpeedLine.resize(FLines);
 				FSpeedLine[FLines - 1].AsignaValores(ER, MF, EF);
@@ -78,15 +78,15 @@ void TTurbPosition::ReadTurbinPosition(FILE *Input, int rows, double pos, double
 }
 
 void TTurbPosition::EffectiveArea(double Area, bool CalculaGR, double Diam1, double Diam2, double Diam3,
-	double n_limit) {
-	for (int i = 0; i < FLines; i++) {
+								  double n_limit) {
+	for(int i = 0; i < FLines; i++) {
 		FSpeedLine[i].EffectiveSection(Area, CalculaGR, FAngle, Diam1, Diam2, Diam3, n_limit);
 		FSpeedLine[i].Adimensionaliza();
 	}
 }
 
 void TTurbPosition::CalculatePower(double Tin) {
-	for (int i = 0; i < FLines; i++) {
+	for(int i = 0; i < FLines; i++) {
 		FSpeedLine[i].CalculatePower(Tin);
 	}
 }
@@ -96,7 +96,7 @@ void TTurbPosition::PutPosition(double Pos) {
 }
 
 void TTurbPosition::SearchMapLimits() {
-	for (int i = 0; i < FLines; i++) {
+	for(int i = 0; i < FLines; i++) {
 		FSpeed.push_back(FSpeedLine[i].Speed());
 		FERMax.push_back(FSpeedLine[i].ERMax());
 		FERMin.push_back(FSpeedLine[i].ERMin());
@@ -112,10 +112,10 @@ void TTurbPosition::SearchMapLimits() {
 void TTurbPosition::InterpolaPosicion(double n, double er) {
 	double CDStator0, CDStator1, CDRotor0, CDRotor1, ERAdim, DeltaN, ERMax, ERMin, Eff0, Eff1;
 
-	if (n <= FSpeedMin) {
-		if (er < FSpeedLine[0].ERMin()) {
+	if(n <= FSpeedMin) {
+		if(er < FSpeedLine[0].ERMin()) {
 			ERAdim = 0;
-		} else if (er > FSpeedLine[0].ERMax()) {
+		} else if(er > FSpeedLine[0].ERMax()) {
 			ERAdim = 1;
 		} else {
 			ERAdim = (er - FSpeedLine[0].ERMin()) / (FSpeedLine[0].ERMax() - FSpeedLine[0].ERMin());
@@ -124,14 +124,13 @@ void TTurbPosition::InterpolaPosicion(double n, double er) {
 		FStatorSec = FSpeedLine[0].Stator(ERAdim);
 		FRotorSec = FSpeedLine[0].Rotor(ERAdim);
 		FEfficiency = FSpeedLine[0].Efficiency(ERAdim);
-	} else if (n >= FSpeedMax) {
-		if (er < FSpeedLine[FLines - 1].ERMin()) {
+	} else if(n >= FSpeedMax) {
+		if(er < FSpeedLine[FLines - 1].ERMin()) {
 			ERAdim = 0;
-		} else if (er > FSpeedLine[FLines - 1].ERMax()) {
+		} else if(er > FSpeedLine[FLines - 1].ERMax()) {
 			ERAdim = 1;
 		} else {
-			ERAdim = (er - FSpeedLine[FLines - 1].ERMin())
-				/ (FSpeedLine[FLines - 1].ERMax() - FSpeedLine[FLines - 1].ERMin());
+			ERAdim = (er - FSpeedLine[FLines - 1].ERMin()) / (FSpeedLine[FLines - 1].ERMax() - FSpeedLine[FLines - 1].ERMin());
 		}
 
 		FStatorSec = FSpeedLine[FLines - 1].Stator(ERAdim);
@@ -139,7 +138,7 @@ void TTurbPosition::InterpolaPosicion(double n, double er) {
 		FEfficiency = FSpeedLine[FLines - 1].Efficiency(ERAdim);
 	} else {
 		int i = 0;
-		while (FSpeedLine[i].Speed() < n) {
+		while(FSpeedLine[i].Speed() < n) {
 			++i;
 		}
 
@@ -160,7 +159,7 @@ void TTurbPosition::InterpolaPosicion(double n, double er) {
 }
 
 void TTurbPosition::PrintTurbinePosition(FILE *fich) {
-	for (int i = 0; i < FLines; i++) {
+	for(int i = 0; i < FLines; i++) {
 		FSpeedLine[i].PrintEffectiveSection(fich);
 	}
 }
@@ -184,7 +183,7 @@ double TTurbPosition::Efficiency() {
 double TTurbPosition::MaxPowerLimit(double rtc) {
 
 	int i = 0;
-	while (FSpeedLine[i].Speed() < rtc) {
+	while(FSpeedLine[i].Speed() < rtc) {
 		++i;
 	}
 	double DeltaN = (rtc - FSpeed[i - 1]) / (FSpeed[i] - FSpeed[i - 1]);
@@ -197,7 +196,7 @@ double TTurbPosition::MaxPowerLimit(double rtc) {
 double TTurbPosition::MinPowerLimit(double rtc) {
 
 	int i = 0;
-	while (FSpeedLine[i].Speed() < rtc) {
+	while(FSpeedLine[i].Speed() < rtc) {
 		++i;
 	}
 	double DeltaN = (rtc - FSpeed[i - 1]) / (FSpeed[i] - FSpeed[i - 1]);
@@ -208,7 +207,7 @@ double TTurbPosition::MinPowerLimit(double rtc) {
 }
 
 void TTurbPosition::AdiabaticEfficiency(TTC_HTM *HTM, double TinT, double TinC) {
-	for (int i = 0; i < FLines; ++i) {
+	for(int i = 0; i < FLines; ++i) {
 		FSpeedLine[i].GetAdiabaticEfficiency(HTM, TinT, TinC);
 	}
 }

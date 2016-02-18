@@ -46,7 +46,7 @@ enum nmTipoRotor {
 //---------------------------------------------------------------------------
 
 class TRotorTurbina: public TTipoValvula {
-private:
+  private:
 
 	nmTipoRotor FTipoRotor;
 	double FCDEInicial;
@@ -62,7 +62,7 @@ private:
 
 	int FValvula;
 
-public:
+  public:
 
 	TRotorTurbina(TRotorTurbina *Origen, int valv);
 

@@ -37,7 +37,7 @@
 class TTubo;
 
 class TCilindro4T: public TCilindro {
-private:
+  private:
 
 	double EntalpiaEntrada(double ASonEnt, double VelEnt, double MasEnt, double ASonCil, double MasCil);
 
@@ -46,12 +46,12 @@ private:
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-protected:
+  protected:
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-public:
+  public:
 
 	TCilindro4T(TBloqueMotor *Engine, int nc, bool ThereIsEGR);
 

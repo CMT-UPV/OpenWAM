@@ -62,7 +62,7 @@ struct stTurbomachinery {
 };
 
 class TEffCorrector {
-private:
+  private:
 
 	stTurbomachinery FC;
 	stTurbomachinery FT;
@@ -144,14 +144,14 @@ private:
 
 	double Oil_Heat_Flow();
 
-public:
+  public:
 	TEffCorrector();
 
 	~TEffCorrector();
 
 	void InputData(double T_AF, double T_Humidity, double T_MassFlow, double T_IT_C, double T_IP, double T_PR,
-		double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow, double O_IT_C,
-		double O_IP, double RTC);
+				   double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow, double O_IT_C,
+				   double O_IP, double RTC);
 
 	void BuidMatrix();
 

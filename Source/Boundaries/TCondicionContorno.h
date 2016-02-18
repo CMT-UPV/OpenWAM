@@ -53,9 +53,9 @@
 
 class TCondicionContorno {
 
-private:
+  private:
 
-protected:
+  protected:
 
 	nmTypeBC FTipoCC;
 
@@ -93,7 +93,7 @@ protected:
 
 //	void PutPosicionNodo(double valor);
 
-public:
+  public:
 
 	nmTypeBC getTipoCC() {
 		return FTipoCC;
@@ -144,7 +144,7 @@ public:
 	double GetFraccionMasicaEspecie(int i);
 
 	TCondicionContorno(nmTypeBC Tipo, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+					   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TCondicionContorno() = 0;
 
@@ -157,7 +157,7 @@ public:
 	;
 
 	virtual void ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
-		TDPF **DPF) {
+								  TDPF **DPF) {
 	}
 	;
 

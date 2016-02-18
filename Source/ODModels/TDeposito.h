@@ -42,7 +42,7 @@ class TCondicionContorno;
 class TCompresor;
 
 class TDeposito {
-protected:
+  protected:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	// ---------------------------------------------------------------------------
@@ -146,12 +146,11 @@ protected:
 
 	// void PutNUniones(int value);
 
-	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD, double MasaD,
-		double Gamma);
+	double EntalpiaEntrada(double ASonidoE, double VelocidadE, double MasaE, double ASonidoD, double MasaD, double Gamma);
 
 	// void PutCalculadoPaso(bool valor);
 
-public:
+  public:
 	// ---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	// ---------------------------------------------------------------------------
@@ -270,7 +269,7 @@ public:
 	// ---------------------------------------------------------------------------
 
 	TDeposito(int i, nmTipoDeposito TipoDeposito, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+			  nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	virtual ~TDeposito() = 0;
 

@@ -44,7 +44,7 @@
 #include "Globales.h"
 
 class TEGRV {
-private:
+  private:
 
 	FILE *FichEGRV;
 //double FCDEntrante;
@@ -81,7 +81,7 @@ private:
 //Funcion de interpolacion
 	double xit_(double vizq, double vder, double axid, double xif);
 
-public:
+  public:
 
 	double FCDEntrante;
 	double getCDEntrante() {

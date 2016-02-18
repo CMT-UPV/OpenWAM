@@ -10,15 +10,15 @@
 // ---------------------------------------------------------------------------
 
 class TCompressorMap {
-private:
+  private:
 
-protected:
+  protected:
 
 	double FMassMultiplier;
 	double FCRMultiplier;
 	double FEffMultiplier;
 
-public:
+  public:
 
 	TCompressorMap();
 

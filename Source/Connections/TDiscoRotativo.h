@@ -42,7 +42,7 @@
 //---------------------------------------------------------------------------
 
 class TDiscoRotativo: public TTipoValvula {
-private:
+  private:
 
 	double FDiametroRef;
 	int FNumeroPuntos;
@@ -61,7 +61,7 @@ private:
 	double FShift;
 	double FDuration;
 
-public:
+  public:
 
 	TDiscoRotativo(TDiscoRotativo *Origen, int valv);
 

@@ -39,7 +39,7 @@
 //---------------------------------------------------------------------------
 
 TCompresor::TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-	bool ThereIsEGR) {
+					   bool ThereIsEGR) {
 	FNumeroCompresor = i + 1;
 	FMedias.GraficaMedias = false;
 	FMedias.GraficaTrabajo = false;
@@ -69,7 +69,7 @@ TCompresor::TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespe
 	FFraccionMasicaEspecie = NULL;
 
 	FHayEGR = ThereIsEGR;
-	if (FHayEGR)
+	if(FHayEGR)
 		FIntEGR = 0;
 	else
 		FIntEGR = 1;
@@ -81,11 +81,11 @@ TCompresor::TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespe
 //---------------------------------------------------------------------------
 
 TCompresor::~TCompresor() {
-	if (Mapa != NULL)
+	if(Mapa != NULL)
 		delete Mapa;
-	if (Mapa2T != NULL)
+	if(Mapa2T != NULL)
 		delete Mapa2T;
-	if (FFraccionMasicaEspecie != NULL)
+	if(FFraccionMasicaEspecie != NULL)
 		delete[] FFraccionMasicaEspecie;
 }
 
@@ -96,13 +96,13 @@ void TCompresor::InterpolaValoresMapa(double rtc) {
 	try {
 		FRegimen = rtc;
 
-		if (FModeloCompresor == nmCompPipes) {
+		if(FModeloCompresor == nmCompPipes) {
 			Mapa2T->InterpolaMapa(FRegimen, FTemperatura10);
 		} else {
 			Mapa->InterpolaMapa(FRegimen, FTemperatura10);
 		}
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: InterpolaValoresMapa en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: InterpolaValoresMapa en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -124,7 +124,7 @@ void TCompresor::AcumulaMedias(double Tiempo) {
 		FMedias.RegimenCorregidoSUM += FRegimenCorregido * DeltaT;
 		FMedias.TrabajoSUM += FPotencia * DeltaT;
 		FMedias.Tiempo0 = Tiempo;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: AcumulaMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: AcumulaMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -146,7 +146,7 @@ void TCompresor::IniciaMedias() {
 		FMedias.TrabajoSUM = 0.;
 		FMedias.Tiempo0 = 0.;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: IniciaMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: IniciaMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -163,11 +163,11 @@ void TCompresor::CalculoPotenciaPaso() {
 		FTrabajoPaso = 0.;
 		FDeltaTPaso = 0.;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCompresor::CalculoPotenciaPaso en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: TCompresor::CalculoPotenciaPaso en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: TCompresor::CalculoPotenciaPaso en el compresor: " + std::to_string(
+							FNumeroCompresor) + N.what());
 	}
 }
 //---------------------------------------------------------------------------
@@ -191,7 +191,7 @@ void TCompresor::CalculaMedias() {
 		FMedias.GastoCorregidoSUM = 0.;
 		FMedias.RegimenCorregidoSUM = 0.;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: CalculaMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -210,7 +210,7 @@ void TCompresor::CalculaInstantaneos() {
 		FInstant.GastoCorregido = FGastoCorregido;
 		FInstant.RegimenCorregido = FRegimenCorregido;
 		FInstant.Gamma = FGamma;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaInstantaneos en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: CalculaInstantaneos en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -228,9 +228,9 @@ void TCompresor::LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos) {
 
 		FMedias.GraficaMedias = true;
 		fscanf(fich, "%d", &NMagnitudes);
-		for (int i = 0; i < NMagnitudes; i++) {
+		for(int i = 0; i < NMagnitudes; i++) {
 			fscanf(fich, "%d", &Magnitud);
-			switch (Magnitud) {
+			switch(Magnitud) {
 			case 0:
 				FMedias.GraficaTrabajo = true;
 				break;
@@ -253,11 +253,10 @@ void TCompresor::LeeDatosGraficasMedias(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosGraficasMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: LeeDatosGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: LeeDatosGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -268,38 +267,37 @@ void TCompresor::CabeceraGraficasMedias(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
-		if (FMedias.GraficaMedias) {
-			if (FMedias.GraficaTrabajo) {
+		if(FMedias.GraficaMedias) {
+			if(FMedias.GraficaTrabajo) {
 				Label = "\t" + PutLabel(28) + std::to_string(FNumeroCompresor) + PutLabel(907);
 				medoutput << Label.c_str();
 			}
-			if (FMedias.GraficaRendimiento) {
+			if(FMedias.GraficaRendimiento) {
 				Label = "\t" + PutLabel(22) + std::to_string(FNumeroCompresor) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
-			if (FMedias.GraficaRelacionCompresion) {
+			if(FMedias.GraficaRelacionCompresion) {
 				Label = "\t" + PutLabel(23) + std::to_string(FNumeroCompresor) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
-			if (FMedias.GraficaGasto) {
+			if(FMedias.GraficaGasto) {
 				Label = "\t" + PutLabel(24) + std::to_string(FNumeroCompresor) + PutLabel(904);
 				medoutput << Label.c_str();
 			}
-			if (FMedias.GraficaGastoCorregido) {
+			if(FMedias.GraficaGastoCorregido) {
 				Label = "\t" + PutLabel(25) + std::to_string(FNumeroCompresor) + PutLabel(905);
 				medoutput << Label.c_str();
 			}
-			if (FMedias.GraficaRegimenCorregido) {
+			if(FMedias.GraficaRegimenCorregido) {
 				Label = "\t" + PutLabel(26) + std::to_string(FNumeroCompresor) + PutLabel(906);
 				medoutput << Label.c_str();
 			}
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CabeceraGraficasMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: CabeceraGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: CabeceraGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -309,22 +307,22 @@ void TCompresor::CabeceraGraficasMedias(stringstream& medoutput) {
 void TCompresor::ImprimeGraficasMedias(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		if (FMedias.GraficaMedias) {
-			if (FMedias.GraficaTrabajo)
+		if(FMedias.GraficaMedias) {
+			if(FMedias.GraficaTrabajo)
 				medoutput << "\t" << FMedias.Trabajo;
-			if (FMedias.GraficaRendimiento)
+			if(FMedias.GraficaRendimiento)
 				medoutput << "\t" << FMedias.Rendimiento;
-			if (FMedias.GraficaRelacionCompresion)
+			if(FMedias.GraficaRelacionCompresion)
 				medoutput << "\t" << FMedias.RelacionCompresion;
-			if (FMedias.GraficaGasto)
+			if(FMedias.GraficaGasto)
 				medoutput << "\t" << FMedias.Massflow;
-			if (FMedias.GraficaGastoCorregido)
+			if(FMedias.GraficaGastoCorregido)
 				medoutput << "\t" << FMedias.GastoCorregido;
-			if (FMedias.GraficaRegimenCorregido)
+			if(FMedias.GraficaRegimenCorregido)
 				medoutput << "\t" << FMedias.RegimenCorregido;
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeGraficasMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception("ERROR: ImprimeGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
@@ -342,9 +340,9 @@ void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM, fpos_t &filep
 
 		FInstant.GraficaInstantaneas = true;
 		fscanf(fich, "%d", &NMagnitudes);
-		for (int i = 0; i < NMagnitudes; i++) {
+		for(int i = 0; i < NMagnitudes; i++) {
 			fscanf(fich, "%d", &Magnitud);
-			switch (Magnitud) {
+			switch(Magnitud) {
 			case 0:
 				FInstant.GraficaRelacionCompresion = true;
 				break;
@@ -370,11 +368,10 @@ void TCompresor::LeeDatosGraficasInstantaneas(const char *FileWAM, fpos_t &filep
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosGraficasMedias en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: LeeDatosGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: LeeDatosGraficasMedias en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -386,42 +383,41 @@ void TCompresor::CabeceraGraficasInstantaneas(stringstream& insoutput) {
 //FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FInstant.GraficaInstantaneas) {
-			if (FInstant.GraficaPotencia) {
+		if(FInstant.GraficaInstantaneas) {
+			if(FInstant.GraficaPotencia) {
 				Label = "\t" + PutLabel(21) + std::to_string(FNumeroCompresor) + PutLabel(903);
 				insoutput << Label.c_str();
 			}
-			if (FInstant.GraficaRendimiento) {
+			if(FInstant.GraficaRendimiento) {
 				Label = "\t" + PutLabel(22) + std::to_string(FNumeroCompresor) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
-			if (FInstant.GraficaRelacionCompresion) {
+			if(FInstant.GraficaRelacionCompresion) {
 				Label = "\t" + PutLabel(23) + std::to_string(FNumeroCompresor) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
-			if (FInstant.GraficaGasto) {
+			if(FInstant.GraficaGasto) {
 				Label = "\t" + PutLabel(24) + std::to_string(FNumeroCompresor) + PutLabel(904);
 				insoutput << Label.c_str();
 			}
-			if (FInstant.GraficaGastoCorregido) {
+			if(FInstant.GraficaGastoCorregido) {
 				Label = "\t" + PutLabel(25) + std::to_string(FNumeroCompresor) + PutLabel(905);
 				insoutput << Label.c_str();
 			}
-			if (FInstant.GraficaRegimenCorregido) {
+			if(FInstant.GraficaRegimenCorregido) {
 				Label = "\t" + PutLabel(26) + std::to_string(FNumeroCompresor) + PutLabel(906);
 				insoutput << Label.c_str();
 			}
-			if (FInstant.GraficaGamma) {
+			if(FInstant.GraficaGamma) {
 				Label = "\t" + PutLabel(27) + std::to_string(FNumeroCompresor) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CabeceraGraficasInstantaneas en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: CabeceraGraficasInstantaneas en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: CabeceraGraficasInstantaneas en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -431,28 +427,27 @@ void TCompresor::CabeceraGraficasInstantaneas(stringstream& insoutput) {
 void TCompresor::ImprimeGraficasInstantaneas(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		if (FInstant.GraficaInstantaneas) {
-			if (FInstant.GraficaPotencia)
+		if(FInstant.GraficaInstantaneas) {
+			if(FInstant.GraficaPotencia)
 				insoutput << "\t" << FInstant.Potencia;
-			if (FInstant.GraficaRendimiento)
+			if(FInstant.GraficaRendimiento)
 				insoutput << "\t" << FInstant.Rendimiento;
-			if (FInstant.GraficaRelacionCompresion)
+			if(FInstant.GraficaRelacionCompresion)
 				insoutput << "\t" << FInstant.RelacionCompresion;
-			if (FInstant.GraficaGasto)
+			if(FInstant.GraficaGasto)
 				insoutput << "\t" << FInstant.Massflow;
-			if (FInstant.GraficaGastoCorregido)
+			if(FInstant.GraficaGastoCorregido)
 				insoutput << "\t" << FInstant.GastoCorregido;
-			if (FInstant.GraficaRegimenCorregido)
+			if(FInstant.GraficaRegimenCorregido)
 				insoutput << "\t" << FInstant.RegimenCorregido;
-			if (FInstant.GraficaGamma)
+			if(FInstant.GraficaGamma)
 				insoutput << "\t" << FInstant.Gamma;
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeGraficasInstantaneas en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: ImprimeGraficasInstantaneas en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: ImprimeGraficasInstantaneas en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -461,16 +456,15 @@ void TCompresor::ImprimeGraficasInstantaneas(stringstream& insoutput) {
 
 double TCompresor::GetASonidoComp() {
 	try {
-		if (FModeloCompresor == nmCompPipes) {
+		if(FModeloCompresor == nmCompPipes) {
 			printf("ERROR:El compresor de tubos no puede estar unido a un deposito\n");
 			return 0;
 		} else
 			return FASonidoSalida;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCompresor::GetASonidoComp en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: ImprimeGraficasInstantaneas en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
+		throw Exception("ERROR: ImprimeGraficasInstantaneas en el compresor: " + std::to_string(FNumeroCompresor) + N.what());
 	}
 }
 
@@ -480,7 +474,7 @@ double TCompresor::GetASonidoComp() {
 double TCompresor::GetFraccionMasicaEspecie(int i) {
 	try {
 		return FFraccionMasicaEspecie[i];
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCompresor::GetFraccionMasicaEspecie en el compresor: " << FNumeroCompresor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -491,7 +485,7 @@ double TCompresor::GetFraccionMasicaEspecie(int i) {
 //---------------------------------------------------------------------------
 
 void TCompresor::AsignAcousticElements(TTubo **Pipe, TDeposito **Volume) {
-	if (FIsAcoustic) {
+	if(FIsAcoustic) {
 		FAcComp->AsignInPipe(Pipe);
 		FAcComp->AsignOutPipe(Pipe);
 		FAcComp->AsignVolute(Pipe);

@@ -11,18 +11,18 @@ TEffCorrector::TEffCorrector() {
 	FNumberNodes = 8;
 
 	FMatriz_KS.resize(FNumberNodes);
-	for (int i = 0; i < FNumberNodes; i++) {
+	for(int i = 0; i < FNumberNodes; i++) {
 		FMatriz_KS[i].resize(FNumberNodes, 0.0);
 		// for (int j = 0; j < FNumberNodes; j++) {
 		// FMatriz_KS[i][j] = 0.0;
 		// }
 	}
 	FMatrix_dT.resize(FNumberNodes);
-	for (int i = 0; i < FNumberNodes; i++) {
+	for(int i = 0; i < FNumberNodes; i++) {
 		FMatrix_dT[i].resize(FNumberNodes, 0.0);
 	}
 	FMatrix_HF.resize(FNumberNodes);
-	for (int i = 0; i < FNumberNodes; i++) {
+	for(int i = 0; i < FNumberNodes; i++) {
 		FMatrix_HF[i].resize(FNumberNodes, 0.0);
 	}
 	FNode_Temp_K.resize(FNumberNodes);
@@ -36,8 +36,8 @@ TEffCorrector::~TEffCorrector() {
 }
 
 void TEffCorrector::InputData(double T_AF, double T_Humidity, double T_MassFlow, double T_IT_C, double T_IP,
-	double T_PR, double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow,
-	double O_IT_C, double O_IP, double RTC) {
+							  double T_PR, double C_Humidity, double C_MassFlow, double C_IT_C, double C_IP, double C_PR, double O_MassFlow,
+							  double O_IT_C, double O_IP, double RTC) {
 
 	FT.AF = T_AF; // Turbine A/F
 	FT.Humidity = T_Humidity; // Turbine Humidity
@@ -105,10 +105,10 @@ void TEffCorrector::BuidMatrix() {
 	FMatriz_KS[5][6] = FMatriz_KS[6][5];
 	FMatriz_KS[6][7] = FMatriz_KS[7][6];
 
-	for (int i = 3; i < FNumberNodes; i++) {
+	for(int i = 3; i < FNumberNodes; i++) {
 		FMatriz_KS[i][i] = 0;
-		for (int j = 0; j < FNumberNodes; j++) {
-			if (i != j)
+		for(int j = 0; j < FNumberNodes; j++) {
+			if(i != j)
 				FMatriz_KS[i][i] -= FMatriz_KS[i][j];
 		}
 
@@ -132,8 +132,8 @@ void TEffCorrector::SolveNodeTemperatures(double TET, double TSC, double TOIL) {
 
 void TEffCorrector::SolveDeltaTemp() {
 
-	for (int i = 0; i < FNumberNodes; i++) {
-		for (int j = 0; j < FNumberNodes; j++) {
+	for(int i = 0; i < FNumberNodes; i++) {
+		for(int j = 0; j < FNumberNodes; j++) {
 			FMatrix_dT[i][j] = FNode_Temp_K[j] - FNode_Temp_K[i];
 		}
 	}
@@ -142,8 +142,8 @@ void TEffCorrector::SolveDeltaTemp() {
 
 void TEffCorrector::SolveHeatFlowMatix() {
 
-	for (int i = 0; i < FNumberNodes; i++) {
-		for (int j = 0; j < FNumberNodes; j++) {
+	for(int i = 0; i < FNumberNodes; i++) {
+		for(int j = 0; j < FNumberNodes; j++) {
 			FMatrix_HF[i][j] = FMatriz_KS[i][j] * FMatrix_dT[i][j];
 		}
 	}
@@ -153,7 +153,7 @@ double TEffCorrector::Turb_Heat_Flow() {
 
 	double heat = 0;
 
-	for (int i = 0; i < FNumberNodes; i++) {
+	for(int i = 0; i < FNumberNodes; i++) {
 		heat += FMatrix_HF[i][TurbineNode];
 	}
 	return heat;
@@ -163,7 +163,7 @@ double TEffCorrector::Comp_Heat_Flow() {
 
 	double heat = 0;
 
-	for (int i = 0; i < FNumberNodes; i++) {
+	for(int i = 0; i < FNumberNodes; i++) {
 		heat += FMatrix_HF[i][CompressorNode];
 	}
 	return heat;
@@ -173,7 +173,7 @@ double TEffCorrector::Oil_Heat_Flow() {
 
 	double heat = 0;
 
-	for (int i = 0; i < FNumberNodes; i++) {
+	for(int i = 0; i < FNumberNodes; i++) {
 		heat += FMatrix_HF[i][OilNode];
 	}
 	return heat;

@@ -42,7 +42,7 @@
 //---------------------------------------------------------------------------
 
 class TCCPerdidadePresion: public TCondicionContorno {
-private:
+  private:
 
 	nmTipoPP FTipoPP;
 
@@ -62,10 +62,10 @@ private:
 	// Se encuentra dividida por 2 respecto de la definicion teorica.
 	double FRelacionEntropia; // Relacion entre la entropia del tubo saliente y la del tubo entrante.
 
-public:
+  public:
 
 	TCCPerdidadePresion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+						nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCPerdidadePresion();
 

@@ -41,8 +41,8 @@
 // ---------------------------------------------------------------------------
 
 TDepVolCte::TDepVolCte(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-	bool ThereIsEGR) :
-TDepVolCteBase(i, nmDepVolCte, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+					   bool ThereIsEGR) :
+	TDepVolCteBase(i, nmDepVolCte, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 }
 
 // ---------------------------------------------------------------------------
@@ -71,19 +71,19 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		H = 0.;
 		DeltaT = TimeCalculo - FTime;
 
-		if (FCalculoEspecies == nmCalculoCompleto) {
+		if(FCalculoEspecies == nmCalculoCompleto) {
 
-			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, FCalculoGamma, nmMEP);
-			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-				FFraccionMasicaEspecie[2], 0, __units::degCToK(FTemperature), FCalculoGamma, nmMEP);
+			FRMezcla = CalculoCompletoRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+											  FCalculoGamma, nmMEP);
+			FCpMezcla = CalculoCompletoCpMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2], 0,
+												__units::degCToK(FTemperature), FCalculoGamma, nmMEP);
 			FGamma = CalculoCompletoGamma(FRMezcla, FCpMezcla, FCalculoGamma);
 
-		} else if (FCalculoEspecies == nmCalculoSimple) {
+		} else if(FCalculoEspecies == nmCalculoSimple) {
 
 			FRMezcla = CalculoSimpleRMezcla(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
-			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0],
-				FFraccionMasicaEspecie[1], FCalculoGamma, nmMEP);
+			FCvMezcla = CalculoSimpleCvMezcla(__units::degCToK(FTemperature), FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
+											  FCalculoGamma, nmMEP);
 			FGamma = CalculoSimpleGamma(FRMezcla, FCvMezcla, FCalculoGamma);
 
 		}
@@ -98,17 +98,17 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		double Heat = 0.;
 		double MTemp = FGamma / (pow2(FAsonido * __cons::ARef) * FMasa0);
 
-		while (!Converge) {
+		while(!Converge) {
 			H = 0.;
-			for (int i = 0; i < FNumeroUniones; i++) {
-				if (FCCDeposito[i]->getTipoCC() == nmPipeToPlenumConnection) {
-					if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
+			for(int i = 0; i < FNumeroUniones; i++) {
+				if(FCCDeposito[i]->getTipoCC() == nmPipeToPlenumConnection) {
+					if(dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmEntrante) {
 						SignoFlujo = 1;
-					} else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
+					} else if(dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSentidoFlujo() == nmSaliente) {
 						SignoFlujo = -1;
 					}
-					g = (double) -dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
-					if (!FCCDeposito[i]->getUnionDPF()) {
+					g = (double) - dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getMassflow();
+					if(!FCCDeposito[i]->getUnionDPF()) {
 						m = g * DeltaT * FCCDeposito[i]->GetTuboExtremo(0).Pipe->getNumeroConductos();
 					} else {
 #ifdef ParticulateFilter
@@ -121,43 +121,38 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 					}
 					v = (double) SignoFlujo * dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getVelocity();
 					a = dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getSpeedSound();
-					if (FirstStep) {
+					if(FirstStep) {
 						MasaEntrante += m;
-						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+						for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 							FMasaEspecie[j] += FCCDeposito[i]->GetFraccionMasicaEspecie(j) * m;
 						}
 					}
-					if (v > 0) {
+					if(v > 0) {
 						H += EntalpiaEntrada(a, v, m, Asonido1, FMasa, FCCDeposito[i]->getGamma());
 					}
 				}
 			}
-			for (int i = 0; i < FNumeroUnionesED; i++) {
+			for(int i = 0; i < FNumeroUnionesED; i++) {
 
-				if (FCCUnionEntreDep[i]->getTipoCC() == nmUnionEntreDepositos) {
-					if (FNumeroDeposito
-						== dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
+				if(FCCUnionEntreDep[i]->getTipoCC() == nmUnionEntreDepositos) {
+					if(FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito1()) {
 						SignoFlujoED = dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getSentidoFlujoED1();
-					} else if (FNumeroDeposito
-						== dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
+					} else if(FNumeroDeposito == dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getNumeroDeposito2()) {
 						SignoFlujoED = dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getSentidoFlujoED2();
 					} else {
-						printf("ERROR:TDepVolCte::ActualizaPropiedades en el deposito %d, union entre depositos %d\n",
-							FNumeroDeposito, i);
+						printf("ERROR:TDepVolCte::ActualizaPropiedades en el deposito %d, union entre depositos %d\n", FNumeroDeposito, i);
 					}
-					g = (double) SignoFlujoED
-						* dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getMassflow();
+					g = (double) SignoFlujoED * dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getMassflow();
 					m = g * DeltaT;
 					a = (double) dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getSpeedSound();
-					v = (double) SignoFlujoED
-						* dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getVelocity() / __cons::ARef;
-					if (FirstStep) {
+					v = (double) SignoFlujoED * dynamic_cast<TCCUnionEntreDepositos*>(FCCUnionEntreDep[i])->getVelocity() / __cons::ARef;
+					if(FirstStep) {
 						MasaEntrante += m;
-						for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+						for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 							FMasaEspecie[j] += FCCUnionEntreDep[i]->GetFraccionMasicaEspecie(j) * m;
 						}
 					}
-					if (g > 0) {
+					if(g > 0) {
 						H += EntalpiaEntrada(a, 0., m, Asonido1, FMasa, FCCUnionEntreDep[i]->getGamma());
 
 					}
@@ -165,28 +160,28 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 				}
 			}
 
-			if (FHayCompresor) {
+			if(FHayCompresor) {
 				g = (double) FCompresorSentido * FCompresor->getMassflow();
 				m = g * DeltaT;
 				a = FCompresor->getSpeedSound();
-				if (FirstStep) {
+				if(FirstStep) {
 					MasaEntrante += m;
-					for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+					for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 						FMasaEspecie[j] += FCompresor->GetFraccionMasicaEspecie(j) * m;
 					}
 				}
-				if (g > 0) {
+				if(g > 0) {
 					H += EntalpiaEntrada(a, 0, m, Asonido1, FMasa, FCompresor->getGamma());
 				}
 			}
-			if (FirstStep) {
+			if(FirstStep) {
 				FMasa = FMasa0 + MasaEntrante;
-				for (int j = 0; j < FNumeroEspecies - 2; j++) {
+				for(int j = 0; j < FNumeroEspecies - 2; j++) {
 					FFraccionMasicaEspecie[j] = FMasaEspecie[j] / FMasa;
 					FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 				}
 				FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-				if (FHayEGR)
+				if(FHayEGR)
 					FFraccionMasicaEspecie[FNumeroEspecies - 1] = FMasaEspecie[FNumeroEspecies - 1] / FMasa;
 				FirstStep = false;
 				H0 = H;
@@ -196,7 +191,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 
 			Asonido1 = FAsonido * sqrt(Energia);
 			Error = (Diff = Asonido1 - Asonido0, fabs(Diff)) / Asonido1;
-			if (Error > 1e-6) {
+			if(Error > 1e-6) {
 				Asonido0 = Asonido1;
 			} else {
 				Converge = true;
@@ -208,7 +203,7 @@ void TDepVolCte::ActualizaPropiedades(double TimeCalculo) {
 		FPresionIsen = pow(FPressure / FPresRef, __Gamma::G5(FGamma));
 		FTemperature = __units::KTodegC(A2 / FGamma / FRMezcla);
 		FTime = TimeCalculo;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TDepVolCte::ActualizaPropiedades en el deposito: " << FNumeroDeposito << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

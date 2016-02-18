@@ -31,7 +31,7 @@
 #include "TDepVolCteBase.h"
 
 class TDepVolCte: public TDepVolCteBase {
-private:
+  private:
 	//---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	//---------------------------------------------------------------------------
@@ -40,7 +40,7 @@ private:
 	// FUNCIONES PRIVADAS
 	//---------------------------------------------------------------------------
 
-public:
+  public:
 	//---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	//---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ public:
 	//---------------------------------------------------------------------------
 
 	TDepVolCte(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+			   bool ThereIsEGR);
 
 	~TDepVolCte();
 

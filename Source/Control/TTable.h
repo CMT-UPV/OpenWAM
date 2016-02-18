@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 
 class TTable: public TController {
-private:
+  private:
 
 	int fID;
 	int fDimensiones;
@@ -43,7 +43,7 @@ private:
 
 	double fOutput;
 
-public:
+  public:
 
 	TTable(int i);
 	~TTable();

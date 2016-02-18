@@ -39,7 +39,7 @@
 class TCompresor;
 
 class TCCEntradaCompresor: public TCondicionContorno {
-private:
+  private:
 
 	int FNumeroCompresor;
 	TCompresor *FCompresor;
@@ -58,7 +58,7 @@ private:
 	double FGamma3;
 	double FGamma5;
 
-public:
+  public:
 
 	int getNumeroCompresor() {
 		return FNumeroCompresor;
@@ -66,7 +66,7 @@ public:
 	;
 
 	TCCEntradaCompresor(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+						nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCEntradaCompresor();
 

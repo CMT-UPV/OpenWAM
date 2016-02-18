@@ -7,7 +7,7 @@
 #include "TCondicionContorno.h"
 
 class TCCExternalConnectionVol: public TCondicionContorno {
-private:
+  private:
 
 	double FUExt;
 	double FTExt;
@@ -42,11 +42,11 @@ private:
 	double FTime0;
 	double FTimeSum;
 
-protected:
+  protected:
 
-public:
+  public:
 	TCCExternalConnectionVol(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+							 nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCExternalConnectionVol();
 

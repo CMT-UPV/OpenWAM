@@ -68,7 +68,7 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 
 	try {
 
-		for (int i = 0; i <= (int) strlen(Ruta); i++) {
+		for(int i = 0; i <= (int) strlen(Ruta); i++) {
 			DatosEGR[i] = Ruta[i];
 		}
 
@@ -76,7 +76,7 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 		strcat(DatosEGR, FileEGR);
 
 		FichEGRV = fopen(DatosEGR, "r");
-		if ((FichEGRV = fopen(DatosEGR, "r")) == NULL) {
+		if((FichEGRV = fopen(DatosEGR, "r")) == NULL) {
 			std::cout << "ERROR: Fichero de EGR no cargado";
 		} else {
 			fscanf(FichEGRV, "%lf %lf %lf ", &FKc, &FKi, &FKd);
@@ -88,31 +88,31 @@ void TEGRV::LeeDatosEntrada(char *Ruta, FILE *fich) {
 
 			FMapa_TipoControl = new double[FNumeroDatos_TipoControl_Regimen];
 			FMapa_MasaAire = new double*[FNumeroDatos_Mf];
-			for (int i = 0; i < FNumeroDatos_Mf; i++) {
+			for(int i = 0; i < FNumeroDatos_Mf; i++) {
 				FMapa_MasaAire[i] = new double[FNumeroDatos_Regimen];
 			}
 
-			for (int i = 0; i < FNumeroDatos_TipoControl_Regimen; i++) {
+			for(int i = 0; i < FNumeroDatos_TipoControl_Regimen; i++) {
 				fscanf(FichEGRV, "%lf ", &FVector_TipoControl_Regimen_mapa[i]);
 			}
-			for (int i = 0; i < FNumeroDatos_Regimen; i++) {
+			for(int i = 0; i < FNumeroDatos_Regimen; i++) {
 				fscanf(FichEGRV, "%lf ", &FVector_Regimen_mapa[i]);
 			}
-			for (int i = 0; i < FNumeroDatos_Mf; i++) {
+			for(int i = 0; i < FNumeroDatos_Mf; i++) {
 				fscanf(FichEGRV, "%lf ", &FVector_Mf_mapa[i]);
 			}
-			for (int i = 0; i < FNumeroDatos_TipoControl_Regimen; i++) {
+			for(int i = 0; i < FNumeroDatos_TipoControl_Regimen; i++) {
 				fscanf(FichEGRV, "%lf ", &FMapa_TipoControl[i]);
 			}
-			for (int i = 0; i < FNumeroDatos_Mf; i++) {
-				for (int j = 0; j < FNumeroDatos_Regimen; j++) {
+			for(int i = 0; i < FNumeroDatos_Mf; i++) {
+				for(int j = 0; j < FNumeroDatos_Regimen; j++) {
 					fscanf(FichEGRV, "%lf ", &FMapa_MasaAire[i][j]);
 				}
 			}
 			fclose(FichEGRV);
 		}
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TEGRV::LeeDatosEntrada (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -177,7 +177,7 @@ double TEGRV::xit_(double vizq, double vder, double axid, double xif) {
 		double ret_val = 0.;
 
 		xx = vder - vizq;
-		if (axid != 0.) {
+		if(axid != 0.) {
 			yy = xx / axid * xif;
 			ret_val = vizq + yy;
 		} else {
@@ -185,7 +185,7 @@ double TEGRV::xit_(double vizq, double vder, double axid, double xif) {
 			throw Exception("");
 		}
 		return ret_val;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: xit_" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -199,9 +199,9 @@ nmTipoControl TEGRV::DeterminacionTipoControl(double Regimen, double MasaFuel) {
 		double MasaFuel_mapadecisor = 0.;
 
 		MasaFuel_mapadecisor = Interp1(Regimen, FVector_TipoControl_Regimen_mapa, FMapa_TipoControl,
-			FNumeroDatos_TipoControl_Regimen); // en (mg/cc)
+									   FNumeroDatos_TipoControl_Regimen); // en (mg/cc)
 
-		if (MasaFuel * 1e6 < MasaFuel_mapadecisor) {
+		if(MasaFuel * 1e6 < MasaFuel_mapadecisor) {
 			FTipoControl = nmControlMasaAire;
 		} else {
 			FTipoControl = nmControlPadm;
@@ -209,7 +209,7 @@ nmTipoControl TEGRV::DeterminacionTipoControl(double Regimen, double MasaFuel) {
 
 		return FTipoControl;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TEGRV::DeterminacionTipoControl (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -223,16 +223,16 @@ void TEGRV::CalculaEGRV(double MasaFuel, double Regimen, double MasaAireAdmitida
 	try {
 // AQUI SE CALCULAN LOS COEFICIENTES DE DESCARGA Y TURBULENCIA
 
-		if (FTipoControl == nmControlPadm) {
-			if (TiempoActual < 13 * 120 / Regimen) {
+		if(FTipoControl == nmControlPadm) {
+			if(TiempoActual < 13 * 120 / Regimen) {
 				FCDEntrante = FCDEntrante / 2;
 			} else {
 				FCDEntrante = 0.;
 			}
-		} else if (FTipoControl == nmControlMasaAire) {
+		} else if(FTipoControl == nmControlMasaAire) {
 			MasaFuel = MasaFuel * 1e6; // en (mg/cc)
-			FMasaAireAdmitidaConsigna = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa,
-				FVector_Regimen_mapa, FMapa_MasaAire, FNumeroDatos_Regimen, FNumeroDatos_Mf); // (mg)
+			FMasaAireAdmitidaConsigna = Interpolacion_bidimensional(Regimen, MasaFuel, FVector_Mf_mapa, FVector_Regimen_mapa,
+										FMapa_MasaAire, FNumeroDatos_Regimen, FNumeroDatos_Mf); // (mg)
 
 			FError_ant = FError;
 			FError = (MasaAireAdmitida - FMasaAireAdmitidaConsigna) / FMasaAireAdmitidaConsigna;
@@ -244,16 +244,16 @@ void TEGRV::CalculaEGRV(double MasaFuel, double Regimen, double MasaAireAdmitida
 			FD = FKd * (FError - FError_ant);
 			FCDEntrante = FCDEntrante + FP + FI + FD;
 		}
-		if (FCDEntrante > 1.0) {
+		if(FCDEntrante > 1.0) {
 			FCDEntrante = 1.;
-		} else if (FCDEntrante < 0.0) {
+		} else if(FCDEntrante < 0.0) {
 			FCDEntrante = 0.;
 			FErrorI = 0;
 		}
 		FCDSaliente = FCDEntrante;
 		FCTorbellino = 0.;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TEGRV::CalculaEGRV (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -271,7 +271,7 @@ void TEGRV::IniciaEGRV(double cdEGR, int CicloCerrado) {
 		FCDSaliente = cdEGR;
 		FCicloCerrado = CicloCerrado;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: IniciaEGRV (DLL)" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

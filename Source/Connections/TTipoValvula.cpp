@@ -73,7 +73,7 @@ void TTipoValvula::AsignaParametros(int Pipe, int Nodo, int Tipo, int Valvula, d
 		FValvula = Valvula;
 		FDiamTubo = dTubo;
 		FSentido = sentido;
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: AsignaParametros TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -86,12 +86,12 @@ void TTipoValvula::AsignaParametros(int Pipe, int Nodo, int Tipo, int Valvula, d
 
 double TTipoValvula::LeeDiametro() {
 	try {
-		if (FDiamRef > 0) {
+		if(FDiamRef > 0) {
 			return FDiamRef;
 		} else {
 			return FDiamTubo;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDiametro TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -132,9 +132,9 @@ void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 		FGraficasINS = true;
 
 		fscanf(fich, " %d", &ndv);
-		for (int i = 0; i < ndv; i++) {
+		for(int i = 0; i < ndv; i++) {
 			fscanf(fich, " %d", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FGraficaCDEINS = true;
 				break;
@@ -145,7 +145,7 @@ void TTipoValvula::LeeDatosGraficasINS(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -161,18 +161,18 @@ void TTipoValvula::CabeceraGraficaINS(stringstream& insoutput, int nodo) {
 //FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FGraficasINS) {
-			if (FGraficaCDEINS) {
+		if(FGraficasINS) {
+			if(FGraficaCDEINS) {
 				Label = "\t" + PutLabel(11) + std::to_string(nodo) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
-			if (FGraficaCDSINS) {
+			if(FGraficaCDSINS) {
 				Label = "\t" + PutLabel(12) + std::to_string(nodo) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CabeceraGrafica TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -186,14 +186,14 @@ void TTipoValvula::CabeceraGraficaINS(stringstream& insoutput, int nodo) {
 void TTipoValvula::ImprimeGraficaINS(stringstream& insoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		if (FGraficasINS) {
-			if (FGraficaCDEINS)
+		if(FGraficasINS) {
+			if(FGraficaCDEINS)
 				insoutput << "\t" << FCDTubVol;
-			if (FGraficaCDSINS)
+			if(FGraficaCDSINS)
 				insoutput << "\t" << FCDVolTub;
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeGrafica TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -210,14 +210,14 @@ void TTipoValvula::AcumulaCDMedio(double TiempoActual) {
 		DeltaT = TiempoActual - FTiempoAnt;
 		FTiempoAnt = TiempoActual;
 
-		if (FGraficasMED) {
-			if (FGraficaCDEMED)
+		if(FGraficasMED) {
+			if(FGraficaCDEMED)
 				FSumCDE += FCDTubVol * DeltaT;
-			if (FGraficaCDSMED)
+			if(FGraficaCDSMED)
 				FSumCDS += FCDVolTub * DeltaT;
 			FSumTime += DeltaT;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: AcumulaCDMedio TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -237,9 +237,9 @@ void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 		FGraficasMED = true;
 
 		fscanf(fich, " %d", &ndv);
-		for (int i = 0; i < ndv; i++) {
+		for(int i = 0; i < ndv; i++) {
 			fscanf(fich, " %d", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FGraficaCDEMED = true;
 				break;
@@ -250,7 +250,7 @@ void TTipoValvula::LeeDatosGraficasMED(const char *FileWAM, fpos_t &filepos) {
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosGraficas TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -266,18 +266,18 @@ void TTipoValvula::CabeceraGraficaMED(stringstream& medoutput, int nodo) {
 //FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FGraficasMED) {
-			if (FGraficaCDEMED) {
+		if(FGraficasMED) {
+			if(FGraficaCDEMED) {
 				Label = "\t" + PutLabel(11) + std::to_string(nodo) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
-			if (FGraficaCDSMED) {
+			if(FGraficaCDSMED) {
 				Label = "\t" + PutLabel(12) + std::to_string(nodo) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CabeceraGrafica TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -291,13 +291,13 @@ void TTipoValvula::CabeceraGraficaMED(stringstream& medoutput, int nodo) {
 void TTipoValvula::ImprimeGraficaMED(stringstream& medoutput) {
 	try {
 //FILE *fich=fopen(FileSALIDA,"a");
-		if (FGraficasMED) {
-			if (FGraficaCDEMED) {
+		if(FGraficasMED) {
+			if(FGraficaCDEMED) {
 				FCDEMedio = FSumCDE / FSumTime;
 				medoutput << "\t" << FCDEMedio;
 				FSumCDE = 0.;
 			}
-			if (FGraficaCDSMED) {
+			if(FGraficaCDSMED) {
 				FCDSMedio = FSumCDS / FSumTime;
 				medoutput << "\t" << FCDSMedio;
 				FSumCDS = 0.;
@@ -305,7 +305,7 @@ void TTipoValvula::ImprimeGraficaMED(stringstream& medoutput) {
 			FSumTime = 0;
 		}
 //fclose(fich);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: ImprimeGrafica TypeOfValve" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -320,7 +320,7 @@ void TTipoValvula::PutPipe(TTubo *Pipe, int node) {
 	FPipe = Pipe;
 	FPipeNode = node;
 	FDiamTubo = FPipe->GetDiametro(FPipeNode);
-	if (FDiamRef > 0) {
+	if(FDiamRef > 0) {
 		FSectionRatio = pow2(FDiamRef / FDiamTubo);
 	} else {
 		FSectionRatio = 1;

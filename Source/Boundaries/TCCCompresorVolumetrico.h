@@ -35,7 +35,7 @@
 // ---------------------------------------------------------------------------
 
 class TCCCompresorVolumetrico: public TCondicionContorno {
-private:
+  private:
 
 	// int FNumeroCV;     // Numero Compressor Volumetrico (de tornillo)
 	bool asgNumeroCV;
@@ -78,11 +78,11 @@ private:
 
 	// void PutNumeroCV(int valor);
 
-public:
+  public:
 
 	void PutNumeroCV(int valor) {
 
-		if (!asgNumeroCV) {
+		if(!asgNumeroCV) {
 			FNumeroCV = valor;
 			asgNumeroCV = true;
 		} else {
@@ -105,7 +105,7 @@ public:
 	;
 
 	TCCCompresorVolumetrico(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+							nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCCompresorVolumetrico();
 

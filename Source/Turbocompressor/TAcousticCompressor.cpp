@@ -37,7 +37,7 @@ TAcousticCompressor::TAcousticCompressor() {
 }
 
 TAcousticCompressor::TAcousticCompressor(int InletPipeID, int VoluteID, int OutletPipeID, int RotorVolumeID,
-	int StatorVolumeID) {
+		int StatorVolumeID) {
 
 	FInletPipeID = InletPipeID;
 	FVoluteID = VoluteID;
@@ -153,7 +153,7 @@ void TAcousticCompressor::PutHeatPowerIn(double Power) {
 }
 
 void TAcousticCompressor::AsignElementsID(int InletPipeID, int VoluteID, int OutletPipeID, int RotorVolumeID,
-	int StatorVolumeID) {
+		int StatorVolumeID) {
 
 	FInletPipeID = InletPipeID;
 	FVoluteID = VoluteID;
@@ -181,12 +181,12 @@ double TAcousticCompressor::EFCorrector(double rcorr, double rorig) {
 
 	double g = FRotorVolume->getGamma();
 
-	if (rorig <= 1.) {
+	if(rorig <= 1.) {
 		return 1;
 	}
 
-	double Correction = __units::degCToK(FRotorVolume->getTemperature()) / T10() * (pow(rorig * rcorr, (g - 1) / g) - 1)
-		/ (pow(rorig, (g - 1) / g) - 1);
+	double Correction = __units::degCToK(FRotorVolume->getTemperature()) / T10() * (pow(rorig * rcorr,
+						(g - 1) / g) - 1) / (pow(rorig, (g - 1) / g) - 1);
 
 	return Correction;
 

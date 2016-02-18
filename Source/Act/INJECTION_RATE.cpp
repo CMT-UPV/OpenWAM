@@ -13,7 +13,7 @@ using namespace std;
 /** ************     FUNCTIONS DECLARATION       ************** */
 
 extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI, double*SOI, double*EOI, double speed,
-	int CAI, double PCR, double*A, double*B, double*C, double*D, double*injection_rate, double*CAD_injection_rate);
+		int CAI, double PCR, double*A, double*B, double*C, double*D, double*injection_rate, double*CAD_injection_rate);
 
 /** ************     MAIN FUNCTION       ************* */
 
@@ -225,14 +225,14 @@ extern "C" void CALCULUS_OF_INJECTION_RATE(int INITIAL, double*SOP, double*MFI, 
 // }
 
 inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, double *SOI, double *EOI, double speed,
-	int CAI, double PCR, double *A, double *B, double *C, double *D, double *injection_rate, double *CAD_injection_rate)
+									   int CAI, double PCR, double *A, double *B, double *C, double *D, double *injection_rate, double *CAD_injection_rate)
 
-	{
+{
 
 	int k = 0;
 	// initialize injection rate
 	injection_rate[0] = 0.;
-	for (k = 1; k < CAI; k++) {
+	for(k = 1; k < CAI; k++) {
 		injection_rate[k] = 0.;
 	}
 
@@ -245,23 +245,23 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, do
 	double mftopemini = 1. / 2. * ((b / a) + (b / -c)) * b;
 	double time = 0.;
 
-	for (int j = 0; j < INITIAL; j++) {
+	for(int j = 0; j < INITIAL; j++) {
 
 		SOI[j] = SOP[j] + (D[1] * PCR + D[0]) * (6 * speed);
 
 		// calculates total fuel mass injected
 
-		if (MFI[j] >= mftopemini) {
+		if(MFI[j] >= mftopemini) {
 			double DLM = (MFI[j] - mftopemini) / b;
-			for (int k = 0; k < CAI; k++) {
+			for(int k = 0; k < CAI; k++) {
 				// time between SOI and actual point
 				time = (CAD_injection_rate[k] - SOI[j]) / (6 * speed);
 				// calculates injection rate
-				if (time > 0. && time <= b / a)
+				if(time > 0. && time <= b / a)
 					injection_rate[k] = time * a;
-				else if (time > b / a && time <= b / a + DLM)
+				else if(time > b / a && time <= b / a + DLM)
 					injection_rate[k] = b;
-				else if (time > b / a + DLM && time <= b / a + DLM + b / -c)
+				else if(time > b / a + DLM && time <= b / a + DLM + b / -c)
 					injection_rate[k] = b + ((time - b / a - DLM) * c);
 			}
 			// calculates end of injection
@@ -270,12 +270,12 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, do
 			double levmaxi = sqrt((2. * MFI[j]) / (1. / a + 1. / -c));
 			double DTL = levmaxi / a;
 			double DTB = levmaxi / -c;
-			for (int k = 0; k < CAI; k++) {
+			for(int k = 0; k < CAI; k++) {
 				// time between SOI and actual point
 				time = (CAD_injection_rate[k] - SOI[j]) / (6 * speed);
-				if (time > 0. && time <= DTL)
+				if(time > 0. && time <= DTL)
 					injection_rate[k] = time * a;
-				else if (time > DTL && time <= DTL + DTB)
+				else if(time > DTL && time <= DTL + DTB)
 					injection_rate[k] = levmaxi + (time - DTL) * c;
 			}
 			// calculates end of injection
@@ -284,7 +284,7 @@ inline void CALCULUS_OF_INJECTION_RATE(int INITIAL, double *SOP, double *MFI, do
 	}
 
 	// converts mg/s to g/s
-	for (int k = 0; k < CAI; k++) {
+	for(int k = 0; k < CAI; k++) {
 		injection_rate[k] /= 1000.;
 	}
 

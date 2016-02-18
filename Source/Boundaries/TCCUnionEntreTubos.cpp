@@ -37,8 +37,8 @@
 // ---------------------------------------------------------------------------
 
 TCCUnionEntreTubos::TCCUnionEntreTubos(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+									   int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FNodoFin = NULL;
@@ -54,19 +54,19 @@ TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation
 
 TCCUnionEntreTubos::~TCCUnionEntreTubos() {
 
-	if (FTuboExtremo != NULL)
+	if(FTuboExtremo != NULL)
 		delete[] FTuboExtremo;
-	if (FNodoFin != NULL)
+	if(FNodoFin != NULL)
 		delete[] FNodoFin;
-	if (FIndiceCC != NULL)
+	if(FIndiceCC != NULL)
 		delete[] FIndiceCC;
-	if (FNumeroTubo != NULL)
+	if(FNumeroTubo != NULL)
 		delete[] FNumeroTubo;
-	if (FTubo != NULL)
+	if(FTubo != NULL)
 		delete[] FTubo;
-	if (FCC != NULL)
+	if(FCC != NULL)
 		delete[] FCC;
-	if (FCD != NULL)
+	if(FCD != NULL)
 		delete[] FCD;
 
 }
@@ -75,7 +75,7 @@ TCCUnionEntreTubos::~TCCUnionEntreTubos() {
 // ---------------------------------------------------------------------------
 
 void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
-	int nDPF, TDPF **DPF) {
+		int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;
 
@@ -90,17 +90,17 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 		FNumeroTubo = new int[2];
 		FTubo = new int[2];
 
-		for (int i = 0; i < 2; i++) {
+		for(int i = 0; i < 2; i++) {
 			FTuboExtremo[i].Pipe = NULL;
 		}
 
-		while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC || Pipe[i]->getNodoDer() == FNumeroCC) {
+		while(FNumeroTubosCC < 2 && i < NumberOfPipes) {
+			if(Pipe[i]->getNodoIzq() == FNumeroCC || Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTubo[FNumeroTubosCC] = i;
-				if (Pipe[FTubo[FNumeroTubosCC]]->getNodoIzq() == FNumeroCC) {
+				if(Pipe[FTubo[FNumeroTubosCC]]->getNodoIzq() == FNumeroCC) {
 					FNodoFin[FNumeroTubosCC] = 0;
 				}
-				if (Pipe[FTubo[FNumeroTubosCC]]->getNodoDer() == FNumeroCC) {
+				if(Pipe[FTubo[FNumeroTubosCC]]->getNodoDer() == FNumeroCC) {
 					FNodoFin[FNumeroTubosCC] = Pipe[FTubo[FNumeroTubosCC]]->getNin() - 1;
 				}
 				FNumeroTubosCC++;
@@ -110,8 +110,8 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 
 		/* Ahora al tubo de mayor diametro se le asignara la posicion 1 de los vectores
 		 y al de menor diametro la posicion 0 */
-		if (Pipe[FTubo[0]]->GetDiametro(FNodoFin[0]) >= Pipe[FTubo[1]]->GetDiametro(FNodoFin[1])) {
-			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
+		if(Pipe[FTubo[0]]->GetDiametro(FNodoFin[0]) >= Pipe[FTubo[1]]->GetDiametro(FNodoFin[1])) {
+			if(Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
 				FTuboExtremo[1].TipoExtremo = nmLeft;
 				FNodoFin[1] = 0;
@@ -120,7 +120,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 				FCC[1] = &(FTuboExtremo[1].Beta);
 				FCD[1] = &(FTuboExtremo[1].Landa);
 			}
-			if (Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
+			if(Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[0]];
 				FTuboExtremo[1].TipoExtremo = nmRight;
 				FNodoFin[1] = Pipe[FTubo[0]]->getNin() - 1;
@@ -129,7 +129,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 				FCC[1] = &(FTuboExtremo[1].Landa);
 				FCD[1] = &(FTuboExtremo[1].Beta);
 			}
-			if (Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
+			if(Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[1]];
 				FTuboExtremo[0].TipoExtremo = nmLeft;
 				FNodoFin[0] = 0;
@@ -138,7 +138,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 				FCC[0] = &(FTuboExtremo[0].Beta);
 				FCD[0] = &(FTuboExtremo[0].Landa);
 			}
-			if (Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
+			if(Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[1]];
 				FTuboExtremo[0].TipoExtremo = nmRight;
 				FNodoFin[0] = Pipe[FTubo[1]]->getNin() - 1;
@@ -149,7 +149,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 			}
 
 		} else {
-			if (Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
+			if(Pipe[FTubo[1]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[1]];
 				FTuboExtremo[1].TipoExtremo = nmLeft;
 				FNodoFin[1] = 0;
@@ -158,7 +158,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 				FCC[1] = &(FTuboExtremo[1].Beta);
 				FCD[1] = &(FTuboExtremo[1].Landa);
 			}
-			if (Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
+			if(Pipe[FTubo[1]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[1].Pipe = Pipe[FTubo[1]];
 				FTuboExtremo[1].TipoExtremo = nmRight;
 				FNodoFin[1] = Pipe[FTubo[1]]->getNin() - 1;
@@ -167,7 +167,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 				FCC[1] = &(FTuboExtremo[1].Landa);
 				FCD[1] = &(FTuboExtremo[1].Beta);
 			}
-			if (Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
+			if(Pipe[FTubo[0]]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[0]];
 				FTuboExtremo[0].TipoExtremo = nmLeft;
 				FNodoFin[0] = 0;
@@ -176,7 +176,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 				FCC[0] = &(FTuboExtremo[0].Beta);
 				FCD[0] = &(FTuboExtremo[0].Landa);
 			}
-			if (Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
+			if(Pipe[FTubo[0]]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[0].Pipe = Pipe[FTubo[0]];
 				FTuboExtremo[0].TipoExtremo = nmRight;
 				FNodoFin[0] = Pipe[FTubo[0]]->getNin() - 1;
@@ -189,7 +189,7 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 
 		// Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			// Se elige como composicion inicial la del tubo 0. Es arbitrario.
 			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
@@ -203,9 +203,8 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCUnionEntreTubos::LeeUnionEntreTubos en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -217,9 +216,8 @@ void TCCUnionEntreTubos::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, 
 void TCCUnionEntreTubos::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCUnionEntreTubos::TuboCalculandose en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -231,16 +229,16 @@ void TCCUnionEntreTubos::TuboCalculandose(int TuboActual) {
 void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 	try {
 		double rel_entropia = 0., rel_area = 0., vel_sonido_In = 0., vel_sonido_Out = 0., vel_In = 0., vel_Out = 0.,
-		correc_sonido_In = 0.;
+			   correc_sonido_In = 0.;
 		double flujo, FraccionMasicaAcum = 0., exd, exi;
 		int TuboCalculado = 0;
 
-		if (FTuboActual == 10000) {
+		if(FTuboActual == 10000) {
 			TuboCalculado = FTuboActual;
 			FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin[0]);
 		} else {
-			for (int i = 0; i < FNumeroTubosCC; i++) {
-				if (FNumeroTubo[i] == FTuboActual) {
+			for(int i = 0; i < FNumeroTubosCC; i++) {
+				if(FNumeroTubo[i] == FTuboActual) {
 					TuboCalculado = i;
 				}
 			}
@@ -253,10 +251,9 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 
 		/* Criterio para determinar el sentido el flujo */
 		flujo = (*FCC[1] / FTuboExtremo[1].Entropia) / (*FCC[0] / FTuboExtremo[0].Entropia);
-		if (flujo < 0.999995) { /* Sentido del flujo: de 0(saliente (out)) a 1(entrante (in)) */
+		if(flujo < 0.999995) {  /* Sentido del flujo: de 0(saliente (out)) a 1(entrante (in)) */
 			rel_entropia = FTuboExtremo[0].Entropia / FTuboExtremo[1].Entropia;
-			rel_area = pow2(
-				FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1]) / FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0]));
+			rel_area = pow2(FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1]) / FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0]));
 
 			int cont = 0;
 			/* Intervalo de acotacion de A1 */
@@ -273,15 +270,15 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 			/* nuevo	if (abs(vel_sonido_Out-vel_Out)<1E-12) {
 			 printf ("");
 			 } */
-			if (TuboCalculado == 1) {
+			if(TuboCalculado == 1) {
 				*FCD[1] = vel_sonido_In + FGamma3 * vel_In;
 				*FCC[1] = vel_sonido_In - FGamma3 * vel_In;
 				FTuboExtremo[1].Entropia = vel_sonido_In * FTuboExtremo[1].Entropia / correc_sonido_In;
 
-			} else if (TuboCalculado == 0) {
+			} else if(TuboCalculado == 0) {
 				*FCD[0] = vel_sonido_Out - FGamma3 * vel_Out;
 
-			} else if (TuboCalculado == 10000) {
+			} else if(TuboCalculado == 10000) {
 				*FCD[1] = vel_sonido_In + FGamma3 * vel_In;
 				*FCC[1] = vel_sonido_In - FGamma3 * vel_In;
 				FTuboExtremo[1].Entropia = vel_sonido_In * FTuboExtremo[1].Entropia / correc_sonido_In;
@@ -290,20 +287,19 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 
 			// Transporte de Especies Quimicas
 			// Se actualiza todos los instantes de calculo.
-			for (int j = 0; j < FNumeroEspecies - 2; j++) {
+			for(int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC[0], j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
 			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-			if (FHayEGR)
+			if(FHayEGR)
 				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC[0],
-					FNumeroEspecies - 1);
+						FNumeroEspecies - 1);
 
-		} else if (flujo > 1.000005) { /* Sentido del flujo: de 1(saliente) a 0(entrante) */
+		} else if(flujo > 1.000005) {  /* Sentido del flujo: de 1(saliente) a 0(entrante) */
 
 			rel_entropia = FTuboExtremo[0].Entropia / FTuboExtremo[1].Entropia;
-			rel_area = pow2(
-				FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0]) / FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1]));
+			rel_area = pow2(FTuboExtremo[0].Pipe->GetDiametro(FNodoFin[0]) / FTuboExtremo[1].Pipe->GetDiametro(FNodoFin[1]));
 
 			/* LLAMADA A LA ESTRUCTURA-estrechamiento */
 
@@ -317,15 +313,15 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 			vel_sonido_Out = EstU1.A1;
 			vel_In = EstU1.U2;
 
-			if (TuboCalculado == 0) {
+			if(TuboCalculado == 0) {
 				*FCD[0] = vel_sonido_In + FGamma3 * vel_In;
 				*FCC[0] = vel_sonido_In - FGamma3 * vel_In;
 				FTuboExtremo[0].Entropia = FTuboExtremo[1].Entropia;
 
-			} else if (TuboCalculado == 1) {
+			} else if(TuboCalculado == 1) {
 				*FCD[1] = vel_sonido_Out - FGamma3 * vel_Out;
 
-			} else if (TuboCalculado == 10000) {
+			} else if(TuboCalculado == 10000) {
 				*FCD[0] = vel_sonido_In + FGamma3 * vel_In;
 				*FCC[0] = vel_sonido_In - FGamma3 * vel_In;
 				FTuboExtremo[0].Entropia = FTuboExtremo[1].Entropia;
@@ -334,31 +330,31 @@ void TCCUnionEntreTubos::CalculaCondicionContorno(double Time) {
 
 			// Transporte de Especies Quimicas
 			// Se actualiza todos los instantes de calculo (al igual que la temperatura en la BC).
-			for (int j = 0; j < FNumeroEspecies - 2; j++) {
+			for(int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[1].Pipe->GetFraccionMasicaCC(FIndiceCC[1], j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
 			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-			if (FHayEGR)
+			if(FHayEGR)
 				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[1].Pipe->GetFraccionMasicaCC(FIndiceCC[1],
-					FNumeroEspecies - 1);
+						FNumeroEspecies - 1);
 
 		} else { /* Flujo Parado */
 
-			if (TuboCalculado == 0) {
+			if(TuboCalculado == 0) {
 				*FCD[0] = *FCC[0];
-			} else if (TuboCalculado == 1) {
+			} else if(TuboCalculado == 1) {
 				*FCD[1] = *FCC[1];
-			} else if (TuboCalculado == 10000) {
+			} else if(TuboCalculado == 10000) {
 				*FCD[0] = *FCC[0];
 				*FCD[1] = *FCC[1];
 			}
 			// La composicion se mantiene, al estar el flujo parado.
 
 		}
-	} catch (exception & N) {
-		std::cout << "ERROR: TCCUnionEntreTubos::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TCCUnionEntreTubos::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

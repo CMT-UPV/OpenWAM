@@ -35,8 +35,8 @@
 //---------------------------------------------------------------------------
 
 TCCExtremoAnecoico::TCCExtremoAnecoico(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+									   int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 
@@ -60,8 +60,8 @@ void TCCExtremoAnecoico::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 		FTuboExtremo = new stTuboExtremo[1];
 		FTuboExtremo[0].Pipe = NULL;
 
-		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+		while(FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if(Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
 				FCD = &(FTuboExtremo[FNumeroTubosCC].Landa);
@@ -70,7 +70,7 @@ void TCCExtremoAnecoico::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 				FIndiceCC = 0;
 				FNumeroTubosCC++;
 			}
-			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			if(Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
@@ -84,11 +84,11 @@ void TCCExtremoAnecoico::AsignaTubos(int NumberOfPipes, TTubo **Pipe) {
 
 // Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TCCExtremoAnecoico::AsignaTubos en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -105,18 +105,17 @@ void TCCExtremoAnecoico::CalculaCondicionContorno(double Time) {
 		*FCD = FTuboExtremo[0].Entropia;
 
 //Transporte de especies quimicas.
-		for (int j = 0; j < FNumeroEspecies - 2; j++) {
+		for(int j = 0; j < FNumeroEspecies - 2; j++) {
 			FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 			FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 		}
 		FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-		if (FHayEGR)
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
-				FNumeroEspecies - 1);
+		if(FHayEGR)
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
 
-	} catch (exception &N) {
-		std::cout << "ERROR: TCCExtremoAnecoico::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception &N) {
+		std::cout << "ERROR: TCCExtremoAnecoico::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

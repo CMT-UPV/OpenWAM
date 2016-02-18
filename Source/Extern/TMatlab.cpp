@@ -58,10 +58,10 @@ TMatlab::TMatlab(int Inputs, int Outputs) {
 //---------------------------------------------------------------------------
 
 TMatlab::~TMatlab() {
-	if (FInput != NULL)
+	if(FInput != NULL)
 		delete[] FInput;
 
-	if (FOutput != NULL)
+	if(FOutput != NULL)
 		delete[] FOutput;
 }
 //---------------------------------------------------------------------------
@@ -75,7 +75,7 @@ void TMatlab::IniciaECU() {
 		char daux[140];
 		/* Inicializacion del acceso a MATLAB*/
 
-		for (i = 0; i < 140; i++) {
+		for(i = 0; i < 140; i++) {
 			daux[i] = '\0';
 		}
 
@@ -86,7 +86,7 @@ void TMatlab::IniciaECU() {
 		/* The pointer may not be for a valid instance.  Check. */
 		int result = engEvalString(ep, "disp('foo')");
 
-		if (result > 0) {
+		if(result > 0) {
 			/* It failed. */
 			printf("\nERROR: no se puede abrir una nueva sesion de MATLAB !");
 			engClose(ep);
@@ -102,7 +102,7 @@ void TMatlab::IniciaECU() {
 
 		strcat(daux, "addpath '");
 		i = 9;
-		while (Fdirtrab[i - 9] != '\n') {
+		while(Fdirtrab[i - 9] != '\n') {
 			daux[i] = Fdirtrab[i - 9];
 			++i;
 		}
@@ -114,7 +114,7 @@ void TMatlab::IniciaECU() {
 
 		/* Fin de la inicializacion del acceso a MATLAB*/
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: IniciaECU" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -129,7 +129,7 @@ void TMatlab::FinalizaECU()
 {
 	try {
 		engClose(ep);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: FinalizaECU" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -150,7 +150,7 @@ void TMatlab::CalculaECU() {
 		memcpy(FOutput, mxGetPr(FOutputMatlab), 3 * sizeof(double));
 		mxDestroyArray(FOutputMatlab);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaECU" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -162,13 +162,13 @@ void TMatlab::CalculaECU() {
 
 void TMatlab::PutInput(int i, double valor) {
 	try {
-		if (i < FNInputs) {
+		if(i < FNInputs) {
 			FInput[i] = valor;
 		} else {
 			std::cout << "WARNING: El valor de la entrada a matlab se sale de rango" << std::endl;
 			std::cout << "         Revisa el acceso a matlab" << std::endl;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: PutInput" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -180,14 +180,14 @@ void TMatlab::PutInput(int i, double valor) {
 
 double TMatlab::GetOutput(int i) {
 	try {
-		if (i < FNOutputs) {
+		if(i < FNOutputs) {
 			return FOutput[i];
 		} else {
 			std::cout << "WARNING: El valor de la salida de matlab se sale de rango" << std::endl;
 			std::cout << "         Revisa el acceso a matlab" << std::endl;
 			return 0.;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: GetOutput" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -202,7 +202,7 @@ void TMatlab::LeeFicherosECU(FILE *fich) {
 		fgets(Fdirtrab, 256, fich); //Lee la ruta, maximo 256 Characters
 		fscanf(fich, "%s", &Fworkspace);
 		fscanf(fich, "%s", &Fficheme);
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeFicherosECU" << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

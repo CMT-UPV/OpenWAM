@@ -39,8 +39,8 @@
 //---------------------------------------------------------------------------
 
 TCCPulso::TCCPulso(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+				   nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FPulso = NULL;
@@ -55,10 +55,10 @@ TCCPulso::~TCCPulso() {
 
 	delete[] FTuboExtremo;
 
-	if (FPulso != NULL)
+	if(FPulso != NULL)
 		delete FPulso;
 
-	if (FComposicion != NULL)
+	if(FComposicion != NULL)
 		delete[] FComposicion;
 
 }
@@ -67,7 +67,7 @@ TCCPulso::~TCCPulso() {
 //---------------------------------------------------------------------------
 
 void TCCPulso::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe, int nDPF,
-	TDPF **DPF) {
+								TDPF **DPF) {
 	try {
 		int i = 0;
 		double fracciontotal = 0.;
@@ -78,8 +78,8 @@ void TCCPulso::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Number
 		FTiempo = 0;
 		FPref = 1;
 
-		while (FNumeroTubosCC < 1 && i < NumberOfPipes) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+		while(FNumeroTubosCC < 1 && i < NumberOfPipes) {
+			if(Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Beta);
@@ -88,7 +88,7 @@ void TCCPulso::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Number
 				FIndiceCC = 0;
 				FNumeroTubosCC++;
 			}
-			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			if(Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FCC = &(FTuboExtremo[FNumeroTubosCC].Landa);
@@ -109,31 +109,30 @@ void TCCPulso::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Number
 // Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
 		FComposicion = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - 1; i++) {
+		for(int i = 0; i < FNumeroEspecies - 1; i++) {
 			fscanf(fich, "%lf ", &FComposicion[i]);
 			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 			fracciontotal += FComposicion[i];
 		}
-		if (FHayEGR) {
-			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(
-				FNumeroEspecies - 1);
-			if (FCalculoEspecies == nmCalculoCompleto) {
-				if (FComposicion[0] > 0.2)
+		if(FHayEGR) {
+			FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(FNumeroEspecies - 1);
+			if(FCalculoEspecies == nmCalculoCompleto) {
+				if(FComposicion[0] > 0.2)
 					FComposicion[FNumeroEspecies - 1] = 0.;
 				else
 					FComposicion[FNumeroEspecies - 1] = 1.;
 			} else {
-				if (FComposicion[0] > 0.5)
+				if(FComposicion[0] > 0.5)
 					FComposicion[FNumeroEspecies - 1] = 1.;
 				else
 					FComposicion[FNumeroEspecies - 1] = 0.;
 			}
 		}
 
-		if (fracciontotal != 1.) {
-			std::cout
-				<< "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  "
-				<< FNumeroCC << std::endl;
+		if(fracciontotal != 1.) {
+			std::cout <<
+					  "ERROR: La fraccion masica total no puede ser distinta de 1. Repasa la lectura en la condicion de contorno  " <<
+					  FNumeroCC << std::endl;
 			throw Exception(" ");
 		}
 
@@ -142,7 +141,7 @@ void TCCPulso::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int Number
 
 	}
 
-	catch (exception &N) {
+	catch(exception &N) {
 		std::cout << "ERROR: TCCPulso::LecturaPulso en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -169,26 +168,24 @@ void TCCPulso::CalculaCondicionContorno(double Time) {
 		FTuboExtremo[0].Entropia = Entropia;
 
 // Transporte de Especies Quimicas
-		if (*FCC > *FCD) {  // Flujo saliente del tubo
-			for (int j = 0; j < FNumeroEspecies - 2; j++) {
+		if(*FCC > *FCD) {   // Flujo saliente del tubo
+			for(int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
 			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-			if (FHayEGR)
-				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC,
-					FNumeroEspecies - 1);
-		} else if (*FCD > *FCC) {  // Flujo entrante al tubo
-			for (int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
+			if(FHayEGR)
+				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC, FNumeroEspecies - 1);
+		} else if(*FCD > *FCC) {   // Flujo entrante al tubo
+			for(int j = 0; j < FNumeroEspecies - FIntEGR; j++) {
 				FFraccionMasicaEspecie[j] = FComposicion[j];
 			}
 		}
 		/* La ultima opcion es que *FCC=*FCD. En este caso el flujo esta parado y la fraccion masica
 		 de las especies permanece constante en dicho instante */
 
-	} catch (exception &N) {
-		std::cout << "ERROR: TCCPulso::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception &N) {
+		std::cout << "ERROR: TCCPulso::CalculaCondicionesContorno en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

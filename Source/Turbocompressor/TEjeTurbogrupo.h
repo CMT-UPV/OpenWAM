@@ -46,9 +46,9 @@ class TCompresor;
 
 class TEjeTurbogrupo {
 
-private:
+  private:
 
-protected:
+  protected:
 
 	int FNumeroEje; // Numero de Axis (empieza en 1).
 	int FNumCilindros;
@@ -118,7 +118,7 @@ protected:
 	double FMechPower;
 	double FMechEff;
 
-public:
+  public:
 
 	double getRegimen() {
 		return FRegimenEje;

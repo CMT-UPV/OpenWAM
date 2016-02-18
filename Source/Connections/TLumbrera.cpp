@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 TLumbrera::TLumbrera(double Biela, double Carrera) :
-TTipoValvula(nmLumbrera2T) {
+	TTipoValvula(nmLumbrera2T) {
 
 	FBiela = Biela;
 	FCarrera = Carrera;
@@ -54,7 +54,7 @@ TLumbrera::~TLumbrera() {
 //---------------------------------------------------------------------------
 
 TLumbrera::TLumbrera(TLumbrera *Origen, int Valvula) :
-TTipoValvula(nmLumbrera2T) {
+	TTipoValvula(nmLumbrera2T) {
 
 	FValvula = Valvula;
 	FAltura = Origen->FAltura;
@@ -79,7 +79,7 @@ TTipoValvula(nmLumbrera2T) {
 	FDatosCDEntrada.resize(Origen->FDatosCDEntrada.size());
 	FDatosCDSalida.resize(Origen->FDatosCDSalida.size());
 
-	for (int i = 0; i < FNumCD; i++) {
+	for(int i = 0; i < FNumCD; i++) {
 		FApertura[i] = Origen->FApertura[i];
 		FDatosCDEntrada[i] = Origen->FDatosCDEntrada[i];
 		FDatosCDSalida[i] = Origen->FDatosCDSalida[i];
@@ -92,7 +92,7 @@ TTipoValvula(nmLumbrera2T) {
 //---------------------------------------------------------------------------
 
 void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+								  TBloqueMotor *Engine) {
 	try {
 
 		FILE *fich = fopen(FileWAM, "r");
@@ -100,21 +100,20 @@ void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nord
 
 		FNumeroOrden = norden;
 
-		fscanf(fich, "%lf %lf %lf %lf %lf %lf ", &FAltura, &FAnchura, &FRadioSup, &FRadioInf, &FPosicionPMI,
-			&FDiametroRef);
+		fscanf(fich, "%lf %lf %lf %lf %lf %lf ", &FAltura, &FAnchura, &FRadioSup, &FRadioInf, &FPosicionPMI, &FDiametroRef);
 		fscanf(fich, "%d ", &FNumCD);
 
 		FApertura.resize(FNumCD);
 		FDatosCDEntrada.resize(FNumCD);
 		FDatosCDSalida.resize(FNumCD);
 
-		for (int j = 0; j < FNumCD; ++j) {
+		for(int j = 0; j < FNumCD; ++j) {
 			fscanf(fich, "%lf ", &FApertura[j]);
 		}
-		for (int j = 0; j < FNumCD; ++j) {
+		for(int j = 0; j < FNumCD; ++j) {
 			fscanf(fich, "%lf ", &FDatosCDEntrada[j]);
 		}
-		for (int j = 0; j < FNumCD; ++j) {
+		for(int j = 0; j < FNumCD; ++j) {
 			fscanf(fich, "%lf ", &FDatosCDSalida[j]);
 		}
 
@@ -123,7 +122,7 @@ void TLumbrera::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nord
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales Lumbrera" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -138,7 +137,7 @@ void TLumbrera::CalculaCD(double Angulo) {
 
 	FApertActual = FAltura + FPosicionPMI - CalculaDistPMI(Angulo);
 
-	if (FApertActual <= 0) {
+	if(FApertActual <= 0) {
 		FApertActual = 0.;
 		FCDTubVol = 0.;
 		FCDVolTub = 0.;
@@ -154,7 +153,7 @@ void TLumbrera::GetCDin(double Time) {
 
 	FApertActual = FAltura + FPosicionPMI - CalculaDistPMI(Angulo);
 
-	if (FApertActual <= 0) {
+	if(FApertActual <= 0) {
 		FApertActual = 0.;
 		FCDTubVol = 0.;
 	} else {
@@ -168,7 +167,7 @@ void TLumbrera::GetCDout(double Time) {
 
 	FApertActual = FAltura + FPosicionPMI - CalculaDistPMI(Angulo);
 
-	if (FApertActual <= 0) {
+	if(FApertActual <= 0) {
 		FApertActual = 0.;
 		FCDVolTub = 0.;
 	} else {
@@ -197,10 +196,10 @@ void TLumbrera::CalculateOpeningANDClose() {
 	double apt0 = FAltura + FPosicionPMI - CalculaDistPMI(ang0);
 	double apt1 = FAltura + FPosicionPMI - CalculaDistPMI(ang1);
 	double ang = 0., apt = 0.;
-	while (ang1 - ang0 > 0.01) {
+	while(ang1 - ang0 > 0.01) {
 		ang = (ang1 + ang0) / 2.;
 		apt = FAltura + FPosicionPMI - CalculaDistPMI(ang);
-		if (apt > 0) {
+		if(apt > 0) {
 			ang1 = ang;
 			apt1 = apt;
 		} else {

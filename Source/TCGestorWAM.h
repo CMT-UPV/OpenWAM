@@ -40,7 +40,7 @@
 #define BUFSIZE 4096
 
 class TCGestorWAM {
-private:
+  private:
 	// User declarations
 	HANDLE hPipe;
 	HANDLE hPipeResp;
@@ -48,7 +48,7 @@ private:
 	void Enviar(LPTSTR msg);
 	void Enviar(float valor);
 	void EsperarRespuesta();
-public:
+  public:
 	__fastcall TCGestorWAM();
 	void Init();
 	void NuevoMensaje(LPTSTR msg);

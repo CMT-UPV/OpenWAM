@@ -64,7 +64,7 @@
  */
 
 class TAcousticCompressor {
-private:
+  private:
 
 	TTubo *FInletPipe;
 	TTubo *FVolute;
@@ -80,7 +80,7 @@ private:
 	int FRotorVolumeID;
 	int FStatorVolumeID;
 
-public:
+  public:
 
 	/**
 	 * Default constructor.

@@ -41,7 +41,7 @@
 //---------------------------------------------------------------------------
 
 class TCDExterno: public TTipoValvula {
-private:
+  private:
 
 	double FCDEInicial;
 	double FCDSInicial;
@@ -53,7 +53,7 @@ private:
 
 	int FValvula;
 
-public:
+  public:
 
 	void PutCTorMatlab(double valor) {
 		FCTorMatlab = valor;

@@ -42,9 +42,9 @@
 //---------------------------------------------------------------------------
 
 class TConcentricoTubos: public TConcentrico {
-private:
+  private:
 
-public:
+  public:
 
 	TConcentricoTubos(int NumeroConcentrico);
 

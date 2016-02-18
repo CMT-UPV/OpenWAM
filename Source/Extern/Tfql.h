@@ -50,7 +50,7 @@
 
 class Tfql {
 
-private:
+  private:
 
 	FILE *Fichfql;
 	int Fnwiebe, Fnley, Fncilin, Fnparametros;
@@ -59,7 +59,7 @@ private:
 	double Fang0, Ffinc;
 	bool *Fcombustion;
 
-public:
+  public:
 
 	Tfql(int ncilin);
 

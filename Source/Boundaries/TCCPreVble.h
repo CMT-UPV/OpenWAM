@@ -37,7 +37,7 @@
 class TEntradaPulso;
 
 class TCCPreVble: public TCondicionContorno {
-private:
+  private:
 
 	TEntradaPulso *FPulso;
 	int FNodoFin; // Nodo del extremo del tubo que conecta con la condicion de contorno.
@@ -50,12 +50,12 @@ private:
 
 	double *FComposicion;
 
-public:
+  public:
 
 	//FUNCIONES
 
 	TCCPreVble(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+			   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCPreVble();
 

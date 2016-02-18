@@ -41,7 +41,7 @@ class TCompTubDep: public TCompresor {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-private:
+  private:
 
 	TDeposito *FDeposito;
 	TTubo *FTuboRotor;
@@ -118,7 +118,7 @@ private:
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-public:
+  public:
 
 	int getTubStator() {
 		return GetTubStator();
@@ -136,7 +136,7 @@ public:
 	;
 
 	TCompTubDep(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+				bool ThereIsEGR);
 
 	~TCompTubDep();
 
@@ -147,7 +147,7 @@ public:
 	void DatosEntradaCompresor(double AmbientTemperature, double AmbientPressure, TCondicionContorno *BC);
 
 	void BusquedaEntradaSalida(nmCompressorInlet EntradaCompresor, double AmbientTemperature, int numeroCC,
-		TCondicionContorno **BC, double *AtmosphericComposition);
+							   TCondicionContorno **BC, double *AtmosphericComposition);
 
 // NO SE UTILIZA EN ESTE TIPO DE COMPRESOR
 	void CalculaGasto(double TrabajoInsTurbina, double TiempoActual) {

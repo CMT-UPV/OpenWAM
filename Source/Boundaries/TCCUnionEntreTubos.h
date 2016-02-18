@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 
 class TCCUnionEntreTubos: public TCondicionContorno {
-private:
+  private:
 
 	int *FNodoFin;               // Nodo del tubo en el extremo del tubo.
 	int *FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
@@ -52,13 +52,13 @@ private:
 	double FEspesor;
 	double FConductividad;
 
-	void Estrechamiento(double CCS, double CCE, double rel_entropia, double rel_area, double smag, double *xa1,
-		double *xa2, double *xu2, double *xu1);
+	void Estrechamiento(double CCS, double CCE, double rel_entropia, double rel_area, double smag, double *xa1, double *xa2,
+						double *xu2, double *xu1);
 
-	void Ensanchamiento(double CCS, double CCE, double rel_entropia, double rel_area, double smag, double *xu1,
-		double *xu2, double *xa2, double *xa1, double *xx3);
+	void Ensanchamiento(double CCS, double CCE, double rel_entropia, double rel_area, double smag, double *xu1, double *xu2,
+						double *xa2, double *xa1, double *xx3);
 
-public:
+  public:
 
 	double getEspesor() {
 		return FEspesor;
@@ -70,7 +70,7 @@ public:
 	;
 
 	TCCUnionEntreTubos(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+					   nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCUnionEntreTubos();
 

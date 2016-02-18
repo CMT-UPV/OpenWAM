@@ -37,7 +37,7 @@
 // ---------------------------------------------------------------------------
 
 TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
+						   int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) {
 	FMasaFuel = 0.;
 	FDosadoInicial = 0.;
 	FCiclo = 0;
@@ -56,7 +56,7 @@ TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature, nm
 	FPrimeravezAcumulaFuel = true;
 
 	FHayEGR = ThereIsEGR;
-	if (FHayEGR)
+	if(FHayEGR)
 		FIntEGR = 0;
 	else
 		FIntEGR = 1;
@@ -78,17 +78,17 @@ TBloqueMotor::TBloqueMotor(double AmbientPressure, double AmbientTemperature, nm
 TBloqueMotor::~TBloqueMotor() {
 
 	// Liberacion memoria dinamica Cilindros.
-	if (FGeom.NCilin > 0 && FCilindro != NULL) {
-		for (int i = 0; i < FGeom.NCilin; i++)
+	if(FGeom.NCilin > 0 && FCilindro != NULL) {
+		for(int i = 0; i < FGeom.NCilin; i++)
 			delete FCilindro[i];
 		delete[] FCilindro;
 	}
 
-	if (FDesfase != NULL)
+	if(FDesfase != NULL)
 		delete[] FDesfase;
-	if (FComposicionInicial != NULL)
+	if(FComposicionInicial != NULL)
 		delete[] FComposicionInicial;
-	if (FComposicionAtmosfera != NULL)
+	if(FComposicionAtmosfera != NULL)
 		delete[] FComposicionAtmosfera;
 
 }
@@ -97,7 +97,7 @@ TBloqueMotor::~TBloqueMotor() {
 // ---------------------------------------------------------------------------
 
 void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado& SimulationType,
-	int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition) {
+							int CiclosSinInerciaTermica, nmTipoMotor EngineType, double *AtmosphericComposition) {
 	try {
 		double daux = 0.;
 		double ddaux = 0.;
@@ -116,10 +116,10 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		int aux = 0;
 		fscanf(fich, "%d ", &aux);
 		aux == 0 ? FACT = false : FACT = true;
-		if (FACT) {
+		if(FACT) {
 			fscanf(fich, "%lf ", &FMixtureProcessCte);
 			cout << FMixtureProcessCte << endl;
-			if (!FHayEGR) {
+			if(!FHayEGR) {
 				std::cout << "WARNING: If the combustion is calculated by ACT and the engine" << std::endl;
 				std::cout << "         has EGR, you must select the option 'To calculate" << std::endl;
 				std::cout << "         EGR transport, in the other case, the results" << std::endl;
@@ -135,7 +135,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		FDesfase = new double[FGeom.NCilin];
 
 		FCilindro = new TCilindro*[FGeom.NCilin];
-		if (FTipoMotor == nm2T) {
+		if(FTipoMotor == nm2T) {
 			FAngTotalCiclo = 360.;
 		} else {
 			FAngTotalCiclo = 720.;
@@ -152,21 +152,21 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		FComposicionAtmosfera = new double[FNumeroEspecies - FIntEGR];
 		fscanf(fich, "%d ", &ImponerComposicionAE);
 		ImponerComposicionAE == 0 ? FImponerComposicionAE = false : FImponerComposicionAE = true;
-		for (int i = 0; i < FNumeroEspecies - 1; i++) {
+		for(int i = 0; i < FNumeroEspecies - 1; i++) {
 			fscanf(fich, "%lf ", &FComposicionInicial[i]);
 			FComposicionAtmosfera[i] = AtmosphericComposition[i];
 		}
 
-		if (FHayEGR) {
-			if (FCalculoEspecies == nmCalculoCompleto) {
+		if(FHayEGR) {
+			if(FCalculoEspecies == nmCalculoCompleto) {
 				FComposicionAtmosfera[FNumeroEspecies - 1] = 0.;
-				if (FComposicionInicial[0] > 0.2)
+				if(FComposicionInicial[0] > 0.2)
 					FComposicionInicial[FNumeroEspecies - 1] = 0.;
 				else
 					FComposicionInicial[FNumeroEspecies - 1] = 1.;
 			} else {
 				FComposicionAtmosfera[FNumeroEspecies - 1] = 0.;
-				if (FComposicionInicial[0] > 0.5)
+				if(FComposicionInicial[0] > 0.5)
 					FComposicionInicial[FNumeroEspecies - 1] = 1.;
 				else
 					FComposicionInicial[FNumeroEspecies - 1] = 0.;
@@ -174,23 +174,23 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		}
 
 		fscanf(fich, "%d ", &TipoPresionAAE); // Pressure impuesta en el AAE, si es 0 se calcula
-		if (TipoPresionAAE == 0) {
+		if(TipoPresionAAE == 0) {
 			FCalculoDePAAE = nmPAAECalculada;
 			FPresionAAE = 0;
-		} else if (TipoPresionAAE == 1) {
+		} else if(TipoPresionAAE == 1) {
 			FCalculoDePAAE = nmPAAEImpuesta;
 			fscanf(fich, "%lf ", &FPresionAAE);
 		}
 
 		fscanf(fich, "%d ", &tipocombustion);
-		if (tipocombustion == 0) {
+		if(tipocombustion == 0) {
 			FCombustible = nmMEC;
-		} else if (tipocombustion == 1) {
+		} else if(tipocombustion == 1) {
 			FCombustible = nmMEP;
 		} else {
 			std::cout << "ERROR: Tipo de combustible mal definido " << std::endl;
 		}
-		if (FCombustible == nmMEC) {
+		if(FCombustible == nmMEC) {
 			fscanf(fich, "%lf ", &FMasaFuel);
 		} else {
 			fscanf(fich, "%lf ", &FDosadoInicial);
@@ -214,16 +214,16 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		fscanf(fich, "%lf ", &FGeom.AreaCulata);
 
 		fscanf(fich, "%lf %lf %lf %lf ", &FParedPiston.Espesor, &FParedPiston.Conductividad, &FParedPiston.Density,
-			&FParedPiston.CalorEspecifico);
+			   &FParedPiston.CalorEspecifico);
 		fscanf(fich, "%lf %lf %lf %lf ", &FParedCulata.Espesor, &FParedCulata.Conductividad, &FParedCulata.Density,
-			&FParedCulata.CalorEspecifico);
-		fscanf(fich, "%lf %lf %lf %lf ", &FParedCilindro.Espesor, &FParedCilindro.Conductividad,
-			&FParedCilindro.Density, &FParedCilindro.CalorEspecifico);
+			   &FParedCulata.CalorEspecifico);
+		fscanf(fich, "%lf %lf %lf %lf ", &FParedCilindro.Espesor, &FParedCilindro.Conductividad, &FParedCilindro.Density,
+			   &FParedCilindro.CalorEspecifico);
 
 		fscanf(fich, "%lf %lf %lf %lf", &FAjusteTranCalAdm, &FAjusteTranCalEsc, &FParPotMax, &FTempRefrigerante);
 
 		fscanf(fich, "%d ", &CalculoTempPared);
-		switch (CalculoTempPared) {
+		switch(CalculoTempPared) {
 		case 0:
 			FCalculoPared = nmConInercia;
 			break;
@@ -277,7 +277,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		// MODELO DE VEHdegCULO
 		// --------------------
 
-		if (SimulationType == nmTransitorioRegimen) {
+		if(SimulationType == nmTransitorioRegimen) {
 			double mv = 0., mt = 0., mr = 0.;
 			double Imc = 0., Ict = 0., Itr = 0.;
 
@@ -297,20 +297,20 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 			// Lectura del CrankAngle de la carretera
 			fscanf(fich, "%lf ", &FAnguloCarretera);
 
-			FInerciaTotal = pow2(FRelCajaCambios * FRelTrasmision) * Imc + pow2(FRelTrasmision) * Ict + Itr
-				+ FMasaTotalVehiculo * pow2(FRadioRueda);
+			FInerciaTotal = pow2(FRelCajaCambios * FRelTrasmision) * Imc + pow2(FRelTrasmision) * Ict + Itr + FMasaTotalVehiculo *
+							pow2(FRadioRueda);
 
 			FPendiente = FMasaTotalVehiculo * 9.81 * sin(FAnguloCarretera);
 
-			FCoeficienteInercias = FRendCajaCambios * pow2(FRelCajaCambios * FRelTrasmision)
-				/ (FInerciaTotal + FMasaTotalVehiculo * pow2(FRadioRueda));
+			FCoeficienteInercias = FRendCajaCambios * pow2(FRelCajaCambios * FRelTrasmision) / (FInerciaTotal + FMasaTotalVehiculo *
+								   pow2(FRadioRueda));
 
 			// Lectura de los coeficientes para obtener el Road Load
 			fscanf(fich, "%lf %lf %lf ", &FCoefRoadLoad.A0, &FCoefRoadLoad.B0, &FCoefRoadLoad.C0);
 			fscanf(fich, "%lf %lf %lf %lf ", &FCoefRoadLoad.n, &FCoefRoadLoad.cd, &FCoefRoadLoad.rho, &FCoefRoadLoad.A);
 		}
 
-		if (FACT) {
+		if(FACT) {
 			fscanf(fich, "%d ", &FInjectionSys.HoleNumber);
 			fscanf(fich, "%lf ", &FInjectionSys.HoleDiame);
 			fscanf(fich, "%lf ", &FInjectionSys.CDHole);
@@ -328,16 +328,16 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 
 			// FInjecPulse=new stInjecPulse[FInjectionSys.NumPulsos];
 			stInjecPulse aux2;
-			for (int i = 0; i < FInjectionSys.NumPulsos; ++i) {
+			for(int i = 0; i < FInjectionSys.NumPulsos; ++i) {
 				fscanf(fich, "%lf ", &aux2.Angulo);
 				fscanf(fich, "%lf ", &aux2.Masa);
 				fscanf(fich, "%d ", &aux2.CtrAngID);
-				if (aux2.CtrAngID > 0)
+				if(aux2.CtrAngID > 0)
 					aux2.CtrAngd = true;
 				else
 					aux2.CtrAngd = false;
 				fscanf(fich, "%d ", &aux2.CtrMasID);
-				if (aux2.CtrMasID > 0)
+				if(aux2.CtrMasID > 0)
 					aux2.CtrMasd = true;
 				else
 					aux2.CtrMasd = false;
@@ -356,18 +356,18 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 			stWiebe WiebeSimple;
 			stLeyQuemadoBD LeyQuemadoSimple;
 			fscanf(fich, "%d ", &FNumeroLeyesQuemado);
-			for (int j = 0; j < FNumeroLeyesQuemado; ++j) {
+			for(int j = 0; j < FNumeroLeyesQuemado; ++j) {
 				fscanf(fich, "%lf %lf %lf", &LeyQuemadoSimple.ma, &LeyQuemadoSimple.mf, &LeyQuemadoSimple.n);
-				if (LeyQuemadoSimple.ma > FLQMaMax)
+				if(LeyQuemadoSimple.ma > FLQMaMax)
 					FLQMaMax = LeyQuemadoSimple.ma;
-				if (LeyQuemadoSimple.mf > FLQMfMax)
+				if(LeyQuemadoSimple.mf > FLQMfMax)
 					FLQMfMax = LeyQuemadoSimple.mf;
-				if (LeyQuemadoSimple.n > FLQRegMax)
+				if(LeyQuemadoSimple.n > FLQRegMax)
 					FLQRegMax = LeyQuemadoSimple.n;
 				fscanf(fich, "%d ", &FNWiebes);
-				for (int i = 0; i < FNWiebes; i++) {
-					fscanf(fich, "%lf %lf %lf %lf %lf ", &WiebeSimple.m, &WiebeSimple.C, &WiebeSimple.Beta,
-						&WiebeSimple.IncAlpha, &WiebeSimple.Alpha0);
+				for(int i = 0; i < FNWiebes; i++) {
+					fscanf(fich, "%lf %lf %lf %lf %lf ", &WiebeSimple.m, &WiebeSimple.C, &WiebeSimple.Beta, &WiebeSimple.IncAlpha,
+						   &WiebeSimple.Alpha0);
 					WiebeSimple.Alpha0 = -WiebeSimple.Alpha0;
 					WiebeSimple.Inicia = WiebeSimple.Alpha0;
 					LeyQuemadoSimple.Wiebes.push_back(WiebeSimple);
@@ -382,45 +382,46 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		// ------------------------------
 
 		fscanf(fich, "%d ", &FTipoDatosIny);
-		switch (FTipoDatosIny) {
+		switch(FTipoDatosIny) {
 		case 0:  // No hay datos de inyeccion
 			FNumeroInyecciones = 0;
 			break;
 		case 1:  // Datos de Angulo y tiempo de inyecciones
 			fscanf(fich, "%d ", &FNumeroInyecciones); // Numero de inyecciones
-			if (FNumeroInyecciones == 0) {
+			if(FNumeroInyecciones == 0) {
 				FTipoDatosIny = 0;
 				break;
 			}
 			FAngIny.resize(FNumeroInyecciones);
 			FTIny.resize(FNumeroInyecciones);
 			FPercentIny.resize(FNumeroInyecciones);
-			for (int i = 0; i < FNumeroInyecciones; i++) {
-				fscanf(fich, "%lf %lf %lf ", &FAngIny[i], &FTIny[i], &FPercentIny[i]); // Angulo de la inyeccion con pms como referencia, duracion en ms y porcentaje del total
+			for(int i = 0; i < FNumeroInyecciones; i++) {
+				fscanf(fich, "%lf %lf %lf ", &FAngIny[i], &FTIny[i],
+					   &FPercentIny[i]); // Angulo de la inyeccion con pms como referencia, duracion en ms y porcentaje del total
 			}
 			break;
 		case 2:  // Datos de tabla de tasa de inyeccion
 			fscanf(fich, "%lf %lf", &FAngIniIny, &FTStepIny); // Angulo de inicio de inyeccion y paso en ms entre datos de la tabla
 			fscanf(fich, "%d ", &xnum);
 			FY_dat.resize(xnum);
-			for (int i = 0; i < xnum; i++) {
+			for(int i = 0; i < xnum; i++) {
 				fscanf(fich, "%lf ", &FY_dat[i]);
 			}
 			FX_dat.resize(xnum);
 			FX_dat[0] = FAngIniIny;
 			FAStepIny = FTStepIny * FRegimen / 60. * 360. / 1000.;
-			for (int i = 1; i < xnum; i++) {
+			for(int i = 1; i < xnum; i++) {
 				FX_dat[i] = FX_dat[i - 1] + FAStepIny;
 			}
 //			Se comprueba que la integral de la tasa corresponde al combustible total inyectado, si no, se reescala
-			for (int i = 0; i < xnum; i++) {
+			for(int i = 0; i < xnum; i++) {
 				FFuelTasaInt += FY_dat[i] * FTStepIny / 1000.;
 			}
-			for (int i = 0; i < xnum; i++) {
+			for(int i = 0; i < xnum; i++) {
 				FY_dat[i] = FY_dat[i] * FMasaFuel / FFuelTasaInt;
 			}
 			fscanf(fich, "%d ", &TipoInterp);
-			switch (TipoInterp) {
+			switch(TipoInterp) {
 			case 0:
 				fTipo = nmLineal;
 				fDatosTasa = new Linear_interp(FX_dat, FY_dat);
@@ -441,9 +442,9 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		// CREACION OBJETO CILINDRO.
 		// ------------------------------
 
-		if (FGeom.NCilin > 1) {
+		if(FGeom.NCilin > 1) {
 			fscanf(fich, "%d ", &tipodesfa);
-			switch (tipodesfa) {
+			switch(tipodesfa) {
 			case 0:
 				FTipoDesfase = nmPersonalizado;
 				break;
@@ -451,20 +452,20 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 				FTipoDesfase = nmImpuesto;
 				break;
 			}
-			if (FTipoDesfase == nmPersonalizado) {
-				for (int i = 0; i < FGeom.NCilin; ++i) {
+			if(FTipoDesfase == nmPersonalizado) {
+				for(int i = 0; i < FGeom.NCilin; ++i) {
 					fscanf(fich, "%lf ", &FDesfase[i]);
-					if (FTipoMotor == nm2T) {
+					if(FTipoMotor == nm2T) {
 						FCilindro[i] = new TCilindro2T(this, i + 1, FHayEGR);
 					} else {
 						FCilindro[i] = new TCilindro4T(this, i + 1, FHayEGR);
 					}
 				}
 			} else {
-				for (int i = 0; i < FGeom.NCilin; ++i) {
+				for(int i = 0; i < FGeom.NCilin; ++i) {
 					fscanf(fich, "%d ", &cil);
 					FDesfase[cil - 1] = (double) i * FAngTotalCiclo / (double) FGeom.NCilin;
-					if (FTipoMotor == nm2T) {
+					if(FTipoMotor == nm2T) {
 						FCilindro[cil - 1] = new TCilindro2T(this, cil, FHayEGR);
 					} else {
 						FCilindro[cil - 1] = new TCilindro4T(this, cil, FHayEGR);
@@ -473,7 +474,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 			}
 		} else {
 			FDesfase[0] = 0.;
-			if (FTipoMotor == nm2T) {
+			if(FTipoMotor == nm2T) {
 				FCilindro[0] = new TCilindro2T(this, 1, FHayEGR);
 			} else {
 				FCilindro[0] = new TCilindro4T(this, 1, FHayEGR);
@@ -482,9 +483,9 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		int controllers = 0;
 		int param = 0;
 		fscanf(fich, "%d ", &controllers);
-		for (int i = 0; i < controllers; ++i) {
+		for(int i = 0; i < controllers; ++i) {
 			fscanf(fich, "%d ", &param);
-			switch (param) {
+			switch(param) {
 			case 0: // Engine speed controller
 				fscanf(fich, "%d ", &FRPMControllerID);
 				FRPMControlled = true;
@@ -498,11 +499,11 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 		}
 
 		int MfControllerID = 0;
-		for (int i = 0; i < FGeom.NCilin; ++i) {
+		for(int i = 0; i < FGeom.NCilin; ++i) {
 			fscanf(fich, "%d ", &controllers);
-			for (int j = 0; j < controllers; ++j) {
+			for(int j = 0; j < controllers; ++j) {
 				fscanf(fich, "%d ", &param);
-				switch (param) {
+				switch(param) {
 				case 0: // Mass fluel controller
 					fscanf(fich, "%d ", &MfControllerID);
 					FCilindro[i]->PutMfControllerID(MfControllerID);
@@ -513,7 +514,7 @@ void TBloqueMotor::LeeMotor(const char *FileWAM, fpos_t &filepos, nmTipoModelado
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::LeeMotor en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -532,7 +533,7 @@ void TBloqueMotor::AsignacionTuboRendVol(TTubo **Pipe) {
 
 		FNodoMedio = floor((FTuboRendVol->getNin()) / 2.);
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::AsignacionTuboRendVol en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -544,14 +545,14 @@ void TBloqueMotor::AsignacionTuboRendVol(TTubo **Pipe) {
 
 void TBloqueMotor::IniciaAnguloCalculo() {
 	try {
-		if (FTipoMotor == nm4T) {
+		if(FTipoMotor == nm4T) {
 			FTheta = FCilindro[0]->getDistribucion().CA;
-		} else if (FTipoMotor == nm2T) {
+		} else if(FTipoMotor == nm2T) {
 			FTheta = 256.;
 		} else {
 			std::cout << "ERROR: Tipo de motor mal definido" << std::endl;
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::IniciaAnguloCalculo en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -645,9 +646,9 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &fi
 		FResMediosMotor.Tiempo0 = 0.;
 
 		fscanf(fich, "%d ", &nvars);
-		for (int i = 0; i < nvars; i++) {
+		for(int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &Tipovar);
-			switch (Tipovar) {
+			switch(Tipovar) {
 			case 0:
 				FResMediosMotor.ParNeto = true;
 				break;
@@ -740,7 +741,7 @@ void TBloqueMotor::ReadAverageResultsBloqueMotor(const char *FileWAM, fpos_t &fi
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::ReadAverageResults en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -755,121 +756,121 @@ void TBloqueMotor::HeaderAverageResultsBloqueMotor(stringstream& medoutput) {
 		// FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FResMediosMotor.ParNeto) {
+		if(FResMediosMotor.ParNeto) {
 			Label = "\t" + PutLabel(601);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.ParEfectivo) {
+		if(FResMediosMotor.ParEfectivo) {
 			Label = "\t" + PutLabel(602);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.ParEfectivoCiclo) {
+		if(FResMediosMotor.ParEfectivoCiclo) {
 			Label = "\t" + PutLabel(603);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.ParPerdidasMecanicas) {
+		if(FResMediosMotor.ParPerdidasMecanicas) {
 			Label = "\t" + PutLabel(604);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.TrabajoNeto) {
+		if(FResMediosMotor.TrabajoNeto) {
 			Label = "\t" + PutLabel(605);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.TrabajoBombeo) {
+		if(FResMediosMotor.TrabajoBombeo) {
 			Label = "\t" + PutLabel(606);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PMN) {
+		if(FResMediosMotor.PMN) {
 			Label = "\t" + PutLabel(607);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PME) {
+		if(FResMediosMotor.PME) {
 			Label = "\t" + PutLabel(608);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PMNCiclo) {
+		if(FResMediosMotor.PMNCiclo) {
 			Label = "\t" + PutLabel(609);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PMECiclo) {
+		if(FResMediosMotor.PMECiclo) {
 			Label = "\t" + PutLabel(610);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PMICiclo) {
+		if(FResMediosMotor.PMICiclo) {
 			Label = "\t" + PutLabel(611);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PMBCiclo) {
+		if(FResMediosMotor.PMBCiclo) {
 			Label = "\t" + PutLabel(612);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.Potencia) {
+		if(FResMediosMotor.Potencia) {
 			Label = "\t" + PutLabel(613);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.PotenciaCiclo) {
+		if(FResMediosMotor.PotenciaCiclo) {
 			Label = "\t" + PutLabel(614);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.MasaAdmision) {
+		if(FResMediosMotor.MasaAdmision) {
 			Label = "\t" + PutLabel(615);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.MasaFuel) {
+		if(FResMediosMotor.MasaFuel) {
 			Label = "\t" + PutLabel(616);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.MasaAtrapada) {
+		if(FResMediosMotor.MasaAtrapada) {
 			Label = "\t" + PutLabel(617);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.RegimenGiro) {
+		if(FResMediosMotor.RegimenGiro) {
 			Label = "\t" + PutLabel(618);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.RendimientoVolumetrico) {
+		if(FResMediosMotor.RendimientoVolumetrico) {
 			Label = "\t" + PutLabel(619);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.RendimientoVolumetricoAtm) {
+		if(FResMediosMotor.RendimientoVolumetricoAtm) {
 			Label = "\t" + PutLabel(620);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.RendEfectivo) {
+		if(FResMediosMotor.RendEfectivo) {
 			Label = "\t" + PutLabel(621);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.RendIndicado) {
+		if(FResMediosMotor.RendIndicado) {
 			Label = "\t" + PutLabel(622);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.ConsumoEspecifico) {
+		if(FResMediosMotor.ConsumoEspecifico) {
 			Label = "\t" + PutLabel(623);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.ParResistente) {
+		if(FResMediosMotor.ParResistente) {
 			Label = "\t" + PutLabel(624);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.VelocidadVehiculo) {
+		if(FResMediosMotor.VelocidadVehiculo) {
 			Label = "\t" + PutLabel(625);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.Dosado) {
+		if(FResMediosMotor.Dosado) {
 			Label = "\t" + PutLabel(626);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.AFR) {
+		if(FResMediosMotor.AFR) {
 			Label = "\t" + PutLabel(627);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosMotor.Swirl) {
+		if(FResMediosMotor.Swirl) {
 			Label = "\t" + PutLabel(628);
 			medoutput << Label.c_str();
 		}
 
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::HeaderAverageResults en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -883,65 +884,65 @@ void TBloqueMotor::ImprimeResultadosMediosBloqueMotor(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		if (FResMediosMotor.ParNeto)
+		if(FResMediosMotor.ParNeto)
 			medoutput << "\t" << FResMediosMotor.ParNetoMED;
-		if (FResMediosMotor.ParEfectivo)
+		if(FResMediosMotor.ParEfectivo)
 			medoutput << "\t" << FResMediosMotor.ParEfectivoMED;
-		if (FResMediosMotor.ParEfectivoCiclo)
+		if(FResMediosMotor.ParEfectivoCiclo)
 			medoutput << "\t" << FResMediosMotor.ParEfectivoCicloMED;
-		if (FResMediosMotor.ParPerdidasMecanicas)
+		if(FResMediosMotor.ParPerdidasMecanicas)
 			medoutput << "\t" << FResMediosMotor.ParPerdidasMecanicasMED;
-		if (FResMediosMotor.TrabajoNeto)
+		if(FResMediosMotor.TrabajoNeto)
 			medoutput << "\t" << FResMediosMotor.TrabajoNetoMED;
-		if (FResMediosMotor.TrabajoBombeo)
+		if(FResMediosMotor.TrabajoBombeo)
 			medoutput << "\t" << FResMediosMotor.TrabajoBombeoMED;
-		if (FResMediosMotor.PMN)
+		if(FResMediosMotor.PMN)
 			medoutput << "\t" << FResMediosMotor.PMNMED;
-		if (FResMediosMotor.PME)
+		if(FResMediosMotor.PME)
 			medoutput << "\t" << FResMediosMotor.PMEMED;
-		if (FResMediosMotor.PMNCiclo)
+		if(FResMediosMotor.PMNCiclo)
 			medoutput << "\t" << FResMediosMotor.PMNCicloMED;
-		if (FResMediosMotor.PMECiclo)
+		if(FResMediosMotor.PMECiclo)
 			medoutput << "\t" << FResMediosMotor.PMECicloMED;
-		if (FResMediosMotor.PMICiclo)
+		if(FResMediosMotor.PMICiclo)
 			medoutput << "\t" << FResMediosMotor.PMICicloMED;
-		if (FResMediosMotor.PMBCiclo)
+		if(FResMediosMotor.PMBCiclo)
 			medoutput << "\t" << FResMediosMotor.PMBCicloMED;
-		if (FResMediosMotor.Potencia)
+		if(FResMediosMotor.Potencia)
 			medoutput << "\t" << FResMediosMotor.PotenciaMED;
-		if (FResMediosMotor.PotenciaCiclo)
+		if(FResMediosMotor.PotenciaCiclo)
 			medoutput << "\t" << FResMediosMotor.PotenciaCicloMED;
-		if (FResMediosMotor.MasaAdmision)
+		if(FResMediosMotor.MasaAdmision)
 			medoutput << "\t" << FResMediosMotor.MasaAdmisionMED;
-		if (FResMediosMotor.MasaFuel)
+		if(FResMediosMotor.MasaFuel)
 			medoutput << "\t" << FResMediosMotor.MasaFuelMED;
-		if (FResMediosMotor.MasaAtrapada)
+		if(FResMediosMotor.MasaAtrapada)
 			medoutput << "\t" << FResMediosMotor.MasaAtrapadaMED;
-		if (FResMediosMotor.RegimenGiro)
+		if(FResMediosMotor.RegimenGiro)
 			medoutput << "\t" << FResMediosMotor.RegimenGiroMED;
-		if (FResMediosMotor.RendimientoVolumetrico)
+		if(FResMediosMotor.RendimientoVolumetrico)
 			medoutput << "\t" << FResMediosMotor.RendimientoVolumetricoMED;
-		if (FResMediosMotor.RendimientoVolumetricoAtm)
+		if(FResMediosMotor.RendimientoVolumetricoAtm)
 			medoutput << "\t" << FResMediosMotor.RendimientoVolumetricoAtmMED;
-		if (FResMediosMotor.RendEfectivo)
+		if(FResMediosMotor.RendEfectivo)
 			medoutput << "\t" << FResMediosMotor.RendEfectivoMED;
-		if (FResMediosMotor.RendIndicado)
+		if(FResMediosMotor.RendIndicado)
 			medoutput << "\t" << FResMediosMotor.RendIndicadoMED;
-		if (FResMediosMotor.ConsumoEspecifico)
+		if(FResMediosMotor.ConsumoEspecifico)
 			medoutput << "\t" << FResMediosMotor.ConsumoEspecificoMED;
-		if (FResMediosMotor.ParResistente)
+		if(FResMediosMotor.ParResistente)
 			medoutput << "\t" << FResMediosMotor.ParResistenteMED;
-		if (FResMediosMotor.VelocidadVehiculo)
+		if(FResMediosMotor.VelocidadVehiculo)
 			medoutput << "\t" << FResMediosMotor.VelocidadVehiculoMED;
-		if (FResMediosMotor.Dosado)
+		if(FResMediosMotor.Dosado)
 			medoutput << "\t" << FResMediosMotor.DosadoMED;
-		if (FResMediosMotor.AFR)
+		if(FResMediosMotor.AFR)
 			medoutput << "\t" << FResMediosMotor.AFRMED;
-		if (FResMediosMotor.Swirl)
+		if(FResMediosMotor.Swirl)
 			medoutput << "\t" << FResMediosMotor.SwirlMED;
 
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::ImprimeResultadosMediosBloqueMotor " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -958,33 +959,33 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 		double FraccionAireFrescoSUM = 0., AFRSUM = 0.;
 		double swirltotal = 0.;
 
-		if (FResMediosMotor.RegimenGiro || FResMediosMotor.Potencia || FResMediosMotor.RendimientoVolumetricoAtm
-			|| FResMediosMotor.RendimientoVolumetrico) {
+		if(FResMediosMotor.RegimenGiro || FResMediosMotor.Potencia || FResMediosMotor.RendimientoVolumetricoAtm
+		   || FResMediosMotor.RendimientoVolumetrico) {
 			FResMediosMotor.RegimenGiroMED = FResMediosMotor.RegimenGiroSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.RegimenGiroSUM = 0.;
 		}
-		if (FResMediosMotor.ParNeto || FResMediosMotor.PMN) {
+		if(FResMediosMotor.ParNeto || FResMediosMotor.PMN) {
 			FResMediosMotor.ParNetoMED = FResMediosMotor.ParNetoSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.ParNetoSUM = 0.;
 		}
-		if (FResMediosMotor.PMN) {
-			FResMediosMotor.PMNMED = FResMediosMotor.ParNetoMED * 16.
-				/ (FGeom.NCilin * pow2(FGeom.Diametro) * FGeom.Carrera) / 100000.;
+		if(FResMediosMotor.PMN) {
+			FResMediosMotor.PMNMED = FResMediosMotor.ParNetoMED * 16. / (FGeom.NCilin * pow2(FGeom.Diametro) * FGeom.Carrera) /
+									 100000.;
 		}
-		if (FResMediosMotor.ParEfectivo || FResMediosMotor.PME || FResMediosMotor.Potencia) {
+		if(FResMediosMotor.ParEfectivo || FResMediosMotor.PME || FResMediosMotor.Potencia) {
 			FResMediosMotor.ParEfectivoMED = FResMediosMotor.ParEfectivoSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.ParEfectivoSUM = 0.;
 		}
-		if (FResMediosMotor.PME) {
-			FResMediosMotor.PMEMED = FResMediosMotor.ParEfectivoMED * 16.
-				/ (FGeom.NCilin * pow2(FGeom.Diametro) * FGeom.Carrera) / 100000.;
+		if(FResMediosMotor.PME) {
+			FResMediosMotor.PMEMED = FResMediosMotor.ParEfectivoMED * 16. / (FGeom.NCilin * pow2(
+										 FGeom.Diametro) * FGeom.Carrera) / 100000.;
 		}
-		if (FResMediosMotor.Potencia) {
-			FResMediosMotor.PotenciaMED = __units::To_kilo(
-				FResMediosMotor.ParEfectivoMED * __cons::Pi_x_2 * __units::RPMToRPS(FResMediosMotor.RegimenGiroMED));
+		if(FResMediosMotor.Potencia) {
+			FResMediosMotor.PotenciaMED = __units::To_kilo(FResMediosMotor.ParEfectivoMED * __cons::Pi_x_2 * __units::RPMToRPS(
+											  FResMediosMotor.RegimenGiroMED));
 		}
-		if (FResMediosMotor.MasaAdmision) {
-			for (int i = 0; i < FGeom.NCilin; i++) {
+		if(FResMediosMotor.MasaAdmision) {
+			for(int i = 0; i < FGeom.NCilin; i++) {
 				FResMediosMotor.MasaAdmisionSUM += FCilindro[i]->getMasaPorAdmision();
 			}
 			FResMediosMotor.MasaAdmisionMED = FResMediosMotor.MasaAdmisionSUM / FGeom.NCilin;
@@ -995,59 +996,58 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 		FResMediosMotor.MasaFuelSUM = 0.;
 		FPrimeravezAcumulaFuel = true;
 
-		if (FResMediosMotor.MasaAtrapada || FResMediosMotor.RendimientoVolumetrico
-			|| FResMediosMotor.RendimientoVolumetricoAtm || FResMediosMotor.AFR) {
-			for (int i = 0; i < FGeom.NCilin; i++) {
+		if(FResMediosMotor.MasaAtrapada || FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.RendimientoVolumetricoAtm
+		   || FResMediosMotor.AFR) {
+			for(int i = 0; i < FGeom.NCilin; i++) {
 				MasaAtrapadaSUM += FCilindro[i]->getMasaAtrapada();
 				FraccionAireFrescoSUM += FCilindro[i]->getFraccionAireFresco();
 			}
 			FResMediosMotor.MasaAtrapadaMED = MasaAtrapadaSUM / FGeom.NCilin;
 			FResMediosMotor.FraccionAireFrescoMED = FraccionAireFrescoSUM / FGeom.NCilin;
 		}
-		if (FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.RendimientoVolumetricoAtm) {
+		if(FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.RendimientoVolumetricoAtm) {
 			FResMediosMotor.GastoTuboReferenciaMED = FResMediosMotor.GastoTuboReferenciaSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.GastoTuboReferenciaSUM = 0.;
 		}
-		if (FResMediosMotor.RendimientoVolumetrico) {
+		if(FResMediosMotor.RendimientoVolumetrico) {
 			FResMediosMotor.DensidadReferenciaMED = FResMediosMotor.DensidadReferenciaSUM / FResMediosMotor.TiempoSUM;
-			FResMediosMotor.RendimientoVolumetricoMED = fabs(FResMediosMotor.GastoTuboReferenciaMED)
-				/ FResMediosMotor.DensidadReferenciaMED / FGeom.CilindradaTotal
-				/ (FResMediosMotor.RegimenGiroMED / 60. * (360. / FAngTotalCiclo));
+			FResMediosMotor.RendimientoVolumetricoMED = fabs(FResMediosMotor.GastoTuboReferenciaMED) /
+					FResMediosMotor.DensidadReferenciaMED / FGeom.CilindradaTotal / (FResMediosMotor.RegimenGiroMED / 60. *
+							(360. / FAngTotalCiclo));
 			FResMediosMotor.DensidadReferenciaSUM = 0;
 		}
-		if (FResMediosMotor.ParPerdidasMecanicas) {
-			FResMediosMotor.ParPerdidasMecanicasMED = FResMediosMotor.ParPerdidasMecanicasSUM
-				/ FResMediosMotor.TiempoSUM;
+		if(FResMediosMotor.ParPerdidasMecanicas) {
+			FResMediosMotor.ParPerdidasMecanicasMED = FResMediosMotor.ParPerdidasMecanicasSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.ParPerdidasMecanicasSUM = 0.;
 		}
-		if (FResMediosMotor.ParResistente) {
+		if(FResMediosMotor.ParResistente) {
 			FResMediosMotor.ParResistenteMED = FResMediosMotor.ParResistenteSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.ParResistenteSUM = 0.;
 		}
-		if (FResMediosMotor.VelocidadVehiculo) {
+		if(FResMediosMotor.VelocidadVehiculo) {
 			FResMediosMotor.VelocidadVehiculoMED = FResMediosMotor.VelocidadVehiculoSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.VelocidadVehiculoSUM = 0.;
 		}
-		if (FResMediosMotor.RendimientoVolumetricoAtm) {
+		if(FResMediosMotor.RendimientoVolumetricoAtm) {
 			DensidadAtm = __units::BarToPa(FPresionAmbiente) / (__R::Air * FTemperaturaAmbiente);
-			FResMediosMotor.RendimientoVolumetricoAtmMED = fabs(FResMediosMotor.GastoTuboReferenciaMED) / DensidadAtm
-				/ FGeom.CilindradaTotal / (FResMediosMotor.RegimenGiroMED / 120.);
+			FResMediosMotor.RendimientoVolumetricoAtmMED = fabs(FResMediosMotor.GastoTuboReferenciaMED) / DensidadAtm /
+					FGeom.CilindradaTotal / (FResMediosMotor.RegimenGiroMED / 120.);
 		}
-		if (FResMediosMotor.Dosado) {
+		if(FResMediosMotor.Dosado) {
 			FResMediosMotor.MasaTuboReferenciaMED = FResMediosMotor.MasaTuboReferenciaSUM / FResMediosMotor.TiempoSUM;
 			FResMediosMotor.DosadoMED = FResMediosMotor.MasaFuelMED / fabs(FResMediosMotor.MasaTuboReferenciaMED);
 			FResMediosMotor.MasaTuboReferenciaSUM = 0.;
 		}
-		if (FResMediosMotor.AFR) {
-			for (int i = 0; i < FGeom.NCilin; i++) {
+		if(FResMediosMotor.AFR) {
+			for(int i = 0; i < FGeom.NCilin; i++) {
 				AFRSUM += FCilindro[i]->getAFR();
 			}
 			FResMediosMotor.AFRMED = AFRSUM / FGeom.NCilin;
 			AFRSUM = 0.;
 			// FResMediosMotor.AFRMED=FResMediosMotor.MasaAtrapadaMED*FResMediosMotor.FraccionAireFrescoMED/FResMediosMotor.MasaFuelMED;
 		}
-		if (FResMediosMotor.Swirl) {
-			for (int i = 0; i < FGeom.NCilin; i++) {
+		if(FResMediosMotor.Swirl) {
+			for(int i = 0; i < FGeom.NCilin; i++) {
 				swirltotal += FCilindro[i]->getSwirlSUM() / FResMediosMotor.TiempoSUM;
 				/* Valor medio de Swirl para el cilindro i */
 			}
@@ -1070,31 +1070,30 @@ void TBloqueMotor::ResultadosMediosBloqueMotor() {
 
 		FResMediosMotor.PMICicloMED = FResMediosMotor.PMNCicloMED - FResMediosMotor.PMBCicloMED;
 
-		FPMPMMotor = FPerMec.Coef0 + FPerMec.Coef1 * FResMediosMotor.RegimenGiroMED / 60.
-			- FPerMec.Coef2 * FResMediosMotor.RegimenGiroMED * FResMediosMotor.RegimenGiroMED / 3600
-			+ FPerMec.Coef3 * FResMediosMotor.PMICicloMED;
+		FPMPMMotor = FPerMec.Coef0 + FPerMec.Coef1 * FResMediosMotor.RegimenGiroMED / 60. - FPerMec.Coef2 *
+					 FResMediosMotor.RegimenGiroMED * FResMediosMotor.RegimenGiroMED / 3600 + FPerMec.Coef3 * FResMediosMotor.PMICicloMED;
 		FResMediosMotor.PMECicloMED = FResMediosMotor.PMNCicloMED - FPMPMMotor;
 
-		FResMediosMotor.ParEfectivoCicloMED = __units::BarToPa(FResMediosMotor.PMECicloMED) * FGeom.CilindradaTotal
-			/ (__units::DegToRad(FAngTotalCiclo));
+		FResMediosMotor.ParEfectivoCicloMED = __units::BarToPa(FResMediosMotor.PMECicloMED) * FGeom.CilindradaTotal /
+											  (__units::DegToRad(FAngTotalCiclo));
 
-		FResMediosMotor.PotenciaCicloMED = __units::To_kilo(
-			__cons::Pi_x_2 * FResMediosMotor.ParEfectivoCicloMED * __units::RPMToRPS(FResMediosMotor.RegimenGiroMED));
+		FResMediosMotor.PotenciaCicloMED = __units::To_kilo(__cons::Pi_x_2 * FResMediosMotor.ParEfectivoCicloMED *
+										   __units::RPMToRPS(FResMediosMotor.RegimenGiroMED));
 
-		if (FResMediosMotor.MasaFuelMED == 0) {
+		if(FResMediosMotor.MasaFuelMED == 0) {
 			FResMediosMotor.RendIndicadoMED = 0.;
 			FResMediosMotor.RendEfectivoMED = 0.;
 			FResMediosMotor.ConsumoEspecificoMED = 0.;
 		} else {
-			FResMediosMotor.RendIndicadoMED = (FResMediosMotor.TrabajoNetoMED - FResMediosMotor.TrabajoBombeoMED)
-				/ (FGeom.NCilin * FResMediosMotor.MasaFuelMED * FPoderCalorifico);
-			FResMediosMotor.RendEfectivoMED = __units::BarToPa(FResMediosMotor.PMECicloMED) * FGeom.CilindradaTotal
-				/ (FGeom.NCilin * FResMediosMotor.MasaFuelMED * FPoderCalorifico);
+			FResMediosMotor.RendIndicadoMED = (FResMediosMotor.TrabajoNetoMED - FResMediosMotor.TrabajoBombeoMED) /
+											  (FGeom.NCilin * FResMediosMotor.MasaFuelMED * FPoderCalorifico);
+			FResMediosMotor.RendEfectivoMED = __units::BarToPa(FResMediosMotor.PMECicloMED) * FGeom.CilindradaTotal /
+											  (FGeom.NCilin * FResMediosMotor.MasaFuelMED * FPoderCalorifico);
 			FResMediosMotor.ConsumoEspecificoMED = 3.6e9 / (FResMediosMotor.RendEfectivoMED * FPoderCalorifico);
 		}
 
 		FResMediosMotor.TiempoSUM = 0;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::ResultadosMediosBloqueMotor " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1111,55 +1110,52 @@ void TBloqueMotor::AcumulaResultadosMediosBloqueMotor(double TActual, int Cilind
 		double DeltaT = TActual - FResMediosMotor.Tiempo0;
 		// double DeltaAngulo=360.*FRegimen/60.*DeltaT;
 
-		if (FResMediosMotor.ParNeto || FResMediosMotor.PMN || FResMediosMotor.ParEfectivo || FResMediosMotor.PME
-			|| FResMediosMotor.Potencia) {
-			for (int i = 0; i < FGeom.NCilin; i++) {
+		if(FResMediosMotor.ParNeto || FResMediosMotor.PMN || FResMediosMotor.ParEfectivo || FResMediosMotor.PME
+		   || FResMediosMotor.Potencia) {
+			for(int i = 0; i < FGeom.NCilin; i++) {
 				partotalins += FCilindro[i]->getParInstantaneo() * DeltaT;
 			}
 			FResMediosMotor.ParNetoSUM += partotalins;
 		}
 
-		if (FResMediosMotor.ParEfectivo || FResMediosMotor.PME || FResMediosMotor.Potencia) {
+		if(FResMediosMotor.ParEfectivo || FResMediosMotor.PME || FResMediosMotor.Potencia) {
 			FResMediosMotor.ParEfectivoSUM += partotalins - FParPerdidasMecanicas * DeltaT;
 		}
 
-		if (FCilindro[0]->getAnguloActual() > FCilindro[0]->getDistribucion().CA
-			&& FCilindro[0]->getAnguloActual()
-				<= FCilindro[0]->getDistribucion().CA
-					+ (FCilindro[0]->getAnguloActual() - FCilindro[0]->getAnguloAnterior())) {
-			if (FPrimeravezAcumulaFuel) {
-				for (int i = 0; i < FGeom.NCilin; i++) {
+		if(FCilindro[0]->getAnguloActual() > FCilindro[0]->getDistribucion().CA
+		   && FCilindro[0]->getAnguloActual() <= FCilindro[0]->getDistribucion().CA + (FCilindro[0]->getAnguloActual() -
+				   FCilindro[0]->getAnguloAnterior())) {
+			if(FPrimeravezAcumulaFuel) {
+				for(int i = 0; i < FGeom.NCilin; i++) {
 					FResMediosMotor.MasaFuelSUM += FCilindro[i]->getMasaFuel();
 				}
 				FPrimeravezAcumulaFuel = false;
 			}
 		}
 
-		if (FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.Dosado) {
+		if(FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.Dosado) {
 			FResMediosMotor.DensidadReferenciaSUM += FTuboRendVol->GetDensidad(FNodoMedio) * DeltaT;
-			FResMediosMotor.GastoTuboReferenciaSUM += (FTuboRendVol->GetVelocidad(FNodoMedio) * __cons::ARef
-				* FTuboRendVol->GetArea(FNodoMedio) * FTuboRendVol->GetDensidad(FNodoMedio)) * DeltaT;
+			FResMediosMotor.GastoTuboReferenciaSUM += (FTuboRendVol->GetVelocidad(FNodoMedio) * __cons::ARef *
+					FTuboRendVol->GetArea(FNodoMedio) * FTuboRendVol->GetDensidad(FNodoMedio)) * DeltaT;
 
 		}
 
-		if (FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.Potencia
-			|| FResMediosMotor.RendimientoVolumetricoAtm) {
+		if(FResMediosMotor.RendimientoVolumetrico || FResMediosMotor.Potencia || FResMediosMotor.RendimientoVolumetricoAtm) {
 			FResMediosMotor.RegimenGiroSUM += FRegimen * DeltaT;
 		}
 
-		if (FResMediosMotor.ParPerdidasMecanicas) {
+		if(FResMediosMotor.ParPerdidasMecanicas) {
 			FResMediosMotor.ParPerdidasMecanicasSUM += FParPerdidasMecanicas * DeltaT;
 		}
-		if (FResMediosMotor.ParResistente) {
+		if(FResMediosMotor.ParResistente) {
 			FResMediosMotor.ParResistenteSUM += FParResistente * DeltaT;
 		}
-		if (FResMediosMotor.VelocidadVehiculo) {
+		if(FResMediosMotor.VelocidadVehiculo) {
 			FResMediosMotor.VelocidadVehiculoSUM += FVelocidadVehiculo * DeltaT;
 		}
-		if (FResMediosMotor.Dosado) {
-			FResMediosMotor.MasaTuboReferenciaSUM += (FTuboRendVol->GetVelocidad(FNodoMedio) * __cons::ARef
-				* FTuboRendVol->GetArea(FNodoMedio) * FTuboRendVol->GetDensidad(FNodoMedio)) / FGeom.NCilin
-				/ (FRegimen / 120) * DeltaT;
+		if(FResMediosMotor.Dosado) {
+			FResMediosMotor.MasaTuboReferenciaSUM += (FTuboRendVol->GetVelocidad(FNodoMedio) * __cons::ARef * FTuboRendVol->GetArea(
+						FNodoMedio) * FTuboRendVol->GetDensidad(FNodoMedio)) / FGeom.NCilin / (FRegimen / 120) * DeltaT;
 		}
 
 		/* for(int i=0;i<FGeom.NCilin;i++){
@@ -1168,17 +1164,16 @@ void TBloqueMotor::AcumulaResultadosMediosBloqueMotor(double TActual, int Cilind
 		 FResMediosMotor.TrabajoBombeoSUM+=FCilindro[i]->getPreMed()*1e5*(FCilindro[i]->getVolumen()-FCilindro[i]->getVolumen0());
 		 }
 		 } */
-		FResMediosMotor.TrabajoNetoSUM += __units::BarToPa(FCilindro[CilindroActual - 1]->getPreMed())
-			* (FCilindro[CilindroActual - 1]->getVolumen() - FCilindro[CilindroActual - 1]->getVolumen0());
-		if (FCilindro[CilindroActual - 1]->getAnguloActual() > 180.
-			&& FCilindro[CilindroActual - 1]->getAnguloActual() < 540.) {
-			FResMediosMotor.TrabajoBombeoSUM += __units::BarToPa(FCilindro[CilindroActual - 1]->getPreMed())
-				* (FCilindro[CilindroActual - 1]->getVolumen() - FCilindro[CilindroActual - 1]->getVolumen0());
+		FResMediosMotor.TrabajoNetoSUM += __units::BarToPa(FCilindro[CilindroActual - 1]->getPreMed()) *
+										  (FCilindro[CilindroActual - 1]->getVolumen() - FCilindro[CilindroActual - 1]->getVolumen0());
+		if(FCilindro[CilindroActual - 1]->getAnguloActual() > 180. && FCilindro[CilindroActual - 1]->getAnguloActual() < 540.) {
+			FResMediosMotor.TrabajoBombeoSUM += __units::BarToPa(FCilindro[CilindroActual - 1]->getPreMed()) *
+												(FCilindro[CilindroActual - 1]->getVolumen() - FCilindro[CilindroActual - 1]->getVolumen0());
 		}
 
 		FResMediosMotor.TiempoSUM += DeltaT;
 		FResMediosMotor.Tiempo0 = TActual;
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::AcumulaResultadosMediosBloqueMotor " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1195,93 +1190,78 @@ void TBloqueMotor::PrestacionesMotor() {
 		std::cout << "INFO:----------------------------------------------" << std::endl;
 		std::cout << "INFO: ENGINE PERFORMANCE" << std::endl;
 		std::cout << "INFO:----------------------------------------------" << std::endl;
-		if (FResMediosMotor.ParNeto)
-			std::cout << "INFO: Net torque:                             " << FResMediosMotor.ParNetoMED << " (Nm)"
-				<< std::endl;
-		if (FResMediosMotor.ParEfectivo)
-			std::cout << "INFO: Effective torque:                       " << FResMediosMotor.ParEfectivoMED << " (Nm)"
-				<< std::endl;
-		if (FResMediosMotor.ParEfectivoCiclo)
-			std::cout << "INFO: Effective torque cycle:                 " << FResMediosMotor.ParEfectivoCicloMED
-				<< " (Nm)" << std::endl;
-		if (FResMediosMotor.ParPerdidasMecanicas)
-			std::cout << "INFO: Torque of mechanical losses:            " << FResMediosMotor.ParPerdidasMecanicasMED
-				<< " (Nm)" << std::endl;
-		if (FResMediosMotor.TrabajoNeto)
-			std::cout << "INFO: Net work:                               " << FResMediosMotor.TrabajoNetoMED << " (J)"
-				<< std::endl;
-		if (FResMediosMotor.TrabajoBombeo)
-			std::cout << "INFO: Pumping work:                           " << FResMediosMotor.TrabajoBombeoMED << " (J)"
-				<< std::endl;
-		if (FResMediosMotor.PMN)
-			std::cout << "INFO: NMEP (Mechanism):                       " << FResMediosMotor.PMNMED << " (bar)"
-				<< std::endl;
-		if (FResMediosMotor.PME)
-			std::cout << "INFO: BMEP (Mechanism):                       " << FResMediosMotor.PMEMED << " (bar)"
-				<< std::endl;
-		if (FResMediosMotor.PMNCiclo)
-			std::cout << "INFO: NMEP (Cycle):                           " << FResMediosMotor.PMNCicloMED << " (bar)"
-				<< std::endl;
-		if (FResMediosMotor.PMECiclo)
-			std::cout << "INFO: BMEP (Cycle):                           " << FResMediosMotor.PMECicloMED << " (bar)"
-				<< std::endl;
-		if (FResMediosMotor.PMICiclo)
-			std::cout << "INFO: IMEP (Cycle):                           " << FResMediosMotor.PMICicloMED << " (bar)"
-				<< std::endl;
-		if (FResMediosMotor.PMBCiclo)
-			std::cout << "INFO: PMEP (Cycle):                           " << FResMediosMotor.PMBCicloMED << " (bar)"
-				<< std::endl;
-		if (FResMediosMotor.Potencia)
-			std::cout << "INFO: Effective Power (Mechanism):            " << FResMediosMotor.PotenciaMED << " (kW)"
-				<< std::endl;
-		if (FResMediosMotor.PotenciaCiclo)
-			std::cout << "INFO: Effective Power (Cycle):                " << FResMediosMotor.PotenciaCicloMED << " (kW)"
-				<< std::endl;
-		if (FResMediosMotor.MasaAdmision)
-			std::cout << "INFO: Intake Mass:                            " << FResMediosMotor.MasaAdmisionMED
-				<< " (kg/cc)" << std::endl;
-		if (FResMediosMotor.MasaFuel)
-			std::cout << "INFO: Fuel Mass:                              " << FResMediosMotor.MasaFuelMED << " (kg/cc)"
-				<< std::endl;
-		if (FResMediosMotor.MasaAtrapada)
-			std::cout << "INFO: Trapped Mass:                           " << FResMediosMotor.MasaAtrapadaMED
-				<< " (kg/cc)" << std::endl;
-		if (FResMediosMotor.RegimenGiro)
-			std::cout << "INFO: Engine Speed:                           " << FResMediosMotor.RegimenGiroMED << " (rpm)"
-				<< std::endl;
-		if (FResMediosMotor.RendimientoVolumetrico)
-			std::cout << "INFO: Volumetric Efficiency (refered pipe n. " << FTuboRendVol->getNumeroTubo() << "): "
-				<< FResMediosMotor.RendimientoVolumetricoMED << " (-)" << std::endl;
-		if (FResMediosMotor.RendimientoVolumetricoAtm)
-			std::cout << "INFO: Volumetric Efficiency (Ambient Condic): "
-				<< FResMediosMotor.RendimientoVolumetricoAtmMED << " (-)" << std::endl;
-		if (FResMediosMotor.RendEfectivo)
-			std::cout << "INFO: Effective Efficiency:                   " << FResMediosMotor.RendEfectivoMED << " (-)"
-				<< std::endl;
-		if (FResMediosMotor.RendIndicado)
-			std::cout << "INFO: Indicated Efficiency:                   " << FResMediosMotor.RendIndicadoMED << " (-)"
-				<< std::endl;
-		if (FResMediosMotor.ConsumoEspecifico)
-			std::cout << "INFO: BSFC:                                   " << FResMediosMotor.ConsumoEspecificoMED
-				<< " (g/kWh)" << std::endl;
-		if (FResMediosMotor.ParResistente)
-			std::cout << "INFO: Resistant Torque:                       " << FResMediosMotor.ParResistenteMED << " (Nm)"
-				<< std::endl;
-		if (FResMediosMotor.VelocidadVehiculo)
-			std::cout << "INFO: Vehicle Speed:                          " << FResMediosMotor.VelocidadVehiculoMED
-				<< " (Nm)" << std::endl;
-		if (FResMediosMotor.Dosado)
-			std::cout << "INFO: Fuel-to-air ratio:(refered pipe n. " << FTuboRendVol->getNumeroTubo() << "):     "
-				<< FResMediosMotor.DosadoMED << " (-)" << std::endl;
-		if (FResMediosMotor.AFR)
-			std::cout << "INFO: AFR:                                    " << FResMediosMotor.AFRMED << " (-)"
-				<< std::endl;
-		if (FResMediosMotor.Swirl)
-			std::cout << "INFO: Swirl at T.D.C.:                        " << FResMediosMotor.SwirlMED << " (-)"
-				<< std::endl;
+		if(FResMediosMotor.ParNeto)
+			std::cout << "INFO: Net torque:                             " << FResMediosMotor.ParNetoMED << " (Nm)" << std::endl;
+		if(FResMediosMotor.ParEfectivo)
+			std::cout << "INFO: Effective torque:                       " << FResMediosMotor.ParEfectivoMED << " (Nm)" << std::endl;
+		if(FResMediosMotor.ParEfectivoCiclo)
+			std::cout << "INFO: Effective torque cycle:                 " << FResMediosMotor.ParEfectivoCicloMED << " (Nm)" <<
+					  std::endl;
+		if(FResMediosMotor.ParPerdidasMecanicas)
+			std::cout << "INFO: Torque of mechanical losses:            " << FResMediosMotor.ParPerdidasMecanicasMED << " (Nm)" <<
+					  std::endl;
+		if(FResMediosMotor.TrabajoNeto)
+			std::cout << "INFO: Net work:                               " << FResMediosMotor.TrabajoNetoMED << " (J)" << std::endl;
+		if(FResMediosMotor.TrabajoBombeo)
+			std::cout << "INFO: Pumping work:                           " << FResMediosMotor.TrabajoBombeoMED << " (J)" <<
+					  std::endl;
+		if(FResMediosMotor.PMN)
+			std::cout << "INFO: NMEP (Mechanism):                       " << FResMediosMotor.PMNMED << " (bar)" << std::endl;
+		if(FResMediosMotor.PME)
+			std::cout << "INFO: BMEP (Mechanism):                       " << FResMediosMotor.PMEMED << " (bar)" << std::endl;
+		if(FResMediosMotor.PMNCiclo)
+			std::cout << "INFO: NMEP (Cycle):                           " << FResMediosMotor.PMNCicloMED << " (bar)" << std::endl;
+		if(FResMediosMotor.PMECiclo)
+			std::cout << "INFO: BMEP (Cycle):                           " << FResMediosMotor.PMECicloMED << " (bar)" << std::endl;
+		if(FResMediosMotor.PMICiclo)
+			std::cout << "INFO: IMEP (Cycle):                           " << FResMediosMotor.PMICicloMED << " (bar)" << std::endl;
+		if(FResMediosMotor.PMBCiclo)
+			std::cout << "INFO: PMEP (Cycle):                           " << FResMediosMotor.PMBCicloMED << " (bar)" << std::endl;
+		if(FResMediosMotor.Potencia)
+			std::cout << "INFO: Effective Power (Mechanism):            " << FResMediosMotor.PotenciaMED << " (kW)" << std::endl;
+		if(FResMediosMotor.PotenciaCiclo)
+			std::cout << "INFO: Effective Power (Cycle):                " << FResMediosMotor.PotenciaCicloMED << " (kW)" <<
+					  std::endl;
+		if(FResMediosMotor.MasaAdmision)
+			std::cout << "INFO: Intake Mass:                            " << FResMediosMotor.MasaAdmisionMED << " (kg/cc)" <<
+					  std::endl;
+		if(FResMediosMotor.MasaFuel)
+			std::cout << "INFO: Fuel Mass:                              " << FResMediosMotor.MasaFuelMED << " (kg/cc)" << std::endl;
+		if(FResMediosMotor.MasaAtrapada)
+			std::cout << "INFO: Trapped Mass:                           " << FResMediosMotor.MasaAtrapadaMED << " (kg/cc)" <<
+					  std::endl;
+		if(FResMediosMotor.RegimenGiro)
+			std::cout << "INFO: Engine Speed:                           " << FResMediosMotor.RegimenGiroMED << " (rpm)" <<
+					  std::endl;
+		if(FResMediosMotor.RendimientoVolumetrico)
+			std::cout << "INFO: Volumetric Efficiency (refered pipe n. " << FTuboRendVol->getNumeroTubo() << "): " <<
+					  FResMediosMotor.RendimientoVolumetricoMED << " (-)" << std::endl;
+		if(FResMediosMotor.RendimientoVolumetricoAtm)
+			std::cout << "INFO: Volumetric Efficiency (Ambient Condic): " << FResMediosMotor.RendimientoVolumetricoAtmMED << " (-)"
+					  << std::endl;
+		if(FResMediosMotor.RendEfectivo)
+			std::cout << "INFO: Effective Efficiency:                   " << FResMediosMotor.RendEfectivoMED << " (-)" << std::endl;
+		if(FResMediosMotor.RendIndicado)
+			std::cout << "INFO: Indicated Efficiency:                   " << FResMediosMotor.RendIndicadoMED << " (-)" << std::endl;
+		if(FResMediosMotor.ConsumoEspecifico)
+			std::cout << "INFO: BSFC:                                   " << FResMediosMotor.ConsumoEspecificoMED << " (g/kWh)" <<
+					  std::endl;
+		if(FResMediosMotor.ParResistente)
+			std::cout << "INFO: Resistant Torque:                       " << FResMediosMotor.ParResistenteMED << " (Nm)" <<
+					  std::endl;
+		if(FResMediosMotor.VelocidadVehiculo)
+			std::cout << "INFO: Vehicle Speed:                          " << FResMediosMotor.VelocidadVehiculoMED << " (Nm)" <<
+					  std::endl;
+		if(FResMediosMotor.Dosado)
+			std::cout << "INFO: Fuel-to-air ratio:(refered pipe n. " << FTuboRendVol->getNumeroTubo() << "):     " <<
+					  FResMediosMotor.DosadoMED << " (-)" << std::endl;
+		if(FResMediosMotor.AFR)
+			std::cout << "INFO: AFR:                                    " << FResMediosMotor.AFRMED << " (-)" << std::endl;
+		if(FResMediosMotor.Swirl)
+			std::cout << "INFO: Swirl at T.D.C.:                        " << FResMediosMotor.SwirlMED << " (-)" << std::endl;
 		std::cout << "INFO:----------------------------------------------" << std::endl;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::PrestacionesMotor en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1299,43 +1279,41 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 		// Calculo de par proporcionado por el motor
 		double ParNeto = 0;
 		double W = 0.;
-		for (int i = 0; i < FGeom.NCilin; i++) {
+		for(int i = 0; i < FGeom.NCilin; i++) {
 			ParNeto += FCilindro[i]->getParInstantaneo();
 		}
-		FParPerdidasMecanicas = __units::BarToPa(FPMPMMotor) * FGeom.CilindradaTotal
-			/ (__units::DegToRad(FAngTotalCiclo));
+		FParPerdidasMecanicas = __units::BarToPa(FPMPMMotor) * FGeom.CilindradaTotal / (__units::DegToRad(FAngTotalCiclo));
 		FParMotor = ParNeto - FParPerdidasMecanicas;
 
-		if (FMfControlled) {
+		if(FMfControlled) {
 			FMasaFuel = FMfController->Output(FTime);
 		}
 
-		if (FRPMControlled) {
+		if(FRPMControlled) {
 			FRegimen = FRPMController->Output(FTime);
 		} else {
 
-			if (FTipoModelado == nmTransitorioRegimen) {
+			if(FTipoModelado == nmTransitorioRegimen) {
 				// Regimen de motor en rad/s
 				W = __units::RPMToRad_s(FRegimen);
 
 				// Resistencia de la carretera
-				FRoadLoad = FCoefRoadLoad.A0 + (FCoefRoadLoad.B0 * W * FRadioRueda) / (FRelCajaCambios * FRelTrasmision)
-					+ FCoefRoadLoad.C0 * pow(W * FRadioRueda / (FRelCajaCambios * FRelTrasmision), FCoefRoadLoad.n)
-					+ (FCoefRoadLoad.cd * FCoefRoadLoad.rho * FCoefRoadLoad.A * pow2(W * FRadioRueda)
-						/ (2 * pow2(FRelCajaCambios * FRelTrasmision)));
+				FRoadLoad = FCoefRoadLoad.A0 + (FCoefRoadLoad.B0 * W * FRadioRueda) / (FRelCajaCambios * FRelTrasmision) +
+							FCoefRoadLoad.C0 * pow(W * FRadioRueda / (FRelCajaCambios * FRelTrasmision),
+												   FCoefRoadLoad.n) + (FCoefRoadLoad.cd * FCoefRoadLoad.rho * FCoefRoadLoad.A * pow2(W * FRadioRueda) / (2 * pow2(
+														   FRelCajaCambios * FRelTrasmision)));
 
 				// Par resistente total
-				FParResistente = FRadioRueda * (FRoadLoad + FPendiente)
-					/ (FRendCajaCambios * FRelCajaCambios * FRelTrasmision);
-				if (FTheta < 7200) {
+				FParResistente = FRadioRueda * (FRoadLoad + FPendiente) / (FRendCajaCambios * FRelCajaCambios * FRelTrasmision);
+				if(FTheta < 7200) {
 					FRegimen = __units::Rad_sToRPM(((FParMotor - FParResistente) * FCoeficienteInercias * DeltaT + W));
 				}
-				FVelocidadVehiculo = __units::m_sTokm_h(
-					(__units::RPMToRad_s(FRegimen) * FRadioRueda) / (FRelCajaCambios * FRelTrasmision));
+				FVelocidadVehiculo = __units::m_sTokm_h((__units::RPMToRad_s(FRegimen) * FRadioRueda) /
+														(FRelCajaCambios * FRelTrasmision));
 			}
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::ModeloDeVehiculo en el Bloque Engine. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1348,7 +1326,7 @@ void TBloqueMotor::ModeloDeVehiculo(double Time) {
 TCilindro* TBloqueMotor::GetCilindro(int i) {
 	try {
 		return FCilindro[i];
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::GetCilindro en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1361,7 +1339,7 @@ TCilindro* TBloqueMotor::GetCilindro(int i) {
 double TBloqueMotor::GetDesfase(int i) {
 	try {
 		return FDesfase[i];
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::GetCilindro en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1390,7 +1368,7 @@ void TBloqueMotor::PutATCAdm(double valor) {
 
 		FAjusteTranCalAdm = valor;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::PutATCAdm en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1405,7 +1383,7 @@ void TBloqueMotor::PutATCEsc(double valor) {
 
 		FAjusteTranCalEsc = valor;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::PutATCEsc en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1450,11 +1428,11 @@ void TBloqueMotor::PutATCEsc(double valor) {
 void TBloqueMotor::IniciaVarCilindro() {
 	try {
 
-		for (int i = 0; i < FGeom.NCilin; i++) {
+		for(int i = 0; i < FGeom.NCilin; i++) {
 			FCilindro[i]->IniciaVariables();
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::IniciaVarCilindro en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1469,7 +1447,7 @@ double TBloqueMotor::GetComposicionInicial(int i) {
 
 		return FComposicionInicial[i];
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::GetComposicionInicial en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1484,7 +1462,7 @@ double TBloqueMotor::GetComposicionAtmosfera(int i) {
 
 		return FComposicionAtmosfera[i];
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TBloqueMotor::GetComposicionAtmosfera en el EngineBlock. " << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -1495,24 +1473,24 @@ double TBloqueMotor::GetComposicionAtmosfera(int i) {
 // ---------------------------------------------------------------------------
 
 void TBloqueMotor::AsignRPMController(TController **Controller) {
-	if (FRPMControlled)
+	if(FRPMControlled)
 		FRPMController = Controller[FRPMControllerID - 1];
 }
 
 void TBloqueMotor::AsignMfController(TController **Controller) {
-	for (int i = 0; i < FGeom.NCilin; i++) {
+	for(int i = 0; i < FGeom.NCilin; i++) {
 		FCilindro[i]->AsignMfController(Controller);
 	}
 	// if (FMfControlled)
 	// FMfController = Controller[FMfControllerID - 1];
-	if (FACT) {
-		for (int i = 0; i < FInjectionSys.NumPulsos; ++i) {
-			if (FInjecPulse[i].CtrAngd)
+	if(FACT) {
+		for(int i = 0; i < FInjectionSys.NumPulsos; ++i) {
+			if(FInjecPulse[i].CtrAngd)
 				FInjecPulse[i].CtrAng = Controller[FInjecPulse[i].CtrAngID - 1];
-			if (FInjecPulse[i].CtrMasd)
+			if(FInjecPulse[i].CtrMasd)
 				FInjecPulse[i].CtrMas = Controller[FInjecPulse[i].CtrMasID - 1];
 		}
-		if (FInjectionSys.InjectPCtrd)
+		if(FInjectionSys.InjectPCtrd)
 			FInjectionSys.InjectPCtr = Controller[FInjectionSys.InjectPCtrID - 1];
 	}
 }
@@ -1522,13 +1500,13 @@ void TBloqueMotor::AsignMfController(TController **Controller) {
 
 void TBloqueMotor::NewInjectionData(double Time) {
 	vector<stInjecPulse>::size_type i;
-	for (i = 0; i < FInjecPulse.size(); i++) {
-		if (FInjecPulse[i].CtrAngd)
+	for(i = 0; i < FInjecPulse.size(); i++) {
+		if(FInjecPulse[i].CtrAngd)
 			FInjecPulse[i].Angulo = FInjecPulse[i].CtrAng->Output(Time);
-		if (FInjecPulse[i].CtrMasd)
+		if(FInjecPulse[i].CtrMasd)
 			FInjecPulse[i].Masa = FInjecPulse[i].CtrMas->Output(Time);
 	}
-	if (FInjectionSys.InjectPCtrd)
+	if(FInjectionSys.InjectPCtrd)
 		FInjectionSys.InjectPressure = FInjectionSys.InjectPCtr->Output(Time);
 }
 

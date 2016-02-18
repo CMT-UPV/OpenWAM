@@ -37,7 +37,7 @@
 #include "Globales.h"
 
 class TRegimenMotor {
-private:
+  private:
 
 	FILE *FichRegimen;
 	double FRegimenMotor;
@@ -48,7 +48,7 @@ private:
 //Funcion de interpolacion
 	double xit_(double vizq, double vder, double axid, double xif);
 
-public:
+  public:
 
 	double getRegimen() {
 		return FRegimenMotor;

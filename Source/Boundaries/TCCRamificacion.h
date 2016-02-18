@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 
 class TCCRamificacion: public TCondicionContorno {
-private:
+  private:
 
 	int *FNodoFin;               // Nodo del tubo en el extremo del tubo.
 	int *FIndiceCC; // Posicion del vector para tomar datos del tubo para la BC (0 Nodo izquierdo; 1 Nodo derecho)
@@ -57,10 +57,10 @@ private:
 	double FGamma1;
 	double *FMasaEspecie;
 
-public:
+  public:
 
 	TCCRamificacion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-		nmCalculoGamma GammaCalculation, bool ThereIsEGR);
+					nmCalculoGamma GammaCalculation, bool ThereIsEGR);
 
 	~TCCRamificacion();
 

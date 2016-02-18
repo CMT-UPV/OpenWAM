@@ -35,7 +35,7 @@ TInterpMapaComp::TInterpMapaComp(dVector Speed, dMatrix Mass, dMatrix Pre, dMatr
 
 	fRegimen = Speed;
 
-	for (Uint i = 0; i < Speed.size(); ++i) {
+	for(Uint i = 0; i < Speed.size(); ++i) {
 		IsoReg = new TCompIsoReg(Speed[i], Mass[i], Pre[i], Eff[i]);
 		fIsoReg.push_back(IsoReg);
 		delete IsoReg;

@@ -35,9 +35,9 @@
 //---------------------------------------------------------------------------
 
 class TConcentricoDPF: public TConcentrico {
-private:
+  private:
 
-public:
+  public:
 
 	TConcentricoDPF(int NumeroConcentrico);
 

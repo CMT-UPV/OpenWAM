@@ -34,7 +34,7 @@
 #include "Globales.h"
 
 class TNewMapComp {
-private:
+  private:
 
 	bool FCorrect;
 
@@ -49,7 +49,7 @@ private:
 
 	// std::vector<TCompIsoReg *> FIsoReg;
 
-public:
+  public:
 
 	TNewMapComp();
 

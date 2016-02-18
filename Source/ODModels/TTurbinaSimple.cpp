@@ -40,8 +40,8 @@
 // ---------------------------------------------------------------------------
 
 TTurbinaSimple::TTurbinaSimple(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies,
-	nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TTurbina(i, nmTurbinaSimple, 1, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+							   nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TTurbina(i, nmTurbinaSimple, 1, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTime = 0.;
 
@@ -75,7 +75,7 @@ TTurbina(i, nmTurbinaSimple, 1, SpeciesModel, numeroespecies, GammaCalculation, 
 	FResInstantTurbina.GastoCorregido = false;
 	FResInstantTurbina.RegimenCorregido = false;
 
-	for (int i = 0; i < FNumeroEntradas; i++) {
+	for(int i = 0; i < FNumeroEntradas; i++) {
 		FResMediosTurbina.RelaCinematicaMED[i] = 0.;
 		FResMediosTurbina.GastoCorregidoMED[i] = 0.;
 		FResMediosTurbina.GastoCorregidoSUM[i] = 0.;
@@ -106,37 +106,30 @@ void TTurbinaSimple::AsignaEntradaSalidaCC() {
 
 		FCCEntrada = new TCondicionContorno*[FNumeroEntradas];
 		FCCSalida = new TCondicionContorno*[1];
-		for (int i = 0; i < FNumeroUniones; i++) {
-			if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getValvula()->getTypeOfValve() == nmStator) {
+		for(int i = 0; i < FNumeroUniones; i++) {
+			if(dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getValvula()->getTypeOfValve() == nmStator) {
 				FCCEntrada[0] = FCCDeposito[i];
-			} else if (dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getValvula()->getTypeOfValve() == nmRotor) {
+			} else if(dynamic_cast<TCCDeposito*>(FCCDeposito[i])->getValvula()->getTypeOfValve() == nmRotor) {
 				FCCSalida[0] = FCCDeposito[i];
 			}
 		}
 
-		dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->AsignaTurbina(
-			FNumeroTurbina, 0);
-		dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->AsignaTurbina(
-			FNumeroTurbina);
+		dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->AsignaTurbina(FNumeroTurbina,
+				0);
+		dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->AsignaTurbina(FNumeroTurbina);
 
-		if (FTipoTurbina == nmFixedTurbine) {
-			dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->TipodeEstator(
-				nmStFijo);
-			dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->TipodeRotor(
-				nmRotFijo);
-		} else if (FTipoTurbina == nmTurbineMap) {
-			dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->TipodeEstator(
-				nmStMapa);
-			dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->TipodeRotor(
-				nmRotMapa);
+		if(FTipoTurbina == nmFixedTurbine) {
+			dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->TipodeEstator(nmStFijo);
+			dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->TipodeRotor(nmRotFijo);
+		} else if(FTipoTurbina == nmTurbineMap) {
+			dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->TipodeEstator(nmStMapa);
+			dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->TipodeRotor(nmRotMapa);
 		} else {
-			dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->TipodeEstator(
-				nmStVariable);
-			dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->TipodeRotor(
-				nmRotVariable);
+			dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->TipodeEstator(nmStVariable);
+			dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->TipodeRotor(nmRotVariable);
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::AsignaEntradaSalidaCC en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -166,7 +159,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 		DeltaT = TimeCalculo - FTimeTurbina;
 		FTimeTurbina = TimeCalculo;
 
-		if (DeltaT > 0) {
+		if(DeltaT > 0) {
 
 			FTrabajoIsenInstTotal = 0.;
 
@@ -177,11 +170,11 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			Entropia = FCCSalida[0]->GetTuboExtremo(0).Entropia;
 
 			TransformaContorno(&Landa, &Beta, &Entropia, &FAsonidoSalida, &FVelocidadSalida, &FPresionSalida, 1,
-				FCCSalida[0]->getGamma());
+							   FCCSalida[0]->getGamma());
 
-			if (dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo() == nmEntrante) {
+			if(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo() == nmEntrante) {
 				SentidoSalida = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo() == nmSaliente) {
+			} else if(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getSentidoFlujo() == nmSaliente) {
 				SentidoSalida = -1;
 			} else
 				SentidoSalida = 0; /* Flujo parado */
@@ -198,23 +191,21 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			Beta = FCCEntrada[0]->GetTuboExtremo(0).Beta;
 			Entropia = FCCEntrada[0]->GetTuboExtremo(0).Entropia;
 
-			TransformaContorno(&Landa, &Beta, &Entropia, &FAsonidoEntrada[0], &FVelocidadEntrada[0],
-				&FPresionEntrada[0], 1, FCCEntrada[0]->getGamma());
+			TransformaContorno(&Landa, &Beta, &Entropia, &FAsonidoEntrada[0], &FVelocidadEntrada[0], &FPresionEntrada[0], 1,
+							   FCCEntrada[0]->getGamma());
 
-			if (dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getSentidoFlujo() == nmEntrante) {
+			if(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getSentidoFlujo() == nmEntrante) {
 				SentidoEntrada = 1;
-			} else if (dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getSentidoFlujo() == nmSaliente) {
+			} else if(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getSentidoFlujo() == nmSaliente) {
 				SentidoEntrada = -1;
 			} else
 				SentidoEntrada = 0; /* Flujo parado */
-			FTempEntrada[0] = pow2(FAsonidoEntrada[0] * __cons::ARef)
-				/ (FCCEntrada[0]->getGamma() * FCCEntrada[0]->getR());
+			FTempEntrada[0] = pow2(FAsonidoEntrada[0] * __cons::ARef) / (FCCEntrada[0]->getGamma() * FCCEntrada[0]->getR());
 			// Esta en Kelvin
 
 			FVelocidadEntrada[0] = FVelocidadEntrada[0] * __cons::ARef * SentidoEntrada;
 			FRhoEntrada[0] = __units::BarToPa(FPresionEntrada[0]) / FTempEntrada[0] / FCCEntrada[0]->getR();
-			FGastoEntrada[0] = FRhoEntrada[0] * FVelocidadEntrada[0]
-				* dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getSeccionTubo();
+			FGastoEntrada[0] = FRhoEntrada[0] * FVelocidadEntrada[0] * dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getSeccionTubo();
 
 #endif
 
@@ -234,9 +225,9 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			// a partir del transporte de especies.
 			// ------------------------------------------------------------------------------
 
-			if (FCalculoEspecies == nmCalculoCompleto) {
-				cpte = CpTurbineComplete(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], FTempEntrada[0]);
+			if(FCalculoEspecies == nmCalculoCompleto) {
+				cpte = CpTurbineComplete(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+										 FTempEntrada[0]);
 			} else {
 				cpte = CpTurbineSimple(FTempEntrada[0], FFraccionMasicaEspecie[0]);
 			}
@@ -245,8 +236,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 #ifndef tchtm
 
 			FTemp0Entrada[0] = FTempEntrada[0] + pow2(FVelocidadEntrada[0]) / (2. * cpte);
-			FPresion0Entrada[0] = FPresionEntrada[0]
-				* pow(FTemp0Entrada[0] / FTempEntrada[0], (gam_te / (gam_te - 1.0)));
+			FPresion0Entrada[0] = FPresionEntrada[0] * pow(FTemp0Entrada[0] / FTempEntrada[0], (gam_te / (gam_te - 1.0)));
 
 #endif
 
@@ -257,35 +247,35 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 				if(FTempEntrada[0] < FHTM->NodeTemperature(10)) {
 
 					FTempEntrada[0] = FTempEntrada[0] - FHTM->Turb_Heat_Flow()
-					/ cpte / FGastoEntrada[0];
+									  / cpte / FGastoEntrada[0];
 
 				} else {
 
 					FTempEntrada[0] = FTempEntrada[0] - FHTM->Turb_Heat_Flow()
-					/ cpte / FGastoEntrada[0];
+									  / cpte / FGastoEntrada[0];
 					// comprobacion para pasos iniciales.
 					if(FTempEntrada[0] < FHTM->NodeTemperature(10))
-					FTempEntrada[0] = FHTM->NodeTemperature(10);
+						FTempEntrada[0] = FHTM->NodeTemperature(10);
 				}
 			}
 
 			FVelocidadEntrada[0] = FGastoEntrada[0] * FRMezcla * FTempEntrada
-			[0] / (__units::BarToPa(FPresionEntrada[0]) * FAcTurb->SIn());
+								   [0] / (__units::BarToPa(FPresionEntrada[0]) * FAcTurb->SIn());
 
 			FTemp0Entrada[0] = FTempEntrada[0] + pow2(FVelocidadEntrada[0]) /
-			(2. * cpte);
+							   (2. * cpte);
 			FPresion0Entrada[0] = FPresionEntrada[0] * pow
-			(FTemp0Entrada[0] / FTempEntrada[0],
-			(gam_te / (gam_te - 1.0)));
+								  (FTemp0Entrada[0] / FTempEntrada[0],
+								   (gam_te / (gam_te - 1.0)));
 
 #endif
 
 			FGastoCorregido[0] = FGastoEntrada[0] * sqrt(FTemp0Entrada[0]) / FPresion0Entrada[0] / 0.1;
 			FRegimenCorregido[0] = FRegimen / sqrt(FTemp0Entrada[0]);
 
-			if (FCalculoEspecies == nmCalculoCompleto) {
-				cp_med = CpTurbineComplete(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], (FTempEntrada[0] + FTempSalida) / 2.);
+			if(FCalculoEspecies == nmCalculoCompleto) {
+				cp_med = CpTurbineComplete(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+										   (FTempEntrada[0] + FTempSalida) / 2.);
 			} else {
 				cp_med = CpTurbineSimple((FTempEntrada[0] + FTempSalida) / 2., FFraccionMasicaEspecie[0]);
 			}
@@ -293,9 +283,9 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 			TempIsentSal = FTemp0Entrada[0] * pow(FPresionSalida / FPresion0Entrada[0], ((gam_med - 1.0) / gam_med));
 
-			if (FCalculoEspecies == nmCalculoCompleto) {
-				cp_med = CpTurbineComplete(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1],
-					FFraccionMasicaEspecie[2], (FTempEntrada[0] + TempIsentSal) / 2.);
+			if(FCalculoEspecies == nmCalculoCompleto) {
+				cp_med = CpTurbineComplete(FFraccionMasicaEspecie[0], FFraccionMasicaEspecie[1], FFraccionMasicaEspecie[2],
+										   (FTempEntrada[0] + TempIsentSal) / 2.);
 			} else {
 				cp_med = CpTurbineSimple((FTempEntrada[0] + TempIsentSal) / 2., FFraccionMasicaEspecie[0]);
 			}
@@ -308,66 +298,55 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 
 			// Calculo de la posicion de la turbina
 
-			if (FTipoTurbina == nmTurbineMap) {
-				if (FRackIsControlled) {
+			if(FTipoTurbina == nmTurbineMap) {
+				if(FRackIsControlled) {
 					FRack = FRackController->Output(FTime);
 				}
 
 				FMapa->CurrentEffectiveSection(FRegimenCorregido[0] / 60., FRelacionExpansion[0], FRack,
-					__units::degCToK(FTemperature) / FTemp0Entrada[0]);
+											   __units::degCToK(FTemperature) / FTemp0Entrada[0]);
 
-				dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->PutAreaEff(
-					FMapa->StatorEF());
-				dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->PutAreaEff(
-					FMapa->RotorEF());
+				dynamic_cast<TEstatorTurbina*>(dynamic_cast<TCCDeposito*>(FCCEntrada[0])->getValvula())->PutAreaEff(FMapa->StatorEF());
+				dynamic_cast<TRotorTurbina*>(dynamic_cast<TCCDeposito*>(FCCSalida[0])->getValvula())->PutAreaEff(FMapa->RotorEF());
 
 			}
 
 			// Calculo del rendimiento de la turbina
 
-			if ((FGastoEntrada[0] > 0.) && (FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) >= 0.) {
+			if((FGastoEntrada[0] > 0.) && (FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) >= 0.) {
 
-				if ((FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) > 0.) {
-					FRelacionCinematica[0] = __units::RPMToRPS(FRegimen) * __cons::Pi * FDiametroRodete
-						/ sqrt(2 * (FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]));
+				if((FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]) > 0.) {
+					FRelacionCinematica[0] = __units::RPMToRPS(FRegimen) * __cons::Pi * FDiametroRodete / sqrt(2 *
+											 (FEntalpia0Entrada[0] - FEntalpiaIsenSalida[0]));
 				} else {
 					FRelacionCinematica[0] = 0.;
 				}
-				if (FCalRendTurbina == nmWatson) {
-					if (FRelacionCinematica[0] <= 0 || FRelacionCinematica[0] >= 1.19) {
+				if(FCalRendTurbina == nmWatson) {
+					if(FRelacionCinematica[0] <= 0 || FRelacionCinematica[0] >= 1.19) {
 						FRendTurbina[0] = 0;
 					} else {
-						FRendTurbina[0] =
-							0.004022
-								+ FRelacionCinematica[0]
-									* (1.55766
-										+ FRelacionCinematica[0]
-											* (-0.511626
-												+ FRelacionCinematica[0]
-													* (-0.121795 - 0.445804 * FRelacionCinematica[0])));
+						FRendTurbina[0] = 0.004022 + FRelacionCinematica[0] * (1.55766 + FRelacionCinematica[0] *
+										  (-0.511626 + FRelacionCinematica[0] * (-0.121795 - 0.445804 * FRelacionCinematica[0])));
 					}
-				} else if (FCalRendTurbina == nmPolinomio) {
-					if (FRelacionCinematica[0] >= FRcmaxima || FRelacionCinematica[0] <= 0) {
+				} else if(FCalRendTurbina == nmPolinomio) {
+					if(FRelacionCinematica[0] >= FRcmaxima || FRelacionCinematica[0] <= 0) {
 						FRendTurbina[0] = 0.;
 					} else {
-						dd = 2. * pow3(FRcoptima) * pow2(FRcmaxima) - pow2(FRcoptima) * pow3(FRcmaxima)
-							- pow4(FRcoptima) * FRcmaxima;
-						b = FRendmaximo * (3. * pow2(FRcmaxima) * pow2(FRcoptima) - 2 * pow3(FRcmaxima) * FRcoptima)
-							/ dd;
+						dd = 2. * pow3(FRcoptima) * pow2(FRcmaxima) - pow2(FRcoptima) * pow3(FRcmaxima) - pow4(FRcoptima) * FRcmaxima;
+						b = FRendmaximo * (3. * pow2(FRcmaxima) * pow2(FRcoptima) - 2 * pow3(FRcmaxima) * FRcoptima) / dd;
 						c = FRendmaximo * (pow3(FRcmaxima) - 3. * FRcmaxima * pow2(FRcoptima)) / dd;
 						d = FRendmaximo * (2. * FRcmaxima * FRcoptima - pow2(FRcmaxima)) / dd;
 
-						FRendTurbina[0] = b * FRelacionCinematica[0] + c * pow2(FRelacionCinematica[0])
-							+ d * pow3(FRelacionCinematica[0]);
+						FRendTurbina[0] = b * FRelacionCinematica[0] + c * pow2(FRelacionCinematica[0]) + d * pow3(FRelacionCinematica[0]);
 					}
-				} else if (FCalRendTurbina == nmCalcExtRD) {
+				} else if(FCalRendTurbina == nmCalcExtRD) {
 					// Todavia no esta hecha la asignacion de FNumeroTurbinaTGV
-					if (FDatosTGV[FNumeroTurbinaTGV].Rendimiento[0] < 0) {
+					if(FDatosTGV[FNumeroTurbinaTGV].Rendimiento[0] < 0) {
 						FRendTurbina[0] = 0.;
 					} else {
 						FRendTurbina[0] = FDatosTGV[FNumeroTurbinaTGV].Rendimiento[0];
 					}
-				} else if (FCalRendTurbina == nmRendMapa) {
+				} else if(FCalRendTurbina == nmRendMapa) {
 					// FRendTurbina=FMapa->
 					// FCCEntrada[0]->
 					FRendTurbina[0] = FMapa->EffTurb();
@@ -400,7 +379,7 @@ void TTurbinaSimple::CalculaCondicionTurbina(double TimeCalculo) {
 			FPonderacionRelacionCinematica[0] += TurbWork;
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::CalculaCondicionTurbina en la turbina: " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -414,20 +393,19 @@ void TTurbinaSimple::ImprimeResultadosMediosPantalla() {
 	try {
 
 		printf("TURBINE WORK   %d        = %6.3lf Julios \n", FNumeroTurbina, FTrabajoReal);
-		if (FTrabajoTotal != 0.) {
+		if(FTrabajoTotal != 0.) {
 			printf("TURBINE EFFICIENCY   %d  = %6.3lf \n", FNumeroTurbina, FTrabajoReal / FTrabajoTotal);
 		} else {
 			printf("TURBINE EFFICIENCY   %d = %6.3lf \n", FNumeroTurbina, 0.);
 		}
-		if (FTrabajoReal != 0.) {
+		if(FTrabajoReal != 0.) {
 			printf("BLADE SPEED RATIO TURB %d= %6.3lf \n", FNumeroTurbina, FRelacionCinAcum[0] / FTrabajoReal);
 		} else {
 			printf("BLADE SPEED RATIO TURB %d= %6.3lf \n", FNumeroTurbina, 0.);
 		}
 
-	} catch (exception & N) {
-		std::cout << "ERROR: TTurbinaSimple::ImprimeResultadosMediosPantalla en la turbina: " << FNumeroTurbina
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TTurbinaSimple::ImprimeResultadosMediosPantalla en la turbina: " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -444,9 +422,9 @@ void TTurbinaSimple::ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &nvars);
-		for (int i = 0; i < nvars; i++) {
+		for(int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FResMediosTurbina.Trabajo = true;
 				break;
@@ -472,7 +450,7 @@ void TTurbinaSimple::ReadAverageResultsTurb(const char *FileWAM, fpos_t &filepos
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::ReadAverageResultsTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -487,46 +465,42 @@ void TTurbinaSimple::CabeceraResultadosMedTurb(stringstream& medoutput) {
 		// FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FResMediosTurbina.Trabajo) {
+		if(FResMediosTurbina.Trabajo) {
 			Label = "\t" + PutLabel(511) + std::to_string(FNumeroTurbina) + PutLabel(907);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosTurbina.Rendimiento) {
+		if(FResMediosTurbina.Rendimiento) {
 			Label = "\t" + PutLabel(512) + std::to_string(FNumeroTurbina) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosTurbina.RelaCinematica) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(513) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(901);
+		if(FResMediosTurbina.RelaCinematica) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(513) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 			// fprintf(fich,"\tRelacion_cinematica_global_turb_%d(-)",std::to_string(FNumeroTurbina));
 		}
-		if (FResMediosTurbina.GastoCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(516) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(905);
+		if(FResMediosTurbina.GastoCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(516) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(905);
 				medoutput << Label.c_str();
 			}
 		}
-		if (FResMediosTurbina.RegimenCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(517) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(906);
+		if(FResMediosTurbina.RegimenCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(517) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(906);
 				medoutput << Label.c_str();
 			}
 		}
-		if (FResMediosTurbina.RelacionExpansion) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(518) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(901);
+		if(FResMediosTurbina.RelacionExpansion) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(518) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(901);
 				medoutput << Label.c_str();
 			}
 		}
 
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::CabeceraResultadosMedTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -543,11 +517,10 @@ void TTurbinaSimple::IniciaMedias() {
 		FResMediosTurbina.TrabajoSUM = 0.;
 		FResMediosTurbina.Tiempo0 = 0.;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::IniciaMedias en el turbina: " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: TTurbinaSimple::IniciaMedias en el turbina: " + std::to_string(FNumeroTurbina) + N.what());
+		throw Exception("ERROR: TTurbinaSimple::IniciaMedias en el turbina: " + std::to_string(FNumeroTurbina) + N.what());
 	}
 }
 
@@ -562,22 +535,21 @@ void TTurbinaSimple::AcumulaMedias(double Tiempo) {
 		// FResMediosTurbina.TrabajoSUM+=FTrabajoFluido;
 		FResMediosTurbina.TrabajoSUM += FPotencia * DeltaT;
 		FResMediosTurbina.Tiempo0 = Tiempo;
-		for (int i = 0; i < FNumeroEntradas; i++) {
-			if (FResMediosTurbina.GastoCorregido) {
+		for(int i = 0; i < FNumeroEntradas; i++) {
+			if(FResMediosTurbina.GastoCorregido) {
 				FResMediosTurbina.GastoCorregidoSUM[i] += FGastoCorregido[i] * DeltaT;
 			}
-			if (FResMediosTurbina.RegimenCorregido) {
+			if(FResMediosTurbina.RegimenCorregido) {
 				FResMediosTurbina.RegimenCorregidoSUM[i] += FRegimenCorregido[i] * DeltaT;
 			}
-			if (FResMediosTurbina.RelacionExpansion) {
+			if(FResMediosTurbina.RelacionExpansion) {
 				FResMediosTurbina.RelacionExpansionSUM[i] += FRelacionExpansion[i] * DeltaT;
 			}
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::AcumulaMedias en la turbina: " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
-		throw Exception(
-			"ERROR: TTurbinaSimple::AcumulaMedias en la Turbine: " + std::to_string(FNumeroTurbina) + N.what());
+		throw Exception("ERROR: TTurbinaSimple::AcumulaMedias en la Turbine: " + std::to_string(FNumeroTurbina) + N.what());
 	}
 }
 
@@ -588,34 +560,34 @@ void TTurbinaSimple::ImprimeResultadosMedTurb(stringstream& medoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		if (FResMediosTurbina.Trabajo)
+		if(FResMediosTurbina.Trabajo)
 			medoutput << "\t" << FResMediosTurbina.TrabajoMED;
-		if (FResMediosTurbina.Rendimiento)
+		if(FResMediosTurbina.Rendimiento)
 			medoutput << "\t" << FResMediosTurbina.RendimientoMED;
-		if (FResMediosTurbina.RelaCinematica) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResMediosTurbina.RelaCinematica) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				medoutput << "\t" << FResMediosTurbina.RelaCinematicaMED[i];
 			}
 			// fprintf(fich,"\t%g",FResMediosTurbina.RelaCinematicaGlobalMED);
 		}
-		if (FResMediosTurbina.GastoCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResMediosTurbina.GastoCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				medoutput << "\t" << FResMediosTurbina.GastoCorregidoMED[i];
 			}
 		}
-		if (FResMediosTurbina.RegimenCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResMediosTurbina.RegimenCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				medoutput << "\t" << FResMediosTurbina.RegimenCorregidoMED[i];
 			}
 		}
-		if (FResMediosTurbina.RelacionExpansion) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResMediosTurbina.RelacionExpansion) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				medoutput << "\t" << FResMediosTurbina.RelacionExpansionMED[i];
 			}
 		}
 
 		// fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::ImprimerResultadosMedTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -628,18 +600,18 @@ void TTurbinaSimple::ImprimeResultadosMedTurb(stringstream& medoutput) {
 void TTurbinaSimple::CalculaResultadosMediosTurb() {
 	try {
 
-		if (FResMediosTurbina.Trabajo) {
+		if(FResMediosTurbina.Trabajo) {
 			FResMediosTurbina.TrabajoMED = FResMediosTurbina.TrabajoSUM;
 		}
-		if (FResMediosTurbina.Rendimiento) {
-			if (FTrabajoTotal != 0.) {
+		if(FResMediosTurbina.Rendimiento) {
+			if(FTrabajoTotal != 0.) {
 				FResMediosTurbina.RendimientoMED = FTrabajoReal / FTrabajoTotal;
 			} else {
 				FResMediosTurbina.RendimientoMED = 0.;
 			}
 		}
-		if (FResMediosTurbina.RelaCinematica) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResMediosTurbina.RelaCinematica) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				FResMediosTurbina.RelaCinematicaMED[i] = FRelacionCinAcum[i] / FPonderacionRelacionCinematica[i];
 			}
 			/* if(FTrabajoReal!=0.){
@@ -648,26 +620,23 @@ void TTurbinaSimple::CalculaResultadosMediosTurb() {
 			 FResMediosTurbina.RelaCinematicaGlobalMED=0.;
 			 } */
 		}
-		if (FResMediosTurbina.GastoCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				FResMediosTurbina.GastoCorregidoMED[i] = FResMediosTurbina.GastoCorregidoSUM[i]
-					/ FResMediosTurbina.TiempoSUM;
+		if(FResMediosTurbina.GastoCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				FResMediosTurbina.GastoCorregidoMED[i] = FResMediosTurbina.GastoCorregidoSUM[i] / FResMediosTurbina.TiempoSUM;
 			}
 		}
-		if (FResMediosTurbina.RegimenCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				FResMediosTurbina.RegimenCorregidoMED[i] = FResMediosTurbina.RegimenCorregidoSUM[i]
-					/ FResMediosTurbina.TiempoSUM;
+		if(FResMediosTurbina.RegimenCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				FResMediosTurbina.RegimenCorregidoMED[i] = FResMediosTurbina.RegimenCorregidoSUM[i] / FResMediosTurbina.TiempoSUM;
 			}
 		}
-		if (FResMediosTurbina.RelacionExpansion) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				FResMediosTurbina.RelacionExpansionMED[i] = FResMediosTurbina.RelacionExpansionSUM[i]
-					/ FResMediosTurbina.TiempoSUM;
+		if(FResMediosTurbina.RelacionExpansion) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				FResMediosTurbina.RelacionExpansionMED[i] = FResMediosTurbina.RelacionExpansionSUM[i] / FResMediosTurbina.TiempoSUM;
 			}
 		}
 
-		for (int i = 0; i < FNumeroEntradas; i++) {
+		for(int i = 0; i < FNumeroEntradas; i++) {
 			FRelacionCinAcum[i] = 0.;
 			FResMediosTurbina.GastoCorregidoSUM[i] = 0.;
 			FResMediosTurbina.RegimenCorregidoSUM[i] = 0.;
@@ -680,7 +649,7 @@ void TTurbinaSimple::CalculaResultadosMediosTurb() {
 		FResMediosTurbina.TrabajoSUM = 0.;
 		FResMediosTurbina.TiempoSUM = 0.;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::CalculaResultadosMediosTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -698,9 +667,9 @@ void TTurbinaSimple::LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filep
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &nvars);
-		for (int i = 0; i < nvars; i++) {
+		for(int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FResInstantTurbina.Potencia = true;
 				break;
@@ -720,13 +689,12 @@ void TTurbinaSimple::LeeResultadosInstantTurb(const char *FileWAM, fpos_t &filep
 				FResInstantTurbina.RelacionExpansion = true;
 				break;
 			default:
-				std::cout << "Instantaneous results in turbine " << FNumeroTurbina << " are not implemented "
-					<< std::endl;
+				std::cout << "Instantaneous results in turbine " << FNumeroTurbina << " are not implemented " << std::endl;
 			}
 		}
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::LeeResultadosInstantTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -741,46 +709,41 @@ void TTurbinaSimple::CabeceraResultadosInstantTurb(stringstream& insoutput) {
 		// FILE *fich=fopen(FileSALIDA,"a");
 		std::string Label;
 
-		if (FResInstantTurbina.Potencia) {
+		if(FResInstantTurbina.Potencia) {
 			Label = "\t" + PutLabel(519) + std::to_string(FNumeroTurbina) + PutLabel(903);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantTurbina.Rendimiento) {
+		if(FResInstantTurbina.Rendimiento) {
 			Label = "\t" + PutLabel(512) + std::to_string(FNumeroTurbina) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantTurbina.RelaCinematica) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(513) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(901);
+		if(FResInstantTurbina.RelaCinematica) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(513) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
-		if (FResInstantTurbina.GastoCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(516) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(905);
+		if(FResInstantTurbina.GastoCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(516) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(905);
 				insoutput << Label.c_str();
 			}
 		}
-		if (FResInstantTurbina.RegimenCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(517) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(906);
+		if(FResInstantTurbina.RegimenCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(517) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(906);
 				insoutput << Label.c_str();
 			}
 		}
-		if (FResInstantTurbina.RelacionExpansion) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
-				Label = "\t" + PutLabel(518) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina)
-					+ PutLabel(901);
+		if(FResInstantTurbina.RelacionExpansion) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
+				Label = "\t" + PutLabel(518) + std::to_string(i + 1) + PutLabel(514) + std::to_string(FNumeroTurbina) + PutLabel(901);
 				insoutput << Label.c_str();
 			}
 		}
 		// fclose(fich);
-	} catch (exception & N) {
-		std::cout << "ERROR: TTurbinaSimple::CabeceraResultadosInstantTurb en la turbina " << FNumeroTurbina
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TTurbinaSimple::CabeceraResultadosInstantTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -791,32 +754,32 @@ void TTurbinaSimple::CabeceraResultadosInstantTurb(stringstream& insoutput) {
 
 void TTurbinaSimple::ResultadosInstantTurb() {
 	try {
-		if (FResInstantTurbina.Potencia)
+		if(FResInstantTurbina.Potencia)
 			FResInstantTurbina.PotenciaINS = FPotencia;
-		if (FResInstantTurbina.Rendimiento)
+		if(FResInstantTurbina.Rendimiento)
 			FResInstantTurbina.RendimientoINS = FRendTurbina[0];
-		if (FResInstantTurbina.RelaCinematica) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.RelaCinematica) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				FResInstantTurbina.RelaCinematicaINS[i] = FRelacionCinematica[i];
 			}
 		}
-		if (FResInstantTurbina.GastoCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.GastoCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				FResInstantTurbina.GastoCorregidoINS[i] = FGastoCorregido[i];
 			}
 		}
-		if (FResInstantTurbina.RegimenCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.RegimenCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				FResInstantTurbina.RegimenCorregidoINS[i] = FRegimenCorregido[i];
 			}
 		}
-		if (FResInstantTurbina.RelacionExpansion) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.RelacionExpansion) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				FResInstantTurbina.RelacionExpansionINS[i] = FRelacionExpansion[i];
 			}
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TTurbinaSimple::ResultadosInstantTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -830,35 +793,34 @@ void TTurbinaSimple::ImprimeResultadosInstantTurb(stringstream& insoutput) {
 	try {
 		// FILE *fich=fopen(FileSALIDA,"a");
 
-		if (FResInstantTurbina.Potencia)
+		if(FResInstantTurbina.Potencia)
 			insoutput << "\t" << FResInstantTurbina.PotenciaINS;
-		if (FResInstantTurbina.Rendimiento)
+		if(FResInstantTurbina.Rendimiento)
 			insoutput << "\t" << FResInstantTurbina.RendimientoINS;
-		if (FResInstantTurbina.RelaCinematica) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.RelaCinematica) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				insoutput << "\t" << FResInstantTurbina.RelaCinematicaINS[i];
 			}
 		}
-		if (FResInstantTurbina.GastoCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.GastoCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				insoutput << "\t" << FResInstantTurbina.GastoCorregidoINS[i];
 			}
 		}
-		if (FResInstantTurbina.RegimenCorregido) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.RegimenCorregido) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				insoutput << "\t" << FResInstantTurbina.RegimenCorregidoINS[i];
 			}
 		}
-		if (FResInstantTurbina.RelacionExpansion) {
-			for (int i = 0; i < FNumeroEntradas; i++) {
+		if(FResInstantTurbina.RelacionExpansion) {
+			for(int i = 0; i < FNumeroEntradas; i++) {
 				insoutput << "\t" << FResInstantTurbina.RelacionExpansionINS[i];
 			}
 		}
 
 		// fclose(fich);
-	} catch (exception & N) {
-		std::cout << "ERROR: TTurbinaSimple::CabeceraResultadosInstantTurb en la turbina " << FNumeroTurbina
-			<< std::endl;
+	} catch(exception & N) {
+		std::cout << "ERROR: TTurbinaSimple::CabeceraResultadosInstantTurb en la turbina " << FNumeroTurbina << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

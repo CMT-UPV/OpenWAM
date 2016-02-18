@@ -37,7 +37,7 @@
 #include "TTurbina.h"
 
 class TTurbinaTwin: public TTurbina {
-private:
+  private:
 	//---------------------------------------------------------------------------
 	// VARIABLES PRIVADAS
 	//---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ private:
 	// FUNCIONES PRIVADAS
 	//---------------------------------------------------------------------------
 
-public:
+  public:
 	//---------------------------------------------------------------------------
 	// VARIABLES PUBLICAS
 	//---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ public:
 	//---------------------------------------------------------------------------
 
 	TTurbinaTwin(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+				 bool ThereIsEGR);
 
 	~TTurbinaTwin();
 

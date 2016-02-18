@@ -40,8 +40,8 @@
 //---------------------------------------------------------------------------
 
 TCCPerdidadePresion::TCCPerdidadePresion(nmTypeBC TipoCC, int numCC, nmTipoCalculoEspecies SpeciesModel,
-	int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
-TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
+		int numeroespecies, nmCalculoGamma GammaCalculation, bool ThereIsEGR) :
+	TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation, ThereIsEGR) {
 
 	FTuboExtremo = NULL;
 	FCC = NULL;
@@ -50,9 +50,9 @@ TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation
 	FIndiceCC = NULL;
 	FNumeroTubo = NULL;
 
-	if (TipoCC == nmLinearPressureLoss)
+	if(TipoCC == nmLinearPressureLoss)
 		FTipoPP = nmPPLineal;
-	else if (TipoCC == nmQuadraticPressureLoss)
+	else if(TipoCC == nmQuadraticPressureLoss)
 		FTipoPP = nmPPCuadratica;
 	else
 		printf("ERROR en tipo de perdida de presion TCCPerdidadePresion en la condicion de contorno: %d\n", FNumeroCC);
@@ -65,15 +65,15 @@ TCondicionContorno(TipoCC, numCC, SpeciesModel, numeroespecies, GammaCalculation
 TCCPerdidadePresion::~TCCPerdidadePresion() {
 	delete[] FTuboExtremo;
 
-	if (FNodoFin != NULL)
+	if(FNodoFin != NULL)
 		delete[] FNodoFin;
-	if (FIndiceCC != NULL)
+	if(FIndiceCC != NULL)
 		delete[] FIndiceCC;
-	if (*FCC != NULL)
+	if(*FCC != NULL)
 		delete[] FCC;
-	if (*FCD != NULL)
+	if(*FCD != NULL)
 		delete[] FCD;
-	if (FNumeroTubo != NULL)
+	if(FNumeroTubo != NULL)
 		delete[] FNumeroTubo;
 }
 
@@ -81,7 +81,7 @@ TCCPerdidadePresion::~TCCPerdidadePresion() {
 //---------------------------------------------------------------------------
 
 void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos, int NumberOfPipes, TTubo **Pipe,
-	int nDPF, TDPF **DPF) {
+		int nDPF, TDPF **DPF) {
 	try {
 		int i = 0;
 		FK = 0;
@@ -93,12 +93,12 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 		FCD = new double*[2];
 		FNumeroTubo = new int[2];
 
-		for (int i = 0; i < 2; i++) {
+		for(int i = 0; i < 2; i++) {
 			FTuboExtremo[i].Pipe = NULL;
 		}
 
-		while (FNumeroTubosCC < 2 && i < NumberOfPipes) {
-			if (Pipe[i]->getNodoIzq() == FNumeroCC) {
+		while(FNumeroTubosCC < 2 && i < NumberOfPipes) {
+			if(Pipe[i]->getNodoIzq() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmLeft;
 				FNodoFin[FNumeroTubosCC] = 0;
@@ -108,7 +108,7 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 				FCD[FNumeroTubosCC] = &(FTuboExtremo[FNumeroTubosCC].Landa);
 				FNumeroTubosCC++;
 			}
-			if (Pipe[i]->getNodoDer() == FNumeroCC) {
+			if(Pipe[i]->getNodoDer() == FNumeroCC) {
 				FTuboExtremo[FNumeroTubosCC].Pipe = Pipe[i];
 				FTuboExtremo[FNumeroTubosCC].TipoExtremo = nmRight;
 				FNodoFin[FNumeroTubosCC] = Pipe[i]->getNin() - 1;
@@ -123,7 +123,7 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 
 // Inicializacion del transporte de especies quimicas.
 		FFraccionMasicaEspecie = new double[FNumeroEspecies - FIntEGR];
-		for (int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
+		for(int i = 0; i < FNumeroEspecies - FIntEGR; i++) {
 			// Se elige como composicion inicial la del tubo 0. Es arbitrario.
 			FFraccionMasicaEspecie[i] = FTuboExtremo[0].Pipe->GetFraccionMasicaInicial(i);
 		}
@@ -136,9 +136,9 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
-		std::cout << "ERROR: TCCPerdidadePresion::LecturaPerdidaPresion en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception &N) {
+		std::cout << "ERROR: TCCPerdidadePresion::LecturaPerdidaPresion en la condicion de contorno: " << FNumeroCC <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -150,9 +150,8 @@ void TCCPerdidadePresion::ReadBoundaryData(const char *FileWAM, fpos_t &filepos,
 void TCCPerdidadePresion::TuboCalculandose(int TuboActual) {
 	try {
 		FTuboActual = TuboActual;
-	} catch (exception &N) {
-		std::cout << "ERROR: TCCPerdidadePresion::TuboCalculandose en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	} catch(exception &N) {
+		std::cout << "ERROR: TCCPerdidadePresion::TuboCalculandose en la condicion de contorno: " << FNumeroCC << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}
@@ -168,12 +167,12 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 		double flujo, FraccionMasicaAcum = 0.;
 		int TuboCalculado = 0;
 
-		if (FTuboActual == 10000) {
+		if(FTuboActual == 10000) {
 			TuboCalculado = FTuboActual;
 			FGamma = FTuboExtremo[0].Pipe->GetGamma(FNodoFin[0]);
 		} else {
-			for (int i = 0; i < FNumeroTubosCC; i++) {
-				if (FNumeroTubo[i] == FTuboActual) {
+			for(int i = 0; i < FNumeroTubosCC; i++) {
+				if(FNumeroTubo[i] == FTuboActual) {
 					TuboCalculado = i;
 				}
 			}
@@ -186,19 +185,19 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 
 		flujo = (*FCC[1] / FTuboExtremo[1].Entropia) / (*FCC[0] / FTuboExtremo[0].Entropia);
 
-		if (flujo < .999995) { /* Flujo de 0 (Saliente) a 1 (Entrante) */
+		if(flujo < .999995) {  /* Flujo de 0 (Saliente) a 1 (Entrante) */
 
 			FRelacionEntropia = FTuboExtremo[0].Entropia / FTuboExtremo[1].Entropia;
 
 			/*Acotacion del intervalo de busqueda para A1 (Velocity del sonido a la entrada)*/
-			if ((*FCC[0] * 2 / FGamma2) < (*FCC[0] / (FGamma3 / sqrt(FK) + 1) + 1e-6)) {
+			if((*FCC[0] * 2 / FGamma2) < (*FCC[0] / (FGamma3 / sqrt(FK) + 1) + 1e-6)) {
 				ei = *FCC[0] / (FGamma3 / sqrt(FK) + 1) + 1e-6;
 			} else {
 				ei = *FCC[0] * 2 / FGamma2;
 			}
 			ed = *FCC[0];
 
-			if (FTipoPP == nmPPLineal) { /* Perdida lineal */
+			if(FTipoPP == nmPPLineal) {  /* Perdida lineal */
 
 				ei = QuadraticEqP(FGamma1, 2 * FK, -2 * FK * *FCC[0]) + 1e-6;
 				ed = *FCC[0];
@@ -210,7 +209,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				vel_Out = PPAL.U1;
 				xx3 = PPAL.xx3;
 
-			} else if (FTipoPP == nmPPCuadratica) { /* Perdida cuadratica */
+			} else if(FTipoPP == nmPPCuadratica) {  /* Perdida cuadratica */
 
 				stPerdPresAd PPA(*FCC[0], *FCC[1], FK, FGamma, FRelacionEntropia);
 				vel_sonido_Out = FindRoot(PPA, ei, ed);
@@ -222,7 +221,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				 printf ("");
 				 }               */
 
-				if (PPA.U1 * PPA.U2 < 0) {
+				if(PPA.U1 * PPA.U2 < 0) {
 					PPA.U1 = 0;
 					PPA.U2 = 0;
 				}
@@ -230,16 +229,16 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 			} else
 				printf("Error en el tipo de perdida de presion en la condicion de contorno: %d\n", FNumeroCC);
 
-			if (TuboCalculado == 1) {
+			if(TuboCalculado == 1) {
 				*FCC[1] = vel_sonido_In - FGamma3 * vel_In;
 				*FCD[1] = vel_sonido_In + FGamma3 * vel_In;
 				FTuboExtremo[1].Entropia = FTuboExtremo[1].Entropia * vel_sonido_In / xx3;
 
-			} else if (TuboCalculado == 0) {
+			} else if(TuboCalculado == 0) {
 				*FCC[0] = vel_sonido_Out + FGamma3 * vel_Out;
 				*FCD[0] = vel_sonido_Out - FGamma3 * vel_Out;
 
-			} else if (TuboCalculado == 10000) {
+			} else if(TuboCalculado == 10000) {
 				*FCC[1] = vel_sonido_In - FGamma3 * vel_In;
 				*FCD[1] = vel_sonido_In + FGamma3 * vel_In;
 				FTuboExtremo[1].Entropia = FTuboExtremo[1].Entropia * vel_sonido_In / xx3;
@@ -249,26 +248,26 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 			}
 
 			// Chemical species transport
-			for (int j = 0; j < FNumeroEspecies - 2; j++) {
+			for(int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC[0], j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
 			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-			if (FHayEGR)
+			if(FHayEGR)
 				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[0].Pipe->GetFraccionMasicaCC(FIndiceCC[0],
-					FNumeroEspecies - 1);
-		} else if (flujo >= 1.000005) { /* Flujo de 1 (Saliente) a 0 (Entrante) */
+						FNumeroEspecies - 1);
+		} else if(flujo >= 1.000005) {  /* Flujo de 1 (Saliente) a 0 (Entrante) */
 
 			FRelacionEntropia = FTuboExtremo[1].Entropia / FTuboExtremo[0].Entropia;
 
-			if ((*FCC[1] * 2 / FGamma2) < (*FCC[1] / (FGamma3 / sqrt(FK) + 1) + 1e-6)) {
+			if((*FCC[1] * 2 / FGamma2) < (*FCC[1] / (FGamma3 / sqrt(FK) + 1) + 1e-6)) {
 				ei = *FCC[1] / (FGamma3 / sqrt(FK) + 1) + 1e-6;
 			} else {
 				ei = *FCC[1] * 2 / FGamma2;
 			}
 			ed = *FCC[1];
 
-			if (FTipoPP == nmPPLineal) { /* Linear pressure loss */
+			if(FTipoPP == nmPPLineal) {  /* Linear pressure loss */
 
 				ei = QuadraticEqP(FGamma1, 2 * FK, -2 * FK * *FCC[1]) + 1e-6;
 				ed = *FCC[1];
@@ -280,7 +279,7 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 				vel_Out = PPAL.U2;
 				xx3 = PPAL.xx3;
 
-			} else if (FTipoPP == nmPPCuadratica) { /* Quadratic pressure loss */
+			} else if(FTipoPP == nmPPCuadratica) {  /* Quadratic pressure loss */
 				stPerdPresAd PPA(*FCC[1], *FCC[0], FK, FGamma, FRelacionEntropia);
 				vel_sonido_Out = FindRoot(PPA, ei, ed);
 				vel_sonido_In = PPA.A2;
@@ -291,16 +290,16 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 			} else
 				printf("Error en el tipo de perdida de presion en la condicion de contorno: %d\n", FNumeroCC);
 
-			if (TuboCalculado == 0) {
+			if(TuboCalculado == 0) {
 				*FCC[0] = vel_sonido_In - FGamma3 * vel_In;
 				*FCD[0] = vel_sonido_In + FGamma3 * vel_In;
 				FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * vel_sonido_In / xx3;
 
-			} else if (TuboCalculado == 1) {
+			} else if(TuboCalculado == 1) {
 				*FCC[1] = vel_sonido_Out + FGamma3 * vel_Out;
 				*FCD[1] = vel_sonido_Out - FGamma3 * vel_Out;
 
-			} else if (TuboCalculado == 10000) {
+			} else if(TuboCalculado == 10000) {
 				*FCC[0] = vel_sonido_In - FGamma3 * vel_In;
 				*FCD[0] = vel_sonido_In + FGamma3 * vel_In;
 				FTuboExtremo[0].Entropia = FTuboExtremo[0].Entropia * vel_sonido_In / xx3;
@@ -310,21 +309,21 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 
 			// Transporte de Especies Quimicas
 			// Se actualiza todos los instantes de calculo.
-			for (int j = 0; j < FNumeroEspecies - 2; j++) {
+			for(int j = 0; j < FNumeroEspecies - 2; j++) {
 				FFraccionMasicaEspecie[j] = FTuboExtremo[1].Pipe->GetFraccionMasicaCC(FIndiceCC[1], j);
 				FraccionMasicaAcum += FFraccionMasicaEspecie[j];
 			}
 			FFraccionMasicaEspecie[FNumeroEspecies - 2] = 1. - FraccionMasicaAcum;
-			if (FHayEGR)
+			if(FHayEGR)
 				FFraccionMasicaEspecie[FNumeroEspecies - 1] = FTuboExtremo[1].Pipe->GetFraccionMasicaCC(FIndiceCC[1],
-					FNumeroEspecies - 1);
+						FNumeroEspecies - 1);
 
 		} else {
-			if (TuboCalculado == 1) {
+			if(TuboCalculado == 1) {
 				*FCD[1] = *FCC[1];
-			} else if (TuboCalculado == 0) {
+			} else if(TuboCalculado == 0) {
 				*FCD[0] = *FCC[0];
-			} else if (TuboCalculado == 10000) {
+			} else if(TuboCalculado == 10000) {
 				*FCD[0] = *FCC[0];
 				*FCD[1] = *FCC[1];
 			}
@@ -333,9 +332,9 @@ void TCCPerdidadePresion::CalculaCondicionContorno(double Time) {
 		}
 	}
 
-	catch (exception &N) {
-		std::cout << "ERROR: TCCPerdidadePresion::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC
-			<< std::endl;
+	catch(exception &N) {
+		std::cout << "ERROR: TCCPerdidadePresion::CalculaCondicionContorno en la condicion de contorno: " << FNumeroCC <<
+				  std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
 	}

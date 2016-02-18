@@ -48,7 +48,7 @@ class TGain: public TController {
 	int FObjectID;
 	double fOutput;
 
-public:
+  public:
 	TGain(int i);
 
 	~TGain();
@@ -61,29 +61,31 @@ public:
 
 	/*! Read the average results selected*/
 	void LeeResultadosMedControlador(const char *FileWAM,					//!< Input data filename
-		fpos_t &filepos				//!< Position within the input file
-		);
+									 fpos_t &filepos				//!< Position within the input file
+									);
 
 	/*! Read the instantaneous results selected*/
 	void LeeResultadosInsControlador(const char *FileWAM,				//!< Input data filename
-		fpos_t &filepos				//!< Position within the input file
-		);
+									 fpos_t &filepos				//!< Position within the input file
+									);
 
 	/*! Generate average results header */
 	void CabeceraResultadosMedControlador(stringstream& medoutput //!< StringStrems where the average results are stored
-		);
+										 );
 
 	/*! Generate instantaneous results header */
-	void CabeceraResultadosInsControlador(stringstream& insoutput //!< StringStream where the instantaneous results are stored
-		);
+	void CabeceraResultadosInsControlador(stringstream&
+										  insoutput //!< StringStream where the instantaneous results are stored
+										 );
 
 	/*! Print average results */
 	void ImprimeResultadosMedControlador(stringstream& medoutput //!< StringStream where the average results are stored
-		);
+										);
 
 	/*! Print instantaneous results */
-	void ImprimeResultadosInsControlador(stringstream& insoutput //!< StringStream where the instantaneous results are stored
-		);
+	void ImprimeResultadosInsControlador(stringstream&
+										 insoutput //!< StringStream where the instantaneous results are stored
+										);
 
 	/*! Initialize average results */
 	void IniciaMedias();
@@ -93,7 +95,7 @@ public:
 
 	/*! Acumulate average results */
 	void AcumulaResultadosMediosController(double Actual	//!< Current time
-		);
+										  );
 
 	/*! Calculate instanteneous results */
 	void ResultadosInstantController();

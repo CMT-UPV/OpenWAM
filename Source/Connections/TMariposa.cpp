@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 
 TMariposa::TMariposa() :
-TTipoValvula(nmMariposa) {
+	TTipoValvula(nmMariposa) {
 	FLevControlled = false;
 	fun_CDin = NULL;
 	fun_CDout = NULL;
@@ -43,7 +43,7 @@ TMariposa::~TMariposa() {
 }
 
 TMariposa::TMariposa(TMariposa *Origen, int valv) :
-TTipoValvula(nmMariposa) {
+	TTipoValvula(nmMariposa) {
 	FNumLev = Origen->FNumLev;
 
 	FDiametroRef = Origen->FDiametroRef;
@@ -56,7 +56,7 @@ TTipoValvula(nmMariposa) {
 	FDatosCDEntrada.resize(Origen->FDatosCDEntrada.size());
 	FDatosCDSalida.resize(Origen->FDatosCDSalida.size());
 
-	for (int i = 0; i < FNumLev; i++) {
+	for(int i = 0; i < FNumLev; i++) {
 		FLevantamiento[i] = Origen->FLevantamiento[i];
 		FDatosCDEntrada[i] = Origen->FDatosCDEntrada[i];
 		FDatosCDSalida[i] = Origen->FDatosCDSalida[i];
@@ -71,7 +71,7 @@ TTipoValvula(nmMariposa) {
 }
 
 void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+								  TBloqueMotor *Engine) {
 	int ctrl = 0, prm = 0;
 
 	FILE *fich = fopen(FileWAM, "r");
@@ -85,14 +85,14 @@ void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nord
 	FDatosCDEntrada.resize(FNumLev);
 	FDatosCDSalida.resize(FNumLev);
 
-	for (int i = 0; i < FNumLev; i++) {
+	for(int i = 0; i < FNumLev; i++) {
 		fscanf(fich, " %lf %lf %lf", &FLevantamiento[i], &FDatosCDEntrada[i], &FDatosCDSalida[i]);
 	}
 
 	fscanf(fich, " %lf", &FLevActual);
 
 	fscanf(fich, " %d", &ctrl);
-	if (ctrl != 0) {
+	if(ctrl != 0) {
 		FLevControlled = true;
 		fscanf(fich, " %d %d", &prm, &FControllerID);
 	}
@@ -102,12 +102,12 @@ void TMariposa::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nord
 }
 
 void TMariposa::AsignaLevController(TController **Controller) {
-	if (FLevControlled)
+	if(FLevControlled)
 		FController = Controller[FControllerID - 1];
 }
 
 void TMariposa::CalculaCD(double Time) {
-	if (FLevControlled)
+	if(FLevControlled)
 		FLevActual = FController->Output(Time);
 
 	FCDTubVol = fun_CDin->interp(FLevActual) * FSectionRatio;
@@ -116,7 +116,7 @@ void TMariposa::CalculaCD(double Time) {
 
 void TMariposa::GetCDin(double Time) {
 
-	if (FLevControlled)
+	if(FLevControlled)
 		FLevActual = FController->Output(Time);
 
 	FCDTubVol = fun_CDin->interp(FLevActual) * FSectionRatio;
@@ -124,7 +124,7 @@ void TMariposa::GetCDin(double Time) {
 
 void TMariposa::GetCDout(double Time) {
 
-	if (FLevControlled)
+	if(FLevControlled)
 		FLevActual = FController->Output(Time);
 
 	FCDVolTub = fun_CDout->interp(FLevActual) * FSectionRatio;

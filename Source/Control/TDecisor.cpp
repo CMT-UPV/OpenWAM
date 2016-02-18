@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 
 TDecisor::TDecisor(int i) :
-TController(nmCtlSwitch, i) {
+	TController(nmCtlSwitch, i) {
 	fID = i + 1;
 }
 
@@ -46,10 +46,10 @@ double TDecisor::Output(double Time) {
 	double OutputLow = fControllerLow->Output(Time);
 	double OutputHigh = fControllerHigh->Output(Time);
 
-	if (fTargedControlled)
+	if(fTargedControlled)
 		fTarget = fControllerTarget->Output(Time);
 
-	if (fInput < fTarget) {
+	if(fInput < fTarget) {
 		fOutput = OutputLow;
 	} else {
 		fOutput = OutputHigh;
@@ -69,7 +69,7 @@ void TDecisor::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 	int ctrl = 0;
 	fscanf(fich, "%d ", &ctrl);
-	if (ctrl == 0) {
+	if(ctrl == 0) {
 		fTargedControlled = false;
 	} else {
 		fTargedControlled = true;
@@ -89,7 +89,7 @@ void TDecisor::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
 	fControllerLow = Controller[fControllerLowID - 1];
 	fControllerHigh = Controller[fControllerHighID - 1];
-	if (fTargedControlled)
+	if(fTargedControlled)
 		fControllerTarget = Controller[fControllerTargetID - 1];
 }
 
@@ -100,9 +100,9 @@ void TDecisor::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos)
 	fsetpos(fich, &filepos);
 
 	fscanf(fich, "%d ", &nvars);
-	for (int i = 0; i < nvars; i++) {
+	for(int i = 0; i < nvars; i++) {
 		fscanf(fich, "%d ", &var);
-		switch (var) {
+		switch(var) {
 		case 0:
 			FResMediosCtrl.Output = true;
 			break;
@@ -122,9 +122,9 @@ void TDecisor::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos)
 	fsetpos(fich, &filepos);
 
 	fscanf(fich, "%d ", &nvars);
-	for (int i = 0; i < nvars; i++) {
+	for(int i = 0; i < nvars; i++) {
 		fscanf(fich, "%d ", &var);
-		switch (var) {
+		switch(var) {
 		case 0:
 			FResInstantCtrl.Output = true;
 			break;
@@ -140,7 +140,7 @@ void TDecisor::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos)
 void TDecisor::CabeceraResultadosMedControlador(stringstream& medoutput) {
 	std::string Label;
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
@@ -150,7 +150,7 @@ void TDecisor::CabeceraResultadosMedControlador(stringstream& medoutput) {
 void TDecisor::CabeceraResultadosInsControlador(stringstream& insoutput) {
 	std::string Label;
 
-	if (FResInstantCtrl.Output) {
+	if(FResInstantCtrl.Output) {
 		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
@@ -159,7 +159,7 @@ void TDecisor::CabeceraResultadosInsControlador(stringstream& insoutput) {
 void TDecisor::ImprimeResultadosMedControlador(stringstream& medoutput) {
 	std::string Label;
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		medoutput << "\t" << FResMediosCtrl.OutputMED;
 	}
 }
@@ -167,7 +167,7 @@ void TDecisor::ImprimeResultadosMedControlador(stringstream& medoutput) {
 void TDecisor::ImprimeResultadosInsControlador(stringstream& insoutput) {
 	std::string Label;
 
-	if (FResInstantCtrl.Output) {
+	if(FResInstantCtrl.Output) {
 		insoutput << "\t" << FResInstantCtrl.OutputINS;
 	}
 }
@@ -179,7 +179,7 @@ void TDecisor::IniciaMedias() {
 }
 
 void TDecisor::ResultadosMediosController() {
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
 		FResMediosCtrl.OutputSUM = 0.;
 	}
@@ -188,7 +188,7 @@ void TDecisor::ResultadosMediosController() {
 void TDecisor::AcumulaResultadosMediosController(double Actual) {
 	double Delta = Actual - FResMediosCtrl.Tiempo0;
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		FResMediosCtrl.OutputSUM += fOutput * Delta;
 	}
 	FResMediosCtrl.TiempoSUM += Delta;
@@ -196,7 +196,7 @@ void TDecisor::AcumulaResultadosMediosController(double Actual) {
 }
 
 void TDecisor::ResultadosInstantController() {
-	if (FResInstantCtrl.Output)
+	if(FResInstantCtrl.Output)
 		FResInstantCtrl.OutputINS = fOutput;
 }
 

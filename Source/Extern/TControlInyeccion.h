@@ -40,7 +40,7 @@
 //---------------------------------------------------------------------------
 
 class TControlInyeccion {
-private:
+  private:
 
 	FILE *FichInyeccion;
 
@@ -65,7 +65,7 @@ private:
 	double **FMapa_SOI_Piloto;
 	double **FMapa_Prail;
 
-public:
+  public:
 
 	int getNumeroInyecciones() {
 		return FNumeroInyecciones;

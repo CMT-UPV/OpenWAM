@@ -56,15 +56,15 @@ struct stCompSolverA2 {
 	double CP;
 
 	stCompSolverA2(double c2, double g, double RC, double cp0, double aa1, double aa2, double a1, double s1, double s2,
-		double v1) :
-	Gam(g), CC2(c2), CP(cp0), AA1ini(aa1), AA2ini(aa2), RelComp(RC), A1ini(a1), Sec1(s1), Sec2(s2), V1ini(v1) {
+				   double v1) :
+		Gam(g), CC2(c2), CP(cp0), AA1ini(aa1), AA2ini(aa2), RelComp(RC), A1ini(a1), Sec1(s1), Sec2(s2), V1ini(v1) {
 		Gaa = 2 / (Gam - 1);
 		Gae = (Gam - 1) / Gam;
 		RelSec = s1 / s2;
 	}
 	double operator()(const double A2) {
 		V2 = (CC2 * __cons::ARef - A2) * (-Gaa);
-		if (V2 < 0) {
+		if(V2 < 0) {
 			AA1new = AA2ini * pow(RelComp, Gae / 2.) / sqrt(1 + CP);
 			AA2new = AA2ini;
 		} else {
@@ -107,8 +107,8 @@ struct stCompSolverA1 {
 	double A2MinLim;
 
 	stCompSolverA1(double c1, double c2, double s1, double s2, double g, double aa1, double aa2, double RC, double Rd,
-		double Lc, double cp0, double inct) :
-	CC1(c1), CC2(c2), AA1ini(aa1), AA2ini(aa2), Sec1(s1), Sec2(s2), RelComp(RC), Gam(g), Rend(Rd), Dt(inct), CPAnt(cp0),
+				   double Lc, double cp0, double inct) :
+		CC1(c1), CC2(c2), AA1ini(aa1), AA2ini(aa2), Sec1(s1), Sec2(s2), RelComp(RC), Gam(g), Rend(Rd), Dt(inct), CPAnt(cp0),
 		LCar(Lc) {
 
 		Gaa = 2 / (Gam - 1);
@@ -119,13 +119,13 @@ struct stCompSolverA1 {
 
 	double operator()(const double A1) {
 		V1 = (CC1 * __cons::ARef - A1) * Gaa;
-		if (V1 < 0) {
+		if(V1 < 0) {
 			CPfin = CPAnt + (1 / LCar * 10) * (-CPAnt) * 0.5 * fabs(V1) * Dt;
 			A2Min = CC2 * __cons::ARef + V1 * RelSec / Gaa;
 			A2Max = CC2 * __cons::ARef;
 			A2MinLim = CC2 * __cons::ARef * 2 / (Gam + 1);
 			A2MaxLim = CC2 * __cons::ARef;
-		} else if (V1 > 0) {
+		} else if(V1 > 0) {
 			CPfin = CPAnt + (1 / LCar * 10) * (CP - CPAnt) * 0.5 * fabs(V1) * Dt;
 			A2Min = CC2 * __cons::ARef;
 			A2Max = CC2 * __cons::ARef + V1 * RelSec / Gaa;
@@ -139,10 +139,10 @@ struct stCompSolverA1 {
 		stCompSolverA2 FunA2(CC2, Gam, RelComp, CPAnt, AA1ini, AA2ini, A1, Sec1, Sec2, V1);
 
 		bool Verdad = zbrac2(FunA2, A2Min, A2Max, A2MinLim, A2MaxLim);
-		if (Verdad) {
+		if(Verdad) {
 			A2 = FindRoot(FunA2, A2Min, A2Max);
 		} else {
-			if (fabs(FunA2(A2Min)) < fabs(FunA2(A2Max))) {
+			if(fabs(FunA2(A2Min)) < fabs(FunA2(A2Max))) {
 				double Error = FunA2(A2Min);
 				A2 = A2Min;
 			} else {

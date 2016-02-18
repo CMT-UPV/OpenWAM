@@ -78,7 +78,7 @@ struct stHTM_Fluid {
 struct stHTMair: stHTM_Fluid {
 
 	stHTMair() :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 		AF = 0.;
 		Hum = 0.;
 	}
@@ -115,7 +115,7 @@ struct stHTMair: stHTM_Fluid {
 
 		double Cp, x;
 
-		if (AF == 0.0) {
+		if(AF == 0.0) {
 			x = Hum / (1 + Hum);
 			Cp = (1 - x) * fun_Cp_AirS(T) + x * fun_Cp_W(T);
 		} else {
@@ -144,7 +144,7 @@ struct stHTMair: stHTM_Fluid {
 	double fun_R() {
 		double x, R_Air;
 
-		if (AF == 0.0) {
+		if(AF == 0.0) {
 			x = Hum / (1 + Hum);
 			R_Air = (1 - x) * 287 + x * 462.1762;
 		} else {
@@ -180,7 +180,7 @@ struct stHTMoil: stHTM_Fluid {
 	double mu_c3;
 
 	stHTMoil() :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 		mu_c1 = 0.0115374825;
 		mu_c2 = 62.1420218;
 		mu_c3 = 275.888115;
@@ -249,26 +249,25 @@ struct stHTMoil: stHTM_Fluid {
 struct stHTMwater: stHTM_Fluid {
 
 	stHTMwater() :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 	}
 
 	double fun_mu(double T) {
 
-		return 3.117996E-11 * pow2(pow2(T)) - 4.275045E-08 * pow3(T) + 2.202288E-05 * pow2(T) - 5.057924E-03 * T
-			+ 4.378690E-01;
+		return 3.117996E-11 * pow2(pow2(T)) - 4.275045E-08 * pow3(T) + 2.202288E-05 * pow2(T) - 5.057924E-03 * T + 4.378690E-01;
 	}
 
 	double fun_Cp(double T) {
 //		return -41.9055 * sqrt(T) + 10447.493 - 382002.49 / sqrt(T)
 //		+ 6456647.7 / T - 37951136.5 / pow150(T);
 		double T_K = __units::degCToK(T);
-		return 1987087.20115782 + T_K * (4493.2068586048 + T_K * (-6.72837895716355 + T_K * 0.00446936120713534))
-			- 498966.339389734 * log(T_K);
+		return 1987087.20115782 + T_K * (4493.2068586048 + T_K * (-6.72837895716355 + T_K * 0.00446936120713534)) -
+			   498966.339389734 * log(T_K);
 	}
 
 	double fun_rho(double p, double T) {
-		return -1.374183E-07 * pow2(pow2(T)) + 1.937996E-04 * pow3(T) - 1.050544E-01 * pow2(T) + 2.527211E+01 * T
-			- 1.249635E+03;
+		return -1.374183E-07 * pow2(pow2(T)) + 1.937996E-04 * pow3(T) - 1.050544E-01 * pow2(
+				   T) + 2.527211E+01 * T - 1.249635E+03;
 	}
 
 	double fun_k(double T) {
@@ -292,7 +291,7 @@ struct stHTMwater: stHTM_Fluid {
 struct stHTMFreshair: stHTM_Fluid {
 
 	stHTMFreshair() :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 	}
 
 	double fun_mu(double T) {
@@ -361,7 +360,7 @@ struct stHTMFreshair: stHTM_Fluid {
 struct stHTMBurntGas: stHTM_Fluid {
 
 	stHTMBurntGas() :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 	}
 
 	double fun_mu(double T) {
@@ -435,14 +434,14 @@ struct stBurntAirWater: stHTM_Fluid {
 	stHTMFreshair X2_air;
 
 	stBurntAirWater() :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 		X.resize(2);
 		X[0] = 0.;
 		X[1] = 0.;
 	}
 
 	stBurntAirWater(dVector _X) :
-	stHTM_Fluid() {
+		stHTM_Fluid() {
 		X.resize(2);
 		X[0] = _X[0];
 		X[1] = _X[1];

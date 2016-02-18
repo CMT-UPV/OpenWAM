@@ -34,7 +34,7 @@
 //---------------------------------------------------------------------------
 
 TRotorTurbina::TRotorTurbina() :
-TTipoValvula(nmRotor) {
+	TTipoValvula(nmRotor) {
 
 }
 
@@ -48,7 +48,7 @@ TRotorTurbina::~TRotorTurbina() {
 //---------------------------------------------------------------------------
 
 TRotorTurbina::TRotorTurbina(TRotorTurbina *Origen, int Valvula) :
-TTipoValvula(nmRotor) {
+	TTipoValvula(nmRotor) {
 
 	FValvula = Valvula;
 
@@ -72,7 +72,7 @@ TTipoValvula(nmRotor) {
 //---------------------------------------------------------------------------
 
 void TRotorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+									  TBloqueMotor *Engine) {
 	try {
 		int tprotor = 0;
 
@@ -86,7 +86,7 @@ void TRotorTurbina::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: LeeDatosIniciales CDFijo" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -102,7 +102,7 @@ void TRotorTurbina::TipodeRotor(nmTipoRotor TipoRotor) {
 
 		FTipoRotor = TipoRotor;
 
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: TRotorTurbina::TipodeRotor " << std::endl;
 //std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -114,7 +114,7 @@ void TRotorTurbina::TipodeRotor(nmTipoRotor TipoRotor) {
 
 void TRotorTurbina::CalculaCD() {
 	try {
-		switch (FTipoRotor) {
+		switch(FTipoRotor) {
 		case nmRotFijo:
 			FCDTubVol = FCDEInicial * FSectionRatio;
 			FCDVolTub = FCDSInicial * FSectionRatio;
@@ -128,17 +128,17 @@ void TRotorTurbina::CalculaCD() {
 			FCDVolTub = FCDVbl * FSectionRatio;
 			break;
 		}
-		if (FCDTubVol > 1) {
+		if(FCDTubVol > 1) {
 			FCDTubVol = 1.;
-		} else if (FCDTubVol < 0) {
+		} else if(FCDTubVol < 0) {
 			FCDTubVol = 0.001;
 		}
-		if (FCDVolTub > 1) {
+		if(FCDVolTub > 1) {
 			FCDVolTub = 1.;
-		} else if (FCDVolTub < 0) {
+		} else if(FCDVolTub < 0) {
 			FCDVolTub = 0.001;
 		}
-	} catch (exception &N) {
+	} catch(exception &N) {
 		std::cout << "ERROR: CalculaCD RotorTurbine" << std::endl;
 		//std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -148,7 +148,7 @@ void TRotorTurbina::CalculaCD() {
 
 void TRotorTurbina::GetCDin(double Time) {
 
-	switch (FTipoRotor) {
+	switch(FTipoRotor) {
 	case nmRotFijo:
 		FCDTubVol = FCDEInicial * FSectionRatio;
 		break;
@@ -159,16 +159,16 @@ void TRotorTurbina::GetCDin(double Time) {
 		FCDTubVol = FCDVbl * FSectionRatio;
 		break;
 	}
-	if (FCDTubVol > 1) {
+	if(FCDTubVol > 1) {
 		FCDTubVol = 1.;
-	} else if (FCDTubVol < 0) {
+	} else if(FCDTubVol < 0) {
 		FCDTubVol = 0.001;
 	}
 }
 
 void TRotorTurbina::GetCDout(double Time) {
 
-	switch (FTipoRotor) {
+	switch(FTipoRotor) {
 	case nmRotFijo:
 		FCDVolTub = FCDSInicial * FSectionRatio;
 		break;
@@ -179,9 +179,9 @@ void TRotorTurbina::GetCDout(double Time) {
 		FCDVolTub = FCDVbl * FSectionRatio;
 		break;
 	}
-	if (FCDVolTub > 1) {
+	if(FCDVolTub > 1) {
 		FCDVolTub = 1.;
-	} else if (FCDVolTub < 0) {
+	} else if(FCDVolTub < 0) {
 		FCDVolTub = 0.001;
 	}
 }

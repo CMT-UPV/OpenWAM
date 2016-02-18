@@ -42,17 +42,7 @@
 //---------------------------------------------------------------------------
 
 enum nmTipoValvula {
-	nmCDFijo = 0,
-	nmValvula4T = 1,
-	nmLamina = 2,
-	nmDiscoRotativo = 3,
-	nmLumbrera2T = 4,
-	nmValvulaContr = 5,
-	nmWasteGate = 6,
-	nmStator = 7,
-	nmRotor = 8,
-	nmCalcExtern = 9,
-	nmMariposa = 10
+	nmCDFijo = 0, nmValvula4T = 1, nmLamina = 2, nmDiscoRotativo = 3, nmLumbrera2T = 4, nmValvulaContr = 5, nmWasteGate = 6, nmStator = 7, nmRotor = 8, nmCalcExtern = 9, nmMariposa = 10
 };
 
 class TTubo;
@@ -61,9 +51,9 @@ class TDeposito;
 class TBloqueMotor;
 
 class TTipoValvula {
-private:
+  private:
 
-protected:
+  protected:
 
 	bool FToCylinder;
 
@@ -118,7 +108,7 @@ protected:
 
 //void PutDiametroTubo(double valor);
 
-public:
+  public:
 
 	TTipoValvula(nmTipoValvula TipVal);
 
@@ -197,7 +187,7 @@ public:
 	void AsignaCRecuperacion(double Valor);
 
 	virtual void LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-		TBloqueMotor *Engine) = 0;
+								   TBloqueMotor *Engine) = 0;
 
 	void AsignaParametros(int Pipe, int Nodo, int Tipo, int valvula, double dTubo, int sentido);
 

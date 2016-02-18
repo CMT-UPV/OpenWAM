@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 
 	Aplication->ProgressBegin();
 
-	if (Aplication->IsIndependent()) {
+	if(Aplication->IsIndependent()) {
 
 		do {
 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
 			Aplication->ManageOutput();
 
-		} while (!Aplication->CalculationEnd());
+		} while(!Aplication->CalculationEnd());
 	} else {
 		do {
 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
 
 			Aplication->ManageOutput();
 
-		} while (!Aplication->CalculationEnd());
+		} while(!Aplication->CalculationEnd());
 	}
 
 	Aplication->GeneralOutput();

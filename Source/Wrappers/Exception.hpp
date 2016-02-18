@@ -37,9 +37,9 @@ using namespace std;
  * A custom exception class
  */
 class Exception: public exception {
-private:
+  private:
 	string msg;
-public:
+  public:
 	Exception();
 	Exception(const string& __arg);
 	virtual ~Exception();

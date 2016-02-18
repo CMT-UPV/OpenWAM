@@ -45,7 +45,7 @@ class TTubo;
 class TDeposito;
 
 class TCompresor {
-private:
+  private:
 
 //---------------------------------------------------------------------------
 //          FUNCIONES PRIVADAS
@@ -109,7 +109,7 @@ private:
 
 	double GetASonidoComp();
 
-protected:
+  protected:
 
 //---------------------------------------------------------------------------
 //          VARIABLES PROTEGIDAS
@@ -169,7 +169,7 @@ protected:
 	nmCalculoGamma FCalculoGamma;
 	double FFraccionMasicaEspecieFuel; // Para calculo completo de especies
 
-public:
+  public:
 
 //---------------------------------------------------------------------------
 //          VARIABLES PUBLICAS
@@ -292,14 +292,13 @@ public:
 //---------------------------------------------------------------------------
 
 	TCompresor(int i, nmTipoCalculoEspecies SpeciesModel, int numeroespecies, nmCalculoGamma GammaCalculation,
-		bool ThereIsEGR);
+			   bool ThereIsEGR);
 
 	virtual ~TCompresor() = 0;
 
 	virtual void CalculaGasto(double TrabajoInsTurbina, double TiempoActual) = 0;
 
-	virtual void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double AcumulatedTime,
-		int TuboCalculado) = 0;
+	virtual void CondicionCompresor(double Theta, stTuboExtremo *TuboExtremo, double AcumulatedTime, int TuboCalculado) = 0;
 
 	virtual void Initialize() = 0;
 

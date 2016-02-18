@@ -53,24 +53,24 @@ void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 	fsetpos(fich, &filepos);
 
 	fscanf(fich, "%d %d", &obj, &prm);
-	if (obj != 0)
+	if(obj != 0)
 		fscanf(fich, "%d ", &FObjectID);
-	switch (obj) {
+	switch(obj) {
 	case 0:
 		FObjectSensed = nmSensEjec;
-		switch (prm) {
+		switch(prm) {
 		case 0:
 			FParameterSensed = nmTime;
 			break;
 		default:
-			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor
-				<< std::endl;
+			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor <<
+					  std::endl;
 		}
 		break;
 	case 1:
 		FObjectSensed = nmSensTubo;
 		fscanf(fich, "%lf ", &FDistancia);
-		switch (prm) {
+		switch(prm) {
 		case 1:
 			FParameterSensed = nmPressure;
 			break;
@@ -81,13 +81,13 @@ void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 			FParameterSensed = nmMassFlow;
 			break;
 		default:
-			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor
-				<< std::endl;
+			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor <<
+					  std::endl;
 		}
 		break;
 	case 2:
 		FObjectSensed = nmSensDeposito;
-		switch (prm) {
+		switch(prm) {
 		case 1:
 			FParameterSensed = nmPressure;
 			break;
@@ -95,13 +95,13 @@ void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 			FParameterSensed = nmTemperature;
 			break;
 		default:
-			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor
-				<< std::endl;
+			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor <<
+					  std::endl;
 		}
 		break;
 	case 3:
 		FObjectSensed = nmSensMotor;
-		switch (prm) {
+		switch(prm) {
 		case 4:
 			FParameterSensed = nmFuel;
 			break;
@@ -109,8 +109,8 @@ void TSensor::ReadSensor(const char *FileWAM, fpos_t &filepos) {
 			FParameterSensed = nmEngSpeed;
 			break;
 		default:
-			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor
-				<< std::endl;
+			std::cout << "ERROR: Parametro " << prm << "en el objeto " << obj << "no valido, sensor: " << FNumeroSensor <<
+					  std::endl;
 		}
 		break;
 	default:
@@ -127,13 +127,11 @@ void TSensor::AsignaObjeto(TObject *Object) {
 	double tmp = 0.;
 
 	FObjectPointer = Object;
-	if (FObjectSensed == nmSensTubo) {
-		tmp = (double) (((TTubo*) FObjectPointer)->getNin() - 1) * FDistancia
-			/ ((TTubo*) FObjectPointer)->getLongitudTotal();
+	if(FObjectSensed == nmSensTubo) {
+		tmp = (double)(((TTubo*) FObjectPointer)->getNin() - 1) * FDistancia / ((TTubo*) FObjectPointer)->getLongitudTotal();
 		FNode0 = floor(tmp);
 		FNode1 = ceil(tmp);
-		FDelta = (FDistancia - (double) FNode0 * ((TTubo*) FObjectPointer)->getXRef())
-			/ ((TTubo*) FObjectPointer)->getXRef();
+		FDelta = (FDistancia - (double) FNode0 * ((TTubo*) FObjectPointer)->getXRef()) / ((TTubo*) FObjectPointer)->getXRef();
 	}
 }
 
@@ -150,16 +148,16 @@ void TSensor::ActualizaMedida(double Time) {
 
 	FPeriod = FPeriod + TimeStep;
 
-	if (FPeriod >= 0.001) {
+	if(FPeriod >= 0.001) {
 		Update = true;
 		deltaT = FPeriod;
 		FPeriod = 0;
 	}
 
-	if (Update || !FInicia) {
-		switch (FObjectSensed) {
+	if(Update || !FInicia) {
+		switch(FObjectSensed) {
 		case nmSensEjec:
-			switch (FParameterSensed) {
+			switch(FParameterSensed) {
 			case nmTime:
 				FRealValue = Time;
 				break;
@@ -167,29 +165,29 @@ void TSensor::ActualizaMedida(double Time) {
 			FCurrentValue = FRealValue;
 			break;
 		case nmSensTubo:
-			switch (FParameterSensed) {
+			switch(FParameterSensed) {
 			case nmPressure:
-				FRealValue = ((TTubo*) FObjectPointer)->GetPresion(FNode0) * (1 - FDelta)
-					+ ((TTubo*) FObjectPointer)->GetPresion(FNode1) * FDelta;
+				FRealValue = ((TTubo*) FObjectPointer)->GetPresion(FNode0) * (1 - FDelta) + ((TTubo*) FObjectPointer)->GetPresion(
+								 FNode1) * FDelta;
 				break;
 			case nmTemperature:
-				tmp0 = pow2(((TTubo*) FObjectPointer)->GetAsonido(FNode0) * __cons::ARef)
-					/ ((TTubo*) FObjectPointer)->GetGamma(FNode0) / ((TTubo*) FObjectPointer)->GetRMezcla(FNode0);
-				tmp1 = pow2(((TTubo*) FObjectPointer)->GetAsonido(FNode1) * __cons::ARef)
-					/ ((TTubo*) FObjectPointer)->GetGamma(FNode1) / ((TTubo*) FObjectPointer)->GetRMezcla(FNode1);
+				tmp0 = pow2(((TTubo*) FObjectPointer)->GetAsonido(FNode0) * __cons::ARef) / ((TTubo*) FObjectPointer)->GetGamma(
+						   FNode0) / ((TTubo*) FObjectPointer)->GetRMezcla(FNode0);
+				tmp1 = pow2(((TTubo*) FObjectPointer)->GetAsonido(FNode1) * __cons::ARef) / ((TTubo*) FObjectPointer)->GetGamma(
+						   FNode1) / ((TTubo*) FObjectPointer)->GetRMezcla(FNode1);
 				FRealValue = tmp0 * (1 - FDelta) + tmp1 * FDelta;
 				break;
 			case nmMassFlow:
-				tmp0 = ((TTubo*) FObjectPointer)->GetDensidad(FNode0) * ((TTubo*) FObjectPointer)->GetVelocidad(FNode0)
-					* __cons::ARef * ((TTubo*) FObjectPointer)->GetArea(FNode0);
-				tmp1 = ((TTubo*) FObjectPointer)->GetDensidad(FNode1) * ((TTubo*) FObjectPointer)->GetVelocidad(FNode1)
-					* __cons::ARef * ((TTubo*) FObjectPointer)->GetArea(FNode1);
+				tmp0 = ((TTubo*) FObjectPointer)->GetDensidad(FNode0) * ((TTubo*) FObjectPointer)->GetVelocidad(
+						   FNode0) * __cons::ARef * ((TTubo*) FObjectPointer)->GetArea(FNode0);
+				tmp1 = ((TTubo*) FObjectPointer)->GetDensidad(FNode1) * ((TTubo*) FObjectPointer)->GetVelocidad(
+						   FNode1) * __cons::ARef * ((TTubo*) FObjectPointer)->GetArea(FNode1);
 				FRealValue = tmp0 * (1 - FDelta) + tmp1 * FDelta;
 				break;
 			}
 			break;
 		case nmSensDeposito:
-			switch (FParameterSensed) {
+			switch(FParameterSensed) {
 			case nmPressure:
 				FRealValue = ((TDeposito*) FObjectPointer)->getPressure();
 				break;
@@ -199,7 +197,7 @@ void TSensor::ActualizaMedida(double Time) {
 			}
 			break;
 		case nmSensMotor:
-			switch (FParameterSensed) {
+			switch(FParameterSensed) {
 			case nmFuel:
 				FRealValue = ((TBloqueMotor*) FObjectPointer)->getMasaFuel();
 				break;
@@ -210,15 +208,15 @@ void TSensor::ActualizaMedida(double Time) {
 		}
 	}
 
-	if (!FInicia) {
+	if(!FInicia) {
 		FPrevValue = FRealValue;
 		FInicia = true;
 	}
-	if (!Update) {
+	if(!Update) {
 		FCurrentValue = FPrevValue;
 	} else {
-		FCurrentValue = ((2 * FDelay - deltaT) * FPrevValue + deltaT * FGain * (FRealValue + FPrevRealValue))
-			/ (2 * FDelay + deltaT);
+		FCurrentValue = ((2 * FDelay - deltaT) * FPrevValue + deltaT * FGain * (FRealValue + FPrevRealValue)) /
+						(2 * FDelay + deltaT);
 	}
 	FPrevValue = FCurrentValue;
 	FPrevRealValue = FRealValue;
@@ -238,9 +236,9 @@ void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &nvars);
-		for (int i = 0; i < nvars; i++) {
+		for(int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FResMediosSensor.Output = true;
 				break;
@@ -254,7 +252,7 @@ void TSensor::LeeResultadosMedSensor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::LeeResultadosMedSensor en el controlador " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -269,9 +267,9 @@ void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 		fsetpos(fich, &filepos);
 
 		fscanf(fich, "%d ", &nvars);
-		for (int i = 0; i < nvars; i++) {
+		for(int i = 0; i < nvars; i++) {
 			fscanf(fich, "%d ", &var);
-			switch (var) {
+			switch(var) {
 			case 0:
 				FResInstantSensor.Output = true;
 				break;
@@ -285,7 +283,7 @@ void TSensor::LeeResultadosInsSensor(const char *FileWAM, fpos_t &filepos) {
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::LeeResultadosInsSensor en el Sensor " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -296,16 +294,16 @@ void TSensor::CabeceraResultadosMedSensor(stringstream& medoutput) {
 	try {
 		std::string Label;
 
-		if (FResMediosSensor.Output) {
+		if(FResMediosSensor.Output) {
 			Label = "\t" + PutLabel(707) + std::to_string(FNumeroSensor) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
-		if (FResMediosSensor.Input) {
+		if(FResMediosSensor.Input) {
 			Label = "\t" + PutLabel(708) + std::to_string(FNumeroSensor) + PutLabel(901);
 			medoutput << Label.c_str();
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::CabeceraResultadosMedSensor en el Sensor " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -316,15 +314,15 @@ void TSensor::CabeceraResultadosInsSensor(stringstream& insoutput) {
 	try {
 		std::string Label;
 
-		if (FResInstantSensor.Output) {
+		if(FResInstantSensor.Output) {
 			Label = "\t" + PutLabel(707) + std::to_string(FNumeroSensor) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
-		if (FResInstantSensor.Input) {
+		if(FResInstantSensor.Input) {
 			Label = "\t" + PutLabel(708) + std::to_string(FNumeroSensor) + PutLabel(901);
 			insoutput << Label.c_str();
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::CabeceraResultadosInsSensor en el Sensor " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -335,14 +333,14 @@ void TSensor::ImprimeResultadosMedSensor(stringstream& medoutput) {
 	try {
 		std::string Label;
 
-		if (FResMediosSensor.Output) {
+		if(FResMediosSensor.Output) {
 			medoutput << "\t" << FResMediosSensor.OutputMED;
 		}
-		if (FResMediosSensor.Input) {
+		if(FResMediosSensor.Input) {
 			medoutput << "\t" << FResMediosSensor.InputMED;
 		}
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::ImprimeResultadosMedSensor en el Sensor " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -353,13 +351,13 @@ void TSensor::ImprimeResultadosInsSensor(stringstream& insoutput) {
 	try {
 		std::string Label;
 
-		if (FResInstantSensor.Output) {
+		if(FResInstantSensor.Output) {
 			insoutput << "\t" << FResInstantSensor.OutputINS;
 		}
-		if (FResInstantSensor.Input) {
+		if(FResInstantSensor.Input) {
 			insoutput << "\t" << FResInstantSensor.InputINS;
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::CabeceraResultadosInsSensor en el Sensor " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -374,7 +372,7 @@ void TSensor::IniciaMedias() {
 		FResMediosSensor.TiempoSUM = 0.;
 		FResMediosSensor.Tiempo0 = 0.;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::IniciaMedias en el Sensor: " << FNumeroSensor << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -384,17 +382,17 @@ void TSensor::IniciaMedias() {
 void TSensor::ResultadosMediosSensor() {
 	try {
 
-		if (FResMediosSensor.Output) {
+		if(FResMediosSensor.Output) {
 			FResMediosSensor.OutputMED = FResMediosSensor.OutputSUM / FResMediosSensor.TiempoSUM;
 			FResMediosSensor.OutputSUM = 0.;
 		}
-		if (FResMediosSensor.Input) {
+		if(FResMediosSensor.Input) {
 			FResMediosSensor.InputMED = FResMediosSensor.InputSUM / FResMediosSensor.TiempoSUM;
 			FResMediosSensor.InputSUM = 0.;
 		}
 		FResMediosSensor.TiempoSUM = 0;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::ResultadosMediosSensor en el eje: " << FNumeroSensor << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -407,16 +405,16 @@ void TSensor::AcumulaResultadosMediosSensor(double Actual) {
 		 llevar a cabo la salida de resultados medios por pantalla. */
 		double Delta = Actual - FResMediosSensor.Tiempo0;
 
-		if (FResMediosSensor.Output) {
+		if(FResMediosSensor.Output) {
 			FResMediosSensor.OutputSUM += FCurrentValue * Delta;
 		}
-		if (FResMediosSensor.Input) {
+		if(FResMediosSensor.Input) {
 			FResMediosSensor.InputSUM += FRealValue * Delta;
 		}
 		FResMediosSensor.TiempoSUM += Delta;
 		FResMediosSensor.Tiempo0 = Actual;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TSensor::AcumulaResultadosMediosSensor en el eje: " << FNumeroSensor << std::endl;
 		// std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());
@@ -425,12 +423,12 @@ void TSensor::AcumulaResultadosMediosSensor(double Actual) {
 
 void TSensor::ResultadosInstantSensor() {
 	try {
-		if (FResInstantSensor.Output)
+		if(FResInstantSensor.Output)
 			FResInstantSensor.OutputINS = FCurrentValue;
-		if (FResInstantSensor.Input)
+		if(FResInstantSensor.Input)
 			FResInstantSensor.InputINS = FRealValue;
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: TPIDController::ResultadosInstantSensor en el eje " << FNumeroSensor << std::endl;
 		std::cout << "Tipo de error: " << N.what() << std::endl;
 		throw Exception(N.what());

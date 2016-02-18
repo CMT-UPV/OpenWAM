@@ -37,7 +37,7 @@
 // ---------------------------------------------------------------------------
 
 TValvula4T::TValvula4T() :
-TTipoValvula(nmValvula4T) {
+	TTipoValvula(nmValvula4T) {
 
 	fun_FLift = NULL;
 	fun_CDin = NULL;
@@ -67,7 +67,7 @@ TValvula4T::~TValvula4T() {
 // ---------------------------------------------------------------------------
 
 TValvula4T::TValvula4T(TValvula4T *Origen, int Valvula) :
-TTipoValvula(nmValvula4T) {
+	TTipoValvula(nmValvula4T) {
 
 	FCDEntrada = Origen->FCDEntrada;
 	FCDSalida = Origen->FCDSalida;
@@ -95,13 +95,13 @@ TTipoValvula(nmValvula4T) {
 	FDatosTorbellino.resize(Origen->FDatosTorbellino.size());
 	FLiftCD.resize(Origen->FLiftCD.size());
 
-	for (dVector::size_type i = 0; i < Origen->FAngle.size(); i++) {
+	for(dVector::size_type i = 0; i < Origen->FAngle.size(); i++) {
 		FAngle[i] = Origen->FAngle[i];
 		FLevantamiento[i] = Origen->FLevantamiento[i];
 	}
 	fun_FLift = new Hermite_interp(FAngle, FLevantamiento);
 
-	for (dVector::size_type i = 0; i < Origen->FLiftCD.size(); i++) {
+	for(dVector::size_type i = 0; i < Origen->FLiftCD.size(); i++) {
 		FLiftCD[i] = Origen->FLiftCD[i];
 		FDatosCDEntrada[i] = Origen->FDatosCDEntrada[i];
 		FDatosCDSalida[i] = Origen->FDatosCDSalida[i];
@@ -135,7 +135,7 @@ TTipoValvula(nmValvula4T) {
 // ---------------------------------------------------------------------------
 
 void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int norden, bool HayMotor,
-	TBloqueMotor *Engine) {
+								   TBloqueMotor *Engine) {
 	try {
 		int ControlRegimen, NumLev = 0, NumCD = 0;
 
@@ -147,17 +147,17 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		FNumeroOrden = norden;
 
 		fscanf(fich, "%lf %d %lf %lf %lf %lf ", &FDiametro, &NumLev, &FIncrAng, &FAnguloApertura, &FDiametroRef,
-			&FCoefTorbMedio);
+			   &FCoefTorbMedio);
 
 		FAnguloApertura0 = FAnguloApertura;
 
-		FAnguloCierre = FAnguloApertura + (double) (NumLev - 1) * FIncrAng;
+		FAnguloCierre = FAnguloApertura + (double)(NumLev - 1) * FIncrAng;
 
 		// FLevantamiento=new double[NumLev];
 		FLevantamiento.resize(NumLev);
 		FAngle.resize(NumLev);
 
-		for (int i = 0; i < NumLev; i++) {
+		for(int i = 0; i < NumLev; i++) {
 			FAngle[i] = (double) i * FIncrAng;
 			fscanf(fich, " %lf", &FLevantamiento[i]);
 		}
@@ -169,20 +169,20 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		FDatosCDSalida.resize(NumCD);
 		FDatosTorbellino.resize(NumCD);
 
-		for (int i = 0; i < NumCD; i++) {
+		for(int i = 0; i < NumCD; i++) {
 			FLiftCD[i] = (double) i * FIncrLev;
 			fscanf(fich, " %lf", &FDatosCDEntrada[i]);
 		}
-		for (int i = 0; i < NumCD; i++) {
+		for(int i = 0; i < NumCD; i++) {
 			fscanf(fich, " %lf", &FDatosCDSalida[i]);
 		}
-		for (int i = 0; i < NumCD; i++) {
+		for(int i = 0; i < NumCD; i++) {
 			fscanf(fich, " %lf", &FDatosTorbellino[i]);
 		}
 
 		fscanf(fich, "%d ", &ControlRegimen);
 
-		switch (ControlRegimen) {
+		switch(ControlRegimen) {
 		case 0:
 			FControlRegimen = nmPropio;
 			break;
@@ -190,10 +190,10 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 			FControlRegimen = nmMotor;
 			break;
 		}
-		if (FControlRegimen == nmPropio) {
+		if(FControlRegimen == nmPropio) {
 			fscanf(fich, "%lf ", &FRegimen);
 			FRelacionVelocidades = 1.;
-		} else if (FControlRegimen == nmMotor && HayMotor) {
+		} else if(FControlRegimen == nmMotor && HayMotor) {
 			fscanf(fich, "%lf ", &FRelacionVelocidades);
 		} else {
 			std::cout << "ERROR: TValvula4T::LeeDatosIniciales Lectura del Control del Regimen erronea " << std::endl;
@@ -202,9 +202,9 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 		int controllers = 0;
 		int param = 0;
 		fscanf(fich, "%d ", &controllers);
-		for (int i = 0; i < controllers; i++) {
+		for(int i = 0; i < controllers; i++) {
 			fscanf(fich, "%d ", &param);
-			switch (param) {
+			switch(param) {
 			case 0:
 				fscanf(fich, "%d ", &FVVTTimingCtrlID);
 				FVVTLift = true;
@@ -218,14 +218,14 @@ void TValvula4T::LeeDatosIniciales(const char *FileWAM, fpos_t &filepos, int nor
 				FVVTDuration = true;
 				break;
 			}
-			if (FVVTLift || FVVTTiming || FVVTDuration)
+			if(FVVTLift || FVVTTiming || FVVTDuration)
 				FVVT = true;
 		}
 
 		fgetpos(fich, &filepos);
 		fclose(fich);
 
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
 		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -240,7 +240,7 @@ void TValvula4T::CalculaCD(double Angulo) {
 	try {
 		double X = 0., XLv = 0., XCd = 0.;
 
-		if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
+		if(Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 			FCDTubVol = 0.;
 			FCDVolTub = 0.;
 		} else {
@@ -249,7 +249,7 @@ void TValvula4T::CalculaCD(double Angulo) {
 
 			FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
-			if (FApertura < 0)
+			if(FApertura < 0)
 				FApertura = 0;
 
 			FCDTubVol = fun_CDin->interp(FApertura) * FSectionRatio;
@@ -257,7 +257,7 @@ void TValvula4T::CalculaCD(double Angulo) {
 			FCTorb = fun_Torb->interp(FApertura);
 
 		}
-	} catch (exception & N) {
+	} catch(exception & N) {
 		std::cout << "ERROR: LeeDatosIniciales Valvula4T" << std::endl;
 		// std::cout << "Tipo de error: " << N.what().scr() << std::endl;
 		throw Exception(N.what());
@@ -269,34 +269,34 @@ void TValvula4T::GetCDin(double Time) {
 
 	double X = 0., XLv = 0., XCd = 0., Angulo = 0.;
 
-	if (FControlRegimen == nmPropio) {
+	if(FControlRegimen == nmPropio) {
 		Angulo = 6. * FRegimen * Time; // It's correct if FRegimen is constant.
 	} else {
-		if (FToCylinder) {
+		if(FToCylinder) {
 			Angulo = FCylinder->getAnguloActual();
 		} else {
 			double DeltaT = Time - FTime0;
 			FTime0 = Time;
 			double DeltaA = 6 * FEngine->getRegimen() * DeltaT * FRelacionVelocidades;
 			Angulo = DeltaA + FAngle0;
-			if (Angulo > 360)
+			if(Angulo > 360)
 				Angulo -= 360.;
 			FAngle0 = Angulo;
 		}
 	}
 
-	if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
+	if(Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 		FCDTubVol = 0.;
 		FCDVolTub = 0.;
 	} else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
-		if (XLv > 720)
+		if(XLv > 720)
 			XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
-		if (FApertura < 0)
+		if(FApertura < 0)
 			FApertura = 0;
 
 		FCDTubVol = fun_CDin->interp(FApertura) * FSectionRatio;
@@ -307,34 +307,34 @@ void TValvula4T::GetCDin(double Time) {
 void TValvula4T::GetCDout(double Time) {
 	double X = 0., XLv = 0., XCd = 0., Angulo = 0.;
 
-	if (FControlRegimen == nmPropio) {
+	if(FControlRegimen == nmPropio) {
 		Angulo = 360. * FRegimen / 60. * Time; // It's correct if FRegimen is constant.
 	} else {
-		if (FToCylinder) {
+		if(FToCylinder) {
 			Angulo = FCylinder->getAnguloActual();
 		} else {
 			double DeltaT = Time - FTime0;
 			FTime0 = Time;
 			double DeltaA = 6 * FEngine->getRegimen() * DeltaT * FRelacionVelocidades;
 			Angulo = DeltaA + FAngle0;
-			if (Angulo > 360)
+			if(Angulo > 360)
 				Angulo -= 360.;
 			FAngle0 = Angulo;
 		}
 	}
 
-	if (Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
+	if(Angulo <= FAnguloApertura || Angulo >= FAnguloCierre) {
 		FCDTubVol = 0.;
 		FCDVolTub = 0.;
 	} else {
 		X = Angulo - FAnguloApertura;
 		XLv = X / FVVTDurationMultiplier;
-		if (XLv > 720)
+		if(XLv > 720)
 			XLv -= 720.;
 
 		FApertura = fun_FLift->interp(XLv) * FVVTLiftMultiplier;
 
-		if (FApertura < 0)
+		if(FApertura < 0)
 			FApertura = 0;
 
 		FCDVolTub = fun_CDout->interp(FApertura) * FSectionRatio;
@@ -343,30 +343,30 @@ void TValvula4T::GetCDout(double Time) {
 }
 
 void TValvula4T::VVTControl(double Time) {
-	if (FVVT) {
-		if (FVVTLift) {
+	if(FVVT) {
+		if(FVVTLift) {
 			FVVTLiftMultiplier = FVVTLiftCtrl->Output(Time);
 		}
-		if (FVVTTiming) {
+		if(FVVTTiming) {
 			FVVTTimigGap = FVVTTimingCtrl->Output(Time);
 		}
-		if (FVVTDuration) {
+		if(FVVTDuration) {
 			FVVTDurationMultiplier = FVVTDurationCtrl->Output(Time);
 		}
 		FAnguloApertura = FAnguloApertura0 + FVVTTimigGap;
-		FAnguloCierre = FAnguloApertura + (double) (FAngle.size() - 1) * FIncrAng * FVVTDurationMultiplier;
+		FAnguloCierre = FAnguloApertura + (double)(FAngle.size() - 1) * FIncrAng * FVVTDurationMultiplier;
 	}
 }
 
 void TValvula4T::AsignaLevController(TController **Controller) {
-	if (FVVT) {
-		if (FVVTLift) {
+	if(FVVT) {
+		if(FVVTLift) {
 			FVVTLiftCtrl = Controller[FVVTLiftCtrlID - 1];
 		}
-		if (FVVTTiming) {
+		if(FVVTTiming) {
 			FVVTTimingCtrl = Controller[FVVTTimingCtrlID - 1];
 		}
-		if (FVVTDuration) {
+		if(FVVTDuration) {
 			FVVTDurationCtrl = Controller[FVVTDurationCtrlID - 1];
 		}
 	}

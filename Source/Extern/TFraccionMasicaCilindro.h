@@ -38,9 +38,9 @@
 //---------------------------------------------------------------------------
 
 class TFraccionMasicaCilindro {
-private:
+  private:
 
-public:
+  public:
 	TFraccionMasicaCilindro();
 
 	~TFraccionMasicaCilindro();

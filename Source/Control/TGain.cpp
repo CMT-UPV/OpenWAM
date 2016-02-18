@@ -32,7 +32,7 @@
 #include "TGain.h"
 
 TGain::TGain(int i) :
-TController(nmGainCtrl, i) {
+	TController(nmGainCtrl, i) {
 	fID = i + 1;
 	FGain = 1.;
 }
@@ -56,7 +56,7 @@ void TGain::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 	fscanf(fich, "%lf ", &FGain);
 	fscanf(fich, "%d %d", &Type, &FObjectID);
-	if (Type == 0) {
+	if(Type == 0) {
 		FInObject = nmInController;
 	} else {
 		FInObject = nmInSensor;
@@ -69,7 +69,7 @@ void TGain::LeeController(const char *FileWAM, fpos_t &filepos) {
 
 void TGain::AsignaObjetos(TSensor **Sensor, TController **Controller) {
 
-	if (FInObject == nmInController) {
+	if(FInObject == nmInController) {
 		FGainInput = new stGainInputController(Controller[FObjectID - 1]);
 	} else {
 		FGainInput = new stGainInputSensor(Sensor[FObjectID - 1]);
@@ -84,9 +84,9 @@ void TGain::LeeResultadosMedControlador(const char *FileWAM, fpos_t &filepos) {
 	fsetpos(fich, &filepos);
 
 	fscanf(fich, "%d ", &nvars);
-	for (int i = 0; i < nvars; i++) {
+	for(int i = 0; i < nvars; i++) {
 		fscanf(fich, "%d ", &var);
-		switch (var) {
+		switch(var) {
 		case 0:
 			FResMediosCtrl.Output = true;
 			break;
@@ -109,9 +109,9 @@ void TGain::LeeResultadosInsControlador(const char *FileWAM, fpos_t &filepos) {
 	fsetpos(fich, &filepos);
 
 	fscanf(fich, "%d ", &nvars);
-	for (int i = 0; i < nvars; i++) {
+	for(int i = 0; i < nvars; i++) {
 		fscanf(fich, "%d ", &var);
-		switch (var) {
+		switch(var) {
 		case 0:
 			FResInstantCtrl.Output = true;
 			break;
@@ -129,7 +129,7 @@ void TGain::CabeceraResultadosMedControlador(stringstream& medoutput) {
 
 	std::string Label;
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		medoutput << Label.c_str();
 	}
@@ -140,7 +140,7 @@ void TGain::CabeceraResultadosInsControlador(stringstream& insoutput) {
 
 	std::string Label;
 
-	if (FResInstantCtrl.Output) {
+	if(FResInstantCtrl.Output) {
 		Label = "\t" + PutLabel(705) + std::to_string(fID) + PutLabel(901);
 		insoutput << Label.c_str();
 	}
@@ -151,7 +151,7 @@ void TGain::ImprimeResultadosMedControlador(stringstream& medoutput) {
 
 	std::string Label;
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		medoutput << "\t" << FResMediosCtrl.OutputMED;
 	}
 
@@ -161,7 +161,7 @@ void TGain::ImprimeResultadosInsControlador(stringstream& insoutput) {
 
 	std::string Label;
 
-	if (FResInstantCtrl.Output) {
+	if(FResInstantCtrl.Output) {
 		insoutput << "\t" << FResInstantCtrl.OutputINS;
 	}
 
@@ -175,7 +175,7 @@ void TGain::IniciaMedias() {
 
 void TGain::ResultadosMediosController() {
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		FResMediosCtrl.OutputMED = FResMediosCtrl.OutputSUM / FResMediosCtrl.TiempoSUM;
 		FResMediosCtrl.OutputSUM = 0.;
 	}
@@ -190,7 +190,7 @@ void TGain::AcumulaResultadosMediosController(double Actual) {
 	 llevar a cabo la salida de resultados medios por pantalla. */
 	double Delta = Actual - FResMediosCtrl.Tiempo0;
 
-	if (FResMediosCtrl.Output) {
+	if(FResMediosCtrl.Output) {
 		FResMediosCtrl.OutputSUM += fOutput * Delta;
 	}
 	FResMediosCtrl.TiempoSUM += Delta;
@@ -200,7 +200,7 @@ void TGain::AcumulaResultadosMediosController(double Actual) {
 
 void TGain::ResultadosInstantController() {
 
-	if (FResInstantCtrl.Output)
+	if(FResInstantCtrl.Output)
 		FResInstantCtrl.OutputINS = fOutput;
 
 }

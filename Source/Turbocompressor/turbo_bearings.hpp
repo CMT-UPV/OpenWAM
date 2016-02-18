@@ -42,7 +42,7 @@
  * system.
  */
 class TurboBearings {
-private:
+  private:
 
 	stHTMoil *_Oil;
 
@@ -68,7 +68,7 @@ private:
 	double _R_tb_min;
 	double _R_tb_max;
 
-public:
+  public:
 
 	/**
 	 * Default constructor.
@@ -98,8 +98,8 @@ public:
 	 * the thrust bearing.
 	 */
 
-	TurboBearings(stHTMoil *Oil, double L_jb, double R_jb, double h_jb, double k_jb, double k_A_c, double k_A_t,
-		double A_c, double A_t, double k_m, double R_tb_min, double R_tb_max, double k_tb);
+	TurboBearings(stHTMoil *Oil, double L_jb, double R_jb, double h_jb, double k_jb, double k_A_c, double k_A_t, double A_c,
+				  double A_t, double k_m, double R_tb_min, double R_tb_max, double k_tb);
 
 	/**
 	 * \brief Compute the thrust bearing oil film thickness.

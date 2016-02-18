@@ -39,7 +39,7 @@
 // ---------------------------------------------------------------------------
 
 class TIsoSpeedLine {
-private:
+  private:
 
 	double FSpeed;
 	double FERMax;
@@ -60,7 +60,7 @@ private:
 	Base_interp *iRotor;
 	Base_interp *iEfficiency;
 
-public:
+  public:
 
 	TIsoSpeedLine();
 	~TIsoSpeedLine();
@@ -70,7 +70,7 @@ public:
 	void AsignaValores(double ER, double MF, double EF);
 
 	void EffectiveSection(double Area, bool CalculaGR, double Angle, double Diam1, double Diam2, double Diam3,
-		double n_limit);
+						  double n_limit);
 
 	void CalculatePower(double Tin);
 

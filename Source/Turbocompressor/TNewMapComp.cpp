@@ -45,7 +45,7 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 	int filas = 0;
 	int i = 0; //Curva de isoregimen
 	int j = 0; //Puntos de la curva
-	if (correct == 1)
+	if(correct == 1)
 		FCorrect = true;
 	else
 		FCorrect = false;
@@ -63,10 +63,10 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 	locPre.resize(i + 1);
 	locEff.resize(i + 1);
 
-	for (int k = 0; k < filas; k++) {
+	for(int k = 0; k < filas; k++) {
 		fscanf(fich, "%lf %lf %lf %lf", &speed, &mass, &pres, &eff);
-		if (j > 0) {
-			if (speed != locSpeed[i][j - 1]) {
+		if(j > 0) {
+			if(speed != locSpeed[i][j - 1]) {
 				i++;
 				j = 0;
 				locSpeed.resize(i + 1);
@@ -90,7 +90,7 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 
 	dVector::iterator it;
 
-	for (Uint k = 0; k < locSpeed.size(); k++) {
+	for(Uint k = 0; k < locSpeed.size(); k++) {
 		MassExtra.resize(3);
 		PreExtra.resize(3);
 		EffExtra.resize(3);
@@ -98,14 +98,10 @@ void TNewMapComp::ReadMap(FILE *fich, int correct) {
 		MassExtra[1] = -0.0001;
 		MassExtra[2] = 0;
 		PreExtra[0] = locPre[k][0];
-		PreExtra[1] = pow(
-			1
-				+ 1 / (__Gamma::Cp_x2 * (FTempRef)) * pow2(__units::RPMToRad_s(locSpeed[k][0]))
-					* (pow2(FRadWheel) - pow2(r1)), __Gamma::G_9);
-		PreExtra[2] = pow(
-			1
-				+ 1 / (__Gamma::Cp_x2 * (FTempRef)) * pow2(__units::RPMToRad_s(locSpeed[k][0]))
-					* (pow2(FRadWheel) - pow2(r1)), __Gamma::G_9);
+		PreExtra[1] = pow(1 + 1 / (__Gamma::Cp_x2 * (FTempRef)) * pow2(__units::RPMToRad_s(locSpeed[k][0])) * (pow2(
+							  FRadWheel) - pow2(r1)), __Gamma::G_9);
+		PreExtra[2] = pow(1 + 1 / (__Gamma::Cp_x2 * (FTempRef)) * pow2(__units::RPMToRad_s(locSpeed[k][0])) * (pow2(
+							  FRadWheel) - pow2(r1)), __Gamma::G_9);
 		EffExtra[0] = locEff[k][0];
 		EffExtra[1] = locEff[k][0];
 		EffExtra[2] = locEff[k][0];

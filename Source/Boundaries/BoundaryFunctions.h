@@ -48,7 +48,7 @@ struct stFESub {
 	double invAdAA;
 
 	stFESub(const double iAA, const double iAd, const double ig, const double iK, const double iCC) :
-	AA(iAA), Ad(iAd), Gam(ig), K(iK), BC(iCC) {
+		AA(iAA), Ad(iAd), Gam(ig), K(iK), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		AdAA = Ad * AA;
 		invAdAA = 1 / AdAA;
@@ -60,7 +60,7 @@ struct stFESub {
 		double yy = pow(xx, 2 / Ga3);
 		yy = pow2(K) * yy - 1.;
 		U2_2 = 0;
-		if (xx > 1)
+		if(xx > 1)
 			U2_2 = AdAA * sqrt((pow2(xx) - 1.) / (yy * Ga3)); // Valor absoluto
 		U2 = (BC - A2) / Ga3;
 		return U2_2 - U2;
@@ -75,7 +75,7 @@ struct stFESup {
 	double Ga9;
 
 	stFESup(const double ig, const double iK) :
-	Gam(ig), K(iK) {
+		Gam(ig), K(iK) {
 		Ga3 = (Gam - 1) / 2;
 		Ga8 = (Gam + 1) / 2;
 		Ga9 = (Gam - 1) / Ga8;
@@ -104,7 +104,7 @@ struct stFSSub {
 	double pow2Ac;
 
 	stFSSub(const double iAA, const double iAd, const double ig, const double iK, const double iCC, const double iAc) :
-	AA(iAA), Ad(iAd), Ac(iAc), Gam(ig), K(iK), BC(iCC) {
+		AA(iAA), Ad(iAd), Ac(iAc), Gam(ig), K(iK), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		invAdAA = 1 / (AA * Ad);
 		pow2Ac = pow2(Ac);
@@ -113,7 +113,7 @@ struct stFSSub {
 
 	double operator()(const double A2) {
 		U2 = 0;
-		if (pow2Ac > pow2(A2)) {
+		if(pow2Ac > pow2(A2)) {
 			U2 = sqrt((pow2Ac - pow2(A2)) / Ga3);
 		}
 		double A1 = Ac * (BC + Ga3 * U2) * invAdAA;
@@ -136,7 +136,7 @@ struct stFSSup {
 	double invFcc;
 
 	stFSSup(const double iAA, const double iFcc, const double ig, const double iK, const double iCC, const double iAc) :
-	AA(iAA), Ac(iAc), Gam(ig), K(iK), BC(iCC), Fcc(iFcc) {
+		AA(iAA), Ac(iAc), Gam(ig), K(iK), BC(iCC), Fcc(iFcc) {
 		Ga3 = (Gam - 1) / 2;
 		invAA = 1 / AA;
 		invFcc = 1 / Fcc;
@@ -147,7 +147,7 @@ struct stFSSup {
 	double operator()(const double U2) {
 
 		double dif = pow2(Ac) - Ga3 * pow2(U2);
-		if (dif > 0) {
+		if(dif > 0) {
 			A2 = sqrt(dif);
 		} else {
 			A2 = 0;
@@ -175,7 +175,7 @@ struct stRecover {
 	double invAdAA;
 
 	stRecover(const double iAA, const double iAd, const double ig, const double iCR, const double iCC) :
-	AA(iAA), Ad(iAd), Gam(ig), CR(iCR), BC(iCC) {
+		AA(iAA), Ad(iAd), Gam(ig), CR(iCR), BC(iCC) {
 		Ga3 = (Gam - 1) / 2;
 		invAdAA = 1 / (Ad * AA);
 	}
@@ -226,7 +226,7 @@ struct stExpansion {
 	 funcion y se almacena en las variables locales */
 
 	stExpansion(const double iCCS, const double iCCE, const double R_E, const double R_A, const double iGam) :
-	CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
+		CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
 		/* Definicion de aquellas variables internas que se usaran en el operador, pero que no se requiere su acceso, aqui o dentro del operador */
 		Ga2 = Gam + 1;
@@ -237,20 +237,20 @@ struct stExpansion {
 		U1 = (CCS - A1) / Ga3; // Calculo de la velocidad del fluido en 1 mediante la ecuacion 4.291//
 		double xx1 = pow2(A1) + Ga3 * pow2(U1);
 		double xx2 = rel_area * pow2(A1) + Gam * pow2(U1);
-		if (fabs(U1 - A1) < 1e-15) {
-			if (Ga2 / (Gam + rel_area) >= 1) {
+		if(fabs(U1 - A1) < 1e-15) {
+			if(Ga2 / (Gam + rel_area) >= 1) {
 				U2 = (xx2 / (Ga2 * U1));
 			} else {
 				U2 = (xx2 / (Ga2 * U1)) * (1 - sqrt(1 - pow2(Ga2 / (Gam + rel_area))));
 			}
 		} else {
-			if ((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1) {
+			if((xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))) >= 1) {
 				U2 = xx2 / Ga2;
 			} else {
 				U2 = xx2 * (1 - sqrt(1. - (xx1 * 2. * Ga2 * (pow2(U1) / pow2(xx2))))) / Ga2;
 			}
 
-			if (U1 == 0) {
+			if(U1 == 0) {
 				U2 = 0;
 			} else {
 				U2 = U2 / U1;
@@ -292,7 +292,7 @@ struct stContraction {
 	 almacena en las variables locales */
 
 	stContraction(const double iCCS, const double iCCE, const double R_E, const double R_A, const double iGam) :
-	CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
+		CCS(iCCS), CCE(iCCE), rel_entropia(R_E), rel_area(R_A), Gam(iGam) {
 		Ga3 = (Gam - 1) / 2;
 		Ga1 = (Gam - 1);
 	}
@@ -305,7 +305,7 @@ struct stContraction {
 		double xx3 = pow2(CCE) / Ga3 - Ga3 * pow2(U1) - pow2(A1);
 		// Variable auxiliar para el calculo de A2//
 		double b = pow2(xx1) - xx2 * 4. * xx3;
-		if (b < 0) { /* Adaptacion del metodo para este caso problematico */
+		if(b < 0) {  /* Adaptacion del metodo para este caso problematico */
 			A2 = xx1 / (2 * xx2);
 		} else {
 			A2 = (xx1 + sqrt(b)) / (2. * xx2); // Calculo de A2 segun la ec. 4.316, si el //
@@ -354,7 +354,7 @@ struct stPerdPresAd {
 	 local el valor de la variable pasada por funcion */
 
 	stPerdPresAd(const double iCC1, const double iCC2, const double iFK, const double iGam, const double iFRE) :
-	CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE) {
+		CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE) {
 		Ga3 = (Gam - 1) / 2;
 		Ga5 = (Gam - 1) / 2 / Gam;
 	}
@@ -367,7 +367,7 @@ struct stPerdPresAd {
 		double b = pow2(A1) * b1;
 		double c = -(pow2(A1) + Ga3 * pow2(U1)) * pow2(U1);
 		double u2u1 = (sqrt(pow2(b) - 4. * a * c) - b) / (2. * a); // ec. 252//
-		if (U1 == 0.) {
+		if(U1 == 0.) {
 			U2 = 0.; // ec.253//
 		} else { // ec.254//
 			U2 = u2u1 / U1;
@@ -402,8 +402,8 @@ struct stPerdPresAdL {
 	double Ga5;
 
 	stPerdPresAdL(const double iCC1, const double iCC2, const double iFK, const double iGam, const double iFRE,
-		const double iARef) :
-	CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE), ARef(iARef) {
+				  const double iARef) :
+		CC1(iCC1), CC2(iCC2), FK(iFK), Gam(iGam), FRE(iFRE), ARef(iARef) {
 		Ga3 = (Gam - 1) / 2;
 		Ga5 = (Gam - 1) / 2 / Gam;
 	}
@@ -418,7 +418,7 @@ struct stPerdPresAdL {
 		double b = b1 * pow2(A1);
 		double c = -(pow2(A1) + Ga3 * pow2(U1)) * pow2(U1);
 		double u2u1 = QuadraticEqP(a, b, c);
-		if (U1 == 0.) {
+		if(U1 == 0.) {
 			U2 = 0.;
 		} else {
 			U2 = u2u1 / U1;
@@ -467,9 +467,9 @@ struct stComprVol {
 	 y que son necesarias para el calculo del operador (tipo de variable y nombre ficticio) y a continuacion
 	 SE ASOCIAN a las variables locales que almacenaran la informacion pasada */
 
-	stComprVol(const double iAA, const double iCC, const double iGam, const double iA, const double iGS,
-		const double iF, const double iPRef, const double iARef) :
-	AA(iAA), BC(iCC), Gam(iGam), A(iA), Gasto_calculado(iGS), F(iF), PRef(iPRef), ARef(iARef) {
+	stComprVol(const double iAA, const double iCC, const double iGam, const double iA, const double iGS, const double iF,
+			   const double iPRef, const double iARef) :
+		AA(iAA), BC(iCC), Gam(iGam), A(iA), Gasto_calculado(iGS), F(iF), PRef(iPRef), ARef(iARef) {
 		Ga3 = (Gam - 1) / 2;
 		Ga4 = 2 * Gam / (Gam - 1);
 		CD = 1;
@@ -495,9 +495,9 @@ struct stNewCompressorConditions {
 	double Ga3;
 	double Eff;
 
-	stNewCompressorConditions(const double iMass, const double iCC, const double T01, const double P01,
-		const double iEff, const double iGam, const double R, const double Sec) :
-	Mass(iMass), Lambda(iCC), Gam(iGam), Section(Sec), Eff(iEff) {
+	stNewCompressorConditions(const double iMass, const double iCC, const double T01, const double P01, const double iEff,
+							  const double iGam, const double R, const double Sec) :
+		Mass(iMass), Lambda(iCC), Gam(iGam), Section(Sec), Eff(iEff) {
 		A01 = sqrt(Gam * R * T01);
 		AA1 = A01 * pow(P01, (1 - Gam) / 2 / Gam);
 		Ga3 = (Gam - 1) / 2;
@@ -527,8 +527,8 @@ struct stCharOrigin {
 	int signo;
 
 	stCharOrigin(const double iW00, const double iW10, const double iW20, const double iW01, const double iW11,
-		const double iW21, const double iG0, const double iG1, const double idtdx, int isigno) :
-	W00(iW00), W10(iW10), W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(iG0), G1(iG1), dtdx(idtdx), signo(isigno) {
+				 const double iW21, const double iG0, const double iG1, const double idtdx, int isigno) :
+		W00(iW00), W10(iW10), W20(iW20), W01(iW01), W11(iW11), W21(iW21), G0(iG0), G1(iG1), dtdx(idtdx), signo(isigno) {
 	}
 
 	double operator()(const double x) {
@@ -551,8 +551,8 @@ struct stPathOrigin {
 	int signo;
 
 	stPathOrigin(const double iW00, const double iW10, const double iW01, const double iW11, const double idtdx,
-		int isigno) :
-	W00(iW00), W10(iW10), W01(iW01), W11(iW11), dtdx(idtdx), signo(isigno) {
+				 int isigno) :
+		W00(iW00), W10(iW10), W01(iW01), W11(iW11), dtdx(idtdx), signo(isigno) {
 	}
 
 	double operator()(const double x) {

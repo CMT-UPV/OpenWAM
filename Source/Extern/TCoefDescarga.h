@@ -40,13 +40,13 @@
 //---------------------------------------------------------------------------
 
 class TCoefDescarga {
-private:
+  private:
 
 	double FCDEntrada;
 	double FCDSalida;
 	double FCTorb;
 
-public:
+  public:
 	TCoefDescarga();
 
 	~TCoefDescarga();
